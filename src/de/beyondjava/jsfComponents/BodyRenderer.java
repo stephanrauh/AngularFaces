@@ -47,6 +47,10 @@ public class BodyRenderer extends CoreRenderer
 
       writer.writeAttribute("onload", "restoreValues()", null);
       writer.append("\r\n");
+      writer.append("\r\n");
+      writer.append("<script src='glue.js'></script>\r\n");
+      writer.append("<script src='angular.js'></script>\r\n");
+      writer.append("<script src='" + ngController + ".js'></script>\r\n");
    }
 
    /**

@@ -11,8 +11,14 @@
 			<component-type>de.beyondjava.InputText</component-type>
 			<renderer-type>de.beyondjava.InputText</renderer-type>
 		</component>
-		<attribute><name>id</name><type>java.lang.String</type></attribute>
-		<attribute><name>value</name><type>java.lang.String</type></attribute>
+		<attribute>
+			<name>id</name>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<type>java.lang.String</type>
+		</attribute>
 	</tag>
 	<tag>
 		<description><![CDATA[InputText is an extension to standard inputText with skinning capabilities.]]></description>
@@ -281,8 +287,8 @@
 			<type>java.lang.String</type>
 		</attribute>
 	</tag>
-    <tag>
-        <description>
+	<tag>
+		<description>
         	This is an html body tag activating the AngularJS framework.
          </description>
 		<tag-name>body</tag-name>
@@ -302,8 +308,8 @@
 			<required>true</required>
 			<type>java.lang.String</type>
 		</attribute>
-    </tag>
-    	<tag>
+	</tag>
+	<tag>
 		<description><![CDATA[CommandButton is an extended version of standard JSF commandButton with ajax and skinning features.]]></description>
 		<tag-name>commandButton</tag-name>
 		<component>
@@ -607,5 +613,4 @@
 			<type>java.lang.Boolean</type>
 		</attribute>
 	</tag>
-	
 </facelet-taglib>

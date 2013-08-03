@@ -48,6 +48,7 @@ public class MessageRenderer extends UINotificationRenderer
    public void encodeEnd(FacesContext context, UIComponent component, UIComponent target) throws IOException
    {
       ResponseWriter writer = context.getResponseWriter();
+      String parentName = getParentName(target);
 
       Message uiMessage = (Message) component;
       String display = uiMessage.getDisplay();
@@ -59,6 +60,7 @@ public class MessageRenderer extends UINotificationRenderer
       Iterator<FacesMessage> msgs = context.getMessages(target.getClientId(context));
 
       writer.startElement("div", uiMessage);
+      writer.writeAttribute("ng-show", parentName + target.getClientId() + ".$pristine", null);
       writer.writeAttribute("id", uiMessage.getClientId(context), null);
       writer.writeAttribute("aria-live", "polite", null);
 
@@ -85,7 +87,24 @@ public class MessageRenderer extends UINotificationRenderer
          }
       }
       writer.endElement("div");
-      generateAngularMessages(writer, target.getClientId(), iconOnly);
+      generateAngularMessages(writer, target.getClientId(), iconOnly, parentName);
+   }
+
+   private String getParentName(UIComponent target)
+   {
+      String parentName = "";
+      UIComponent c = target;
+      while (c != null)
+      {
+         c = c.getParent();
+         if (null != c)
+         {
+            String s = (String) c.getAttributes().get("name");
+            if (s != null)
+               parentName += s + ".";
+         }
+      }
+      return parentName;
    }
 
    protected void encodeIcon(ResponseWriter writer, String severity, String title, boolean iconOnly) throws IOException
@@ -112,37 +131,33 @@ public class MessageRenderer extends UINotificationRenderer
       writer.endElement("span");
    }
 
-   private void generateAngularMessages(ResponseWriter writer, String id, boolean iconOnly) throws IOException
+   private void generateAngularMessages(ResponseWriter writer, String id, boolean iconOnly, String parentName) throws IOException
    {
       String sc = "class=\'" + getStyleClass(iconOnly, FacesMessage.SEVERITY_ERROR) + "'";
       if (isInteger)
       {
-         writer.append("<div " + sc + " ng-show='myform." + id
-               + ".$error.integer'>");
+         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && "  + parentName + id + ".$error.integer'>");
          encodeIcon(writer, "error", "", iconOnly);
-         writer.append(" This is not an integer.(Angular)</div>");
+         writer.append(" This is not an integer.</div>");
       }
       if (hasMin)
       {
-         writer.append("<div " + sc + " ng-show='myform." + id
-               + ".$error.min'>");
+         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id + ".$error.min'>");
          encodeIcon(writer, "error", "", iconOnly);
-         writer.append(" must be greater than or equal to " + min + ".(Angular)</div>");
+         writer.append(" must be greater than or equal to " + min + ".</div>");
       }
       if (hasMax)
       {
-         writer.append("<div " + sc + " ng-show='myform." + id + ".$error.max'>");
+         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id + ".$error.max'>");
          encodeIcon(writer, "error", "", iconOnly);
-         writer.append(" must be less or equal to "
-               + max + ". (Angular)");
+         writer.append(" must be less or equal to " + max + ".");
          writer.append("</div>");
       }
       if (isRequired)
       {
-         writer.append("<div " + sc + " ng-show='myform." + id
-               + ".$error.required'>");
+         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id + ".$error.required'>");
          encodeIcon(writer, "error", "", iconOnly);
-         writer.append(" Value is required.(Angular)</div>");
+         writer.append(" Value is required.</div>");
       }
 
    }
