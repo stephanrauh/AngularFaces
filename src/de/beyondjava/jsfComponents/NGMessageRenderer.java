@@ -17,6 +17,7 @@
 package de.beyondjava.jsfComponents;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.Iterator;
 
 import javax.faces.application.FacesMessage;
@@ -25,13 +26,48 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.UINotificationRenderer;
 
 @FacesRenderer(componentFamily = "de.beyondjava.Message", rendererType = "de.beyondjava.Message")
-public class MessageRenderer extends UINotificationRenderer
+public class NGMessageRenderer extends UINotificationRenderer
 {
+   private void readJSR303Annotations(UIComponent component) throws IOException
+   {
+      Annotation[] annotations = ELTools.readAnnotations(component);
+      if (null != annotations)
+      {
+         for (Annotation a : annotations)
+         {
+            if (a instanceof Max)
+            {
+               long maximum = ((Max) a).value();
+               max = maximum;
+               hasMax = true;
+            }
+            else if (a instanceof Min)
+            {
+               long minimum = ((Min) a).value();
+               hasMin = true;
+               min = minimum;
+            }
+         }
+      }
+
+      Class<?> type = ELTools.getType(component);
+      if (type == Integer.class || type == int.class)
+      {
+         isInteger = true;
+      }
+      Object o = component.getAttributes().get("required");
+      if (null != o)
+      {
+         isRequired = true;
+      }
+   }
 
    private boolean hasMax = false;
 
@@ -45,12 +81,18 @@ public class MessageRenderer extends UINotificationRenderer
 
    private long min = 0;
 
-   public void encodeEnd(FacesContext context, UIComponent component, UIComponent target) throws IOException
+   @Override
+   public void encodeBegin(FacesContext context, UIComponent component) throws IOException
    {
       ResponseWriter writer = context.getResponseWriter();
+      NGMessage uiMessage = (NGMessage) component;
+      UIComponent target = null;
+      String targetID = uiMessage.getFor();
+      target = SearchExpressionFacade.resolveComponent(context, component, targetID);
+
+      readJSR303Annotations(target);
       String parentName = getParentName(target);
 
-      Message uiMessage = (Message) component;
       String display = uiMessage.getDisplay();
       boolean iconOnly = display.equals("icon");
       boolean escape = uiMessage.isEscape();
@@ -131,32 +173,33 @@ public class MessageRenderer extends UINotificationRenderer
       writer.endElement("span");
    }
 
-   private void generateAngularMessages(ResponseWriter writer, String id, boolean iconOnly, String parentName) throws IOException
+   private void generateAngularMessages(ResponseWriter writer, String id, boolean iconOnly, String parentName)
+         throws IOException
    {
       String sc = "class=\'" + getStyleClass(iconOnly, FacesMessage.SEVERITY_ERROR) + "'";
       if (isInteger)
       {
-         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && "  + parentName + id + ".$error.integer'>");
-         encodeIcon(writer, "error", "", iconOnly);
+         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id
+               + ".$error.integer'>");
          writer.append(" This is not an integer.</div>");
       }
       if (hasMin)
       {
-         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id + ".$error.min'>");
-         encodeIcon(writer, "error", "", iconOnly);
+         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id
+               + ".$error.min'>");
          writer.append(" must be greater than or equal to " + min + ".</div>");
       }
       if (hasMax)
       {
-         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id + ".$error.max'>");
-         encodeIcon(writer, "error", "", iconOnly);
+         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id
+               + ".$error.max'>");
          writer.append(" must be less or equal to " + max + ".");
          writer.append("</div>");
       }
       if (isRequired)
       {
-         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id + ".$error.required'>");
-         encodeIcon(writer, "error", "", iconOnly);
+         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id
+               + ".$error.required'>");
          writer.append(" Value is required.</div>");
       }
 

@@ -5,14 +5,14 @@
   <h:head />
   <a:body ng-app="calculatorApp" ng-controller="calculatorController">
     <h:form ng:name="myform" >
-      <h:panelGrid columns="2">
+      <h:panelGrid columns="3">
         <a:inputText label="First number" value="#{calculatorBean.number1}" required="true" />
 
         <a:inputText label="Second number" value="#{calculatorBean.number2}" />
 
         <a:commandButton type="submit" value="add" action="#{calculatorBean.add}" update="@form" process="@form" />
-        <h:outputText value="Angular Preview: {{toString(number1)}} + {{toString(number2)}} = {{add()}}" />
-
+        <h:outputText value="Angular's calculation: {{toString(number1)}} + {{toString(number2)}} = {{add()}}" />
+         <h:outputText />
         <a:inputText label="JSF Result" value="#{calculatorBean.result}" />
       </h:panelGrid>
     </h:form>

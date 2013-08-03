@@ -12,11 +12,10 @@ import javax.faces.event.PreRenderViewEvent;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 
-import org.primefaces.component.message.Message;
 import org.primefaces.component.outputlabel.OutputLabel;
 
 @FacesComponent("de.beyondjava.InputText")
-public class InputText extends org.primefaces.component.inputtext.InputText implements SystemEventListener
+public class NGInputText extends org.primefaces.component.inputtext.InputText implements SystemEventListener
 {
    public static final String COMPONENT_FAMILY = "javax.faces.Input";
 
@@ -25,7 +24,7 @@ public class InputText extends org.primefaces.component.inputtext.InputText impl
       return COMPONENT_FAMILY;
    }
 
-   public InputText()
+   public NGInputText()
    {
       FacesContext context = FacesContext.getCurrentInstance();
       UIViewRoot root = context.getViewRoot();
@@ -53,7 +52,8 @@ public class InputText extends org.primefaces.component.inputtext.InputText impl
       if ("text".equals(getType()))
       {
          Class<?> type = ELTools.getType(this);
-         if (int.class == type || Integer.class==type || long.class==type || Long.class==type || double.class==type || Double.class==type)
+         if (int.class == type || Integer.class == type || long.class == type || Long.class == type
+               || double.class == type || Double.class == type)
          {
             setType("number");
          }
@@ -67,15 +67,16 @@ public class InputText extends org.primefaces.component.inputtext.InputText impl
       if (!FacesContext.getCurrentInstance().isPostback())
       {
          insertLabelBeforeThisInputField();
-//         insertMessageBehindThisInputField();
+         insertMessageBehindThisInputField();
       }
    }
 
    private void insertMessageBehindThisInputField()
    {
-      Message l = new Message();
+      NGMessage l = new NGMessage();
       l.setFor(getId());
       l.setDisplay("text");
+      l.setTarget(this);
       List<UIComponent> tree = getParent().getChildren();
       for (int i = 0; i < tree.size(); i++)
       {

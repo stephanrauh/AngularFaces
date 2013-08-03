@@ -11,7 +11,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 @FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.InputText")
-public class InputTextRenderer extends org.primefaces.component.inputtext.InputTextRenderer
+public class NGInputTextRenderer extends org.primefaces.component.inputtext.InputTextRenderer
 {
 
    boolean isInteger = false;
@@ -33,6 +33,11 @@ public class InputTextRenderer extends org.primefaces.component.inputtext.InputT
       String model = ELTools.getNGModel(component);
       writer.writeAttribute("ng-model", model, "ng-model");
 
+      readJSR303Annotations(component, writer);
+   }
+
+   private void readJSR303Annotations(UIComponent component, ResponseWriter writer) throws IOException
+   {
       Annotation[] annotations = ELTools.readAnnotations(component);
       if (null != annotations)
       {
@@ -74,15 +79,5 @@ public class InputTextRenderer extends org.primefaces.component.inputtext.InputT
    public void encodeEnd(FacesContext context, UIComponent component) throws IOException
    {
       super.encodeEnd(context, component);
-      MessageRenderer mr = new MessageRenderer();
-      Message m = new Message();
-      m.setFor(component.getClientId());
-      mr.setHasMax(hasMax);
-      mr.setMin(min);
-      mr.setHasMin(hasMin);
-      mr.setMax(max);
-      mr.setInteger(isInteger);
-      mr.setRequired(isRequired);
-      mr.encodeEnd(context, m, component);
    }
 }

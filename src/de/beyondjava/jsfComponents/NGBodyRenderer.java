@@ -15,8 +15,8 @@ import org.primefaces.renderkit.CoreRenderer;
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
-@FacesRenderer(componentFamily = Body.COMPONENT_FAMILY, rendererType = "de.beyondjava.Body")
-public class BodyRenderer extends CoreRenderer
+@FacesRenderer(componentFamily = NGBody.COMPONENT_FAMILY, rendererType = "de.beyondjava.Body")
+public class NGBodyRenderer extends CoreRenderer
 {
    /**
     * Begin the body tag. This is where the attributes ng-app, ng-controller and

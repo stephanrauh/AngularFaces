@@ -9,7 +9,7 @@ import javax.faces.component.UIComponentBase;
  *
  */
 @FacesComponent("de.beyondjava.Body")
-public class Body extends UIComponentBase
+public class NGBody extends UIComponentBase
 {
    public static final String COMPONENT_FAMILY = "de.beyondJava.angularFaces.body";
 
