@@ -33,11 +33,11 @@ function restoreValues() {
 				var assignment = "$scope." + model + "= " + value;
 				try {
 					eval(assignment);
-					if (!element.value) {
-						element.value = value;
-					}
 				} catch (e) {
-					alert("Apply Exception " + e + " " + assignment);
+					// alert("AngularFaces apply Exception " + e + " " + assignment);
+				}
+				if (!element.value) {
+					element.value = value;
 				}
 			});
 		}
