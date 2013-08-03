@@ -6,6 +6,7 @@ package de.beyondjava.jsfComponents;
 import java.io.IOException;
 
 import javax.faces.component.FacesComponent;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.component.commandbutton.CommandButton;
@@ -24,26 +25,51 @@ public class NGCommandButton extends CommandButton
       return COMPONENT_FAMILY;
    }
 
-   /* (non-Javadoc)
-    * @see javax.faces.component.UIComponentBase#encodeBegin(javax.faces.context.FacesContext)
-    */
-   @Override
-   public void encodeBegin(FacesContext context) throws IOException
-   {
-      // TODO Auto-generated method stub
-      super.encodeBegin(context);
-   }
    @Override
    public String getOncomplete()
    {
-      String s = super.getOncomplete();
-      if (s == null || s.length() == 0)
+      String ngApp = null;
+      UIComponent c = getParent();
+      while (c != null)
       {
-         return "reinitAngular()";
+         if (c.getAttributes().get("ng-app") != null)
+         {
+            ngApp = (String) c.getAttributes().get("ng-app");
+            break;
+         }
+         c=c.getParent();
       }
-      else
+      if (ngApp != null)
       {
-         return "reinitAngular(); " + s;
+         String s = super.getOncomplete();
+         if (s == null || s.length() == 0)
+         {
+            return "reinitAngular('" + ngApp + "')";
+         }
+         else
+         {
+            return "reinitAngular('" + ngApp + "'); " + s;
+         }
       }
+      return null;
    }
+
+   @Override
+   public String getUpdate()
+   {
+      String updateID = super.getUpdate();
+      if (null == updateID)
+         updateID = "@form";
+      return updateID;
+   }
+
+   @Override
+   public String getProcess()
+   {
+      String processID = super.getProcess();
+      if (null == processID)
+         processID = "@form";
+      return processID;
+   }
+
 }

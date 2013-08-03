@@ -47,8 +47,8 @@ function restoreValues() {
 	}
 }
 
-function reinitAngular() {
+function reinitAngular(app) {
 	storeValues();
-	angular.bootstrap(document, [ 'calculatorApp' ]);
+	angular.bootstrap(document, [ app ]);
 	restoreValues();
 }
