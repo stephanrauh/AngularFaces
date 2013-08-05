@@ -6,12 +6,14 @@ function calculatorController($scope) {
 			$scope.result = "(undefined)";
 		return $scope.result;
 	};
-	$scope.toString = function(number)
-	{
+	$scope.toString = function(number) {
 		if (number)
 			return number;
 		else
 			return "(empty)";
+	}
+	$scope.howdy = function(user) {
+		alert("Howdy, Angular!" + user);
 	}
 }
 
@@ -36,3 +38,4 @@ app.directive('integer', function() {
 		}
 	};
 });
+

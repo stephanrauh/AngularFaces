@@ -1,0 +1,18 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/ui"
+  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://beyondjava.net/angularFaces"
+  xmlns:prime="http://primefaces.org/ui" locale="en-us">
+  <h:head />
+  <a:body ng-app="userBeanApp" ng-controller="userBeanController">
+    <h:form ng:name="myform" >
+      <h:panelGrid columns="3">
+        <a:inputText value="#{userBean.firstName}"/>
+        <a:inputText value="#{userBean.lastName}"/>
+
+        <a:angularButton value="Howdy!" ng-function="howdy"/>
+        <a:angularButton value="Howdy {{firstName}} {{lastName}}!" ng-function="howdy($scope.lastName)"/>
+      </h:panelGrid>
+    </h:form>
+    <h:messages />
+  </a:body>
+</f:view>

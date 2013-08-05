@@ -1,4 +1,4 @@
-package de.beyondjava.jsf.sample;
+package de.beyondjava.jsf.sample.additions;
 
 import javax.faces.bean.ManagedBean
 import javax.faces.bean.SessionScoped;

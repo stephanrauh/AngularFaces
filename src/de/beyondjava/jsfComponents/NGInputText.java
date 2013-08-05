@@ -45,6 +45,27 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText im
          return null;
       }
    }
+   
+ 
+   @Override
+   public String getLabel()
+   {
+      String label = super.getLabel();
+      if (null==label)
+      {
+         String ngModel;
+         try
+         {
+            ngModel = ELTools.getNGModel(this);
+            return ngModel;
+         }
+         catch (IOException e)
+         {
+            e.printStackTrace();
+         }
+      }
+      return label;
+   }
 
    @Override
    public void encodeBegin(FacesContext context) throws IOException

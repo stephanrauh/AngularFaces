@@ -1,4 +1,4 @@
-package de.beyondjava.jsf.sample;
+package de.beyondjava.jsf.experiments;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +10,8 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.hibernate.validator.HibernateValidator;
+
+import de.beyondjava.jsf.sample.additions.AdditionBean;
 
 import groovy.util.GroovyTestCase;
 

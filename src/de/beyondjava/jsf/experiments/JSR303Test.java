@@ -1,4 +1,4 @@
-package de.beyondjava.jsf.sample;
+package de.beyondjava.jsf.experiments;
 
 import java.util.Set;
 
@@ -8,6 +8,8 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.hibernate.validator.*;
+
+import de.beyondjava.jsf.sample.additions.AdditionBean;
 
 public class JSR303Test
 {
