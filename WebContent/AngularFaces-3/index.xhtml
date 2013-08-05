@@ -9,8 +9,13 @@
         <a:inputText value="#{userBean.firstName}"/>
         <a:inputText value="#{userBean.lastName}"/>
 
-        <a:angularButton value="Howdy!" ng-function="howdy"/>
-        <a:angularButton value="Howdy {{firstName}} {{lastName}}!" ng-function="howdy($scope.lastName)"/>
+        <a:angularButton value="Howdy!" 
+                         ng-function="howdy" />
+        <a:angularButton value="Howdy {{firstName}} {{lastName}}!" 
+                         ng-function="howdy($scope.lastName)" />
+        <h:outputText value=""/>
+        <h:outputText value="calls howdy();"/>
+        <h:outputText value="calls howdy('{{lastName}}');"/>
       </h:panelGrid>
     </h:form>
     <h:messages />

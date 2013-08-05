@@ -46,7 +46,9 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText im
       }
    }
    
- 
+   /**
+    * if no label is provided by the XHTML file, try to guess it from the ng-model attribute.
+    */
    @Override
    public String getLabel()
    {
@@ -57,7 +59,7 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText im
          try
          {
             ngModel = ELTools.getNGModel(this);
-            return ngModel;
+            return NGWordUtiltites.labelFromCamelCase(ngModel);
          }
          catch (IOException e)
          {
