@@ -1,6 +1,7 @@
 package de.beyondjava.jsfComponents;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 import javax.faces.component.FacesComponent;
@@ -11,6 +12,8 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.PreRenderViewEvent;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.primefaces.component.outputlabel.OutputLabel;
 
@@ -45,15 +48,16 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText im
          return null;
       }
    }
-   
+
    /**
-    * if no label is provided by the XHTML file, try to guess it from the ng-model attribute.
+    * if no label is provided by the XHTML file, try to guess it from the
+    * ng-model attribute.
     */
    @Override
    public String getLabel()
    {
       String label = super.getLabel();
-      if (null==label)
+      if (null == label)
       {
          String ngModel;
          try
@@ -82,6 +86,51 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText im
          }
       }
       super.encodeBegin(context);
+   }
+
+   @Override
+   public boolean isRequired()
+   {
+      Annotation[] annotations = ELTools.readAnnotations(this);
+      for (Annotation a : annotations)
+      {
+         if (a instanceof NotNull)
+            return true;
+      }
+      return super.isRequired();
+   }
+
+   @Override
+   public int getMaxlength()
+   {
+      Annotation[] annotations = ELTools.readAnnotations(this);
+      for (Annotation a : annotations)
+      {
+         if (a instanceof Size)
+         {
+            int max = ((Size) a).max();
+            if (max > 0)
+               return max;
+         }
+      }
+      return super.getMaxlength();
+   }
+
+
+   @Override
+   public int getSize()
+   {
+      Annotation[] annotations = ELTools.readAnnotations(this);
+      for (Annotation a : annotations)
+      {
+         if (a instanceof Size)
+         {
+            int max = ((Size) a).max();
+            if (max > 0)
+               return max;
+         }
+      }
+      return super.getSize();
    }
 
    @Override
