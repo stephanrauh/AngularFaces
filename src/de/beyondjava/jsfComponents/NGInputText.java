@@ -36,9 +36,10 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText im
 
    public String getClientId(FacesContext context)
    {
+      String prefix = getPrefix(context);
       try
       {
-         String id = ELTools.getNGModel(this);
+         String id = prefix + ELTools.getNGModel(this);
          return id;
       }
       catch (IOException p_error)
@@ -47,6 +48,30 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText im
          p_error.printStackTrace();
          return null;
       }
+   }
+
+   private String getPrefix(FacesContext context)
+   {
+      String prefix="";
+      String original = super.getClientId(context);
+      String[] parts = original.split(":");
+      for (String part:parts)
+      {
+         boolean isNumeric=true;
+         for (int i = 0; i < part.length();i++)
+         {
+            if (!Character.isDigit(part.charAt(i)))
+            {
+               isNumeric=false;
+               break;
+            }
+         }
+         if (isNumeric)
+         {
+            prefix += "row" + part + "_";
+         }
+      }
+      return prefix;
    }
 
    /**

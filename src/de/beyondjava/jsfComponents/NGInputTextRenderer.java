@@ -30,7 +30,7 @@ public class NGInputTextRenderer extends org.primefaces.component.inputtext.Inpu
       super.renderPassThruAttributes(context, component, attrs);
       ResponseWriter writer = context.getResponseWriter();
 
-      String model = ELTools.getNGModel(component);
+      String model = component.getClientId(); // ELTools.getNGModel(component);
       writer.writeAttribute("ng-model", model, "ng-model");
 
       readJSR303Annotations(component, writer);

@@ -4,15 +4,21 @@ function storeValues() {
 	inputFields = new Array();
 	try {
 		var index = 0;
-		var elements = document.forms.myform.elements;
-		for ( var i = 0; i < elements.length; i++) {
-			var element = elements[i];
-			if (element.type == "text") {
-				if (element.value && element.value != "") {
-					values[index] = element.value;
-					models[index] = element.getAttribute("ng-model");
-					inputFields[index] = element;
-					index++;
+		var forms = document.forms;
+		for ( var f = 0; f < forms.length; f++) {
+			var elements = forms[f].elements;
+			for ( var i = 0; i < elements.length; i++) {
+				var element = elements[i];
+				if (element.type == "text" || element.type == "select") {
+					if (element.value && element.value != "") {
+						var ngModel = element.getAttribute("ng-model");
+						if (ngModel) {
+							values[index] = element.value;
+							models[index] = ngModel;
+							inputFields[index] = element;
+							index++;
+						}
+					}
 				}
 			}
 		}
@@ -34,7 +40,10 @@ function restoreValues() {
 				try {
 					eval(assignment);
 				} catch (e) {
-					// alert("AngularFaces apply Exception " + e + " " + assignment);
+					// under certain circumstances, this exception occurs
+					// but should be ignored
+					// alert("AngularFaces apply Exception " + e + " " +
+					// assignment);
 				}
 				if (!element.value) {
 					element.value = value;
