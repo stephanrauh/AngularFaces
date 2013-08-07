@@ -1,4 +1,4 @@
-package de.beyondjava.jsf.sample.datatable;
+package de.beyondjava.jsf.sample.datatable
 
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
@@ -7,24 +7,29 @@ import javax.validation.constraints.Size
 
 public class Car
 {
+   @Min(1000l)
+   @Max(20000l)
    @NotNull
-   String model;
+   long price
    @Min(1870L)
    @Max(2020L)
-   int year;
+   int year
    @NotNull
    @Size(min=3, max=10)
-   String manufacturer;
+   String manufacturer
    @NotNull
    @Size(min=3, max=7)
-   String color;
+   String color
+   @Max(10L)
+   int quantity=0
 
-   public Car(String model, int year, String manufacturer, String color)
+
+   public Car(long price, int year, String manufacturer, String color)
    {
-      this.model = model;
-      this.year = year;
-      this.manufacturer = manufacturer;
-      this.color = color;
+      this.price = price
+      this.year = year
+      this.manufacturer = manufacturer
+      this.color = color
    }
 }
 

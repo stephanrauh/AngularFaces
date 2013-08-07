@@ -3,7 +3,7 @@
   xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://beyondjava.net/angularFaces"
   xmlns:prime="http://primefaces.org/ui" locale="en-us">
   <h:head />
-  <a:body ng-app="userBeanApp" ng-controller="userBeanController">
+  <a:body ng-app="CarTradeApp" ng-controller="CarTradeController">
     AngularFaces featuring an advanced PrimeFaces datatable with in-cell-editing.
     <hr />
     <h:form id="form">
@@ -24,13 +24,23 @@
 
         <prime:ajax event="cellEdit" listener="#{tableBean.onCellEdit}" update=":form:messages" />
 
-        <prime:column headerText="internal model number" style="width:25%">
+        <prime:column headerText="order quantity" style="width:25%">
           <prime:cellEditor>
             <f:facet name="output">
-              <h:outputText value="#{car.model}" />
+              <h:outputText value="#{car.quantity}" />
             </f:facet>
             <f:facet name="input">
-              <a:inputText value="#{car.model}" style="width:96%" />
+              <a:inputText value="#{car.quantity}" style="width:96%" />
+            </f:facet>
+          </prime:cellEditor>
+        </prime:column>
+        <prime:column headerText="price" style="width:25%">
+          <prime:cellEditor>
+            <f:facet name="output">
+              <h:outputText value="#{car.price}" />
+            </f:facet>
+            <f:facet name="input">
+              <a:inputText value="#{car.price}" style="width:96%" />
             </f:facet>
           </prime:cellEditor>
         </prime:column>
@@ -74,12 +84,8 @@
       </prime:dataTable>
               
       <hr />
-        a {{model[0]}}<br />
-        b {{model[1]}}<br />
-        c {{model[2]}}<br />
-        d {{model[3]}}<br />
-        e {{model[4]}}<br />
-
+      You ordered {{orderVolume()}} cars.<br />
+      Total cost: {{totalCost()}} EUR.
  
     </h:form>
   </a:body>
