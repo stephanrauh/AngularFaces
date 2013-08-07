@@ -34,6 +34,10 @@ public class NGUIComponentInfo {
       return clientID;
    }
 
+   public String getNGModel() {
+      return clientID + arrayIndex;
+   }
+
    public String getPrefix() {
       return prefix;
    }

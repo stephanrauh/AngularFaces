@@ -20,6 +20,12 @@ import de.beyondjava.jsfComponents.common.NGUIComponent;
 import de.beyondjava.jsfComponents.common.NGUIComponentTools;
 import de.beyondjava.jsfComponents.common.NGWordUtiltites;
 
+/**
+ * Add AngularJS behaviour to a standard Primefaces InputText.
+ * 
+ * @author Stephan Rauh http://www.beyondjava.net
+ * 
+ */
 @FacesComponent("de.beyondjava.InputText")
 public class NGInputText extends org.primefaces.component.inputtext.InputText implements SystemEventListener,
       NGUIComponent {
