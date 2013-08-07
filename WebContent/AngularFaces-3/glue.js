@@ -41,7 +41,7 @@ function restoreValues() {
 					eval(assignment);
 				} catch (e) {
 					// under certain circumstances, this exception occurs
-					// but should be ignored
+					// but can safely be ignored
 					// alert("AngularFaces apply Exception " + e + " " +
 					// assignment);
 				}

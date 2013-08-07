@@ -10,16 +10,12 @@ import javax.faces.render.FacesRenderer;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import de.beyondjava.jsfComponents.common.ELTools;
+import de.beyondjava.jsfComponents.common.NGBeanAttributeInfo;
+
 @FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.InputText")
 public class NGInputTextRenderer extends org.primefaces.component.inputtext.InputTextRenderer
 {
-
-   boolean isInteger = false;
-   boolean hasMin = false;
-   long min = 0;
-   boolean hasMax = false;
-   long max = 0;
-   boolean isRequired = false;
 
    /**
     * renderPassThruAttributes() is overloaded to add extra behaviour
@@ -38,44 +34,24 @@ public class NGInputTextRenderer extends org.primefaces.component.inputtext.Inpu
 
    private void readJSR303Annotations(UIComponent component, ResponseWriter writer) throws IOException
    {
-      Annotation[] annotations = ELTools.readAnnotations(component);
-      if (null != annotations)
+      NGBeanAttributeInfo info = ELTools.getBeanAttributeInfos(component);
+      if (info.isHasMax())
       {
-         for (Annotation a : annotations)
-         {
-            if (a instanceof Max)
-            {
-               long maximum = ((Max) a).value();
-               writer.writeAttribute("max", maximum, "max");
-               max=maximum;
-               hasMax = true;
-            }
-            else if (a instanceof Min)
-            {
-               long minimum = ((Min) a).value();
-               writer.writeAttribute("min", minimum, "min");
-               hasMin = true;
-               min=minimum;
-            }
-         }
-      }
+         writer.writeAttribute("max", info.getMax(), "max");
 
-      Class<?> type = ELTools.getType(component);
-      if (type == Integer.class || type == int.class)
-      {
-         // writer.writeAttribute("type", "number", "type");
-         writer.writeAttribute("integer", "", "integer");
-         isInteger = true;
       }
+      if (info.isHasMin())
+         writer.writeAttribute("min", info.getMin(), "min");
+      if (info.isInteger())
+         writer.writeAttribute("integer", "", "integer");
       Object o = component.getAttributes().get("required");
       if (null != o)
       {
          writer.writeAttribute("required", "", "required");
-         isRequired = true;
       }
    }
 
-    @Override
+   @Override
    public void encodeEnd(FacesContext context, UIComponent component) throws IOException
    {
       super.encodeEnd(context, component);

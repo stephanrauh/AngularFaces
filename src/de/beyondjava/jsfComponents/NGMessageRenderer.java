@@ -32,6 +32,8 @@ import javax.validation.constraints.Min;
 import org.primefaces.expression.SearchExpressionFacade;
 import org.primefaces.renderkit.UINotificationRenderer;
 
+import de.beyondjava.jsfComponents.common.ELTools;
+
 @FacesRenderer(componentFamily = "de.beyondjava.Message", rendererType = "de.beyondjava.Message")
 public class NGMessageRenderer extends UINotificationRenderer
 {

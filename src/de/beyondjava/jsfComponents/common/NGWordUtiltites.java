@@ -1,7 +1,7 @@
 /**
  *  (C) Stephan Rauh http://www.beyondjava.net
  */
-package de.beyondjava.jsfComponents;
+package de.beyondjava.jsfComponents.common;
 
 /**
  * Collection of minor utilities dealing with words and strings.

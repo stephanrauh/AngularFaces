@@ -1,4 +1,4 @@
-package de.beyondjava.jsfComponents;
+package de.beyondjava.jsfComponents.common;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -12,10 +12,26 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
+
 public class ELTools
 {
    /** Caching */
    private static Map<String, Field> fields = new HashMap<>();
+
+   private static Map<String, NGBeanAttributeInfo> beanAttributeInfos = new HashMap<>();
+   
+   public static NGBeanAttributeInfo getBeanAttributeInfos(UIComponent c)
+   {
+      String core = getCoreValueExpression(c);
+      synchronized (beanAttributeInfos)
+      {
+         if (beanAttributeInfos.containsKey(c))
+            return beanAttributeInfos.get(c);
+      }
+      NGBeanAttributeInfo info = new  NGBeanAttributeInfo(c);
+      beanAttributeInfos.put(core,  info);
+      return info;
+   }
 
    /**
     * Evaluates an EL expression into an object.
@@ -71,7 +87,7 @@ public class ELTools
     * @param p_component
     * @return null if there are no annotations, or if they cannot be accessed
     */
-   public static Annotation[] readAnnotations(String p_expression)
+   private static Annotation[] readAnnotations(String p_expression)
    {
       Field declaredField = getField(p_expression);
       if (null != declaredField)
@@ -80,10 +96,12 @@ public class ELTools
       }
       return null;
    }
-   
+
    /**
     * Yields the type of the variable displayed by a component.
-    * @param p_component the UIComponent
+    * 
+    * @param p_component
+    *           the UIComponent
     * @return
     */
    public static Class<?> getType(UIComponent p_component)
@@ -98,6 +116,7 @@ public class ELTools
 
    /**
     * Yields the type of the variable given by an expression.
+    * 
     * @param p_expression
     * @return
     */
@@ -111,11 +130,14 @@ public class ELTools
       return null;
    }
 
-   public static Field getField(String p_expression)
+   private static Field getField(String p_expression)
    {
-      if (fields.containsKey(p_expression))
+      synchronized (fields)
       {
-         return fields.get(p_expression);
+         if (fields.containsKey(p_expression))
+         {
+            return fields.get(p_expression);
+         }
       }
 
       if (p_expression.startsWith("#{") && p_expression.endsWith("}"))
@@ -131,7 +153,10 @@ public class ELTools
             try
             {
                declaredField = c.getDeclaredField(fieldName);
-               fields.put(p_expression, declaredField);
+               synchronized (fields)
+               {
+                  fields.put(p_expression, declaredField);
+               }
                return declaredField;
             }
             catch (NoSuchFieldException e)
@@ -150,7 +175,7 @@ public class ELTools
       return null;
    }
 
-   public static String getCoreValueExpression(UIComponent component) throws IOException
+   private static String getCoreValueExpression(UIComponent component) 
    {
       ValueExpression valueExpression = component.getValueExpression("value");
       String v = valueExpression.getExpressionString();
@@ -162,7 +187,7 @@ public class ELTools
       return null;
    }
 
-   public static String getNGModel(UIComponent p_component) throws IOException
+   public static String getNGModel(UIComponent p_component) 
    {
       String id = ELTools.getCoreValueExpression(p_component);
       if (id.contains("."))
