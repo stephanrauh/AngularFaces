@@ -3,11 +3,7 @@
  */
 package de.beyondjava.jsfComponents;
 
-import java.io.IOException;
-
 import javax.faces.component.FacesComponent;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.component.commandbutton.CommandButton;
 
@@ -16,21 +12,18 @@ import org.primefaces.component.commandbutton.CommandButton;
  * 
  */
 @FacesComponent("de.beyondjava.AngularButton")
-public class NGAngularButton extends CommandButton
-{
+public class NGAngularButton extends CommandButton {
    public static final String COMPONENT_FAMILY = "de.beyondjava.AngularButton";
 
-   public String getFamily()
-   {
+   @Override
+   public String getFamily() {
       return COMPONENT_FAMILY;
    }
 
    @Override
-   public String getOnclick()
-   {
+   public String getOnclick() {
       String ngFunction = (String) getAttributes().get("ng-function");
-      if (!ngFunction.contains("("))
-      {
+      if (!ngFunction.contains("(")) {
          ngFunction += "()";
       }
       String s = "var $scope = angular.element('body').scope(); $scope.$apply(function() { $scope." + ngFunction
@@ -39,21 +32,21 @@ public class NGAngularButton extends CommandButton
    }
 
    @Override
-   public String getUpdate()
-   {
-      String updateID = super.getUpdate();
-      if (null == updateID)
-         updateID = "@form";
-      return updateID;
+   public String getProcess() {
+      String processID = super.getProcess();
+      if (null == processID) {
+         processID = "@form";
+      }
+      return processID;
    }
 
    @Override
-   public String getProcess()
-   {
-      String processID = super.getProcess();
-      if (null == processID)
-         processID = "@form";
-      return processID;
+   public String getUpdate() {
+      String updateID = super.getUpdate();
+      if (null == updateID) {
+         updateID = "@form";
+      }
+      return updateID;
    }
 
 }

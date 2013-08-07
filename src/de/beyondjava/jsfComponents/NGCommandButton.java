@@ -3,51 +3,43 @@
  */
 package de.beyondjava.jsfComponents;
 
-import java.io.IOException;
-
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.component.commandbutton.CommandButton;
 
 /**
+ * Enhanced PrimeFaces button with AngularJS support.
+ * 
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
 @FacesComponent("de.beyondjava.CommandButton")
-public class NGCommandButton extends CommandButton
-{
+public class NGCommandButton extends CommandButton {
    public static final String COMPONENT_FAMILY = "de.beyondjava.CommandButton";
 
-   public String getFamily()
-   {
+   @Override
+   public String getFamily() {
       return COMPONENT_FAMILY;
    }
 
    @Override
-   public String getOncomplete()
-   {
+   public String getOncomplete() {
       String ngApp = null;
       UIComponent c = getParent();
-      while (c != null)
-      {
-         if (c.getAttributes().get("ng-app") != null)
-         {
+      while (c != null) {
+         if (c.getAttributes().get("ng-app") != null) {
             ngApp = (String) c.getAttributes().get("ng-app");
             break;
          }
-         c=c.getParent();
+         c = c.getParent();
       }
-      if (ngApp != null)
-      {
+      if (ngApp != null) {
          String s = super.getOncomplete();
-         if (s == null || s.length() == 0)
-         {
+         if ((s == null) || (s.length() == 0)) {
             return "reinitAngular('" + ngApp + "')";
          }
-         else
-         {
+         else {
             return "reinitAngular('" + ngApp + "'); " + s;
          }
       }
@@ -55,21 +47,21 @@ public class NGCommandButton extends CommandButton
    }
 
    @Override
-   public String getUpdate()
-   {
-      String updateID = super.getUpdate();
-      if (null == updateID)
-         updateID = "@form";
-      return updateID;
+   public String getProcess() {
+      String processID = super.getProcess();
+      if (null == processID) {
+         processID = "@form";
+      }
+      return processID;
    }
 
    @Override
-   public String getProcess()
-   {
-      String processID = super.getProcess();
-      if (null == processID)
-         processID = "@form";
-      return processID;
+   public String getUpdate() {
+      String updateID = super.getUpdate();
+      if (null == updateID) {
+         updateID = "@form";
+      }
+      return updateID;
    }
 
 }
