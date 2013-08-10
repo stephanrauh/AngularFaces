@@ -1,3 +1,6 @@
+/**
+ *  (C) Stephan Rauh http://www.beyondjava.net
+ */
 package de.beyondjava.jsfComponents;
 
 import java.io.IOException;
@@ -7,42 +10,30 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 
-import de.beyondjava.jsfComponents.common.ELTools;
-import de.beyondjava.jsfComponents.common.NGBeanAttributeInfo;
+import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckboxRenderer;
+
 import de.beyondjava.jsfComponents.common.NGUIComponentInfo;
 import de.beyondjava.jsfComponents.common.NGUIComponentTools;
 
 /**
- * Add AngularJS behaviour to a standard Primefaces InputText.
+ * Add some AngularJS functionality to a standard PrimeFaces
+ * SelectBooleanCheckbox.
  * 
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
-@FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.InputText")
-public class NGInputTextRenderer extends org.primefaces.component.inputtext.InputTextRenderer {
-
+@FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.SelectBooleanCheckbox")
+public class NGSelectBooleanCheckboxRenderer extends SelectBooleanCheckboxRenderer {
    private void readJSR303Annotations(UIComponent component, ResponseWriter writer) throws IOException {
-      NGBeanAttributeInfo info = ELTools.getBeanAttributeInfos(component);
-      if (info.isHasMax()) {
-         writer.writeAttribute("max", info.getMax(), "max");
-
-      }
-      if (info.isHasMin()) {
-         writer.writeAttribute("min", info.getMin(), "min");
-      }
-      if (info.isInteger()) {
-         writer.writeAttribute("integer", "", "integer");
-      }
-      // duplicate implementation!
-      // Object o = component.getAttributes().get("required");
-      // if (null != o) {
-      // writer.writeAttribute("required", "", "required");
+      // NGBeanAttributeInfo info = ELTools.getBeanAttributeInfos(component);
+      // if (info.isHasMax()) {
+      // writer.writeAttribute("max", info.getMax(), "max");
+      //
       // }
    }
 
    /**
-    * Renders ng-model, min, max, integer and required according to the bean
-    * attribute's properties.
+    * Renders ng-model according to the bean attribute's properties.
     */
    @Override
    protected void renderPassThruAttributes(FacesContext context, UIComponent component, String[] attrs)
@@ -56,4 +47,5 @@ public class NGInputTextRenderer extends org.primefaces.component.inputtext.Inpu
 
       readJSR303Annotations(component, writer);
    }
+
 }

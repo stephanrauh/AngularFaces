@@ -1,6 +1,8 @@
+/**
+ *  (C) Stephan Rauh http://www.beyondjava.net
+ */
 package de.beyondjava.jsfComponents;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.faces.component.FacesComponent;
@@ -12,7 +14,9 @@ import javax.faces.event.PreRenderViewEvent;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 
+import org.primefaces.component.column.Column;
 import org.primefaces.component.outputlabel.OutputLabel;
+import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
 
 import de.beyondjava.jsfComponents.common.ELTools;
 import de.beyondjava.jsfComponents.common.NGBeanAttributeInfo;
@@ -21,14 +25,11 @@ import de.beyondjava.jsfComponents.common.NGUIComponentTools;
 import de.beyondjava.jsfComponents.common.NGWordUtiltites;
 
 /**
- * Add AngularJS behaviour to a standard Primefaces InputText.
- * 
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
-@FacesComponent("de.beyondjava.InputText")
-public class NGInputText extends org.primefaces.component.inputtext.InputText implements SystemEventListener,
-      NGUIComponent {
+@FacesComponent("de.beyondjava.SelectBooleanCheckbox")
+public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements SystemEventListener, NGUIComponent {
    public static final String COMPONENT_FAMILY = "javax.faces.Input";
 
    /**
@@ -43,22 +44,10 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText im
     * PreRenderViewEvent allows AngularFaces to modify the JSF tree by adding a
     * label and a message.
     */
-   public NGInputText() {
+   public NGSelectBooleanCheckbox() {
       FacesContext context = FacesContext.getCurrentInstance();
       UIViewRoot root = context.getViewRoot();
       root.subscribeToViewEvent(PreRenderViewEvent.class, this);
-   }
-
-   @Override
-   public void encodeBegin(FacesContext context) throws IOException {
-      if ("text".equals(getType())) {
-         Class<?> type = ELTools.getType(this);
-         if ((int.class == type) || (Integer.class == type) || (long.class == type) || (Long.class == type)
-               || (double.class == type) || (Double.class == type)) {
-            setType("number");
-         }
-      }
-      super.encodeBegin(context);
    }
 
    @Override
@@ -87,26 +76,6 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText im
          return NGWordUtiltites.labelFromCamelCase(ngModel);
       }
       return label;
-   }
-
-   @Override
-   public int getMaxlength() {
-      int maxlength = super.getMaxlength();
-      if (maxlength <= 0) {
-         NGBeanAttributeInfo info = ELTools.getBeanAttributeInfos(this);
-         maxlength = (int) info.getMaxSize();
-      }
-      return maxlength;
-   }
-
-   @Override
-   public int getSize() {
-      int size = super.getSize();
-      if (size <= 0) {
-         NGBeanAttributeInfo info = ELTools.getBeanAttributeInfos(this);
-         size = (int) info.getMaxSize();
-      }
-      return super.getSize();
    }
 
    private void insertLabelBeforeThisInputField() {
@@ -177,8 +146,22 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText im
    @Override
    public void processEvent(SystemEvent event) throws AbortProcessingException {
       if (!FacesContext.getCurrentInstance().isPostback()) {
-         insertLabelBeforeThisInputField();
-         insertMessageBehindThisInputField();
+         boolean tableMode = false;
+         UIComponent parent = getParent();
+         if ((parent instanceof Column)) {
+            tableMode = true;
+         }
+         if (null != parent) {
+            UIComponent grandpa = parent.getParent();
+            if ((grandpa instanceof Column)) {
+               tableMode = true;
+            }
+
+         }
+         if (!tableMode) {
+            insertLabelBeforeThisInputField();
+            insertMessageBehindThisInputField();
+         }
       }
    }
 }

@@ -31,7 +31,7 @@ public class NGUIComponentInfo {
    }
 
    public String getClientID() {
-      return clientID;
+      return prefix + clientID;
    }
 
    public String getNGModel() {
