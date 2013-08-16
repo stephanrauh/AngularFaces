@@ -33,11 +33,6 @@ public class NGInputTextRenderer extends org.primefaces.component.inputtext.Inpu
       if (info.isInteger()) {
          writer.writeAttribute("integer", "", "integer");
       }
-      // duplicate implementation!
-      // Object o = component.getAttributes().get("required");
-      // if (null != o) {
-      // writer.writeAttribute("required", "", "required");
-      // }
    }
 
    /**

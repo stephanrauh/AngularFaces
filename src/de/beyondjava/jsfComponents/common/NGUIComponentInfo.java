@@ -31,11 +31,11 @@ public class NGUIComponentInfo {
    }
 
    public String getClientID() {
-      return prefix + clientID;
+      return clientID;
    }
 
    public String getNGModel() {
-      return clientID + arrayIndex;
+      return clientID;
    }
 
    public String getPrefix() {

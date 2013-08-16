@@ -12,6 +12,7 @@ import javax.faces.event.PreRenderViewEvent;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 
+import org.primefaces.component.column.Column;
 import org.primefaces.component.outputlabel.OutputLabel;
 
 import de.beyondjava.jsfComponents.common.ELTools;
@@ -177,8 +178,10 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText im
    @Override
    public void processEvent(SystemEvent event) throws AbortProcessingException {
       if (!FacesContext.getCurrentInstance().isPostback()) {
-         insertLabelBeforeThisInputField();
-         insertMessageBehindThisInputField();
+         if (!(getParent() instanceof Column)) {
+            insertLabelBeforeThisInputField();
+            insertMessageBehindThisInputField();
+         }
       }
    }
 }

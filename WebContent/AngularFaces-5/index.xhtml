@@ -1,0 +1,53 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/ui"
+  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://beyondjava.net/angularFaces"
+  xmlns:prime="http://primefaces.org/ui" locale="en-us">
+  <h:head />
+  <a:body ng-app="CarTradeApp" ng-controller="CarTradeController">
+    AngularFaces featuring an advanced PrimeFaces datatable with in-cell-editing.
+    <hr />
+    <h:form id="form">
+
+      <prime:growl id="messages" showDetail="true" />
+
+      <prime:contextMenu for="cars" widgetVar="cMenu">
+        <prime:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('carsTable').showCellEditor();return false;" />
+        <prime:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()" />
+      </prime:contextMenu>
+
+      <a:NGDataTable id="cars" var="car" value="#{tableBean.carsSmall}" widgetVar="carsTable">
+
+        <prime:column headerText="order?" style="width:5%">
+          <a:selectBooleanCheckbox value="#{car.ordered}" style="width:96%" />
+        </prime:column>
+        <prime:column headerText="quantity" style="width:15%">
+          <a:inputText value="#{car.quantity}" rendered="#{car.ordered}" style="width:96%" />
+        </prime:column>
+        <prime:column headerText="price" style="width:15%">
+          <a:inputText value="#{car.price}" style="width:96%" />
+        </prime:column>
+
+        <prime:column headerText="Year" style="width:15%">
+          <a:inputText value="#{car.year}" style="width:96%" label="Year" />
+        </prime:column>
+
+        <prime:column headerText="Manufacturer" style="width:15%">
+          <h:selectOneMenu value="#{car.manufacturer}" style="width:100%" ng:ng-model="car.manufacturer">
+            <f:selectItems value="#{tableBean.manufacturers}" var="man" itemLabel="#{man}" itemValue="#{man}" />
+          </h:selectOneMenu>
+        </prime:column>
+        <prime:column headerText="Color" style="width:15%">
+          <h:selectOneMenu value="#{car.color}" style="width:100%" ng:ng-model="car.color">
+            <f:selectItems value="#{tableBean.colors}" var="color" itemLabel="#{color}" itemValue="#{color}" />
+          </h:selectOneMenu>
+        </prime:column>
+
+      </a:NGDataTable>
+      
+
+      <hr />
+      You ordered {{orderVolume()}} cars.<br />
+      Total cost: {{totalCost()}} EUR.
+    </h:form>
+  </a:body>
+</f:view>

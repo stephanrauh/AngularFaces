@@ -1,0 +1,274 @@
+<head>
+<link type="text/css" rel="stylesheet" href="/AngularFaces/javax.faces.resource/theme.css.jsf?ln=primefaces-aristo" />
+<link type="text/css" rel="stylesheet"
+  href="/AngularFaces/javax.faces.resource/primefaces.css.jsf?ln=primefaces&amp;v=4.0-SNAPSHOT" />
+<script type="text/javascript"
+  src="/AngularFaces/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&amp;v=4.0-SNAPSHOT"></script>
+<script type="text/javascript"
+  src="/AngularFaces/javax.faces.resource/jquery/jquery-plugins.js.jsf?ln=primefaces&amp;v=4.0-SNAPSHOT"></script>
+<script type="text/javascript"
+  src="/AngularFaces/javax.faces.resource/primefaces.js.jsf?ln=primefaces&amp;v=4.0-SNAPSHOT"></script>
+<script type="text/javascript" src="/AngularFaces/javax.faces.resource/jsf.js.jsf?ln=javax.faces"></script>
+</head>
+<body ng-app="CarTradeApp" ng-controller="CarTradeController" onload="restoreValues()">
+
+  <script src='glue.js'></script>
+  <script src='angular.js'></script>
+  <script src='CarTradeController.js'></script>
+
+  AngularFaces featuring an advanced PrimeFaces datatable with in-cell-editing.
+  <hr />
+  <form id="form" name="form" method="post" action="/AngularFaces/AngularFaces-5/index.jsf"
+    enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="form" value="form" /> <span id="form:messages"></span>
+    <script id="form:messages_s" type="text/javascript">
+					$(function() {
+						PrimeFaces.cw('Growl', 'widget_form_messages', {
+							id : 'form:messages',
+							sticky : false,
+							life : 6000,
+							escape : true,
+							msgs : []
+						});
+					});
+				</script>
+    <div id="form:j_idt4"
+      class="ui-menu ui-menu-dynamic ui-contextmenu ui-widget ui-widget-content ui-corner-all ui-helper-clearfix ui-shadow"
+      role="menubar">
+      <ul class="ui-menu-list ui-helper-reset">
+        <li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a class="ui-menuitem-link ui-corner-all"
+          href="#"
+          onclick="PF('carsTable').showCellEditor();return false;;PrimeFaces.ab({source:'form:j_idt5',formId:'form'});return false;"><span
+            class="ui-menuitem-icon ui-icon ui-icon-search"></span><span class="ui-menuitem-text">Edit Cell</span></a></li>
+        <li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a class="ui-menuitem-link ui-corner-all"
+          href="#" onclick="PF('cMenu').hide();PrimeFaces.ab({source:'form:j_idt6',formId:'form'});return false;"><span
+            class="ui-menuitem-icon ui-icon ui-icon-close"></span><span class="ui-menuitem-text">Hide Menu</span></a></li>
+      </ul>
+    </div>
+    <script id="form:j_idt4_s" type="text/javascript">
+					$(function() {
+						PrimeFaces.cw('ContextMenu', 'cMenu', {
+							id : 'form:j_idt4',
+							target : 'form:cars',
+							type : 'NGDataTable',
+							targetWidgetVar : 'carsTable'
+						});
+					});
+				</script>
+
+    <script language='Javascript'>
+					function initDatatable($scope) {
+						$scope.carsSmall = [ {
+							manufacturer : 'Renault',
+							year : 1969,
+							ordered : false,
+							quantity : 0,
+							color : 'Brown'
+						}, {
+							manufacturer : 'Opel',
+							year : 1972,
+							ordered : false,
+							quantity : 0,
+							color : 'Silver'
+						}, {
+							manufacturer : 'Ford',
+							year : 1975,
+							ordered : false,
+							quantity : 0,
+							color : 'Red'
+						}, {
+							manufacturer : 'Audi',
+							year : 1986,
+							ordered : false,
+							quantity : 0,
+							color : 'Orange'
+						}, {
+							manufacturer : 'Chrysler',
+							year : 1960,
+							ordered : false,
+							quantity : 0,
+							color : 'Maroon'
+						}, {
+							manufacturer : 'Mercedes',
+							year : 2006,
+							ordered : false,
+							quantity : 0,
+							color : 'Orange'
+						}, {
+							manufacturer : 'Renault',
+							year : 1967,
+							ordered : false,
+							quantity : 0,
+							color : 'Blue'
+						}, {
+							manufacturer : 'Audi',
+							year : 1967,
+							ordered : false,
+							quantity : 0,
+							color : 'Maroon'
+						}, {
+							manufacturer : 'Volkswagen',
+							year : 1966,
+							ordered : false,
+							quantity : 0,
+							color : 'Yellow'
+						} ];
+					}
+				</script>
+
+
+    <div id="form:cars" class="ui-datatable ui-widget">
+      <div class="ui-datatable-header ui-widget-header ui-corner-top">In-Cell Editing</div>
+      <div class="ui-datatable-tablewrapper">
+        <table role="grid">
+          <thead id="form:cars_head">
+            <tr role="row">
+              <th id="form:cars:j_idt9" class="ui-state-default" role="columnheader" style="width: 5%"><span>order?</span></th>
+              <th id="form:cars:j_idt11" class="ui-state-default" role="columnheader" style="width: 15%"><span>quantity</span></th>
+              <th id="form:cars:j_idt15" class="ui-state-default" role="columnheader" style="width: 15%"><span>price</span></th>
+              <th id="form:cars:j_idt19" class="ui-state-default" role="columnheader" style="width: 15%"><span>Year</span></th>
+              <th id="form:cars:j_idt23" class="ui-state-default" role="columnheader" style="width: 15%"><span>Manufacturer</span></th>
+              <th id="form:cars:j_idt28" class="ui-state-default" role="columnheader" style="width: 15%"><span>Color</span></th>
+            </tr>
+          </thead>
+          <tfoot></tfoot>
+          <tbody id="form:cars_data" class="ui-datatable-data ui-widget-content">
+            <tr ng-repeat="car in carsSmall" data-ri="0" class="ui-widget-content ui-datatable-even ng-scope" role="row">
+              <td role="gridcell" style="width: 5%"><div id="form:cars:0:j_idt10" class="ui-chkbox ui-widget"
+                  style="width: 96%">
+                  <div class="ui-helper-hidden-accessible">
+                    <input id="form:cars:0:j_idt10_input" name="form:cars:0:j_idt10_input" type="checkbox" />
+                  </div>
+                  <div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default">
+                    <span class="ui-chkbox-icon ui-c"></span>
+                  </div>
+                </div>
+                <script id="form:cars:0:j_idt10_s" type="text/javascript">
+																	PrimeFaces
+																			.cw(
+																					'SelectBooleanCheckbox',
+																					'widget_form_cars_0_j_idt10',
+																					{
+																						id : 'form:cars:0:j_idt10',
+																						behaviors : {
+																							change : function(event,
+																									ext) {
+																								PrimeFaces.Behavior
+																										.chain(
+																												this,
+																												event,
+																												ext,
+																												[ 'mojarra.ab(\'form:cars:0:j_idt10\',event,\'valueChange\',0,\'form:cars\')' ]);
+																							}
+																						}
+																					});
+																</script></td>
+              <td role="gridcell" style="width: 15%" class="ui-editable-column"><div id="form:cars:0:j_idt12"
+                  class="ui-cell-editor">
+                  <div class="ui-cell-editor-output"></div>
+                  <div class="ui-cell-editor-input"></div>
+                </div></td>
+              <td role="gridcell" style="width: 15%" class="ui-editable-column"><div id="form:cars:0:j_idt16"
+                  class="ui-cell-editor">
+                  <div class="ui-cell-editor-output">35200</div>
+                  <div class="ui-cell-editor-input">
+                    <input id="row0_price" name="row0_price" type="number" value="35200" ng-model="price" max="20000"
+                      min="1000" style="width: 96%"
+                      class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" />
+                    <script id="row0_price_s" type="text/javascript">
+																					PrimeFaces.cw('InputText',
+																							'widget_row0_price', {
+																								id : 'row0_price'
+																							});
+																				</script>
+                  </div>
+                </div></td>
+              <td role="gridcell" style="width: 15%" class="ui-editable-column"><div id="form:cars:0:j_idt20"
+                  class="ui-cell-editor">
+                  <div class="ui-cell-editor-output">1969</div>
+                  <div class="ui-cell-editor-input">
+                    <input id="row0_year" name="row0_year" type="number" value="1969" ng-model="year" max="2020"
+                      min="1870" integer="" style="width: 96%"
+                      class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" />
+                    <script id="row0_year_s" type="text/javascript">
+																					PrimeFaces.cw('InputText',
+																							'widget_row0_year', {
+																								id : 'row0_year'
+																							});
+																				</script>
+                  </div>
+                </div></td>
+              <td role="gridcell" style="width: 15%" class="ui-editable-column"><div id="form:cars:0:j_idt24"
+                  class="ui-cell-editor">
+                  <div class="ui-cell-editor-output">Renault</div>
+                  <div class="ui-cell-editor-input">
+                    <select name="form:cars:0:j_idt26" size="1" style="width: 100%">
+                      <option value="Mercedes">Mercedes</option>
+                      <option value="BMW">BMW</option>
+                      <option value="Volvo">Volvo</option>
+                      <option value="Audi">Audi</option>
+                      <option value="Renault" selected="selected">Renault</option>
+                      <option value="Opel">Opel</option>
+                      <option value="Volkswagen">Volkswagen</option>
+                      <option value="Chrysler">Chrysler</option>
+                      <option value="Ferrari">Ferrari</option>
+                      <option value="Ford">Ford</option>
+                    </select>
+                  </div>
+                </div></td>
+              <td role="gridcell" style="width: 15%" class="ui-editable-column"><div id="form:cars:0:j_idt29"
+                  class="ui-cell-editor">
+                  <div class="ui-cell-editor-output">Brown</div>
+                  <div class="ui-cell-editor-input">
+                    <select name="form:cars:0:j_idt31" size="1" style="width: 100%">
+                      <option value="Black">Black</option>
+                      <option value="White">White</option>
+                      <option value="Green">Green</option>
+                      <option value="Red">Red</option>
+                      <option value="Blue">Blue</option>
+                      <option value="Orange">Orange</option>
+                      <option value="Silver">Silver</option>
+                      <option value="Yellow">Yellow</option>
+                      <option value="Brown" selected="selected">Brown</option>
+                      <option value="Maroon">Maroon</option>
+                    </select>
+                  </div>
+                </div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script id="form:cars_s" type="text/javascript">
+					$(function() {
+						PrimeFaces
+								.cw(
+										'DataTable',
+										'carsTable',
+										{
+											id : 'form:cars',
+											editable : true,
+											editMode : 'cell',
+											behaviors : {
+												cellEdit : function(event, ext) {
+													PrimeFaces.Behavior
+															.chain(
+																	this,
+																	event,
+																	ext,
+																	[ 'return PrimeFaces.ab({source:\'form:cars\',event:\'cellEdit\',process:\'form:cars\',update:\'form:messages\'}, arguments[1]);' ]);
+												}
+											}
+										});
+					});
+				</script>
+
+    <hr />
+    You ordered {{orderVolume()}} cars.<br /> Total cost: {{totalCost()}} EUR. <input type="hidden"
+      name="javax.faces.ViewState" id="j_id1:javax.faces.ViewState:0" value="8628912859725092956:-3418310236184859759"
+      autocomplete="off" />
+  </form>
+  <script>
+			storeValues();
+		</script>
+</body>

@@ -1,16 +1,13 @@
 package de.beyondjava.jsf.sample.datatable
 
 import javax.faces.event.AjaxBehaviorEvent
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Size
+import javax.validation.constraints.*
 
 public class Car {
    /** has the car been ordered? */
    boolean ordered
-   @Min(1000l)
-   @Max(20000l)
+   @Min(10000l)
+   @Max(40000l)
    @NotNull
    long price
    @Min(1870L)
@@ -32,7 +29,8 @@ public class Car {
       this.year = year
       this.manufacturer = manufacturer
       this.color = color
-      ordered=false
+      this.ordered=true
+      this.quantity=0
    }
 
    public void onOrderedClick(AjaxBehaviorEvent event) {
