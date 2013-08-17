@@ -61,3 +61,5 @@ function reinitAngular(app) {
 	angular.bootstrap(document, [ app ]);
 	restoreValues();
 }
+
+
