@@ -175,7 +175,7 @@ public class ELTools
       return null;
    }
 
-   private static String getCoreValueExpression(UIComponent component) 
+   public static String getCoreValueExpression(UIComponent component) 
    {
       ValueExpression valueExpression = component.getValueExpression("value");
       String v = valueExpression.getExpressionString();

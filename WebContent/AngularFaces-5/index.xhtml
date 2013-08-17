@@ -4,7 +4,7 @@
   xmlns:prime="http://primefaces.org/ui" locale="en-us">
   <h:head />
   <a:body ng-app="CarTradeApp" ng-controller="CarTradeController">
-    AngularFaces featuring an advanced PrimeFaces datatable with in-cell-editing.
+    AngularFaces featuring a simple editable data table.
     <hr />
     <h:form id="form">
 
@@ -18,13 +18,13 @@
       <a:NGDataTable id="cars" var="car" value="#{tableBean.carsSmall}" widgetVar="carsTable">
 
         <prime:column headerText="order?" style="width:5%">
-          <a:selectBooleanCheckbox value="#{car.ordered}" style="width:96%" />
+          <h:selectBooleanCheckbox value="#{car.ordered}" style="width:96%" />
         </prime:column>
         <prime:column headerText="quantity" style="width:15%">
-          <a:inputText value="#{car.quantity}" rendered="#{car.ordered}" style="width:96%" />
+          <h:inputText value="#{car.quantity}" style="width:96%" ng:type="number" />
         </prime:column>
         <prime:column headerText="price" style="width:15%">
-          <a:inputText value="#{car.price}" style="width:96%" />
+          <h:inputText value="#{car.price}" style="width:96%" />
         </prime:column>
 
         <prime:column headerText="Year" style="width:15%">
@@ -32,12 +32,12 @@
         </prime:column>
 
         <prime:column headerText="Manufacturer" style="width:15%">
-          <h:selectOneMenu value="#{car.manufacturer}" style="width:100%" ng:ng-model="car.manufacturer">
+          <h:selectOneMenu value="#{car.manufacturer}" style="width:100%" >
             <f:selectItems value="#{tableBean.manufacturers}" var="man" itemLabel="#{man}" itemValue="#{man}" />
           </h:selectOneMenu>
         </prime:column>
         <prime:column headerText="Color" style="width:15%">
-          <h:selectOneMenu value="#{car.color}" style="width:100%" ng:ng-model="car.color">
+          <h:selectOneMenu value="#{car.color}" style="width:100%">
             <f:selectItems value="#{tableBean.colors}" var="color" itemLabel="#{color}" itemValue="#{color}" />
           </h:selectOneMenu>
         </prime:column>

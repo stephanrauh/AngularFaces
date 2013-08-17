@@ -29,7 +29,7 @@ public class Car {
       this.year = year
       this.manufacturer = manufacturer
       this.color = color
-      this.ordered=true
+      this.ordered=false
       this.quantity=0
    }
 
