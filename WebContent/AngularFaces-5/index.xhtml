@@ -20,15 +20,15 @@
         <prime:column headerText="order?" style="width:5%">
           <h:selectBooleanCheckbox value="#{car.ordered}" style="width:96%" />
         </prime:column>
-        <prime:column headerText="quantity" style="width:15%">
-          <h:inputText value="#{car.quantity}" style="width:96%" ng:type="number" />
+        <prime:column headerText="quantity" style="width:7%">
+          <h:inputText value="#{car.quantity}" style="width:96%" size="5" maxlength="5" ng:type="number" />
         </prime:column>
-        <prime:column headerText="price" style="width:15%">
-          <h:inputText value="#{car.price}" style="width:96%" />
+        <prime:column headerText="price" style="width:10%" >
+          <h:inputText value="#{car.price}" style="width:96%" size="7" maxlength="7" />
         </prime:column>
 
-        <prime:column headerText="Year" style="width:15%">
-          <a:inputText value="#{car.year}" style="width:96%" label="Year" />
+        <prime:column headerText="Year" style="width:7%" >
+          <a:inputText value="#{car.year}" style="width:96%" label="Year" size="4" maxlength="4"/>
         </prime:column>
 
         <prime:column headerText="Manufacturer" style="width:15%">
