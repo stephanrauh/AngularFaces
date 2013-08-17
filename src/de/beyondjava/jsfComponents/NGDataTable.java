@@ -16,11 +16,6 @@ import org.primefaces.component.datatable.DataTable;
 @FacesComponent("de.beyondjava.NGDataTable")
 public class NGDataTable extends DataTable {
 
-   /*
-    * (non-Javadoc)
-    * 
-    * @see org.primefaces.component.api.UIData#getDataModel()
-    */
    @Override
    public DataModel getDataModel() {
       // TODO Auto-generated method stub
@@ -29,7 +24,6 @@ public class NGDataTable extends DataTable {
 
    @Override
    public String getRendererType() {
-      // return "org.primefaces.component.DataTableRenderer";
       return "de.beyondjava.NGDataTable";
    }
 }

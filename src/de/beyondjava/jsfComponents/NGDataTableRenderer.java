@@ -2,16 +2,19 @@ package de.beyondjava.jsfComponents;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.*;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.model.DataModel;
 import javax.faces.render.FacesRenderer;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.primefaces.component.column.Column;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.datatable.DataTableRenderer;
 
 import de.beyondjava.jsfComponents.common.ELTools;
@@ -51,17 +54,15 @@ public class NGDataTableRenderer extends DataTableRenderer {
       }
       writer.append("</tr>\r\n");
       NGDataTable table = (NGDataTable) component;
+      String rowVar = table.getVar();
+      replaceResponseWriter(context, writer, table);
       table.setRowIndex(0);
       String array = ELTools.getNGModel(table);
-      String rowVar = table.getVar();
       String ngRepeat = "ng-repeat=\"" + rowVar + " in " + array + "\"";
       writer.append("<tr " + ngRepeat + ">\r\n");
 
       for (UIComponent c : component.getChildren()) {
          writer.append("<td >\r\n");
-         ResponseWriter myWriter = new NGResponseWriter(writer, writer.getContentType(), writer.getCharacterEncoding(),
-               rowVar);
-         context.setResponseWriter(myWriter);
          if (c instanceof Column) {
             ((Column) c).encodeAll(context);
          }
@@ -71,6 +72,16 @@ public class NGDataTableRenderer extends DataTableRenderer {
       writer.append("</tr>\r\n");
       writer.append("</table>\r\n");
    }
+
+private void replaceResponseWriter(FacesContext context, ResponseWriter writer,
+		UIComponent component) {
+    DataTable table = (DataTable) component;
+    String rowVar = table.getVar();
+
+	ResponseWriter myWriter = new NGResponseWriter(writer, writer.getContentType(), writer.getCharacterEncoding(),
+	       rowVar);
+	 context.setResponseWriter(myWriter);
+}
 
    public String nggetTableDataAsJSScript(FacesContext context, UIComponent table) throws IOException {
       String jsObject = "";
