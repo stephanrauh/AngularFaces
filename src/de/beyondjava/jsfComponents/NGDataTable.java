@@ -9,6 +9,7 @@ import javax.faces.model.DataModel;
 import org.primefaces.component.datatable.DataTable;
 
 /**
+ * NGDatatable is a JSF data table with AngularJS support.
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
