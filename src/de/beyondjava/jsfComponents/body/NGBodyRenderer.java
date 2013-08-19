@@ -3,8 +3,7 @@ package de.beyondjava.jsfComponents.body;
 import java.io.IOException;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
+import javax.faces.context.*;
 import javax.faces.render.FacesRenderer;
 
 import org.primefaces.renderkit.CoreRenderer;
@@ -16,8 +15,9 @@ import org.primefaces.renderkit.CoreRenderer;
  * 
  */
 @FacesRenderer(componentFamily = NGBody.COMPONENT_FAMILY, rendererType = "de.beyondjava.Body")
-public class NGBodyRenderer extends CoreRenderer
-{
+public class NGBodyRenderer extends CoreRenderer {
+   private ResponseWriter originalWriter;
+
    /**
     * Begin the body tag. This is where the attributes ng-app, ng-controller and
     * onload are set.
@@ -25,23 +25,20 @@ public class NGBodyRenderer extends CoreRenderer
     * @author Stephan Rauh http://www.beyondjava.net
     */
    @Override
-   public void encodeBegin(FacesContext context, UIComponent component) throws IOException
-   {
+   public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
       ResponseWriter writer = context.getResponseWriter();
+      originalWriter = writer;
       writer.append("\r\n");
       writer.startElement("body", null);
       String ngApp = (String) component.getAttributes().get("ng-app");
-      if (null != ngApp)
-      {
+      if (null != ngApp) {
          writer.writeAttribute("ng-app", ngApp, null);
       }
-      else
-      {
+      else {
          writer.append(" ng-app ");
       }
       String ngController = (String) component.getAttributes().get("ng-controller");
-      if (null != ngController)
-      {
+      if (null != ngController) {
          writer.writeAttribute("ng-controller", ngController, null);
       }
 
@@ -51,6 +48,10 @@ public class NGBodyRenderer extends CoreRenderer
       writer.append("<script src='glue.js'></script>\r\n");
       writer.append("<script src='angular.js'></script>\r\n");
       writer.append("<script src='" + ngController + ".js'></script>\r\n");
+
+      NGResponseWriter angularWriter = new NGResponseWriter(writer, writer.getContentType(),
+            writer.getCharacterEncoding());
+      context.setResponseWriter(angularWriter);
    }
 
    /**
@@ -60,8 +61,7 @@ public class NGBodyRenderer extends CoreRenderer
     * @author Stephan Rauh http://www.beyondjava.net
     */
    @Override
-   public void encodeEnd(FacesContext context, UIComponent component) throws IOException
-   {
+   public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
       ResponseWriter writer = context.getResponseWriter();
       writer.append("\r\n");
       writer.append("  <script>storeValues();</script>");

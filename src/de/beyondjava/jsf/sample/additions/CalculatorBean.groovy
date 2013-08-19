@@ -1,30 +1,23 @@
-package de.beyondjava.jsf.sample.additions;
+package de.beyondjava.jsf.sample.additions
 
-import javax.faces.bean.ManagedBean
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped
-import javax.faces.event.ActionEvent
-import javax.validation.ValidationException
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.Size
+import javax.faces.bean.*
+import javax.validation.constraints.*
 
 @ManagedBean
 @SessionScoped
-public class CalculatorBean implements Serializable
-{
+public class CalculatorBean implements Serializable {
    @Min(7L)
    @Max(50L)
-   int number1 = 42;
+   int number1 = 42
 
    @Max(100L)
    @Min(10L)
-   int number2 = 65;
+   int number2 = 65
 
-   int result = 0;
+   int result = 0
 
-   public void add()
-   {
-      result = number1 + number2;
+   public String add() {
+      result = number1 + number2
+      return null
    }
 }

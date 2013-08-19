@@ -4,17 +4,25 @@
   xmlns:prime="http://primefaces.org/ui" locale="en-us">
   <h:head />
   <a:body ng-app="calculatorApp" ng-controller="calculatorController">
-  This is a simple JSF form using angularized PrimeFaces &lt;a:inputTexts&gt; and an &lt;a:commandButton&gt;.<p />
+  This is a simple angularized JSF form using standard &lt;h:inputTexts&gt; and an AngularFaces &lt;a:commandButton&gt;.<p />
     <h:form ng:name="myform" >
       <h:panelGrid columns="3">
-        <a:inputText label="first number" value="#{calculatorBean.number1}" />
+        <h:outputLabel value="first number" for="firstNumberID"/>
+        <h:inputText label="first number" value="#{calculatorBean.number1}" id="firstNumberID"/>
+        <h:message for="firstNumberID" />
 
-        <a:inputText label="second number" value="#{calculatorBean.number2}" />
+
+        <h:outputLabel value="second number" for="secondNumberID"/>
+        <h:inputText label="second number" value="#{calculatorBean.number2}" id="secondNumberID" />
+        <h:message for="secondNumberID" />
 
         <a:commandButton value="add" action="#{calculatorBean.add}" />
         <h:outputText value="Angular's calculation: {{toString(number1)}} + {{toString(number2)}} = {{add()}}" />
         <h:outputText />
-        <a:inputText label="JSF Result" value="#{calculatorBean.result}" />
+        <h:outputLabel value="JSF result" for="jsfResultID" />
+        
+        <h:inputText label="JSF result" value="#{calculatorBean.result}" id="jsfResultID"/>
+        <h:message for="jsfResultID" />
       </h:panelGrid>
     </h:form>
     <h:messages />
