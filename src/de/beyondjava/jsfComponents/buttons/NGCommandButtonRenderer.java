@@ -1,7 +1,7 @@
 /**
  *  (C) Stephan Rauh http://www.beyondjava.net
  */
-package de.beyondjava.jsfComponents.Buttons;
+package de.beyondjava.jsfComponents.buttons;
 
 import java.io.IOException;
 
