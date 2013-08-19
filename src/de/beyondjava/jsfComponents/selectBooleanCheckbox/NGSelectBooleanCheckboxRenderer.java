@@ -1,7 +1,7 @@
 /**
  *  (C) Stephan Rauh http://www.beyondjava.net
  */
-package de.beyondjava.jsfComponents;
+package de.beyondjava.jsfComponents.selectBooleanCheckbox;
 
 import java.io.IOException;
 

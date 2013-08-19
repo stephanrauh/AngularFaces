@@ -1,7 +1,7 @@
 /**
  *  (C) Stephan Rauh http://www.beyondjava.net
  */
-package de.beyondjava.jsfComponents;
+package de.beyondjava.jsfComponents.dataTable;
 
 import javax.faces.component.FacesComponent;
 import javax.faces.model.DataModel;

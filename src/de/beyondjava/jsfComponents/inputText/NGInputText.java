@@ -1,8 +1,6 @@
-/**
- *  (C) Stephan Rauh http://www.beyondjava.net
- */
-package de.beyondjava.jsfComponents;
+package de.beyondjava.jsfComponents.inputText;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.faces.component.FacesComponent;
@@ -16,20 +14,23 @@ import javax.faces.event.SystemEventListener;
 
 import org.primefaces.component.column.Column;
 import org.primefaces.component.outputlabel.OutputLabel;
-import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
 
 import de.beyondjava.jsfComponents.common.ELTools;
 import de.beyondjava.jsfComponents.common.NGBeanAttributeInfo;
 import de.beyondjava.jsfComponents.common.NGUIComponent;
 import de.beyondjava.jsfComponents.common.NGUIComponentTools;
 import de.beyondjava.jsfComponents.common.NGWordUtiltites;
+import de.beyondjava.jsfComponents.message.NGMessage;
 
 /**
+ * Add AngularJS behaviour to a standard Primefaces InputText.
+ * 
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
-@FacesComponent("de.beyondjava.SelectBooleanCheckbox")
-public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements SystemEventListener, NGUIComponent {
+@FacesComponent("de.beyondjava.InputText")
+public class NGInputText extends org.primefaces.component.inputtext.InputText implements SystemEventListener,
+      NGUIComponent {
    public static final String COMPONENT_FAMILY = "javax.faces.Input";
 
    /**
@@ -44,10 +45,22 @@ public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements Sy
     * PreRenderViewEvent allows AngularFaces to modify the JSF tree by adding a
     * label and a message.
     */
-   public NGSelectBooleanCheckbox() {
+   public NGInputText() {
       FacesContext context = FacesContext.getCurrentInstance();
       UIViewRoot root = context.getViewRoot();
       root.subscribeToViewEvent(PreRenderViewEvent.class, this);
+   }
+
+   @Override
+   public void encodeBegin(FacesContext context) throws IOException {
+      if ("text".equals(getType())) {
+         Class<?> type = ELTools.getType(this);
+         if ((int.class == type) || (Integer.class == type) || (long.class == type) || (Long.class == type)
+               || (double.class == type) || (Double.class == type)) {
+            setType("number");
+         }
+      }
+      super.encodeBegin(context);
    }
 
    @Override
@@ -76,6 +89,26 @@ public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements Sy
          return NGWordUtiltites.labelFromCamelCase(ngModel);
       }
       return label;
+   }
+
+   @Override
+   public int getMaxlength() {
+      int maxlength = super.getMaxlength();
+      if (maxlength <= 0) {
+         NGBeanAttributeInfo info = ELTools.getBeanAttributeInfos(this);
+         maxlength = (int) info.getMaxSize();
+      }
+      return maxlength;
+   }
+
+   @Override
+   public int getSize() {
+      int size = super.getSize();
+      if (size <= 0) {
+         NGBeanAttributeInfo info = ELTools.getBeanAttributeInfos(this);
+         size = (int) info.getMaxSize();
+      }
+      return super.getSize();
    }
 
    private void insertLabelBeforeThisInputField() {
@@ -146,19 +179,7 @@ public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements Sy
    @Override
    public void processEvent(SystemEvent event) throws AbortProcessingException {
       if (!FacesContext.getCurrentInstance().isPostback()) {
-         boolean tableMode = false;
-         UIComponent parent = getParent();
-         if ((parent instanceof Column)) {
-            tableMode = true;
-         }
-         if (null != parent) {
-            UIComponent grandpa = parent.getParent();
-            if ((grandpa instanceof Column)) {
-               tableMode = true;
-            }
-
-         }
-         if (!tableMode) {
+         if (!(getParent() instanceof Column)) {
             insertLabelBeforeThisInputField();
             insertMessageBehindThisInputField();
          }

@@ -1,7 +1,7 @@
 /**
  *  (C) Stephan Rauh http://www.beyondjava.net
  */
-package de.beyondjava.jsfComponents;
+package de.beyondjava.jsfComponents.Buttons;
 
 import javax.faces.component.FacesComponent;
 

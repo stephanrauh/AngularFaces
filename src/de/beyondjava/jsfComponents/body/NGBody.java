@@ -1,4 +1,4 @@
-package de.beyondjava.jsfComponents;
+package de.beyondjava.jsfComponents.body;
 
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponentBase;

@@ -1,7 +1,7 @@
 /**
  *  (C) Stephan Rauh http://www.beyondjava.net
  */
-package de.beyondjava.jsfComponents;
+package de.beyondjava.jsfComponents.dataTable;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -20,7 +20,7 @@ import de.beyondjava.jsfComponents.common.ELTools;
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
-public class NGResponseWriter extends HtmlResponseWriter {
+public class NGDataTableResponseWriter extends HtmlResponseWriter {
 	String ngPrefix = "";
 	String currentElement = "";
 	/** collects a data table's value attributes */
@@ -36,7 +36,7 @@ public class NGResponseWriter extends HtmlResponseWriter {
 	 * @param encoding
 	 * @throws FacesException
 	 */
-	public NGResponseWriter(Writer writer, String contentType, String encoding,
+	public NGDataTableResponseWriter(Writer writer, String contentType, String encoding,
 			String ngPrefix) throws FacesException {
 		super(writer, contentType, encoding);
 		if (null != ngPrefix && ngPrefix.length()>0) {

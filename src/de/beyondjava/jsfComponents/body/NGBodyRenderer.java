@@ -1,4 +1,4 @@
-package de.beyondjava.jsfComponents;
+package de.beyondjava.jsfComponents.body;
 
 import java.io.IOException;
 

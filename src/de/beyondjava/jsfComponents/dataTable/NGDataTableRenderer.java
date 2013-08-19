@@ -1,4 +1,4 @@
-package de.beyondjava.jsfComponents;
+package de.beyondjava.jsfComponents.dataTable;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -78,7 +78,7 @@ public class NGDataTableRenderer extends DataTableRenderer {
       originalWriter.append("</table>\r\n");
       originalWriter.append("</div>\r\n");
       originalWriter.append("</div>\r\n");
-      List<String> valueExpressions = ((NGResponseWriter) context.getResponseWriter()).getValueExpressions();
+      List<String> valueExpressions = ((NGDataTableResponseWriter) context.getResponseWriter()).getValueExpressions();
       // restore the responseWriter
       context.setResponseWriter(originalWriter);
       return valueExpressions;
@@ -153,8 +153,8 @@ public class NGDataTableRenderer extends DataTableRenderer {
       DataTable table = (DataTable) component;
       String rowVar = table.getVar();
 
-      ResponseWriter myWriter = new NGResponseWriter(writer, writer.getContentType(), writer.getCharacterEncoding(),
-            rowVar);
+      ResponseWriter myWriter = new NGDataTableResponseWriter(writer, writer.getContentType(),
+            writer.getCharacterEncoding(), rowVar);
       context.setResponseWriter(myWriter);
    }
 

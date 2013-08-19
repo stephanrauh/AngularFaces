@@ -1,7 +1,7 @@
 /*
  * Generated, Do Not Modify
  */
-package de.beyondjava.jsfComponents;
+package de.beyondjava.jsfComponents.message;
 
 import java.io.IOException;
 

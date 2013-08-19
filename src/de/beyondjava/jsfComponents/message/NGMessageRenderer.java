@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.beyondjava.jsfComponents;
+package de.beyondjava.jsfComponents.message;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
