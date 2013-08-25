@@ -1,0 +1,29 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/ui"
+  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://beyondjava.net/angularFaces"
+  xmlns:prime="http://primefaces.org/ui" locale="en-us">
+  <h:head />
+  <a:body ng-app="calculatorApp" ng-controller="calculatorController">
+  This is a 3-D version of the mandelbrot set.
+    <h:form ng:name="myform">
+      <h:panelGrid columns="6">
+        <a:inputText value="#{mandelbrotController.xMin}" />
+        <a:inputText value="#{mandelbrotController.xMax}" />
+        <a:inputText value="#{mandelbrotController.yMin}" />
+        <a:inputText value="#{mandelbrotController.yMax}" />
+
+        <a:commandButton value="draw" action="#{mandelbrotController.calculateAction}" />
+      </h:panelGrid>
+    </h:form>
+    <div id="mandelbrot" />
+    <script type="text/javascript" src="three.js">
+					
+				</script>
+    <script type="text/javascript" src="stats.min.js">
+					
+				</script>
+    <script type="text/javascript" src="drawMandelbrot.js">
+					
+				</script>
+  </a:body>
+</f:view>
