@@ -9,7 +9,7 @@ var mouseX = 0, mouseY = 0;
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 var counter = 0;
-var resolution = 256;
+var resolution = 768;
 var quality = 2;
 
 init();
@@ -20,17 +20,14 @@ function init() {
 	container = document.getElementById('mandelbrot');
 
 	camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
-	camera.position.z = 200;
+	camera.position.z = 500;
 	camera.position.x = 0;
 	camera.position.y = 1000;
 
 	scene = new THREE.Scene();
 
-	console.log("vor gh:" + (new Date().getTime()-start));
 	var data = generateHeight(resolution, resolution);
-	console.log("vor gt:" + (new Date().getTime()-start));
 	var texture = new THREE.Texture(generateTexture(data, resolution, resolution));
-	console.log("vor vertices:" + (new Date().getTime()-start));
 	texture.needsUpdate = true;
 
 	var material = new THREE.MeshBasicMaterial({
@@ -47,12 +44,7 @@ function init() {
 
 		var x = i % quality, y = ~~(i / quality);
 		var currentPixel = data[(x * step) + (y * step) * resolution];
-		if (currentPixel==255)
-			{
-			plane.vertices[i].y = -127;
-			}
-		else
-		plane.vertices[i].y = 128-currentPixel;
+		plane.vertices[i].y = 1023-currentPixel;
 
 	}
 
@@ -116,7 +108,7 @@ function generateTexture(data, width, height) {
 
 		shade = vector3.dot(sun);
         var pixel = data[j];
-		if (pixel == 255) {
+		if (pixel == 1023) {
 			imageData[i] = 0;
 			imageData[i + 1] = 0;
 			imageData[i + 2] = 192; // blue
@@ -138,31 +130,21 @@ function generateTexture(data, width, height) {
 function onDocumentMouseMove(event) {
 
 	mouseX = event.clientX - windowHalfX;
-	mouseY = event.clientY; // - windowHalfY;
+	mouseY = event.clientY;
 
 }
 
-//
-
 function animate() {
-
 	requestAnimationFrame(animate);
-	counter++;
-//	if (counter % 60 == 0) {
-//		console.log(mouseX + ", " + mouseY + " -> " + camera.position.x + ", " + camera.position.y + ", "
-//				+ camera.position.z);
-//	}
 	render();
-
 }
 
 function render() {
 	var targetX = mouseX;
-	var targetY = 2000 - mouseY;
-	// console.log(targetY);
-	camera.position.x += (targetX - camera.position.x) * 0.05;
-	camera.position.y += (targetY - camera.position.y) * 0.05;
-	// camera.position.y += (-mouseY - camera.position.y) * 0.05;
+	var targetY = 3500 - (mouseY*2);
+	if (targetY<1050) targetY=1050;
+	camera.position.x += (targetX - camera.position.x) * 0.05; // converges smoothly to targetX
+	camera.position.y += (targetY - camera.position.y) * 0.05; // converges smoothly to targetY
 	camera.lookAt(scene.position);
 
 	renderer.render(scene, camera);

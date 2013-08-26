@@ -6,6 +6,7 @@ package de.beyondjava.mandelbrot;
 import java.io.Serializable;
 
 import javax.faces.bean.*;
+import javax.validation.constraints.*;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
@@ -18,17 +19,29 @@ public class MandelbrotController implements Serializable {
 
    private int[][] mandelbrotSet;
 
-   private int maxIterations = 255;
+   private int maxIterations = 1023;
 
-   private int resolution = 256;
+   private int resolution = 768;
 
+   @NotNull
+   @Min(value = -5)
+   @Max(value = 5)
    private double xMax = 1;
 
-   private double xMin = 0;
+   @NotNull
+   @Min(value = -5)
+   @Max(value = 5)
+   private double xMin = -2;
 
+   @NotNull
+   @Min(value = -5)
+   @Max(value = 5)
    private double yMax = 1;
 
-   private double yMin = 0;
+   @NotNull
+   @Min(value = -5)
+   @Max(value = 5)
+   private double yMin = -1;
 
    public void calculateAction() {
       // setMandelbrotSet(new MandelbrotCalculator().calculate(xMin, xMax, yMin,
