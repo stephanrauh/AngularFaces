@@ -8,10 +8,12 @@ import javax.validation.constraints.*
 public class CalculatorBean implements Serializable {
    @Min(7L)
    @Max(50L)
+   @NotNull
    int number1 = 42
 
    @Max(100L)
    @Min(10L)
+   @NotNull
    int number2 = 65
 
    int result = 0

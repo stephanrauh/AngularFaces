@@ -3,14 +3,10 @@ package de.beyondjava.jsfComponents.inputText;
 import java.io.IOException;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
+import javax.faces.context.*;
 import javax.faces.render.FacesRenderer;
 
-import de.beyondjava.jsfComponents.common.ELTools;
-import de.beyondjava.jsfComponents.common.NGBeanAttributeInfo;
-import de.beyondjava.jsfComponents.common.NGUIComponentInfo;
-import de.beyondjava.jsfComponents.common.NGUIComponentTools;
+import de.beyondjava.jsfComponents.common.*;
 
 /**
  * Add AngularJS behaviour to a standard Primefaces InputText.
@@ -32,6 +28,9 @@ public class NGInputTextRenderer extends org.primefaces.component.inputtext.Inpu
       }
       if (info.isInteger()) {
          writer.writeAttribute("integer", "", "integer");
+      }
+      if (info.isRequired()) {
+         writer.writeAttribute("required", "", "required");
       }
    }
 
