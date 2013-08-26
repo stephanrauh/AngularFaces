@@ -1,8 +1,4 @@
 function mandelbrotController($scope) {
-	$scope.xMin=-1.5;
-	$scope.xMax=1;
-	$scope.yMin=-1;
-	$scope.yMax=1;
 }
 
 var app = angular.module('mandelbrotApp', []);

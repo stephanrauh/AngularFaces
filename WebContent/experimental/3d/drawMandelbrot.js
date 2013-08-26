@@ -8,25 +8,29 @@ var mouseX = 0, mouseY = 0;
 
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
-var counter=0;
-var resolution=1024;
+var counter = 0;
+var resolution = 256;
+var quality = 2;
 
 init();
 animate();
 
 function init() {
-
+	var start = new Date().getTime();
 	container = document.getElementById('mandelbrot');
 
 	camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
-	camera.position.z = 50;
-	camera.position.x = 1000;
-	camera.position.y = 1500;
+	camera.position.z = 200;
+	camera.position.x = 0;
+	camera.position.y = 1000;
 
 	scene = new THREE.Scene();
 
+	console.log("vor gh:" + (new Date().getTime()-start));
 	var data = generateHeight(resolution, resolution);
+	console.log("vor gt:" + (new Date().getTime()-start));
 	var texture = new THREE.Texture(generateTexture(data, resolution, resolution));
+	console.log("vor vertices:" + (new Date().getTime()-start));
 	texture.needsUpdate = true;
 
 	var material = new THREE.MeshBasicMaterial({
@@ -34,7 +38,7 @@ function init() {
 		overdraw : true
 	});
 
-	var quality = 2, step = resolution / quality;
+	var step = resolution / quality;
 
 	var plane = new THREE.PlaneGeometry(2000, 2000, quality - 1, quality - 1);
 	plane.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
@@ -42,7 +46,13 @@ function init() {
 	for ( var i = 0, l = plane.vertices.length; i < l; i++) {
 
 		var x = i % quality, y = ~~(i / quality);
-		plane.vertices[i].y = data[(x * step) + (y * step) * resolution] * 2 - 128;
+		var currentPixel = data[(x * step) + (y * step) * resolution];
+		if (currentPixel==255)
+			{
+			plane.vertices[i].y = -127;
+			}
+		else
+		plane.vertices[i].y = 128-currentPixel;
 
 	}
 
@@ -56,11 +66,10 @@ function init() {
 
 	container.innerHTML = "";
 
+	console.log("done:" + (new Date().getTime()-start));
+
 	container.appendChild(renderer.domElement);
-
 	document.addEventListener('mousemove', onDocumentMouseMove, false);
-
-	//
 
 	window.addEventListener('resize', onWindowResize, false);
 
@@ -78,10 +87,9 @@ function onWindowResize() {
 
 }
 
-
 function generateTexture(data, width, height) {
 
-	var canvas, context, image, imageData, level, diff, vector3, sun, shade;
+	var canvas, context, image, imageData, vector3, sun, shade;
 
 	vector3 = new THREE.Vector3(0, 0, 0);
 
@@ -107,19 +115,17 @@ function generateTexture(data, width, height) {
 		vector3.normalize();
 
 		shade = vector3.dot(sun);
-
-		if (data[j]==255)
-			{
+        var pixel = data[j];
+		if (pixel == 255) {
 			imageData[i] = 0;
 			imageData[i + 1] = 0;
-			imageData[i + 2] = 192;
-			}
-		else
-			{
-		imageData[i] = (96 + shade * 128) * (data[j] * 0.007);
-		imageData[i + 1] = (32 + shade * 96) * (data[j] * 0.007);
-		imageData[i + 2] = (shade * 96) * (data[j] * 0.007);
-			}
+			imageData[i + 2] = 192; // blue
+		} else {
+			pixel = Math.sqrt(pixel);
+			imageData[i] = (96 + shade * 128) * (pixel * 0.007)*16;
+			imageData[i + 1] = (32 + shade * 96) * (pixel * 0.007)*16;
+			imageData[i + 2] = (shade * 96) * (pixel * 0.007)*16;
+		}
 
 	}
 
@@ -141,21 +147,21 @@ function onDocumentMouseMove(event) {
 function animate() {
 
 	requestAnimationFrame(animate);
-    counter++;
-    if (counter%60==0)
-    	{
-	console.log(mouseX + ", " + mouseY + " -> " + camera.position.x + ", "  + camera.position.y+ ", "  + camera.position.z);
-    	}
+	counter++;
+//	if (counter % 60 == 0) {
+//		console.log(mouseX + ", " + mouseY + " -> " + camera.position.x + ", " + camera.position.y + ", "
+//				+ camera.position.z);
+//	}
 	render();
 
 }
 
 function render() {
-	var targetX=mouseX/3;
-	var targetY=1000-mouseY/2;
-	//console.log(targetY);
+	var targetX = mouseX;
+	var targetY = 2000 - mouseY;
+	// console.log(targetY);
 	camera.position.x += (targetX - camera.position.x) * 0.05;
-	camera.position.y += (targetY-camera.position.y) * 0.05; 
+	camera.position.y += (targetY - camera.position.y) * 0.05;
 	// camera.position.y += (-mouseY - camera.position.y) * 0.05;
 	camera.lookAt(scene.position);
 

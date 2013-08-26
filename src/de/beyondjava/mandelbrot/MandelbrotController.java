@@ -20,15 +20,15 @@ public class MandelbrotController implements Serializable {
 
    private int maxIterations = 255;
 
-   private int resolution = 1024;
+   private int resolution = 256;
 
-   private double xMax = 2;
+   private double xMax = 1;
 
-   private double xMin = -2;
+   private double xMin = 0;
 
-   private double yMax = 2;
+   private double yMax = 1;
 
-   private double yMin = -2;
+   private double yMin = 0;
 
    public void calculateAction() {
       // setMandelbrotSet(new MandelbrotCalculator().calculate(xMin, xMax, yMin,
