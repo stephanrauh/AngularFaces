@@ -3,8 +3,8 @@
   xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://beyondjava.net/angularFaces"
   xmlns:prime="http://primefaces.org/ui" locale="en-us">
   <h:head />
-  <a:body ng-app="calculatorApp" ng-controller="calculatorController">
-  This is a 3-D version of the mandelbrot set.
+  <a:body ng-app="mandelbrotApp" ng-controller="mandelbrotController">
+  This is a 3-D version of the mandelbrot set using the Three.js library (http://threejs.org/).
     <h:form ng:name="myform">
       <h:panelGrid columns="6">
         <a:inputText value="#{mandelbrotController.xMin}" />
@@ -12,18 +12,22 @@
         <a:inputText value="#{mandelbrotController.yMin}" />
         <a:inputText value="#{mandelbrotController.yMax}" />
 
-        <a:commandButton value="draw" action="#{mandelbrotController.calculateAction}" />
+        <a:commandButton value="draw" action="#{mandelbrotController.calculateAction}" update="@form" />
       </h:panelGrid>
+      <script type="text/javascript">
+					function generateHeight(width, height) {
+						#{mandelbrotController.mandelbrotSetAsString}
+						return data;
+					}
+				</script>
+
+      <div id="mandelbrot" />
+      <script type="text/javascript" src="three.js">
+				</script>
+      <script type="text/javascript" src="drawMandelbrot.js">
+					
+				</script>
+       
     </h:form>
-    <div id="mandelbrot" />
-    <script type="text/javascript" src="three.js">
-					
-				</script>
-    <script type="text/javascript" src="stats.min.js">
-					
-				</script>
-    <script type="text/javascript" src="drawMandelbrot.js">
-					
-				</script>
   </a:body>
 </f:view>

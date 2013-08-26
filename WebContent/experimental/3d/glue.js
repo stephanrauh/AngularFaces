@@ -13,6 +13,7 @@ function storeValues() {
 					if (element.value && element.value != "") {
 						var ngModel = element.getAttribute("ng-model");
 						if (ngModel) {
+							console.log(ngModel + " = $(" + element.id + ") = " + element.value);
 							values[index] = element.value;
 							models[index] = ngModel;
 							inputFields[index] = element;
@@ -38,6 +39,7 @@ function restoreValues() {
 			$scope.$apply(function() {
 				var assignment = "$scope." + model + "= " + value;
 				try {
+					console.log(assignment);
 					eval(assignment);
 				} catch (e) {
 					// under certain circumstances, this exception occurs
@@ -56,10 +58,28 @@ function restoreValues() {
 	}
 }
 
+function injectVariableIntoScope(model, value) {
+	try {
+		var $scope = angular.element('body').scope();
+
+		$scope.$apply(function() {
+			var assignment = "$scope." + model + "= " + value;
+			try {
+				eval(assignment);
+			} catch (e) {
+				// under certain circumstances, this exception occurs
+				// but can safely be ignored
+				// alert("AngularFaces apply Exception " + e + " " +
+				// assignment);
+			}
+		});
+	} catch (e) {
+		alert("Couldn't inject variable " + model + " into scope.\n" + value + "=" + value + "\n" + e);
+	}
+}
+
 function reinitAngular(app) {
 	storeValues();
 	angular.bootstrap(document, [ app ]);
 	restoreValues();
 }
-
-

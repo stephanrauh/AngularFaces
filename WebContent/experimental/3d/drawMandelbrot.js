@@ -1,4 +1,4 @@
-var container, stats;
+var container;
 
 var camera, scene, renderer;
 
@@ -8,6 +8,8 @@ var mouseX = 0, mouseY = 0;
 
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
+var counter=0;
+var resolution=1024;
 
 init();
 animate();
@@ -16,15 +18,15 @@ function init() {
 
 	container = document.getElementById('mandelbrot');
 
-	camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
-	camera.position.z = 200;
-	camera.position.y = 1500;
+	camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
+	camera.position.z = 50;
+	camera.position.x = 1000;
 	camera.position.y = 1500;
 
 	scene = new THREE.Scene();
 
-	var data = generateHeight(1024, 1024);
-	var texture = new THREE.Texture(generateTexture(data, 1024, 1024));
+	var data = generateHeight(resolution, resolution);
+	var texture = new THREE.Texture(generateTexture(data, resolution, resolution));
 	texture.needsUpdate = true;
 
 	var material = new THREE.MeshBasicMaterial({
@@ -32,7 +34,7 @@ function init() {
 		overdraw : true
 	});
 
-	var quality = 16, step = 1024 / quality;
+	var quality = 2, step = resolution / quality;
 
 	var plane = new THREE.PlaneGeometry(2000, 2000, quality - 1, quality - 1);
 	plane.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
@@ -40,7 +42,7 @@ function init() {
 	for ( var i = 0, l = plane.vertices.length; i < l; i++) {
 
 		var x = i % quality, y = ~~(i / quality);
-		plane.vertices[i].y = data[(x * step) + (y * step) * 1024] * 2 - 128;
+		plane.vertices[i].y = data[(x * step) + (y * step) * resolution] * 2 - 128;
 
 	}
 
@@ -55,11 +57,6 @@ function init() {
 	container.innerHTML = "";
 
 	container.appendChild(renderer.domElement);
-
-	stats = new Stats();
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.top = '0px';
-	container.appendChild(stats.domElement);
 
 	document.addEventListener('mousemove', onDocumentMouseMove, false);
 
@@ -81,35 +78,6 @@ function onWindowResize() {
 
 }
 
-function generateHeight(width, height) {
-
-	var data = Float32Array ? new Float32Array(width * height) : [];
-	var size = width * height;
-	var quality = 2;
-	var z = Math.random() * 100;
-
-	for ( var i = 0; i < size; i++) {
-
-		data[i] = 0
-
-	}
-
-	for ( var j = 0; j < 4; j++) {
-
-		quality *= 4;
-
-		for ( var i = 0; i < size; i++) {
-
-			var x = i % width, y = ~~(i / width);
-			data[i] = x % 100 + y % 100;
-
-		}
-
-	}
-
-	return data;
-
-}
 
 function generateTexture(data, width, height) {
 
@@ -140,9 +108,18 @@ function generateTexture(data, width, height) {
 
 		shade = vector3.dot(sun);
 
+		if (data[j]==255)
+			{
+			imageData[i] = 0;
+			imageData[i + 1] = 0;
+			imageData[i + 2] = 192;
+			}
+		else
+			{
 		imageData[i] = (96 + shade * 128) * (data[j] * 0.007);
 		imageData[i + 1] = (32 + shade * 96) * (data[j] * 0.007);
 		imageData[i + 2] = (shade * 96) * (data[j] * 0.007);
+			}
 
 	}
 
@@ -155,7 +132,7 @@ function generateTexture(data, width, height) {
 function onDocumentMouseMove(event) {
 
 	mouseX = event.clientX - windowHalfX;
-	mouseY = event.clientY - windowHalfY;
+	mouseY = event.clientY; // - windowHalfY;
 
 }
 
@@ -164,16 +141,22 @@ function onDocumentMouseMove(event) {
 function animate() {
 
 	requestAnimationFrame(animate);
-
+    counter++;
+    if (counter%60==0)
+    	{
+	console.log(mouseX + ", " + mouseY + " -> " + camera.position.x + ", "  + camera.position.y+ ", "  + camera.position.z);
+    	}
 	render();
-	stats.update();
 
 }
 
 function render() {
-
-	camera.position.x += (mouseX - camera.position.x) * 0.05;
-	camera.position.y += (-mouseY - camera.position.y) * 0.05;
+	var targetX=mouseX/3;
+	var targetY=1000-mouseY/2;
+	//console.log(targetY);
+	camera.position.x += (targetX - camera.position.x) * 0.05;
+	camera.position.y += (targetY-camera.position.y) * 0.05; 
+	// camera.position.y += (-mouseY - camera.position.y) * 0.05;
 	camera.lookAt(scene.position);
 
 	renderer.render(scene, camera);

@@ -25,15 +25,10 @@ public class MandelbrotCalculator {
       return n;
    }
 
-   public int[][] calculate() {
+   public int[][] calculate(double cxmin, double cxmax, double cymin, double cymax, int iter, int resolution) {
       long timer = System.nanoTime();
-      double cxmin = -2;
-      double cxmax = 2;
-      double cymin = -1;
-      double cymax = 1;
-      int iter = 255;
-      int width = 1024;
-      int height = 1024;
+      int width = resolution;
+      int height = resolution;
       final int[][] image = new int[width][height];
       for (int x = 0; x < width; x++) {
          image[x] = new int[height];
