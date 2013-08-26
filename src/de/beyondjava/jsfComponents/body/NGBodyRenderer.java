@@ -50,7 +50,7 @@ public class NGBodyRenderer extends CoreRenderer {
       writer.append("<script src='" + ngController + ".js'></script>\r\n");
 
       NGResponseWriter angularWriter = new NGResponseWriter(writer, writer.getContentType(),
-            writer.getCharacterEncoding());
+            writer.getCharacterEncoding(), "");
       context.setResponseWriter(angularWriter);
    }
 

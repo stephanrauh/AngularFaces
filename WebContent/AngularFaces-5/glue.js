@@ -9,7 +9,7 @@ function storeValues() {
 			var elements = forms[f].elements;
 			for ( var i = 0; i < elements.length; i++) {
 				var element = elements[i];
-				if (element.type == "text" || element.type == "select") {
+				if (element.type == "text" ||element.type == "number" || element.type == "select") {
 					if (element.value && element.value != "") {
 						var ngModel = element.getAttribute("ng-model");
 						if (ngModel) {
@@ -77,6 +77,7 @@ function injectVariableIntoScope(model, value) {
 }
 
 function reinitAngular(app) {
+
 	storeValues();
 	angular.bootstrap(document, [ app ]);
 	restoreValues();

@@ -9,11 +9,10 @@ function storeValues() {
 			var elements = forms[f].elements;
 			for ( var i = 0; i < elements.length; i++) {
 				var element = elements[i];
-				if (element.type == "text" || element.type == "select") {
+				if (element.type == "text" ||element.type == "number" || element.type == "select") {
 					if (element.value && element.value != "") {
 						var ngModel = element.getAttribute("ng-model");
 						if (ngModel) {
-							console.log(ngModel + " = $(" + element.id + ") = " + element.value);
 							values[index] = element.value;
 							models[index] = ngModel;
 							inputFields[index] = element;
@@ -39,7 +38,6 @@ function restoreValues() {
 			$scope.$apply(function() {
 				var assignment = "$scope." + model + "= " + value;
 				try {
-					console.log(assignment);
 					eval(assignment);
 				} catch (e) {
 					// under certain circumstances, this exception occurs
@@ -79,6 +77,7 @@ function injectVariableIntoScope(model, value) {
 }
 
 function reinitAngular(app) {
+
 	storeValues();
 	angular.bootstrap(document, [ app ]);
 	restoreValues();

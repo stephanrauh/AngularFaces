@@ -21,7 +21,6 @@ public class NGDataTableResponseWriter extends HtmlResponseWriter {
    private UIComponent currentComponent;
    String currentElement = "";
    String currentNGModel = null;
-   boolean ngModelAlreadyWritten;
    String ngPrefix = "";
    /** collects a data table's value attributes */
    private List<String> valueExpressions = new ArrayList<>();
@@ -61,7 +60,6 @@ public class NGDataTableResponseWriter extends HtmlResponseWriter {
       currentComponent = arg1;
       if (null != currentComponent) {
          if (ELTools.hasValueExpression(currentComponent)) {
-            ngModelAlreadyWritten = false;
             String valueExpression = ELTools.getCoreValueExpression(currentComponent);
             getValueExpressions().add(valueExpression);
             currentNGModel = ELTools.getNGModel(currentComponent);
@@ -87,7 +85,6 @@ public class NGDataTableResponseWriter extends HtmlResponseWriter {
    public void writeAttribute(String attribute, Object value, String arg2) throws IOException {
       if ("ng-model".equals(attribute)) {
          super.writeAttribute(attribute, ngPrefix + value, arg2);
-         ngModelAlreadyWritten = true;
       }
       else if ((!"value".equals(attribute)) && (!"checked".equals(attribute))) {
          // value attributes have to be suppressed, because they collide with
