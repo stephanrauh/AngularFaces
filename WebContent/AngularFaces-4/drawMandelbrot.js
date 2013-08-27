@@ -9,16 +9,12 @@ var mouseX = 0, mouseY = 0;
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 var counter = 0;
-var resolution = 768;
-var quality = 2;
 var stopAnimation = true;
 
 document.getElementById('mandelbrot').innerHTML += '<br />3-d rendering on the client...';
-window.setTimeout('init(12);animate();', 60);
-// init();
-// animate();
+window.setTimeout('init(25, 256, 16);animate();', 60);
 
-function init(aperture) {
+function init(aperture, resolution, quality) {
 	stopAnimation = true;
 	var start = new Date().getTime();
 	container = document.getElementById('mandelbrot');
