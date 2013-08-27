@@ -11,23 +11,30 @@ var windowHalfY = window.innerHeight / 2;
 var counter = 0;
 var resolution = 768;
 var quality = 2;
+var stopAnimation = true;
 
-init();
-animate();
+document.getElementById('mandelbrot').innerHTML += '<br />3-d rendering on the client...';
+window.setTimeout('init(12);animate();', 60);
+// init();
+// animate();
 
-function init() {
+function init(aperture) {
+	stopAnimation = true;
 	var start = new Date().getTime();
 	container = document.getElementById('mandelbrot');
+	console.log(aperture);
 
-	camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
+	camera = new THREE.PerspectiveCamera(aperture, window.innerWidth
+			/ window.innerHeight, 1, 10000);
 	camera.position.z = 500;
 	camera.position.x = 0;
 	camera.position.y = 1000;
 
 	scene = new THREE.Scene();
 
-	var data = generateHeight(resolution, resolution);
-	var texture = new THREE.Texture(generateTexture(data, resolution, resolution));
+	var data = generateHeight();
+	var texture = new THREE.Texture(generateTexture(data, resolution,
+			resolution));
 	texture.needsUpdate = true;
 
 	var material = new THREE.MeshBasicMaterial({
@@ -44,7 +51,7 @@ function init() {
 
 		var x = i % quality, y = ~~(i / quality);
 		var currentPixel = data[(x * step) + (y * step) * resolution];
-		plane.vertices[i].y = 1023-currentPixel;
+		plane.vertices[i].y = 1023 - currentPixel;
 
 	}
 
@@ -58,12 +65,13 @@ function init() {
 
 	container.innerHTML = "";
 
-	console.log("done:" + (new Date().getTime()-start));
+	console.log("done:" + (new Date().getTime() - start));
 
 	container.appendChild(renderer.domElement);
 	document.addEventListener('mousemove', onDocumentMouseMove, false);
 
 	window.addEventListener('resize', onWindowResize, false);
+	stopAnimation = false;
 
 }
 
@@ -107,16 +115,29 @@ function generateTexture(data, width, height) {
 		vector3.normalize();
 
 		shade = vector3.dot(sun);
-        var pixel = data[j];
+		var pixel = data[j];
 		if (pixel == 1023) {
 			imageData[i] = 0;
 			imageData[i + 1] = 0;
 			imageData[i + 2] = 192; // blue
 		} else {
-			pixel = Math.sqrt(pixel);
-			imageData[i] = (96 + shade * 128) * (pixel * 0.007)*16;
-			imageData[i + 1] = (32 + shade * 96) * (pixel * 0.007)*16;
-			imageData[i + 2] = (shade * 96) * (pixel * 0.007)*16;
+			if (pixel < 32) {
+				var green = (32 + shade * 96) * (pixel * 0.007) * 16;
+				green += (32 - pixel) * 3;
+				if (green > 255) {
+					green = 255;
+				}
+				imageData[i] = (96 + shade * 128) * (pixel * 0.007) * 16;
+				imageData[i + 1] = green;
+				imageData[i + 2] = (shade * 96) * (pixel * 0.007) * 16;
+
+			} else {
+				pixel = Math.sqrt(pixel);
+				var green = pixel > 16 ? 16 - pixel : pixel;
+				imageData[i] = (96 + shade * 128) * (pixel * 0.007) * 16;
+				imageData[i + 1] = (32 + shade * 96) * (pixel * 0.007) * 16;
+				imageData[i + 2] = (shade * 96) * (pixel * 0.007) * 16;
+			}
 		}
 
 	}
@@ -135,16 +156,23 @@ function onDocumentMouseMove(event) {
 }
 
 function animate() {
-	requestAnimationFrame(animate);
-	render();
+	if (!stopAnimation) {
+		requestAnimationFrame(animate);
+		render();
+	}
 }
 
 function render() {
 	var targetX = mouseX;
-	var targetY = 3500 - (mouseY*2);
-	if (targetY<1050) targetY=1050;
-	camera.position.x += (targetX - camera.position.x) * 0.05; // converges smoothly to targetX
-	camera.position.y += (targetY - camera.position.y) * 0.05; // converges smoothly to targetY
+	var targetY = 3500 - (mouseY * 2);
+	if (targetY < 1050)
+		targetY = 1050;
+	camera.position.x += (targetX - camera.position.x) * 0.05; // converges
+																// smoothly to
+																// targetX
+	camera.position.y += (targetY - camera.position.y) * 0.05; // converges
+																// smoothly to
+																// targetY
 	camera.lookAt(scene.position);
 
 	renderer.render(scene, camera);
