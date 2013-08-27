@@ -3,7 +3,13 @@ package de.beyondjava.jsf.sample.datatable
 import javax.faces.event.AjaxBehaviorEvent
 import javax.validation.constraints.*
 
-public class Car {
+
+/**
+ * This is the car object used by the data table demo (http://localhost:8080/AngularFaces/AngularFaces-5/index.jsf).
+ * @author Stephan Rauh
+ *
+ */
+public class Car implements Serializable {
    /** has the car been ordered? */
    boolean ordered
    @Min(10000l)
@@ -31,10 +37,6 @@ public class Car {
       this.color = color
       this.ordered=false
       this.quantity=0
-   }
-
-   public void onOrderedClick(AjaxBehaviorEvent event) {
-      //      ordered=!ordered
    }
 }
 
