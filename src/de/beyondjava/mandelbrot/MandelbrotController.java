@@ -13,43 +13,46 @@ import javax.validation.constraints.*;
  * 
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class MandelbrotController implements Serializable {
    private static final long serialVersionUID = 685843404038345451L;
 
+   @Min(10)
+   @Max(100)
    private int aperture = 25;
 
    private int[][] mandelbrotSet;
 
    private int maxIterations = 1023;
 
-   private int quality = 16;
+   @Min(1)
+   @Max(4)
+   private int quality = 1;
 
+   @Min(128)
+   @Max(2048)
    private int resolution = 256;
 
    @NotNull
-   @Min(value = -5)
-   @Max(value = 5)
+   @Min(-2)
+   @Max(1)
    private double xMax = 1;
 
    @NotNull
-   @Min(value = -5)
-   @Max(value = 5)
+   @Min(value = -2)
+   @Max(value = 1)
    private double xMin = -2;
 
    @NotNull
-   @Min(value = -5)
-   @Max(value = 5)
+   @Min(value = -1)
+   @Max(value = 1)
    private double yMax = 1;
    @NotNull
-   @Min(value = -5)
-   @Max(value = 5)
+   @Min(value = -1)
+   @Max(value = 1)
    private double yMin = -1;
 
    public void calculateAction() {
-      // setMandelbrotSet(new MandelbrotCalculator().calculate(xMin, xMax,
-      // yMin,
-      // yMax, maxIterations));
    }
 
    public int getAperture() {

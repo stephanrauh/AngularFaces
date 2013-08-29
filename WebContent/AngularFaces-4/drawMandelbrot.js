@@ -12,9 +12,10 @@ var counter = 0;
 var stopAnimation = true;
 
 document.getElementById('mandelbrot').innerHTML += '<br />3-d rendering on the client...';
-window.setTimeout('init(25, 256, 16);animate();', 60);
+window.setTimeout('init(25, 256, 1);animate();', 60);
 
 function init(aperture, resolution, quality) {
+	quality=Math.pow(2, (5-quality));
 	stopAnimation = true;
 	var start = new Date().getTime();
 	container = document.getElementById('mandelbrot');
@@ -64,7 +65,7 @@ function init(aperture, resolution, quality) {
 	console.log("done:" + (new Date().getTime() - start));
 
 	container.appendChild(renderer.domElement);
-	document.addEventListener('mousemove', onDocumentMouseMove, false);
+	renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
 
 	window.addEventListener('resize', onWindowResize, false);
 	stopAnimation = false;

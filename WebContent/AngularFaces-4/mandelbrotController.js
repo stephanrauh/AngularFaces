@@ -1,4 +1,5 @@
 function mandelbrotController($scope) {
+
 }
 
 var app = angular.module('mandelbrotApp', []);
@@ -22,4 +23,3 @@ app.directive('integer', function() {
 		}
 	};
 });
-

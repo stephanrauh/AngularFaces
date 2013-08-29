@@ -1,51 +1,55 @@
-<f:view xmlns="http://www.w3c.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/ui"
-	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:a="http://beyondjava.net/angularFaces"
-	xmlns:prime="http://primefaces.org/ui" locale="en-us">
-	<h:head />
-	<a:body ng-app="mandelbrotApp" ng-controller="mandelbrotController">
-		<div class="ui-outputlabel ui-widget" style="font-size: 13px">
-			This is a 3-D version of the mandelbrot set using the Three.js
-			library (http://threejs.org/). The demo requires a modern browser
-			with WebGL support and a graphics accellerator card. During my tests,
-			Google Chrome 28+ performed well, Firefox 23+ worked a little slower
-			and Safari 5.1.7 required patience. Internet Explorer won't work
-			until version 11. iOS devices don't work either (they support WebGL
-			only for advertisement).</div>
-		<h:form ng:name="myform">
-			<h:panelGrid columns="6">
-				<a:inputText value="#{mandelbrotController.xMin}" />
-				<a:inputText value="#{mandelbrotController.xMax}" />
-				<a:inputText value="#{mandelbrotController.yMin}" />
-				<a:inputText value="#{mandelbrotController.yMax}" />
-				<a:inputText value="#{mandelbrotController.aperture}" />
-				<a:inputText value="#{mandelbrotController.quality}" />
-				<a:inputText value="#{mandelbrotController.resolution}" />
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/ui"
+  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://beyondjava.net/angularFaces"
+  xmlns:prime="http://primefaces.org/ui" locale="en-us">
+  <h:head />
+  <a:body ng-app="mandelbrotApp" ng-controller="mandelbrotController">
+    <div class="ui-outputlabel ui-widget" style="font-size: 13px">This is a 3-D version of the mandelbrot set
+      using the Three.js library (http://threejs.org/). The demo requires a modern browser with WebGL support and a
+      graphics accellerator card. During my tests, Google Chrome 28+ performed well, Firefox 23+ worked a little slower
+      and Safari 5.1.7 required patience. Internet Explorer won't work until version 11. iOS devices don't work either
+      (they support WebGL only for advertisement).</div>
 
-				<a:commandButton value="draw"
-					action="#{mandelbrotController.calculateAction}"
-					update="@form @(.data)"
-					onclick="document.getElementById('mandelbrot').innerHTML='calculating data on the server...';"
-					oncomplete="document.getElementById('mandelbrot').innerHTML+='  3-d rendering on the client...'; window.setTimeout('init({{aperture}}, {{resolution}}, {{quality}});',100)" />
-			</h:panelGrid>
-			<div class="data">
-				<script type="text/javascript">
+
+    <h:form ng:name="myform">
+      <h:panelGrid columns="6">
+        <a:inputText value="#{mandelbrotController.xMin}" />
+        <a:inputText value="#{mandelbrotController.xMax}" />
+        <a:inputText value="#{mandelbrotController.yMin}" />
+        <a:inputText value="#{mandelbrotController.yMax}" />
+        <a:inputText value="#{mandelbrotController.aperture}" />
+        <a:slider for="aperture" style="width:200px" minValue="10" maxValue="100" />
+        <h:outputText />
+        <h:outputText />
+        <a:inputText value="#{mandelbrotController.quality}" />
+        <a:slider for="quality" style="width:200px" minValue="1" maxValue="4" />
+        
+        <h:outputText />
+        <h:outputText />
+        <a:inputText value="#{mandelbrotController.resolution}" />
+        <a:slider for="resolution" style="width:200px" minValue="128" maxValue="2048" step="16" />
+        <h:outputText value="{{resolution}}" />
+        <h:outputText />
+
+        <a:commandButton value="draw" action="#{mandelbrotController.calculateAction}" update="@form @(.data)"
+          onclick="document.getElementById('mandelbrot').innerHTML='calculating data on the server...';"
+          oncomplete="document.getElementById('mandelbrot').innerHTML+='  3-d rendering on the client...'; window.setTimeout('init({{aperture}}, {{resolution}}, {{quality}});',100)" />
+      </h:panelGrid>
+      <div class="data">
+        <script type="text/javascript">
 					function generateHeight() {
 						#{mandelbrotController.mandelbrotSetAsString}
 						return data;
 					}
 				</script>
-			</div>
-		</h:form>
-		<div id="mandelbrot">calculating data on the server...</div>
-		<script type="text/javascript" src="three.js">
+      </div>
+    </h:form>
+    <div id="mandelbrot">calculating data on the server...</div>
+    <script type="text/javascript" src="three.js">
 				</script>
-		<script type="text/javascript" src="drawMandelbrot.js">
+    <script type="text/javascript" src="drawMandelbrot.js">
 					
 				</script>
 
-	</a:body>
+  </a:body>
 </f:view>
