@@ -10,6 +10,7 @@ AngularFaces is a JSF library making it easy to integrate AngularJS code. Curren
 <li>&lt;a:commandButton&gt;. This derivative of a PrimeFaces command button re-activates the AngularJS framework after an AJAX request. It's also disabled if one of the form's AngularJS validations is violated.</li>
 <li>&lt;a:angularButton&gt;. This button has nothing to do with JSF. Instead, it calls an AngularJS controller function.</li>
 <li>&lt;a:dataTable&gt; This is the component I'm currently working on. At present, it's able to display simple data tables with AngularJS support. The table may contain editable fields.</li>
+<li>&lt;a:slider&gt; The AngularFaces Slider component is a PrimeFaces Slider updating the Angular model when the slider is moved. It also reads the @Min and @Max annotations of the associated input field to get default values of the sliders range.<li>
 </ul> 
 
 To learn more about AngularFaces, have a look at http://www.beyondjava.net/blog/angularfaces-jsf-beyond-ajax/.
