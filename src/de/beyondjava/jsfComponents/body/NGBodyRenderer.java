@@ -45,8 +45,9 @@ public class NGBodyRenderer extends CoreRenderer {
       writer.writeAttribute("onload", "restoreValues()", null);
       writer.append("\r\n");
       writer.append("\r\n");
-      writer.append("<script src='glue.js'></script>\r\n");
-      writer.append("<script src='angular.js'></script>\r\n");
+      // <h:outputScript library="theme1" name="js/hello.js" />
+      writer.append("<script src='../resources/AngularFaces/1.0/glue.js'></script>\r\n");
+      writer.append("<script src='../resources/AngularFaces/1.0/angular.js'></script>\r\n");
       writer.append("<script src='" + ngController + ".js'></script>\r\n");
 
       NGResponseWriter angularWriter = new NGResponseWriter(writer, writer.getContentType(),
