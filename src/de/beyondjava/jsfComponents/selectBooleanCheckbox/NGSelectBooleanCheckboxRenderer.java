@@ -24,14 +24,7 @@ import de.beyondjava.jsfComponents.common.NGUIComponentTools;
  */
 @FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.SelectBooleanCheckbox")
 public class NGSelectBooleanCheckboxRenderer extends SelectBooleanCheckboxRenderer {
-   private void readJSR303Annotations(UIComponent component, ResponseWriter writer) throws IOException {
-      // NGBeanAttributeInfo info = ELTools.getBeanAttributeInfos(component);
-      // if (info.isHasMax()) {
-      // writer.writeAttribute("max", info.getMax(), "max");
-      //
-      // }
-   }
-
+ 
    /**
     * Renders ng-model according to the bean attribute's properties.
     */
@@ -44,8 +37,6 @@ public class NGSelectBooleanCheckboxRenderer extends SelectBooleanCheckboxRender
       NGUIComponentInfo info = NGUIComponentTools.getInfo(context, component);
       String model = info.getNGModel();
       writer.writeAttribute("ng-model", model, "ng-model");
-
-      readJSR303Annotations(component, writer);
-   }
+  }
 
 }
