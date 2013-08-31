@@ -9,7 +9,7 @@ function storeValues() {
 			var elements = forms[f].elements;
 			for ( var i = 0; i < elements.length; i++) {
 				var element = elements[i];
-				if (element.type == "text" ||element.type == "number" || element.type == "select") {
+				if (element.type == "text" || element.type == "number" || element.type == "select") {
 					if (element.value && element.value != "") {
 						var ngModel = element.getAttribute("ng-model");
 						if (ngModel) {
@@ -28,11 +28,11 @@ function storeValues() {
 }
 
 function restoreValues() {
-	try {
-		for ( var i = 0; i < models.length; i++) {
-			var value = values[i];
-			var model = models[i];
-			var element = inputFields[i];
+	for ( var i = 0; i < models.length; i++) {
+		var value = values[i];
+		var model = models[i];
+		var element = inputFields[i];
+		try {
 			var $scope = angular.element('body').scope();
 
 			$scope.$apply(function() {
@@ -49,11 +49,11 @@ function restoreValues() {
 					element.value = value;
 				}
 			});
+		} catch (e) {
+			alert("Couldn't restore the field values. ngModel=" + model + " element=" + element + " Exception=" + e);
 		}
-
-	} catch (e) {
-		alert("Couldn't restore the field values " + e);
 	}
+
 }
 
 function injectVariableIntoScope(model, value) {

@@ -39,13 +39,6 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText
 	 */
 	private boolean isDefaultId = true;
 
-	@Override
-	public void setId(String id) {
-		if (!id.startsWith("j_idt"))
-			isDefaultId = false;
-		super.setId(id);
-	}
-
 	/**
 	 * Prevents endless loop during calls from NGUIComponentTools. Such a
 	 * variable should never be needed, no doubt about it. Guess I didn't find
@@ -86,8 +79,8 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText
 	}
 
 	@Override
-	public void setValue(Object value) {
-		super.setValue(value);
+	public String getFamily() {
+		return COMPONENT_FAMILY;
 	}
 
 	@Override
@@ -96,11 +89,6 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText
 			setId(ELTools.getNGModel(this));
 		}
 		return super.getId();
-	}
-
-	@Override
-	public String getFamily() {
-		return COMPONENT_FAMILY;
 	}
 
 	/**
@@ -211,5 +199,17 @@ public class NGInputText extends org.primefaces.component.inputtext.InputText
 				insertMessageBehindThisInputField();
 			}
 		}
+	}
+
+	@Override
+	public void setId(String id) {
+		if (!id.startsWith("j_idt"))
+			isDefaultId = false;
+		super.setId(id);
+	}
+
+	@Override
+	public void setValue(Object value) {
+		super.setValue(value);
 	}
 }

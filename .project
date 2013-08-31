@@ -39,4 +39,11 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>WebContent/META-INF/angularFaces.taglib.xml</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/src/META-INF/angularFaces.taglib.xml</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

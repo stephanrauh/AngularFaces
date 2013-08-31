@@ -1,17 +1,17 @@
 /**
  *  (C) Stephan Rauh http://www.beyondjava.net
  */
-package de.beyondjava.jsfComponents.selectBooleanCheckbox;
+package de.beyondjava.jsfComponents.selectOneMenu;
 
 import java.util.List;
 
 import javax.faces.component.*;
 import javax.faces.context.FacesContext;
 import javax.faces.event.*;
+import javax.faces.render.Renderer;
 
 import org.primefaces.component.column.Column;
 import org.primefaces.component.outputlabel.OutputLabel;
-import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
 
 import de.beyondjava.jsfComponents.common.*;
 import de.beyondjava.jsfComponents.message.NGMessage;
@@ -20,15 +20,25 @@ import de.beyondjava.jsfComponents.message.NGMessage;
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
-@FacesComponent("de.beyondjava.SelectBooleanCheckbox")
-public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements SystemEventListener, NGUIComponent {
-   public static final String COMPONENT_FAMILY = "javax.faces.Input";
+@FacesComponent("de.beyondjava.SelectOneMenu")
+public class NGSelectOneMenu extends org.primefaces.component.selectonemenu.SelectOneMenu implements
+      SystemEventListener, NGUIComponent {
+
+   public static final String COMPONENT_FAMILY = "org.primefaces.component";
+
+   /**
+    * @return the componentFamily
+    */
+   public static String getComponentFamily() {
+      return COMPONENT_FAMILY;
+   }
 
    /**
     * if the ID has not been set by the application, we define our own default
     * id (which equals the ngModel attribute)
     */
    private boolean isDefaultId = true;
+
    /**
     * Prevents endless loop during calls from NGUIComponentTools. Such a
     * variable should never be needed, no doubt about it. Guess I didn't find
@@ -36,12 +46,7 @@ public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements Sy
     */
    private boolean preventRecursion = false;
 
-   /**
-    * This constructor subscribes to the PreRenderViewEvent. Catching the
-    * PreRenderViewEvent allows AngularFaces to modify the JSF tree by adding a
-    * label and a message.
-    */
-   public NGSelectBooleanCheckbox() {
+   public NGSelectOneMenu() {
       FacesContext context = FacesContext.getCurrentInstance();
       UIViewRoot root = context.getViewRoot();
       root.subscribeToViewEvent(PreRenderViewEvent.class, this);
@@ -81,6 +86,12 @@ public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements Sy
          return NGWordUtiltites.labelFromCamelCase(ngModel);
       }
       return label;
+   }
+
+   @Override
+   protected Renderer getRenderer(FacesContext arg0) {
+      return new NGSelectOneMenuRenderer();
+      // return super.getRenderer(arg0);
    }
 
    /**

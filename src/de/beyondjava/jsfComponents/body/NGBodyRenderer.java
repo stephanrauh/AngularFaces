@@ -2,7 +2,6 @@ package de.beyondjava.jsfComponents.body;
 
 import java.io.IOException;
 
-import javax.faces.application.*;
 import javax.faces.component.UIComponent;
 import javax.faces.context.*;
 import javax.faces.render.FacesRenderer;
@@ -15,8 +14,6 @@ import org.primefaces.renderkit.CoreRenderer;
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
-@ResourceDependencies({ @ResourceDependency(library = "AngularFaces", name = "glue.js"),
-      @ResourceDependency(library = "AngularFaces", name = "angular.js") })
 @FacesRenderer(componentFamily = NGBody.COMPONENT_FAMILY, rendererType = "de.beyondjava.Body")
 public class NGBodyRenderer extends CoreRenderer {
 
@@ -48,8 +45,9 @@ public class NGBodyRenderer extends CoreRenderer {
       writer.append("\r\n");
       // context.getApplication().createComponent("MyComponentType")
       // <h:outputScript library="theme1" name="js/hello.js" />
-      // writer.append("<script src='../resources/AngularFaces/1.0/glue.js'></script>\r\n");
-      // writer.append("<script src='../resources/AngularFaces/1.0/angular.js'></script>\r\n");
+      writer.append("<script src='../resources/AngularFaces/angular.js'></script>\r\n");
+      // writer.append("<script src='../javax.faces.resource/glue.js.jsf?ln=AngularFaces'></script>\r\n");
+      writer.append("<script src='../resources/AngularFaces/glue.js'></script>\r\n");
       writer.append("<script src='" + ngController + ".js'></script>\r\n");
 
       NGResponseWriter angularWriter = new NGResponseWriter(writer, writer.getContentType(),
