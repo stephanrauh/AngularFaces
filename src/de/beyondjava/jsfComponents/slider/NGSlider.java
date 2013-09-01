@@ -10,6 +10,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.component.slider.Slider;
 import org.primefaces.expression.SearchExpressionFacade;
 
@@ -30,7 +31,8 @@ public class NGSlider extends Slider {
 	public void encodeBegin(FacesContext context) throws IOException {
 		int maxValue = getMaxValue();
 		int minValue = getMinValue();
-		if (maxValue==100 /** default value */) {
+		if (maxValue == 100 /** default value */
+		) {
 			String targetIDs = getFor();
 			String[] ids = targetIDs.split(",");
 			UIComponent target = SearchExpressionFacade.resolveComponent(
@@ -40,7 +42,8 @@ public class NGSlider extends Slider {
 				setMaxValue((int) info.getMax());
 			}
 		}
-		if (minValue==0 /** default value */) {
+		if (minValue == 0 /** default value */
+		) {
 			String targetIDs = getFor();
 			String[] ids = targetIDs.split(",");
 			UIComponent target = SearchExpressionFacade.resolveComponent(
@@ -50,28 +53,35 @@ public class NGSlider extends Slider {
 				setMinValue((int) info.getMin());
 			}
 		}
+		setOnSlide(context);
 	}
 
 	/**
 	 * Adds the code updating the Angular model when the slider is being moved.
 	 */
-	@Override
-	public String getOnSlide() {
+	public void setOnSlide(FacesContext context) {
 		String activateAngular = "";
 		String targets = getFor();
 		if (null != targets) {
 			String[] targetArray = targets.split(",");
 			for (String it : targetArray) {
-				activateAngular += "angular.element($('#" + it
-						+ "')).triggerHandler('input');";
+				UIComponent target = SearchExpressionFacade.resolveComponent(
+						context, this, it);
+				if (target instanceof SelectOneMenu) {
+					String widgetVar = ((SelectOneMenu) target).getWidgetVar();
+					activateAngular +="PrimeFaces.widgets." + widgetVar + ".selectValue(ui.value);";
+				} else {
+					activateAngular += "angular.element($('#" + it
+							+ "')).triggerHandler('input');";
+				}
 			}
 		}
+		// onSlide="PrimeFaces.widgets.qualityWidget.selectValue('2');"
 		String original = super.getOnSlide();
 		if (null == original) {
-			return activateAngular;
+			setOnSlide(activateAngular);
 		}
-		return activateAngular + original;
-
+		setOnSlide(activateAngular + original);
 	}
 
 	/**

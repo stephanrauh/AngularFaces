@@ -9,7 +9,8 @@ function storeValues() {
 			var elements = forms[f].elements;
 			for ( var i = 0; i < elements.length; i++) {
 				var element = elements[i];
-				if (element.type == "text" || element.type == "number" || element.type == "select") {
+				if (element.type == "text" || element.type == "number"
+						|| element.type == "select-one") {
 					if (element.value && element.value != "") {
 						var ngModel = element.getAttribute("ng-model");
 						if (ngModel) {
@@ -50,7 +51,8 @@ function restoreValues() {
 				}
 			});
 		} catch (e) {
-			alert("Couldn't restore the field values. ngModel=" + model + " element=" + element + " Exception=" + e);
+			alert("Couldn't restore the field values. ngModel=" + model
+					+ " element=" + element + " Exception=" + e);
 		}
 	}
 
@@ -72,7 +74,8 @@ function injectVariableIntoScope(model, value) {
 			}
 		});
 	} catch (e) {
-		alert("Couldn't inject variable " + model + " into scope.\n" + value + "=" + value + "\n" + e);
+		alert("Couldn't inject variable " + model + " into scope.\n" + value
+				+ "=" + value + "\n" + e);
 	}
 }
 
@@ -81,4 +84,8 @@ function reinitAngular(app) {
 	storeValues();
 	angular.bootstrap(document, [ app ]);
 	restoreValues();
+}
+
+function updateAngularModel(model, value) {
+	injectVariableIntoScope(model, value);
 }

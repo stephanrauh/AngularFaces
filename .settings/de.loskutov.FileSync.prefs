@@ -1,0 +1,7 @@
+WARNING=DO NOT MODIFY THIS FILE IF YOU DON'T UNDERSTAND
+defaultDestination=\:.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/AngularFaces
+defaultVariables=
+eclipse.preferences.version=1
+includeTeamPrivateFiles=false
+map|0=WebContent|,|,|,|,
+useCurrentDateForDestinationFiles=false

@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.*;
+import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
 import javax.faces.render.FacesRenderer;
 
@@ -25,56 +26,40 @@ import de.beyondjava.jsfComponents.common.*;
  */
 @FacesRenderer(componentFamily = "org.primefaces.component", rendererType = "de.beyondjava.SelectOneMenu")
 public class NGSelectOneMenuRenderer extends SelectOneMenuRenderer {
+	/** add the ng-model attribute to the sub-component representing the select-one box */
+	@Override
+	protected void encodeInput(FacesContext context, SelectOneMenu menu,
+			String clientId, List<SelectItem> selectItems, Object values,
+			Object submittedValues, Converter converter) throws IOException {
+		ResponseWriter writer = context.getResponseWriter();
 
-   @Override
-   protected void encodeLabel(FacesContext context, SelectOneMenu menu, List<SelectItem> selectItems)
-         throws IOException {
-      ResponseWriter writer = context.getResponseWriter();
-      String valueToRender = ComponentUtils.getValueToRender(context, menu);
+		String inputId = clientId + "_input";
 
-      if (menu.isEditable()) {
-         writer.startElement("input", null);
-         writer.writeAttribute("type", "text", null);
-         writer.writeAttribute("name", menu.getClientId() + "_editableInput", null);
-         writer.writeAttribute("class", SelectOneMenu.LABEL_CLASS, null);
+		writer.startElement("div", menu);
 
-         if (menu.getTabindex() != null) {
-            writer.writeAttribute("tabindex", menu.getTabindex(), null);
-         }
+		writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
 
-         if (menu.isDisabled()) {
-            writer.writeAttribute("disabled", "disabled", null);
-         }
+		writer.startElement("select", menu);
 
-         if (valueToRender != null) {
-            writer.writeAttribute("value", valueToRender, null);
-         }
+		String ngModel;
+		ngModel = ELTools.getNGModel(menu);
+		writer.writeAttribute("ng-model", ngModel, null);
 
-         if (menu.getMaxlength() != Integer.MAX_VALUE) {
-            writer.writeAttribute("maxlength", menu.getMaxlength(), null);
-         }
-         renderNGModel(context, menu);
+		writer.writeAttribute("id", inputId, "id");
 
-         writer.endElement("input");
-      }
-      else {
-         writer.startElement("label", null);
-         writer.writeAttribute("id", menu.getClientId() + "_label", null);
-         writer.writeAttribute("class", SelectOneMenu.LABEL_CLASS, null);
-         writer.write("&nbsp;");
-         writer.endElement("label");
-      }
-   }
+		writer.writeAttribute("name", inputId, null);
 
-   /**
-    * Renders ng-model according to the bean attribute's properties.
-    */
-   protected void renderNGModel(FacesContext context, UIComponent component) throws IOException {
-      ResponseWriter writer = context.getResponseWriter();
+		if (menu.getOnchange() != null)
+			writer.writeAttribute("onchange", menu.getOnchange(), null);
 
-      NGUIComponentInfo info = NGUIComponentTools.getInfo(context, component);
-      String model = info.getNGModel();
-      writer.writeAttribute("ng-model", model, "ng-model");
-   }
+		if (menu.isDisabled())
+			writer.writeAttribute("disabled", "disabled", null);
 
+		encodeSelectItems(context, menu, selectItems, values, submittedValues,
+				converter);
+
+		writer.endElement("select");
+
+		writer.endElement("div");
+	}
 }
