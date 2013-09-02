@@ -21,20 +21,21 @@
         <a:slider for="aperture" style="width:200px" />
         <h:outputText />
         <h:outputText />
+
         <a:selectOneMenu value="#{mandelbrotController.quality}" >
           <f:selectItem itemLabel="fast" itemValue="1" />
           <f:selectItem itemLabel="mediocre" itemValue="2" />
           <f:selectItem itemLabel="good" itemValue="3" />
           <f:selectItem itemLabel="superior" itemValue="4" />
         </a:selectOneMenu>
-        <a:slider for="quality" style="width:200px" minValue="1" maxValue="4"  />
-
-        <h:outputText value="{{quality}} x" />
+        <a:slider for="quality" style="width:200px" minValue="1" maxValue="4" widgetVar="qualitySliderWidget" />
         <h:outputText />
+        <h:outputText value="ng-model =  {{quality}}" />
+
         <a:inputText value="#{mandelbrotController.resolution}" />
         <a:slider for="resolution" style="width:200px" step="16" />
-        <h:outputText value="{{resolution}}" />
         <h:outputText />
+        <h:outputText value="ng-model = {{resolution}}" />
 
         <a:commandButton value="draw" action="#{mandelbrotController.calculateAction}" update="@form @(.data)"
           onclick="document.getElementById('mandelbrot').innerHTML='calculating data on the server...';"

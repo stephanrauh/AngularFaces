@@ -86,9 +86,7 @@ public class NGSlider extends Slider {
                String widgetVar = ((SelectOneMenu) target).getWidgetVar();
                activateAngular += "PrimeFaces.widgets." + widgetVar + ".selectValue(ui.value);";
             }
-            else {
-               activateAngular += "angular.element($('#" + it + "')).triggerHandler('input');";
-            }
+            activateAngular += "angular.element($('#" + it + "')).triggerHandler('input');";
          }
       }
       String original = super.getOnSlide();

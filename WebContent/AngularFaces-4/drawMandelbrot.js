@@ -12,7 +12,7 @@ var counter = 0;
 var stopAnimation = true;
 
 document.getElementById('mandelbrot').innerHTML += '<br />3-d rendering on the client...';
-window.setTimeout('init(25, 256, 1);animate();', 60);
+window.setTimeout('init(80, 256, 4);animate();', 60);
 
 function init(aperture, resolution, quality) {
 	quality = Math.pow(2, (5 - quality));

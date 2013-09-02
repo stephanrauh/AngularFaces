@@ -19,7 +19,7 @@ public class MandelbrotController implements Serializable {
 
    @Min(10)
    @Max(100)
-   private int aperture = 25;
+   private int aperture = 80;
 
    private int[][] mandelbrotSet;
 
@@ -27,10 +27,10 @@ public class MandelbrotController implements Serializable {
 
    @Min(1)
    @Max(4)
-   private int quality = 1;
+   private int quality = 4;
 
    @Min(128)
-   @Max(2048)
+   @Max(1024)
    private int resolution = 256;
 
    @NotNull

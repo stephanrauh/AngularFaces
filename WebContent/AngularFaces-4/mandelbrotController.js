@@ -1,5 +1,20 @@
 function mandelbrotController($scope) {
-
+	$scope.$watch('resolution', function() {
+		if ($scope.resolution >= 512) {
+			if ($scope.quality > 2) {
+				$scope.quality = 2;
+				PrimeFaces.widgets.qualityWidget.selectValue(2);
+				PrimeFaces.widgets.qualitySliderWidget.setValue(2);
+			}
+		}
+		if ($scope.resolution >= 768) {
+			if ($scope.quality > 1) {
+				$scope.quality = 1;
+				PrimeFaces.widgets.qualityWidget.selectValue(1);
+				PrimeFaces.widgets.qualitySliderWidget.setValue(1);
+			}
+		}
+	});
 }
 
 var app = angular.module('mandelbrotApp', []);
