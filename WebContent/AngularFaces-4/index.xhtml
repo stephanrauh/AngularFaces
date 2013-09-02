@@ -16,7 +16,11 @@
         <a:selectBooleanCheckbox value="#{mandelbrotController.showGlobeDemo}" />
       <prime:outputLabel value="(deselect this check box to see the mandelbrot set as plane)" ng:ng-show="showGlobeDemo" />
       </h:panelGrid>
-      <h:panelGrid columns="6" styleClass="xx{{showGlobeDemo}}" ng:ng-show="!showGlobeDemo">
+      <h:panelGrid columns="1"  ng:ng-show="showGlobeDemo">
+      BeyondJava.net - Mandelbrot sphere<br />based on <a href='http://threejs.org' target='_blank'>three.js</a> - earth demo
+      </h:panelGrid>
+      
+      <h:panelGrid columns="6" ng:ng-show="!showGlobeDemo">
         <a:inputText value="#{mandelbrotController.xMin}" />
         <a:inputText value="#{mandelbrotController.xMax}" />
         <a:inputText value="#{mandelbrotController.yMin}" />
