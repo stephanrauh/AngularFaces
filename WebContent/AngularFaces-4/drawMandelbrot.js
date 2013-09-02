@@ -15,7 +15,7 @@ document.getElementById('mandelbrot').innerHTML += '<br />3-d rendering on the c
 window.setTimeout('init(25, 256, 1);animate();', 60);
 
 function init(aperture, resolution, quality) {
-	quality=Math.pow(2, (5-quality));
+	quality = Math.pow(2, (5 - quality));
 	stopAnimation = true;
 	var start = new Date().getTime();
 	container = document.getElementById('mandelbrot');
@@ -65,7 +65,8 @@ function init(aperture, resolution, quality) {
 	console.log("done:" + (new Date().getTime() - start));
 
 	container.appendChild(renderer.domElement);
-	renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
+	renderer.domElement.addEventListener('mousemove', onDocumentMouseMove,
+			false);
 
 	window.addEventListener('resize', onWindowResize, false);
 	stopAnimation = false;
@@ -164,14 +165,18 @@ function render() {
 	var targetY = 3500 - (mouseY * 2);
 	if (targetY < 1050)
 		targetY = 1050;
-	camera.position.x += (targetX - camera.position.x) * 0.05; // converges
-																// smoothly to
-																// targetX
-	camera.position.y += (targetY - camera.position.y) * 0.05; // converges
-																// smoothly to
-																// targetY
+	var deltaX = (targetX - camera.position.x) * 0.05;
+	camera.position.x += deltaX; // converges
+	// smoothly to
+	// targetX
+	var deltaY = (targetY - camera.position.y) * 0.05;
+	camera.position.y += deltaY; // converges
+	// smoothly to
+	// targetY
 	camera.lookAt(scene.position);
+	if (deltaY > 1 || deltaY < -1 || deltaX > 1 || deltaX < -1) {
 
-	renderer.render(scene, camera);
+		renderer.render(scene, camera);
+	}
 
 }
