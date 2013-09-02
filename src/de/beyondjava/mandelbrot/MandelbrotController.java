@@ -33,22 +33,24 @@ public class MandelbrotController implements Serializable {
    @Max(1024)
    private int resolution = 256;
 
+   private boolean showGlobeDemo = true;
+
    @NotNull
-   @Min(-2)
-   @Max(1)
+   @Min(-5)
+   @Max(5)
    private double xMax = 1;
 
    @NotNull
-   @Min(value = -2)
-   @Max(value = 1)
+   @Min(value = -5)
+   @Max(value = 5)
    private double xMin = -2;
 
    @NotNull
    @Min(value = -1)
-   @Max(value = 1)
+   @Max(value = 3)
    private double yMax = 1;
    @NotNull
-   @Min(value = -1)
+   @Min(value = -3)
    @Max(value = 1)
    private double yMin = -1;
 
@@ -119,6 +121,13 @@ public class MandelbrotController implements Serializable {
       return yMin;
    }
 
+   /**
+    * @return the showGlobeDemo
+    */
+   public boolean isShowGlobeDemo() {
+      return showGlobeDemo;
+   }
+
    public void setAperture(int aperture) {
       this.aperture = aperture;
    }
@@ -149,6 +158,14 @@ public class MandelbrotController implements Serializable {
     */
    public void setResolution(int resolution) {
       this.resolution = resolution;
+   }
+
+   /**
+    * @param showGlobeDemo
+    *           the showGlobeDemo to set
+    */
+   public void setShowGlobeDemo(boolean showGlobeDemo) {
+      this.showGlobeDemo = showGlobeDemo;
    }
 
    public void setxMax(double xMax) {

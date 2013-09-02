@@ -84,6 +84,22 @@ public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements Sy
    }
 
    /**
+    * Adds code updating the AngularJS model when the checkbox is clicked.
+    */
+   @Override
+   public String getOnchange() {
+      String updateAngularModel = "updateAngularModel('showGlobeDemo', this.checked);";
+      // TODO Auto-generated method stub
+      String original = super.getOnchange();
+      if (null == original) {
+         return updateAngularModel;
+      }
+      else {
+         return updateAngularModel + original;
+      }
+   }
+
+   /**
     * Add a label in front of the current component.
     */
    private void insertLabelBeforeThisInputField() {

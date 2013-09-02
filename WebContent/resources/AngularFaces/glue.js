@@ -7,18 +7,23 @@ function storeValues() {
 		var forms = document.forms;
 		for ( var f = 0; f < forms.length; f++) {
 			var elements = forms[f].elements;
-			
+
 			for ( var i = 0; i < elements.length; i++) {
 				var element = elements[i];
-				if (element.type == "text" || element.type == "number" || element.type == "select-one") {
+				if (element.type == "text" || element.type == "number" || element.type == "select-one"
+						|| element.type == "checkbox") {
 					console.log(element.id + "/" + element.value);
 					if (element.value && element.value != "") {
-						if (element.type == "select-one") {
+						if (element.type == "select-one" || element.type == "checkbox") {
 							// PrimeFaces SelectOne componenents must not have a
 							// ng-model
 							// (they behave unpredicably if they have one)
 							var ngModel = element.id.replace("_input", "");
-							values[index] = element.value;
+							if (element.type == "checkbox") {
+								values[index] = element.checked;
+							} else {
+								values[index] = element.value;
+							}
 							models[index] = ngModel;
 							inputFields[index] = element;
 							index++;
@@ -52,7 +57,7 @@ function restoreValues() {
 			$scope.$apply(function() {
 				var assignment = "$scope." + model + "= " + value;
 				try {
-//					console.log(assignment);
+					// console.log(assignment);
 					eval(assignment);
 				} catch (e) {
 					// under certain circumstances, this exception occurs

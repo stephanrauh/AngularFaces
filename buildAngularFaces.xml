@@ -9,6 +9,7 @@
 		<jar destfile="dist/AngularFaces.jar" >
 			<fileset dir="WebContent/WEB-INF/classes" includes="de/beyondjava/jsfComponents/**" />
 			<fileset dir="WebContent/WEB-INF/classes" includes="**/*.xml" />
+			<fileset dir="WebContent" includes="/resources/AngularFaces/**"  />
 		</jar>
 	</target>
 </project>

@@ -1,17 +1,4 @@
-var container;
-
-var camera, scene, renderer;
-
-var mesh;
-
-var mouseX = 0, mouseY = 0;
-
-var windowHalfX = window.innerWidth / 2;
-var windowHalfY = window.innerHeight / 2;
-var counter = 0;
-var stopAnimation = true;
-
-document.getElementById('mandelbrot').innerHTML += '<br />3-d rendering on the client...';
+document.getElementById('mandelbrot').innerHTML += 'done.<br />3-d rendering on the client...';
 window.setTimeout('init(80, 256, 4);animate();', 60);
 
 function init(aperture, resolution, quality) {

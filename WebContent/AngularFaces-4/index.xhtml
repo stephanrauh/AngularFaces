@@ -6,13 +6,17 @@
   <a:body ng-app="mandelbrotApp" ng-controller="mandelbrotController">
     <div class="ui-outputlabel ui-widget" style="font-size: 13px">This is a 3-D version of the mandelbrot set
       using the Three.js library (http://threejs.org/). The demo requires a modern browser with WebGL support and a
-      graphics accellerator card. During my tests, Google Chrome 28+ performed well, Firefox 23+ worked a little slower
+      graphics accelerator card. During my tests, Google Chrome 28+ performed well, Firefox 23+ worked a little slower
       and Safari 5.1.7 required patience. Internet Explorer won't work until version 11. iOS devices don't work either
       (they support WebGL only for advertisement).</div>
 
 
     <h:form ng:name="myform">
-      <h:panelGrid columns="6">
+      <h:panelGrid columns="4">
+        <a:selectBooleanCheckbox value="#{mandelbrotController.showGlobeDemo}" />
+      <prime:outputLabel value="(deselect this check box to see the mandelbrot set as plane)" ng:ng-show="showGlobeDemo" />
+      </h:panelGrid>
+      <h:panelGrid columns="6" styleClass="xx{{showGlobeDemo}}" ng:ng-show="!showGlobeDemo">
         <a:inputText value="#{mandelbrotController.xMin}" />
         <a:inputText value="#{mandelbrotController.xMax}" />
         <a:inputText value="#{mandelbrotController.yMin}" />
@@ -22,7 +26,7 @@
         <h:outputText />
         <h:outputText />
 
-        <a:selectOneMenu value="#{mandelbrotController.quality}" >
+        <a:selectOneMenu value="#{mandelbrotController.quality}">
           <f:selectItem itemLabel="fast" itemValue="1" />
           <f:selectItem itemLabel="mediocre" itemValue="2" />
           <f:selectItem itemLabel="good" itemValue="3" />
@@ -51,11 +55,10 @@
       </div>
     </h:form>
     <div id="mandelbrot">calculating data on the server...</div>
-    <script type="text/javascript" src="three.js">
-				</script>
-    <script type="text/javascript" src="drawMandelbrot.js">
-					
-				</script>
+    <script type="text/javascript" src="three.js"></script>
+    <script type="text/javascript" src="common.js"></script>
+
+    <script type="text/javascript" src="drawMandelbrotGlobe.js"></script>
 
   </a:body>
 </f:view>
