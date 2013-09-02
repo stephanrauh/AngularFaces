@@ -1,5 +1,9 @@
-init();
-animate();
+function activateGlobeDemo() {
+	stopAnimationPlane = true;
+	stopAnimation = false;
+	init();
+	animate();
+}
 
 function init() {
 
@@ -60,22 +64,12 @@ function init() {
 	renderer = new THREE.CanvasRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
-	container.innerHTML="";
+	container.innerHTML = "";
 	container.appendChild(renderer.domElement);
 
 	document.addEventListener('mousemove', onDocumentMouseMove, false);
 	window.addEventListener('resize', onWindowResize, false);
 
-}
-
-function onWindowResize() {
-	windowHalfX = window.innerWidth / 2;
-	windowHalfY = window.innerHeight / 2;
-
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-
-	renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function onDocumentMouseMove(event) {
@@ -84,7 +78,9 @@ function onDocumentMouseMove(event) {
 }
 
 function animate() {
-	requestAnimationFrame(animate);
+	if (!stopAnimation) {
+		requestAnimationFrame(animate);
+	}
 	render();
 }
 

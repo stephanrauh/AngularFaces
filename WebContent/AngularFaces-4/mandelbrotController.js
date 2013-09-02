@@ -15,6 +15,14 @@ function mandelbrotController($scope) {
 			}
 		}
 	});
+	$scope.$watch('showGlobeDemo', function() {
+		if ($scope.showGlobeDemo) {
+			activateGlobeDemo();
+		} else {
+			activatePlaneDemo();
+		}
+	});
+
 }
 
 var app = angular.module('mandelbrotApp', []);
