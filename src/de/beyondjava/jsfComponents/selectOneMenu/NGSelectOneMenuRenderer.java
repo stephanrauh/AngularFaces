@@ -27,39 +27,15 @@ import de.beyondjava.jsfComponents.common.*;
 @FacesRenderer(componentFamily = "org.primefaces.component", rendererType = "de.beyondjava.SelectOneMenu")
 public class NGSelectOneMenuRenderer extends SelectOneMenuRenderer {
 	/** add the ng-model attribute to the sub-component representing the select-one box */
-	@Override
-	protected void encodeInput(FacesContext context, SelectOneMenu menu,
-			String clientId, List<SelectItem> selectItems, Object values,
-			Object submittedValues, Converter converter) throws IOException {
-		ResponseWriter writer = context.getResponseWriter();
-
-		String inputId = clientId + "_input";
-
-		writer.startElement("div", menu);
-
-		writer.writeAttribute("class", "ui-helper-hidden-accessible", null);
-
-		writer.startElement("select", menu);
-
-		String ngModel;
-		ngModel = ELTools.getNGModel(menu);
-		writer.writeAttribute("ng-model", ngModel, null);
-
-		writer.writeAttribute("id", inputId, "id");
-
-		writer.writeAttribute("name", inputId, null);
-
-		if (menu.getOnchange() != null)
-			writer.writeAttribute("onchange", menu.getOnchange(), null);
-
-		if (menu.isDisabled())
-			writer.writeAttribute("disabled", "disabled", null);
-
-		encodeSelectItems(context, menu, selectItems, values, submittedValues,
-				converter);
-
-		writer.endElement("select");
-
-		writer.endElement("div");
-	}
+//	@Override
+//	public void encodeEnd(FacesContext context, UIComponent component)
+//			throws IOException {
+//		super.encodeEnd(context, component);
+//	      ResponseWriter writer = context.getResponseWriter();
+//	      NGSelectOneMenu combobox = (NGSelectOneMenu) component;
+//	      String initValue = combobox.getNotificationJS();
+//	      writer.append("\r\n");
+//	      writer.append("  <script>\r\n " + initValue + "\r\n</script>");
+//	      writer.append("\r\n");
+//	}
 }

@@ -185,15 +185,21 @@ public class NGSelectOneMenu extends
 	 */
 	@Override
 	public String getOnchange() {
-		String ngModel;
-		ngModel = ELTools.getNGModel(this);
-		String notification = "updateAngularModel('" + ngModel
-				+ "', this.value)";
+		String notification = getNotificationJS();
 		String original = super.getOnchange();
 		if (null == original || original.length() == 0) {
 			return notification;
 		}
-		return notification + ";" + original;
+		return notification +  original;
+	}
+
+	String getNotificationJS() {
+		String ngModel;
+		ngModel = ELTools.getNGModel(this);
+		String widgetVar = getWidgetVar();
+		String notification = "updateAngularModel('" + ngModel
+				+ "', PrimeFaces.widgets." + widgetVar + ".getSelectedValue());";
+		return notification;
 	}
 
 	/**
