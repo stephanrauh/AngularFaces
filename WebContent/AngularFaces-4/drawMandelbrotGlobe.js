@@ -8,8 +8,8 @@ function activateGlobeDemo() {
 function init() {
 
 	container = document.getElementById('mandelbrot');
-
-	camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
+	var ratio = window.innerWidth / (window.innerHeight);
+	camera = new THREE.PerspectiveCamera(60, ratio, 1, 2000);
 	camera.position.z = 500;
 
 	scene = new THREE.Scene();
@@ -62,7 +62,8 @@ function init() {
 	group.add(mesh);
 
 	renderer = new THREE.CanvasRenderer();
-	renderer.setSize(window.innerWidth, window.innerHeight);
+	
+	renderer.setSize(window.innerWidth*(window.innerHeight-300)/(window.innerHeight), (window.innerHeight-300));
 
 	container.innerHTML = "";
 	container.appendChild(renderer.domElement);

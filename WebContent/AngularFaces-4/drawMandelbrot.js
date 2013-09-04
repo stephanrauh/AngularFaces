@@ -11,7 +11,7 @@ function initPlane(aperture, resolution, quality) {
 	container = document.getElementById('mandelbrot');
 	console.log(aperture);
 
-	camera = new THREE.PerspectiveCamera(aperture, window.innerWidth / window.innerHeight, 1, 10000);
+	camera = new THREE.PerspectiveCamera(aperture, window.innerWidth / (window.innerHeight-300), 1, 10000);
 	camera.position.z = 500;
 	camera.position.x = 0;
 	camera.position.y = 1000;
@@ -46,7 +46,7 @@ function initPlane(aperture, resolution, quality) {
 	scene.add(mesh);
 
 	renderer = new THREE.CanvasRenderer();
-	renderer.setSize(window.innerWidth, window.innerHeight);
+	renderer.setSize(window.innerWidth*(window.innerHeight-300)/(window.innerHeight), (window.innerHeight-300));
 
 	container.innerHTML = "";
 
