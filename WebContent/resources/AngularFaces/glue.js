@@ -12,7 +12,7 @@ function storeValues() {
 				var element = elements[i];
 				if (element.type == "text" || element.type == "number" || element.type == "select-one"
 						|| element.type == "checkbox") {
-					console.log(element.id + "/" + element.value);
+//					console.log(element.id + "/" + element.value);
 					if (element.value && element.value != "") {
 						if (element.type == "select-one" || element.type == "checkbox") {
 							// PrimeFaces SelectOne componenents must not have a
