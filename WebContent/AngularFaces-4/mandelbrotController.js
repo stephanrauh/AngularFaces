@@ -1,3 +1,5 @@
+needsServer=false;
+
 function mandelbrotController($scope) {
 	$scope.$watch('resolution', function() {
 		if ($scope.resolution >= 512) {

@@ -72,14 +72,14 @@ public class NGCommandButton extends CommandButton {
 		String suppressServerRequest = null;
 		if (getAttributes().containsKey("suppressServerRequest"))
 			suppressServerRequest = (String) getAttributes().get(
-					"requiresServerAction");
+					"suppressServerRequest");
 		if (suppressServerRequest == null) { suppressServerRequest="false";}
 			String ngFunction = null;
 			if (getAttributes().containsKey("ng-function")) {
 				ngFunction = (String) getAttributes().get("ng-function");
 				if (!ngFunction.contains("(")) {
 					ngFunction += "()";
-				}
+			}
 			}
 			String angularFunction = "";
 			if (null != ngFunction && ngFunction.length() > 0)
