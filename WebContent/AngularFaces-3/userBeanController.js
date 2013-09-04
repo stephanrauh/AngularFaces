@@ -4,6 +4,6 @@ function userBeanController($scope) {
 			alert("Howdy, " + name + "!");
 		else
 			alert("Howdy, Angular!");
-	}
+	};
 }
 var app = angular.module('userBeanApp', []);
