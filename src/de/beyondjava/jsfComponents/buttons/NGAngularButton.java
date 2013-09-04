@@ -31,22 +31,4 @@ public class NGAngularButton extends CommandButton {
       return s;
    }
 
-   @Override
-   public String getProcess() {
-      String processID = super.getProcess();
-      if (null == processID) {
-         processID = "@form";
-      }
-      return processID;
-   }
-
-   @Override
-   public String getUpdate() {
-      String updateID = super.getUpdate();
-      if (null == updateID) {
-         updateID = "@form";
-      }
-      return updateID;
-   }
-
 }

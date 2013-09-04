@@ -2,6 +2,7 @@ needsServer=false;
 
 function mandelbrotController($scope) {
 	$scope.$watch('resolution', function() {
+	    needsServer=true;
 		if ($scope.resolution >= 512) {
 			if ($scope.quality > 2) {
 				$scope.quality = 2;
@@ -24,8 +25,38 @@ function mandelbrotController($scope) {
 			activatePlaneDemo();
 		}
 	});
-
+	
+	$scope.$watch('xMin', function() {
+		needsServer=true;
+	});
+	$scope.$watch('xMax', function() {
+		needsServer=true;
+	});
+	$scope.$watch('yMin', function() {
+		needsServer=true;
+	});
+	$scope.$watch('yMax', function() {
+		needsServer=true;
+	});
+	
+	$scope.init = function()
+	{
+		needsServer=false;
+	}
+	
+	
+	$scope.clientAction = function() {
+	   if(needServer)
+	      document.getElementById('mandelbrot').innerHTML='calculating data on the server...';
+	   else	   
+		  initPlane($scope.aperture, $scope.resolution, $scope.quality);
+	};
 }
+
+function noServerActionRequired() {
+	return !needsServer;
+};
+
 
 var app = angular.module('mandelbrotApp', []);
 

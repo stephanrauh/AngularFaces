@@ -47,12 +47,12 @@ function storeValues() {
 }
 
 function restoreValues() {
+	var $scope = angular.element('body').scope();
 	for ( var i = 0; i < models.length; i++) {
 		var value = values[i];
 		var model = models[i];
 		var element = inputFields[i];
 		try {
-			var $scope = angular.element('body').scope();
 
 			$scope.$apply(function() {
 				var assignment = "$scope." + model + "= " + value;
@@ -71,6 +71,15 @@ function restoreValues() {
 		} catch (e) {
 			alert("Couldn't restore the field values. ngModel=" + model + " element=" + element + " Exception=" + e);
 		}
+	}
+	try
+	{
+		var code="if ($scope.init) $scope.init()";
+		eval(code);
+	}
+	catch (e)
+	{
+		console.log("couldn't call the scope's init method: "+ e);
 	}
 
 }
@@ -105,3 +114,4 @@ function reinitAngular(app) {
 function updateAngularModel(model, value) {
 	injectVariableIntoScope(model, value);
 }
+
