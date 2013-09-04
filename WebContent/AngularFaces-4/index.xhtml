@@ -46,8 +46,11 @@
         <h:outputText value="ng-model = {{resolution}}" />
 
         <a:commandButton value="draw" action="#{mandelbrotController.calculateAction}" update="@form @(.data)"
-          onclick="document.getElementById('mandelbrot').innerHTML='calculating data on the server...';"
-          oncomplete="document.getElementById('mandelbrot').innerHTML+='  3-d rendering on the client...'; window.setTimeout('initPlane({{aperture}}, {{resolution}}, {{quality}});',100)" />
+          oncomplete="document.getElementById('mandelbrot').innerHTML+='  3-d rendering on the client...'; window.setTimeout('initPlane({{aperture}}, {{resolution}}, {{quality}});',100)"
+          suppressServerRequest="noServerActionRequired()"
+          ng-function="clientAction"
+           />
+          
       </h:panelGrid>
       <div class="data">
         <script type="text/javascript">
