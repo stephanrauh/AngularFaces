@@ -42,11 +42,11 @@ function mandelbrotController($scope) {
 	$scope.init = function()
 	{
 		needsServer=false;
-	}
+	};
 	
 	
 	$scope.clientAction = function() {
-	   if(needServer)
+	   if(needsServer)
 	      document.getElementById('mandelbrot').innerHTML='calculating data on the server...';
 	   else	   
 		  initPlane($scope.aperture, $scope.resolution, $scope.quality);
