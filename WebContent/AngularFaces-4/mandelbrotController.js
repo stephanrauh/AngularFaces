@@ -1,11 +1,9 @@
 // This variable keeps track of changes requiring server side recalculations
-needsServer=false;
-
+needsServer = false;
 
 function mandelbrotController($scope) {
-	$scope.showGlobeDemo=true;
 	$scope.$watch('resolution', function() {
-	    needsServer=true;
+		needsServer = true;
 		if ($scope.resolution >= 512) {
 			if ($scope.quality > 2) {
 				$scope.quality = 2;
@@ -22,44 +20,45 @@ function mandelbrotController($scope) {
 		}
 	});
 	$scope.$watch('showGlobeDemo', function() {
-		if ($scope.showGlobeDemo) {
-			activateGlobeDemo();
-		} else {
-			activatePlaneDemo();
+		if ($scope.aperture) {
+			if ($scope.showGlobeDemo) {
+				activateGlobeDemo();
+			} else {
+				activatePlaneDemo($scope.aperture, $scope.resolution, $scope.quality);
+			}
+			// activatePlaneDemo(80, 256, 4);
 		}
 	});
-	
+
 	$scope.$watch('xMin', function() {
-		needsServer=true;
+		needsServer = true;
 	});
 	$scope.$watch('xMax', function() {
-		needsServer=true;
+		needsServer = true;
 	});
 	$scope.$watch('yMin', function() {
-		needsServer=true;
+		needsServer = true;
 	});
 	$scope.$watch('yMax', function() {
-		needsServer=true;
+		needsServer = true;
 	});
-	
-	$scope.init = function()
-	{
-		needsServer=false;
+
+	$scope.init = function() {
+		needsServer = false;
 	};
-	
-	
+
 	$scope.clientAction = function() {
-	   if(needsServer)
-	      document.getElementById('mandelbrot').innerHTML='calculating data on the server...';
-	   else	   
-		  initPlane($scope.aperture, $scope.resolution, $scope.quality);
+		if (needsServer) {
+			document.getElementById('mandelbrot').innerHTML = 'calculating data on the server...';
+			isAjaxCall = true;
+		} else
+			initPlane($scope.aperture, $scope.resolution, $scope.quality);
 	};
 }
 
 function noServerActionRequired() {
 	return !needsServer;
 };
-
 
 var app = angular.module('mandelbrotApp', []);
 

@@ -115,3 +115,22 @@ function updateAngularModel(model, value) {
 	injectVariableIntoScope(model, value);
 }
 
+function readVariableFromScope(model) {
+	var value;
+	try {
+		var $scope = angular.element('body').scope();
+
+		$scope.$apply(function() {
+			var assignment = "value = $scope." + model;
+			try {
+				eval(assignment);
+			} catch (e) {
+				console.log("AngularFaces apply Exception " + e + " " + assignment);
+			}
+		});
+	} catch (e) {
+		alert("Couldn't inject variable " + model + " into scope.\n" + value + "=" + value + "\n" + e);
+	}
+	return value;
+}
+

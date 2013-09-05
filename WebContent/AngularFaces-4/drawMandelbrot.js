@@ -1,17 +1,24 @@
-function activatePlaneDemo() {
+function activatePlaneDemo(aperture, resolution, quality) {
 	document.getElementById('mandelbrot').innerHTML += 'done.<br />3-d rendering on the client...';
-	window.setTimeout('initPlane(80, 256, 4);animatePlane();', 60);
+	window.setTimeout('initPlane(' + aperture + ', ' + resolution + ', ' + quality + ');animatePlane();', 60);
 	stopAnimation = false;
 }
 
 function initPlane(aperture, resolution, quality) {
+	if (aperture) {
+		// AJAX-request call initPlane without parameters, so they have to be read from $scope
+	} else {
+		aperture = readVariableFromScope("aperture");
+		resolution = readVariableFromScope("resolution");
+		quality = readVariableFromScope("quality");
+	}
 	quality = Math.pow(2, (5 - quality));
 	stopAnimation = true;
 	var start = new Date().getTime();
 	container = document.getElementById('mandelbrot');
 	console.log(aperture);
 
-	camera = new THREE.PerspectiveCamera(aperture, window.innerWidth / (window.innerHeight-300), 1, 10000);
+	camera = new THREE.PerspectiveCamera(aperture, window.innerWidth / (window.innerHeight - 300), 1, 10000);
 	camera.position.z = 500;
 	camera.position.x = 0;
 	camera.position.y = 1000;
@@ -46,7 +53,7 @@ function initPlane(aperture, resolution, quality) {
 	scene.add(mesh);
 
 	renderer = new THREE.CanvasRenderer();
-	renderer.setSize(window.innerWidth*(window.innerHeight-300)/(window.innerHeight), (window.innerHeight-300));
+	renderer.setSize(window.innerWidth * (window.innerHeight - 300) / (window.innerHeight), (window.innerHeight - 300));
 
 	container.innerHTML = "";
 
