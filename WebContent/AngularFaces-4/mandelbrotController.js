@@ -1,4 +1,6 @@
+// This variable keeps track of changes requiring server side recalculations
 needsServer=false;
+
 
 function mandelbrotController($scope) {
 	$scope.showGlobeDemo=true;
