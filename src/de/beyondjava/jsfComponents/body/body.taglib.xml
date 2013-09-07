@@ -1,0 +1,23 @@
+	<tag>
+		<description>
+        	This is an html body tag activating the AngularJS framework.
+         </description>
+		<tag-name>body</tag-name>
+		<component>
+			<component-type>de.beyondjava.Body</component-type>
+			<renderer-type>de.beyondjava.Body</renderer-type>
+		</component>
+		<attribute>
+			<description><![CDATA[Optional: name of the AngularJS application.]]></description>
+			<name>ng-app</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Name of the AngularJS controller class.]]></description>
+			<name>ng-controller</name>
+			<required>true</required>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+	

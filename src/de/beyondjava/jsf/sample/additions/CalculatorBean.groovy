@@ -16,6 +16,12 @@ public class CalculatorBean implements Serializable {
    @NotNull
    int number2 = 65
 
+   @Max(100L)
+   @Min(10L)
+   @NotNull
+   int number3 = 33
+
+
    int result = 0
 
    public String add() {

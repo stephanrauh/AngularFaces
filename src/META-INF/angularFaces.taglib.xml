@@ -5,20 +5,100 @@
 	<namespace>http://beyondjava.net/angularFaces</namespace>
 
 	<tag>
-		<tag-name>inputSpinner</tag-name>
+		<description><![CDATA[NGSync synchronizes JSF bean attributes with the Angular Models and vice versa.]]></description>
+		<tag-name>sync</tag-name>
 		<component>
-			<component-type>de.beyondjava.InputText</component-type>
-			<renderer-type>de.beyondjava.InputText</renderer-type>
+			<component-type>de.beyondjava.Sync</component-type>
+			<renderer-type>de.beyondjava.Sync</renderer-type>
 		</component>
 		<attribute>
+			<description><![CDATA[Unique identifier of the component in a namingContainer.]]></description>
 			<name>id</name>
+			<required>false</required>
 			<type>java.lang.String</type>
 		</attribute>
 		<attribute>
-			<name>value</name>
+			<description><![CDATA[Boolean value to specify the rendering of the component, when set to false component will not be rendered.]]></description>
+			<name>rendered</name>
+			<required>false</required>
+			<type>java.lang.Boolean</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[An actionlistener to process when command is executed.]]></description>
+			<name>actionListener</name>
+			<required>false</required>
+			<type>javax.faces.event.ActionListener</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[A method expression or a string outcome to process when command is executed.]]></description>
+			<name>action</name>
+			<required>false</required>
+			<type>javax.el.MethodExpression</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Name of the command.]]></description>
+			<name>name</name>
+			<required>false</required>
 			<type>java.lang.String</type>
 		</attribute>
+		<attribute>
+			<description><![CDATA[Component(s) to update with ajax.]]></description>
+			<name>update</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript handler to execute before ajax request is begins.]]></description>
+			<name>onstart</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript handler to execute when ajax request is completed.]]></description>
+			<name>oncomplete</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript handler to execute when ajax request fails.]]></description>
+			<name>onerror</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Javascript handler to execute when ajax request succeeds.]]></description>
+			<name>onsuccess</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Global ajax requests are listened by ajaxStatus component, setting global to false will not trigger ajaxStatus.]]></description>
+			<name>global</name>
+			<required>false</required>
+			<type>java.lang.Boolean</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[When set to true, ajax requests are not queued.]]></description>
+			<name>async</name>
+			<required>false</required>
+			<type>java.lang.Boolean</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[When set to true, command will be invoked on page load.]]></description>
+			<name>autoRun</name>
+			<required>false</required>
+			<type>java.lang.Boolean</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[When enabled, only values related to partially processed components would be serialized for ajax 
+            instead of whole form.]]></description>
+			<name>partialSubmit</name>
+			<required>false</required>
+			<type>java.lang.Boolean</type>
+		</attribute>
 	</tag>
+	
+
 	<tag>
 		<description><![CDATA[InputText is an extension to standard inputText with skinning capabilities.]]></description>
 		<tag-name>inputText</tag-name>
