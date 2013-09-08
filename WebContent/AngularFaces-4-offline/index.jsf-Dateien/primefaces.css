@@ -556,7 +556,6 @@ ui-overlay-visible * {
 .ui-datatable tfoot td {
     padding: 4px 10px;
     overflow: hidden;
-    white-space: nowrap;
     border-width: 1px;
     border-style: solid;
 }
@@ -607,7 +606,8 @@ ui-overlay-visible * {
     height: 16px;
 }
 
-.ui-datatable-scrollable table {
+.ui-datatable-scrollable table,
+.ui-datatable-sticky table{
     table-layout: fixed;
 }
 
@@ -727,6 +727,12 @@ ui-overlay-visible * {
 .ui-datatable-resizable {
     padding-bottom:1px;     /*fix for webkit overlow*/
     overflow:auto;
+}
+
+.ui-datatable-resizable thead th,
+.ui-datatable-resizable tbody td,
+.ui-datatable-resizable tfoot td {
+    white-space: nowrap;
 }
 
 .ui-datatable-resizable table {
@@ -898,6 +904,12 @@ ui-overlay-visible * {
     margin-top: 4px;
 }
 
+.ui-selectmanycheckbox.ui-widget td,
+.ui-selectoneradio.ui-widget td {
+    border: 0 none;
+}
+
+/** RadioButton **/
 .ui-radiobutton {
     margin: 3px 0;
     width: 16px;
@@ -1214,7 +1226,7 @@ button.ui-button::-moz-focus-inner {
 .ui-selectcheckboxmenu-header .ui-selectcheckboxmenu-filter-container {
     float: left;
     position: relative;
-    margin-right: 10px;
+    margin-left: 5px;
 }
 
 .ui-selectcheckboxmenu-header .ui-selectcheckboxmenu-filter-container .ui-icon{
@@ -1381,7 +1393,6 @@ div.ui-button, .ui-splitbutton {
 
 .ui-growl-message p {
 	font-weight: normal;
-    word-break: break-all;
 }
 .ui-inplace .ui-inplace-display {cursor: pointer;border:0px none !important;}
 .ui-inplace .ui-inplace-disabled {cursor: default;}
@@ -1444,6 +1455,7 @@ div.ui-button, .ui-splitbutton {
     width: 12.5em;
     padding:0.3em;
     position:relative;
+    outline: 0 none;
 }
 
 .ui-menu.ui-menu-dynamic {
@@ -2615,14 +2627,14 @@ div.ui-button, .ui-splitbutton {
 }
 .ui-tree {
     width: 300px;
+    position: relative;
 }
             
 .ui-tree .ui-tree-container {
-    height: 100%;
     margin: 0;
-    overflow: auto;
     padding: 3px;
     white-space: nowrap;
+    overflow: auto;
 }
 
 .ui-tree .ui-treenode-children {
@@ -2798,6 +2810,21 @@ div.ui-button, .ui-splitbutton {
 
 .ui-tree-draghelper.ui-state-highlight {
     background: none transparent;
+}
+
+.ui-tree .ui-tree-scrollertop,
+.ui-tree .ui-tree-scrollerbottom {
+    height: 10px;
+    width: 100%;
+    position: absolute;
+}
+
+.ui-tree .ui-tree-scrollertop {
+    top: 0;
+}
+
+.ui-tree .ui-tree-scrollerbottom {
+    bottom: 0;
 }
 .ui-treetable table {
 	border-collapse:collapse;

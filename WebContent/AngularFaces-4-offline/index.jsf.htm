@@ -1,46 +1,90 @@
 <html><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"><link type="text/css" rel="stylesheet" href="index.jsf-Dateien/theme.css"><link type="text/css" rel="stylesheet" href="index.jsf-Dateien/primefaces.css"><script type="text/javascript" src="index.jsf-Dateien/jquery.jsf%3bjsessionid=768AE7E03CC26DD6B3D6180071E570A0"></script><script type="text/javascript" src="index.jsf-Dateien/primefaces.jsf%3bjsessionid=768AE7E03CC26DD6B3D6180071E570A0"></script><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak{display:none;}ng\:form{display:block;}</style></head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><link type="text/css" rel="stylesheet" href="index.jsf-Dateien/theme.css"><link type="text/css" rel="stylesheet" href="index.jsf-Dateien/primefaces.css"><script type="text/javascript" src="index.jsf-Dateien/jquery.jsf%3bjsessionid=5638806F413605EE823BD45404A8D536"></script><script type="text/javascript" src="index.jsf-Dateien/primefaces.jsf%3bjsessionid=5638806F413605EE823BD45404A8D536"></script><script type="text/javascript" src="index.jsf-Dateien/jquery-plugins.jsf%3bjsessionid=5638806F413605EE823BD45404A8D536"></script><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak{display:none;}ng\:form{display:block;}</style></head>
 <body class="ng-scope" ng-app="mandelbrotApp" ng-controller="mandelbrotController" onload="restoreValues()">
 
-<script src="index.jsf-Dateien/glue.js"></script>
-<script src="index.jsf-Dateien/angular.js"></script>
+<script src="index.jsf-Dateien/angular.js">
+</script>
+<script src="index.jsf-Dateien/glue.js">
+</script>
 <script src="index.jsf-Dateien/mandelbrotController.js"></script>
 
-<div class="ui-outputlabel ui-widget">
-  This is a 3-D version of the mandelbrot set using the Three.js library (http://threejs.org/).
-  The demo requires a modern browser with WebGL support and a graphics accellerator card. During my tests, Google Chrome 28+ performed well,
-  Firefox 23+ worked a little slower and Safari 5.1.7 required patience. Internet Explorer won't work until version 11. iOS devices don't work either
-  (they support WebGL only for advertisement).
-  </div>
-    
-<form class="ng-pristine ng-valid ng-valid-required" id="j_idt4" method="post" action="/AngularFaces/experimental/3d/index.jsf;jsessionid=768AE7E03CC26DD6B3D6180071E570A0" enctype="application/x-www-form-urlencoded" name="myform">
+    <div class="ui-outputlabel ui-widget" style="font-size: 13px">This is a 3-D version of the mandelbrot set
+      using the Three.js library (http://threejs.org/). The demo requires a modern browser with WebGL support and a
+      graphics accelerator card. During my tests, Google Chrome 28+ performed well, Firefox 23+ worked a little slower
+      and Safari 5.1.7 required patience. Internet Explorer won't work until version 11. iOS devices don't work either
+      (they support WebGL only for advertisement).</div>
+<form class="ng-pristine ng-valid ng-valid-required" id="j_idt4" method="post" action="/AngularFaces/AngularFaces-4/index.jsf;jsessionid=5638806F413605EE823BD45404A8D536" enctype="application/x-www-form-urlencoded" name="myform">
 <input name="j_idt4" value="j_idt4" type="hidden">
 <table>
 <tbody>
 <tr>
-<td><label id="j_idt4:j_id3" class="ui-outputlabel ui-widget" for="xMin">x min<span class="ui-outputlabel-rfi">*</span></label></td>
-<td><input aria-multiline="false" aria-readonly="false" aria-disabled="false" role="textbox" id="xMin" name="xMin" value="-2" ng-model="xMin" max="5" min="-5" required="" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ng-pristine ng-valid-number ng-valid-max ng-valid-min ng-valid ng-valid-required" type="number"></td>
-<td><div ng-show="myform.xMin.$pristine" id="j_idt4:j_id4" aria-live="polite"></div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMin.$pristine &amp;&amp; myform.xMin.$error.number"> invalid number.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMin.$pristine &amp;&amp; myform.xMin.$error.min"> must be greater than or equal to -5.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMin.$pristine &amp;&amp; myform.xMin.$error.max"> must be less or equal to 5.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMin.$pristine &amp;&amp; myform.xMin.$error.required"> Value is required.</div></td>
-<td><label id="j_idt4:j_id5" class="ui-outputlabel ui-widget" for="xMax">x max<span class="ui-outputlabel-rfi">*</span></label></td>
-<td><input aria-multiline="false" aria-readonly="false" aria-disabled="false" role="textbox" id="xMax" name="xMax" value="1" ng-model="xMax" max="5" min="-5" required="" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ng-pristine ng-valid-number ng-valid-max ng-valid-min ng-valid ng-valid-required" type="number"></td>
-<td><div ng-show="myform.xMax.$pristine" id="j_idt4:j_id6" aria-live="polite"></div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMax.$pristine &amp;&amp; myform.xMax.$error.number"> invalid number.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMax.$pristine &amp;&amp; myform.xMax.$error.min"> must be greater than or equal to -5.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMax.$pristine &amp;&amp; myform.xMax.$error.max"> must be less or equal to 5.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMax.$pristine &amp;&amp; myform.xMax.$error.required"> Value is required.</div></td>
+<td><label id="j_idt4:j_id5" class="ui-outputlabel ui-widget" for="showGlobeDemo_input">show globe demo</label></td>
+<td><div id="showGlobeDemo" class="ui-chkbox ui-widget"><input id="showGlobeDemo_input" name="showGlobeDemo_input" checked="checked" onchange="updateAngularModel('showGlobeDemo', this.checked);" type="checkbox"></div></span></div></div></td>
+<td><div style="display: none;" ng-show="myform.showGlobeDemo.$pristine" id="j_idt4:j_id6" aria-live="polite"></div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.showGlobeDemo.$pristine &amp;&amp; myform.showGlobeDemo.$error.required"> Value is required.</div></td>
+<td><label style="" id="j_idt4:j_idt7" class="ui-outputlabel ui-widget" ng-show="showGlobeDemo">(deselect this check box to see the mandelbrot set as plane)</label></td>
 </tr>
-<tr>
-<td><label id="j_idt4:j_id7" class="ui-outputlabel ui-widget" for="yMin">y min<span class="ui-outputlabel-rfi">*</span></label></td>
-<td><input aria-multiline="false" aria-readonly="false" aria-disabled="false" role="textbox" id="yMin" name="yMin" value="-1" ng-model="yMin" max="5" min="-5" required="" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ng-pristine ng-valid-number ng-valid-max ng-valid-min ng-valid ng-valid-required" type="number"></td>
-<td><div ng-show="myform.yMin.$pristine" id="j_idt4:j_id8" aria-live="polite"></div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMin.$pristine &amp;&amp; myform.yMin.$error.number"> invalid number.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMin.$pristine &amp;&amp; myform.yMin.$error.min"> must be greater than or equal to -5.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMin.$pristine &amp;&amp; myform.yMin.$error.max"> must be less or equal to 5.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMin.$pristine &amp;&amp; myform.yMin.$error.required"> Value is required.</div></td>
-<td><label id="j_idt4:j_id9" class="ui-outputlabel ui-widget" for="yMax">y max<span class="ui-outputlabel-rfi">*</span></label></td>
-<td><input aria-multiline="false" aria-readonly="false" aria-disabled="false" role="textbox" id="yMax" name="yMax" value="1" ng-model="yMax" max="5" min="-5" required="" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ng-pristine ng-valid-number ng-valid-max ng-valid-min ng-valid ng-valid-required" type="number"></td>
-<td><div ng-show="myform.yMax.$pristine" id="j_idt4:j_id10" aria-live="polite"></div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMax.$pristine &amp;&amp; myform.yMax.$error.number"> invalid number.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMax.$pristine &amp;&amp; myform.yMax.$error.min"> must be greater than or equal to -5.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMax.$pristine &amp;&amp; myform.yMax.$error.max"> must be less or equal to 5.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMax.$pristine &amp;&amp; myform.yMax.$error.required"> Value is required.</div></td>
+</tbody>
+</table>
+<table style="" ng-show="showGlobeDemo">
+<tbody style="" ng-show="showGlobeDemo">
+<tr style="" ng-show="showGlobeDemo">
+<td style="" ng-show="showGlobeDemo">
+      BeyondJava.net - Mandelbrot sphere<br>based on <a href="http://threejs.org/" target="_blank">three.js</a> - earth demo
+      </td>
 </tr>
-<tr>
-<td><button aria-disabled="false" role="button" id="j_idt4:j_idt10" name="j_idt4:j_idt10" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onclick="PrimeFaces.ab({source:'j_idt4:j_idt10',process:'j_idt4',update:'j_idt4',oncomplete:function(xhr,status,args){reinitAngular('mandelbrotApp');}});return false;" ng-disabled="myform.$invalid" type="submit"><span class="ui-button-text ui-c">draw</span></button></td>
+</tbody>
+</table>
+<table style="display: none;" ng-show="!showGlobeDemo">
+<tbody style="display: none;" ng-show="!showGlobeDemo">
+<tr style="display: none;" ng-show="!showGlobeDemo">
+<td style="display: none;" ng-show="!showGlobeDemo"><label id="j_idt4:j_id7" class="ui-outputlabel ui-widget" for="xMin">x min<span class="ui-outputlabel-rfi">*</span></label></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><input aria-multiline="false" aria-readonly="false" aria-disabled="false" role="textbox" id="xMin" name="xMin" value="-2" ng-model="xMin" max="5" min="-5" required="" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ng-pristine ng-valid-number ng-valid-max ng-valid-min ng-valid ng-valid-required" type="number"></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><div ng-show="myform.xMin.$pristine" id="j_idt4:j_id8" aria-live="polite"></div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMin.$pristine &amp;&amp; myform.xMin.$error.number"> invalid number.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMin.$pristine &amp;&amp; myform.xMin.$error.min"> must be greater than or equal to -5.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMin.$pristine &amp;&amp; myform.xMin.$error.max"> must be less or equal to 5.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMin.$pristine &amp;&amp; myform.xMin.$error.required"> Value is required.</div></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><label id="j_idt4:j_id9" class="ui-outputlabel ui-widget" for="xMax">x max<span class="ui-outputlabel-rfi">*</span></label></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><input aria-multiline="false" aria-readonly="false" aria-disabled="false" role="textbox" id="xMax" name="xMax" value="1" ng-model="xMax" max="5" min="-5" required="" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ng-pristine ng-valid-number ng-valid-max ng-valid-min ng-valid ng-valid-required" type="number"></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><div ng-show="myform.xMax.$pristine" id="j_idt4:j_id10" aria-live="polite"></div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMax.$pristine &amp;&amp; myform.xMax.$error.number"> invalid number.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMax.$pristine &amp;&amp; myform.xMax.$error.min"> must be greater than or equal to -5.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMax.$pristine &amp;&amp; myform.xMax.$error.max"> must be less or equal to 5.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.xMax.$pristine &amp;&amp; myform.xMax.$error.required"> Value is required.</div></td>
+</tr>
+<tr style="display: none;" ng-show="!showGlobeDemo">
+<td style="display: none;" ng-show="!showGlobeDemo"><label id="j_idt4:j_id11" class="ui-outputlabel ui-widget" for="yMin">y min<span class="ui-outputlabel-rfi">*</span></label></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><input aria-multiline="false" aria-readonly="false" aria-disabled="false" role="textbox" id="yMin" name="yMin" value="-1" ng-model="yMin" max="1" min="-3" required="" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ng-pristine ng-valid-number ng-valid-max ng-valid-min ng-valid ng-valid-required" type="number"></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><div ng-show="myform.yMin.$pristine" id="j_idt4:j_id12" aria-live="polite"></div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMin.$pristine &amp;&amp; myform.yMin.$error.number"> invalid number.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMin.$pristine &amp;&amp; myform.yMin.$error.min"> must be greater than or equal to -3.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMin.$pristine &amp;&amp; myform.yMin.$error.max"> must be less or equal to 1.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMin.$pristine &amp;&amp; myform.yMin.$error.required"> Value is required.</div></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><label id="j_idt4:j_id13" class="ui-outputlabel ui-widget" for="yMax">y max<span class="ui-outputlabel-rfi">*</span></label></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><input aria-multiline="false" aria-readonly="false" aria-disabled="false" role="textbox" id="yMax" name="yMax" value="1" ng-model="yMax" max="3" min="-1" required="" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ng-pristine ng-valid-number ng-valid-max ng-valid-min ng-valid ng-valid-required" type="number"></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><div ng-show="myform.yMax.$pristine" id="j_idt4:j_id14" aria-live="polite"></div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMax.$pristine &amp;&amp; myform.yMax.$error.number"> invalid number.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMax.$pristine &amp;&amp; myform.yMax.$error.min"> must be greater than or equal to -1.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMax.$pristine &amp;&amp; myform.yMax.$error.max"> must be less or equal to 3.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.yMax.$pristine &amp;&amp; myform.yMax.$error.required"> Value is required.</div></td>
+</tr>
+<tr style="display: none;" ng-show="!showGlobeDemo">
+<td style="display: none;" ng-show="!showGlobeDemo"><label id="j_idt4:j_id15" class="ui-outputlabel ui-widget" for="aperture">aperture</label></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><input aria-multiline="false" aria-readonly="false" aria-disabled="false" role="textbox" id="aperture" name="aperture" value="80" ng-model="aperture" max="100" min="10" integer="" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ng-pristine ng-valid ng-valid-number ng-valid-max ng-valid-min" type="number"></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><div ng-show="myform.aperture.$pristine" id="j_idt4:j_id16" aria-live="polite"></div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.aperture.$pristine &amp;&amp; myform.aperture.$error.integer"> This is not an integer.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.aperture.$pristine &amp;&amp; myform.aperture.$error.number"> invalid number.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.aperture.$pristine &amp;&amp; myform.aperture.$error.min"> must be greater than or equal to 10.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.aperture.$pristine &amp;&amp; myform.aperture.$error.max"> must be less or equal to 100.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.aperture.$pristine &amp;&amp; myform.aperture.$error.required"> Value is required.</div></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><div aria-disabled="false" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="j_idt4:j_idt16" style="width:200px"><a style="left: 77.7778%;" class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div></td>
+<td style="display: none;" ng-show="!showGlobeDemo"></td>
+<td style="display: none;" ng-show="!showGlobeDemo"></td>
+</tr>
+<tr style="display: none;" ng-show="!showGlobeDemo">
+<td style="display: none;" ng-show="!showGlobeDemo"><label id="j_idt4:j_id17" class="ui-outputlabel ui-widget" for="quality_input">quality</label></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><div style="width: 104px;" id="quality" class="ui-selectonemenu ui-widget ui-state-default ui-corner-all ui-helper-clearfix"><div class="ui-helper-hidden"><select id="quality_input" name="quality_input"><option value="1">fast</option><option value="2">mediocre</option><option value="3">good</option><option value="4" selected="selected">superior</option></select></div><div class="ui-helper-hidden-accessible"><input id="quality_focus" name="quality_focus" type="text"></div><label style="width: 88px;" id="quality_label" class="ui-selectonemenu-label ui-inputfield ui-corner-all">superior</label><div class="ui-selectonemenu-trigger ui-state-default ui-corner-right"><span class="ui-icon ui-icon-triangle-1-s"></span></div></div></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><div style="display: none;" ng-show="myform.quality.$pristine" id="j_idt4:j_id18" aria-live="polite"></div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.quality.$pristine &amp;&amp; myform.quality.$error.integer"> This is not an integer.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.quality.$pristine &amp;&amp; myform.quality.$error.number"> invalid number.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.quality.$pristine &amp;&amp; myform.quality.$error.min"> must be greater than or equal to 1.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.quality.$pristine &amp;&amp; myform.quality.$error.max"> must be less or equal to 4.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.quality.$pristine &amp;&amp; myform.quality.$error.required"> Value is required.</div></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><div aria-disabled="false" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="j_idt4:j_idt24" style="width:200px"><a style="left: 100%;" class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div></td>
+<td style="display: none;" ng-show="!showGlobeDemo"></td>
+<td style="display: none;" class="ng-binding" ng-show="!showGlobeDemo">ng-model =  4</td>
+</tr>
+<tr style="display: none;" ng-show="!showGlobeDemo">
+<td style="display: none;" ng-show="!showGlobeDemo"><label id="j_idt4:j_id19" class="ui-outputlabel ui-widget" for="resolution">resolution</label></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><input aria-multiline="false" aria-readonly="false" aria-disabled="false" role="textbox" id="resolution" name="resolution" value="256" ng-model="resolution" max="1024" min="128" integer="" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ng-pristine ng-valid ng-valid-number ng-valid-max ng-valid-min" type="number"></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><div ng-show="myform.resolution.$pristine" id="j_idt4:j_id20" aria-live="polite"></div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.resolution.$pristine &amp;&amp; myform.resolution.$error.integer"> This is not an integer.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.resolution.$pristine &amp;&amp; myform.resolution.$error.number"> invalid number.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.resolution.$pristine &amp;&amp; myform.resolution.$error.min"> must be greater than or equal to 128.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.resolution.$pristine &amp;&amp; myform.resolution.$error.max"> must be less or equal to 1024.</div><div style="display: none;" class="ui-message-error ui-widget ui-corner-all" ng-show="!myform.resolution.$pristine &amp;&amp; myform.resolution.$error.required"> Value is required.</div></td>
+<td style="display: none;" ng-show="!showGlobeDemo"><div aria-disabled="false" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="j_idt4:j_idt28" style="width:200px"><a style="left: 14.2857%;" class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div></td>
+<td style="display: none;" ng-show="!showGlobeDemo"></td>
+<td style="display: none;" class="ng-binding" ng-show="!showGlobeDemo">ng-model = 256</td>
+</tr>
+<tr style="display: none;" ng-show="!showGlobeDemo">
+<td style="display: none;" ng-show="!showGlobeDemo"><button aria-disabled="false" role="button" id="j_idt4:j_idt31" name="j_idt4:j_idt31" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onclick="var $scope = angular.element('body').scope(); $scope.$apply(function() { $scope.clientAction(); });; if (noServerActionRequired()) return false;;PrimeFaces.ab({source:'j_idt4:j_idt31',process:'j_idt4',update:'j_idt4 @(.data)',oncomplete:function(xhr,status,args){reinitAngular('mandelbrotApp'); document.getElementById('mandelbrot').innerHTML+='  3-d rendering on the client...'; window.setTimeout('initPlane();',100);}});return false;" ng-disabled="myform.$invalid" type="submit"><span class="ui-button-text ui-c">draw</span></button></td>
 </tr>
 </tbody>
 </table>
 
-      <script type="text/javascript">
-					function generateHeight(width, height) {
+      <div class="data">
+        <script type="text/javascript">
+					function generateHeight() {
 						var data=[];
 var temp=[];
 temp = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
@@ -559,13 +603,14 @@ data = data.concat(temp);
 						return data;
 					}
 				</script>
-
-      <div id="mandelbrot"><canvas height="833" width="1280"></canvas></div>
-      <script type="text/javascript" src="index.jsf-Dateien/three.js">
-				</script>
-      <script type="text/javascript" src="index.jsf-Dateien/drawMandelbrot.js">
-					
-				</script><input name="javax.faces.ViewState" id="j_id1:javax.faces.ViewState:0" value="8664845846404822571:6207344087920335008" autocomplete="off" type="hidden">
+      </div><input name="javax.faces.ViewState" id="j_id1:javax.faces.ViewState:0" value="-5227345807607265336:-2534509391055746036" autocomplete="off" type="hidden">
 </form>
+    <div id="mandelbrot"><canvas height="533" width="819"></canvas></div>
+    <script type="text/javascript" src="index.jsf-Dateien/three.js"></script>
+    <script type="text/javascript" src="index.jsf-Dateien/common.js"></script>
+
+    <script type="text/javascript" src="index.jsf-Dateien/drawMandelbrotGlobe.js"></script>
+    <script type="text/javascript" src="index.jsf-Dateien/drawMandelbrot.js"></script>
+    <script type="text/javascript">activateGlobeDemo();</script>
   <script>storeValues();</script>
-</body></html>
+<div style="position: absolute; top: 0px; left: 0px; visibility: hidden;" id="textarea_simulator"></div><div style="width: 104px;" id="quality_panel" class="ui-selectonemenu-panel ui-widget-content ui-corner-all ui-helper-hidden ui-shadow"><div class="ui-selectonemenu-items-wrapper" style="height:auto"><ul class="ui-selectonemenu-items ui-selectonemenu-list ui-widget-content ui-widget ui-corner-all ui-helper-reset"><li class="ui-selectonemenu-item ui-selectonemenu-list-item ui-corner-all" data-label="fast">fast</li><li class="ui-selectonemenu-item ui-selectonemenu-list-item ui-corner-all" data-label="mediocre">mediocre</li><li class="ui-selectonemenu-item ui-selectonemenu-list-item ui-corner-all" data-label="good">good</li><li class="ui-selectonemenu-item ui-selectonemenu-list-item ui-corner-all ui-state-highlight" data-label="superior">superior</li></ul></div></div></body></html>
