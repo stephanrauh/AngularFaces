@@ -20,12 +20,15 @@ It can call an AngularJS model function prior to the request, and you can provid
 <li>&lt;a:dataTable&gt; This is the component I'm currently working on. At present, it's able to display simple data tables with AngularJS support. The table may contain editable fields.
 (<a target="demo" href="http://angularfaces-beyondjava.rhcloud.com/AngularFaces-5/index.jsf">demo</a>, <a target="description" href="http://www.beyondjava.net/blog/angularfaces-check-boxes-drop-menus-tables/">description</a>)</li>
 <li>&lt;a:slider&gt; The AngularFaces Slider component is a PrimeFaces Slider updating the Angular model when the slider is moved. It also reads the @Min and @Max annotations of the associated input field to get default values of the sliders range. Other than its PrimeFaces counterpart, a:slider can be combined with comboboxes provided they have numeric values.
-(<a target="demo" href="http://angularfaces-beyondjava.rhcloud.com/AngularFaces-4/index.jsf">demo</a>, <a target="description" href="http://www.beyondjava.net/blog/angularfaces-comboboxes-checkboxes-sliders-3d-graphics/">description</a>)<li>
-</ul> 
+(<a target="demo" href="http://angularfaces-beyondjava.rhcloud.com/AngularFaces-4/index.jsf">demo</a>, <a target="description" href="http://www.beyondjava.net/blog/angularfaces-comboboxes-checkboxes-sliders-3d-graphics/">description</a>)</li>
+</ul>
+
+On the Javascript side AngularFaces offers functions to re-initialize AngularJS after an AJAX or non-AJAX JSF request, to synchronize JSF components with the AngularJS model and to make it easier
+to read or write AngularJS model attributes from functions outside the AngularJS controller.  
 
 To learn more about AngularFaces, have a look at http://www.beyondjava.net/blog/angularfaces-jsf-beyond-ajax/.
 
-There's also a tiny tutorial on http://www.beyondjava.net/blog/started-angularfaces/.
+There's also a tiny tutorial on http://www.beyondjava.net/blog/started-angularfaces/ and the nucleus of a showcase at http://showcase.angularfaces.com.
 
 Legal disclaimer:
-This is a very early version. Nonetheless it may already be useful. Use at own risk.
+This is an early version. Nonetheless it may already be useful. Use at own risk.
