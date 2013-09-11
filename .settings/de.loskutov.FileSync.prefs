@@ -4,4 +4,6 @@ defaultVariables=
 eclipse.preferences.version=1
 includeTeamPrivateFiles=false
 map|0=WebContent|E\:/this/apache-tomcat-7.0.8/wtpwebapps/AngularFaces|,|,|,
+map|1=src/main/webapp|E\:/this/apache-tomcat-7.0.8/webapps/ROOT|,|,|,
+map|2=target/classes|E\:/this/apache-tomcat-7.0.8/webapps/ROOT/WEB-INF/classes|,|,|,
 useCurrentDateForDestinationFiles=false

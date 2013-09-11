@@ -1,0 +1,25 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/ui"
+  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://beyondjava.net/angularFaces"
+  xmlns:prime="http://primefaces.org/ui" locale="en-us">
+  <h:head />
+  <a:body ng-app="calculatorApp" ng-controller="calculatorController" >
+  This is a simple JSF form using angularized PrimeFaces &lt;a:inputTexts&gt; and an &lt;a:commandButton&gt;.<p />
+    <h:form ng:name="myform" >
+      <h:panelGrid columns="3">
+        <a:inputText label="first number" value="#{calculatorBean.number1}" />
+
+        <a:inputText label="second number" value="#{calculatorBean.number2}" />
+
+        <a:commandButton value="add" action="#{calculatorBean.add}" />
+        <h:outputText value="Angular's calculation: {{toString(number1)}} + {{toString(number2)}} = {{add()}}" />
+        <h:outputText />
+        <a:inputText label="JSF Result" value="#{calculatorBean.result}" />
+        <a:sync name="init3" value="#{calculatorBean.number3}" />
+        <h:outputText value="Number 3 = {{number3}}" />
+        
+      </h:panelGrid>
+    </h:form>
+    <h:messages />
+  </a:body>
+</f:view>
