@@ -1,0 +1,5 @@
+<script id="form:messages_s" type="text/javascript">
+$(function(){PrimeFaces.cw('Growl','widget_form_messages',
+{id:'form:messages',sticky:false,life:6000,escape:true,
+ msgs:[{summary:"must be less than or equal to 20000",detail:"must be less than or equal to 20000",severity:'error'}]});});
+</script>
