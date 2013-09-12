@@ -1,5 +1,6 @@
 <f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/ui"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:cui="http://java.sun.com/jsf/ui"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://beyondjava.net/angularFaces"
   xmlns:prime="http://primefaces.org/ui" locale="en-us">
   <h:head />
@@ -10,64 +11,78 @@
       and Safari 5.1.7 required patience. Internet Explorer won't work until version 11. iOS devices don't work either
       (they support WebGL only for advertisement).</div>
 
-
-    <h:form ng:name="myform">
-      <h:panelGrid columns="4">
-        <a:selectBooleanCheckbox value="#{mandelbrotController.showGlobeDemo}" />
-      <prime:outputLabel value="(deselect this check box to see the mandelbrot set as plane)" ng:ng-show="showGlobeDemo" />
-      </h:panelGrid>
-      <h:panelGrid columns="1"  ng:ng-show="showGlobeDemo">
+    <prime:tabView id="tabView">
+      <prime:tab title="live demo">
+        <h:form ng:name="myform">
+          <h:panelGrid columns="4">
+            <a:selectBooleanCheckbox value="#{mandelbrotController.showGlobeDemo}" />
+            <prime:outputLabel value="(deselect this check box to see the mandelbrot set as plane)"
+              ng:ng-show="showGlobeDemo" />
+          </h:panelGrid>
+          <h:panelGrid columns="1" ng:ng-show="showGlobeDemo">
       BeyondJava.net - Mandelbrot sphere<br />based on <a href='http://threejs.org' target='_blank'>three.js</a> - earth demo
       </h:panelGrid>
-      
-      <h:panelGrid columns="6" ng:ng-show="!showGlobeDemo">
-        <a:inputText value="#{mandelbrotController.xMin}" />
-        <a:inputText value="#{mandelbrotController.xMax}" />
-        <a:inputText value="#{mandelbrotController.yMin}" />
-        <a:inputText value="#{mandelbrotController.yMax}" />
-        <a:inputText value="#{mandelbrotController.aperture}" />
-        <a:slider for="aperture" style="width:200px" />
-        <h:outputText />
-        <h:outputText />
 
-        <a:selectOneMenu value="#{mandelbrotController.quality}">
-          <f:selectItem itemLabel="fast" itemValue="1" />
-          <f:selectItem itemLabel="mediocre" itemValue="2" />
-          <f:selectItem itemLabel="good" itemValue="3" />
-          <f:selectItem itemLabel="superior" itemValue="4" />
-        </a:selectOneMenu>
-        <a:slider for="quality" style="width:200px" minValue="1" maxValue="4" widgetVar="qualitySliderWidget" />
-        <h:outputText />
-        <h:outputText value="ng-model =  {{quality}}" />
+          <h:panelGrid columns="6" ng:ng-show="!showGlobeDemo">
+            <a:inputText value="#{mandelbrotController.xMin}" />
+            <a:inputText value="#{mandelbrotController.xMax}" />
+            <a:inputText value="#{mandelbrotController.yMin}" />
+            <a:inputText value="#{mandelbrotController.yMax}" />
+            <a:inputText value="#{mandelbrotController.aperture}" />
+            <a:slider for="aperture" style="width:200px" />
+            <h:outputText />
+            <h:outputText />
 
-        <a:inputText value="#{mandelbrotController.resolution}" />
-        <a:slider for="resolution" style="width:200px" step="16" />
-        <h:outputText />
-        <h:outputText value="ng-model = {{resolution}}" />
+            <a:selectOneMenu value="#{mandelbrotController.quality}">
+              <f:selectItem itemLabel="fast" itemValue="1" />
+              <f:selectItem itemLabel="mediocre" itemValue="2" />
+              <f:selectItem itemLabel="good" itemValue="3" />
+              <f:selectItem itemLabel="superior" itemValue="4" />
+            </a:selectOneMenu>
+            <a:slider for="quality" style="width:200px" minValue="1" maxValue="4" widgetVar="qualitySliderWidget" />
+            <h:outputText />
+            <h:outputText value="ng-model =  {{quality}}" />
 
-        <a:commandButton value="draw" action="#{mandelbrotController.calculateAction}" update="@form @(.data)"
-          oncomplete="document.getElementById('mandelbrot').innerHTML+='  3-d rendering on the client...'; window.setTimeout('initPlane();',100)"
-          suppressServerRequest="noServerActionRequired()"
-          ng-function="clientAction"
-           />
-          
-      </h:panelGrid>
-      <div class="data">
-        <script type="text/javascript">
+            <a:inputText value="#{mandelbrotController.resolution}" />
+            <a:slider for="resolution" style="width:200px" step="16" />
+            <h:outputText />
+            <h:outputText value="ng-model = {{resolution}}" />
+
+            <a:commandButton value="draw" action="#{mandelbrotController.calculateAction}" update="@form @(.data)"
+              oncomplete="document.getElementById('mandelbrot').innerHTML+='  3-d rendering on the client...'; window.setTimeout('initPlane();',100)"
+              suppressServerRequest="noServerActionRequired()" ng-function="clientAction" />
+
+          </h:panelGrid>
+          <div class="data">
+            <script type="text/javascript">
 					function generateHeight() {
 						#{mandelbrotController.mandelbrotSetAsString}
 						return data;
 					}
 				</script>
-      </div>
-    </h:form>
-    <div id="mandelbrot">calculating data on the server...</div>
-    <script type="text/javascript" src="three.js"></script>
-    <script type="text/javascript" src="common.js"></script>
+          </div>
+        </h:form>
+        <div id="mandelbrot">calculating data on the server...</div>
+        <script type="text/javascript" src="three.js"></script>
+        <script type="text/javascript" src="common.js"></script>
 
-    <script type="text/javascript" src="drawMandelbrotGlobe.js"></script>
-    <script type="text/javascript" src="drawMandelbrot.js"></script>
-    <script type="text/javascript">activateGlobeDemo();</script>
-
+        <script type="text/javascript" src="drawMandelbrotGlobe.js"></script>
+        <script type="text/javascript" src="drawMandelbrot.js"></script>
+        <script type="text/javascript">activateGlobeDemo();</script>
+      </prime:tab>
+      <prime:tab title="XHTML code">
+        <ui:include src="code.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="AngularJS model">
+        <ui:include src="codemodel.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="JSF Bean">
+        <ui:include src="codebean.xhtml">
+        </ui:include>
+      </prime:tab>
+    </prime:tabView>
   </a:body>
+
 </f:view>
