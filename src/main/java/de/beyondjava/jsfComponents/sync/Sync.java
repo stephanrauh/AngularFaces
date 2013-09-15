@@ -79,7 +79,7 @@ public class Sync extends UICommand implements org.primefaces.component.api.Ajax
 
    @Override
    public java.lang.String getUpdate() {
-      return (java.lang.String) getStateHelper().eval(PropertyKeys.update, null);
+      return "@this";
    }
 
    @Override
@@ -179,4 +179,5 @@ public class Sync extends UICommand implements org.primefaces.component.api.Ajax
    public void setUpdate(java.lang.String _update) {
       getStateHelper().put(PropertyKeys.update, _update);
    }
+
 }

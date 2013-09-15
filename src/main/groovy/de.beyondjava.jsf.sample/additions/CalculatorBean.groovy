@@ -28,4 +28,9 @@ public class CalculatorBean implements Serializable {
       result = number1 + number2
       return null
    }
+
+   public int getNumber3() {
+      number3++
+      return number3
+   }
 }

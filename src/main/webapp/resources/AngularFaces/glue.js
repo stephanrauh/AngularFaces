@@ -1,3 +1,16 @@
+syncPullFunctions = new Array();
+syncPushFunctions = new Array();
+
+function addSyncPullFunction(f) {
+	var len = syncPullFunctions.length;
+	syncPullFunctions[len] = f;
+}
+
+function addSyncPushFunction(f) {
+	var len = syncPushFunctions.length;
+	syncPushFunctions[len] = f;
+}
+
 function storeValues() {
 	values = new Array();
 	models = new Array();
@@ -82,7 +95,10 @@ function restoreValues() {
 	} catch (e) {
 		console.log("couldn't call the scope's init method: " + e);
 	}
-
+	
+	for ( var i = 0; i < syncPullFunctions.length; i++) {
+		syncPullFunctions[i]();
+	}
 }
 
 function injectVariableIntoScope(model, value) {
@@ -106,6 +122,9 @@ function injectVariableIntoScope(model, value) {
 }
 
 function reinitAngular(app) {
+	for ( var i = 0; i < syncPushFunctions.length; i++) {
+		syncPushFunctions[i]();
+	}
 
 	storeValues();
 	angular.bootstrap(document, [ app ]);
