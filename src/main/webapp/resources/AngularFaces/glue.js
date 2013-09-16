@@ -24,7 +24,7 @@ function storeValues() {
 			for ( var i = 0; i < elements.length; i++) {
 				var element = elements[i];
 				if (element.type == "text" || element.type == "number" || element.type == "select-one"
-						|| element.type == "checkbox") {
+					|| element.type == "checkbox"|| element.type == "hidden") {
 					// console.log(element.id + "/" + element.value);
 					if (element.value && element.value != "") {
 						if (element.type == "select-one" || element.type == "checkbox") {

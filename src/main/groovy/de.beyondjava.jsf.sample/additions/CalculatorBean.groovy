@@ -33,4 +33,9 @@ public class CalculatorBean implements Serializable {
       number3++
       return number3
    }
+
+   public void setNumber3(int i) {
+      number3=i
+      println "Setter"
+   }
 }
