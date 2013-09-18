@@ -1,18 +1,30 @@
 package de.beyondjava.jsfComponents.common;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
+import java.lang.reflect.*;
 import java.util.*;
 
 import javax.el.*;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.beanutils.BeanUtilsBean2;
+
 public class ELTools {
    private static Map<String, NGBeanAttributeInfo> beanAttributeInfos = new HashMap<>();
 
    /** Caching */
    private static Map<String, Field> fields = new HashMap<>();
+   /** Caching */
+   private static Map<String, List<String>> propertyLists = new HashMap<>();
+
+   public static ValueExpression createValueExpression(String p_expression) {
+      FacesContext context = FacesContext.getCurrentInstance();
+      ExpressionFactory expressionFactory = context.getApplication().getExpressionFactory();
+      ELContext elContext = context.getELContext();
+      ValueExpression vex = expressionFactory.createValueExpression(elContext, p_expression, Object.class);
+      return vex;
+   }
 
    /**
     * Evaluates an EL expression into an object.
@@ -64,6 +76,60 @@ public class ELTools {
          return model;
       }
       return null;
+   }
+
+   /**
+    * Returns a list of String denoting every primitively typed property of a
+    * certain bean.
+    * 
+    * @param p_expression
+    *           The EL expression describing the bean. The EL expression is
+    *           passed without the leading "#{" and the trailing brace "}".
+    * @param p_recursive
+    *           if true, the list also contains properties of nested beans.
+    * @return a list of strings consisting of EL expressions without the leading
+    *         "#{" and the trailing brace "}".
+    */
+   public static List<String> getEveryProperty(String p_expression, boolean p_recursive) {
+      synchronized (propertyLists) {
+         if (propertyLists.containsKey(p_expression)) {
+            return propertyLists.get(p_expression);
+         }
+      }
+
+      Object container = evalAsObject("#{" + p_expression + "}");
+
+      Class<? extends Object> c = container == null ? null : container.getClass();
+      List<String> propertyNames = new ArrayList<>();
+      if (isPrimitive(c)) {
+         propertyNames.add(p_expression);
+      }
+      else {
+         try {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> description = BeanUtilsBean2.getInstance().describe(container);
+            for (String o : description.keySet()) {
+               if (isPrimitive(description.get(o).getClass())) {
+                  propertyNames.add(o);
+               }
+               else if (p_recursive) {
+                  List<String> nested = getEveryProperty(p_expression + "." + o, p_recursive);
+                  for (String n : nested) {
+                     propertyNames.add(o + "." + n);
+                  }
+               }
+            }
+            synchronized (propertyLists) {
+               propertyLists.put(p_expression, propertyNames);
+            }
+         }
+         catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            // todo replace by a logger
+            System.out.println("Couldn't read property list of " + p_expression);
+            e.printStackTrace();
+         }
+      }
+      return propertyNames;
    }
 
    private static Field getField(String p_expression) {
@@ -143,6 +209,19 @@ public class ELTools {
    public static boolean hasValueExpression(UIComponent component) {
       ValueExpression valueExpression = component.getValueExpression("value");
       return null != valueExpression;
+   }
+
+   /**
+    * Is the parameter passed a primitive type (such as int, long, etc) or a
+    * type considered primitive by most programmers (such as String)?
+    * 
+    * @param c
+    * @return true if c is a de-facto-primitive
+    */
+   private static boolean isPrimitive(Class<? extends Object> c) {
+      return (null == c) || (String.class == c) || c.isPrimitive() || (Integer.class == c) || (Long.class == c)
+            || (Short.class == c) || (Byte.class == c) || (Character.class == c) || (Float.class == c)
+            || (Double.class == c) || (Void.class == c) || (Boolean.class == c);
    }
 
    /**
