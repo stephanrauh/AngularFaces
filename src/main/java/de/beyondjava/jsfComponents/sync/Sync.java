@@ -36,17 +36,6 @@ public class Sync extends org.primefaces.component.inputtext.InputText implement
 
    @Override
    public void decode(FacesContext context) {
-      // Map<String, String> params =
-      // context.getExternalContext().getRequestParameterMap();
-      // List<String> everyProperty =
-      // ELTools.getEveryProperty(ELTools.getCoreValueExpression(this), false);
-      // for (String property : everyProperty) {
-      //
-      // String id = (getClientId() + property).replace(".", "").replace(":",
-      // "");
-      // String value = params.get(id);
-      // setSubmittedValue(value);
-      // }
    }
 
    @Override
