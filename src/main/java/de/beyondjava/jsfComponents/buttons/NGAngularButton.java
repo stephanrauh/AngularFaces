@@ -31,4 +31,9 @@ public class NGAngularButton extends CommandButton {
       return s;
    }
 
+   @Override
+   public String getType() {
+      return "button";
+   }
+
 }
