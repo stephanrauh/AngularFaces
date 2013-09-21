@@ -3,9 +3,13 @@
  */
 package de.beyondjava.jsfComponents.buttons;
 
+import javax.el.MethodExpression;
 import javax.faces.component.*;
+import javax.faces.event.ActionListener;
 
 import org.primefaces.component.commandbutton.CommandButton;
+
+import de.beyondjava.jsfComponents.common.NGWordUtiltites;
 
 /**
  * Enhanced PrimeFaces button with AngularJS support.
@@ -100,4 +104,35 @@ public class NGCommandButton extends CommandButton {
       return updateID;
    }
 
+   /**
+    * if no label is provided by the XHTML file, try to guess it from the
+    * ng-model attribute.
+    */
+   @Override
+   public Object getValue() {
+      Object label = super.getValue();
+      if (null != label) {
+         return label;
+      }
+      MethodExpression actionExpression = getActionExpression();
+      if (null == actionExpression) {
+         ActionListener[] actionListeners = getActionListeners();
+         if ((null != actionListeners) && (actionListeners.length > 0)) {
+            String a = actionListeners[0].toString();
+            a = a.replace("#{", "").replace("}", "");
+            int pos = (a.lastIndexOf('.'));
+            if (pos > 0) {
+               a = a.substring(pos);
+            }
+            return NGWordUtiltites.labelFromCamelCase(a);
+         }
+      }
+      String a = actionExpression.getExpressionString();
+      a = a.replace("#{", "").replace("}", "");
+      int pos = (a.lastIndexOf('.'));
+      if (pos > 0) {
+         a = a.substring(pos + 1);
+      }
+      return NGWordUtiltites.labelFromCamelCase(a);
+   }
 }

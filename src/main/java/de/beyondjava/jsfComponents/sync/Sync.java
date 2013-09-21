@@ -6,7 +6,7 @@ import java.util.List;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.component.*;
-import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.context.FacesContext;
 import javax.faces.event.*;
 
@@ -75,7 +75,8 @@ public class Sync extends org.primefaces.component.inputtext.InputText implement
          int beanNameIndex = rootProperty.lastIndexOf('.');
          List<String> everyProperty = ELTools.getEveryProperty(rootProperty, false);
          for (String property : everyProperty) {
-            HtmlInputText sychronizingHiddenInput = (HtmlInputText) app.createComponent("javax.faces.HtmlInputText");
+            HtmlInputHidden sychronizingHiddenInput = (HtmlInputHidden) app
+                  .createComponent("javax.faces.HtmlInputHidden");
             ValueExpression valueExpression = ELTools.createValueExpression("#{" + property + "}");
             sychronizingHiddenInput.setValueExpression("value", valueExpression);
             sychronizingHiddenInput.setId((getClientId() + property).replace(".", "").replace(":", ""));

@@ -109,9 +109,17 @@ public class ELTools {
             @SuppressWarnings("unchecked")
             Map<String, Object> description = BeanUtilsBean2.getInstance().describe(container);
             for (String o : description.keySet()) {
-               if (isPrimitive(description.get(o).getClass())) {
+               Object object = description.get(o);
+               if (object == null) {
+                  // might be an array
+               }
+               else if (o.equals("class")) {
+                  continue;
+               }
+               else if (isPrimitive(object.getClass())) {
                   propertyNames.add(o);
                }
+
                else if (p_recursive) {
                   List<String> nested = getEveryProperty(p_expression + "." + o, p_recursive);
                   for (String n : nested) {
@@ -219,9 +227,9 @@ public class ELTools {
     * @return true if c is a de-facto-primitive
     */
    private static boolean isPrimitive(Class<? extends Object> c) {
-      return (null == c) || (String.class == c) || c.isPrimitive() || (Integer.class == c) || (Long.class == c)
-            || (Short.class == c) || (Byte.class == c) || (Character.class == c) || (Float.class == c)
-            || (Double.class == c) || (Void.class == c) || (Boolean.class == c);
+      return (null == c) || (Class.class == c) || (String.class == c) || c.isPrimitive() || (Integer.class == c)
+            || (Long.class == c) || (Short.class == c) || (Byte.class == c) || (Character.class == c)
+            || (Float.class == c) || (Double.class == c) || (Void.class == c) || (Boolean.class == c);
    }
 
    /**
