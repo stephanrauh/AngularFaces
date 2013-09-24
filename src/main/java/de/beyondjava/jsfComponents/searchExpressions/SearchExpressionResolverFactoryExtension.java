@@ -20,11 +20,7 @@ public class SearchExpressionResolverFactoryExtension {
             mapping.put("@aNext", new NextExpressionResolver());
             mapping.put("@aPrevious", new PreviousExpressionResolver());
          }
-         catch (NoSuchFieldException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-         }
-         catch (SecurityException e) {
+         catch (NoSuchFieldException | SecurityException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
          }
