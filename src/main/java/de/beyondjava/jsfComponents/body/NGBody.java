@@ -2,6 +2,8 @@ package de.beyondjava.jsfComponents.body;
 
 import javax.faces.component.*;
 
+import de.beyondjava.jsfComponents.searchExpressions.SearchExpressionResolverFactoryExtension;
+
 /**
  * This is an AngularJS-enabled html body tag.
  * 
@@ -10,7 +12,11 @@ import javax.faces.component.*;
  */
 @FacesComponent("de.beyondjava.Body")
 public class NGBody extends UIComponentBase {
+
    public static final String COMPONENT_FAMILY = "de.beyondjava.angularFaces.body";
+   static {
+      SearchExpressionResolverFactoryExtension.init();
+   }
 
    @Override
    public String getFamily() {

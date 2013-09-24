@@ -126,6 +126,8 @@ li {
 </style>
   </h:head>
   <a:body ng-app="calculatorApp" ng-controller="calculatorController">
+  <div id="mandelbrot" style="width:200px;height:200px;float:left; margin:0 15px 0 0;"><img src="AngularFaces-4/MandelbrotEarth1.png" width="100%" height="100%" />
+  </div>
   The AngularFaces project aims to combine the expressiveness of JSF with the simplicity and power of AngularJS.
     <h:form ng:name="myform">
     <ul>
@@ -139,5 +141,11 @@ li {
     </ul>
     </h:form>
     <h:messages />
+    <script type="text/javascript" src="AngularFaces-4/three.js"></script>
+    <script type="text/javascript" src="AngularFaces-4/common.js"></script>
+    <script type="text/javascript" src="AngularFaces-4/drawMandelbrotGlobe.js"></script>
+    <script type="text/javascript">if(navigator.userAgent.match(/Chrome/i)) {activateGlobeDemo();}if(navigator.userAgent.match(/Firefox/i)) {activateGlobeDemo();}
+    </script>
+    
   </a:body>
 </f:view>

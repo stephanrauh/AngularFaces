@@ -7,16 +7,17 @@
   <ui:composition>
   <script type="syntaxhighlighter" class="brush: xml;toolbar: false">
     <![CDATA[
-  <h:body >
-    <h:form ng:name="myform" >
-      <h:panelGrid columns="3">
-		<h:outputLabel for="@ngNext" value="first number">
-        <h:inputText value="&#35;{calculatorBean.number1}" />
-		<h:message for="@ngPrevious" />
-      </h:panelGrid>
+  <a:body >
+    <h:form ng:name="myform">
+       <h:panelGrid columns="3">
+          <prime:outputLabel for="@aNext" value="small number (less than 10)" />
+          <prime:inputText value="#{smallNumberBean.smallNumber}" required="true" />
+          <prime:message for="@aPrevious" />
+          <prime:commandButton value="validate" action="#35;{smallNumberBean.showErrors}" />
+       </h:panelGrid>
     </h:form>
     <h:messages />
-  </h:body>
+  </a:body>
 ]]></script>
 
     <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />

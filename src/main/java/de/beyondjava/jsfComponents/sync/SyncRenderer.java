@@ -1,12 +1,18 @@
 package de.beyondjava.jsfComponents.sync;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.*;
 import javax.faces.render.FacesRenderer;
+import javax.validation.ValidationException;
 
-import de.beyondjava.jsfComponents.common.*;
+import org.apache.commons.beanutils.BeanUtils;
+
+import de.beyondjava.jsfComponents.common.ELTools;
 
 /**
  * Add AngularJS behaviour to a standard Primefaces InputText.
@@ -16,50 +22,88 @@ import de.beyondjava.jsfComponents.common.*;
  */
 @FacesRenderer(componentFamily = "org.primefaces.component", rendererType = "de.beyondjava.Sync")
 public class SyncRenderer extends org.primefaces.component.inputtext.InputTextRenderer {
+
+   private final String SEPARATOR = "³³³";
+
    /*
     * (non-Javadoc)
     * 
     * @see
-    * javax.faces.render.Renderer#encodeBegin(javax.faces.context.FacesContext,
-    * javax.faces.component.UIComponent)
+    * org.primefaces.component.inputtext.InputTextRenderer#decode(javax.faces
+    * .context.FacesContext, javax.faces.component.UIComponent)
     */
+   @Override
+   public void decode(FacesContext context, UIComponent component) {
+      String direction = (String) component.getAttributes().get("direction");
+      if ((null == direction) || "both".equals(direction) || "clientToServer".equals(direction)) {
+
+         String rootProperty = ELTools.getCoreValueExpression(component);
+
+         Map<String, String> parameterMap = context.getExternalContext().getRequestParameterMap();
+         String json = parameterMap.get(component.getClientId());
+         String[] assignments = json.split(SEPARATOR);
+         List<String> everyProperty = ELTools.getEveryProperty(rootProperty, false);
+         Object rootBean = ELTools.evalAsObject("#{" + rootProperty + "}");
+         int index = 0;
+         for (String property : everyProperty) {
+            int pos = assignments[index].indexOf("=");
+            String valueAsString = assignments[index].substring(pos + 1);
+            String clientProperty = assignments[index].substring(0, pos);
+            if (!clientProperty.equals(property)) {
+               throw new ValidationException("Hacking detected");
+            }
+            try {
+               BeanUtils.setProperty(rootBean, property, valueAsString);
+            }
+            catch (IllegalAccessException | InvocationTargetException e) {
+               // TODO Auto-generated catch block
+               e.printStackTrace();
+               throw new ValidationException("Couldn't assign property " + property);
+            }
+            index++;
+         }
+
+      }
+   }
+
    @Override
    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-      // TODO Auto-generated method stub
-      // super.encodeBegin(context, component);
-   }
-
-   /*
-    * (non-Javadoc)
-    * 
-    * @see
-    * javax.faces.render.Renderer#encodeChildren(javax.faces.context.FacesContext
-    * , javax.faces.component.UIComponent)
-    */
-   @Override
-   public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
-      // TODO Auto-generated method stub
-      // super.encodeChildren(context, component);
-   }
-
-   @Override
-   public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-   }
-
-   /**
-    * Renders ng-model, min, max, integer and required according to the bean
-    * attribute's properties.
-    */
-   @Override
-   protected void renderPassThruAttributes(FacesContext context, UIComponent component, String[] attrs)
-         throws IOException {
-      super.renderPassThruAttributes(context, component, attrs);
       ResponseWriter writer = context.getResponseWriter();
+      writer.append("\r\n\r\n\r\n");
+      String direction = (String) component.getAttributes().get("direction");
+      if ((null == direction) || "serverToClient".equals(direction) || "both".equals(direction)) {
+         writer.append("<script type='text/javascript>\r\n");
+         writer.append("function getModelValuesFromServer()\r\n {\r\n");
+         String rootProperty = ELTools.getCoreValueExpression(component);
+         List<String> everyProperty = ELTools.getEveryProperty(rootProperty, false);
+         for (String property : everyProperty) {
+            String value = ELTools.evalAsString("#{" + rootProperty + "." + property + "}");
+            String line = "   injectVariableIntoScope('" + property + "', '" + value + "');\r\n";
+            writer.append(line);
+         }
+         writer.append("}\r\n");
+         writer.append("</script>\r\n");
+      }
+      writer.append("\r\n\r\n\r\n");
+      if ((null == direction) || "both".equals(direction) || "clientToServer".equals(direction)) {
 
-      NGUIComponentInfo info = NGUIComponentTools.getInfo(context, component);
-      String model = info.getNGModel();
-      writer.writeAttribute("ng-model", model, "ng-model");
+         String rootProperty = ELTools.getCoreValueExpression(component);
+         List<String> everyProperty = ELTools.getEveryProperty(rootProperty, false);
+         String assignments = "";
+         for (String property : everyProperty) {
+            String line = property + "={{" + property + "}}";
+            if (assignments.length() > 0) {
+               assignments += SEPARATOR;
+            }
+            assignments += line;
+         }
+         ELTools.getArrayProperties(rootProperty, false);
 
-   };
+         ValueExpression ve = ELTools.createValueExpression(assignments);
+         component.setValueExpression("value", ve);
+         super.encodeBegin(context, component);
+      }
+      writer.append("\r\n\r\n\r\n");
+   }
 
 }

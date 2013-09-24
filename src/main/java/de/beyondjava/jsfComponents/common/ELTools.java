@@ -56,6 +56,55 @@ public class ELTools {
       return result;
    }
 
+   /**
+    * Returns a list of String denoting every primitively typed property of a
+    * certain bean.
+    * 
+    * @param p_expression
+    *           The EL expression describing the bean. The EL expression is
+    *           passed without the leading "#{" and the trailing brace "}".
+    * @param p_recursive
+    *           if true, the list also contains properties of nested beans.
+    * @return a list of strings consisting of EL expressions without the leading
+    *         "#{" and the trailing brace "}".
+    */
+   public static List<String> getArrayProperties(String p_expression, boolean p_recursive) {
+      Object container = evalAsObject("#{" + p_expression + "}");
+
+      Class<? extends Object> c = container == null ? null : container.getClass();
+      List<String> propertyNames = new ArrayList<>();
+      if (isPrimitive(c)) {
+         propertyNames.add(p_expression);
+      }
+      else {
+         try {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> description = BeanUtilsBean2.getInstance().describe(container);
+            for (String o : description.keySet()) {
+               Object object = description.get(o);
+               if (object == null) {
+                  String getter = "get" + o.substring(0, 1).toUpperCase() + o.substring(1);
+                  Method method = container.getClass().getMethod(getter);
+                  if (null != method) {
+                     Object property = method.invoke(container);
+                     if (null != property) {
+                        if (property instanceof List) {
+                           System.out.println("List");
+                        }
+                     }
+                  }
+               }
+            }
+         }
+         catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            // todo replace by a logger
+            System.out.println("Couldn't read property list of " + p_expression);
+            e.printStackTrace();
+         }
+      }
+      return propertyNames;
+   }
+
    public static NGBeanAttributeInfo getBeanAttributeInfos(UIComponent c) {
       String core = getCoreValueExpression(c);
       synchronized (beanAttributeInfos) {

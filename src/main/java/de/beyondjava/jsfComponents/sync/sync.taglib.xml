@@ -6,6 +6,13 @@
 			<renderer-type>de.beyondjava.Sync</renderer-type>
 		</component>
 		<attribute>
+			<description><![CDATA[This attribute has three legal values: serverToClient means server values are pushed to the client. clientToServer means client values are pushed to the server. both means client are server are synchronized during each request.]]></description>
+			<name>direction</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		
+		<attribute>
 			<description><![CDATA[Unique identifier of the component in a namingContainer.]]></description>
 			<name>id</name>
 			<required>false</required>
