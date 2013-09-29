@@ -16,18 +16,11 @@ import org.primefaces.expression.SearchExpressionResolver;
  * 
  */
 
-public class PreviousExpressionResolver implements SearchExpressionResolver {
+public class LastExpressionResolver implements SearchExpressionResolver {
    @Override
    public UIComponent resolve(UIComponent source, UIComponent last, String expression) {
       final UIComponent parent = last.getParent();
-      UIComponent previous = null;
       List<UIComponent> children = parent.getChildren();
-      for (UIComponent c : children) {
-         if (c == source) {
-            return previous;
-         }
-         previous = c;
-      }
-      return null;
+      return children.get(children.size() - 1);
    }
 }

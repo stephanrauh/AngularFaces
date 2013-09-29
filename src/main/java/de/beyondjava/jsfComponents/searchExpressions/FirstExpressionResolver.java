@@ -15,20 +15,11 @@ import org.primefaces.expression.SearchExpressionResolver;
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
-public class NextExpressionResolver implements SearchExpressionResolver {
+public class FirstExpressionResolver implements SearchExpressionResolver {
    @Override
    public UIComponent resolve(UIComponent source, UIComponent last, String expression) {
       final UIComponent parent = last.getParent();
-      boolean selectNextOne = false;
       List<UIComponent> children = parent.getChildren();
-      for (UIComponent c : children) {
-         if (selectNextOne) {
-            return c;
-         }
-         if (c == source) {
-            selectNextOne = true;
-         }
-      }
-      return null;
+      return children.get(0);
    }
 }

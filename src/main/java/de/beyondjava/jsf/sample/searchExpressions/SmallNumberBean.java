@@ -14,16 +14,26 @@ import javax.validation.constraints.*;
 @ManagedBean
 @ViewScoped
 public class SmallNumberBean {
-   @NotNull
-   @Max(10)
-   @Size(min = 1, max = 1)
-   private double smallNumber = 10000;
+   @Max(value = 100l)
+   private int rating = 50;
 
-   public double getSmallNumber() {
+   @Max(value = 10l)
+   @Size(min = 1, max = 1)
+   private int smallNumber = 10000;
+
+   public int getRating() {
+      return rating;
+   }
+
+   public int getSmallNumber() {
       return smallNumber;
    }
 
-   public void setSmallNumber(double smallNumber) {
+   public void setRating(int rating) {
+      this.rating = rating;
+   }
+
+   public void setSmallNumber(int smallNumber) {
       this.smallNumber = smallNumber;
    }
 
