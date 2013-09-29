@@ -11,24 +11,25 @@
       <prime:tabView>
       <prime:tab title="live demo">
         <h:form ng:name="myform">
-          <prime:panel header="@next, @previous and @parent">
+          <prime:panel header="@next, @previous and @parent:@parent">
             <h:panelGrid columns="3">
               <prime:outputLabel for="@next" value="small number (less than 10)" />
               <prime:inputText value="#{smallNumberBean.smallNumber}" required="true" label="small number">
                 <prime:clientValidator event="keyup" />
               </prime:inputText>
               <prime:message for="@previous" />
-              <h:outputText
-                value="Error messages are generated as you type. You can also force server-side validation by pushing the button." />
+              <prime:commandButton validateClient="true" value="validate"
+                action="#{smallNumberBean.showErrors}" update="@parent:@parent" />
+              <h:outputText value="" />
+              <h:outputText value="Client validation error messages are generated as you type." />
             </h:panelGrid>
-            <prime:commandButton validateClient="true" value="server side validate"
-              action="#{smallNumberBean.showErrors}" update="@parent" />
           </prime:panel>
+          <prime:spacer height="20px" />
           <prime:panel header="@first">
             <h:panelGrid columns="1">
+              <prime:outputLabel value="On a scale form 1 to 100, how much do you like this demo?" for="@first:@next:@next" />
+              <prime:slider for="@last" min="0" max="100" />
               <prime:inputText value="#{smallNumberBean.rating}" required="true" label="rating" />
-              <prime:slider for="@first" min="0" max="100" />
-              <prime:outputLabel value="On a scale form 1 to 100, how much do you like this demo?" for="@first" />
             </h:panelGrid>
           </prime:panel>
         </h:form>
@@ -36,7 +37,7 @@
         <br />
         <br />
         <h:outputText
-          value="Besides demonstrating @next, @previous and @last the example also demonstrates PrimeFaces' new client validation API." />
+          value="Besides demonstrating @next, @previous, @parent and @last the example also demonstrates PrimeFaces' new client validation API." />
         <br />
       </prime:tab>
       <prime:tab title="XHTML code">

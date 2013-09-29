@@ -8,28 +8,29 @@
     <script type="syntaxhighlighter" class="brush: xml;toolbar: false">
     <![CDATA[
    <a:body ng-app="loanCalculatorApp" ng-controller="loanCalculatorController">
-     <h:form ng:name="myform">
-        <prime:panel header="@next, @previous and @parent">
-          <h:panelGrid columns="3">
-            <prime:outputLabel for="@next" value="small number (less than 10)" />
-            <prime:inputText value="&#35;{smallNumberBean.smallNumber}" required="true" label="small number">
-              <prime:clientValidator event="keyup" />
-            </prime:inputText>
-            <prime:message for="@previous" />
-            <h:outputText
-              value="Error messages are generated as you type. You can also force server-side validation by pushing the button." />
-          </h:panelGrid>
-          <prime:commandButton validateClient="true" value="server side validate"
-            action="&#35;{smallNumberBean.showErrors}" update="@parent" />
-        </prime:panel>
-        <prime:panel header="@first">
-          <h:panelGrid columns="1">
-            <prime:inputText value="&#35;{smallNumberBean.rating}" required="true" label="rating" />
-            <prime:slider for="@first" min="0" max="100" />
-            <prime:outputLabel value="On a scale form 1 to 100, how much do you like this demo?" for="@first" />
-          </h:panelGrid>
-        </prime:panel>
-     </h:form>
+        <h:form ng:name="myform">
+          <prime:panel header="@next, @previous and @parent:@parent">
+            <h:panelGrid columns="3">
+              <prime:outputLabel for="@next" value="small number (less than 10)" />
+              <prime:inputText value="&#35;{smallNumberBean.smallNumber}" required="true" label="small number">
+                <prime:clientValidator event="keyup" />
+              </prime:inputText>
+              <prime:message for="@previous" />
+              <prime:commandButton validateClient="true" value="validate"
+                action="&#35;{smallNumberBean.showErrors}" update="@parent:@parent" />
+              <h:outputText value="" />
+              <h:outputText value="Client validation error messages are generated as you type." />
+            </h:panelGrid>
+          </prime:panel>
+          <prime:spacer height="20px" />
+          <prime:panel header="@first">
+            <h:panelGrid columns="1">
+              <prime:outputLabel value="On a scale form 1 to 100, how much do you like this demo?" for="@first:@next:@next" />
+              <prime:slider for="@last" min="0" max="100" />
+              <prime:inputText value="&#35;{smallNumberBean.rating}" required="true" label="rating" />
+            </h:panelGrid>
+          </prime:panel>
+        </h:form>
      <h:messages />
   </a:body>
 ]]></script>
