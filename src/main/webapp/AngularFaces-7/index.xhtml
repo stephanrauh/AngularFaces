@@ -1,53 +1,17 @@
 <f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
-  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://beyondjava.net/angularFaces"
-  xmlns:prime="http://primefaces.org/ui" locale="en-us">
+  xmlns:h="http://java.sun.com/jsf/html" 
+  
+  xmlns:prime="http://primefaces.org/ui" >
   <h:head />
-  <a:body ng-app="loanCalculatorApp" ng-controller="loanCalculatorController">
-  This example shows you how to use AngularFaces' extended SearchExpression.<br />
-  Both label and error message are linked to the input field without an ID, but with for="@aNext" and for="@aPrevious", respectively.<br />
-  Note this could also be achieved by an even more simple a:inputText. The advantage of the search expressions can be used
-  everywhere, not only with labels and messages.
-      <prime:tabView>
-      <prime:tab title="live demo">
-        <h:form ng:name="myform">
-          <prime:panel header="@next, @previous and @parent:@parent">
+  <h:body >
+        <h:form >
             <h:panelGrid columns="3">
               <prime:outputLabel for="@next" value="small number (less than 10)" />
-              <prime:inputText value="#{smallNumberBean.smallNumber}" required="true" label="small number">
-                <prime:clientValidator event="keyup" />
-              </prime:inputText>
+              <prime:inputText value="#{smallNumberBean.smallNumber}" required="true" label="small number" />
               <prime:message for="@previous" />
               <prime:commandButton validateClient="true" value="validate"
                 action="#{smallNumberBean.showErrors}" update="@parent:@parent" />
-              <h:outputText value="" />
-              <h:outputText value="Client validation error messages are generated as you type." />
             </h:panelGrid>
-          </prime:panel>
-          <prime:spacer height="20px" />
-          <prime:panel header="@first, @last and @first:@next:@next">
-            <h:panelGrid columns="1">
-              <prime:outputLabel value="On a scale form 1 to 100, how much do you like this demo?" for="@first:@next:@next" />
-              <prime:slider for="@last" min="0" max="100" />
-              <prime:inputText value="#{smallNumberBean.rating}" required="true" label="rating" />
-            </h:panelGrid>
-          </prime:panel>
-        </h:form>
-        <h:messages />
-        <br />
-        <br />
-        <h:outputText
-          value="Besides demonstrating @next, @previous, @parent and @last the example also demonstrates PrimeFaces' new client validation API." />
-        <br />
-      </prime:tab>
-      <prime:tab title="XHTML code">
-        <ui:include src="code.xhtml">
-        </ui:include>
-      </prime:tab>
-      <prime:tab title="JSF Bean">
-        <ui:include src="codebean.xhtml">
-        </ui:include>
-      </prime:tab>
-    </prime:tabView>
-  </a:body>
+          </h:form>
+  </h:body>
 </f:view>
