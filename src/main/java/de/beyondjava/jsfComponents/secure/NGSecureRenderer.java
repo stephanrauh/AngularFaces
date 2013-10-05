@@ -1,7 +1,6 @@
 package de.beyondjava.jsfComponents.secure;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -23,51 +22,6 @@ public class NGSecureRenderer extends InputTextRenderer {
     */
    @Override
    public void decode(FacesContext context, UIComponent component) {
-      Map<String, String> parameterMap = context.getExternalContext().getRequestParameterMap();
-      String token = parameterMap.get(component.getClientId());
-      String originalToken = ((NGSecure) component).getSecurityToken();
-      if ((token == null) || (!(token.equals(originalToken)))) {
-         try {
-            context.getExternalContext().responseReset();
-            context.getExternalContext().responseSendError(500, "internal error");
-            throw new IllegalAccessError("Security breach - user tried to send a request twice");
-         }
-         catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
-
-      String checkedBy = ((NGSecure) component).getCheckedBy();
-      NGSecurityFilter filter = new NGDefaultSecurityFilter();
-
-      if (null != checkedBy) {
-         try {
-            Class<?> clazz = Class.forName(checkedBy);
-            filter = (NGSecurityFilter) clazz.newInstance();
-         }
-         catch (ClassNotFoundException e) {
-            // error is treated in encodeBegin()
-         }
-         catch (InstantiationException e) {
-            // error is treated in encodeBegin()
-         }
-         catch (IllegalAccessException e) {
-            // error is treated in encodeBegin()
-         }
-      }
-
-      for (String key : parameterMap.keySet()) {
-         String value = parameterMap.get(key);
-         if (!filter.checkParameter(key, value)) {
-            try {
-               context.getExternalContext().responseReset();
-               context.getExternalContext().responseSendError(500, "internal error");
-               throw new IllegalAccessError("Security breach - user input violated a filter rule");
-            }
-            catch (IOException e) {
-            }
-         }
-      }
 
       super.decode(context, component);
    }
@@ -81,10 +35,15 @@ public class NGSecureRenderer extends InputTextRenderer {
       long timer = System.nanoTime();
       long random = (long) (Math.random() * Integer.MAX_VALUE);
       long token = timer ^ random;
-      ((NGSecure) component).setSecurityToken(String.valueOf(token));
+      NGSecureUtilities.setSecurityToken(String.valueOf(token), component.getClientId());
       super.encodeBegin(context, component);
 
-      String checkedBy = ((NGSecure) component).getCheckedBy();
+      NGSecurityFilter filter = findAndVerifySecurityFilter(context, component);
+      showLegalDisclaimer(context, filter);
+   }
+
+   private NGSecurityFilter findAndVerifySecurityFilter(FacesContext context, UIComponent component) throws IOException {
+      String checkedBy = (String) component.getAttributes().get("checkedBy");
       NGSecurityFilter filter = new NGDefaultSecurityFilter();
 
       if (null != checkedBy) {
@@ -93,22 +52,27 @@ public class NGSecureRenderer extends InputTextRenderer {
             filter = (NGSecurityFilter) clazz.newInstance();
          }
          catch (ClassNotFoundException e) {
-            context.getResponseWriter().append("<div>Security class filter not found</div>");
+            context.getResponseWriter().append("<div style='color:#F00'>Configuration error: security class filter not found</div>");
          }
          catch (InstantiationException e) {
-            context.getResponseWriter().append("<div>Security class filter could not be instantiated</div>");
+            context.getResponseWriter().append(
+                  "<div style='color:#F00'>Configuration error: security class filter could not be instantiated</div>");
          }
          catch (IllegalAccessException e) {
-            context.getResponseWriter()
-                  .append("<div>Security class filter has been forbidden to be instantiated</div>");
+            context.getResponseWriter().append(
+                  "<div style='color:#F00'>Configuration error: security class filter has been forbidden to be instantiated</div>");
          }
+         NGSecureUtilities.setCheckedBy(filter);
       }
+      return filter;
+   }
+
+   private void showLegalDisclaimer(FacesContext context, NGSecurityFilter filter) throws IOException {
       if (filter.getClass() == NGDefaultSecurityFilter.class) {
          context
                .getResponseWriter()
                .append(
-                     "<div>This application is protected by AngularFaces default security. This may be better than no protection, but it must not be used in a production environment.</div>");
+                     "<div style='color:#F00'>Warning: This application is only protected by AngularFaces default security.<br /> This may be better than no protection, but it must not be used in a production environment.</div>");
       }
-
    }
 }

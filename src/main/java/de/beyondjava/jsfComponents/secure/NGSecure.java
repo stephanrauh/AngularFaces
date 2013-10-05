@@ -1,6 +1,8 @@
 package de.beyondjava.jsfComponents.secure;
 
-import javax.faces.component.FacesComponent;
+import javax.faces.component.*;
+import javax.faces.context.FacesContext;
+import javax.faces.event.*;
 
 import org.primefaces.component.inputtext.InputText;
 
@@ -11,39 +13,19 @@ import org.primefaces.component.inputtext.InputText;
  * 
  */
 @FacesComponent("de.beyondjava.Secure")
-public class NGSecure extends InputText {
-
-   protected enum PropertyKeys {
-      checkedBy, securityToken;
-
-      String toString;
-
-      PropertyKeys() {
-      }
-
-      PropertyKeys(String toString) {
-         this.toString = toString;
-      }
-
-      @Override
-      public String toString() {
-         return ((this.toString != null) ? this.toString : super.toString());
-      }
-   }
+public class NGSecure extends InputText implements SystemEventListener {
 
    public static final String COMPONENT_FAMILY = "de.beyondjava.angularFaces";
 
-   public java.lang.String getCheckedBy() {
-      return (java.lang.String) getStateHelper().eval(PropertyKeys.checkedBy, null);
+   public NGSecure() {
+      FacesContext context = FacesContext.getCurrentInstance();
+      UIViewRoot root = context.getViewRoot();
+      root.subscribeToViewEvent(PreRenderViewEvent.class, this);
    }
 
    @Override
    public String getFamily() {
       return COMPONENT_FAMILY;
-   }
-
-   public java.lang.String getSecurityToken() {
-      return (java.lang.String) getStateHelper().eval(PropertyKeys.securityToken, null);
    }
 
    /**
@@ -59,15 +41,38 @@ public class NGSecure extends InputText {
     */
    @Override
    public Object getValue() {
-      return getSecurityToken();
+      return NGSecureUtilities.getSecurityToken();
+   }
+   /**
+    * Catching the PreRenderViewEvent allows AngularFaces to modify the JSF tree
+    * by adding a label and a message.
+    */
+   @Override
+   public void processEvent(SystemEvent event) throws AbortProcessingException {
+      registerSecurityPhaseListener();
    }
 
-   public void setCheckedBy(java.lang.String _token) {
-      getStateHelper().put(PropertyKeys.checkedBy, _token);
+
+   @Override
+   public boolean isListenerForSource(Object source) {
+      return (source instanceof UIViewRoot);
    }
 
-   public void setSecurityToken(java.lang.String _token) {
-      getStateHelper().put(PropertyKeys.securityToken, _token);
+   public void registerSecurityPhaseListener() {
+      FacesContext context = FacesContext.getCurrentInstance();
+      UIViewRoot viewRoot = context.getViewRoot();
+
+      boolean alreadyRegistered = false;
+      for (PhaseListener pl : viewRoot.getPhaseListeners()) {
+         if (pl instanceof NGSecurityPhaseListener) {
+            alreadyRegistered = true;
+            break;
+         }
+      }
+      if (!alreadyRegistered) {
+         PhaseListener listener = new NGSecurityPhaseListenerImpl();
+         viewRoot.addPhaseListener(listener);
+      }
    }
 
 }
