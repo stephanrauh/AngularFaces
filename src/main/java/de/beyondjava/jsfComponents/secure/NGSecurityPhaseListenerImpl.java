@@ -39,7 +39,6 @@ public class NGSecurityPhaseListenerImpl implements PhaseListener, NGSecurityPha
       Map<String, String> parameterMap = pe.getFacesContext().getExternalContext().getRequestParameterMap();
       lookForUnexpectedParameters(parameterMap, pe.getFacesContext());
       examineParameters(parameterMap, pe.getFacesContext());
-      System.out.println("Before Phase: " + pe.getPhaseId().toString() + " invoked.");
    }
 
    public void collectParameterList(UIComponent component, List<String> parameters) {
@@ -49,7 +48,6 @@ public class NGSecurityPhaseListenerImpl implements PhaseListener, NGSecurityPha
          for (UIComponent child : component.getChildren()) {
             collectParameterList(child, parameters);
          }
-
       }
    }
 
