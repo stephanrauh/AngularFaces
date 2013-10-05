@@ -16,12 +16,6 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
-<!-- 
-	<context-param>
-		<param-name>javax.faces.SEPARATOR_CHAR</param-name>
-		<param-value>0</param-value>
-	</context-param>
-	 -->
 	<context-param>
 		<param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
 		<param-value>true</param-value>
@@ -39,7 +33,7 @@
 		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
 	</listener>
 	<error-page>
-	<error-code>500</error-code>
-	<location>/error500.html</location>
+    <exception-type>java.lang.Throwable</exception-type>
+    <location>/error.jsf</location>
 	</error-page>
 </web-app>

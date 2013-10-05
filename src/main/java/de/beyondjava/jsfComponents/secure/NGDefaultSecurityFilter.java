@@ -44,6 +44,12 @@ public class NGDefaultSecurityFilter implements NGSecurityFilter {
       if (value.contains("delete ")) {
          return false;
       }
+      if (value.contains("<")) {
+         return false;
+      }
+      if (value.contains(">")) {
+         return false;
+      }
       return true;
 
    }

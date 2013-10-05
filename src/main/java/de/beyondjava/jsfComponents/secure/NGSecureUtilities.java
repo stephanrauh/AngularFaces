@@ -3,7 +3,7 @@
  */
 package de.beyondjava.jsfComponents.secure;
 
-import java.util.Map;
+import java.util.*;
 
 import javax.faces.context.FacesContext;
 
@@ -24,8 +24,8 @@ public class NGSecureUtilities {
             .get("de.beyondjava.Secure.checkedBy");
    }
 
-   static java.lang.String getSecurityToken() {
-      return (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+   static List<java.lang.String> getSecurityToken() {
+      return (List<String>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
             .get("de.beyondjava.Secure.securityToken");
    }
 
@@ -45,17 +45,21 @@ public class NGSecureUtilities {
    }
 
    static void setSecurityToken(java.lang.String _token, String id) {
-
       Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
       String previousID = (String) sessionMap.get("de.beyondjava.Secure.SecurityID");
       if (null == previousID) {
          sessionMap.put("de.beyondjava.Secure.SecurityID", id);
       }
 
-      if (sessionMap.containsKey("de.beyondjava.Secure.securityToken")) {
-         sessionMap.remove("de.beyondjava.Secure.securityToken");
+      if (!sessionMap.containsKey("de.beyondjava.Secure.securityToken")) {
+         List<String> previousTokens = new ArrayList<String>();
+         sessionMap.put("de.beyondjava.Secure.securityToken", previousTokens);
       }
-      sessionMap.put("de.beyondjava.Secure.securityToken", _token);
+      List<String> previousTokens = (List<String>) sessionMap.get("de.beyondjava.Secure.securityToken");
+      while (previousTokens.size() > 20) {
+         previousTokens.remove(0);
+      }
+      previousTokens.add(_token);
    }
 
 }

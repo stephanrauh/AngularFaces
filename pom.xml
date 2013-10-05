@@ -58,6 +58,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>1.6</version> <!-- Or 1.6.1-SNAPSHOT -->
+		</dependency>
+		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>4.0-Snapshot</version>
