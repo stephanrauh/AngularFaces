@@ -4,6 +4,11 @@
 package de.beyondjava.jsfComponents.secure;
 
 /**
+ * Default implementation of a security filter to add a limited (but not
+ * sufficient) level of security to your application. Note that you are still
+ * responsible for your applications security. AngularFaces and it's author do
+ * not take any responsibilty for any security breach. Use at own risk.
+ * 
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
