@@ -8,9 +8,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.*;
 
 /**
- * Default implementation of an AngularFaces security phase listener. The
- * default behaviour is a good starting point to start your own security
- * mechanism, but it is by no means sufficient. Use at own risk.
+ * Default implementation of an AngularFaces security phase listener. Default
+ * implementation of a security filter to add a limited (but not sufficient)
+ * level of security to your application. Note that you are still responsible
+ * for your applications security. Using AngularFaces may help you to secure
+ * your application, but it's not enough. AngularFaces and it's author do not
+ * take any responsibilty for any security breach or any other damage occuring
+ * using AngularFaces. Use at own risk.
  * 
  * @author Stephan Rauh http://www.beyondjava.net
  * 
