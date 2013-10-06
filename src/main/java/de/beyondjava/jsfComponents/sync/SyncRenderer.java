@@ -1,16 +1,15 @@
 package de.beyondjava.jsfComponents.sync;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.lang.reflect.*;
+import java.util.Map;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.*;
 import javax.faces.render.FacesRenderer;
-import javax.validation.ValidationException;
 
-import org.apache.commons.beanutils.BeanUtils;
+import com.google.gson.Gson;
 
 import de.beyondjava.jsfComponents.common.ELTools;
 
@@ -41,26 +40,39 @@ public class SyncRenderer extends org.primefaces.component.inputtext.InputTextRe
 
          Map<String, String> parameterMap = context.getExternalContext().getRequestParameterMap();
          String json = parameterMap.get(component.getClientId());
-         String[] assignments = json.split(SEPARATOR);
-         List<String> everyProperty = ELTools.getEveryProperty(rootProperty, false);
-         Object rootBean = ELTools.evalAsObject("#{" + rootProperty + "}");
-         int index = 0;
-         for (String property : everyProperty) {
-            int pos = assignments[index].indexOf("=");
-            String valueAsString = assignments[index].substring(pos + 1);
-            String clientProperty = assignments[index].substring(0, pos);
-            if (!clientProperty.equals(property)) {
-               throw new ValidationException("Hacking detected");
-            }
+         Object bean = ELTools.evalAsObject("#{" + rootProperty + "}");
+         if (rootProperty.contains(".")) {
+            Object fromJson = new Gson().fromJson(json, bean.getClass());
+            String rootBean = rootProperty.substring(0, rootProperty.indexOf("."));
+            Object root = ELTools.evalAsObject("#{" + rootBean + "]");
+            String nestedBeanName = rootProperty.substring(rootProperty.indexOf('.') + 1);
+            String setterName = "set" + nestedBeanName.substring(0, 1).toUpperCase() + nestedBeanName.substring(1);
+
             try {
-               BeanUtils.setProperty(rootBean, property, valueAsString);
+               Method setter = root.getClass().getDeclaredMethod(nestedBeanName, bean.getClass());
+               setter.invoke(root, fromJson);
+
             }
-            catch (IllegalAccessException | InvocationTargetException e) {
+            catch (NoSuchMethodException e) {
                // TODO Auto-generated catch block
                e.printStackTrace();
-               throw new ValidationException("Couldn't assign property " + property);
             }
-            index++;
+            catch (SecurityException e) {
+               // TODO Auto-generated catch block
+               e.printStackTrace();
+            }
+            catch (IllegalAccessException e) {
+               // TODO Auto-generated catch block
+               e.printStackTrace();
+            }
+            catch (IllegalArgumentException e) {
+               // TODO Auto-generated catch block
+               e.printStackTrace();
+            }
+            catch (InvocationTargetException e) {
+               // TODO Auto-generated catch block
+               e.printStackTrace();
+            }
          }
 
       }
@@ -72,38 +84,29 @@ public class SyncRenderer extends org.primefaces.component.inputtext.InputTextRe
       writer.append("\r\n\r\n\r\n");
       String direction = (String) component.getAttributes().get("direction");
       if ((null == direction) || "serverToClient".equals(direction) || "both".equals(direction)) {
-         writer.append("<script type='text/javascript>\r\n");
-         writer.append("function getModelValuesFromServer()\r\n {\r\n");
          String rootProperty = ELTools.getCoreValueExpression(component);
-         List<String> everyProperty = ELTools.getEveryProperty(rootProperty, false);
-         for (String property : everyProperty) {
-            String value = ELTools.evalAsString("#{" + rootProperty + "." + property + "}");
-            String line = "   injectVariableIntoScope('" + property + "', '" + value + "');\r\n";
-            writer.append(line);
-         }
-         writer.append("}\r\n");
+         Object serverObject = ELTools.evalAsObject("#{" + rootProperty + "}");
+         String serverAsJSon = new Gson().toJson(serverObject);
+         // System.out.println(serverAsJSon);
+
+         writer.append("<script type='text/javascript'>");
+
+         writer.append("var sync" + rootProperty + " = function()\r\n {\r\n");
+         String line = "   injectJSonIntoScope('" + rootProperty + "', '" + serverAsJSon + "');\r\n";
+         writer.append(line);
+         writer.append("};\r\n");
+         writer.append("addSyncPushFunction(sync" + rootProperty + ");\r\n");
          writer.append("</script>\r\n");
       }
       writer.append("\r\n\r\n\r\n");
       if ((null == direction) || "both".equals(direction) || "clientToServer".equals(direction)) {
 
          String rootProperty = ELTools.getCoreValueExpression(component);
-         List<String> everyProperty = ELTools.getEveryProperty(rootProperty, false);
-         String assignments = "";
-         for (String property : everyProperty) {
-            String line = property + "={{" + property + "}}";
-            if (assignments.length() > 0) {
-               assignments += SEPARATOR;
-            }
-            assignments += line;
-         }
-         ELTools.getArrayProperties(rootProperty, false);
 
-         ValueExpression ve = ELTools.createValueExpression(assignments);
+         ValueExpression ve = ELTools.createValueExpression("x={{getJSonFromScope('" + rootProperty + "')}}");
          component.setValueExpression("value", ve);
          super.encodeBegin(context, component);
       }
       writer.append("\r\n\r\n\r\n");
    }
-
 }

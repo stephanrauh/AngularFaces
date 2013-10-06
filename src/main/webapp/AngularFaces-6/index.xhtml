@@ -38,8 +38,8 @@
           <prime:panel header="amortization plan">
             <table>
               <tr>
-                <td><a:sync direction="clientToServer" value="#{amortizationPrinterBean}" /> <a:commandButton
-                    action="#{amortizationPrinterBean.generateAmortizationPlan}" /></td>
+                <td><a:sync direction="both" value="#{amortizationPrinterController}" /> <a:commandButton
+                    action="#{amortizationPrinterController.generateAmortizationPlan}" /></td>
               </tr>
             </table>
           </prime:panel>

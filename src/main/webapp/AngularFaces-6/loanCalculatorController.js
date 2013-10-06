@@ -19,7 +19,7 @@ function loanCalculatorController($scope) {
 	$scope.$watch('loanAmount', function() {
 		$scope.calculate();
 	});
-	
+
 	$scope.$watch('loanTerm', function() {
 		$scope.calculate();
 	});
@@ -28,7 +28,16 @@ function loanCalculatorController($scope) {
 		$scope.calculate();
 	});
 
-	
+	$scope.getJSonFromScope = function(variable) {
+		try {
+			var v = eval("$scope." + variable);
+			var asJson = JSON.stringify(v);
+			console.log("read " + variable + " = " + asJson);
+		} catch (e) {
+			console.log("Can't (yet?) read " + variable);
+		}
+		return asJson;
+	}
 
 }
 

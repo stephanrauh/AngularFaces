@@ -11,6 +11,11 @@ function addSyncPushFunction(f) {
 	syncPushFunctions[len] = f;
 }
 
+function injectJSonIntoScope(variablename, json)
+{
+	injectVariableIntoScope(variablename, json);
+}
+
 function storeValues() {
 	values = new Array();
 	models = new Array();
@@ -60,6 +65,9 @@ function storeValues() {
 }
 
 function restoreValues() {
+	for ( var i = 0; i < syncPushFunctions.length; i++) {
+		syncPushFunctions[i]();
+	}
 	var $scope = angular.element('body').scope();
 	if (!$scope) {
 		alert("AngularJS hasn't been initialized properly.");
@@ -114,6 +122,8 @@ function injectVariableIntoScope(model, value) {
 				// but can safely be ignored
 				// alert("AngularFaces apply Exception " + e + " " +
 				// assignment);
+				console.log(assignment);
+				console.log(e);
 			}
 		});
 	} catch (e) {
@@ -122,10 +132,6 @@ function injectVariableIntoScope(model, value) {
 }
 
 function reinitAngular(app) {
-	for ( var i = 0; i < syncPushFunctions.length; i++) {
-		syncPushFunctions[i]();
-	}
-
 	storeValues();
 	angular.bootstrap(document, [ app ]);
 	restoreValues();

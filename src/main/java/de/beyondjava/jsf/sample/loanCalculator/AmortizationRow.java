@@ -15,6 +15,14 @@ public class AmortizationRow {
    private double monthlyPayment;
    private double principalPaid; // Tilgung
 
+   public AmortizationRow() {
+   }
+
+   public AmortizationRow(double balance, double interestPaid) {
+      this.balance = balance;
+      this.interestPaid = interestPaid;
+   }
+
    public double getBalance() {
       return balance;
    }

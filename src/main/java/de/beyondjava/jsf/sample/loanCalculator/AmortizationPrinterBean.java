@@ -10,15 +10,13 @@ package de.beyondjava.jsf.sample.loanCalculator;
 
 import java.util.ArrayList;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.*;
-
-import org.primefaces.context.RequestContext;
-
-@ManagedBean
-@RequestScoped
 public class AmortizationPrinterBean {
-   private ArrayList<AmortizationRow> amortizationPlan = new ArrayList<AmortizationRow>();
+   private ArrayList<AmortizationRow> amortizationPlan = new ArrayList<AmortizationRow>() {
+      {
+         add(new AmortizationRow(10000.0d, 100.0d));
+         add(new AmortizationRow(9500.0d, 95.0d));
+      }
+   };
 
    private double interestRate = 5;
 
@@ -27,12 +25,6 @@ public class AmortizationPrinterBean {
    private double loanTerm; // Dauer des Kredits
 
    private double monthlyPayments = 200;
-
-   public void generateAmortizationPlan() {
-      FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Yet to be implemented",
-            "This demo is work in progress.<br>Please be patient.");
-      RequestContext.getCurrentInstance().showMessageInDialog(message);
-   }
 
    public ArrayList<AmortizationRow> getAmortizationPlan() {
       return amortizationPlan;

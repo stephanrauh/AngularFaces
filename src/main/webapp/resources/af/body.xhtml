@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:a="http://beyondjava.net/angularFaces" 
+      xmlns:prime="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+  <composite:interface>
+    <composite:attribute name="ngapp" required="true" />
+    <composite:attribute name="ngcontroller" required="true" />
+  </composite:interface>
+
+  <composite:implementation>
+    <h:body ng:ng-app="#{cc.attrs.ngapp}" ng:ng-controller="#{cc.attrs.ngcontroller}" onload="restoreValues()">
+      <script src='../resources/AngularFaces/angular.js'>\r\n</script>
+      <script src='../resources/AngularFaces/glue.js'>\r\n</script>
+      <script src='#{cc.attrs.ngcontroller}.js'>\r\n</script>
+      <h:form>
+        <prime:focus minSeverity="error" />
+        <h:messages></h:messages>
+        <cc:insertChildren />
+        <script>storeValues();</script>
+      </h:form>
+    </h:body>
+  </composite:implementation>
+</h:body>
+</html>
