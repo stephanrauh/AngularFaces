@@ -24,11 +24,11 @@ public class AmortizationPrinterController {
       RequestContext.getCurrentInstance().showMessageInDialog(message);
    }
 
-   public AmortizationPrinterBean getAmortizaionPrinterBean() {
+   public AmortizationPrinterBean getAmortizationPrinterBean() {
       return amortizationPrinterBean;
    }
 
-   public void setAmortizaionPrinterBean(AmortizationPrinterBean amortizaionPrinterBean) {
+   public void setAmortizationPrinterBean(AmortizationPrinterBean amortizaionPrinterBean) {
       this.amortizationPrinterBean = amortizaionPrinterBean;
    }
 

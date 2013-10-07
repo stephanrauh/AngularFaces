@@ -49,7 +49,7 @@ public class SyncRenderer extends org.primefaces.component.inputtext.InputTextRe
             String setterName = "set" + nestedBeanName.substring(0, 1).toUpperCase() + nestedBeanName.substring(1);
 
             try {
-               Method setter = root.getClass().getDeclaredMethod(nestedBeanName, bean.getClass());
+               Method setter = root.getClass().getDeclaredMethod(setterName, bean.getClass());
                setter.invoke(root, fromJson);
 
             }
@@ -83,27 +83,30 @@ public class SyncRenderer extends org.primefaces.component.inputtext.InputTextRe
       ResponseWriter writer = context.getResponseWriter();
       writer.append("\r\n\r\n\r\n");
       String direction = (String) component.getAttributes().get("direction");
+      String rootProperty = ELTools.getCoreValueExpression(component);
+      String jsVarName = rootProperty;
+      int lastPeriod = rootProperty.lastIndexOf('.');
+      if (lastPeriod >= 0) {
+         jsVarName = rootProperty.substring(lastPeriod + 1);
+      }
       if ((null == direction) || "serverToClient".equals(direction) || "both".equals(direction)) {
-         String rootProperty = ELTools.getCoreValueExpression(component);
          Object serverObject = ELTools.evalAsObject("#{" + rootProperty + "}");
          String serverAsJSon = new Gson().toJson(serverObject);
          // System.out.println(serverAsJSon);
 
          writer.append("<script type='text/javascript'>");
 
-         writer.append("var sync" + rootProperty + " = function()\r\n {\r\n");
+         String functionName = "sync" + rootProperty.replace(".", "_");
+         writer.append("var " + functionName + " = function()\r\n {\r\n");
          String line = "   injectJSonIntoScope('" + rootProperty + "', '" + serverAsJSon + "');\r\n";
          writer.append(line);
          writer.append("};\r\n");
-         writer.append("addSyncPushFunction(sync" + rootProperty + ");\r\n");
+         writer.append("addSyncPushFunction(" + functionName + ");\r\n");
          writer.append("</script>\r\n");
       }
       writer.append("\r\n\r\n\r\n");
       if ((null == direction) || "both".equals(direction) || "clientToServer".equals(direction)) {
-
-         String rootProperty = ELTools.getCoreValueExpression(component);
-
-         ValueExpression ve = ELTools.createValueExpression("x={{getJSonFromScope('" + rootProperty + "')}}");
+         ValueExpression ve = ELTools.createValueExpression("x={{getJSonFromScope('" + jsVarName + "')}}");
          component.setValueExpression("value", ve);
          super.encodeBegin(context, component);
       }
