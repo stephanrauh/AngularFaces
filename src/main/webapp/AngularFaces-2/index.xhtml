@@ -8,7 +8,8 @@
     <prime:tabView id="tabView">
       <prime:tab title="live demo">
     <h:form ng:name="myform" >
-      <h:panelGrid columns="3">
+      <a:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
+        <h:panelGrid columns="3">
         <a:inputText label="first number" value="#{calculatorBean.number1}" />
 
         <a:inputText label="second number" value="#{calculatorBean.number2}" />

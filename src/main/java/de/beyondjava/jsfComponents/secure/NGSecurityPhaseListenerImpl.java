@@ -80,6 +80,7 @@ public class NGSecurityPhaseListenerImpl implements PhaseListener, NGSecurityPha
             add("javax.faces.partial.ajax");
             add("javax.faces.partial.execute");
             add("javax.faces.source");
+            add("javax.faces.partial.render");
          }
       };
       UIComponent root = context.getViewRoot();

@@ -1,5 +1,7 @@
 package de.beyondjava.jsfComponents.secure;
 
+import java.util.List;
+
 import javax.faces.component.*;
 import javax.faces.context.FacesContext;
 import javax.faces.event.*;
@@ -45,7 +47,8 @@ public class NGSecure extends InputText implements SystemEventListener {
     */
    @Override
    public Object getValue() {
-      return NGSecureUtilities.getSecurityToken();
+      final List<String> tokens = NGSecureUtilities.getSecurityToken();
+      return tokens.get(tokens.size() - 1);
    }
 
    @Override

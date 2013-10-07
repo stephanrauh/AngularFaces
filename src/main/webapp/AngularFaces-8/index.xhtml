@@ -1,14 +1,11 @@
-<f:view xmlns="http://www.w3c.org/1999/xhtml" 
-        xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:h="http://java.sun.com/jsf/html" 
-        xmlns:ui="http://java.sun.com/jsf/ui"
-        xmlns:ui="http://java.sun.com/jsf/facelets" 
-        xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-        xmlns:a="http://beyondjava.net/angularFaces" 
-        xmlns:prime="http://primefaces.org/ui"
-        xmlns:af="http://java.sun.com/jsf/composite/af">>
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:a="http://beyondjava.net/angularFaces" xmlns:prime="http://primefaces.org/ui"
+  xmlns:af="http://java.sun.com/jsf/composite/af">>
   <h:head />
   <af:body ngapp="mandelbrotApp" ngcontroller="mandelbrotController">
+    <a:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
     <a:inputText value="#{mandelbrotController.xMin}" />
     <a:inputText value="#{mandelbrotController.xMax}" />
   </af:body>
