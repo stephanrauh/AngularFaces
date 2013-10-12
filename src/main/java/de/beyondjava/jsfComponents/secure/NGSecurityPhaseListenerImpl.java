@@ -6,6 +6,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.*;
 
+import de.beyondjava.jsfComponents.common.*;
+
 /**
  * Default implementation of an AngularFaces security phase listener. Default
  * implementation of a security filter to add a limited (but not sufficient)
@@ -34,11 +36,15 @@ public class NGSecurityPhaseListenerImpl implements PhaseListener, NGSecurityPha
       examineParameters(parameterMap, pe.getFacesContext());
    }
 
-   public void collectParameterList(UIComponent component, List<String> parameters) {
+   public void collectParameterList(UIComponent component, List<String> parameters,
+         Map<String, NGBeanAttributeInfo> infos) {
       if (null != component) {
          parameters.add(component.getClientId());
+         NGBeanAttributeInfo info = ELTools.getBeanAttributeInfos(component);
+         infos.put(component.getClientId(), info);
+
          for (UIComponent child : component.getChildren()) {
-            collectParameterList(child, parameters);
+            collectParameterList(child, parameters, infos);
          }
       }
    }
@@ -74,6 +80,7 @@ public class NGSecurityPhaseListenerImpl implements PhaseListener, NGSecurityPha
    }
 
    public void lookForUnexpectedParameters(Map<String, String> parameterMap, FacesContext context) {
+      Map<String, NGBeanAttributeInfo> infos = new HashMap<String, NGBeanAttributeInfo>();
       List<String> expectedParameters = new ArrayList<String>() {
          {
             add("javax.faces.ViewState");
@@ -84,11 +91,23 @@ public class NGSecurityPhaseListenerImpl implements PhaseListener, NGSecurityPha
          }
       };
       UIComponent root = context.getViewRoot();
-      collectParameterList(root, expectedParameters);
+      collectParameterList(root, expectedParameters, infos);
       Map<String, String> receivedParams = new HashMap<String, String>();
       receivedParams.putAll(parameterMap);
       for (String p : expectedParameters) {
          if (receivedParams.containsKey(p)) {
+            if (!p.startsWith("javax.faces.")) {
+               NGBeanAttributeInfo info = infos.get(p);
+               String value = receivedParams.get(p);
+               if ((null != info) && (info.getMaxSize() > 0)) {
+                  if (null != value) {
+                     if (value.length() > info.getMaxSize()) {
+                        throw new IllegalAccessError(
+                              "Possible security breach - requests contains parameters that are longer than they ought to be.");
+                     }
+                  }
+               }
+            }
             receivedParams.remove(p);
          }
       }

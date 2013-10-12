@@ -119,10 +119,12 @@ public class ELTools {
 
    public static String getCoreValueExpression(UIComponent component) {
       ValueExpression valueExpression = component.getValueExpression("value");
-      String v = valueExpression.getExpressionString();
-      if (null != v) {
-         String model = v.replace("#{", "").replace("}", "");
-         return model;
+      if (null != valueExpression) {
+         String v = valueExpression.getExpressionString();
+         if (null != v) {
+            String model = v.replace("#{", "").replace("}", "");
+            return model;
+         }
       }
       return null;
    }
@@ -287,7 +289,7 @@ public class ELTools {
     * @param p_component
     * @return null if there are no annotations, or if they cannot be accessed
     */
-   private static Annotation[] readAnnotations(String p_expression) {
+   public static Annotation[] readAnnotations(String p_expression) {
       Field declaredField = getField(p_expression);
       if (null != declaredField) {
          return declaredField.getAnnotations();

@@ -22,15 +22,6 @@ import de.beyondjava.jsfComponents.common.ELTools;
 @FacesRenderer(componentFamily = "org.primefaces.component", rendererType = "de.beyondjava.Sync")
 public class SyncRenderer extends org.primefaces.component.inputtext.InputTextRenderer {
 
-   private final String SEPARATOR = "³³³";
-
-   /*
-    * (non-Javadoc)
-    * 
-    * @see
-    * org.primefaces.component.inputtext.InputTextRenderer#decode(javax.faces
-    * .context.FacesContext, javax.faces.component.UIComponent)
-    */
    @Override
    public void decode(FacesContext context, UIComponent component) {
       String direction = (String) component.getAttributes().get("direction");
@@ -43,14 +34,16 @@ public class SyncRenderer extends org.primefaces.component.inputtext.InputTextRe
          Object bean = ELTools.evalAsObject("#{" + rootProperty + "}");
          if (rootProperty.contains(".")) {
             Object fromJson = new Gson().fromJson(json, bean.getClass());
-            String rootBean = rootProperty.substring(0, rootProperty.indexOf("."));
-            Object root = ELTools.evalAsObject("#{" + rootBean + "]");
-            String nestedBeanName = rootProperty.substring(rootProperty.indexOf('.') + 1);
+            String rootBean = rootProperty.substring(0, rootProperty.lastIndexOf("."));
+            Object root = ELTools.evalAsObject("#{" + rootBean + "}");
+            String nestedBeanName = rootProperty.substring(rootProperty.lastIndexOf('.') + 1);
             String setterName = "set" + nestedBeanName.substring(0, 1).toUpperCase() + nestedBeanName.substring(1);
 
             try {
-               Method setter = root.getClass().getDeclaredMethod(setterName, bean.getClass());
-               setter.invoke(root, fromJson);
+               if (root != null) {
+                  Method setter = root.getClass().getDeclaredMethod(setterName, bean.getClass());
+                  setter.invoke(root, fromJson);
+               }
 
             }
             catch (NoSuchMethodException e) {
@@ -96,9 +89,9 @@ public class SyncRenderer extends org.primefaces.component.inputtext.InputTextRe
 
          writer.append("<script type='text/javascript'>");
 
-         String functionName = "sync" + rootProperty.replace(".", "_");
+         String functionName = "sync" + jsVarName.replace(".", "_");
          writer.append("var " + functionName + " = function()\r\n {\r\n");
-         String line = "   injectJSonIntoScope('" + rootProperty + "', '" + serverAsJSon + "');\r\n";
+         String line = "   injectJSonIntoScope('" + jsVarName + "', '" + serverAsJSon + "');\r\n";
          writer.append(line);
          writer.append("};\r\n");
          writer.append("addSyncPushFunction(" + functionName + ");\r\n");
@@ -106,7 +99,7 @@ public class SyncRenderer extends org.primefaces.component.inputtext.InputTextRe
       }
       writer.append("\r\n\r\n\r\n");
       if ((null == direction) || "both".equals(direction) || "clientToServer".equals(direction)) {
-         ValueExpression ve = ELTools.createValueExpression("x={{getJSonFromScope('" + jsVarName + "')}}");
+         ValueExpression ve = ELTools.createValueExpression("{{getJSonFromScope('" + jsVarName + "')}}");
          component.setValueExpression("value", ve);
          super.encodeBegin(context, component);
       }

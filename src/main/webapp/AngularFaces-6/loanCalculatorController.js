@@ -1,7 +1,7 @@
 function loanCalculatorController($scope) {
-	$scope.loanAmount = 10000;
-	$scope.loanTerm = 60;
-	$scope.interestRate = 3;
+//	$scope.loanAmount = 10000;
+//	$scope.loanTerm = 60;
+//	$scope.interestRate = 3;
 	$scope.calculate = function() {
 		var invalidInput = false;
 		invalidInput |= typeof $scope.loanAmount == 'undefined';
@@ -32,12 +32,12 @@ function loanCalculatorController($scope) {
 		try {
 			var v = eval("$scope." + variable);
 			var asJson = JSON.stringify(v);
-			console.log("read " + variable + " = " + asJson);
+//			console.log("read " + variable + " = " + asJson);
 		} catch (e) {
 			console.log("Can't (yet?) read " + variable);
 		}
 		return asJson;
-	}
+	};
 
 }
 

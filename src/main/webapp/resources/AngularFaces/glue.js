@@ -1,6 +1,8 @@
 syncPullFunctions = new Array();
 syncPushFunctions = new Array();
 
+function isUndefined(value){return typeof value == 'undefined';}
+
 function addSyncPullFunction(f) {
 	var len = syncPullFunctions.length;
 	syncPullFunctions[len] = f;

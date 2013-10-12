@@ -8,25 +8,20 @@
  */
 package de.beyondjava.jsf.sample.loanCalculator;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class AmortizationPrinterBean {
-   private ArrayList<AmortizationRow> amortizationPlan = new ArrayList<AmortizationRow>() {
-      {
-         add(new AmortizationRow(10000.0d, 100.0d));
-         add(new AmortizationRow(9500.0d, 95.0d));
-      }
-   };
+   private List<AmortizationRow> amortizationPlan = new ArrayList<>();
 
    private double interestRate = 5;
 
    private double loanAmount = 10000;
 
-   private double loanTerm; // Dauer des Kredits
+   private double loanTerm = 36; // Dauer des Kredits
 
    private double monthlyPayments = 200;
 
-   public ArrayList<AmortizationRow> getAmortizationPlan() {
+   public List<AmortizationRow> getAmortizationPlan() {
       return amortizationPlan;
    }
 
@@ -54,7 +49,15 @@ public class AmortizationPrinterBean {
       this.interestRate = interestRate;
    }
 
+   public void setInterestRate(Double interestRate) {
+      this.interestRate = interestRate;
+   }
+
    public void setLoanAmount(double loanAmount) {
+      this.loanAmount = loanAmount;
+   }
+
+   public void setLoanAmount(Double loanAmount) {
       this.loanAmount = loanAmount;
    }
 
@@ -62,8 +65,15 @@ public class AmortizationPrinterBean {
       this.loanTerm = loanTerm;
    }
 
+   public void setLoanTerm(Double loanTerm) {
+      this.loanTerm = loanTerm + 1;
+   }
+
    public void setMonthlyPayments(double monthlyPayments) {
       this.monthlyPayments = monthlyPayments;
    }
 
+   public void setMonthlyPayments(Double monthlyPayments) {
+      this.monthlyPayments = monthlyPayments;
+   }
 }

@@ -1,6 +1,7 @@
 package de.beyondjava.jsfComponents.sync;
 
 import javax.faces.component.FacesComponent;
+import javax.faces.context.FacesContext;
 
 /**
  * Add AngularJS behaviour to a standard Primefaces InputText.
@@ -16,5 +17,16 @@ public class Sync extends org.primefaces.component.inputtext.InputText {
    @Override
    public String getFamily() {
       return COMPONENT_FAMILY;
+   }
+
+   /*
+    * (non-Javadoc)
+    * 
+    * @see
+    * javax.faces.component.UIInput#updateModel(javax.faces.context.FacesContext
+    * )
+    */
+   @Override
+   public void updateModel(FacesContext context) {
    }
 }

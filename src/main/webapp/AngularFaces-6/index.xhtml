@@ -39,8 +39,14 @@
           <prime:panel header="amortization plan">
             <table>
               <tr>
-                <td><a:sync direction="both" value="#{amortizationPrinterController.amortizationPrinterBean}" /> <a:commandButton
+                <td><a:sync direction="both" value="#{amortizationPrinterController.amortizationPrinterBean.loanAmount}" /> </td>
+                <td><a:sync direction="both" value="#{amortizationPrinterController.amortizationPrinterBean.interestRate}" /> </td>
+                <td><a:sync direction="both" value="#{amortizationPrinterController.amortizationPrinterBean.loanTerm}" /> </td>
+                <td><a:sync direction="both" value="#{amortizationPrinterController.amortizationPrinterBean.monthlyPayments}" /> </td>
+                <td><a:sync direction="both" value="#{amortizationPrinterController.amortizationPrinterBean.amortizationPlan}" /> </td>
+                <td><a:commandButton
                     action="#{amortizationPrinterController.generateAmortizationPlan}" /></td>
+                    
               </tr>
             </table>
           </prime:panel>
