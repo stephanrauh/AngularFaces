@@ -31,4 +31,4 @@ To learn more about AngularFaces, have a look at http://www.beyondjava.net/blog/
 There's also a tiny tutorial on http://www.beyondjava.net/blog/started-angularfaces/ and the nucleus of a showcase at http://showcase.angularfaces.com.
 
 Legal disclaimer:
-This is an early version. Nonetheless it may already be useful. Use at own risk.
+This is an early version. Use at own risk.

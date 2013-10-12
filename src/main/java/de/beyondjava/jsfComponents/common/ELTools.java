@@ -11,12 +11,12 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.beanutils.BeanUtilsBean2;
 
 public class ELTools {
-   private static Map<String, NGBeanAttributeInfo> beanAttributeInfos = new HashMap<>();
+   private static Map<String, NGBeanAttributeInfo> beanAttributeInfos = new HashMap<String, NGBeanAttributeInfo>();
 
    /** Caching */
-   private static Map<String, Field> fields = new HashMap<>();
+   private static Map<String, Field> fields = new HashMap<String, Field>();
    /** Caching */
-   private static Map<String, List<String>> propertyLists = new HashMap<>();
+   private static Map<String, List<String>> propertyLists = new HashMap<String, List<String>>();
 
    public static ValueExpression createValueExpression(String p_expression) {
       FacesContext context = FacesContext.getCurrentInstance();
@@ -72,7 +72,7 @@ public class ELTools {
       Object container = evalAsObject("#{" + p_expression + "}");
 
       Class<? extends Object> c = container == null ? null : container.getClass();
-      List<String> propertyNames = new ArrayList<>();
+      List<String> propertyNames = new ArrayList<String>();
       if (isPrimitive(c)) {
          propertyNames.add(p_expression);
       }
@@ -96,7 +96,17 @@ public class ELTools {
                }
             }
          }
-         catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+         catch (IllegalAccessException e) {
+            // todo replace by a logger
+            System.out.println("Couldn't read property list of " + p_expression);
+            e.printStackTrace();
+         }
+         catch (InvocationTargetException e) {
+            // todo replace by a logger
+            System.out.println("Couldn't read property list of " + p_expression);
+            e.printStackTrace();
+         }
+         catch (NoSuchMethodException e) {
             // todo replace by a logger
             System.out.println("Couldn't read property list of " + p_expression);
             e.printStackTrace();
@@ -151,7 +161,7 @@ public class ELTools {
       Object container = evalAsObject("#{" + p_expression + "}");
 
       Class<? extends Object> c = container == null ? null : container.getClass();
-      List<String> propertyNames = new ArrayList<>();
+      List<String> propertyNames = new ArrayList<String>();
       if (isPrimitive(c)) {
          propertyNames.add(p_expression);
       }
@@ -182,7 +192,17 @@ public class ELTools {
                propertyLists.put(p_expression, propertyNames);
             }
          }
-         catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+         catch (IllegalAccessException e) {
+            // todo replace by a logger
+            System.out.println("Couldn't read property list of " + p_expression);
+            e.printStackTrace();
+         }
+         catch (InvocationTargetException e) {
+            // todo replace by a logger
+            System.out.println("Couldn't read property list of " + p_expression);
+            e.printStackTrace();
+         }
+         catch (NoSuchMethodException e) {
             // todo replace by a logger
             System.out.println("Couldn't read property list of " + p_expression);
             e.printStackTrace();

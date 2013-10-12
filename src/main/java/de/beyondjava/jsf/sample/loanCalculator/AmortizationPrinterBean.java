@@ -11,7 +11,7 @@ package de.beyondjava.jsf.sample.loanCalculator;
 import java.util.*;
 
 public class AmortizationPrinterBean {
-   private List<AmortizationRow> amortizationPlan = new ArrayList<>();
+   private List<AmortizationRow> amortizationPlan = new ArrayList<AmortizationRow>();
 
    private double interestRate = 5;
 

@@ -23,7 +23,7 @@ public class NGDataTableResponseWriter extends HtmlResponseWriter {
    String currentNGModel = null;
    String ngPrefix = "";
    /** collects a data table's value attributes */
-   private List<String> valueExpressions = new ArrayList<>();
+   private List<String> valueExpressions = new ArrayList<String>();
 
    /**
     * @param writer

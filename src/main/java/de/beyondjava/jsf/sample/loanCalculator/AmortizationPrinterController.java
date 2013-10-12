@@ -23,7 +23,7 @@ public class AmortizationPrinterController {
       double interestRate = amortizationPrinterBean.getInterestRate();
       double payments = amortizationPrinterBean.getMonthlyPayments();
       payments = Math.round(100.0d * payments) / 100.0d;
-      ArrayList<AmortizationRow> plan = new ArrayList<>();
+      ArrayList<AmortizationRow> plan = new ArrayList<AmortizationRow>();
       int month = 1;
       while (balance > 0) {
          AmortizationRow row = new AmortizationRow();
