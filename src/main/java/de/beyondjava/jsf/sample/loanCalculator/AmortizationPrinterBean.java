@@ -21,6 +21,11 @@ public class AmortizationPrinterBean {
 
    private double monthlyPayments = 200;
 
+   public AmortizationPrinterBean() {
+      // amortizationPlan.add(new AmortizationRow(10000.0d, 41));
+      // amortizationPlan.add(new AmortizationRow(9000.0d, 36));
+   }
+
    public List<AmortizationRow> getAmortizationPlan() {
       return amortizationPlan;
    }
@@ -66,7 +71,7 @@ public class AmortizationPrinterBean {
    }
 
    public void setLoanTerm(Double loanTerm) {
-      this.loanTerm = loanTerm + 1;
+      this.loanTerm = loanTerm;
    }
 
    public void setMonthlyPayments(double monthlyPayments) {

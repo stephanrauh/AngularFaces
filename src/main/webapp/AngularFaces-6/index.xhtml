@@ -39,15 +39,46 @@
           <prime:panel header="amortization plan">
             <table>
               <tr>
-                <td><a:sync direction="both" value="#{amortizationPrinterController.amortizationPrinterBean.loanAmount}" /> </td>
-                <td><a:sync direction="both" value="#{amortizationPrinterController.amortizationPrinterBean.interestRate}" /> </td>
-                <td><a:sync direction="both" value="#{amortizationPrinterController.amortizationPrinterBean.loanTerm}" /> </td>
-                <td><a:sync direction="both" value="#{amortizationPrinterController.amortizationPrinterBean.monthlyPayments}" /> </td>
-                <td><a:sync direction="both" value="#{amortizationPrinterController.amortizationPrinterBean.amortizationPlan}" /> </td>
-                <td><a:commandButton
-                    action="#{amortizationPrinterController.generateAmortizationPlan}" /></td>
-                    
+                <td><a:sync direction="both"
+                    value="#{amortizationPrinterController.amortizationPrinterBean.loanAmount}" /></td>
               </tr>
+              <tr>
+                <td><a:sync direction="both"
+                    value="#{amortizationPrinterController.amortizationPrinterBean.interestRate}" /></td>
+              </tr>
+              <tr>
+                <td><a:sync direction="both"
+                    value="#{amortizationPrinterController.amortizationPrinterBean.loanTerm}" /></td>
+              </tr>
+              <tr>
+                <td><a:sync direction="both"
+                    value="#{amortizationPrinterController.amortizationPrinterBean.monthlyPayments}" /></td>
+              </tr>
+              <tr>
+                <td><a:sync direction="both"
+                    value="#{amortizationPrinterController.amortizationPrinterBean.amortizationPlan}" /></td>
+              </tr>
+              <tr>
+                <td><a:commandButton action="#{amortizationPrinterController.generateAmortizationPlan}" /></td>
+
+              </tr>
+            </table>
+Please note this is only a technical demo. Don't rely on the figures. At the time being they are wrong, anyways.
+            <table border="1">
+            <tr >
+            <th>month</th>
+            <th>balance</th>
+            <th>interest paid</th>
+            <th>principal paid</th>
+            <th>monthly payment</th>
+            </tr>
+            <tr ng-repeat="row in amortizationPlan">
+            <td>  {{row.month}}</td>
+            <td>  {{row.balance}}</td>
+            <td>  {{row.interestPaid}}</td>
+            <td>  {{row.principalPaid}}</td>
+            <td>  {{row.monthlyPayment}}</td>
+            </tr>
             </table>
           </prime:panel>
 

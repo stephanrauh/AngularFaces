@@ -19,6 +19,11 @@ public class Sync extends org.primefaces.component.inputtext.InputText {
       return COMPONENT_FAMILY;
    }
 
+   @Override
+   public String getStyle() {
+      return "display:none";
+   }
+
    /*
     * (non-Javadoc)
     * 
