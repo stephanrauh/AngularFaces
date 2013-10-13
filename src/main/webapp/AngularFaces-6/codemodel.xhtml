@@ -53,8 +53,12 @@ function calculateMonthlyPayments(amount, term, interestRate) {
 		if (interestRate == 0) {
 			return amount / term;
 		} else {
-			var q = 1 + (interestRate / 100);
-			var annuity = amount * Math.pow(q, term) * (q - 1) / (Math.pow(q, term) - 1);
+			var interestRatePM = interestRate/12;
+			var q = 1 + (interestRatePM / 100);
+			var i = interestRatePM / 100;
+			var a = Math.pow(q, term);
+			var divisor =  (Math.pow(q, term) - 1);
+			var annuity = amount * i * a  /divisor;
 			return annuity;
 		}
 	} catch (e) {

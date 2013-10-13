@@ -1,17 +1,12 @@
-/**
- *  (C) Stephan Rauh http://www.beyondjava.net
- */
-
-/**
- * @author Stephan Rauh http://www.beyondjava.net
- *
- */
-package de.beyondjava.jsf.sample.loanCalculator;
-
-import java.util.ArrayList;
-
-import javax.faces.bean.*;
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head />
+<body>
+  <ui:composition>
+  <script type="syntaxhighlighter" class="brush: groovy;toolbar: false">
+    <![CDATA[
 @ManagedBean
 @RequestScoped
 public class AmortizationPrinterController {
@@ -58,5 +53,8 @@ public class AmortizationPrinterController {
    public void setAmortizationPrinterBean(AmortizationPrinterBean amortizationPrinterBean) {
       this.amortizationPrinterBean = amortizationPrinterBean;
    }
-
 }
+]]></script>
+  </ui:composition>
+</body>
+</html>
