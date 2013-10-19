@@ -9,6 +9,10 @@
       This example shows how to write an almost pure AngularJS application having a small server part.
       <prime:tabView id="tabView">
       <prime:tab title="live demo">
+        <prime:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false"
+          resizable="false">
+          <prime:graphicImage value="ajaxloadingbar.gif" />
+        </prime:dialog>
         <h:form ng:name="myform">
           <a:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
           <prime:panel header="Which loan do you need?">
@@ -63,7 +67,7 @@
                 <td><prime:commandButton id="downloadLink" value="amortization plan as PDF" ajax="false"
                     onclick="PrimeFaces.monitorDownload(start, stop)" icon="ui-icon-arrowthichk-s">
                     <prime:fileDownload value="#{amortizationPrinterController.generateAmortizationPlanAsPDF}"
-                    contentDisposition="inline" />
+                      contentDisposition="inline" />
                   </prime:commandButton></td>
               </tr>
             </table>
@@ -105,5 +109,14 @@
         </ui:include>
       </prime:tab>
     </prime:tabView>
+    <script type="text/javascript">
+					function start() {
+						PF('statusDialog').show();
+					}
+
+					function stop() {
+						PF('statusDialog').hide();
+					}
+				</script>
   </a:body>
 </f:view>
