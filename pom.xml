@@ -57,17 +57,15 @@
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
+ 		<dependency>
 			<groupId>org.omnifaces</groupId>
 			<artifactId>omnifaces</artifactId>
-			<version>1.6</version> <!-- Or 1.6.1-SNAPSHOT -->
+			<version>1.6</version> 
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>4.0-Snapshot</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/primefaces-4.0-SNAPSHOT.jar</systemPath>
+			<version>4.0</version>
 		</dependency>
 		<!-- Gson: Java to Json conversion -->
 		<dependency>
@@ -77,6 +75,11 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>1.8.2</version>
+		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>

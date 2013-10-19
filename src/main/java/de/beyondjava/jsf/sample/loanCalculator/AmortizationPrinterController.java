@@ -8,9 +8,14 @@
  */
 package de.beyondjava.jsf.sample.loanCalculator;
 
+import java.io.*;
 import java.util.ArrayList;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.model.*;
 
 @ManagedBean
 @RequestScoped
@@ -45,14 +50,29 @@ public class AmortizationPrinterController {
       }
 
       amortizationPrinterBean.setAmortizationPlan(plan);
-      // FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-      // "Yet to be implemented",
-      // "This demo is work in progress.<br>Please be patient.");
-      // RequestContext.getCurrentInstance().showMessageInDialog(message);
    }
 
    public AmortizationPrinterBean getAmortizationPrinterBean() {
       return amortizationPrinterBean;
+   }
+
+   public StreamedContent getGenerateAmortizationPlanAsPDF() {
+      generateAmortizationPlan();
+      try {
+         InputStream stream = AmortizationPDFPrinter.printAmortizationPlan(amortizationPrinterBean
+               .getAmortizationPlan());
+
+         DefaultStreamedContent file = new DefaultStreamedContent(stream, "application/pdf", "amortizationPlan.pdf");
+         return file;
+
+      }
+      catch (IOException error) {
+         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "error",
+               "A technical error occurred when generating the PDF file.");
+         RequestContext.getCurrentInstance().showMessageInDialog(message);
+         return null;
+      }
+
    }
 
    public void setAmortizationPrinterBean(AmortizationPrinterBean amortizationPrinterBean) {

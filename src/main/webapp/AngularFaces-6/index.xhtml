@@ -60,24 +60,28 @@
               </tr>
               <tr>
                 <td><a:commandButton action="#{amortizationPrinterController.generateAmortizationPlan}" /></td>
-
+                <td><prime:commandButton id="downloadLink" value="amortization plan as PDF" ajax="false"
+                    onclick="PrimeFaces.monitorDownload(start, stop)" icon="ui-icon-arrowthichk-s">
+                    <prime:fileDownload value="#{amortizationPrinterController.generateAmortizationPlanAsPDF}"
+                    contentDisposition="inline" />
+                  </prime:commandButton></td>
               </tr>
             </table>
             <table border="1">
-            <tr >
-            <th>month</th>
-            <th>balance</th>
-            <th>interest paid</th>
-            <th>principal paid</th>
-            <th>monthly payment</th>
-            </tr>
-            <tr ng-repeat="row in amortizationPlan">
-            <td>  {{row.month}}</td>
-            <td>  {{row.balance}}</td>
-            <td>  {{row.interestPaid}}</td>
-            <td>  {{row.principalPaid}}</td>
-            <td>  {{row.monthlyPayment}}</td>
-            </tr>
+              <tr>
+                <th>month</th>
+                <th>balance</th>
+                <th>interest paid</th>
+                <th>principal paid</th>
+                <th>monthly payment</th>
+              </tr>
+              <tr ng-repeat="row in amortizationPlan">
+                <td>{{row.month}}</td>
+                <td>{{row.balance}}</td>
+                <td>{{row.interestPaid}}</td>
+                <td>{{row.principalPaid}}</td>
+                <td>{{row.monthlyPayment}}</td>
+              </tr>
             </table>
           </prime:panel>
 

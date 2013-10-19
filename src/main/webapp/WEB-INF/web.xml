@@ -33,7 +33,7 @@
 		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
 	</listener>
 	<error-page>
-    <exception-type>java.lang.Throwable</exception-type>
-    <location>/error.jsf</location>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/error.jsf</location>
 	</error-page>
 </web-app>
