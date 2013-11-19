@@ -126,6 +126,7 @@ public class AmortizationPDFPrinter {
             p += rowsOnCurrentPage;
          }
          ByteArrayOutputStream bo = new ByteArrayOutputStream();
+         doc.close();
          doc.save(bo);
          byte[] pdfAsByteArray = bo.toByteArray();
          ByteArrayInputStream bi = new ByteArrayInputStream(pdfAsByteArray);
