@@ -6,6 +6,15 @@
 	<!-- No ManagedBean declarations here as we are using @ManagedBean Annotations. -->
 	<factory>
 		<exception-handler-factory>org.omnifaces.exceptionhandler.FullAjaxExceptionHandlerFactory</exception-handler-factory>
-	</factory>
+        <!-- <partial-view-context-factory>de.beyondjava.differentialContextWriter.CustomPartialViewContextFactory</partial-view-context-factory> -->
+<!-- 
+        <render-kit-factory>
+      de.beyondjava.renderkit.BJRenderKitFactoryImpl
+    </render-kit-factory>
+   -->
+    <external-context-factory>
+      de.beyondjava.context.BJExternalContextFactoryImpl
+    </external-context-factory>
+ </factory>
  
 </faces-config>
