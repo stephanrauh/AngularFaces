@@ -13,7 +13,7 @@
     </render-kit-factory>
    -->
     <external-context-factory>
-      de.beyondjava.context.BJExternalContextFactoryImpl
+      de.beyondjava.jsf.ajax.context.BJExternalContextFactoryImpl
     </external-context-factory>
  </factory>
  
