@@ -11,6 +11,9 @@ import java.io.*;
  */
 public class PrettyPrintResponseWriter extends Writer {
 
+   boolean almostFinished = false; // true if partial-response has been written,
+                                   // but the trailing ">" hasn't been written
+                                   // yet
    boolean finished = false;
    private int indent = 0;
 
@@ -89,11 +92,14 @@ public class PrettyPrintResponseWriter extends Writer {
       else if (s.contains("/>")) {
          indent--;
       }
+      if (almostFinished) {
+         finished = true;
+      }
 
       int fin = prettyBuffer.length() - 1;
       if (fin >= 50) {
          if (s.contains("partial-response")) {
-            finished = true;
+            almostFinished = true;
          }
          if (s.contains("</body>")) {
             finished = true;
@@ -102,7 +108,6 @@ public class PrettyPrintResponseWriter extends Writer {
 
       prettyBuffer.append(s);
       if (finished) {
-
          sunWriter.write(rawBuffer.toString());
          rawBuffer.setLength(0);
          sunWriter.append("\r\n<!--\r\n");
