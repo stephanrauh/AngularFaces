@@ -1,4 +1,4 @@
-package de.beyondjava.jsf.ajax.differentialContextWriter.analyzer;
+package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 
 import java.util.*;
 
@@ -6,7 +6,7 @@ import org.w3c.dom.*;
 
 public class XHtmlDiff {
    public static ArrayList<Node> diff(Document oldDocument, Document newDocument) {
-      ArrayList<Node> diff = XmlDiff.diff(oldDocument, newDocument);
+      ArrayList<Node> diff = XmlDiff.getDifferenceOfDocuments(oldDocument, newDocument);
 
       // 1. schauen ob die Nodes eine Id haben und wenn ja die Parents loopen
       // bis meine eine Node mit ID hat

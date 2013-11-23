@@ -1,0 +1,28 @@
+<form id="j_idt3" name="j_idt3" method="post" action="/AngularFaces/Differencia/segunda.jsf" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="j_idt3" value="j_idt3" />
+<input id="j_idt3:j_idt4" name="j_idt3:j_idt4" type="text" value="3065197262096" style="display:none" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" /><script id="j_idt3:j_idt4_s" type="text/javascript">PrimeFaces.cw('InputText','widget_j_idt3_j_idt4',{id:'j_idt3:j_idt4'});</script><table border="0">
+<tbody>
+<tr>
+<td><label id="j_idt3:j_idt7" class="ui-outputlabel ui-widget" for="j_idt3:j_idt8_input">Toggle first section</label></td>
+<td><div id="j_idt3:j_idt8" class="ui-chkbox ui-widget"><div class="ui-helper-hidden-accessible"><input id="j_idt3:j_idt8_input" name="j_idt3:j_idt8_input" type="checkbox" data-p-label="Toggle first section" data-p-hl="chkbox" /></div><div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"><span class="ui-chkbox-icon ui-c"></span></div></div><script id="j_idt3:j_idt8_s" type="text/javascript">PrimeFaces.cw('SelectBooleanCheckbox','widget_j_idt3_j_idt8',{id:'j_idt3:j_idt8',behaviors:{change:function(event,ext){PrimeFaces.bc(this,event,ext,['PrimeFaces.ab({source:\'j_idt3:j_idt8\',event:\'valueChange\',process:\'j_idt3:j_idt8\',update:\'j_idt3\'}, arguments[1]);']);}}});</script></td>
+</tr>
+<tr>
+<td><label id="j_idt3:j_idt9" class="ui-outputlabel ui-widget" for="j_idt3:j_idt10_input">Toggle second section and change the city</label></td>
+<td><div id="j_idt3:j_idt10" class="ui-chkbox ui-widget"><div class="ui-helper-hidden-accessible"><input id="j_idt3:j_idt10_input" name="j_idt3:j_idt10_input" type="checkbox" data-p-label="Toggle second section and change the city" data-p-hl="chkbox" /></div><div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"><span class="ui-chkbox-icon ui-c"></span></div></div><script id="j_idt3:j_idt10_s" type="text/javascript">PrimeFaces.cw('SelectBooleanCheckbox','widget_j_idt3_j_idt10',{id:'j_idt3:j_idt10',behaviors:{change:function(event,ext){PrimeFaces.bc(this,event,ext,['PrimeFaces.ab({source:\'j_idt3:j_idt10\',event:\'valueChange\',process:\'j_idt3:j_idt10\',update:\'j_idt3\'}, arguments[1]);']);}}});</script></td>
+</tr>
+<tr>
+<td><label id="j_idt3:j_idt11" class="ui-outputlabel ui-widget" for="j_idt3:j_idt12_input">Toggle first and third section</label></td>
+<td><div id="j_idt3:j_idt12" class="ui-chkbox ui-widget"><div class="ui-helper-hidden-accessible"><input id="j_idt3:j_idt12_input" name="j_idt3:j_idt12_input" type="checkbox" checked="checked" data-p-label="Toggle first and third section" data-p-hl="chkbox" /></div><div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default ui-state-active"><span class="ui-chkbox-icon ui-c ui-chkbox-icon ui-icon ui-icon-check ui-c"></span></div></div><script id="j_idt3:j_idt12_s" type="text/javascript">PrimeFaces.cw('SelectBooleanCheckbox','widget_j_idt3_j_idt12',{id:'j_idt3:j_idt12',behaviors:{change:function(event,ext){PrimeFaces.bc(this,event,ext,['PrimeFaces.ab({source:\'j_idt3:j_idt12\',event:\'valueChange\',process:\'j_idt3:j_idt12\',update:\'j_idt3\'}, arguments[1]);']);}}});</script></td>
+</tr>
+</tbody>
+</table>
+<table border="0">
+<tbody>
+<tr>
+<td><label id="j_idt3:j_idt19" class="ui-outputlabel ui-widget" for="j_idt3:j_idt20">street</label></td>
+<td><input id="j_idt3:j_idt20" name="j_idt3:j_idt20" type="text" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" data-p-label="street" /><script id="j_idt3:j_idt20_s" type="text/javascript">PrimeFaces.cw('InputText','widget_j_idt3_j_idt20',{id:'j_idt3:j_idt20'});</script></td>
+</tr>
+</tbody>
+</table>
+<button id="j_idt3:j_idt26" name="j_idt3:j_idt26" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onclick="PrimeFaces.ab({source:'j_idt3:j_idt26',update:'j_idt3'});return false;" type="submit"><span class="ui-button-text ui-c">test</span></button><script id="j_idt3:j_idt26_s" type="text/javascript">PrimeFaces.cw('CommandButton','widget_j_idt3_j_idt26',{id:'j_idt3:j_idt26'});</script>
+</form>

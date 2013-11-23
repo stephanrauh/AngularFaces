@@ -1,4 +1,4 @@
-package de.beyondjava.jsf.ajax.differentialContextWriter.analyzer;
+package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 
 import java.util.ArrayList;
 
@@ -22,13 +22,26 @@ public class XmlDiff {
       Node oldAttribute = null;
       for (int i = 0; i < newNode.getAttributes().getLength(); i++) {
          newAttribute = newNode.getAttributes().item(i);
-         oldAttribute = oldNode.getAttributes().getNamedItem(newAttribute.getNodeName());
+         final String attributeName = newAttribute.getNodeName();
+         oldAttribute = oldNode.getAttributes().getNamedItem(attributeName);
 
          if (null == oldAttribute) {
             return false;
          }
 
-         if (!(String.valueOf(oldAttribute.getNodeValue()).equals(String.valueOf(newAttribute.getNodeValue())))) {
+         String oldString = String.valueOf(oldAttribute.getNodeValue());
+         if (attributeName.equals("action") && oldString.contains("jsessionid")) {
+            int start = oldString.indexOf(";jsessionid");
+            int end = oldString.indexOf(";", start + 1);
+            if (end > 0) {
+               oldString = oldString.substring(0, start) + oldString.substring(end);
+            }
+            else {
+               oldString = oldString.substring(0, start);
+            }
+         }
+         final String newString = String.valueOf(newAttribute.getNodeValue());
+         if (!(oldString.equals(newString))) {
             return false;
          }
       }
@@ -93,13 +106,25 @@ public class XmlDiff {
       return oldString.equals(newString);
    }
 
-   public static ArrayList<Node> diff(Document oldDocument, Document newDocument) {
+   public static ArrayList<Node> getDifferenceOfDocuments(Document oldDocument, Document newDocument) {
       Node oldRootNode = oldDocument.getChildNodes().item(0);
       Node newRootNode = newDocument.getChildNodes().item(0);
 
       ArrayList<Node> diff = new ArrayList<Node>();
 
-      compareNode(oldRootNode, newRootNode, diff);
+      if (!compareNode(oldRootNode, newRootNode, diff)) {
+         diff.add(newRootNode);
+      }
+
+      return diff;
+   }
+
+   public static ArrayList<Node> getDifferenceOfNodes(Node oldNode, Node newNode) {
+      ArrayList<Node> diff = new ArrayList<Node>();
+
+      if (!compareNode(oldNode, newNode, diff)) {
+         diff.add(newNode);
+      }
 
       return diff;
    }

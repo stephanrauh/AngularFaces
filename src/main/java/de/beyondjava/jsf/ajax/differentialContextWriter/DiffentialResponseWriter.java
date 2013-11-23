@@ -6,7 +6,7 @@ package de.beyondjava.jsf.ajax.differentialContextWriter;
 import java.io.*;
 import java.util.Map;
 
-import de.beyondjava.jsf.ajax.differentialContextWriter.analyzer.DiffenceAnalyzer;
+import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DiffenceEngine;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
@@ -93,7 +93,7 @@ public class DiffentialResponseWriter extends Writer {
       // System.out.println(s);
       if (endOfPage(s)) {
          if (rawbufferValid) {
-            String difference = new DiffenceAnalyzer().yieldDifferences(rawBuffer.toString(), sessionMap, isAJAX);
+            String difference = new DiffenceEngine().yieldDifferences(rawBuffer.toString(), sessionMap, isAJAX);
             sunWriter.write(difference);
          }
          else {
