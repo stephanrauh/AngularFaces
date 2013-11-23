@@ -27,7 +27,6 @@ public class PrettyPrintResponseWriter extends Writer {
     */
    public PrettyPrintResponseWriter(Writer writer) {
       sunWriter = writer;
-      System.out.println("Aquiring PrettyPrintResponseWriter" + writer.getClass().getSimpleName());
    }
 
    @Override
@@ -66,9 +65,6 @@ public class PrettyPrintResponseWriter extends Writer {
     * @throws IOException
     */
    private void writeASingleTag(String s) throws IOException {
-      if (s.contains("</body>")) {
-         System.out.println("Hallo Wach!");
-      }
       if (s.startsWith("<")) {
          if (s.startsWith("</")) {
             indent--;

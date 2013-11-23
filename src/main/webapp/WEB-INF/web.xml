@@ -25,6 +25,7 @@
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
 		<param-value>server</param-value>
 	</context-param>
+<!-- 
 	<context-param>
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
 		<param-value>resources.application</param-value>
@@ -32,6 +33,7 @@
 	<listener>
 		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
 	</listener>
+ -->
 	<error-page>
 		<exception-type>java.lang.Throwable</exception-type>
 		<location>/error.jsf</location>

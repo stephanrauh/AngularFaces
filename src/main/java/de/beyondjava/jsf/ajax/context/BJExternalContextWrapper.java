@@ -7,7 +7,7 @@ import java.io.*;
 
 import javax.faces.context.*;
 
-import de.beyondjava.jsf.ajax.differentialContextWriter.PrettyPrintResponseWriter;
+import de.beyondjava.jsf.ajax.differentialContextWriter.*;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
@@ -18,6 +18,7 @@ public class BJExternalContextWrapper extends ExternalContextWrapper {
    private ExternalContext original;
 
    private Writer originalResponseWriter;
+   private Writer prettyResponseWriter;
    private Writer responseWriter;
 
    /**
@@ -31,7 +32,8 @@ public class BJExternalContextWrapper extends ExternalContextWrapper {
    public Writer getResponseOutputWriter() throws IOException {
       if ((null == originalResponseWriter) || (originalResponseWriter != super.getResponseOutputWriter())) {
          originalResponseWriter = super.getResponseOutputWriter();
-         responseWriter = new PrettyPrintResponseWriter(originalResponseWriter);
+         prettyResponseWriter = new PrettyPrintResponseWriter(originalResponseWriter);
+         responseWriter = new DiffentialResponseWriter(originalResponseWriter, getSessionMap());
       }
       return responseWriter;
    }
