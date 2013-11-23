@@ -6,6 +6,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.*;
 
+import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
+
 import de.beyondjava.jsfComponents.common.*;
 
 /**
@@ -40,6 +42,9 @@ public class NGSecurityPhaseListenerImpl implements PhaseListener, NGSecurityPha
          Map<String, NGBeanAttributeInfo> infos) {
       if (null != component) {
          parameters.add(component.getClientId());
+         if (component instanceof SelectBooleanCheckbox) {
+            parameters.add(component.getClientId() + "_input");
+         }
          NGBeanAttributeInfo info = ELTools.getBeanAttributeInfos(component);
          infos.put(component.getClientId(), info);
 
@@ -88,6 +93,8 @@ public class NGSecurityPhaseListenerImpl implements PhaseListener, NGSecurityPha
             add("javax.faces.partial.execute");
             add("javax.faces.source");
             add("javax.faces.partial.render");
+            add("javax.faces.behavior.event");
+            add("javax.faces.partial.event");
          }
       };
       UIComponent root = context.getViewRoot();
