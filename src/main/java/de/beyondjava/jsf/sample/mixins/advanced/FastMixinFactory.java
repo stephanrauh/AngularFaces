@@ -27,9 +27,10 @@ public class FastMixinFactory<T> {
    public T create(Class<T> iface, Class<?>... mixinClasses) throws ReflectiveOperationException,
          CannotCompileException, NotFoundException {
       if (null == mixedInClass) {
+         Class.forName(iface.getCanonicalName());
          ClassPool pool = ClassPool.getDefault();
+         pool.insertClassPath(new ClassClassPath(iface));
          CtClass cc = pool.makeClass(iface.getCanonicalName() + "Impl");
-
          CtClass ctInterface = pool.get(iface.getCanonicalName());
          cc.setInterfaces(new CtClass[] { ctInterface });
 
@@ -47,10 +48,24 @@ public class FastMixinFactory<T> {
                String methodName = m.getName();
                String signature = m.toGenericString();
                signature = signature.replace(delegateClassName + ".", "");
-               String declaration = signature + "{ " + delegateFieldName + "." + methodName + getParameterList(m)
-                     + ";}";
-               CtMethod delegateMethod = CtNewMethod.make(declaration, cc);
-               cc.addMethod(delegateMethod);
+               String declaration;
+               Class<?>[] parameters = m.getParameterTypes();
+               if (null != m.getReturnType()) {
+                  declaration = signature + "{ " + "return " + delegateFieldName + "." + methodName
+                        + getParameterList(m) + ";}";
+
+               }
+               else {
+                  declaration = signature + "{ " + delegateFieldName + "." + methodName + getParameterList(m) + ";}";
+               }
+
+               try {
+                  CtMethod delegateMethod = CtNewMethod.make(declaration, cc);
+                  cc.addMethod(delegateMethod);
+               }
+               catch (CannotCompileException e) {
+                  System.out.println(declaration);
+               }
                // CtMethod fetchMethod =
                // CtNewMethod.make("public void fetch() { fetcher.fetch(); }",
                // cc);
