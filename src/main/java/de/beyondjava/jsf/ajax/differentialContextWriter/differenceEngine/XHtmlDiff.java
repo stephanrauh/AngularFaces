@@ -10,13 +10,16 @@ public class XHtmlDiff {
          .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.XmlDiff");
 
    public static ArrayList<Node> diff(Document oldDocument, Document newDocument) {
-      ArrayList<Node> diff = XmlDiff.getDifferenceOfDocuments(oldDocument, newDocument);
+      ArrayList<String> deletions = new ArrayList<String>();
+      ArrayList<String> changes = new ArrayList<String>();
+
+      ArrayList<Node> diff = XmlDiff.getDifferenceOfDocuments(oldDocument, newDocument, deletions, changes);
 
       // 1. schauen ob die Nodes eine Id haben und wenn ja die Parents loopen
       // bis meine eine Node mit ID hat
       // 2. durch den ersten Schritt kann passieren das man jetzt Childs von den
       // neuen Parent bereits als DIff hat
-      // also sortieren wir nochaml aus
+      // also sortieren wir nochmal aus
       fix(diff);
 
       return diff;

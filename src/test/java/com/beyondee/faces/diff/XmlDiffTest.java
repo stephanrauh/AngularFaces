@@ -27,10 +27,12 @@ public class XmlDiffTest {
          factory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
          factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
          DocumentBuilder builder = factory.newDocumentBuilder();
+         ArrayList<String> deletions = new ArrayList<String>();
+         ArrayList<String> changes = new ArrayList<String>();
 
          return XmlDiff.getDifferenceOfDocuments(
                builder.parse(getClass().getResourceAsStream("/test" + testNr + "-old.xml")),
-               builder.parse(getClass().getResourceAsStream("/test" + testNr + "-new.xml")));
+               builder.parse(getClass().getResourceAsStream("/test" + testNr + "-new.xml")), deletions, changes);
       }
       catch (Exception e) {
          throw new RuntimeException(e);

@@ -61,13 +61,15 @@ public class DiffenceEngine {
     * @param change
     * @param lastKnowDOMTree
     */
-   private ArrayList<Node> determineNecessaryChangeFromResponse(Node change, Document lastKnowDOMTree) {
+   private ArrayList<Node> determineNecessaryChangeFromResponse(Node change, Document lastKnowDOMTree,
+         ArrayList<String> deletions, ArrayList<String> changes) {
       if (change.getNodeName().equals("update")) {
          String id = change.getAttributes().getNamedItem("id").getNodeValue();
          String nodeValue = change.getFirstChild().getNodeValue();
          String changingHTML = nodeValue.toString().trim();
          Node lastKnownCorrespondingNode = findNodeWithID(id, lastKnowDOMTree);
-         ArrayList<Node> necessaryChanges = determineNecessaryChanges(changingHTML, lastKnownCorrespondingNode);
+         ArrayList<Node> necessaryChanges = determineNecessaryChanges(changingHTML, lastKnownCorrespondingNode,
+               deletions, changes);
          if (null != necessaryChanges) {
             ArrayList<Node> partialChanges = new ArrayList<Node>();
             // Todo create an array of partial changes
@@ -86,13 +88,23 @@ public class DiffenceEngine {
    /**
     * @param changingHTML
     * @param lastKnownCorrespondingNode
+    * @param deletions2
+    * @param changes2
     */
-   protected ArrayList<Node> determineNecessaryChanges(String newHTML, Node lastKnownCorrespondingNode) {
+   protected ArrayList<Node> determineNecessaryChanges(String newHTML, Node lastKnownCorrespondingNode,
+         ArrayList<String> deletions, ArrayList<String> changes) {
       if (newHTML.startsWith("<")) {
          Node newDOM = stringToDOM(newHTML).getFirstChild();
-         ArrayList<Node> differences = XmlDiff.getDifferenceOfNodes(lastKnownCorrespondingNode, newDOM);
+         ArrayList<Node> differences = XmlDiff.getDifferenceOfNodes(lastKnownCorrespondingNode, newDOM, deletions,
+               changes);
          for (Node d : differences) {
             System.out.println("Difference: " + d);
+         }
+         for (String d : deletions) {
+            System.out.println("Deletion: " + d);
+         }
+         for (String d : changes) {
+            System.out.println("Change: " + d);
          }
          // generateJUnitTest(newHTML, lastKnownCorrespondingNode, differences);
          return differences;
@@ -247,9 +259,13 @@ public class DiffenceEngine {
          Document partialResponseAsDOMTree = stringToDOM(currentResponse);
          List<Node> listOfChanges = extractChangesFromPartialResponse(partialResponseAsDOMTree);
          for (Node change : listOfChanges) {
-            ArrayList<Node> newPartialChanges = determineNecessaryChangeFromResponse(change, lastKnowDOMTree);
+            ArrayList<String> deletions = new ArrayList<String>();
+            ArrayList<String> changes = new ArrayList<String>();
+            ArrayList<Node> newPartialChanges = determineNecessaryChangeFromResponse(change, lastKnowDOMTree,
+                  deletions, changes);
             if (null != newPartialChanges) {
                for (Node n : newPartialChanges) {
+                  LOGGER.severe("Implement new partial changes");
                   String c = domToString(n);
                }
                // Todo replace the current change with the new partial Changes
