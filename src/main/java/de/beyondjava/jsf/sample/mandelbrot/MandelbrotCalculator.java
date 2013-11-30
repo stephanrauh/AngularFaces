@@ -1,4 +1,4 @@
-package de.beyondjava.mandelbrot;
+package de.beyondjava.jsf.sample.mandelbrot;
 
 public class MandelbrotCalculator {
 
