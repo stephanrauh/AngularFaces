@@ -4,12 +4,15 @@
 package de.beyondjava.jsf.ajax.differentialContextWriter;
 
 import java.io.*;
+import java.util.logging.Logger;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
 public class PrettyPrintResponseWriter extends Writer {
+   private static final Logger LOGGER = Logger
+         .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.PrettyPrintResponseWriter");
 
    boolean almostFinished = false; // true if partial-response has been written,
                                    // but the trailing ">" hasn't been written

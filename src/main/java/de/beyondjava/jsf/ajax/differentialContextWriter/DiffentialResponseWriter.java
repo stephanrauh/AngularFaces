@@ -5,6 +5,7 @@ package de.beyondjava.jsf.ajax.differentialContextWriter;
 
 import java.io.*;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DiffenceEngine;
 
@@ -13,6 +14,8 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.Diffenc
  * 
  */
 public class DiffentialResponseWriter extends Writer {
+   private static final Logger LOGGER = Logger
+         .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.DiffentialResponseWriter");
 
    /**
     * true if partial-response has been written, but the trailing ">" hasn't
@@ -74,8 +77,7 @@ public class DiffentialResponseWriter extends Writer {
    @Override
    public void flush() throws IOException {
       rawbufferValid = false;
-      System.out
-            .println("DifferentialResponseWriter hasn't been designed to work with flush(). Returning to non-differential mode.");
+      LOGGER.warning("DifferentialResponseWriter hasn't been designed to work with flush(). Returning to non-differential mode.");
       sunWriter.write(rawBuffer.toString());
       sunWriter.flush();
       rawBuffer.setLength(0);
@@ -90,7 +92,6 @@ public class DiffentialResponseWriter extends Writer {
       }
       String s = new String(cbuf, off, len);
       rawBuffer.append(s);
-      // System.out.println(s);
       if (endOfPage(s)) {
          if (rawbufferValid) {
             String difference = new DiffenceEngine().yieldDifferences(rawBuffer.toString(), sessionMap, isAJAX);

@@ -1,11 +1,27 @@
 package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import org.w3c.dom.*;
 
 public class XmlDiff {
-   public static boolean compareAttributes(Node oldNode, Node newNode) {
+   private static final Logger LOGGER = Logger
+         .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.XmlDiff");
+
+   private static boolean areStringsEqualOrCanBeChangedLocally(String oldString, String newString) {
+      if ((oldString == null) && (newString == null)) {
+         return true;
+      }
+
+      if ((oldString == null) || (newString == null)) {
+         return false;
+      }
+
+      return oldString.equals(newString);
+   }
+
+   public static boolean attributesAreEqualOrCanBeChangedLocally(Node oldNode, Node newNode) {
       if (!oldNode.hasAttributes() && !newNode.hasAttributes()) {
          return true;
       }
@@ -49,61 +65,25 @@ public class XmlDiff {
       return true;
    }
 
-   private static void compareChildNodes(NodeList oldNodes, NodeList newNodes, Node newParentNode, ArrayList<Node> diff) {
+   private static boolean childNodeAreEqualOrCanBeChangedLocally(NodeList oldNodes, NodeList newNodes, Node newParentNode,
+         ArrayList<Node> diff) {
       if (oldNodes.getLength() != newNodes.getLength()) {
+         LOGGER.fine("TODO: add delete and insert");
          diff.add(newParentNode);
-         return;
+         return false;
       }
 
       for (int i = 0; i < oldNodes.getLength(); i++) {
-         if (!compareNode(oldNodes.item(i), newNodes.item(i), diff)) {
+         if (!nodesAreEqualOrCanBeChangedLocally(oldNodes.item(i), newNodes.item(i), diff)) {
             diff.add(newParentNode);
-            return;
+            return false;
          }
       }
-   }
-
-   public static boolean compareIds(Node oldNode, Node newNode) {
-      if (!(oldNode instanceof Element) && !(newNode instanceof Element)) {
-         return true;
-      }
-
-      return ((Element) oldNode).getAttribute("id").equals(((Element) newNode).getAttribute("id"));
-   }
-
-   private static boolean compareNode(Node oldNode, Node newNode, ArrayList<Node> diff) {
-      if (!compareNodeName(oldNode, newNode)) {
-         return false;
-      }
-      if (!compareIds(oldNode, newNode)) {
-         return false;
-      }
-      if (!compareAttributes(oldNode, newNode)) {
-         return false;
-      }
-      if (!compareStrings(oldNode.getNodeValue(), newNode.getNodeValue())) {
-         return false;
-      }
-
-      compareChildNodes(oldNode.getChildNodes(), newNode.getChildNodes(), newNode, diff);
-
       return true;
    }
 
-   private static boolean compareNodeName(Node oldNode, Node newNode) {
+   private static boolean nodeNamesAreEqualsOrCanBeChangedLocally(Node oldNode, Node newNode) {
       return oldNode.getNodeName().equals(newNode.getNodeName());
-   }
-
-   private static boolean compareStrings(String oldString, String newString) {
-      if ((oldString == null) && (newString == null)) {
-         return true;
-      }
-
-      if ((oldString == null) || (newString == null)) {
-         return false;
-      }
-
-      return oldString.equals(newString);
    }
 
    public static ArrayList<Node> getDifferenceOfDocuments(Document oldDocument, Document newDocument) {
@@ -112,7 +92,7 @@ public class XmlDiff {
 
       ArrayList<Node> diff = new ArrayList<Node>();
 
-      if (!compareNode(oldRootNode, newRootNode, diff)) {
+      if (!nodesAreEqualOrCanBeChangedLocally(oldRootNode, newRootNode, diff)) {
          diff.add(newRootNode);
       }
 
@@ -122,10 +102,44 @@ public class XmlDiff {
    public static ArrayList<Node> getDifferenceOfNodes(Node oldNode, Node newNode) {
       ArrayList<Node> diff = new ArrayList<Node>();
 
-      if (!compareNode(oldNode, newNode, diff)) {
+      if (!nodesAreEqualOrCanBeChangedLocally(oldNode, newNode, diff)) {
          diff.add(newNode);
       }
 
       return diff;
+   }
+
+   public static boolean idsAreEqualOrCanBeChangedLocally(Node oldNode, Node newNode) {
+      if (!(oldNode instanceof Element) && !(newNode instanceof Element)) {
+         return true;
+      }
+
+      return ((Element) oldNode).getAttribute("id").equals(((Element) newNode).getAttribute("id"));
+   }
+
+   private static boolean nodesAreEqualOrCanBeChangedLocally(Node oldNode, Node newNode, ArrayList<Node> diff) {
+      if (!nodeNamesAreEqualsOrCanBeChangedLocally(oldNode, newNode)) {
+         return false;
+      }
+      if (!idsAreEqualOrCanBeChangedLocally(oldNode, newNode)) {
+         return false;
+      }
+      boolean attributesHaveChanged = (!attributesAreEqualOrCanBeChangedLocally(oldNode, newNode));
+
+      if (!areStringsEqualOrCanBeChangedLocally(oldNode.getNodeValue(), newNode.getNodeValue())) {
+         return false;
+      }
+
+      boolean childNodeHaveChanged = !childNodeAreEqualOrCanBeChangedLocally(oldNode.getChildNodes(), newNode.getChildNodes(), newNode, diff);
+      if (!diff.contains(newNode)) {
+         if (attributesHaveChanged) {
+            LOGGER.severe("TODO: add changeAttribute");
+            diff.add(newNode);
+            System.out.println(new DiffenceEngine().domToString(newNode));
+            return true;
+         }
+      }
+
+      return true;
    }
 }

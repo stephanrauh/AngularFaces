@@ -12,7 +12,7 @@ import javax.faces.bean.*;
 import javax.validation.constraints.Size;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class DifferenceDemoBean {
    private String city;
    @Size(max = 30)
@@ -23,9 +23,17 @@ public class DifferenceDemoBean {
    private String lastName = "Doe";
    private boolean secondSectionVisible = true;
 
-   private String street;
+   private String street = this.toString();
    private boolean thirdSectionVisible = true;
    private String zipcode;
+
+   public void changeCity() {
+      String[] cities = new String[] { "Armsheim", "Biebelsheim", "Crumstadt", "Dolgesheim", "Ebersheim",
+            "Farmersheim", "Gundersheim", "Hahnheim", "Immesheim", "Jugenheim", "Köngernheim", "Laubenheim",
+            "Monsheim", "Oppenheim", "Pfeddersheim" };
+      long index = (long) Math.floor(Math.random() * cities.length);
+      city = cities[(int) index];
+   }
 
    /**
     * @return the city
@@ -141,13 +149,14 @@ public class DifferenceDemoBean {
       firstSectionVisible = !firstSectionVisible;
    }
 
-   public void toggleSecondSection(javax.faces.event.AjaxBehaviorEvent event) {
+   public void toggleSecondSectionAndChangeCity() {
       secondSectionVisible = !secondSectionVisible;
-      String[] cities = new String[] { "Armsheim", "Biebelsheim", "Crumstadt", "Dolgesheim", "Ebersheim",
-            "Farmersheim", "Gundersheim", "Hahnheim", "Immesheim", "Jugenheim", "Köngernheim", "Laubenheim",
-            "Monsheim", "Oppenheim", "Pfeddersheim" };
-      long index = Math.round(Math.random() * cities.length);
-      city = cities[(int) index];
+      changeCity();
+   }
+
+   public void toggleSecondSectionAndChangeCity(javax.faces.event.AjaxBehaviorEvent event) {
+      secondSectionVisible = !secondSectionVisible;
+      changeCity();
    }
 
    public void toggleThirdSection(javax.faces.event.AjaxBehaviorEvent event) {

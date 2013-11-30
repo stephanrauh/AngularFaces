@@ -11,7 +11,7 @@
         <prime:selectBooleanCheckbox>
           <prime:ajax update="@form" listener="#{differenceDemoBean.toggleFirstSection}" />
         </prime:selectBooleanCheckbox>
-        <prime:outputLabel value="Toggle second section and change the city" for="@next"></prime:outputLabel>
+        <prime:outputLabel value="Change the city" for="@next"></prime:outputLabel>
         <prime:selectBooleanCheckbox>
           <prime:ajax update="@form" listener="#{differenceDemoBean.toggleSecondSection}" />
         </prime:selectBooleanCheckbox>
@@ -20,19 +20,19 @@
           <prime:ajax update="@form" listener="#{differenceDemoBean.toggleThirdSection}" />
         </prime:selectBooleanCheckbox>
       </h:panelGrid>
-      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}">
+      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}" id="firstSection">
         <prime:outputLabel value="first name" for="@next" />
         <prime:inputText value="#{securityDemoBean.firstName}" />
         <prime:outputLabel value="last name" for="@next" />
         <prime:inputText value="#{securityDemoBean.lastName}" />
       </h:panelGrid>
-      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.secondSectionVisible}">
+      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.secondSectionVisible}" id="secondSection">
         <prime:outputLabel value="street" for="@next" />
         <prime:inputText value="#{differenceDemoBean.street}" />
       </h:panelGrid>
-      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.thirdSectionVisible}">
+      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.thirdSectionVisible}" id="thirdSection">
         <prime:outputLabel value="zip code" for="@next" />
-        <prime:inputText value="#{differenceDemoBean.zipcode}" />
+        <prime:inputText id="zipcode" value="#{differenceDemoBean.zipcode}" />
         <prime:outputLabel value="city" for="@next" />
         <prime:inputText value="#{differenceDemoBean.city}" />
       </h:panelGrid>

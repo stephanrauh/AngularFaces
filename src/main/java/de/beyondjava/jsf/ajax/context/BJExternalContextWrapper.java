@@ -4,6 +4,7 @@
 package de.beyondjava.jsf.ajax.context;
 
 import java.io.*;
+import java.util.logging.Logger;
 
 import javax.faces.context.*;
 
@@ -14,6 +15,7 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.*;
  * 
  */
 public class BJExternalContextWrapper extends ExternalContextWrapper {
+   private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsf.ajax.context.BJExternalContextWrapper");
 
    private ExternalContext original;
 

@@ -1,10 +1,14 @@
 package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 import org.w3c.dom.*;
 
 public class XHtmlDiff {
+   private static final Logger LOGGER = Logger
+         .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.XmlDiff");
+
    public static ArrayList<Node> diff(Document oldDocument, Document newDocument) {
       ArrayList<Node> diff = XmlDiff.getDifferenceOfDocuments(oldDocument, newDocument);
 

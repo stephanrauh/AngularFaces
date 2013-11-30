@@ -1,52 +1,52 @@
-<form action="/AngularFaces/Differencia/segunda.jsf;jsessionid=1DAEA1E32DC4E0764FD356A2715C7E6E" enctype="application/x-www-form-urlencoded" id="j_idt3" method="post" name="j_idt3">
-<input name="j_idt3" type="hidden" value="j_idt3"/>
-<input class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" id="j_idt3:j_idt4" name="j_idt3:j_idt4" style="display:none" type="text" value="3063410081036"/><script id="j_idt3:j_idt4_s" type="text/javascript">PrimeFaces.cw('InputText','widget_j_idt3_j_idt4',{id:'j_idt3:j_idt4'});</script><table border="0">
+<form action="/AngularFaces/Differencia/tercera.jsf" enctype="application/x-www-form-urlencoded" id="formID" method="post" name="formID">
+<input name="formID" type="hidden" value="formID"/>
+<table border="0">
 <tbody>
 <tr>
-<td><label class="ui-outputlabel ui-widget" for="j_idt3:j_idt8_input" id="j_idt3:j_idt7">Toggle first section</label></td>
-<td><div class="ui-chkbox ui-widget" id="j_idt3:j_idt8"><div class="ui-helper-hidden-accessible"><input data-p-hl="chkbox" data-p-label="Toggle first section" id="j_idt3:j_idt8_input" name="j_idt3:j_idt8_input" type="checkbox"/></div><div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"><span class="ui-chkbox-icon ui-c"/></div></div><script id="j_idt3:j_idt8_s" type="text/javascript">PrimeFaces.cw('SelectBooleanCheckbox','widget_j_idt3_j_idt8',{id:'j_idt3:j_idt8',behaviors:{change:function(event,ext){PrimeFaces.bc(this,event,ext,['PrimeFaces.ab({source:\'j_idt3:j_idt8\',event:\'valueChange\',process:\'j_idt3:j_idt8\',update:\'j_idt3\'}, arguments[1]);']);}}});</script></td>
+<td><label>Toggle first section</label></td>
+<td><input id="formID:j_idt6" name="formID:j_idt6" onclick="mojarra.ab(this,event,'valueChange',0,'formID')" type="checkbox"/></td>
 </tr>
 <tr>
-<td><label class="ui-outputlabel ui-widget" for="j_idt3:j_idt10_input" id="j_idt3:j_idt9">Toggle second section and change the city</label></td>
-<td><div class="ui-chkbox ui-widget" id="j_idt3:j_idt10"><div class="ui-helper-hidden-accessible"><input data-p-hl="chkbox" data-p-label="Toggle second section and change the city" id="j_idt3:j_idt10_input" name="j_idt3:j_idt10_input" type="checkbox"/></div><div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"><span class="ui-chkbox-icon ui-c"/></div></div><script id="j_idt3:j_idt10_s" type="text/javascript">PrimeFaces.cw('SelectBooleanCheckbox','widget_j_idt3_j_idt10',{id:'j_idt3:j_idt10',behaviors:{change:function(event,ext){PrimeFaces.bc(this,event,ext,['PrimeFaces.ab({source:\'j_idt3:j_idt10\',event:\'valueChange\',process:\'j_idt3:j_idt10\',update:\'j_idt3\'}, arguments[1]);']);}}});</script></td>
+<td><label>Toggle second section and change the city</label></td>
+<td><input id="formID:j_idt8" name="formID:j_idt8" onclick="mojarra.ab(this,event,'valueChange',0,'formID')" type="checkbox"/></td>
 </tr>
 <tr>
-<td><label class="ui-outputlabel ui-widget" for="j_idt3:j_idt12_input" id="j_idt3:j_idt11">Toggle first and third section</label></td>
-<td><div class="ui-chkbox ui-widget" id="j_idt3:j_idt12"><div class="ui-helper-hidden-accessible"><input data-p-hl="chkbox" data-p-label="Toggle first and third section" id="j_idt3:j_idt12_input" name="j_idt3:j_idt12_input" type="checkbox"/></div><div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"><span class="ui-chkbox-icon ui-c"/></div></div><script id="j_idt3:j_idt12_s" type="text/javascript">PrimeFaces.cw('SelectBooleanCheckbox','widget_j_idt3_j_idt12',{id:'j_idt3:j_idt12',behaviors:{change:function(event,ext){PrimeFaces.bc(this,event,ext,['PrimeFaces.ab({source:\'j_idt3:j_idt12\',event:\'valueChange\',process:\'j_idt3:j_idt12\',update:\'j_idt3\'}, arguments[1]);']);}}});</script></td>
+<td><label>Toggle first and third section</label></td>
+<td><input id="formID:j_idt10" name="formID:j_idt10" onclick="mojarra.ab(this,event,'valueChange',0,'formID')" type="checkbox"/></td>
 </tr>
 </tbody>
 </table>
 <table border="0">
 <tbody>
 <tr>
-<td><label class="ui-outputlabel ui-widget" for="j_idt3:j_idt15" id="j_idt3:j_idt14">first name</label></td>
-<td><input class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" data-p-label="first name" data-p-maxlength="30" data-p-minlength="0" data-p-val="Size" id="j_idt3:j_idt15" name="j_idt3:j_idt15" type="text" value="John"/><script id="j_idt3:j_idt15_s" type="text/javascript">PrimeFaces.cw('InputText','widget_j_idt3_j_idt15',{id:'j_idt3:j_idt15'});</script></td>
+<td><label>first name</label></td>
+<td><input name="formID:j_idt13" type="text" value="John"/></td>
 </tr>
 <tr>
-<td><label class="ui-outputlabel ui-widget" for="j_idt3:j_idt17" id="j_idt3:j_idt16">last name</label></td>
-<td><input class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" data-p-label="last name" data-p-maxlength="30" data-p-minlength="0" data-p-val="Size" id="j_idt3:j_idt17" name="j_idt3:j_idt17" type="text" value="Doe"/><script id="j_idt3:j_idt17_s" type="text/javascript">PrimeFaces.cw('InputText','widget_j_idt3_j_idt17',{id:'j_idt3:j_idt17'});</script></td>
+<td><label>last name</label></td>
+<td><input name="formID:j_idt15" type="text" value="Doe"/></td>
 </tr>
 </tbody>
 </table>
 <table border="0">
 <tbody>
 <tr>
-<td><label class="ui-outputlabel ui-widget" for="j_idt3:j_idt20" id="j_idt3:j_idt19">street</label></td>
-<td><input class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" data-p-label="street" id="j_idt3:j_idt20" name="j_idt3:j_idt20" type="text"/><script id="j_idt3:j_idt20_s" type="text/javascript">PrimeFaces.cw('InputText','widget_j_idt3_j_idt20',{id:'j_idt3:j_idt20'});</script></td>
+<td><label>street</label></td>
+<td><input name="formID:j_idt18" type="text" value="de.beyondjava.jsf.sample.differenceEngine.DifferenceDemoBean@10a161a"/></td>
 </tr>
 </tbody>
 </table>
-<table border="0">
+<table border="0" id="formID:third">
 <tbody>
 <tr>
-<td><label class="ui-outputlabel ui-widget" for="j_idt3:j_idt23" id="j_idt3:j_idt22">zip code</label></td>
-<td><input class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" data-p-label="zip code" id="j_idt3:j_idt23" name="j_idt3:j_idt23" type="text"/><script id="j_idt3:j_idt23_s" type="text/javascript">PrimeFaces.cw('InputText','widget_j_idt3_j_idt23',{id:'j_idt3:j_idt23'});</script></td>
+<td><label>zip code</label></td>
+<td><input id="formID:zipcode" name="formID:zipcode" type="text"/></td>
 </tr>
 <tr>
-<td><label class="ui-outputlabel ui-widget" for="j_idt3:j_idt25" id="j_idt3:j_idt24">city</label></td>
-<td><input class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" data-p-label="city" id="j_idt3:j_idt25" name="j_idt3:j_idt25" type="text"/><script id="j_idt3:j_idt25_s" type="text/javascript">PrimeFaces.cw('InputText','widget_j_idt3_j_idt25',{id:'j_idt3:j_idt25'});</script></td>
+<td><label>city</label></td>
+<td><input id="formID:cityID" name="formID:cityID" type="text"/></td>
 </tr>
 </tbody>
 </table>
-<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="j_idt3:j_idt26" name="j_idt3:j_idt26" onclick="PrimeFaces.ab({source:'j_idt3:j_idt26',update:'j_idt3'});return false;" type="submit"><span class="ui-button-text ui-c">test</span></button><script id="j_idt3:j_idt26_s" type="text/javascript">PrimeFaces.cw('CommandButton','widget_j_idt3_j_idt26',{id:'j_idt3:j_idt26'});</script><input autocomplete="off" id="j_id1:javax.faces.ViewState:0" name="javax.faces.ViewState" type="hidden" value="3424034856650106960:198061897513794546"/>
+<input id="formID:j_idt21" name="formID:j_idt21" onclick="mojarra.ab(this,event,'action',0,'formID');return false" type="submit" value="test"/>
 </form>

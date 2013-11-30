@@ -5,6 +5,7 @@ package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
@@ -20,6 +21,8 @@ import org.xml.sax.*;
  * 
  */
 public class DiffenceEngine {
+   private static final Logger LOGGER = Logger
+         .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DiffenceEngine");
    private DocumentBuilder builder;
 
    final String LAST_KNOWN_HTML_KEY = "com.beyondEE.faces.diff.lastKnownHTML";
@@ -44,6 +47,17 @@ public class DiffenceEngine {
    }
 
    /**
+    * @param currentResponse
+    * @return
+    */
+   private String DEBUGdeleteCityNode(String currentResponse) {
+      int pos = currentResponse.indexOf("</changes></partial-response>");
+      String test = "<delete id=\"j_idt3:zipcode\"></delete>";
+      currentResponse = currentResponse.substring(0, pos) + test + currentResponse.substring(pos);
+      return currentResponse;
+   }
+
+   /**
     * @param change
     * @param lastKnowDOMTree
     */
@@ -51,10 +65,6 @@ public class DiffenceEngine {
       if (change.getNodeName().equals("update")) {
          String id = change.getAttributes().getNamedItem("id").getNodeValue();
          String nodeValue = change.getFirstChild().getNodeValue();
-         // System.out.println("#################");
-         // System.out.println(id);
-         // System.out.println("#################");
-         //
          String changingHTML = nodeValue.toString().trim();
          Node lastKnownCorrespondingNode = findNodeWithID(id, lastKnowDOMTree);
          ArrayList<Node> necessaryChanges = determineNecessaryChanges(changingHTML, lastKnownCorrespondingNode);
@@ -69,7 +79,6 @@ public class DiffenceEngine {
          System.out.println(change.getNodeName() + " - remains unchanged");
       }
       change.getFirstChild().getNodeName();
-      // getLength()
       return null;
 
    }
@@ -82,10 +91,10 @@ public class DiffenceEngine {
       if (newHTML.startsWith("<")) {
          Node newDOM = stringToDOM(newHTML).getFirstChild();
          ArrayList<Node> differences = XmlDiff.getDifferenceOfNodes(lastKnownCorrespondingNode, newDOM);
-         // for (Node d : differences) {
-         // System.out.println("Difference: " + d);
-         // }
-         // generateJUnitTest(newHTML, lastKnownCorrespondingNode, differences);
+         for (Node d : differences) {
+            System.out.println("Difference: " + d);
+         }
+         generateJUnitTest(newHTML, lastKnownCorrespondingNode, differences);
          return differences;
 
       }
@@ -95,7 +104,7 @@ public class DiffenceEngine {
 
    }
 
-   private String domToString(Node node) {
+   String domToString(Node node) {
       try {
          TransformerFactory tf = TransformerFactory.newInstance();
          Transformer transformer = tf.newTransformer();
@@ -121,10 +130,7 @@ public class DiffenceEngine {
       Node changes = partialNode.getFirstChild();
       for (int i = 0; i < changes.getChildNodes().getLength(); i++) {
          Node n = changes.getChildNodes().item(i);
-         // System.out.println(n.getNodeName());
-         // if ("change".equals(n.getNodeName())) {
          partialResponses.add(n);
-         // }
       }
       return partialResponses;
    }
@@ -180,8 +186,7 @@ public class DiffenceEngine {
             }
          }
          catch (IOException e) {
-            // TODO Auto-generated catch block
-            System.err.println("Couldn't create JUnit test case");
+            LOGGER.severe("Couldn't create JUnit test case");
          }
 
       }
@@ -243,8 +248,14 @@ public class DiffenceEngine {
          List<Node> listOfChanges = extractChangesFromPartialResponse(partialResponseAsDOMTree);
          for (Node change : listOfChanges) {
             ArrayList<Node> newPartialChanges = determineNecessaryChangeFromResponse(change, lastKnowDOMTree);
-            // Todo replace the current change with the new partial Changes
+            if (null != newPartialChanges) {
+               for (Node n : newPartialChanges) {
+                  String c = domToString(n);
+               }
+               // Todo replace the current change with the new partial Changes
+            }
          }
+         // currentResponse = DEBUGdeleteCityNode(currentResponse);
       }
       else {
          sessionMap.put(LAST_KNOWN_HTML_KEY, currentResponse);

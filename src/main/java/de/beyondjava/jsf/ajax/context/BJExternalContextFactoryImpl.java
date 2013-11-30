@@ -3,18 +3,19 @@
  */
 package de.beyondjava.jsf.ajax.context;
 
+import java.util.logging.Logger;
+
 import javax.faces.FacesException;
 import javax.faces.context.ExternalContext;
 
 import com.sun.faces.context.ExternalContextFactoryImpl;
-
-import de.beyondjava.jsf.ajax.context.BJExternalContextWrapper;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
 public class BJExternalContextFactoryImpl extends ExternalContextFactoryImpl {
+   private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsf.ajax.context.BJExternalContextFactoryImpl");
 
    public BJExternalContextFactoryImpl() {
    }
