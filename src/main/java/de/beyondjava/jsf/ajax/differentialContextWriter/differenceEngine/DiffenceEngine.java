@@ -94,7 +94,7 @@ public class DiffenceEngine {
          for (Node d : differences) {
             System.out.println("Difference: " + d);
          }
-         generateJUnitTest(newHTML, lastKnownCorrespondingNode, differences);
+         // generateJUnitTest(newHTML, lastKnownCorrespondingNode, differences);
          return differences;
 
       }
