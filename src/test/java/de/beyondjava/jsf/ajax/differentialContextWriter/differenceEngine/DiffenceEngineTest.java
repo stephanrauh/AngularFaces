@@ -35,7 +35,7 @@ public class DiffenceEngineTest {
       if (partialChange.exists()) {
          String newHTML = FileUtils.readFileToString(partialChange);
          String lastKnownHTML = FileUtils.readFileToString(new File(dir, "html1.xml"));
-         Node lastKnownCorrespondingNode = diffenceEngine.stringToDOM(lastKnownHTML).getFirstChild();
+         Node lastKnownCorrespondingNode = DOMUtils.stringToDOM(lastKnownHTML).getFirstChild();
          ArrayList<String> deletions = new ArrayList<String>();
          ArrayList<String> changes = new ArrayList<String>();
          ArrayList<Node> necessaryChanges = diffenceEngine.determineNecessaryChanges(newHTML,
@@ -57,14 +57,14 @@ public class DiffenceEngineTest {
       if (partialChange.exists()) {
          String newHTML = FileUtils.readFileToString(partialChange);
          String lastKnownHTML = FileUtils.readFileToString(new File(dir, "html8.xml"));
-         Node lastKnownCorrespondingNode = diffenceEngine.stringToDOM(lastKnownHTML).getFirstChild();
+         Node lastKnownCorrespondingNode = DOMUtils.stringToDOM(lastKnownHTML).getFirstChild();
          ArrayList<String> deletions = new ArrayList<String>();
          ArrayList<String> changes = new ArrayList<String>();
          ArrayList<Node> necessaryChanges = diffenceEngine.determineNecessaryChanges(newHTML,
                lastKnownCorrespondingNode, deletions, changes);
          assertNotNull(necessaryChanges);
          assertEquals(1, necessaryChanges.size());
-         assertEquals(1, deletions.size());
+         assertEquals(0, deletions.size());
          assertEquals(0, changes.size());
          String diff1 = diffenceEngine.domToString(necessaryChanges.get(0));
          assertEquals("<input id=\"formID:cityID\" name=\"formID:cityID\" type=\"text\" value=\"Oppenheim\"/>", diff1);

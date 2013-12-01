@@ -26,6 +26,7 @@ public class XmlDiffTest {
          factory.setFeature("http://xml.org/sax/features/validation", false);
          factory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
          factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+         factory.setIgnoringElementContentWhitespace(true);
          DocumentBuilder builder = factory.newDocumentBuilder();
          ArrayList<String> deletions = new ArrayList<String>();
          ArrayList<String> changes = new ArrayList<String>();

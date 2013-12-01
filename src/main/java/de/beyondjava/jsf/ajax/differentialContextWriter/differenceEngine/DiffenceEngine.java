@@ -3,18 +3,18 @@
  */
 package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 
+import static de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DOMUtils.stringToDOM;
+
 import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.*;
-import org.xml.sax.*;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
@@ -23,7 +23,6 @@ import org.xml.sax.*;
 public class DiffenceEngine {
    private static final Logger LOGGER = Logger
          .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DiffenceEngine");
-   private DocumentBuilder builder;
 
    final String LAST_KNOWN_HTML_KEY = "com.beyondEE.faces.diff.lastKnownHTML";
 
@@ -31,19 +30,6 @@ public class DiffenceEngine {
     * 
     */
    public DiffenceEngine() {
-      try {
-         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-         factory.setNamespaceAware(false);
-         factory.setValidating(false);
-         factory.setFeature("http://xml.org/sax/features/namespaces", false);
-         factory.setFeature("http://xml.org/sax/features/validation", false);
-         factory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
-         factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-         builder = factory.newDocumentBuilder();
-      }
-      catch (ParserConfigurationException e) {
-         throw new RuntimeException("Couldn't initialize the SAX parser.", e);
-      }
    }
 
    /**
@@ -78,7 +64,7 @@ public class DiffenceEngine {
          return null;
       }
       else {
-         System.out.println(change.getNodeName() + " - remains unchanged");
+         LOGGER.info(change.getNodeName() + " - remains unchanged");
       }
       change.getFirstChild().getNodeName();
       return null;
@@ -98,13 +84,13 @@ public class DiffenceEngine {
          ArrayList<Node> differences = XmlDiff.getDifferenceOfNodes(lastKnownCorrespondingNode, newDOM, deletions,
                changes);
          for (Node d : differences) {
-            System.out.println("Difference: " + d);
+            LOGGER.info("Difference: " + d);
          }
          for (String d : deletions) {
-            System.out.println("Deletion: " + d);
+            LOGGER.info("Deletion: " + d);
          }
          for (String d : changes) {
-            System.out.println("Change: " + d);
+            LOGGER.info("Change: " + d);
          }
          // generateJUnitTest(newHTML, lastKnownCorrespondingNode, differences);
          return differences;
@@ -215,27 +201,6 @@ public class DiffenceEngine {
          throw new RuntimeException("HTML code is missing in the session");
       }
       return html;
-   }
-
-   public Document stringToDOM(String html) {
-      if (html.trim().startsWith("<?")) {
-         int pos = html.indexOf("?>");
-         if (pos > 0) {
-            html = html.substring(pos + 2).trim();
-         }
-      }
-      InputSource inputSource = new InputSource(new StringReader(html));
-
-      try {
-         Document domTree = builder.parse(inputSource);
-         return domTree;
-      }
-      catch (SAXException e) {
-         throw new RuntimeException("Couldn't parse the HTML oder XML code due to a SAXException", e);
-      }
-      catch (IOException e) {
-         throw new RuntimeException("Couldn't parse the HTML oder XML code due to an IOException", e);
-      }
    }
 
    /**

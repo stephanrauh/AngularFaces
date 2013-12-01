@@ -1,12 +1,9 @@
 package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 
-import java.io.StringWriter;
+import static de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DOMUtils.getDescriptionOfNode;
+
 import java.util.*;
 import java.util.logging.Logger;
-
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.*;
 
@@ -71,13 +68,17 @@ public class XmlDiff {
       return true;
    }
 
-   private static boolean childNodeAreEqualOrCanBeChangedLocally(NodeList oldNodes, NodeList newNodes,
+   private static boolean childNodeAreEqualOrCanBeChangedLocally(ArrayList<Node> oldNodes, ArrayList<Node> newNodes,
          Node newParentNode, ArrayList<Node> diff, ArrayList<String> deletions, ArrayList<String> changes) {
       boolean needsUpdate = false;
       ArrayList<String> localDeletions = new ArrayList<String>();
       ArrayList<String> localChanges = new ArrayList<String>();
-      if (oldNodes.getLength() != newNodes.getLength()) {
+      if (oldNodes.size() != newNodes.size()) {
          ArrayList<Node> insertList = getAdditionalNodes(oldNodes, newNodes);
+         if ((oldNodes.size() < newNodes.size()) && (insertList.size() == 0)) {
+            // implementation error - must be debugged
+            insertList = getAdditionalNodes(oldNodes, newNodes);
+         }
          if (insertList.size() > 0) {
             needsUpdate = true;
          }
@@ -98,10 +99,10 @@ public class XmlDiff {
                }
             }
          }
-         LOGGER.severe("TODO: add insert");
+         LOGGER.warning("TODO: add insert");
          if (needsUpdate) {
-            LOGGER.severe("TODO: Nodes counts are different, require update of parent. Parent node:"
-                  + getDescriptionOfNode(newParentNode));
+            LOGGER.info("Nodes counts are different, require update of parent. Parent node:"
+                  + DOMUtils.getDescriptionOfNode(newParentNode));
             diff.add(newParentNode);
             return false;
          }
@@ -109,8 +110,8 @@ public class XmlDiff {
 
       int indexOld = 0;
       int indexNew = 0;
-      while (indexOld < oldNodes.getLength()) {
-         Node o = (oldNodes.item(indexOld));
+      while (indexOld < oldNodes.size()) {
+         Node o = (oldNodes.get(indexOld));
          if (o instanceof Element) {
             String id = ((Element) o).getAttribute("id");
             if (localDeletions.contains(id)) {
@@ -118,9 +119,9 @@ public class XmlDiff {
                continue;
             }
          }
-         if (!nodesAreEqualOrCanBeChangedLocally(o, newNodes.item(indexNew), diff, deletions, changes)) {
-            LOGGER.severe("TODO: Nodes are different, require update of parent. Parent node:"
-                  + getDescriptionOfNode(newParentNode));
+         if (!nodesAreEqualOrCanBeChangedLocally(o, newNodes.get(indexNew), diff, deletions, changes)) {
+            LOGGER.info("Nodes are different, require update of parent. Parent node:"
+                  + DOMUtils.getDescriptionOfNode(newParentNode));
             diff.add(newParentNode);
             return false;
          }
@@ -128,56 +129,33 @@ public class XmlDiff {
          indexNew++;
       }
       if (localChanges.size() > 0) {
-         LOGGER.severe("Adding attribute changes");
+         LOGGER.info("Adding attribute changes");
          changes.addAll(localChanges);
       }
       if (localDeletions.size() > 0) {
-         LOGGER.severe("Adding node deletions");
+         LOGGER.info("Adding node deletions");
          deletions.addAll(localDeletions);
       }
 
       return true;
    }
 
-   static String domToString(Node node) {
-      try {
-         TransformerFactory tf = TransformerFactory.newInstance();
-         Transformer transformer = tf.newTransformer();
-         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-         StringWriter writer = new StringWriter();
-         transformer.transform(new DOMSource(node), new StreamResult(writer));
-         return writer.toString();
-      }
-      catch (TransformerException te) {
-         return "(TransformerException)";
-      }
-   }
-
-   public static ArrayList<Node> getAdditionalNodes(NodeList oldNodes, NodeList newNodes) {
+   public static ArrayList<Node> getAdditionalNodes(ArrayList<Node> oldNodes, ArrayList<Node> newNodes) {
       ArrayList<Node> result = new ArrayList<Node>();
       HashMap<String, Node> alreadyThere = new HashMap<String, Node>();
-      for (int i = 0; i < oldNodes.getLength(); i++) {
-         Node n = oldNodes.item(i);
+      for (int i = 0; i < oldNodes.size(); i++) {
+         Node n = oldNodes.get(i);
          String desc = getDescriptionOfNode(n);
          alreadyThere.put(desc, n);
       }
-      for (int i = 0; i < newNodes.getLength(); i++) {
-         Node n = newNodes.item(i);
+      for (int i = 0; i < newNodes.size(); i++) {
+         Node n = newNodes.get(i);
          String desc = getDescriptionOfNode(n);
          if (!alreadyThere.containsKey(desc)) {
             result.add(n);
          }
       }
       return result;
-   }
-
-   public static String getDescriptionOfNode(Node node) {
-      if (!(node instanceof Element)) {
-         return domToString(node);
-      }
-
-      return "Node: id=" + ((Element) node).getAttribute("id");
-
    }
 
    public static ArrayList<Node> getDifferenceOfDocuments(Document oldDocument, Document newDocument,
@@ -188,8 +166,9 @@ public class XmlDiff {
       ArrayList<Node> diff = new ArrayList<Node>();
 
       if (!nodesAreEqualOrCanBeChangedLocally(oldRootNode, newRootNode, diff, deletions, changes)) {
-         LOGGER.severe("TODO: Nodes are different, require update of parent. Old node:"
-               + getDescriptionOfNode(oldRootNode) + " new node: " + getDescriptionOfNode(newRootNode));
+         LOGGER.info("Nodes are different, require update of parent. Old node:"
+               + DOMUtils.getDescriptionOfNode(oldRootNode) + " new node: "
+               + DOMUtils.getDescriptionOfNode(newRootNode));
          diff.add(newRootNode);
       }
 
@@ -201,12 +180,35 @@ public class XmlDiff {
       ArrayList<Node> diff = new ArrayList<Node>();
 
       if (!nodesAreEqualOrCanBeChangedLocally(oldNode, newNode, diff, deletions, changes)) {
-         LOGGER.severe("TODO: Nodes are different, require update of parent. Old node:" + getDescriptionOfNode(oldNode)
+         LOGGER.info("Nodes are different, require update of parent. Old node:" + getDescriptionOfNode(oldNode)
                + " new node: " + getDescriptionOfNode(newNode));
          diff.add(newNode);
       }
 
       return diff;
+   }
+
+   /**
+    * @param childNodes
+    * @return
+    */
+   private static ArrayList<Node> getNonEmptyNodes(NodeList childNodes) {
+      ArrayList<Node> nonEmpty = new ArrayList<Node>();
+      for (int i = 0; i < childNodes.getLength(); i++) {
+         Node n = childNodes.item(i);
+         if (n.hasAttributes() || n.hasChildNodes() || (n.getNodeType() != Node.TEXT_NODE)
+               || (n.getNodeValue().trim().length() > 0)) {
+            if (n.hasAttributes() && (n.getAttributes().getNamedItem("name") != null)) {
+               if (!n.getAttributes().getNamedItem("name").getNodeValue().equals("javax.faces.ViewState")) {
+                  nonEmpty.add(n);
+               }
+            }
+            else {
+               nonEmpty.add(n);
+            }
+         }
+      }
+      return nonEmpty;
    }
 
    public static boolean idsAreEqualOrCanBeChangedLocally(Node oldNode, Node newNode) {
@@ -235,15 +237,17 @@ public class XmlDiff {
          return false;
       }
 
-      boolean childNodeHaveChanged = !childNodeAreEqualOrCanBeChangedLocally(oldNode.getChildNodes(),
-            newNode.getChildNodes(), newNode, diff, deletions, changes);
+      ArrayList<Node> oldNodes = getNonEmptyNodes(oldNode.getChildNodes());
+      ArrayList<Node> newNodes = getNonEmptyNodes(newNode.getChildNodes());
+      boolean childNodeHaveChanged = !childNodeAreEqualOrCanBeChangedLocally(oldNodes, newNodes, newNode, diff,
+            deletions, changes);
       if (!diff.contains(newNode)) {
          if (attributesHaveChanged) {
-            LOGGER.severe("TODO: add changeAttribute");
-            LOGGER.severe("TODO: Attributes are different, require update of parent. Old node:"
-                  + getDescriptionOfNode(oldNode) + " new node: " + getDescriptionOfNode(newNode));
+            LOGGER.warning("TODO: add changeAttribute");
+            LOGGER.info("Attributes are different, require update of parent. Old node:"
+                  + DOMUtils.getDescriptionOfNode(oldNode) + " new node: " + DOMUtils.getDescriptionOfNode(newNode));
             diff.add(newNode);
-            System.out.println(new DiffenceEngine().domToString(newNode));
+            // LOGGER.info(new DiffenceEngine().domToString(newNode));
             return true;
          }
       }
