@@ -7,7 +7,7 @@ import static de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.
 
 import java.io.*;
 import java.util.*;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
@@ -50,18 +50,47 @@ public class DiffenceEngine {
    private ArrayList<Node> determineNecessaryChangeFromResponse(Node change, Document lastKnowDOMTree,
          ArrayList<String> deletions, ArrayList<String> changes) {
       if (change.getNodeName().equals("update")) {
+         // DOMUtils.domToString(partialChangeNode);
          String id = change.getAttributes().getNamedItem("id").getNodeValue();
          String nodeValue = change.getFirstChild().getNodeValue();
          String changingHTML = nodeValue.toString().trim();
          Node lastKnownCorrespondingNode = findNodeWithID(id, lastKnowDOMTree);
          ArrayList<Node> necessaryChanges = determineNecessaryChanges(changingHTML, lastKnownCorrespondingNode,
                deletions, changes);
+         ArrayList<Node> partialChanges = new ArrayList<Node>();
          if (null != necessaryChanges) {
-            ArrayList<Node> partialChanges = new ArrayList<Node>();
             // Todo create an array of partial changes
+            for (Node n : necessaryChanges) {
+               String partialUpdate = DOMUtils.domToString(n);
+               String partialID = ((Element) n).getAttribute("id");
+               String partialChange = "<update id=\"" + partialID + "\"><![CDATA[" + partialUpdate + "]]></update>";
+
+               Node partialChangeNode = DOMUtils.stringToDOM(partialChange);
+               partialChanges.add(partialChangeNode);
+            }
+         }
+         if (null != deletions) {
+            // Todo create an array of partial changes
+            for (String partialID : deletions) {
+               String partialChange = "<delete id=\"" + partialID + "\"/>";
+               Node partialChangeNode = DOMUtils.stringToDOM(partialChange);
+               partialChanges.add(partialChangeNode);
+            }
+         }
+         if (null != changes) {
+            // Todo create an array of partial changes
+            for (String partialChange : changes) {
+               Node partialChangeNode = DOMUtils.stringToDOM(partialChange);
+               partialChanges.add(partialChangeNode);
+            }
+         }
+
+         if (partialChanges.size() > 0) {
             return partialChanges;
          }
-         return null;
+         else {
+            return null;
+         }
       }
       else {
          LOGGER.info(change.getNodeName() + " - remains unchanged");
@@ -216,9 +245,6 @@ public class DiffenceEngine {
     */
    public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
       if (isAJAX) {
-         // System.out.println("-----------");
-         // System.out.println(currentResponse);
-         // System.out.println("-----------");
          String html = retrieveLastKnownHTMLFromSession(sessionMap);
          Document lastKnowDOMTree = stringToDOM("<original>" + html + "</original>");
          Document partialResponseAsDOMTree = stringToDOM(currentResponse);
@@ -228,17 +254,42 @@ public class DiffenceEngine {
             ArrayList<String> changes = new ArrayList<String>();
             ArrayList<Node> newPartialChanges = determineNecessaryChangeFromResponse(change, lastKnowDOMTree,
                   deletions, changes);
-            if (null != newPartialChanges) {
-               for (Node n : newPartialChanges) {
-                  LOGGER.severe("Implement new partial changes");
-                  String c = domToString(n);
+            if ((null != newPartialChanges) && (newPartialChanges.size() > 0)) {
+               String id = ((Element) change).getAttribute("id");
+               int start = currentResponse.indexOf("<update id=\"" + id + "\">");
+               int end = currentResponse.indexOf("</update>", start);
+               String currentResponseEnd = currentResponse.substring(end + "</update>".length());
+               try {
+                  String tmpCurrentResponse = currentResponse.substring(0, start);
+                  for (Node n : newPartialChanges) {
+                     String c = domToString(n);
+                     tmpCurrentResponse += c;
+                     String nodeid = ((Element) n.getFirstChild()).getAttribute("id");
+                     String newHTML = n.getFirstChild().getFirstChild().getNodeValue();
+                     Node nodeToReplace = DOMUtils.stringToDOM(newHTML).getFirstChild();
+                     nodeToReplace = lastKnowDOMTree.importNode(nodeToReplace, true);
+                     Node nodeToBeReplaced = findNodeWithID(nodeid, lastKnowDOMTree);
+                     Node parentNode = nodeToBeReplaced.getParentNode();
+                     parentNode.replaceChild(nodeToReplace, nodeToBeReplaced);
+                  }
+                  currentResponse = tmpCurrentResponse + currentResponseEnd;
                }
-               // Todo replace the current change with the new partial Changes
+               catch (Exception e) {
+                  LOGGER.log(Level.SEVERE, "An exception occured while trying to replace the response", e);
+               }
             }
+            String newHTML = DOMUtils.domToString(lastKnowDOMTree.getFirstChild());
+            if (newHTML.startsWith("<original>")) {
+               newHTML = newHTML.substring("<original>".length());
+               newHTML = newHTML.substring(0, newHTML.length() - "</original>".length());
+            }
+            sessionMap.remove(LAST_KNOWN_HTML_KEY);
+            sessionMap.put(LAST_KNOWN_HTML_KEY, newHTML);
          }
          // currentResponse = DEBUGdeleteCityNode(currentResponse);
       }
       else {
+         sessionMap.remove(LAST_KNOWN_HTML_KEY);
          sessionMap.put(LAST_KNOWN_HTML_KEY, currentResponse);
       }
       return currentResponse;
