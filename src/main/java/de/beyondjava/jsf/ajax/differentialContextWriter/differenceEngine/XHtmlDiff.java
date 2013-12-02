@@ -9,22 +9,6 @@ public class XHtmlDiff {
    private static final Logger LOGGER = Logger
          .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.XmlDiff");
 
-   public static ArrayList<Node> diff(Document oldDocument, Document newDocument) {
-      ArrayList<String> deletions = new ArrayList<String>();
-      ArrayList<String> changes = new ArrayList<String>();
-
-      ArrayList<Node> diff = XmlDiff.getDifferenceOfDocuments(oldDocument, newDocument, deletions, changes);
-
-      // 1. schauen ob die Nodes eine Id haben und wenn ja die Parents loopen
-      // bis meine eine Node mit ID hat
-      // 2. durch den ersten Schritt kann passieren das man jetzt Childs von den
-      // neuen Parent bereits als DIff hat
-      // also sortieren wir nochmal aus
-      fix(diff);
-
-      return diff;
-   }
-
    private static void fix(ArrayList<Node> changed) {
       ArrayList<Node> temp = new ArrayList<Node>();
 
@@ -35,6 +19,7 @@ public class XHtmlDiff {
          Element element = (Element) nodeIterator.next();
          String id = element.getAttribute("id");
          if (id.isEmpty()) {
+            LOGGER.info("Fixing a node without ID");
             Element parent = (Element) element.getParentNode();
 
             while (parent != null) {
@@ -44,7 +29,7 @@ public class XHtmlDiff {
                }
                parent = (Element) parent.getParentNode();
             }
-
+            LOGGER.info("replaced node by node with id=" + id);
             nodeIterator.remove();
             temp.add(parent);
          }
@@ -66,6 +51,34 @@ public class XHtmlDiff {
       for (Node toRemove : temp) {
          changed.remove(toRemove);
       }
+   }
+
+   public static ArrayList<Node> getDifferenceOfDocuments(Document oldDocument, Document newDocument,
+         ArrayList<String> deletions, ArrayList<String> changes) {
+      ArrayList<Node> diff = XmlDiff.getDifferenceOfDocuments(oldDocument, newDocument, deletions, changes);
+
+      // 1. schauen ob die Nodes eine Id haben und wenn ja die Parents loopen
+      // bis meine eine Node mit ID hat
+      // 2. durch den ersten Schritt kann passieren das man jetzt Childs von den
+      // neuen Parent bereits als DIff hat
+      // also sortieren wir nochmal aus
+      fix(diff);
+
+      return diff;
+   }
+
+   public static ArrayList<Node> getDifferenceOfNodes(Node oldDocument, Node newDocument, ArrayList<String> deletions,
+         ArrayList<String> changes) {
+      ArrayList<Node> diff = XmlDiff.getDifferenceOfNodes(oldDocument, newDocument, deletions, changes);
+
+      // 1. schauen ob die Nodes eine Id haben und wenn ja die Parents loopen
+      // bis meine eine Node mit ID hat
+      // 2. durch den ersten Schritt kann passieren das man jetzt Childs von den
+      // neuen Parent bereits als DIff hat
+      // also sortieren wir nochmal aus
+      fix(diff);
+
+      return diff;
    }
 
    private static boolean isParentNode(Node parent, Node child) {

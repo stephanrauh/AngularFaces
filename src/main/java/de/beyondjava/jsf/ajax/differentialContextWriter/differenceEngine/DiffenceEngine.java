@@ -63,6 +63,9 @@ public class DiffenceEngine {
             for (Node n : necessaryChanges) {
                String partialUpdate = DOMUtils.domToString(n);
                String partialID = ((Element) n).getAttribute("id");
+               if ((partialID == null) || (partialID.length() == 0)) {
+                  LOGGER.severe("ID of update shouldn't be void");
+               }
                String partialChange = "<update id=\"" + partialID + "\"><![CDATA[" + partialUpdate + "]]></update>";
 
                Node partialChangeNode = DOMUtils.stringToDOM(partialChange);
@@ -110,7 +113,7 @@ public class DiffenceEngine {
          ArrayList<String> deletions, ArrayList<String> changes) {
       if (newHTML.startsWith("<")) {
          Node newDOM = stringToDOM(newHTML).getFirstChild();
-         ArrayList<Node> differences = XmlDiff.getDifferenceOfNodes(lastKnownCorrespondingNode, newDOM, deletions,
+         ArrayList<Node> differences = XHtmlDiff.getDifferenceOfNodes(lastKnownCorrespondingNode, newDOM, deletions,
                changes);
          for (Node d : differences) {
             LOGGER.info("Difference: " + d);
@@ -265,12 +268,23 @@ public class DiffenceEngine {
                      String c = domToString(n);
                      tmpCurrentResponse += c;
                      String nodeid = ((Element) n.getFirstChild()).getAttribute("id");
-                     String newHTML = n.getFirstChild().getFirstChild().getNodeValue();
-                     Node nodeToReplace = DOMUtils.stringToDOM(newHTML).getFirstChild();
-                     nodeToReplace = lastKnowDOMTree.importNode(nodeToReplace, true);
-                     Node nodeToBeReplaced = findNodeWithID(nodeid, lastKnowDOMTree);
-                     Node parentNode = nodeToBeReplaced.getParentNode();
-                     parentNode.replaceChild(nodeToReplace, nodeToBeReplaced);
+                     if ((nodeid == null) || (nodeid.length() == 0)) {
+                        LOGGER.severe("Missing node ID");
+                     }
+                     else {
+                        String newHTML = n.getFirstChild().getFirstChild().getNodeValue();
+                        Node nodeToReplace = DOMUtils.stringToDOM(newHTML).getFirstChild();
+                        nodeToReplace = lastKnowDOMTree.importNode(nodeToReplace, true);
+                        Node nodeToBeReplaced = findNodeWithID(nodeid, lastKnowDOMTree);
+                        if (nodeToBeReplaced == null) {
+                           LOGGER.severe("Wrong ID? Looking for " + nodeid
+                                 + ", but couldn't find the ID in the last known HTML tree");
+                        }
+                        else {
+                           Node parentNode = nodeToBeReplaced.getParentNode();
+                           parentNode.replaceChild(nodeToReplace, nodeToBeReplaced);
+                        }
+                     }
                   }
                   currentResponse = tmpCurrentResponse + currentResponseEnd;
                }
