@@ -252,6 +252,31 @@ public class DiffenceEngine {
 
    /**
     * @param lastKnowDOMTree
+    * @param nodeid
+    * @param c
+    */
+   private void updateAttributes(Document lastKnowDOMTree, String nodeid, String c) {
+      Node nodeToBeReplaced = findNodeWithID(nodeid, lastKnowDOMTree);
+      String attributes[] = c.split("<attribute name=\\\"");
+
+      for (int i = 1; i < attributes.length; i++) {
+         String a = attributes[i];
+         String p[] = a.split("\" value=\"");
+         String name = p[0];
+         String value = p[1];
+         if (value.endsWith("\"/>")) {
+            value = value.substring(0, value.length() - 3);
+         }
+         else {
+            value = value.substring(0, value.length() - "\"/></attributes>".length());
+         }
+         ((Element) nodeToBeReplaced).setAttribute(name, value);
+      }
+
+   }
+
+   /**
+    * @param lastKnowDOMTree
     * @param typeOfChange
     * @param nodeid
     */
@@ -312,6 +337,9 @@ public class DiffenceEngine {
                         }
                         else if (typeOfChange.getNodeName().equals("delete")) {
                            deleteNode(lastKnowDOMTree, nodeid);
+                        }
+                        else if (typeOfChange.getNodeName().equals("attributes")) {
+                           updateAttributes(lastKnowDOMTree, nodeid, c);
                         }
 
                      }

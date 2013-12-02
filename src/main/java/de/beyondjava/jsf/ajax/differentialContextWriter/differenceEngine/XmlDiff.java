@@ -39,6 +39,8 @@ public class XmlDiff {
 
       Node newAttribute = null;
       Node oldAttribute = null;
+      StringBuffer changeAttributes = new StringBuffer();
+      String id = null;
       for (int i = 0; i < newNode.getAttributes().getLength(); i++) {
          newAttribute = newNode.getAttributes().item(i);
          final String attributeName = newAttribute.getNodeName();
@@ -49,6 +51,9 @@ public class XmlDiff {
          }
 
          String oldString = String.valueOf(oldAttribute.getNodeValue());
+         if (attributeName.equals("id")) {
+            id = oldString;
+         }
          if (attributeName.equals("action") && oldString.contains("jsessionid")) {
             int start = oldString.indexOf(";jsessionid");
             int end = oldString.indexOf(";", start + 1);
@@ -61,7 +66,17 @@ public class XmlDiff {
          }
          final String newString = String.valueOf(newAttribute.getNodeValue());
          if (!(oldString.equals(newString))) {
-            return false;
+            changeAttributes.append("<attribute name=\"" + attributeName + "\" value=\"" + newString + "\"/>");
+         }
+      }
+      if (changeAttributes.length() > 0) {
+         if ((null != id) && (id.length() > 0)) {
+            String c = "<attributes id=\"" + id + "\">" + changeAttributes.toString() + "</attributes>";
+            changes.add(c);
+            return true;
+         }
+         else {
+            return false; // this case needs an update of the parent
          }
       }
 
@@ -231,11 +246,13 @@ public class XmlDiff {
       if (!idsAreEqualOrCanBeChangedLocally(oldNode, newNode)) {
          return false;
       }
-      boolean attributesHaveChanged = (!attributesAreEqualOrCanBeChangedLocally(oldNode, newNode, deletions, changes));
 
       if (!areStringsEqualOrCanBeChangedLocally(oldNode.getNodeValue(), newNode.getNodeValue())) {
          return false;
       }
+      ArrayList<String> localChanges = new ArrayList<String>();
+      boolean attributesHaveChanged = (!attributesAreEqualOrCanBeChangedLocally(oldNode, newNode, deletions,
+            localChanges));
 
       ArrayList<Node> oldNodes = getNonEmptyNodes(oldNode.getChildNodes());
       ArrayList<Node> newNodes = getNonEmptyNodes(newNode.getChildNodes());
@@ -250,6 +267,9 @@ public class XmlDiff {
             // LOGGER.info(new DiffenceEngine().domToString(newNode));
             return true;
          }
+      }
+      if (localChanges.size() > 0) {
+         changes.addAll(localChanges);
       }
 
       return true;
