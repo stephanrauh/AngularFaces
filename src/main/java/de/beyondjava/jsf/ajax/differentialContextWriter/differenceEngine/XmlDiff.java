@@ -74,16 +74,16 @@ public class XmlDiff {
       ArrayList<String> localDeletions = new ArrayList<String>();
       ArrayList<String> localChanges = new ArrayList<String>();
       if (oldNodes.size() != newNodes.size()) {
-         ArrayList<Node> insertList = getAdditionalNodes(oldNodes, newNodes);
+         ArrayList<Node> insertList = getRecentlyAddedNodes(oldNodes, newNodes);
          if ((oldNodes.size() < newNodes.size()) && (insertList.size() == 0)) {
             // implementation error - must be debugged
-            insertList = getAdditionalNodes(oldNodes, newNodes);
+            insertList = getRecentlyAddedNodes(oldNodes, newNodes);
          }
          if (insertList.size() > 0) {
             needsUpdate = true;
          }
          if (!needsUpdate) {
-            ArrayList<Node> deleteList = getAdditionalNodes(newNodes, oldNodes);
+            ArrayList<Node> deleteList = getRecentlyAddedNodes(newNodes, oldNodes);
 
             for (Node d : deleteList) {
                if (d instanceof Element) {
@@ -140,24 +140,6 @@ public class XmlDiff {
       return true;
    }
 
-   public static ArrayList<Node> getAdditionalNodes(ArrayList<Node> oldNodes, ArrayList<Node> newNodes) {
-      ArrayList<Node> result = new ArrayList<Node>();
-      HashMap<String, Node> alreadyThere = new HashMap<String, Node>();
-      for (int i = 0; i < oldNodes.size(); i++) {
-         Node n = oldNodes.get(i);
-         String desc = getDescriptionOfNode(n);
-         alreadyThere.put(desc, n);
-      }
-      for (int i = 0; i < newNodes.size(); i++) {
-         Node n = newNodes.get(i);
-         String desc = getDescriptionOfNode(n);
-         if (!alreadyThere.containsKey(desc)) {
-            result.add(n);
-         }
-      }
-      return result;
-   }
-
    public static ArrayList<Node> getDifferenceOfDocuments(Document oldDocument, Document newDocument,
          ArrayList<String> deletions, ArrayList<String> changes) {
       Node oldRootNode = oldDocument.getChildNodes().item(0);
@@ -209,6 +191,24 @@ public class XmlDiff {
          }
       }
       return nonEmpty;
+   }
+
+   public static ArrayList<Node> getRecentlyAddedNodes(ArrayList<Node> oldNodes, ArrayList<Node> newNodes) {
+      ArrayList<Node> result = new ArrayList<Node>();
+      HashMap<String, Node> alreadyThere = new HashMap<String, Node>();
+      for (int i = 0; i < oldNodes.size(); i++) {
+         Node n = oldNodes.get(i);
+         String desc = getDescriptionOfNode(n);
+         alreadyThere.put(desc, n);
+      }
+      for (int i = 0; i < newNodes.size(); i++) {
+         Node n = newNodes.get(i);
+         String desc = getDescriptionOfNode(n);
+         if (!alreadyThere.containsKey(desc)) {
+            result.add(n);
+         }
+      }
+      return result;
    }
 
    public static boolean idsAreEqualOrCanBeChangedLocally(Node oldNode, Node newNode) {

@@ -4,7 +4,7 @@
   <h:body>
     <h:form id="formID">
       <h:messages />
-      <h:panelGrid columns="2" border="0">
+      <h:panelGrid columns="2" border="0" id="controlsSection">
         <h:outputLabel value="Toggle first section" ></h:outputLabel>
         <h:selectBooleanCheckbox>
           <f:ajax render=":formID" listener="#{differenceDemoBean.toggleFirstSection}" />
@@ -18,17 +18,17 @@
           <f:ajax render=":formID" listener="#{differenceDemoBean.toggleThirdSection}" />
         </h:selectBooleanCheckbox>
       </h:panelGrid>
-      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}">
+      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}" id="firstSection">
         <h:outputLabel value="first name"  />
         <h:inputText value="#{securityDemoBean.firstName}" />
         <h:outputLabel value="last name"  />
         <h:inputText value="#{securityDemoBean.lastName}" />
       </h:panelGrid>
-      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.secondSectionVisible}">
+      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.secondSectionVisible}" id="secondSection">
         <h:outputLabel value="street"  />
         <h:inputText value="#{differenceDemoBean.street}" />
       </h:panelGrid>
-      <h:panelGrid id="third" columns="2" border="0" rendered="#{differenceDemoBean.thirdSectionVisible}">
+      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.thirdSectionVisible}" id="thirdSection">
         <h:outputLabel value="zip code"  />
         <h:inputText id="zipcode" value="#{differenceDemoBean.zipcode}" />
         <h:outputLabel value="city"  />

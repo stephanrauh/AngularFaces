@@ -44,6 +44,21 @@ public class DiffenceEngine {
    }
 
    /**
+    * @param lastKnowDOMTree
+    * @param nodeid
+    */
+   private void deleteNode(Document lastKnowDOMTree, String nodeid) {
+      Node nodeToBeReplaced = findNodeWithID(nodeid, lastKnowDOMTree);
+      if (nodeToBeReplaced == null) {
+         LOGGER.severe("Wrong ID? Looking for " + nodeid + ", but couldn't find the ID in the last known HTML tree");
+      }
+      else {
+         Node parentNode = nodeToBeReplaced.getParentNode();
+         parentNode.removeChild(nodeToBeReplaced);
+      }
+   }
+
+   /**
     * @param change
     * @param lastKnowDOMTree
     */
@@ -236,6 +251,25 @@ public class DiffenceEngine {
    }
 
    /**
+    * @param lastKnowDOMTree
+    * @param typeOfChange
+    * @param nodeid
+    */
+   private void updateNode(Document lastKnowDOMTree, final Node typeOfChange, String nodeid) {
+      String newHTML = typeOfChange.getFirstChild().getNodeValue();
+      Node nodeToReplace = DOMUtils.stringToDOM(newHTML).getFirstChild();
+      nodeToReplace = lastKnowDOMTree.importNode(nodeToReplace, true);
+      Node nodeToBeReplaced = findNodeWithID(nodeid, lastKnowDOMTree);
+      if (nodeToBeReplaced == null) {
+         LOGGER.severe("Wrong ID? Looking for " + nodeid + ", but couldn't find the ID in the last known HTML tree");
+      }
+      else {
+         Node parentNode = nodeToBeReplaced.getParentNode();
+         parentNode.replaceChild(nodeToReplace, nodeToBeReplaced);
+      }
+   }
+
+   /**
     * Compares the current HTML response with the last known HTML code. If it's
     * a regular HTML response, the HTML code is simply stored in the session. If
     * it's an JSF AJAX response, the method looks at the differences and tries
@@ -267,23 +301,19 @@ public class DiffenceEngine {
                   for (Node n : newPartialChanges) {
                      String c = domToString(n);
                      tmpCurrentResponse += c;
-                     String nodeid = ((Element) n.getFirstChild()).getAttribute("id");
+                     final Node typeOfChange = n.getFirstChild();
+                     String nodeid = ((Element) typeOfChange).getAttribute("id");
                      if ((nodeid == null) || (nodeid.length() == 0)) {
                         LOGGER.severe("Missing node ID");
                      }
                      else {
-                        String newHTML = n.getFirstChild().getFirstChild().getNodeValue();
-                        Node nodeToReplace = DOMUtils.stringToDOM(newHTML).getFirstChild();
-                        nodeToReplace = lastKnowDOMTree.importNode(nodeToReplace, true);
-                        Node nodeToBeReplaced = findNodeWithID(nodeid, lastKnowDOMTree);
-                        if (nodeToBeReplaced == null) {
-                           LOGGER.severe("Wrong ID? Looking for " + nodeid
-                                 + ", but couldn't find the ID in the last known HTML tree");
+                        if (typeOfChange.getNodeName().equals("update")) {
+                           updateNode(lastKnowDOMTree, typeOfChange, nodeid);
                         }
-                        else {
-                           Node parentNode = nodeToBeReplaced.getParentNode();
-                           parentNode.replaceChild(nodeToReplace, nodeToBeReplaced);
+                        else if (typeOfChange.getNodeName().equals("delete")) {
+                           deleteNode(lastKnowDOMTree, nodeid);
                         }
+
                      }
                   }
                   currentResponse = tmpCurrentResponse + currentResponseEnd;
