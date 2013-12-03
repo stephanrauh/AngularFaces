@@ -14,6 +14,12 @@
 		<gmavenProviderSelection>2.0</gmavenProviderSelection>
 		<groovyVersion>2.1.7</groovyVersion>
 	</properties>
+	<repositories>
+                <repository>
+                        <id>lib</id>
+                        <url>file://lib</url>
+                </repository>
+        </repositories>
 	<dependencies>
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -65,7 +71,7 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>4.0</version>
+			<version>4.1-SNAPSHOT</version>
 		</dependency>
 		<!-- Gson: Java to Json conversion -->
 		<dependency>
