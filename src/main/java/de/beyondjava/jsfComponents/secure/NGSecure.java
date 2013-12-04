@@ -11,8 +11,8 @@ import org.primefaces.component.inputtext.InputText;
 /**
  * This component analyzes user input to prevent security breaches. Note that
  * you are still responsible for your applications security. Using AngularFaces
- * may help you to secure your application, but it's not enough. AngularFaces
- * and it's author do not take any responsibilty for any security breach or any
+ * may help you to secure your application, but it\"s not enough. AngularFaces
+ * and it\"s author do not take any responsibilty for any security breach or any
  * other damage occuring using AngularFaces. Use at own risk.
  * 
  * @author Stephan Rauh http://www.beyondjava.net

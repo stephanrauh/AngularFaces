@@ -40,15 +40,15 @@ public class BJUIComponentFactory {
          return null;
       }
       catch (ReflectiveOperationException e) {
-         LOGGER.log(Level.SEVERE, "UIComponent class couldn't be mixed in", e);
+         LOGGER.log(Level.SEVERE, "UIComponent class couldn\"t be mixed in", e);
          return null;
       }
       catch (CannotCompileException e) {
-         LOGGER.log(Level.SEVERE, "UIComponent class couldn't be mixed in", e);
+         LOGGER.log(Level.SEVERE, "UIComponent class couldn\"t be mixed in", e);
          return null;
       }
       catch (NotFoundException e) {
-         LOGGER.log(Level.SEVERE, "UIComponent class couldn't be mixed in", e);
+         LOGGER.log(Level.SEVERE, "UIComponent class couldn\"t be mixed in", e);
          return null;
       }
       return clazz;

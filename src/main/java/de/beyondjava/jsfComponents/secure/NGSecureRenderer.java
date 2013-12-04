@@ -11,8 +11,8 @@ import org.primefaces.component.inputtext.InputTextRenderer;
 /**
  * This component analyzes user input to prevent security breaches. Note that
  * you are still responsible for your applications security. Using AngularFaces
- * may help you to secure your application, but it's not enough. AngularFaces
- * and it's author do not take any responsibilty for any security breach or any
+ * may help you to secure your application, but it\"s not enough. AngularFaces
+ * and it\"s author do not take any responsibilty for any security breach or any
  * other damage occuring using AngularFaces. Use at own risk.
  * 
  * @author Stephan Rauh http://www.beyondjava.net
@@ -57,17 +57,17 @@ public class NGSecureRenderer extends InputTextRenderer {
          }
          catch (ClassNotFoundException e) {
             context.getResponseWriter().append(
-                  "<div style='color:#F00'>Configuration error: security class filter not found</div>");
+                  "<div style=\"color:#F00\">Configuration error: security class filter not found</div>");
          }
          catch (InstantiationException e) {
             context.getResponseWriter().append(
-                  "<div style='color:#F00'>Configuration error: security class filter could not be instantiated</div>");
+                  "<div style=\"color:#F00\">Configuration error: security class filter could not be instantiated</div>");
          }
          catch (IllegalAccessException e) {
             context
                   .getResponseWriter()
                   .append(
-                        "<div style='color:#F00'>Configuration error: security class filter has been forbidden to be instantiated</div>");
+                        "<div style=\"color:#F00\">Configuration error: security class filter has been forbidden to be instantiated</div>");
          }
          NGSecureUtilities.setCheckedBy(filter);
       }
@@ -79,7 +79,7 @@ public class NGSecureRenderer extends InputTextRenderer {
          context
                .getResponseWriter()
                .append(
-                     "<div style='color:#F00'>Warning: This application is only protected by AngularFaces default security.<br /> This may be better than no protection, but it must not be used in a production environment.</div>");
+                     "<div style=\"color:#F00\">Warning: This application is only protected by AngularFaces default security.<br /> This may be better than no protection, but it must not be used in a production environment.</div>");
       }
    }
 }

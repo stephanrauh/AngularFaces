@@ -22,7 +22,7 @@ public class NGDataTableResponseWriter extends HtmlResponseWriter {
    String currentElement = "";
    String currentNGModel = null;
    String ngPrefix = "";
-   /** collects a data table's value attributes */
+   /** collects a data table\"s value attributes */
    private List<String> valueExpressions = new ArrayList<String>();
 
    /**
@@ -88,7 +88,7 @@ public class NGDataTableResponseWriter extends HtmlResponseWriter {
       }
       else if ((!"value".equals(attribute)) && (!"checked".equals(attribute))) {
          // value attributes have to be suppressed, because they collide with
-         // ng-model's magic
+         // ng-model\"s magic
          super.writeAttribute(attribute, value, arg2);
       }
    }

@@ -72,6 +72,7 @@ public class DOMUtils {
             html = html.substring(pos + 2).trim();
          }
       }
+      html = html.replace("&&", "&amp;&amp;");
       InputSource inputSource = new InputSource(new StringReader(html));
 
       try {

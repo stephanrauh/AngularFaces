@@ -126,32 +126,32 @@ public class NGMessageRenderer extends UINotificationRenderer {
 
    private void generateAngularMessages(ResponseWriter writer, String id, boolean iconOnly, String parentName)
          throws IOException {
-      String sc = "class=\'" + getStyleClass(iconOnly, FacesMessage.SEVERITY_ERROR) + "'";
+      String sc = "class=\"" + getStyleClass(iconOnly, FacesMessage.SEVERITY_ERROR) + "\"";
       if (isInteger) {
-         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id
-               + ".$error.integer'>");
+         writer.append("<div " + sc + " ng-show=\"!" + parentName + id + ".$pristine && " + parentName + id
+               + ".$error.integer\">");
          writer.append(" This is not an integer.</div>");
       }
       if (isNumber) {
-         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id
-               + ".$error.number'>");
+         writer.append("<div " + sc + " ng-show=\"!" + parentName + id + ".$pristine && " + parentName + id
+               + ".$error.number\">");
          writer.append(" invalid number.</div>");
       }
 
       if (hasMin) {
-         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id
-               + ".$error.min'>");
+         writer.append("<div " + sc + " ng-show=\"!" + parentName + id + ".$pristine && " + parentName + id
+               + ".$error.min\">");
          writer.append(" must be greater than or equal to " + min + ".</div>");
       }
       if (hasMax) {
-         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id
-               + ".$error.max'>");
+         writer.append("<div " + sc + " ng-show=\"!" + parentName + id + ".$pristine && " + parentName + id
+               + ".$error.max\">");
          writer.append(" must be less or equal to " + max + ".");
          writer.append("</div>");
       }
       if (isRequired) {
-         writer.append("<div " + sc + " ng-show='!" + parentName + id + ".$pristine && " + parentName + id
-               + ".$error.required'>");
+         writer.append("<div " + sc + " ng-show=\"!" + parentName + id + ".$pristine && " + parentName + id
+               + ".$error.required\">");
          writer.append(" Value is required.</div>");
       }
 

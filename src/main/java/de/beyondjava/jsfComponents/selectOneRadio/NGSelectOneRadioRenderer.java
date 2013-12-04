@@ -24,7 +24,7 @@ import de.beyondjava.jsfComponents.common.*;
 public class NGSelectOneRadioRenderer extends SelectOneRadioRenderer {
 
    /**
-    * Renders ng-model according to the bean attribute's properties.
+    * Renders ng-model according to the bean attribute\"s properties.
     */
    @Override
    protected void renderPassThruAttributes(FacesContext context, UIComponent component, String[] attrs)

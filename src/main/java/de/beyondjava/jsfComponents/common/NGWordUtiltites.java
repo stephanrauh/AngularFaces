@@ -5,32 +5,31 @@ package de.beyondjava.jsfComponents.common;
 
 /**
  * Collection of minor utilities dealing with words and strings.
+ * 
  * @author Stephan Rauh http://www.beyondjava.net
  */
-public class NGWordUtiltites
-{
+public class NGWordUtiltites {
    /**
     * Converts a camelcase variable name to a human readable text.
+    * 
     * @param camel
-    * @return 
+    * @return
     */
-   
-   public static String labelFromCamelCase(String camel)
-   {
+
+   public static String labelFromCamelCase(String camel) {
       StringBuffer label = new StringBuffer();
-      for (int i = 0; i < camel.length(); i++)
-      {
+      for (int i = 0; i < camel.length(); i++) {
          char c = camel.charAt(i);
-         if (c=='_'){
+         if (c == '_') {
             label.append(" ");
          }
-         else if (Character.isUpperCase(c))
-         {
+         else if (Character.isUpperCase(c)) {
             label.append(' ');
             label.append(Character.toLowerCase(c));
          }
-         else
+         else {
             label.append(c);
+         }
       }
       return label.toString();
    }

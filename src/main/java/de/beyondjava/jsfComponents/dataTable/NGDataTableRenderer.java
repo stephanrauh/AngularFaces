@@ -45,12 +45,12 @@ public class NGDataTableRenderer extends DataTableRenderer {
    public List<String> ngencodeMarkup(FacesContext context, UIComponent component) throws IOException {
       ResponseWriter originalWriter = context.getResponseWriter();
 
-      originalWriter.append("<div class='ui-datatable ui-widget'>\r\n");
-      originalWriter.append("<div class='ui-datatable-tablewrapper'>\r\n");
+      originalWriter.append("<div class=\"ui-datatable ui-widget\">\r\n");
+      originalWriter.append("<div class=\"ui-datatable-tablewrapper\">\r\n");
       originalWriter.append("<table role=\"grid\">\r\n");
       originalWriter.append("<tr role=\"row\">\r\n");
       for (UIComponent c : component.getChildren()) {
-         originalWriter.append("<th class='ui-state-default'>");
+         originalWriter.append("<th class=\"ui-state-default\">");
          if (c instanceof Column) {
             String headerText = ((Column) c).getHeaderText();
             originalWriter.append(headerText);
@@ -64,7 +64,7 @@ public class NGDataTableRenderer extends DataTableRenderer {
       table.setRowIndex(0);
       String array = ELTools.getNGModel(table);
       String ngRepeat = "ng-repeat=\"" + rowVar + " in " + array + "\"";
-      originalWriter.append("<tr " + ngRepeat + " class='ui-widget-content ui-datatable-even'>\r\n");
+      originalWriter.append("<tr " + ngRepeat + " class=\"ui-widget-content ui-datatable-even\">\r\n");
 
       for (UIComponent c : component.getChildren()) {
          originalWriter.append("<td >\r\n");
@@ -113,7 +113,7 @@ public class NGDataTableRenderer extends DataTableRenderer {
                   jsObject += attribute;
                   jsObject += ": ";
                   if (value instanceof String) {
-                     jsObject += "'" + value + "'";
+                     jsObject += "\"" + value + "\"";
                   }
                   else {
                      jsObject += value;
@@ -137,7 +137,7 @@ public class NGDataTableRenderer extends DataTableRenderer {
       }
       StringBuilder writer = new StringBuilder();
       writer.append("\r\n\r\n");
-      writer.append("<script language='Javascript'>\r\n");
+      writer.append("<script language=\"Javascript\">\r\n");
       String var = ELTools.getNGModel(table);
       writer.append("function initDatatable($scope) {\r\n");
       writer.append("$scope." + var + "= [\r\n");

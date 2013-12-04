@@ -9,6 +9,7 @@
 package de.beyondjava.jsf.sample.differenceEngine;
 
 import javax.faces.bean.*;
+import javax.faces.event.ValueChangeEvent;
 import javax.validation.constraints.Size;
 
 @ManagedBean
@@ -149,19 +150,33 @@ public class DifferenceDemoBean {
       firstSectionVisible = !firstSectionVisible;
    }
 
+   public void toggleFirstSectionPrime() {
+      // firstSectionVisible = !firstSectionVisible;
+   }
+
    public void toggleSecondSectionAndChangeCity() {
       secondSectionVisible = !secondSectionVisible;
       changeCity();
    }
 
    public void toggleSecondSectionAndChangeCity(javax.faces.event.AjaxBehaviorEvent event) {
-      secondSectionVisible = !secondSectionVisible;
+      // secondSectionVisible = !secondSectionVisible;
       changeCity();
    }
 
    public void toggleThirdSection(javax.faces.event.AjaxBehaviorEvent event) {
-      thirdSectionVisible = !thirdSectionVisible;
+      // thirdSectionVisible = !thirdSectionVisible;
+      firstSectionVisible = !firstSectionVisible;
+   }
+
+   public void toggleThirdSectionPrime() {
+      // thirdSectionVisible = !thirdSectionVisible;
       firstSectionVisible = !firstSectionVisible;
 
    }
+
+   public void valueChangeListener(ValueChangeEvent event) {
+
+   }
+
 }

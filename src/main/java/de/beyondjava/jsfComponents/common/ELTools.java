@@ -98,17 +98,17 @@ public class ELTools {
          }
          catch (IllegalAccessException e) {
             // todo replace by a logger
-            System.out.println("Couldn't read property list of " + p_expression);
+            System.out.println("Couldn\"t read property list of " + p_expression);
             e.printStackTrace();
          }
          catch (InvocationTargetException e) {
             // todo replace by a logger
-            System.out.println("Couldn't read property list of " + p_expression);
+            System.out.println("Couldn\"t read property list of " + p_expression);
             e.printStackTrace();
          }
          catch (NoSuchMethodException e) {
             // todo replace by a logger
-            System.out.println("Couldn't read property list of " + p_expression);
+            System.out.println("Couldn\"t read property list of " + p_expression);
             e.printStackTrace();
          }
       }
@@ -194,17 +194,17 @@ public class ELTools {
          }
          catch (IllegalAccessException e) {
             // todo replace by a logger
-            System.out.println("Couldn't read property list of " + p_expression);
+            System.out.println("Couldn\"t read property list of " + p_expression);
             e.printStackTrace();
          }
          catch (InvocationTargetException e) {
             // todo replace by a logger
-            System.out.println("Couldn't read property list of " + p_expression);
+            System.out.println("Couldn\"t read property list of " + p_expression);
             e.printStackTrace();
          }
          catch (NoSuchMethodException e) {
             // todo replace by a logger
-            System.out.println("Couldn't read property list of " + p_expression);
+            System.out.println("Couldn\"t read property list of " + p_expression);
             e.printStackTrace();
          }
       }
@@ -234,7 +234,7 @@ public class ELTools {
                return declaredField;
             }
             catch (NoSuchFieldException e) {
-               // let's try with the super class
+               // let\"s try with the super class
                c = c.getSuperclass();
             }
             catch (SecurityException e) {

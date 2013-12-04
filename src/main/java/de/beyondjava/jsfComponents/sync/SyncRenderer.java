@@ -87,11 +87,11 @@ public class SyncRenderer extends org.primefaces.component.inputtext.InputTextRe
          String serverAsJSon = new Gson().toJson(serverObject);
          // System.out.println(serverAsJSon);
 
-         writer.append("<script type='text/javascript'>");
+         writer.append("<script type=\"text/javascript\">");
 
          String functionName = "sync" + jsVarName.replace(".", "_");
          writer.append("var " + functionName + " = function()\r\n {\r\n");
-         String line = "   injectJSonIntoScope('" + jsVarName + "', '" + serverAsJSon + "');\r\n";
+         String line = "   injectJSonIntoScope(\"" + jsVarName + "\", \"" + serverAsJSon + "\");\r\n";
          writer.append(line);
          writer.append("};\r\n");
          writer.append("addSyncPushFunction(" + functionName + ");\r\n");
@@ -99,7 +99,7 @@ public class SyncRenderer extends org.primefaces.component.inputtext.InputTextRe
       }
       writer.append("\r\n\r\n\r\n");
       if ((null == direction) || "both".equals(direction) || "clientToServer".equals(direction)) {
-         ValueExpression ve = ELTools.createValueExpression("{{getJSonFromScope('" + jsVarName + "')}}");
+         ValueExpression ve = ELTools.createValueExpression("{{getJSonFromScope(\"" + jsVarName + "\")}}");
          component.setValueExpression("value", ve);
          super.encodeBegin(context, component);
       }

@@ -31,7 +31,7 @@ public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements Sy
    private boolean isDefaultId = true;
    /**
     * Prevents endless loop during calls from NGUIComponentTools. Such a
-    * variable should never be needed, no doubt about it. Guess I didn't find
+    * variable should never be needed, no doubt about it. Guess I didn\"t find
     * the best algorithm yet. :)
     */
    private boolean preventRecursion = false;
@@ -88,7 +88,7 @@ public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements Sy
     */
    @Override
    public String getOnchange() {
-      String updateAngularModel = "updateAngularModel('showGlobeDemo', this.checked);";
+      String updateAngularModel = "updateAngularModel(\"showGlobeDemo\", this.checked);";
       // TODO Auto-generated method stub
       String original = super.getOnchange();
       if (null == original) {
@@ -152,7 +152,7 @@ public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements Sy
 
    /**
     * Prevents endless loop during calls from NGUIComponentTools. Such a
-    * variable should never be needed, no doubt about it. Guess I didn't find
+    * variable should never be needed, no doubt about it. Guess I didn\"t find
     * the best algorithm yet. :)
     */
    @Override
@@ -162,7 +162,7 @@ public class NGSelectBooleanCheckbox extends SelectBooleanCheckbox implements Sy
 
    /**
     * Prevents endless loop during calls from NGUIComponentTools. Such a
-    * variable should never be needed, no doubt about it. Guess I didn't find
+    * variable should never be needed, no doubt about it. Guess I didn\"t find
     * the best algorithm yet. :)
     */
    @Override

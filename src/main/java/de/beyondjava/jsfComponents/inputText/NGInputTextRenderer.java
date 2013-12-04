@@ -36,7 +36,7 @@ public class NGInputTextRenderer extends org.primefaces.component.inputtext.Inpu
 
    /**
     * Renders ng-model, min, max, integer and required according to the bean
-    * attribute's properties.
+    * attribute\"s properties.
     */
    @Override
    protected void renderPassThruAttributes(FacesContext context, UIComponent component, String[] attrs)

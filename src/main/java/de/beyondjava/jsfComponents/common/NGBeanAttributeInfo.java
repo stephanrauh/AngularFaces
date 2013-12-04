@@ -82,7 +82,7 @@ public class NGBeanAttributeInfo {
    }
 
    /**
-    * Read the JSR 303 annotations from a bean's attribute.
+    * Read the JSR 303 annotations from a bean\"s attribute.
     * 
     * @param component
     */

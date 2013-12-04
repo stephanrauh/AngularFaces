@@ -21,6 +21,8 @@ import org.w3c.dom.*;
  * 
  */
 public class DiffenceEngine {
+   private static boolean differentialEngineActive = true;
+
    private static final Logger LOGGER = Logger
          .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DiffenceEngine");
 
@@ -131,13 +133,13 @@ public class DiffenceEngine {
          ArrayList<Node> differences = XHtmlDiff.getDifferenceOfNodes(lastKnownCorrespondingNode, newDOM, deletions,
                changes);
          for (Node d : differences) {
-            LOGGER.info("Difference: " + d);
+            LOGGER.fine("Difference: " + d);
          }
          for (String d : deletions) {
-            LOGGER.info("Deletion: " + d);
+            LOGGER.fine("Deletion: " + d);
          }
          for (String d : changes) {
-            LOGGER.info("Change: " + d);
+            LOGGER.fine("Change: " + d);
          }
          // generateJUnitTest(newHTML, lastKnownCorrespondingNode, differences);
          return differences;
@@ -242,6 +244,21 @@ public class DiffenceEngine {
     * @param sessionMap
     * @return
     */
+   private Document getLastKnownHTMLBodyAsDomTree(Map<String, Object> sessionMap) {
+      String html = retrieveLastKnownHTMLFromSession(sessionMap);
+      int start = html.indexOf("<body");
+      int end = html.lastIndexOf("</body>");
+      if ((start >= 0) && (end > start)) {
+         html = html.substring(start, end + "</body>".length());
+      }
+      Document lastKnowDOMTree = stringToDOM("<original>" + html + "</original>");
+      return lastKnowDOMTree;
+   }
+
+   /**
+    * @param sessionMap
+    * @return
+    */
    private String retrieveLastKnownHTMLFromSession(Map<String, Object> sessionMap) {
       String html = (String) sessionMap.get(LAST_KNOWN_HTML_KEY);
       if (html == null) {
@@ -306,59 +323,66 @@ public class DiffenceEngine {
     * @return
     */
    public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
-      if (isAJAX) {
-         String html = retrieveLastKnownHTMLFromSession(sessionMap);
-         Document lastKnowDOMTree = stringToDOM("<original>" + html + "</original>");
-         Document partialResponseAsDOMTree = stringToDOM(currentResponse);
-         List<Node> listOfChanges = extractChangesFromPartialResponse(partialResponseAsDOMTree);
-         for (Node change : listOfChanges) {
-            ArrayList<String> deletions = new ArrayList<String>();
-            ArrayList<String> changes = new ArrayList<String>();
-            ArrayList<Node> newPartialChanges = determineNecessaryChangeFromResponse(change, lastKnowDOMTree,
-                  deletions, changes);
-            if ((null != newPartialChanges) && (newPartialChanges.size() > 0)) {
-               String id = ((Element) change).getAttribute("id");
-               int start = currentResponse.indexOf("<update id=\"" + id + "\">");
-               int end = currentResponse.indexOf("</update>", start);
-               String currentResponseEnd = currentResponse.substring(end + "</update>".length());
-               try {
-                  String tmpCurrentResponse = currentResponse.substring(0, start);
-                  for (Node n : newPartialChanges) {
-                     String c = domToString(n);
-                     tmpCurrentResponse += c;
-                     final Node typeOfChange = n.getFirstChild();
-                     String nodeid = ((Element) typeOfChange).getAttribute("id");
-                     if ((nodeid == null) || (nodeid.length() == 0)) {
-                        LOGGER.severe("Missing node ID");
-                     }
-                     else {
-                        if (typeOfChange.getNodeName().equals("update")) {
-                           updateNode(lastKnowDOMTree, typeOfChange, nodeid);
-                        }
-                        else if (typeOfChange.getNodeName().equals("delete")) {
-                           deleteNode(lastKnowDOMTree, nodeid);
-                        }
-                        else if (typeOfChange.getNodeName().equals("attributes")) {
-                           updateAttributes(lastKnowDOMTree, nodeid, c);
-                        }
 
-                     }
-                  }
-                  currentResponse = tmpCurrentResponse + currentResponseEnd;
-               }
-               catch (Exception e) {
-                  LOGGER.log(Level.SEVERE, "An exception occured while trying to replace the response", e);
-               }
-            }
-            String newHTML = DOMUtils.domToString(lastKnowDOMTree.getFirstChild());
-            if (newHTML.startsWith("<original>")) {
-               newHTML = newHTML.substring("<original>".length());
-               newHTML = newHTML.substring(0, newHTML.length() - "</original>".length());
-            }
-            sessionMap.remove(LAST_KNOWN_HTML_KEY);
-            sessionMap.put(LAST_KNOWN_HTML_KEY, newHTML);
+      if (isAJAX && differentialEngineActive) {
+         boolean atAll = currentResponse.contains("<head"); // update="@all"
+         if (atAll) {
+            LOGGER.severe("@all is not compatible with AngularFaces differential engine. Optimized AJAX is switched off.");
+            differentialEngineActive = false;
          }
-         // currentResponse = DEBUGdeleteCityNode(currentResponse);
+         else {
+            Document lastKnowDOMTree = getLastKnownHTMLBodyAsDomTree(sessionMap);
+            Document partialResponseAsDOMTree = stringToDOM(currentResponse);
+            List<Node> listOfChanges = extractChangesFromPartialResponse(partialResponseAsDOMTree);
+            for (Node change : listOfChanges) {
+               ArrayList<String> deletions = new ArrayList<String>();
+               ArrayList<String> changes = new ArrayList<String>();
+               ArrayList<Node> newPartialChanges = determineNecessaryChangeFromResponse(change, lastKnowDOMTree,
+                     deletions, changes);
+               if ((null != newPartialChanges) && (newPartialChanges.size() > 0)) {
+                  String id = ((Element) change).getAttribute("id");
+                  int start = currentResponse.indexOf("<update id=\"" + id + "\">");
+                  int end = currentResponse.indexOf("</update>", start);
+                  String currentResponseEnd = currentResponse.substring(end + "</update>".length());
+                  try {
+                     String tmpCurrentResponse = currentResponse.substring(0, start);
+                     for (Node n : newPartialChanges) {
+                        String c = domToString(n);
+                        tmpCurrentResponse += c;
+                        final Node typeOfChange = n.getFirstChild();
+                        String nodeid = ((Element) typeOfChange).getAttribute("id");
+                        if ((nodeid == null) || (nodeid.length() == 0)) {
+                           LOGGER.severe("Missing node ID");
+                        }
+                        else {
+                           if (typeOfChange.getNodeName().equals("update")) {
+                              updateNode(lastKnowDOMTree, typeOfChange, nodeid);
+                           }
+                           else if (typeOfChange.getNodeName().equals("delete")) {
+                              deleteNode(lastKnowDOMTree, nodeid);
+                           }
+                           else if (typeOfChange.getNodeName().equals("attributes")) {
+                              updateAttributes(lastKnowDOMTree, nodeid, c);
+                           }
+
+                        }
+                     }
+                     currentResponse = tmpCurrentResponse + currentResponseEnd;
+                  }
+                  catch (Exception e) {
+                     LOGGER.log(Level.SEVERE, "An exception occured while trying to replace the response", e);
+                  }
+               }
+               String newHTML = DOMUtils.domToString(lastKnowDOMTree.getFirstChild());
+               if (newHTML.startsWith("<original>")) {
+                  newHTML = newHTML.substring("<original>".length());
+                  newHTML = newHTML.substring(0, newHTML.length() - "</original>".length());
+               }
+               sessionMap.remove(LAST_KNOWN_HTML_KEY);
+               sessionMap.put(LAST_KNOWN_HTML_KEY, newHTML);
+            }
+            // currentResponse = DEBUGdeleteCityNode(currentResponse);
+         }
       }
       else {
          sessionMap.remove(LAST_KNOWN_HTML_KEY);

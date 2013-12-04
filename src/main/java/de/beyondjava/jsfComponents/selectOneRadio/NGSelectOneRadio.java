@@ -39,7 +39,7 @@ public class NGSelectOneRadio extends org.primefaces.component.selectonemenu.Sel
 
    /**
     * Prevents endless loop during calls from NGUIComponentTools. Such a
-    * variable should never be needed, no doubt about it. Guess I didn't find
+    * variable should never be needed, no doubt about it. Guess I didn\"t find
     * the best algorithm yet. :)
     */
    private boolean preventRecursion = false;
@@ -139,7 +139,7 @@ public class NGSelectOneRadio extends org.primefaces.component.selectonemenu.Sel
 
    /**
     * Prevents endless loop during calls from NGUIComponentTools. Such a
-    * variable should never be needed, no doubt about it. Guess I didn't find
+    * variable should never be needed, no doubt about it. Guess I didn\"t find
     * the best algorithm yet. :)
     */
    @Override
@@ -149,7 +149,7 @@ public class NGSelectOneRadio extends org.primefaces.component.selectonemenu.Sel
 
    /**
     * Prevents endless loop during calls from NGUIComponentTools. Such a
-    * variable should never be needed, no doubt about it. Guess I didn't find
+    * variable should never be needed, no doubt about it. Guess I didn\"t find
     * the best algorithm yet. :)
     */
    @Override

@@ -55,6 +55,9 @@ public class DiffentialResponseWriter extends Writer {
     * @throws IOException
     */
    private boolean endOfPage(String s) {
+      if (rawBuffer.lastIndexOf("<![CDATA[") > rawBuffer.lastIndexOf("]]>")) {
+         return false;
+      }
       boolean finished = false;
       int fin = rawBuffer.length() - 1;
       if (almostFinished) {
@@ -67,7 +70,7 @@ public class DiffentialResponseWriter extends Writer {
             isAJAX = true;
          }
       }
-      else if (s.contains("</body>")) {
+      if (s.contains("</body>")) {
          finished = true;
       }
 

@@ -49,7 +49,7 @@ public class NGCommandButton extends CommandButton {
       }
       String angularFunction = "";
       if ((null != ngFunction) && (ngFunction.length() > 0)) {
-         angularFunction = "var $scope = angular.element('body').scope(); $scope.$apply(function() { $scope."
+         angularFunction = "var $scope = angular.element(\"body\").scope(); $scope.$apply(function() { $scope."
                + ngFunction + "; });";
       }
       if (null == original) {
@@ -77,10 +77,10 @@ public class NGCommandButton extends CommandButton {
       if (ngApp != null) {
          String s = super.getOncomplete();
          if ((s == null) || (s.length() == 0)) {
-            return "reinitAngular('" + ngApp + "')";
+            return "reinitAngular(\"" + ngApp + "\")";
          }
          else {
-            return "reinitAngular('" + ngApp + "'); " + s;
+            return "reinitAngular(\"" + ngApp + "\"); " + s;
          }
       }
       return null;

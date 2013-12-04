@@ -61,7 +61,7 @@ public class NGSlider extends Slider {
       if (null != targets) {
          String[] targetArray = targets.split(",");
          for (String it : targetArray) {
-            activateAngular += "angular.element($('#" + it + "')).triggerHandler('input');";
+            activateAngular += "angular.element($(\"#" + it + "\")).triggerHandler(\"input\");";
          }
       }
       String original = super.getOnSlideEnd();
@@ -86,7 +86,7 @@ public class NGSlider extends Slider {
                String widgetVar = ((SelectOneMenu) target).getWidgetVar();
                activateAngular += "PrimeFaces.widgets." + widgetVar + ".selectValue(ui.value);";
             }
-            activateAngular += "angular.element($('#" + it + "')).triggerHandler('input');";
+            activateAngular += "angular.element($(\"#" + it + "\")).triggerHandler(\"input\");";
          }
       }
       String original = super.getOnSlide();

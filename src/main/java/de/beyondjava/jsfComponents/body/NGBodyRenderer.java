@@ -45,10 +45,10 @@ public class NGBodyRenderer extends CoreRenderer {
       writer.append("\r\n");
       // context.getApplication().createComponent("MyComponentType")
       // <h:outputScript library="theme1" name="js/hello.js" />
-      writer.append("<script src='../resources/AngularFaces/angular.js'>\r\n</script>\r\n");
-      // writer.append("<script src='../javax.faces.resource/glue.js.jsf?ln=AngularFaces'></script>\r\n");
-      writer.append("<script src='../resources/AngularFaces/glue.js'>\r\n</script>\r\n");
-      writer.append("<script src='" + ngController + ".js'></script>\r\n");
+      writer.append("<script src=\"../resources/AngularFaces/angular.js\">\r\n</script>\r\n");
+      // writer.append("<script src=\"../javax.faces.resource/glue.js.jsf?ln=AngularFaces\"></script>\r\n");
+      writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
+      writer.append("<script src=\"" + ngController + ".js\"></script>\r\n");
 
       NGResponseWriter angularWriter = new NGResponseWriter(writer, writer.getContentType(),
             writer.getCharacterEncoding(), "");

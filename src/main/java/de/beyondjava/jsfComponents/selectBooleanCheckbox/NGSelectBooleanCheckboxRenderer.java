@@ -26,7 +26,7 @@ import de.beyondjava.jsfComponents.common.NGUIComponentTools;
 public class NGSelectBooleanCheckboxRenderer extends SelectBooleanCheckboxRenderer {
  
    /**
-    * Renders ng-model according to the bean attribute's properties.
+    * Renders ng-model according to the bean attribute\"s properties.
     */
    @Override
    protected void renderPassThruAttributes(FacesContext context, UIComponent component, String[] attrs)

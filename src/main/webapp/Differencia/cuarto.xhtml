@@ -6,17 +6,16 @@
       <h:messages />
       <prime:panelGrid columns="2" border="0" id="controlsSection">
         <h:outputLabel value="Toggle first section" ></h:outputLabel>
-        <h:selectBooleanCheckbox>
-          <f:ajax render=":formID" listener="#{differenceDemoBean.toggleFirstSection}" />
-        </h:selectBooleanCheckbox>
+        <prime:selectBooleanCheckbox value="#{differenceDemoBean.firstSectionVisible}">
+          <prime:ajax update="@form" event="click" listener="#{differenceDemoBean.toggleFirstSectionPrime}" />
+        </prime:selectBooleanCheckbox>
         <h:outputLabel value="Toggle second section and change the city" ></h:outputLabel>
-        <h:selectBooleanCheckbox>
-          <f:ajax render=":formID" listener="#{differenceDemoBean.toggleSecondSectionAndChangeCity}" />
-        </h:selectBooleanCheckbox>
-        <h:outputLabel value="Toggle first and third section" ></h:outputLabel>
-        <h:selectBooleanCheckbox>
-          <f:ajax render=":formID" listener="#{differenceDemoBean.toggleThirdSection}" />
-        </h:selectBooleanCheckbox>
+        <prime:selectBooleanCheckbox value="#{differenceDemoBean.secondSectionVisible}">
+          <prime:ajax event="click" update="@form" listener="#{differenceDemoBean.toggleSecondSectionAndChangeCity}" />
+        </prime:selectBooleanCheckbox>
+        <h:outputLabel value="Toggle third section" />
+        <prime:selectBooleanCheckbox value="#{differenceDemoBean.thirdSectionVisible}" valueChangeListener="#{differenceDemoBean.valueChangeListener}">
+        </prime:selectBooleanCheckbox>
       </prime:panelGrid>
       <prime:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}" id="firstSection">
         <h:outputLabel value="first name"  />

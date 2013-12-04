@@ -26,7 +26,7 @@ public class NGAngularButton extends CommandButton {
       if (!ngFunction.contains("(")) {
          ngFunction += "()";
       }
-      String s = "var $scope = angular.element('body').scope(); $scope.$apply(function() { $scope." + ngFunction
+      String s = "var $scope = angular.element(\"body\").scope(); $scope.$apply(function() { $scope." + ngFunction
             + "; }); return false;";
       return s;
    }

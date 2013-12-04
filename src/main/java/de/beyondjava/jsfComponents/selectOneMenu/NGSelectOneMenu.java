@@ -34,7 +34,7 @@ public class NGSelectOneMenu extends
 
 	/**
 	 * Prevents endless loop during calls from NGUIComponentTools. Such a
-	 * variable should never be needed, no doubt about it. Guess I didn't find
+	 * variable should never be needed, no doubt about it. Guess I didn\"t find
 	 * the best algorithm yet. :)
 	 */
 	private boolean preventRecursion = false;
@@ -135,7 +135,7 @@ public class NGSelectOneMenu extends
 
 	/**
 	 * Prevents endless loop during calls from NGUIComponentTools. Such a
-	 * variable should never be needed, no doubt about it. Guess I didn't find
+	 * variable should never be needed, no doubt about it. Guess I didn\"t find
 	 * the best algorithm yet. :)
 	 */
 	@Override
@@ -145,7 +145,7 @@ public class NGSelectOneMenu extends
 
 	/**
 	 * Prevents endless loop during calls from NGUIComponentTools. Such a
-	 * variable should never be needed, no doubt about it. Guess I didn't find
+	 * variable should never be needed, no doubt about it. Guess I didn\"t find
 	 * the best algorithm yet. :)
 	 */
 	@Override
@@ -197,8 +197,8 @@ public class NGSelectOneMenu extends
 		String ngModel;
 		ngModel = ELTools.getNGModel(this);
 		String widgetVar = getWidgetVar();
-		String notification = "updateAngularModel('" + ngModel
-				+ "', PrimeFaces.widgets." + widgetVar + ".getSelectedValue());";
+		String notification = "updateAngularModel(\"" + ngModel
+				+ "\", PrimeFaces.widgets." + widgetVar + ".getSelectedValue());";
 		return notification;
 	}
 

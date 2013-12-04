@@ -79,7 +79,7 @@ public class NGResponseWriter extends HtmlResponseWriter {
 	// else if ((!"value".equals(attribute)) && (!"checked".equals(attribute)))
 	// {
 	// // value attributes have to be suppressed, because they collide with
-	// // ng-model's magic
+	// // ng-model\"s magic
 	// super.writeAttribute(attribute, value, arg2);
 	// }
 	// }
