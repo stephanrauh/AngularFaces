@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.*;
 
 import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
 
 import de.beyondjava.jsfComponents.common.*;
 
@@ -44,6 +45,10 @@ public class NGSecurityPhaseListenerImpl implements PhaseListener, NGSecurityPha
          parameters.add(component.getClientId());
          if (component instanceof SelectBooleanCheckbox) {
             parameters.add(component.getClientId() + "_input");
+         }
+         if (component instanceof SelectOneMenu) {
+            parameters.add(component.getClientId() + "_input");
+            parameters.add(component.getClientId() + "_focus");
          }
          NGBeanAttributeInfo info = ELTools.getBeanAttributeInfos(component);
          infos.put(component.getClientId(), info);

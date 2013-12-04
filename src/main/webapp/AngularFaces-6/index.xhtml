@@ -15,7 +15,7 @@
         </prime:dialog>
         <h:form ng:name="myform">
           <a:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
-          <prime:panel header="Which loan do you need?">
+          <prime:panel header="Which loan do you need?" id="loanPanelID">
             <table>
               <tr>
                 <td>Loan amount</td>
@@ -32,7 +32,7 @@
             </table>
           </prime:panel>
           <br />
-          <prime:panel header="Result">
+          <prime:panel header="Result" id="resultPanelID">
             <table>
               <tr>
                 <td>monthly payments</td>
@@ -40,7 +40,7 @@
               </tr>
             </table>
           </prime:panel>
-          <prime:panel header="amortization plan">
+          <prime:panel header="amortization plan" id="amortizationPlanPanelID">
             <table>
               <tr>
                 <td><a:sync direction="both"

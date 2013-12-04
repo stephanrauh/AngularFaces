@@ -29,7 +29,12 @@ public class XHtmlDiff {
                }
                parent = (Element) parent.getParentNode();
             }
-            LOGGER.info("replaced node by node with id=" + id);
+            if (null != parent) {
+               LOGGER.info("replaced node by node with id=" + parent.getAttribute("id"));
+            }
+            else {
+               LOGGER.severe("cannot replace node");
+            }
             nodeIterator.remove();
             temp.add(parent);
          }
