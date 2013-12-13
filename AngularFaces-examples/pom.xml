@@ -104,7 +104,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 <!-- 	<profiles>
 		<profile> -->
 			<!-- When built in OpenShift the 'openshift' profile will be used when 

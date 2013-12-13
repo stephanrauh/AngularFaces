@@ -25,5 +25,4 @@
             <url>http://myfaces.zones.apache.org/dist/maven-repository</url>
         </repository>
     </repositories>
-
 </project>
