@@ -158,7 +158,7 @@
 						<version>2.1.1</version>
 						<configuration>
 							<outputDirectory>E:\this\apache-tomcat-7.0.8\webapps</outputDirectory>
-							<warName>AngularFaces</warName>
+							<warName>ROOT</warName>
 						</configuration>
 					</plugin>
 				</plugins>
