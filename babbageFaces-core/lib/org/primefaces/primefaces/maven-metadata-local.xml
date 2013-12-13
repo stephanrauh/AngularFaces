@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.primefaces</groupId>
+  <artifactId>primefaces</artifactId>
+  <versioning>
+    <versions>
+      <version>4.1-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20131203225155</lastUpdated>
+  </versioning>
+</metadata>
