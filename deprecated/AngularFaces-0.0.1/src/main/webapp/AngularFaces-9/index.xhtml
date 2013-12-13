@@ -1,0 +1,18 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:prime="http://primefaces.org/ui"
+  xmlns:a="http://beyondjava.net/angularFaces">
+  <h:head />
+  <h:body>
+    <h:form>
+      <a:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
+      <h:messages />
+      <h:panelGrid columns="2" border="0">
+        <prime:outputLabel value="first name" />
+        <prime:inputText value="#{securityDemoBean.firstName}" />
+        <prime:outputLabel value="last name" />
+        <prime:inputText value="#{securityDemoBean.lastName}" />
+      </h:panelGrid>
+      <prime:commandButton value="test" action="#{securityDemoBean.showErrors}" />
+    </h:form>
+  </h:body>
+</f:view>

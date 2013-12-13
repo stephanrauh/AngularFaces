@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://java.sun.com/jsf/composite"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:a="http://beyondjava.net/angularFaces" xmlns:prime="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+  <composite:interface>
+    <composite:attribute name="value" required="false" />
+  </composite:interface>
+
+  <composite:implementation>
+    <h:form>
+      <h:messages></h:messages>
+      <cc:insertChildren />
+    </h:form>
+    <h:inputText value="#{cc.attrs.value}"></h:inputText>
+  </composite:implementation>
+</h:body>
+</html>

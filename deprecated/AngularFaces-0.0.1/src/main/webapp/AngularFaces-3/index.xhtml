@@ -1,0 +1,41 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://beyondjava.net/angularFaces"
+  xmlns:prime="http://primefaces.org/ui" locale="en-us">
+  <h:head />
+  <a:body ng-app="userBeanApp" ng-controller="userBeanController">
+    This example demonstrates the &lt;h:angularButton&gt;.<p /><p />
+    <prime:tabView id="tabView">
+      <prime:tab title="live demo">
+    <h:form ng:name="myform" >
+      <a:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
+      <h:panelGrid columns="3">
+        <a:inputText value="#{userBean.firstName}"/>
+        <a:inputText value="#{userBean.lastName}"/>
+
+        <a:angularButton value="Howdy!" 
+                         ng-function="howdy" />
+        <a:angularButton value="Howdy {{firstName}} {{lastName}}!" 
+                         ng-function="howdy($scope.lastName)" />
+        <h:outputText value=""/>
+        <h:outputText value="calls howdy();"/>
+        <h:outputText value="calls howdy('{{lastName}}');"/>
+      </h:panelGrid>
+    </h:form>
+    <h:messages />
+      </prime:tab>
+      <prime:tab title="XHTML code">
+        <ui:include src="code.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="AngularJS model">
+        <ui:include src="codemodel.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="JSF Bean">
+        <ui:include src="codebean.xhtml">
+        </ui:include>
+      </prime:tab>
+    </prime:tabView>
+  </a:body>
+</f:view>

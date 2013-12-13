@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head />
+<body>
+  <ui:composition>
+  <script type="syntaxhighlighter" class="brush: groovy;toolbar: false">
+    <![CDATA[
+public class AmortizationPrinterBean {
+   private List<AmortizationRow> amortizationPlan = new ArrayList<AmortizationRow>();
+
+   private double interestRate = 5;
+
+   private double loanAmount = 10000;
+
+   private double loanTerm = 36;
+
+   private double monthlyPayments = 200;
+
+   public AmortizationPrinterBean() {
+   }
+
+   public List<AmortizationRow> getAmortizationPlan() {
+      return amortizationPlan;
+   }
+
+   public double getInterestRate() {
+      return interestRate;
+   }
+
+   public double getLoanAmount() {
+      return loanAmount;
+   }
+
+   public double getLoanTerm() {
+      return loanTerm;
+   }
+
+   public double getMonthlyPayments() {
+      return monthlyPayments;
+   }
+
+   public void setAmortizationPlan(ArrayList<AmortizationRow> amortizationPlan) {
+      this.amortizationPlan = amortizationPlan;
+   }
+
+   public void setInterestRate(double interestRate) {
+      this.interestRate = interestRate;
+   }
+
+   public void setInterestRate(Double interestRate) {
+      this.interestRate = interestRate;
+   }
+
+   public void setLoanAmount(double loanAmount) {
+      this.loanAmount = loanAmount;
+   }
+
+   public void setLoanAmount(Double loanAmount) {
+      this.loanAmount = loanAmount;
+   }
+
+   public void setLoanTerm(double loanTerm) {
+      this.loanTerm = loanTerm;
+   }
+
+   public void setLoanTerm(Double loanTerm) {
+      this.loanTerm = loanTerm;
+   }
+
+   public void setMonthlyPayments(double monthlyPayments) {
+      this.monthlyPayments = monthlyPayments;
+   }
+
+   public void setMonthlyPayments(Double monthlyPayments) {
+      this.monthlyPayments = monthlyPayments;
+   }
+}
+
+]]></script>
+  </ui:composition>
+</body>
+</html>

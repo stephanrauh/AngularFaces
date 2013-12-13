@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>org.primefaces</groupId>
+  <artifactId>primefaces</artifactId>
+  <version>4.1-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <localCopy>true</localCopy>
+    </snapshot>
+    <lastUpdated>20131203225155</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>4.1-SNAPSHOT</value>
+        <updated>20131203225155</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>4.1-SNAPSHOT</value>
+        <updated>20131203225155</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>
