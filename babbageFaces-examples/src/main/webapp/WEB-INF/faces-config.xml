@@ -5,12 +5,5 @@
 	version="2.0">
 	<factory>
  		<exception-handler-factory>org.omnifaces.exceptionhandler.FullAjaxExceptionHandlerFactory</exception-handler-factory>
-        <external-context-factory>de.beyondjava.jsf.ajax.context.BJExternalContextFactoryImpl</external-context-factory>
-        <!-- experimental code 
-           <application-factory>
-              de.beyondjava.jsfComponents.core.BJApplicationFactoryImpl
-           </application-factory>
-         -->
-        
-    </factory>
+     </factory>
 </faces-config>
