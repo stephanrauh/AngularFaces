@@ -12,7 +12,7 @@
         <prime:outputLabel value="last name" />
         <prime:inputText value="#{securityDemoBean.lastName}" />
       </h:panelGrid>
-      <prime:commandButton value="test" action="#{securityDemoBean.showErrors}" />
+      <prime:commandButton value="test" action="#{securityDemoBean.showErrors}" update="@form" />
     </h:form>
   </h:body>
 </f:view>
