@@ -10,17 +10,20 @@ package de.beyondjava.jsf.sample.loanCalculator;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.logging.*;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
+import javax.faces.context.FacesContext;
 
-import org.primefaces.context.RequestContext;
 import org.primefaces.model.*;
 
 @ManagedBean
 @RequestScoped
 public class AmortizationPrinterController {
    private AmortizationPrinterBean amortizationPrinterBean = new AmortizationPrinterBean();
+
+   private final Logger logger = Logger.getLogger(this.getClass().getName());
 
    public void generateAmortizationPlan() {
       double balance = amortizationPrinterBean.getLoanAmount();
@@ -67,9 +70,12 @@ public class AmortizationPrinterController {
 
       }
       catch (IOException error) {
-         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "error",
+         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+               "A technical error occurred when generating the PDF file.",
                "A technical error occurred when generating the PDF file.");
-         RequestContext.getCurrentInstance().showMessageInDialog(message);
+         FacesContext.getCurrentInstance().addMessage(null, message);
+         logger.log(Level.SEVERE, "A technical error occurred when generating the PDF file.", error);
+         // RequestContext.getCurrentInstance().showMessageInDialog(message);
          return null;
       }
 
