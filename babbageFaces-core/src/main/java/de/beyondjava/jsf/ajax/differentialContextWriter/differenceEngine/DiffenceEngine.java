@@ -3,18 +3,14 @@
  */
 package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 
-import static de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DOMUtils.stringToDOM;
-
 import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import org.apache.commons.io.FileUtils;
-import org.w3c.dom.*;
+import org.w3c.dom.Element;
+
+import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
@@ -35,28 +31,17 @@ public class DiffenceEngine {
    }
 
    /**
-    * @param currentResponse
-    * @return
-    */
-   private String DEBUGdeleteCityNode(String currentResponse) {
-      int pos = currentResponse.indexOf("</changes></partial-response>");
-      String test = "<delete id=\"j_idt3:zipcode\"></delete>";
-      currentResponse = currentResponse.substring(0, pos) + test + currentResponse.substring(pos);
-      return currentResponse;
-   }
-
-   /**
     * @param lastKnowDOMTree
-    * @param nodeid
+    * @param htmlTagid
     */
-   private void deleteNode(Document lastKnowDOMTree, String nodeid) {
-      Node nodeToBeReplaced = findNodeWithID(nodeid, lastKnowDOMTree);
-      if (nodeToBeReplaced == null) {
-         LOGGER.severe("Wrong ID? Looking for " + nodeid + ", but couldn't find the ID in the last known HTML tree");
+   private void deleteHTMLTag(HTMLTag lastKnowDOMTree, String htmlTagid) {
+      HTMLTag tagToBeReplaced = findHTMLTagWithID(htmlTagid, lastKnowDOMTree);
+      if (tagToBeReplaced == null) {
+         LOGGER.severe("Wrong ID? Looking for " + htmlTagid + ", but couldn't find the ID in the last known HTML tree");
       }
       else {
-         Node parentNode = nodeToBeReplaced.getParentNode();
-         parentNode.removeChild(nodeToBeReplaced);
+         HTMLTag parentHTMLTag = tagToBeReplaced.getParent();
+         parentHTMLTag.removeChild(tagToBeReplaced);
       }
    }
 
@@ -64,44 +49,44 @@ public class DiffenceEngine {
     * @param change
     * @param lastKnowDOMTree
     */
-   private ArrayList<Node> determineNecessaryChangeFromResponse(Node change, Document lastKnowDOMTree,
+   private ArrayList<HTMLTag> determineNecessaryChangeFromResponse(HTMLTag change, HTMLTag lastKnowDOMTree,
          ArrayList<String> deletions, ArrayList<String> changes) {
       if (change.getNodeName().equals("update")) {
-         // DOMUtils.domToString(partialChangeNode);
-         String id = change.getAttributes().getNamedItem("id").getNodeValue();
-         String nodeValue = change.getFirstChild().getNodeValue();
-         String changingHTML = nodeValue.toString().trim();
-         Node lastKnownCorrespondingNode = findNodeWithID(id, lastKnowDOMTree);
-         ArrayList<Node> necessaryChanges = determineNecessaryChanges(changingHTML, lastKnownCorrespondingNode,
+         // DOMUtils.domToString(partialChangeHTMLTag);
+         String id = change.getId();
+         String HTMLTagValue = change.getFirstChild().getInnerHTML().toString();
+         String changingHTML = HTMLTagValue.toString().trim();
+         HTMLTag lastKnownCorrespondingHTMLTag = findHTMLTagWithID(id, lastKnowDOMTree);
+         ArrayList<HTMLTag> necessaryChanges = determineNecessaryChanges(changingHTML, lastKnownCorrespondingHTMLTag,
                deletions, changes);
-         ArrayList<Node> partialChanges = new ArrayList<Node>();
+         ArrayList<HTMLTag> partialChanges = new ArrayList<HTMLTag>();
          if (null != necessaryChanges) {
             // Todo create an array of partial changes
-            for (Node n : necessaryChanges) {
-               String partialUpdate = DOMUtils.domToString(n);
+            for (HTMLTag n : necessaryChanges) {
+               String partialUpdate = n.toString();
                String partialID = ((Element) n).getAttribute("id");
                if ((partialID == null) || (partialID.length() == 0)) {
                   LOGGER.severe("ID of update shouldn't be void");
                }
                String partialChange = "<update id=\"" + partialID + "\"><![CDATA[" + partialUpdate + "]]></update>";
 
-               Node partialChangeNode = DOMUtils.stringToDOM(partialChange);
-               partialChanges.add(partialChangeNode);
+               HTMLTag partialChangeHTMLTag = new HTMLTag(partialChange);
+               partialChanges.add(partialChangeHTMLTag);
             }
          }
          if (null != deletions) {
             // Todo create an array of partial changes
             for (String partialID : deletions) {
                String partialChange = "<delete id=\"" + partialID + "\"/>";
-               Node partialChangeNode = DOMUtils.stringToDOM(partialChange);
-               partialChanges.add(partialChangeNode);
+               HTMLTag partialChangeHTMLTag = new HTMLTag(partialChange);
+               partialChanges.add(partialChangeHTMLTag);
             }
          }
          if (null != changes) {
             // Todo create an array of partial changes
             for (String partialChange : changes) {
-               Node partialChangeNode = DOMUtils.stringToDOM(partialChange);
-               partialChanges.add(partialChangeNode);
+               HTMLTag partialChangeHTMLTag = new HTMLTag(partialChange);
+               partialChanges.add(partialChangeHTMLTag);
             }
          }
 
@@ -115,24 +100,23 @@ public class DiffenceEngine {
       else {
          LOGGER.info(change.getNodeName() + " - remains unchanged");
       }
-      change.getFirstChild().getNodeName();
       return null;
 
    }
 
    /**
     * @param changingHTML
-    * @param lastKnownCorrespondingNode
+    * @param lastKnownCorrespondingHTMLTag
     * @param deletions2
     * @param changes2
     */
-   protected ArrayList<Node> determineNecessaryChanges(String newHTML, Node lastKnownCorrespondingNode,
+   protected ArrayList<HTMLTag> determineNecessaryChanges(String newHTML, HTMLTag lastKnownCorrespondingHTMLTag,
          ArrayList<String> deletions, ArrayList<String> changes) {
       if (newHTML.startsWith("<")) {
-         Node newDOM = stringToDOM(newHTML).getFirstChild();
-         ArrayList<Node> differences = XHtmlDiff.getDifferenceOfNodes(lastKnownCorrespondingNode, newDOM, deletions,
-               changes);
-         for (Node d : differences) {
+         HTMLTag newDOM = new HTMLTag(newHTML).getFirstChild();
+         ArrayList<HTMLTag> differences = XHtmlDiff.getDifferenceOfHTMLTags(lastKnownCorrespondingHTMLTag, newDOM,
+               deletions, changes);
+         for (HTMLTag d : differences) {
             LOGGER.fine("Difference: " + d);
          }
          for (String d : deletions) {
@@ -141,7 +125,8 @@ public class DiffenceEngine {
          for (String d : changes) {
             LOGGER.fine("Change: " + d);
          }
-         // generateJUnitTest(newHTML, lastKnownCorrespondingNode, differences);
+         // generateJUnitTest(newHTML, lastKnownCorrespondingHTMLTag,
+         // differences);
          return differences;
 
       }
@@ -151,32 +136,33 @@ public class DiffenceEngine {
 
    }
 
-   String domToString(Node node) {
-      try {
-         TransformerFactory tf = TransformerFactory.newInstance();
-         Transformer transformer = tf.newTransformer();
-         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-         StringWriter writer = new StringWriter();
-         transformer.transform(new DOMSource(node), new StreamResult(writer));
-         return writer.toString();
-      }
-      catch (TransformerException te) {
-         return "(TransformerException)";
-      }
+   String domToString(HTMLTag tag) {
+      return tag.toString();
+      // try {
+      // TransformerFactory tf = TransformerFactory.newInstance();
+      // Transformer transformer = tf.newTransformer();
+      // transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+      // StringWriter writer = new StringWriter();
+      // transformer.transform(new DOMSource(node), new StreamResult(writer));
+      // return writer.toString();
+      // }
+      // catch (TransformerException te) {
+      // return "(TransformerException)";
+      // }
    }
 
    /**
     * @param partialResponseAsDOMTree
     * @return
     */
-   private List<Node> extractChangesFromPartialResponse(Document partialResponseAsDOMTree) {
-      // NodeList partialResponses =
+   private List<HTMLTag> extractChangesFromPartialResponse(HTMLTag partialResponseAsDOMTree) {
+      // HTMLTagList partialResponses =
       // partialResponseAsDOMTree.getElementsByTagName("partial-response");
-      List<Node> partialResponses = new ArrayList<Node>();
-      Node partialNode = partialResponseAsDOMTree.getFirstChild();
-      Node changes = partialNode.getFirstChild();
-      for (int i = 0; i < changes.getChildNodes().getLength(); i++) {
-         Node n = changes.getChildNodes().item(i);
+      List<HTMLTag> partialResponses = new ArrayList<HTMLTag>();
+      HTMLTag partialHTMLTag = partialResponseAsDOMTree.getFirstChild();
+      HTMLTag changes = partialHTMLTag.getFirstChild();
+      for (int i = 0; i < changes.getChildren().size(); i++) {
+         HTMLTag n = changes.getChildren().get(i);
          partialResponses.add(n);
       }
       return partialResponses;
@@ -187,18 +173,18 @@ public class DiffenceEngine {
     * @param lastKnowDOMTree
     * @return
     */
-   private Node findNodeWithID(String id, Node tree) {
+   private HTMLTag findHTMLTagWithID(String id, HTMLTag tree) {
       if (null != tree.getAttributes()) {
-         final Node idNode = tree.getAttributes().getNamedItem("id");
-         if (null != idNode) {
-            if (id.equals(idNode.getNodeValue())) {
+         final String tagid = tree.getId();
+         if (null != tagid) {
+            if (id.equals(tagid)) {
                return tree;
             }
          }
       }
-      int length = tree.getChildNodes().getLength();
+      int length = tree.getChildren().size();
       for (int i = 0; i < length; i++) {
-         Node result = findNodeWithID(id, tree.getChildNodes().item(i));
+         HTMLTag result = findHTMLTagWithID(id, tree.getChildren().get(i));
          if (null != result) {
             return result;
          }
@@ -208,10 +194,10 @@ public class DiffenceEngine {
 
    /**
     * @param newHTML
-    * @param lastKnownCorrespondingNode
+    * @param lastKnownCorrespondingHTMLTag
     * @param differences
     */
-   private void generateJUnitTest(String newHTML, Node lastKnownCorrespondingNode, ArrayList<Node> differences) {
+   private void generateJUnitTest(String newHTML, HTMLTag lastKnownCorrespondingHTMLTag, ArrayList<HTMLTag> differences) {
       File dir = new File("E:/this/AngularFaces/src/test/resources/DifferenceEngine");
       if (dir.exists()) {
          int freeNumber = 0;
@@ -224,10 +210,10 @@ public class DiffenceEngine {
 
          } while (testcase.exists());
          try {
-            FileUtils.write(testcase, domToString(lastKnownCorrespondingNode));
+            FileUtils.write(testcase, domToString(lastKnownCorrespondingHTMLTag));
             FileUtils.write(partialChange, newHTML);
             int index = 1;
-            for (Node d : differences) {
+            for (HTMLTag d : differences) {
                File differenceFile = new File(dir, "difference" + freeNumber + "_" + index + ".xml");
                FileUtils.write(differenceFile, domToString(d));
             }
@@ -244,14 +230,14 @@ public class DiffenceEngine {
     * @param sessionMap
     * @return
     */
-   private Document getLastKnownHTMLBodyAsDomTree(Map<String, Object> sessionMap) {
+   private HTMLTag getLastKnownHTMLBodyAsDomTree(Map<String, Object> sessionMap) {
       String html = retrieveLastKnownHTMLFromSession(sessionMap);
       int start = html.indexOf("<body");
       int end = html.lastIndexOf("</body>");
       if ((start >= 0) && (end > start)) {
          html = html.substring(start, end + "</body>".length());
       }
-      Document lastKnowDOMTree = stringToDOM("<original>" + html + "</original>");
+      HTMLTag lastKnowDOMTree = new HTMLTag("<original>" + html + "</original>");
       return lastKnowDOMTree;
    }
 
@@ -269,11 +255,11 @@ public class DiffenceEngine {
 
    /**
     * @param lastKnowDOMTree
-    * @param nodeid
+    * @param HTMLTagid
     * @param c
     */
-   private void updateAttributes(Document lastKnowDOMTree, String nodeid, String c) {
-      Node nodeToBeReplaced = findNodeWithID(nodeid, lastKnowDOMTree);
+   private void updateAttributes(HTMLTag lastKnowDOMTree, String HTMLTagid, String c) {
+      HTMLTag HTMLTagToBeReplaced = findHTMLTagWithID(HTMLTagid, lastKnowDOMTree);
       String attributes[] = c.split("<attribute name=\\\"");
 
       for (int i = 1; i < attributes.length; i++) {
@@ -287,7 +273,7 @@ public class DiffenceEngine {
          else {
             value = value.substring(0, value.length() - "\"/></attributes>".length());
          }
-         ((Element) nodeToBeReplaced).setAttribute(name, value);
+         ((Element) HTMLTagToBeReplaced).setAttribute(name, value);
       }
 
    }
@@ -295,19 +281,19 @@ public class DiffenceEngine {
    /**
     * @param lastKnowDOMTree
     * @param typeOfChange
-    * @param nodeid
+    * @param HTMLTagid
     */
-   private void updateNode(Document lastKnowDOMTree, final Node typeOfChange, String nodeid) {
-      String newHTML = typeOfChange.getFirstChild().getNodeValue();
-      Node nodeToReplace = DOMUtils.stringToDOM(newHTML).getFirstChild();
-      nodeToReplace = lastKnowDOMTree.importNode(nodeToReplace, true);
-      Node nodeToBeReplaced = findNodeWithID(nodeid, lastKnowDOMTree);
-      if (nodeToBeReplaced == null) {
-         LOGGER.severe("Wrong ID? Looking for " + nodeid + ", but couldn't find the ID in the last known HTML tree");
+   private void updateHTMLTag(HTMLTag lastKnowDOMTree, final HTMLTag typeOfChange, String HTMLTagid) {
+      String newHTML = typeOfChange.getFirstChild().getInnerHTML().toString();
+      HTMLTag HTMLTagToReplace = new HTMLTag(newHTML).getFirstChild();
+      HTMLTagToReplace = lastKnowDOMTree.importHTMLTag(HTMLTagToReplace, true);
+      HTMLTag HTMLTagToBeReplaced = findHTMLTagWithID(HTMLTagid, lastKnowDOMTree);
+      if (HTMLTagToBeReplaced == null) {
+         LOGGER.severe("Wrong ID? Looking for " + HTMLTagid + ", but couldn't find the ID in the last known HTML tree");
       }
       else {
-         Node parentNode = nodeToBeReplaced.getParentNode();
-         parentNode.replaceChild(nodeToReplace, nodeToBeReplaced);
+         HTMLTag parentHTMLTag = HTMLTagToBeReplaced.getParent();
+         parentHTMLTag.replaceChild(HTMLTagToReplace, HTMLTagToBeReplaced);
       }
    }
 
@@ -331,13 +317,13 @@ public class DiffenceEngine {
             differentialEngineActive = false;
          }
          else {
-            Document lastKnowDOMTree = getLastKnownHTMLBodyAsDomTree(sessionMap);
-            Document partialResponseAsDOMTree = stringToDOM(currentResponse);
-            List<Node> listOfChanges = extractChangesFromPartialResponse(partialResponseAsDOMTree);
-            for (Node change : listOfChanges) {
+            HTMLTag lastKnowDOMTree = getLastKnownHTMLBodyAsDomTree(sessionMap);
+            HTMLTag partialResponseAsDOMTree = new HTMLTag(currentResponse);
+            List<HTMLTag> listOfChanges = extractChangesFromPartialResponse(partialResponseAsDOMTree);
+            for (HTMLTag change : listOfChanges) {
                ArrayList<String> deletions = new ArrayList<String>();
                ArrayList<String> changes = new ArrayList<String>();
-               ArrayList<Node> newPartialChanges = determineNecessaryChangeFromResponse(change, lastKnowDOMTree,
+               ArrayList<HTMLTag> newPartialChanges = determineNecessaryChangeFromResponse(change, lastKnowDOMTree,
                      deletions, changes);
                if ((null != newPartialChanges) && (newPartialChanges.size() > 0)) {
                   String id = ((Element) change).getAttribute("id");
@@ -346,23 +332,23 @@ public class DiffenceEngine {
                   String currentResponseEnd = currentResponse.substring(end + "</update>".length());
                   try {
                      String tmpCurrentResponse = currentResponse.substring(0, start);
-                     for (Node n : newPartialChanges) {
+                     for (HTMLTag n : newPartialChanges) {
                         String c = domToString(n);
                         tmpCurrentResponse += c;
-                        final Node typeOfChange = n.getFirstChild();
-                        String nodeid = ((Element) typeOfChange).getAttribute("id");
-                        if ((nodeid == null) || (nodeid.length() == 0)) {
-                           LOGGER.severe("Missing node ID");
+                        final HTMLTag typeOfChange = n.getFirstChild();
+                        String HTMLTagid = ((Element) typeOfChange).getAttribute("id");
+                        if ((HTMLTagid == null) || (HTMLTagid.length() == 0)) {
+                           LOGGER.severe("Missing HTMLTag ID");
                         }
                         else {
                            if (typeOfChange.getNodeName().equals("update")) {
-                              updateNode(lastKnowDOMTree, typeOfChange, nodeid);
+                              updateHTMLTag(lastKnowDOMTree, typeOfChange, HTMLTagid);
                            }
                            else if (typeOfChange.getNodeName().equals("delete")) {
-                              deleteNode(lastKnowDOMTree, nodeid);
+                              deleteHTMLTag(lastKnowDOMTree, HTMLTagid);
                            }
                            else if (typeOfChange.getNodeName().equals("attributes")) {
-                              updateAttributes(lastKnowDOMTree, nodeid, c);
+                              updateAttributes(lastKnowDOMTree, HTMLTagid, c);
                            }
 
                         }
@@ -373,7 +359,7 @@ public class DiffenceEngine {
                      LOGGER.log(Level.SEVERE, "An exception occured while trying to replace the response", e);
                   }
                }
-               String newHTML = DOMUtils.domToString(lastKnowDOMTree.getFirstChild());
+               String newHTML = lastKnowDOMTree.getFirstChild().toString();
                if (newHTML.startsWith("<original>")) {
                   newHTML = newHTML.substring("<original>".length());
                   newHTML = newHTML.substring(0, newHTML.length() - "</original>".length());
@@ -381,7 +367,7 @@ public class DiffenceEngine {
                sessionMap.remove(LAST_KNOWN_HTML_KEY);
                sessionMap.put(LAST_KNOWN_HTML_KEY, newHTML);
             }
-            // currentResponse = DEBUGdeleteCityNode(currentResponse);
+            // currentResponse = DEBUGdeleteCityHTMLTag(currentResponse);
          }
       }
       else {

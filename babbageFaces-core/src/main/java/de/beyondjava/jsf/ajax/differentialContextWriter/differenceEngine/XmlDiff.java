@@ -1,11 +1,12 @@
 package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 
-import static de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DOMUtils.getDescriptionOfNode;
-
 import java.util.*;
 import java.util.logging.Logger;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Element;
+
+import de.beyondjava.jsf.ajax.differentialContextWriter.parser.*;
+import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag.HTMLAttribute;
 
 public class XmlDiff {
    private static final Logger LOGGER = Logger
@@ -23,34 +24,34 @@ public class XmlDiff {
       return oldString.equals(newString);
    }
 
-   public static boolean attributesAreEqualOrCanBeChangedLocally(Node oldNode, Node newNode,
+   public static boolean attributesAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
          ArrayList<String> deletions, ArrayList<String> changes) {
-      if (!oldNode.hasAttributes() && !newNode.hasAttributes()) {
+      if (!oldHTMLTag.hasAttributes() && !newHTMLTag.hasAttributes()) {
          return true;
       }
 
-      if (oldNode.hasAttributes() != newNode.hasAttributes()) {
+      if (oldHTMLTag.hasAttributes() != newHTMLTag.hasAttributes()) {
          return false;
       }
 
-      if (oldNode.getAttributes().getLength() != newNode.getAttributes().getLength()) {
+      if (oldHTMLTag.getAttributes().size() != newHTMLTag.getAttributes().size()) {
          return false;
       }
 
-      Node newAttribute = null;
-      Node oldAttribute = null;
+      HTMLAttribute newAttribute = null;
+      HTMLAttribute oldAttribute = null;
       StringBuffer changeAttributes = new StringBuffer();
       String id = null;
-      for (int i = 0; i < newNode.getAttributes().getLength(); i++) {
-         newAttribute = newNode.getAttributes().item(i);
-         final String attributeName = newAttribute.getNodeName();
-         oldAttribute = oldNode.getAttributes().getNamedItem(attributeName);
+      for (int i = 0; i < newHTMLTag.getAttributes().size(); i++) {
+         newAttribute = newHTMLTag.getAttributes().get(i);
+         final String attributeName = newAttribute.name;
+         oldAttribute = oldHTMLTag.getAttribute(attributeName);
 
          if (null == oldAttribute) {
             return false;
          }
 
-         String oldString = String.valueOf(oldAttribute.getNodeValue());
+         String oldString = String.valueOf(oldAttribute.value);
          if (attributeName.equals("id")) {
             id = oldString;
          }
@@ -64,7 +65,7 @@ public class XmlDiff {
                oldString = oldString.substring(0, start);
             }
          }
-         final String newString = String.valueOf(newAttribute.getNodeValue());
+         final String newString = String.valueOf(newAttribute.value);
          if (!(oldString.equals(newString))) {
             changeAttributes.append("<attribute name=\"" + attributeName + "\" value=\"" + newString + "\"/>");
          }
@@ -83,24 +84,25 @@ public class XmlDiff {
       return true;
    }
 
-   private static boolean childNodeAreEqualOrCanBeChangedLocally(ArrayList<Node> oldNodes, ArrayList<Node> newNodes,
-         Node newParentNode, ArrayList<Node> diff, ArrayList<String> deletions, ArrayList<String> changes) {
+   private static boolean childHTMLTagAreEqualOrCanBeChangedLocally(ArrayList<HTMLTag> oldHTMLTags,
+         ArrayList<HTMLTag> newHTMLTags, HTMLTag newParentHTMLTag, ArrayList<HTMLTag> diff,
+         ArrayList<String> deletions, ArrayList<String> changes) {
       boolean needsUpdate = false;
       ArrayList<String> localDeletions = new ArrayList<String>();
       ArrayList<String> localChanges = new ArrayList<String>();
-      if (oldNodes.size() != newNodes.size()) {
-         ArrayList<Node> insertList = getRecentlyAddedNodes(oldNodes, newNodes);
-         if ((oldNodes.size() < newNodes.size()) && (insertList.size() == 0)) {
+      if (oldHTMLTags.size() != newHTMLTags.size()) {
+         ArrayList<HTMLTag> insertList = getRecentlyAddedHTMLTags(oldHTMLTags, newHTMLTags);
+         if ((oldHTMLTags.size() < newHTMLTags.size()) && (insertList.size() == 0)) {
             // implementation error - must be debugged
-            insertList = getRecentlyAddedNodes(oldNodes, newNodes);
+            insertList = getRecentlyAddedHTMLTags(oldHTMLTags, newHTMLTags);
          }
          if (insertList.size() > 0) {
             needsUpdate = true;
          }
          if (!needsUpdate) {
-            ArrayList<Node> deleteList = getRecentlyAddedNodes(newNodes, oldNodes);
+            ArrayList<HTMLTag> deleteList = getRecentlyAddedHTMLTags(newHTMLTags, oldHTMLTags);
 
-            for (Node d : deleteList) {
+            for (HTMLTag d : deleteList) {
                if (d instanceof Element) {
                   String id = (((Element) d).getAttribute("id"));
                   if (null != id) {
@@ -116,17 +118,17 @@ public class XmlDiff {
          }
          LOGGER.warning("TODO: add insert");
          if (needsUpdate) {
-            LOGGER.info("Nodes counts are different, require update of parent. Parent node:"
-                  + DOMUtils.getDescriptionOfNode(newParentNode));
-            diff.add(newParentNode);
+            LOGGER.info("HTMLTags counts are different, require update of parent. Parent HTMLTag:"
+                  + newParentHTMLTag.getDescription());
+            diff.add(newParentHTMLTag);
             return false;
          }
       }
 
       int indexOld = 0;
       int indexNew = 0;
-      while (indexOld < oldNodes.size()) {
-         Node o = (oldNodes.get(indexOld));
+      while (indexOld < oldHTMLTags.size()) {
+         HTMLTag o = (oldHTMLTags.get(indexOld));
          if (o instanceof Element) {
             String id = ((Element) o).getAttribute("id");
             if (localDeletions.contains(id)) {
@@ -134,10 +136,10 @@ public class XmlDiff {
                continue;
             }
          }
-         if (!nodesAreEqualOrCanBeChangedLocally(o, newNodes.get(indexNew), diff, deletions, changes)) {
-            LOGGER.info("Nodes are different, require update of parent. Parent node:"
-                  + DOMUtils.getDescriptionOfNode(newParentNode));
-            diff.add(newParentNode);
+         if (!HTMLTagsAreEqualOrCanBeChangedLocally(o, newHTMLTags.get(indexNew), diff, deletions, changes)) {
+            LOGGER.info("HTMLTags are different, require update of parent. Parent HTMLTag:"
+                  + newParentHTMLTag.getDescription());
+            diff.add(newParentHTMLTag);
             return false;
          }
          indexOld++;
@@ -148,55 +150,41 @@ public class XmlDiff {
          changes.addAll(localChanges);
       }
       if (localDeletions.size() > 0) {
-         LOGGER.info("Adding node deletions");
+         LOGGER.info("Adding HTMLTag deletions");
          deletions.addAll(localDeletions);
       }
 
       return true;
    }
 
-   public static ArrayList<Node> getDifferenceOfDocuments(Document oldDocument, Document newDocument,
+   public static ArrayList<HTMLTag> getDifferenceOfHTMLTags(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
          ArrayList<String> deletions, ArrayList<String> changes) {
-      Node oldRootNode = oldDocument.getChildNodes().item(0);
-      Node newRootNode = newDocument.getChildNodes().item(0);
+      HTMLTag oldRootHTMLTag = oldHTMLTag.getChildren().get(0);
+      HTMLTag newRootHTMLTag = newHTMLTag.getChildren().get(0);
 
-      ArrayList<Node> diff = new ArrayList<Node>();
+      ArrayList<HTMLTag> diff = new ArrayList<HTMLTag>();
 
-      if (!nodesAreEqualOrCanBeChangedLocally(oldRootNode, newRootNode, diff, deletions, changes)) {
-         LOGGER.info("Nodes are different, require update of parent. Old node:"
-               + DOMUtils.getDescriptionOfNode(oldRootNode) + " new node: "
-               + DOMUtils.getDescriptionOfNode(newRootNode));
-         diff.add(newRootNode);
-      }
-
-      return diff;
-   }
-
-   public static ArrayList<Node> getDifferenceOfNodes(Node oldNode, Node newNode, ArrayList<String> deletions,
-         ArrayList<String> changes) {
-      ArrayList<Node> diff = new ArrayList<Node>();
-
-      if (!nodesAreEqualOrCanBeChangedLocally(oldNode, newNode, diff, deletions, changes)) {
-         LOGGER.info("Nodes are different, require update of parent. Old node:" + getDescriptionOfNode(oldNode)
-               + " new node: " + getDescriptionOfNode(newNode));
-         diff.add(newNode);
+      if (!HTMLTagsAreEqualOrCanBeChangedLocally(oldRootHTMLTag, newRootHTMLTag, diff, deletions, changes)) {
+         LOGGER.info("HTMLTags are different, require update of parent. Old HTMLTag:" + oldRootHTMLTag.getDescription()
+               + " new HTMLTag: " + newRootHTMLTag.getDescription());
+         diff.add(newRootHTMLTag);
       }
 
       return diff;
    }
 
    /**
-    * @param childNodes
+    * @param childHTMLTags
     * @return
     */
-   private static ArrayList<Node> getNonEmptyNodes(NodeList childNodes) {
-      ArrayList<Node> nonEmpty = new ArrayList<Node>();
-      for (int i = 0; i < childNodes.getLength(); i++) {
-         Node n = childNodes.item(i);
-         if (n.hasAttributes() || n.hasChildNodes() || (n.getNodeType() != Node.TEXT_NODE)
-               || (n.getNodeValue().trim().length() > 0)) {
-            if (n.hasAttributes() && (n.getAttributes().getNamedItem("name") != null)) {
-               if (!n.getAttributes().getNamedItem("name").getNodeValue().equals("javax.faces.ViewState")) {
+   private static ArrayList<HTMLTag> getNonEmptyHTMLTags(List<HTMLTag> childHTMLTags) {
+      ArrayList<HTMLTag> nonEmpty = new ArrayList<HTMLTag>();
+      for (int i = 0; i < childHTMLTags.size(); i++) {
+         HTMLTag n = childHTMLTags.get(i);
+         if (n.hasAttributes() || (n.children.size() > 0) || (n.getHTMLTagType() != HTMLTag.TEXT_HTMLTag)
+               || (n.innerHTML.toString().trim().length() > 0)) {
+            if (n.hasAttributes() && (n.getAttribute("name") != null)) {
+               if (!n.getAttribute("name").value.equals("javax.faces.ViewState")) {
                   nonEmpty.add(n);
                }
             }
@@ -208,17 +196,18 @@ public class XmlDiff {
       return nonEmpty;
    }
 
-   public static ArrayList<Node> getRecentlyAddedNodes(ArrayList<Node> oldNodes, ArrayList<Node> newNodes) {
-      ArrayList<Node> result = new ArrayList<Node>();
-      HashMap<String, Node> alreadyThere = new HashMap<String, Node>();
-      for (int i = 0; i < oldNodes.size(); i++) {
-         Node n = oldNodes.get(i);
-         String desc = getDescriptionOfNode(n);
+   public static ArrayList<HTMLTag> getRecentlyAddedHTMLTags(ArrayList<HTMLTag> oldHTMLTags,
+         ArrayList<HTMLTag> newHTMLTags) {
+      ArrayList<HTMLTag> result = new ArrayList<HTMLTag>();
+      HashMap<String, HTMLTag> alreadyThere = new HashMap<String, HTMLTag>();
+      for (int i = 0; i < oldHTMLTags.size(); i++) {
+         HTMLTag n = oldHTMLTags.get(i);
+         String desc = n.getDescription();
          alreadyThere.put(desc, n);
       }
-      for (int i = 0; i < newNodes.size(); i++) {
-         Node n = newNodes.get(i);
-         String desc = getDescriptionOfNode(n);
+      for (int i = 0; i < newHTMLTags.size(); i++) {
+         HTMLTag n = newHTMLTags.get(i);
+         String desc = n.getDescription();
          if (!alreadyThere.containsKey(desc)) {
             result.add(n);
          }
@@ -226,45 +215,37 @@ public class XmlDiff {
       return result;
    }
 
-   public static boolean idsAreEqualOrCanBeChangedLocally(Node oldNode, Node newNode) {
-      if (!(oldNode instanceof Element) && !(newNode instanceof Element)) {
-         return true;
-      }
-
-      return ((Element) oldNode).getAttribute("id").equals(((Element) newNode).getAttribute("id"));
+   private static boolean HTMLTagNamesAreEqualsOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag) {
+      return oldHTMLTag.getNodeName().equals(newHTMLTag.getNodeName());
    }
 
-   private static boolean nodeNamesAreEqualsOrCanBeChangedLocally(Node oldNode, Node newNode) {
-      return oldNode.getNodeName().equals(newNode.getNodeName());
-   }
-
-   private static boolean nodesAreEqualOrCanBeChangedLocally(Node oldNode, Node newNode, ArrayList<Node> diff,
-         ArrayList<String> deletions, ArrayList<String> changes) {
-      if (!nodeNamesAreEqualsOrCanBeChangedLocally(oldNode, newNode)) {
+   private static boolean HTMLTagsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
+         ArrayList<HTMLTag> diff, ArrayList<String> deletions, ArrayList<String> changes) {
+      if (!HTMLTagNamesAreEqualsOrCanBeChangedLocally(oldHTMLTag, newHTMLTag)) {
          return false;
       }
-      if (!idsAreEqualOrCanBeChangedLocally(oldNode, newNode)) {
+      if (!idsAreEqualOrCanBeChangedLocally(oldHTMLTag, newHTMLTag)) {
          return false;
       }
 
-      if (!areStringsEqualOrCanBeChangedLocally(oldNode.getNodeValue(), newNode.getNodeValue())) {
+      if (!areStringsEqualOrCanBeChangedLocally(oldHTMLTag.innerHTML.toString(), newHTMLTag.innerHTML.toString())) {
          return false;
       }
       ArrayList<String> localChanges = new ArrayList<String>();
-      boolean attributesHaveChanged = (!attributesAreEqualOrCanBeChangedLocally(oldNode, newNode, deletions,
+      boolean attributesHaveChanged = (!attributesAreEqualOrCanBeChangedLocally(oldHTMLTag, newHTMLTag, deletions,
             localChanges));
 
-      ArrayList<Node> oldNodes = getNonEmptyNodes(oldNode.getChildNodes());
-      ArrayList<Node> newNodes = getNonEmptyNodes(newNode.getChildNodes());
-      boolean childNodeHaveChanged = !childNodeAreEqualOrCanBeChangedLocally(oldNodes, newNodes, newNode, diff,
-            deletions, changes);
-      if (!diff.contains(newNode)) {
+      ArrayList<HTMLTag> oldHTMLTags = getNonEmptyHTMLTags(oldHTMLTag.getChildren());
+      ArrayList<HTMLTag> newHTMLTags = getNonEmptyHTMLTags(newHTMLTag.getChildren());
+      boolean childHTMLTagHaveChanged = !childHTMLTagAreEqualOrCanBeChangedLocally(oldHTMLTags, newHTMLTags,
+            newHTMLTag, diff, deletions, changes);
+      if (!diff.contains(newHTMLTag)) {
          if (attributesHaveChanged) {
             LOGGER.warning("TODO: add changeAttribute");
-            LOGGER.info("Attributes are different, require update of parent. Old node:"
-                  + DOMUtils.getDescriptionOfNode(oldNode) + " new node: " + DOMUtils.getDescriptionOfNode(newNode));
-            diff.add(newNode);
-            // LOGGER.info(new DiffenceEngine().domToString(newNode));
+            LOGGER.info("Attributes are different, require update of parent. Old HTMLTag:"
+                  + oldHTMLTag.getDescription() + " new HTMLTag: " + newHTMLTag.getDescription());
+            diff.add(newHTMLTag);
+            // LOGGER.info(new DiffenceEngine().domToString(newHTMLTag));
             return true;
          }
       }
@@ -273,5 +254,13 @@ public class XmlDiff {
       }
 
       return true;
+   }
+
+   public static boolean idsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag) {
+      if (!(oldHTMLTag instanceof Element) && !(newHTMLTag instanceof Element)) {
+         return true;
+      }
+
+      return ((Element) oldHTMLTag).getAttribute("id").equals(((Element) newHTMLTag).getAttribute("id"));
    }
 }

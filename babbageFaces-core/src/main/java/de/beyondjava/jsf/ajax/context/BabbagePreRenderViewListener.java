@@ -25,14 +25,17 @@ public class BabbagePreRenderViewListener implements SystemEventListener {
       List<UIComponent> children = root.getChildren();
       for (UIComponent c : children) {
          final String id = parentID + String.valueOf(index++);
-         if (c.getPassThroughAttributes().get("babbageid") != null) {
-            if (!c.getPassThroughAttributes().get("babbageid").equals(id)) {
-               System.out.println("Error while annotating" + id);
-               c.getPassThroughAttributes().remove("babbageid");
-            }
+         c.getAttributes().put("babbageid", id);
+         if (c.getId().startsWith(UIViewRoot.UNIQUE_ID_PREFIX)) {
+            c.setId(id);
          }
-         c.getPassThroughAttributes().put("babbageid", id);
-         annotateChildren(c, id + ".");
+         else if (!c.getId().contains("BabbageID_")) {
+            if (c.getPassThroughAttributes().containsKey("BabbageID")) {
+               c.getPassThroughAttributes().remove("BabbageID");
+            }
+            c.getPassThroughAttributes().put("BabbageID", id);
+         }
+         annotateChildren(c, id + "_");
       }
    }
 
@@ -45,7 +48,7 @@ public class BabbagePreRenderViewListener implements SystemEventListener {
    public void processEvent(SystemEvent event) throws AbortProcessingException {
       UIViewRoot root = (UIViewRoot) event.getSource();
 
-      String parentID = "";
+      String parentID = "BabbageID_";
       annotateChildren(root, parentID);
    }
 

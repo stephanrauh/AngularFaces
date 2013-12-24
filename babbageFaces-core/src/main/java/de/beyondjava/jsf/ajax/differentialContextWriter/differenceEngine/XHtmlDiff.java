@@ -3,39 +3,40 @@ package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 import java.util.*;
 import java.util.logging.Logger;
 
-import org.w3c.dom.*;
+import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
 
 public class XHtmlDiff {
    private static final Logger LOGGER = Logger
          .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.XmlDiff");
 
-   private static void fix(ArrayList<Node> changed) {
-      ArrayList<Node> temp = new ArrayList<Node>();
+   private static void fix(ArrayList<HTMLTag> changed) {
+      ArrayList<HTMLTag> temp = new ArrayList<HTMLTag>();
 
-      // loop nodes to removed nodes without id and resolve to their parent with
+      // loop HTMLTags to removed HTMLTags without id and resolve to their
+      // parent with
       // id
-      Iterator<Node> nodeIterator = changed.iterator();
-      while (nodeIterator.hasNext()) {
-         Element element = (Element) nodeIterator.next();
-         String id = element.getAttribute("id");
+      Iterator<HTMLTag> HTMLTagIterator = changed.iterator();
+      while (HTMLTagIterator.hasNext()) {
+         HTMLTag element = HTMLTagIterator.next();
+         String id = element.getId();
          if (id.isEmpty()) {
-            LOGGER.info("Fixing a node without ID");
-            Element parent = (Element) element.getParentNode();
+            LOGGER.info("Fixing a HTMLTag without ID");
+            HTMLTag parent = element.getParent();
 
             while (parent != null) {
-               String parentId = parent.getAttribute("id");
+               String parentId = parent.getId();
                if (!parentId.isEmpty()) {
                   break;
                }
-               parent = (Element) parent.getParentNode();
+               parent = parent.getParent();
             }
             if (null != parent) {
-               LOGGER.info("replaced node by node with id=" + parent.getAttribute("id"));
+               LOGGER.info("replaced HTMLTag by HTMLTag with id=" + parent.getId());
             }
             else {
-               LOGGER.severe("cannot replace node");
+               LOGGER.severe("cannot replace HTMLTag");
             }
-            nodeIterator.remove();
+            HTMLTagIterator.remove();
             temp.add(parent);
          }
       }
@@ -43,27 +44,27 @@ public class XHtmlDiff {
       changed.addAll(temp);
       temp.clear();
 
-      // check if a node is child/parent from another need
+      // check if a HTMLTag is child/parent from another need
       // we only need to the render the highest one
-      for (Node outer : changed) {
-         for (Node inner : changed) {
-            if (isParentNode(outer, inner)) {
+      for (HTMLTag outer : changed) {
+         for (HTMLTag inner : changed) {
+            if (isParentHTMLTag(outer, inner)) {
                temp.add(inner);
             }
          }
       }
 
-      for (Node toRemove : temp) {
+      for (HTMLTag toRemove : temp) {
          changed.remove(toRemove);
       }
    }
 
-   public static ArrayList<Node> getDifferenceOfDocuments(Document oldDocument, Document newDocument,
+   public static ArrayList<HTMLTag> getDifferenceOfHTMLTags(HTMLTag oldDocument, HTMLTag newDocument,
          ArrayList<String> deletions, ArrayList<String> changes) {
-      ArrayList<Node> diff = XmlDiff.getDifferenceOfDocuments(oldDocument, newDocument, deletions, changes);
+      ArrayList<HTMLTag> diff = XmlDiff.getDifferenceOfHTMLTags(oldDocument, newDocument, deletions, changes);
 
-      // 1. schauen ob die Nodes eine Id haben und wenn ja die Parents loopen
-      // bis meine eine Node mit ID hat
+      // 1. schauen ob die HTMLTags eine Id haben und wenn ja die Parents loopen
+      // bis meine eine HTMLTag mit ID hat
       // 2. durch den ersten Schritt kann passieren das man jetzt Childs von den
       // neuen Parent bereits als DIff hat
       // also sortieren wir nochmal aus
@@ -72,28 +73,14 @@ public class XHtmlDiff {
       return diff;
    }
 
-   public static ArrayList<Node> getDifferenceOfNodes(Node oldDocument, Node newDocument, ArrayList<String> deletions,
-         ArrayList<String> changes) {
-      ArrayList<Node> diff = XmlDiff.getDifferenceOfNodes(oldDocument, newDocument, deletions, changes);
-
-      // 1. schauen ob die Nodes eine Id haben und wenn ja die Parents loopen
-      // bis meine eine Node mit ID hat
-      // 2. durch den ersten Schritt kann passieren das man jetzt Childs von den
-      // neuen Parent bereits als DIff hat
-      // also sortieren wir nochmal aus
-      fix(diff);
-
-      return diff;
-   }
-
-   private static boolean isParentNode(Node parent, Node child) {
-      Node childParent = child.getParentNode();
+   private static boolean isParentHTMLTag(HTMLTag parent, HTMLTag child) {
+      HTMLTag childParent = child.getParent();
 
       while (childParent != null) {
          if (childParent == parent) {
             return true;
          }
-         childParent = childParent.getParentNode();
+         childParent = childParent.getParent();
       }
 
       return false;
