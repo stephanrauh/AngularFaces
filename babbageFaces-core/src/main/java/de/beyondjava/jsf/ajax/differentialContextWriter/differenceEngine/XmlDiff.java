@@ -136,7 +136,7 @@ public class XmlDiff {
                continue;
             }
          }
-         if (!HTMLTagsAreEqualOrCanBeChangedLocally(o, newHTMLTags.get(indexNew), diff, deletions, changes)) {
+         if (!tagsAreEqualOrCanBeChangedLocally(o, newHTMLTags.get(indexNew), diff, deletions, changes)) {
             LOGGER.info("HTMLTags are different, require update of parent. Parent HTMLTag:"
                   + newParentHTMLTag.getDescription());
             diff.add(newParentHTMLTag);
@@ -164,7 +164,7 @@ public class XmlDiff {
 
       ArrayList<HTMLTag> diff = new ArrayList<HTMLTag>();
 
-      if (!HTMLTagsAreEqualOrCanBeChangedLocally(oldRootHTMLTag, newRootHTMLTag, diff, deletions, changes)) {
+      if (!tagsAreEqualOrCanBeChangedLocally(oldRootHTMLTag, newRootHTMLTag, diff, deletions, changes)) {
          LOGGER.info("HTMLTags are different, require update of parent. Old HTMLTag:" + oldRootHTMLTag.getDescription()
                + " new HTMLTag: " + newRootHTMLTag.getDescription());
          diff.add(newRootHTMLTag);
@@ -181,7 +181,8 @@ public class XmlDiff {
       ArrayList<HTMLTag> nonEmpty = new ArrayList<HTMLTag>();
       for (int i = 0; i < childHTMLTags.size(); i++) {
          HTMLTag n = childHTMLTags.get(i);
-         if (n.hasAttributes() || (n.children.size() > 0) || (n.getHTMLTagType() != HTMLTag.TEXT_HTMLTag)
+         if (n.hasAttributes() || (n.children.size() > 0)
+               || ((n.getNodeName() != null) && (n.getNodeName().length() > 0))
                || (n.innerHTML.toString().trim().length() > 0)) {
             if (n.hasAttributes() && (n.getAttribute("name") != null)) {
                if (!n.getAttribute("name").value.equals("javax.faces.ViewState")) {
@@ -219,7 +220,15 @@ public class XmlDiff {
       return oldHTMLTag.getNodeName().equals(newHTMLTag.getNodeName());
    }
 
-   private static boolean HTMLTagsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
+   public static boolean idsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag) {
+      if (!(oldHTMLTag instanceof Element) && !(newHTMLTag instanceof Element)) {
+         return true;
+      }
+
+      return ((Element) oldHTMLTag).getAttribute("id").equals(((Element) newHTMLTag).getAttribute("id"));
+   }
+
+   private static boolean tagsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
          ArrayList<HTMLTag> diff, ArrayList<String> deletions, ArrayList<String> changes) {
       if (!HTMLTagNamesAreEqualsOrCanBeChangedLocally(oldHTMLTag, newHTMLTag)) {
          return false;
@@ -254,13 +263,5 @@ public class XmlDiff {
       }
 
       return true;
-   }
-
-   public static boolean idsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag) {
-      if (!(oldHTMLTag instanceof Element) && !(newHTMLTag instanceof Element)) {
-         return true;
-      }
-
-      return ((Element) oldHTMLTag).getAttribute("id").equals(((Element) newHTMLTag).getAttribute("id"));
    }
 }

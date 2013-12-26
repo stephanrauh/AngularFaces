@@ -230,6 +230,31 @@ public class HTMLTag implements Serializable {
    }
 
    /**
+    * Removes a particular HTML tag from the childrens subtree.
+    * 
+    * @param tagToBeRemoved
+    */
+   public void removeChild(HTMLTag tagToBeRemoved) {
+      children.remove(tagToBeRemoved);
+   }
+
+   /**
+    * @param newSubtree
+    * @param tagToBeReplaced
+    */
+   public void replaceChild(HTMLTag newSubtree, HTMLTag tagToBeReplaced) {
+      if (null != children) {
+         for (int i = 0; i < children.size(); i++) {
+            if (children.get(i) == tagToBeReplaced) {
+               children.set(i, newSubtree);
+               break;
+            }
+         }
+      }
+
+   }
+
+   /**
     * @param attributes
     *           the attributes to set
     */

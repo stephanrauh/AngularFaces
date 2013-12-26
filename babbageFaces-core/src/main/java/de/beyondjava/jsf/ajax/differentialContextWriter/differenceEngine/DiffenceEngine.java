@@ -35,13 +35,13 @@ public class DiffenceEngine {
     * @param htmlTagid
     */
    private void deleteHTMLTag(HTMLTag lastKnowDOMTree, String htmlTagid) {
-      HTMLTag tagToBeReplaced = findHTMLTagWithID(htmlTagid, lastKnowDOMTree);
-      if (tagToBeReplaced == null) {
+      HTMLTag tagToBeRemoved = findHTMLTagWithID(htmlTagid, lastKnowDOMTree);
+      if (tagToBeRemoved == null) {
          LOGGER.severe("Wrong ID? Looking for " + htmlTagid + ", but couldn't find the ID in the last known HTML tree");
       }
       else {
-         HTMLTag parentHTMLTag = tagToBeReplaced.getParent();
-         parentHTMLTag.removeChild(tagToBeReplaced);
+         HTMLTag parentHTMLTag = tagToBeRemoved.getParent();
+         parentHTMLTag.removeChild(tagToBeRemoved);
       }
    }
 
@@ -259,7 +259,7 @@ public class DiffenceEngine {
     * @param c
     */
    private void updateAttributes(HTMLTag lastKnowDOMTree, String HTMLTagid, String c) {
-      HTMLTag HTMLTagToBeReplaced = findHTMLTagWithID(HTMLTagid, lastKnowDOMTree);
+      HTMLTag tagToBeReplaced = findHTMLTagWithID(HTMLTagid, lastKnowDOMTree);
       String attributes[] = c.split("<attribute name=\\\"");
 
       for (int i = 1; i < attributes.length; i++) {
@@ -273,7 +273,7 @@ public class DiffenceEngine {
          else {
             value = value.substring(0, value.length() - "\"/></attributes>".length());
          }
-         ((Element) HTMLTagToBeReplaced).setAttribute(name, value);
+         ((Element) tagToBeReplaced).setAttribute(name, value);
       }
 
    }
@@ -283,17 +283,15 @@ public class DiffenceEngine {
     * @param typeOfChange
     * @param HTMLTagid
     */
-   private void updateHTMLTag(HTMLTag lastKnowDOMTree, final HTMLTag typeOfChange, String HTMLTagid) {
-      String newHTML = typeOfChange.getFirstChild().getInnerHTML().toString();
-      HTMLTag HTMLTagToReplace = new HTMLTag(newHTML).getFirstChild();
-      HTMLTagToReplace = lastKnowDOMTree.importHTMLTag(HTMLTagToReplace, true);
-      HTMLTag HTMLTagToBeReplaced = findHTMLTagWithID(HTMLTagid, lastKnowDOMTree);
-      if (HTMLTagToBeReplaced == null) {
+   private void updateHTMLTag(HTMLTag lastKnowDOMTree, final HTMLTag newSubtree, String HTMLTagid) {
+
+      HTMLTag tagToBeReplaced = findHTMLTagWithID(HTMLTagid, lastKnowDOMTree);
+      if (tagToBeReplaced == null) {
          LOGGER.severe("Wrong ID? Looking for " + HTMLTagid + ", but couldn't find the ID in the last known HTML tree");
       }
       else {
-         HTMLTag parentHTMLTag = HTMLTagToBeReplaced.getParent();
-         parentHTMLTag.replaceChild(HTMLTagToReplace, HTMLTagToBeReplaced);
+         HTMLTag parentHTMLTag = tagToBeReplaced.getParent();
+         parentHTMLTag.replaceChild(newSubtree, tagToBeReplaced);
       }
    }
 
@@ -335,20 +333,20 @@ public class DiffenceEngine {
                      for (HTMLTag n : newPartialChanges) {
                         String c = domToString(n);
                         tmpCurrentResponse += c;
-                        final HTMLTag typeOfChange = n.getFirstChild();
-                        String HTMLTagid = ((Element) typeOfChange).getAttribute("id");
-                        if ((HTMLTagid == null) || (HTMLTagid.length() == 0)) {
+                        final HTMLTag changeDefinition = n.getFirstChild();
+                        String idOfCurrentChange = ((Element) changeDefinition).getAttribute("id");
+                        if ((idOfCurrentChange == null) || (idOfCurrentChange.length() == 0)) {
                            LOGGER.severe("Missing HTMLTag ID");
                         }
                         else {
-                           if (typeOfChange.getNodeName().equals("update")) {
-                              updateHTMLTag(lastKnowDOMTree, typeOfChange, HTMLTagid);
+                           if (changeDefinition.getNodeName().equals("update")) {
+                              updateHTMLTag(lastKnowDOMTree, changeDefinition.getFirstChild(), idOfCurrentChange);
                            }
-                           else if (typeOfChange.getNodeName().equals("delete")) {
-                              deleteHTMLTag(lastKnowDOMTree, HTMLTagid);
+                           else if (changeDefinition.getNodeName().equals("delete")) {
+                              deleteHTMLTag(lastKnowDOMTree, idOfCurrentChange);
                            }
-                           else if (typeOfChange.getNodeName().equals("attributes")) {
-                              updateAttributes(lastKnowDOMTree, HTMLTagid, c);
+                           else if (changeDefinition.getNodeName().equals("attributes")) {
+                              updateAttributes(lastKnowDOMTree, idOfCurrentChange, c);
                            }
 
                         }
