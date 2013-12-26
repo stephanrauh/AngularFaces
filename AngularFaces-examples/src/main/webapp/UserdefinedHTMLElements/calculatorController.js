@@ -1,14 +1,13 @@
 function calculatorController($scope) {
-	$scope.number1 = 3;
-	$scope.number2 = 34;
+	$scope.number1 = Math.floor((Math.random()*100)+1);
+	$scope.number2 = Math.floor((Math.random()*100)+1);
 	$scope.add = function() {
-		if ($scope.number1 && $scope.number2) {
-			$scope.result = parseInt($scope.number1) + parseInt($scope.number2);
-		} else
-			$scope.result = "(undefined)";
+		$scope.result = parseInt($scope.number1) + parseInt($scope.number2);
 		return $scope.result;
 	};
 	$scope.summands = function() {
+		$scope.number1 = Math.floor((Math.random()*100)+1);
+		$scope.number2 = Math.floor((Math.random()*100)+1);
 		return [ $scope.number1, $scope.number2 ];
 	};
 }
