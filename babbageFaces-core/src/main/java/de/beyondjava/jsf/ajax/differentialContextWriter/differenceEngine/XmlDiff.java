@@ -159,15 +159,12 @@ public class XmlDiff {
 
    public static ArrayList<HTMLTag> getDifferenceOfHTMLTags(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
          ArrayList<String> deletions, ArrayList<String> changes) {
-      HTMLTag oldRootHTMLTag = oldHTMLTag.getChildren().get(0);
-      HTMLTag newRootHTMLTag = newHTMLTag.getChildren().get(0);
-
       ArrayList<HTMLTag> diff = new ArrayList<HTMLTag>();
 
-      if (!tagsAreEqualOrCanBeChangedLocally(oldRootHTMLTag, newRootHTMLTag, diff, deletions, changes)) {
-         LOGGER.info("HTMLTags are different, require update of parent. Old HTMLTag:" + oldRootHTMLTag.getDescription()
-               + " new HTMLTag: " + newRootHTMLTag.getDescription());
-         diff.add(newRootHTMLTag);
+      if (!tagsAreEqualOrCanBeChangedLocally(oldHTMLTag, newHTMLTag, diff, deletions, changes)) {
+         LOGGER.info("HTMLTags are different, require update of parent. Old HTMLTag:" + oldHTMLTag.getDescription()
+               + " new HTMLTag: " + newHTMLTag.getDescription());
+         diff.add(newHTMLTag);
       }
 
       return diff;
