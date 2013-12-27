@@ -113,7 +113,7 @@ public class DiffenceEngine {
    protected ArrayList<HTMLTag> determineNecessaryChanges(String newHTML, HTMLTag lastKnownCorrespondingHTMLTag,
          ArrayList<String> deletions, ArrayList<String> changes) {
       if (newHTML.startsWith("<")) {
-         HTMLTag newDOM = new HTMLTag(newHTML).getFirstChild();
+         HTMLTag newDOM = new HTMLTag(newHTML);
          ArrayList<HTMLTag> differences = XHtmlDiff.getDifferenceOfHTMLTags(lastKnownCorrespondingHTMLTag, newDOM,
                deletions, changes);
          for (HTMLTag d : differences) {
@@ -137,7 +137,7 @@ public class DiffenceEngine {
    }
 
    String domToString(HTMLTag tag) {
-      return tag.toString();
+      return tag.toString().trim();
       // try {
       // TransformerFactory tf = TransformerFactory.newInstance();
       // Transformer transformer = tf.newTransformer();

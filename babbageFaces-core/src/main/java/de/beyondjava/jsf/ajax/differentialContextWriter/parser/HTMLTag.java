@@ -90,6 +90,7 @@ public class HTMLTag implements Serializable {
 
    public List<HTMLTag> children = new ArrayList<>();
 
+   /** convenience attribute (with the side effect of better performance) */
    public String id = "";
 
    public List<String> idsOfChildren = new ArrayList<>();
@@ -103,22 +104,35 @@ public class HTMLTag implements Serializable {
    public HTMLTag parent = null;
 
    public HTMLTag(Node node, HTMLTag parent) {
+      if (node.getNodeType() == Node.DOCUMENT_NODE) {
+         // BabbageFaces isn't interested in the document wrapped around the
+         // HTML code
+         node = node.getFirstChild();
+      }
       isTextNode = node.getNodeType() == Node.TEXT_NODE;
       if (isTextNode) {
          innerHTML.append(node.getNodeValue());
       }
       else {
          nodeName = node.getNodeName();
-         for (int i = 0; i < node.getAttributes().getLength(); i++) {
-            final Node item = node.getAttributes().item(i);
-            final String attributeName = item.getNodeName();
-            String attributeValue = item.getNodeValue();
-            addAttribute(attributeName, attributeValue);
+         if (null != node.getAttributes()) {
+            for (int i = 0; i < node.getAttributes().getLength(); i++) {
+               final Node item = node.getAttributes().item(i);
+               final String attributeName = item.getNodeName();
+               String attributeValue = item.getNodeValue();
+               addAttribute(attributeName, attributeValue);
+            }
          }
-         for (int i = 0; i < node.getChildNodes().getLength(); i++) {
-            HTMLTag kid = new HTMLTag(node.getChildNodes().item(i), this);
-            children.add(kid);
-            idsOfChildren.add(kid.id);
+         if (null != node.getChildNodes()) {
+            for (int i = 0; i < node.getChildNodes().getLength(); i++) {
+               final Node item = node.getChildNodes().item(i);
+               if ((item.getNodeType() != Node.TEXT_NODE)
+                     || ((item.getNodeValue() != null) && (item.getNodeValue().trim().length() > 0))) {
+                  HTMLTag kid = new HTMLTag(item, this);
+                  children.add(kid);
+                  idsOfChildren.add(kid.id);
+               }
+            }
          }
          if ((node.getNodeValue() != null) && (node.getNodeValue().trim().length() > 0)) {
             System.out.println("NodeValue nonempty?");
@@ -137,6 +151,35 @@ public class HTMLTag implements Serializable {
       a.name = name;
       a.value = value;
       attributes.add(a);
+      if ("id".equals(name)) {
+         id = value; // convenience attribute
+      }
+   }
+
+   public String attributesToString() {
+      StringBuffer result = new StringBuffer();
+      if ((null != id) && (id.length() > 0)) {
+         result.append(' ');
+         result.append("id");
+         result.append('=');
+         result.append('"');
+         result.append(id);
+         result.append('"');
+      }
+      if (null != attributes) {
+         for (HTMLAttribute a : attributes) {
+            if ("id".equals(a.name)) {
+               continue;
+            }
+            result.append(' ');
+            result.append(a.name);
+            result.append('=');
+            result.append('"');
+            result.append(a.value);
+            result.append('"');
+         }
+      }
+      return result.toString();
    }
 
    /**
@@ -181,6 +224,8 @@ public class HTMLTag implements Serializable {
    }
 
    /**
+    * convenience attribute (with the side effect of better performance)
+    * 
     * @return the id
     */
    public String getId() {
@@ -271,6 +316,8 @@ public class HTMLTag implements Serializable {
    }
 
    /**
+    * convenience attribute (with the side effect of better performance)
+    * 
     * @param id
     *           the id to set
     */
@@ -324,14 +371,22 @@ public class HTMLTag implements Serializable {
          return innerHTML.toString();
       }
       else {
-         String result = "  <" + nodeName + "id=\"" + id + "\">\n";
-         for (HTMLTag kid : children) {
-            String k = kid.toString().replace("  <", "    <");
-            result += k;
+         String result = "  <" + nodeName + attributesToString();
+         if ((children.size() == 0) && (innerHTML.length() == 0)) {
+            result += "/>";
          }
-         result += "  </" + nodeName + ">\n";
+         else {
+            result += ">";
+            for (HTMLTag kid : children) {
+               String k = kid.toString().replace("  <", "    <");
+               result += k;
+               if (!kid.isTextNode()) {
+                  result += "\n";
+               }
+            }
+            result += "  </" + nodeName + ">\n";
+         }
          return result;
       }
    }
-
 }

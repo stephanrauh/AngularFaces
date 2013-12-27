@@ -59,18 +59,18 @@ public class XHtmlDiff {
       }
    }
 
-   public static ArrayList<HTMLTag> getDifferenceOfHTMLTags(HTMLTag oldDocument, HTMLTag newDocument,
+   public static ArrayList<HTMLTag> getDifferenceOfHTMLTags(HTMLTag oldDomTree, HTMLTag newDomTree,
          ArrayList<String> deletions, ArrayList<String> changes) {
-      ArrayList<HTMLTag> diff = XmlDiff.getDifferenceOfHTMLTags(oldDocument, newDocument, deletions, changes);
+      ArrayList<HTMLTag> updates = XmlDiff.getDifferenceOfHTMLTags(oldDomTree, newDomTree, deletions, changes);
 
       // 1. schauen ob die HTMLTags eine Id haben und wenn ja die Parents loopen
       // bis meine eine HTMLTag mit ID hat
       // 2. durch den ersten Schritt kann passieren das man jetzt Childs von den
-      // neuen Parent bereits als DIff hat
+      // neuen Parent bereits als updates hat
       // also sortieren wir nochmal aus
-      fix(diff);
+      fix(updates);
 
-      return diff;
+      return updates;
    }
 
    private static boolean isParentHTMLTag(HTMLTag parent, HTMLTag child) {
