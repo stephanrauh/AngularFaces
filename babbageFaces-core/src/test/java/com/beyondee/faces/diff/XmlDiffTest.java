@@ -3,77 +3,52 @@ package com.beyondee.faces.diff;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.StringWriter;
+import java.io.File;
 import java.util.ArrayList;
 
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-import org.w3c.dom.*;
 
 import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.XmlDiff;
+import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
 
 public class XmlDiffTest {
-   public ArrayList<Node> diff(int testNr) {
+   public ArrayList<HTMLTag> diff(int testNr) {
       try {
-         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-         factory.setNamespaceAware(false);
-         factory.setValidating(false);
-         factory.setFeature("http://xml.org/sax/features/namespaces", false);
-         factory.setFeature("http://xml.org/sax/features/validation", false);
-         factory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
-         factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-         factory.setIgnoringElementContentWhitespace(true);
-         DocumentBuilder builder = factory.newDocumentBuilder();
+         String oldHTMLString = FileUtils.readFileToString(new File("target/test-classes/test" + testNr + "-old.xml"));
+         String newHTMLString = FileUtils.readFileToString(new File("target/test-classes/test" + testNr + "-new.xml"));
+         HTMLTag oldHTMLTag = new HTMLTag(oldHTMLString);
+         HTMLTag newHTMLTag = new HTMLTag(newHTMLString);
+
          ArrayList<String> deletions = new ArrayList<String>();
          ArrayList<String> changes = new ArrayList<String>();
 
-         return XmlDiff.getDifferenceOfDocuments(
-               builder.parse(getClass().getResourceAsStream("/test" + testNr + "-old.xml")),
-               builder.parse(getClass().getResourceAsStream("/test" + testNr + "-new.xml")), deletions, changes);
+         return XmlDiff.getDifferenceOfHTMLTags(oldHTMLTag, newHTMLTag, deletions, changes);
       }
       catch (Exception e) {
          throw new RuntimeException(e);
       }
    }
 
-   @SuppressWarnings("deprecation")
    @Test
    public void test1() {
-      ArrayList<Node> diff = diff(1);
-      assertEquals("<firstname id=\"f1\">low1</firstname>", xmlToString(diff.get(0)));
-      assertEquals("<salary id=\"s\"><test2>200000</test2></salary>", xmlToString(diff.get(1)));
-      assertEquals(2, diff.size());
-      assertEquals("f1", ((Element) diff.get(0)).getAttribute("id"));
-      assertEquals("s", ((Element) diff.get(1)).getAttribute("id"));
+      ArrayList<HTMLTag> updates = diff(1);
+      assertEquals("<firstname id=\"f1\">low1</firstname>", updates.get(0).toCompactString());
+      assertEquals("<salary id=\"s\"><test2>200000</test2></salary>", updates.get(1).toCompactString());
+      assertEquals(2, updates.size());
+      assertEquals("f1", updates.get(0).getId());
+      assertEquals("s", updates.get(1).getId());
    }
 
-   @SuppressWarnings("deprecation")
    @Test
    public void test2() {
-      ArrayList<Node> diff = diff(2);
-      assertTrue(xmlToString(diff.get(0)).startsWith("<staff id=\"1001\">"));
-      assertTrue(xmlToString(diff.get(1)).startsWith("<staff id=\"2001\">"));
+      ArrayList<HTMLTag> updates = diff(2);
+      assertTrue(updates.get(0).toCompactString().startsWith("<staff id=\"1001\">"));
+      assertTrue(updates.get(1).toCompactString().startsWith("<staff id=\"2001\">"));
 
-      assertEquals(2, diff.size());
-      assertEquals("1001", ((Element) diff.get(0)).getAttribute("id"));
-      assertEquals("2001", ((Element) diff.get(1)).getAttribute("id"));
+      assertEquals(2, updates.size());
+      assertEquals("1001", updates.get(0).getId());
+      assertEquals("2001", updates.get(1).getId());
    }
 
-   private String xmlToString(Node node) {
-      try {
-         TransformerFactory tf = TransformerFactory.newInstance();
-         Transformer transformer = tf.newTransformer();
-         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-         StringWriter writer = new StringWriter();
-         transformer.transform(new DOMSource(node), new StreamResult(writer));
-         return writer.toString();
-      }
-      catch (TransformerException te) {
-         return "(TransformerException)";
-      }
-   }
 }

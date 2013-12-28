@@ -365,26 +365,86 @@ public class HTMLTag implements Serializable {
       this.isTextNode = isTextNode;
    }
 
-   @Override
-   public String toString() {
+   /**
+    * Returns a formatted representation of the HTML tag suited ideally for
+    * runtime.
+    * 
+    * @return the HTML code as a single line
+    */
+   public String toCompactString() {
       if (isTextNode) {
          return innerHTML.toString();
       }
       else {
-         String result = "  <" + nodeName + attributesToString();
+         String result = "<" + nodeName + attributesToString();
          if ((children.size() == 0) && (innerHTML.length() == 0)) {
             result += "/>";
          }
          else {
             result += ">";
             for (HTMLTag kid : children) {
-               String k = kid.toString().replace("  <", "    <");
-               result += k;
                if (!kid.isTextNode()) {
+                  result += kid.toCompactString();
+               }
+               else {
+                  result += kid.innerHTML.toString();
+               }
+            }
+            result += "</" + nodeName + ">";
+         }
+         return result;
+      }
+   }
+
+   /**
+    * Returns a formatted representation of the HTML tag suited ideally for
+    * debugging purposes.
+    * 
+    * @return multi-line, indented HTML code
+    */
+   @Override
+   public String toString() {
+      return toStringIntern().replace("  </", "</");
+   }
+
+   /**
+    * Returns an almost correctly formatted representation of the HTML tag
+    * suited ideally for debugging purposes.
+    * 
+    * @return multi-line, indented HTML code
+    */
+   private String toStringIntern() {
+      if (isTextNode) {
+         return innerHTML.toString();
+      }
+      else {
+         String result = "<" + nodeName + attributesToString();
+         if ((children.size() == 0) && (innerHTML.length() == 0)) {
+            result += "/>";
+         }
+         else {
+            result += ">";
+            boolean newLineRequired = false;
+            for (HTMLTag kid : children) {
+               if (!kid.isTextNode()) {
+                  String k = kid.toStringIntern().replace("  <", "    <");
+                  result += "\n";
+                  newLineRequired = true;
+                  result += "  " + k;
+               }
+               else {
+                  result += kid.innerHTML.toString();
+               }
+            }
+            if (newLineRequired) {
+               if (!result.endsWith("\n")) {
                   result += "\n";
                }
             }
-            result += "  </" + nodeName + ">\n";
+            if (result.endsWith("\n")) {
+               result += "  ";
+            }
+            result += "</" + nodeName + ">\n";
          }
          return result;
       }

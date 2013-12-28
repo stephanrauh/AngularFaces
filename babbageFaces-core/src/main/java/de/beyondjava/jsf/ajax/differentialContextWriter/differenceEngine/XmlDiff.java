@@ -167,8 +167,8 @@ public class XmlDiff {
          if (!tagsAreEqualOrCanBeChangedLocally(o, newHTMLTags.get(indexNew), updates, deletions, changes)) {
             LOGGER.info("HTMLTags are different, require update of parent. Parent HTMLTag:"
                   + newParentHTMLTag.getDescription());
-            updates.add(newParentHTMLTag);
-            return false;
+            // updates.add(newParentHTMLTag);
+            return globalChangeRequired;
          }
          indexOld++;
          indexNew++;
