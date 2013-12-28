@@ -49,7 +49,7 @@ public class BabbagePreRenderViewListener implements SystemEventListener {
       UIViewRoot root = (UIViewRoot) event.getSource();
 
       String parentID = "BabbageID_";
-      annotateChildren(root, parentID);
+      // annotateChildren(root, parentID);
    }
 
 }
