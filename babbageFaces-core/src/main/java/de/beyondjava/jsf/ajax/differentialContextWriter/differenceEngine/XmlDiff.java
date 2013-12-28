@@ -9,11 +9,12 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.parser.*;
 import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag.HTMLAttribute;
 
 public class XmlDiff {
-   public static final boolean globalChangeRequired = false;
-   public static final boolean localChangeSuffices = true;
-
+   public static final boolean ADDED_LOCAL_CHANGE = true;
+   public static final boolean GLOBAL_CHANGE_REQUIRED = false;
    private static final Logger LOGGER = Logger
          .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.XmlDiff");
+
+   public static final boolean NO_CHANGE_REQUIRED = true;
 
    private static boolean areStringsEqualOrCanBeChangedLocally(String oldString, String newString) {
       if ((oldString == null) && (newString == null)) {
@@ -51,19 +52,19 @@ public class XmlDiff {
    }
 
    public static boolean attributesAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
-         ArrayList<String> deletions, ArrayList<String> changes) {
+         ArrayList<String> changes) {
       if (!oldHTMLTag.hasAttributes() && !newHTMLTag.hasAttributes()) {
          return true;
       }
 
       if (oldHTMLTag.getAttributes().size() > newHTMLTag.getAttributes().size()) {
-         return globalChangeRequired;
+         return GLOBAL_CHANGE_REQUIRED;
       }
 
       // Have attributes been deleted?
       boolean attributeChangeMustBeFixedGlobally = attributeHasBeenDeleted(oldHTMLTag);
       if (attributeChangeMustBeFixedGlobally) {
-         return globalChangeRequired;
+         return GLOBAL_CHANGE_REQUIRED;
       }
 
       HTMLAttribute newAttribute = null;
@@ -72,45 +73,47 @@ public class XmlDiff {
       String id = null;
       for (int i = 0; i < newHTMLTag.getAttributes().size(); i++) {
          newAttribute = newHTMLTag.getAttributes().get(i);
+         final String newString = String.valueOf(newAttribute.value);
          final String attributeName = newAttribute.name;
          oldAttribute = oldHTMLTag.getAttribute(attributeName);
 
          if (null == oldAttribute) {
-            return globalChangeRequired;
-         }
-
-         String oldString = String.valueOf(oldAttribute.value);
-         if (attributeName.equals("id")) {
-            id = oldString;
-         }
-         if (attributeName.equals("action") && oldString.contains("jsessionid")) {
-            int start = oldString.indexOf(";jsessionid");
-            int end = oldString.indexOf(";", start + 1);
-            if (end > 0) {
-               oldString = oldString.substring(0, start) + oldString.substring(end);
-            }
-            else {
-               oldString = oldString.substring(0, start);
-            }
-         }
-         final String newString = String.valueOf(newAttribute.value);
-         if (!(oldString.equals(newString))) {
             changeAttributes.append("<attribute name=\"" + attributeName + "\" value=\"" + newString + "\"/>");
+         }
+         else {
+            // the value of the attribute has changed
+            String oldString = String.valueOf(oldAttribute.value);
+            if (attributeName.equals("id")) {
+               id = oldString;
+            }
+            if (attributeName.equals("action") && oldString.contains("jsessionid")) {
+               int start = oldString.indexOf(";jsessionid");
+               int end = oldString.indexOf(";", start + 1);
+               if (end > 0) {
+                  oldString = oldString.substring(0, start) + oldString.substring(end);
+               }
+               else {
+                  oldString = oldString.substring(0, start);
+               }
+            }
+            if (!(oldString.equals(newString))) {
+               changeAttributes.append("<attribute name=\"" + attributeName + "\" value=\"" + newString + "\"/>");
+            }
          }
       }
       if (changeAttributes.length() > 0) {
          if ((null != id) && (id.length() > 0)) {
             String c = "<attributes id=\"" + id + "\">" + changeAttributes.toString() + "</attributes>";
             changes.add(c);
-            return true;
+            return ADDED_LOCAL_CHANGE;
          }
          else {
-            return globalChangeRequired; // this case needs an update of the
-                                         // parent
+            return GLOBAL_CHANGE_REQUIRED; // this case needs an update of the
+                                           // parent
          }
       }
 
-      return true;
+      return NO_CHANGE_REQUIRED;
    }
 
    private static boolean childHTMLTagAreEqualOrCanBeChangedLocally(ArrayList<HTMLTag> oldHTMLTags,
@@ -149,7 +152,7 @@ public class XmlDiff {
          if (needsUpdate) {
             LOGGER.info("HTMLTags counts are different, require update of parent. Parent HTMLTag:"
                   + newParentHTMLTag.getDescription());
-            return globalChangeRequired;
+            return GLOBAL_CHANGE_REQUIRED;
          }
       }
 
@@ -168,7 +171,7 @@ public class XmlDiff {
             LOGGER.info("HTMLTags are different, require update of parent. Parent HTMLTag:"
                   + newParentHTMLTag.getDescription());
             // updates.add(newParentHTMLTag);
-            return globalChangeRequired;
+            return GLOBAL_CHANGE_REQUIRED;
          }
          indexOld++;
          indexNew++;
@@ -254,7 +257,7 @@ public class XmlDiff {
    }
 
    private static boolean tagsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
-         ArrayList<HTMLTag> updates, ArrayList<String> deletions, ArrayList<String> changes) {
+         ArrayList<HTMLTag> updates, ArrayList<String> deletions, ArrayList<String> attributeChanges) {
       if (!HTMLTagNamesAreEqualsOrCanBeChangedLocally(oldHTMLTag, newHTMLTag)) {
          return false;
       }
@@ -265,20 +268,21 @@ public class XmlDiff {
       if (!areStringsEqualOrCanBeChangedLocally(oldHTMLTag.innerHTML.toString(), newHTMLTag.innerHTML.toString())) {
          return false;
       }
-      ArrayList<String> localChanges = new ArrayList<String>();
-      boolean attributesHaveChanged = (!attributesAreEqualOrCanBeChangedLocally(oldHTMLTag, newHTMLTag, deletions,
-            localChanges));
+      ArrayList<String> localAttributeChanges = new ArrayList<String>();
+      boolean attributeChangeRequiresUpdate = (GLOBAL_CHANGE_REQUIRED == attributesAreEqualOrCanBeChangedLocally(
+            oldHTMLTag, newHTMLTag, localAttributeChanges));
 
-      ArrayList<HTMLTag> oldHTMLTags = getNonEmptyHTMLTags(oldHTMLTag.getChildren());
-      ArrayList<HTMLTag> newHTMLTags = getNonEmptyHTMLTags(newHTMLTag.getChildren());
-      boolean childHTMLTagHaveChanged = !childHTMLTagAreEqualOrCanBeChangedLocally(oldHTMLTags, newHTMLTags,
-            newHTMLTag, updates, deletions, changes);
-      if (childHTMLTagHaveChanged) {
-         updates.add(newHTMLTag);
+      if (!attributeChangeRequiresUpdate) {
+         ArrayList<HTMLTag> oldHTMLTags = getNonEmptyHTMLTags(oldHTMLTag.getChildren());
+         ArrayList<HTMLTag> newHTMLTags = getNonEmptyHTMLTags(newHTMLTag.getChildren());
+         boolean childHTMLTagHaveChanged = !childHTMLTagAreEqualOrCanBeChangedLocally(oldHTMLTags, newHTMLTags,
+               newHTMLTag, updates, deletions, attributeChanges);
+         if (childHTMLTagHaveChanged) {
+            updates.add(newHTMLTag);
+         }
       }
       if (!updates.contains(newHTMLTag)) {
-         if (attributesHaveChanged) {
-            LOGGER.warning("TODO: add changeAttribute");
+         if (attributeChangeRequiresUpdate) {
             LOGGER.info("Attributes are different, require update of parent. Old HTMLTag:"
                   + oldHTMLTag.getDescription() + " new HTMLTag: " + newHTMLTag.getDescription());
             updates.add(newHTMLTag);
@@ -286,8 +290,8 @@ public class XmlDiff {
             return true;
          }
       }
-      if (localChanges.size() > 0) {
-         changes.addAll(localChanges);
+      if (localAttributeChanges.size() > 0) {
+         attributeChanges.addAll(localAttributeChanges);
       }
 
       return true;
