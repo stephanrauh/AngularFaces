@@ -111,10 +111,16 @@ public class HTMLTag implements Serializable {
       }
       isTextNode = node.getNodeType() == Node.TEXT_NODE;
       if (isTextNode) {
+         innerHTML.append(node.getNodeValue().replace("<", "&lt;").replace("<", "&gt;"));
+      }
+      else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
          innerHTML.append(node.getNodeValue());
       }
       else {
          nodeName = node.getNodeName();
+         if ("#cdata-section".equals(nodeName)) {
+            System.out.println("Hallo Wach!");
+         }
          if (null != node.getAttributes()) {
             for (int i = 0; i < node.getAttributes().getLength(); i++) {
                final Node item = node.getAttributes().item(i);
@@ -134,6 +140,7 @@ public class HTMLTag implements Serializable {
                }
             }
          }
+
          if ((node.getNodeValue() != null) && (node.getNodeValue().trim().length() > 0)) {
             System.out.println("NodeValue nonempty?");
          }
@@ -296,6 +303,27 @@ public class HTMLTag implements Serializable {
             }
          }
       }
+
+   }
+
+   /**
+    * @param name
+    * @param value
+    */
+   public void setAttribute(String name, String value) {
+      for (int i = 0; i < attributes.size(); i++) {
+         HTMLAttribute a = attributes.get(i);
+         if (a.name.equals(name)) {
+            if (value == null) {
+               attributes.remove(i);
+            }
+            else {
+               a.value = value;
+            }
+            break;
+         }
+      }
+      // TODO Auto-generated method stub
 
    }
 

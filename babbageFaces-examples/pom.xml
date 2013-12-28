@@ -58,11 +58,12 @@
 			<artifactId>omnifaces</artifactId>
 			<version>1.6</version>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>4.1-SNAPSHOT</version>
 		</dependency>
+ -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

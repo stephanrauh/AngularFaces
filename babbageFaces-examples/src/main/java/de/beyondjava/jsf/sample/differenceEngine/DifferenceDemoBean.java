@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 @ManagedBean
 @SessionScoped
 public class DifferenceDemoBean {
-   private String city;
+   private String city = "SomeCity";
    @Size(max = 30)
    private String firstName = "John";
 
@@ -30,8 +30,9 @@ public class DifferenceDemoBean {
 
    public String changeCity() {
       String[] cities = new String[] { "Armsheim", "Biebelsheim", "Crumstadt", "Dolgesheim", "Ebersheim",
-            "Farmersheim", "Gundersheim", "Hahnheim", "Immesheim", "Jugenheim", "Köngernheim", "Laubenheim",
-            "Monsheim", "Oppenheim", "Pfeddersheim" };
+            "Framersheim", "Gundersheim", "Hahnheim", "Immesheim", "Jugenheim", "Köngernheim", "Laubenheim",
+            "Monsheim", "Oppenheim", "Pfeddersheim", "Q-City", "Rommelsheim", "Sossenheim", "Tattersheim", "Undenheim",
+            "Vornheim", "Wermersheim", "X-City", "Ymmelsheim", "Zornheim" };
       long index = (long) Math.floor(Math.random() * cities.length);
       city = cities[(int) index];
       return null;
