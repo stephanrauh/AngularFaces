@@ -314,11 +314,10 @@ public class DiffenceEngine {
                   String currentResponseEnd = currentResponse.substring(end + "</update>".length());
                   try {
                      String tmpCurrentResponse = currentResponse.substring(0, start);
-                     for (HTMLTag n : newPartialChanges) {
-                        String c = n.toCompactString();
+                     for (HTMLTag changeDefinition : newPartialChanges) {
+                        String c = changeDefinition.toCompactString();
                         tmpCurrentResponse += c;
-                        final HTMLTag changeDefinition = n.getFirstChild();
-                        String idOfCurrentChange = n.getId();
+                        String idOfCurrentChange = changeDefinition.getId();
                         if ((idOfCurrentChange == null) || (idOfCurrentChange.length() == 0)) {
                            LOGGER.severe("Missing HTMLTag ID");
                         }

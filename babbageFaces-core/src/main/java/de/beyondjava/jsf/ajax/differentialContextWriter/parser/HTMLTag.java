@@ -17,16 +17,6 @@ import org.xml.sax.*;
  */
 public class HTMLTag implements Serializable {
 
-   public class HTMLAttribute implements Serializable {
-      public String name;
-      public String value;
-
-      @Override
-      public String toString() {
-         return name + "=" + "\"" + value + "\"";
-      }
-   }
-
    private static DocumentBuilder builder;
 
    static {
@@ -97,13 +87,23 @@ public class HTMLTag implements Serializable {
 
    public StringBuffer innerHTML = new StringBuffer();
 
+   public boolean isCDATANode = false;
    public boolean isTextNode = false;
 
    public String nodeName = "";
 
    public HTMLTag parent = null;
 
+   /**
+    * Converts a SAX DOM tree to a more simple HTMLTag.
+    * 
+    * @param node
+    *           the SAX DOM tree to be converted to the simplified version.
+    * @param parent
+    *           the parent HTMLTag (if any).
+    */
    public HTMLTag(Node node, HTMLTag parent) {
+      this.parent = parent;
       if (node.getNodeType() == Node.DOCUMENT_NODE) {
          // BabbageFaces isn't interested in the document wrapped around the
          // HTML code
@@ -115,13 +115,11 @@ public class HTMLTag implements Serializable {
       }
       else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
          isTextNode = true;
+         isCDATANode = true;
          innerHTML.append(node.getNodeValue().trim());
       }
       else {
          nodeName = node.getNodeName();
-         if ("#cdata-section".equals(nodeName)) {
-            System.out.println("Hallo Wach!");
-         }
          if (null != node.getAttributes()) {
             for (int i = 0; i < node.getAttributes().getLength(); i++) {
                final Node item = node.getAttributes().item(i);
@@ -148,12 +146,23 @@ public class HTMLTag implements Serializable {
       }
    }
 
+   /**
+    * Create an HTMLTag tree structure from html source code.
+    * 
+    * @param html
+    */
    public HTMLTag(String html) {
 
       this(htmlToDocument(html), null);
 
    }
 
+   /**
+    * Adds an attribute to an HTML tag.
+    * 
+    * @param name
+    * @param value
+    */
    public void addAttribute(String name, String value) {
       HTMLAttribute a = new HTMLAttribute();
       a.name = name;
@@ -164,7 +173,8 @@ public class HTMLTag implements Serializable {
       }
    }
 
-   public String attributesToString() {
+   /** Yields a textual representation of the attributes. */
+   private String attributesToString() {
       StringBuffer result = new StringBuffer();
       if ((null != id) && (id.length() > 0)) {
          result.append(' ');
@@ -191,6 +201,9 @@ public class HTMLTag implements Serializable {
    }
 
    /**
+    * returns a certain attribute, or null if there is no attribute with the
+    * name asked for.
+    * 
     * @param attributeName
     * @return
     */
@@ -204,14 +217,18 @@ public class HTMLTag implements Serializable {
    }
 
    /**
-    * @return the attributes
+    * Return the list of attributes.
+    * 
+    * @return The list of attributes is never null (even if its empty).
     */
    public List<HTMLAttribute> getAttributes() {
       return this.attributes;
    }
 
    /**
-    * @return the children
+    * Return the list of children (aka HTML or DOM subtrees).
+    * 
+    * @return The list of children is never null (even if its empty).
     */
    public List<HTMLTag> getChildren() {
       return this.children;
@@ -324,8 +341,6 @@ public class HTMLTag implements Serializable {
             break;
          }
       }
-      // TODO Auto-generated method stub
-
    }
 
    /**
@@ -401,7 +416,10 @@ public class HTMLTag implements Serializable {
     * @return the HTML code as a single line
     */
    public String toCompactString() {
-      if (isTextNode) {
+      if (isCDATANode) {
+         return "<![CDATA[" + innerHTML.toString() + "]]>";
+      }
+      else if (isTextNode) {
          return innerHTML.toString();
       }
       else {
@@ -414,6 +432,9 @@ public class HTMLTag implements Serializable {
             for (HTMLTag kid : children) {
                if (!kid.isTextNode()) {
                   result += kid.toCompactString();
+               }
+               else if (kid.isCDATANode) {
+                  return "<![CDATA[" + kid.innerHTML.toString() + "]]>";
                }
                else {
                   result += kid.innerHTML.toString();
@@ -443,7 +464,10 @@ public class HTMLTag implements Serializable {
     * @return multi-line, indented HTML code
     */
    private String toStringIntern() {
-      if (isTextNode) {
+      if (isCDATANode) {
+         return "<![CDATA[" + innerHTML.toString() + "]]>";
+      }
+      else if (isTextNode) {
          return innerHTML.toString();
       }
       else {
@@ -460,6 +484,9 @@ public class HTMLTag implements Serializable {
                   result += "\n";
                   newLineRequired = true;
                   result += "  " + k;
+               }
+               else if (kid.isCDATANode) {
+                  return "<![CDATA[" + kid.innerHTML.toString() + "]]>";
                }
                else {
                   result += kid.innerHTML.toString();
