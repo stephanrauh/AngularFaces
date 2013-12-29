@@ -62,17 +62,16 @@ public class DiffenceEngine {
     * @param change
     * @param lastKnowDOMTree
     */
-   private ArrayList<HTMLTag> determineNecessaryChangeFromResponse(HTMLTag change, HTMLTag lastKnowDOMTree,
-         ArrayList<String> deletions, ArrayList<String> changes) {
+   private List<HTMLTag> determineNecessaryChangeFromResponse(HTMLTag change, HTMLTag lastKnowDOMTree,
+         List<String> deletions, List<String> changes, List<String> inserts) {
       if (change.getNodeName().equals("update")) {
-         // DOMUtils.domToString(partialChangeHTMLTag);
          String id = change.getId();
          String changingHTML = change.getFirstChild().getInnerHTML().toString().trim();
 
          HTMLTag lastKnownCorrespondingHTMLTag = findHTMLTagWithID(id, lastKnowDOMTree);
-         ArrayList<HTMLTag> necessaryChanges = determineNecessaryChanges(changingHTML, lastKnownCorrespondingHTMLTag,
-               deletions, changes);
-         ArrayList<HTMLTag> partialChanges = new ArrayList<HTMLTag>();
+         List<HTMLTag> necessaryChanges = determineNecessaryChanges(changingHTML, lastKnownCorrespondingHTMLTag,
+               deletions, changes, inserts);
+         List<HTMLTag> partialChanges = new ArrayList<>();
          if (null != necessaryChanges) {
             // Todo create an array of partial changes
             for (HTMLTag n : necessaryChanges) {
@@ -123,12 +122,12 @@ public class DiffenceEngine {
     * @param deletions2
     * @param changes2
     */
-   protected ArrayList<HTMLTag> determineNecessaryChanges(String newHTML, HTMLTag lastKnownCorrespondingHTMLTag,
-         ArrayList<String> deletions, ArrayList<String> changes) {
+   protected List<HTMLTag> determineNecessaryChanges(String newHTML, HTMLTag lastKnownCorrespondingHTMLTag,
+         List<String> deletions, List<String> changes, List<String> inserts) {
       if (newHTML.startsWith("<")) {
          HTMLTag newDOM = new HTMLTag(newHTML);
-         ArrayList<HTMLTag> differences = XHtmlDiff.getDifferenceOfHTMLTags(lastKnownCorrespondingHTMLTag, newDOM,
-               deletions, changes);
+         List<HTMLTag> differences = XHtmlDiff.getDifferenceOfHTMLTags(lastKnownCorrespondingHTMLTag, newDOM,
+               deletions, changes, inserts);
          for (HTMLTag d : differences) {
             LOGGER.fine("Difference: " + d);
          }
@@ -156,7 +155,7 @@ public class DiffenceEngine {
    private List<HTMLTag> extractChangesFromPartialResponse(HTMLTag partialResponseAsDOMTree) {
       // HTMLTagList partialResponses =
       // partialResponseAsDOMTree.getElementsByTagName("partial-response");
-      List<HTMLTag> partialResponses = new ArrayList<HTMLTag>();
+      List<HTMLTag> partialResponses = new ArrayList<>();
       HTMLTag partialHTMLTag = partialResponseAsDOMTree.getFirstChild();
       // HTMLTag changes = partialHTMLTag.getFirstChild();
       for (int i = 0; i < partialHTMLTag.getChildren().size(); i++) {
@@ -195,7 +194,7 @@ public class DiffenceEngine {
     * @param lastKnownCorrespondingHTMLTag
     * @param differences
     */
-   private void generateJUnitTest(String newHTML, HTMLTag lastKnownCorrespondingHTMLTag, ArrayList<HTMLTag> differences) {
+   private void generateJUnitTest(String newHTML, HTMLTag lastKnownCorrespondingHTMLTag, List<HTMLTag> differences) {
       File dir = new File("E:/this/AngularFaces/src/test/resources/DifferenceEngine");
       if (dir.exists()) {
          int freeNumber = 0;
@@ -320,10 +319,11 @@ public class DiffenceEngine {
             HTMLTag partialResponseAsDOMTree = new HTMLTag(currentResponse);
             List<HTMLTag> listOfChanges = extractChangesFromPartialResponse(partialResponseAsDOMTree);
             for (HTMLTag change : listOfChanges) {
-               ArrayList<String> deletions = new ArrayList<String>();
-               ArrayList<String> changes = new ArrayList<String>();
-               ArrayList<HTMLTag> newPartialChanges = determineNecessaryChangeFromResponse(change, updatedDOMTree,
-                     deletions, changes);
+               List<String> deletions = new ArrayList<>();
+               List<String> changes = new ArrayList<>();
+               List<String> inserts = new ArrayList<>();
+               List<HTMLTag> newPartialChanges = determineNecessaryChangeFromResponse(change, updatedDOMTree,
+                     deletions, changes, inserts);
                if ((null != newPartialChanges) && (newPartialChanges.size() > 0)) {
                   String id = change.getId();
                   int start = currentResponse.indexOf("<update id=\"" + id + "\">");

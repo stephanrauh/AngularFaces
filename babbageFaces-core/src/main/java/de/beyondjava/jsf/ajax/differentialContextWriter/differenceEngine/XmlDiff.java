@@ -65,7 +65,7 @@ public class XmlDiff {
    }
 
    public static boolean attributesAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
-         ArrayList<String> changes) {
+         List<String> changes) {
       if (!oldHTMLTag.hasAttributes() && !newHTMLTag.hasAttributes()) {
          return true;
       }
@@ -150,20 +150,20 @@ public class XmlDiff {
     * @return false (aka GLOBAL_CHANGE_REQUIRED) if the parent node has to be
     *         exchanged completely via an update command.
     */
-   private static boolean childHTMLTagAreEqualOrCanBeChangedLocally(ArrayList<HTMLTag> oldHTMLTags,
-         ArrayList<HTMLTag> newHTMLTags, ArrayList<HTMLTag> updates, ArrayList<String> deletions,
-         ArrayList<String> changes) {
+   private static boolean childHTMLTagAreEqualOrCanBeChangedLocally(List<HTMLTag> oldHTMLTags,
+         List<HTMLTag> newHTMLTags, List<HTMLTag> updates, List<String> deletions, List<String> changes,
+         List<String> inserts) {
       boolean needsUpdate = false;
-      ArrayList<String> localDeletions = new ArrayList<String>();
-      ArrayList<String> localChanges = new ArrayList<String>();
+      List<String> localDeletions = new ArrayList<>();
+      List<String> localChanges = new ArrayList<>();
       if (oldHTMLTags.size() != newHTMLTags.size()) {
-         ArrayList<HTMLTag> insertList = getRecentlyAddedHTMLTags(oldHTMLTags, newHTMLTags);
+         List<HTMLTag> insertList = getRecentlyAddedHTMLTags(oldHTMLTags, newHTMLTags);
          if (insertList.size() > 0) {
             LOGGER.warning("TODO: add insert");
             needsUpdate = true;
          }
          if (!needsUpdate) {
-            ArrayList<HTMLTag> deleteList = getRecentlyAddedHTMLTags(newHTMLTags, oldHTMLTags);
+            List<HTMLTag> deleteList = getRecentlyAddedHTMLTags(newHTMLTags, oldHTMLTags);
 
             for (HTMLTag d : deleteList) {
                localDeletions.add(d.getId());
@@ -180,7 +180,7 @@ public class XmlDiff {
       int indexNew = 0;
       while (indexOld < oldHTMLTags.size()) {
          HTMLTag o = (oldHTMLTags.get(indexOld));
-         if (!tagsAreEqualOrCanBeChangedLocally(o, newHTMLTags.get(indexNew), updates, deletions, changes)) {
+         if (!tagsAreEqualOrCanBeChangedLocally(o, newHTMLTags.get(indexNew), updates, deletions, changes, inserts)) {
             LOGGER.info("HTMLTags are different, require update of parent.");
             return GLOBAL_CHANGE_REQUIRED;
          }
@@ -209,11 +209,11 @@ public class XmlDiff {
     * @param changes
     * @return
     */
-   public static ArrayList<HTMLTag> getDifferenceOfHTMLTags(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
-         ArrayList<String> deletions, ArrayList<String> changes) {
-      ArrayList<HTMLTag> updates = new ArrayList<HTMLTag>();
+   public static List<HTMLTag> getDifferenceOfHTMLTags(HTMLTag oldHTMLTag, HTMLTag newHTMLTag, List<String> deletions,
+         List<String> changes, List<String> inserts) {
+      List<HTMLTag> updates = new ArrayList<>();
 
-      if (!tagsAreEqualOrCanBeChangedLocally(oldHTMLTag, newHTMLTag, updates, deletions, changes)) {
+      if (!tagsAreEqualOrCanBeChangedLocally(oldHTMLTag, newHTMLTag, updates, deletions, changes, inserts)) {
          LOGGER.info("HTMLTags are different, require update of parent. Old HTMLTag:" + oldHTMLTag.getDescription()
                + " new HTMLTag: " + newHTMLTag.getDescription());
          updates.add(newHTMLTag);
@@ -226,8 +226,8 @@ public class XmlDiff {
     * @param childHTMLTags
     * @return
     */
-   private static ArrayList<HTMLTag> getNonEmptyHTMLTags(List<HTMLTag> childHTMLTags) {
-      ArrayList<HTMLTag> nonEmpty = new ArrayList<HTMLTag>();
+   private static List<HTMLTag> getNonEmptyHTMLTags(List<HTMLTag> childHTMLTags) {
+      List<HTMLTag> nonEmpty = new ArrayList<>();
       for (int i = 0; i < childHTMLTags.size(); i++) {
          HTMLTag n = childHTMLTags.get(i);
          if (n.hasAttributes() || (n.children.size() > 0)
@@ -255,10 +255,9 @@ public class XmlDiff {
     * @param newHTMLTags
     * @return The list of HTML tags that have been added.
     */
-   public static ArrayList<HTMLTag> getRecentlyAddedHTMLTags(ArrayList<HTMLTag> oldHTMLTags,
-         ArrayList<HTMLTag> newHTMLTags) {
-      ArrayList<HTMLTag> result = new ArrayList<HTMLTag>();
-      HashMap<String, HTMLTag> alreadyThere = new HashMap<String, HTMLTag>();
+   public static List<HTMLTag> getRecentlyAddedHTMLTags(List<HTMLTag> oldHTMLTags, List<HTMLTag> newHTMLTags) {
+      List<HTMLTag> result = new ArrayList<>();
+      Map<String, HTMLTag> alreadyThere = new HashMap<String, HTMLTag>();
       for (int i = 0; i < oldHTMLTags.size(); i++) {
          HTMLTag n = oldHTMLTags.get(i);
          String desc = n.getDescription();
@@ -283,7 +282,7 @@ public class XmlDiff {
    }
 
    private static boolean tagsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
-         ArrayList<HTMLTag> updates, ArrayList<String> deletions, ArrayList<String> attributeChanges) {
+         List<HTMLTag> updates, List<String> deletions, List<String> attributeChanges, List<String> inserts) {
       if (!HTMLTagNamesAreEqualsOrCanBeChangedLocally(oldHTMLTag, newHTMLTag)) {
          return false;
       }
@@ -294,15 +293,15 @@ public class XmlDiff {
       if (!areStringsEqualOrCanBeChangedLocally(oldHTMLTag.innerHTML.toString(), newHTMLTag.innerHTML.toString())) {
          return false;
       }
-      ArrayList<String> localAttributeChanges = new ArrayList<String>();
+      List<String> localAttributeChanges = new ArrayList<>();
       boolean attributeChangeRequiresUpdate = (GLOBAL_CHANGE_REQUIRED == attributesAreEqualOrCanBeChangedLocally(
             oldHTMLTag, newHTMLTag, localAttributeChanges));
 
       if (!attributeChangeRequiresUpdate) {
-         ArrayList<HTMLTag> oldHTMLTags = getNonEmptyHTMLTags(oldHTMLTag.getChildren());
-         ArrayList<HTMLTag> newHTMLTags = getNonEmptyHTMLTags(newHTMLTag.getChildren());
+         List<HTMLTag> oldHTMLTags = getNonEmptyHTMLTags(oldHTMLTag.getChildren());
+         List<HTMLTag> newHTMLTags = getNonEmptyHTMLTags(newHTMLTag.getChildren());
          boolean childHTMLTagHaveChanged = !childHTMLTagAreEqualOrCanBeChangedLocally(oldHTMLTags, newHTMLTags,
-               updates, deletions, attributeChanges);
+               updates, deletions, attributeChanges, inserts);
          if (childHTMLTagHaveChanged) {
             updates.add(newHTMLTag);
          }

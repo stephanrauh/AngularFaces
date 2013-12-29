@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
@@ -50,10 +50,11 @@ public class DiffenceEngineTest {
          String newHTML = FileUtils.readFileToString(partialChange);
          String lastKnownHTML = FileUtils.readFileToString(new File(dir, "html1.xml"));
          HTMLTag lastKnownCorrespondingNode = new HTMLTag(lastKnownHTML);
-         ArrayList<String> deletions = new ArrayList<String>();
-         ArrayList<String> attributeChanges = new ArrayList<String>();
-         ArrayList<HTMLTag> necessaryChanges = diffenceEngine.determineNecessaryChanges(newHTML,
-               lastKnownCorrespondingNode, deletions, attributeChanges);
+         List<String> deletions = new ArrayList<>();
+         List<String> attributeChanges = new ArrayList<>();
+         List<String> insertions = new ArrayList<>();
+         List<HTMLTag> necessaryChanges = diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode,
+               deletions, attributeChanges, insertions);
          assertNotNull(necessaryChanges);
          assertEquals(0, necessaryChanges.size());
          assertEquals(0, deletions.size());
@@ -74,10 +75,11 @@ public class DiffenceEngineTest {
          String newHTML = FileUtils.readFileToString(partialChange);
          String lastKnownHTML = FileUtils.readFileToString(new File(dir, "html8.xml"));
          HTMLTag lastKnownCorrespondingNode = new HTMLTag(lastKnownHTML);
-         ArrayList<String> deletions = new ArrayList<String>();
-         ArrayList<String> changes = new ArrayList<String>();
-         ArrayList<HTMLTag> necessaryChanges = diffenceEngine.determineNecessaryChanges(newHTML,
-               lastKnownCorrespondingNode, deletions, changes);
+         List<String> deletions = new ArrayList<>();
+         List<String> changes = new ArrayList<>();
+         List<String> insertions = new ArrayList<>();
+         List<HTMLTag> necessaryChanges = diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode,
+               deletions, changes, insertions);
          assertNotNull(necessaryChanges);
          assertEquals(0, necessaryChanges.size());
          assertEquals(0, deletions.size());

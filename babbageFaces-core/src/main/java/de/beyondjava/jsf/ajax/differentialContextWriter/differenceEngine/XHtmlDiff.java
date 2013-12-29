@@ -25,8 +25,8 @@ public class XHtmlDiff {
    private static final Logger LOGGER = Logger
          .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.XmlDiff");
 
-   private static void fix(ArrayList<HTMLTag> changed) {
-      ArrayList<HTMLTag> temp = new ArrayList<HTMLTag>();
+   private static void fix(List<HTMLTag> changed) {
+      List<HTMLTag> temp = new ArrayList<>();
 
       // loop HTMLTags to removed HTMLTags without id and resolve to their
       // parent with
@@ -75,9 +75,9 @@ public class XHtmlDiff {
       }
    }
 
-   public static ArrayList<HTMLTag> getDifferenceOfHTMLTags(HTMLTag oldDomTree, HTMLTag newDomTree,
-         ArrayList<String> deletions, ArrayList<String> changes) {
-      ArrayList<HTMLTag> updates = XmlDiff.getDifferenceOfHTMLTags(oldDomTree, newDomTree, deletions, changes);
+   public static List<HTMLTag> getDifferenceOfHTMLTags(HTMLTag oldDomTree, HTMLTag newDomTree, List<String> deletions,
+         List<String> changes, List<String> inserts) {
+      List<HTMLTag> updates = XmlDiff.getDifferenceOfHTMLTags(oldDomTree, newDomTree, deletions, changes, inserts);
 
       // 1. schauen ob die HTMLTags eine Id haben und wenn ja die Parents loopen
       // bis meine eine HTMLTag mit ID hat
