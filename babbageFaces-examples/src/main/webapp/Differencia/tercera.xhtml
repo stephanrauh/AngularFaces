@@ -19,7 +19,7 @@
         </h:selectBooleanCheckbox>
         <h:outputLabel value="Toggle first and third section" ></h:outputLabel>
         <h:selectBooleanCheckbox>
-          <f:ajax render=":formID" listener="#{differenceDemoBean.toggleThirdSection}" />
+          <f:ajax render=":formID" listener="#{differenceDemoBean.toggleFirstAndThirdSection}" />
         </h:selectBooleanCheckbox>
       </h:panelGrid>
       <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}" id="firstSection">

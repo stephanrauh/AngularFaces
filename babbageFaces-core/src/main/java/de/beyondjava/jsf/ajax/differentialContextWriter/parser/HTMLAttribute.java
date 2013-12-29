@@ -14,20 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.beyondjava.jsfComponents.core;
+package de.beyondjava.jsf.ajax.differentialContextWriter.parser;
 
-import javax.faces.application.Application;
+import java.io.Serializable;
 
-import com.sun.faces.application.ApplicationFactoryImpl;
+public class HTMLAttribute implements Serializable {
 
-/**
- * @author Stephan Rauh http://www.beyondjava.net
- * 
- */
-public class BJApplicationFactoryImpl extends ApplicationFactoryImpl {
+   private static final long serialVersionUID = -8375781021070930536L;
+   public String name;
+   public String value;
+
    @Override
-   public Application getApplication() {
-      return new BJApplicationImpl();
+   public String toString() {
+      return name + "=" + "\"" + value + "\"";
    }
-
 }
