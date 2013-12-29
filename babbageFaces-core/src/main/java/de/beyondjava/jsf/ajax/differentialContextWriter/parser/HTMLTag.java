@@ -434,7 +434,7 @@ public class HTMLTag implements Serializable {
                   result += kid.toCompactString();
                }
                else if (kid.isCDATANode) {
-                  return "<![CDATA[" + kid.innerHTML.toString() + "]]>";
+                  result += "<![CDATA[" + kid.innerHTML.toString() + "]]>";
                }
                else {
                   result += kid.innerHTML.toString();

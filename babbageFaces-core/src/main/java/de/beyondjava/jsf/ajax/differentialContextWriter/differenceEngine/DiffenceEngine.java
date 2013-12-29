@@ -267,13 +267,16 @@ public class DiffenceEngine {
     * @param typeOfChange
     * @param HTMLTagid
     */
-   private void updateHTMLTag(HTMLTag lastKnowDOMTree, final HTMLTag newSubtree, String HTMLTagid) {
+   private void updateHTMLTag(HTMLTag lastKnowDOMTree, HTMLTag newSubtree, String HTMLTagid) {
 
       HTMLTag tagToBeReplaced = findHTMLTagWithID(HTMLTagid, lastKnowDOMTree);
       if (tagToBeReplaced == null) {
          LOGGER.severe("Wrong ID? Looking for " + HTMLTagid + ", but couldn't find the ID in the last known HTML tree");
       }
       else {
+         if (newSubtree.isCDATANode) {
+            newSubtree = new HTMLTag(newSubtree.innerHTML.toString());
+         }
          HTMLTag parentHTMLTag = tagToBeReplaced.getParent();
          parentHTMLTag.replaceChild(newSubtree, tagToBeReplaced);
       }
