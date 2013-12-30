@@ -1,0 +1,43 @@
+<html>
+<head>
+<script src='../resources/AngularFaces/angular.js'>
+	
+</script>
+<script src='parameter.js'></script>
+</head>
+<body ng-app="calculatorApp" >
+  <h2>Creating a user defined HTML tag using AngularJS</h2>
+  <h3>The first version uses the more traditional approach:</h3> &lt;div addition&gt;&lt;/div&gt; renders
+		<div addition style="background-color:#f8f8f8;width:55px;position:relative;left:20px;" numbers="45,65,43"></div>
+<hr>
+<h3>The second version</h3> defines an pseudo HTML tag: &lt;addition /&gt; renders
+<div style="background-color:#f8f8f8;width:55px;position:relative;left:20px;">
+		<addition numbers="3,4" />
+    </div>
+    
+    <table>
+    <tr>
+    <td style="padding-left:20px">
+    <addition numbers="86,37"/>
+    </td>
+    <td style="padding-left:20px">
+    <addition numbers="78,85" />
+    </td>
+    <td style="padding-left:20px">
+    <addition numbers="89,41"/>
+    </td>
+    <td style="padding-left:20px">
+    <addition numbers="99,7"/>
+    </td>
+    </td>
+    <td style="padding-left:20px">
+    <addition numbers="55,41"/>
+    </td>
+    </td>
+    <td style="padding-left:20px">
+    <addition numbers="30,70"/>
+    </td>
+    </tr>
+    </table>
+</body>
+</html>

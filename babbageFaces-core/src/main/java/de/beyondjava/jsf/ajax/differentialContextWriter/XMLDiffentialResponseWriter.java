@@ -1,5 +1,18 @@
 /**
- *  (C) Stephan Rauh http://www.beyondjava.net
+ *  (C) 2013-2014 Stephan Rauh http://www.beyondjava.net
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package de.beyondjava.jsf.ajax.differentialContextWriter;
 
@@ -13,7 +26,7 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.Diffenc
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
-public class DiffentialResponseWriter extends Writer {
+public class XMLDiffentialResponseWriter extends Writer {
    private static final Logger LOGGER = Logger
          .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.DiffentialResponseWriter");
 
@@ -38,7 +51,7 @@ public class DiffentialResponseWriter extends Writer {
     * @param writer
     * @param sessionMap
     */
-   public DiffentialResponseWriter(Writer writer, Map<String, Object> sessionMap) {
+   public XMLDiffentialResponseWriter(Writer writer, Map<String, Object> sessionMap) {
       sunWriter = writer;
       this.sessionMap = sessionMap;
    }

@@ -1,0 +1,27 @@
+<insert>
+	<before id="formID:secondSection">
+		<table id="formID:firstSection" border="0">
+			<tbody>
+				<tr>
+					<td>
+						<label>first name</label>
+					</td>
+
+					<td>
+						<input name="formID:j_idt12" type="text" />
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<label>last name</label>
+					</td>
+
+					<td>
+						<input name="formID:j_idt14" type="text" />
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</before>
+</insert>

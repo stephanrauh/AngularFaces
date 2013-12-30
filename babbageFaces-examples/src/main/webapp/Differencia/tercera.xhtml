@@ -3,6 +3,10 @@
   <h:head />
   <h:body>
     <h:form id="formID">
+      This demo is about testing BabbageFaces. To see the effect open the web developer tool which is activated by hitting the F12 key in most browsers.
+      Alternatively you can use a tool like Fiddler or Paros to intercept the HTML requests. In any case you should see AJAX responses consisting of
+      &lt;delete&gt;, &lt;insert&gt; and &lt;change&gt; after clicking a check box or hitting the button. Without BabbageFaces responses consist of
+      %lt;update&gt; statements only, thus requiring more bandwith and more browser rendering time.
       <h:messages />
       <h:panelGrid columns="2" border="0" id="controlsSection">
         <h:outputLabel value="Toggle first section" ></h:outputLabel>
@@ -15,7 +19,7 @@
         </h:selectBooleanCheckbox>
         <h:outputLabel value="Toggle first and third section" ></h:outputLabel>
         <h:selectBooleanCheckbox>
-          <f:ajax render=":formID" listener="#{differenceDemoBean.toggleThirdSection}" />
+          <f:ajax render=":formID" listener="#{differenceDemoBean.toggleFirstAndThirdSection}" />
         </h:selectBooleanCheckbox>
       </h:panelGrid>
       <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}" id="firstSection">

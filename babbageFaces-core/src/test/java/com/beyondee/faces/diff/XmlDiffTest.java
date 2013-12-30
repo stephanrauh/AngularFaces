@@ -1,79 +1,80 @@
+/**
+ *  (C) 2013-2014 Stephan Rauh http://www.beyondjava.net
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.beyondee.faces.diff;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import java.io.StringWriter;
-import java.util.ArrayList;
+import java.io.File;
+import java.util.*;
 
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-import org.w3c.dom.*;
 
 import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.XmlDiff;
+import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
 
 public class XmlDiffTest {
-   public ArrayList<Node> diff(int testNr) {
+   public List<String> diff(int testNr) {
       try {
-         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-         factory.setNamespaceAware(false);
-         factory.setValidating(false);
-         factory.setFeature("http://xml.org/sax/features/namespaces", false);
-         factory.setFeature("http://xml.org/sax/features/validation", false);
-         factory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
-         factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-         factory.setIgnoringElementContentWhitespace(true);
-         DocumentBuilder builder = factory.newDocumentBuilder();
-         ArrayList<String> deletions = new ArrayList<String>();
-         ArrayList<String> changes = new ArrayList<String>();
+         String oldHTMLString = FileUtils.readFileToString(new File("target/test-classes/test" + testNr + "-old.xml"));
+         String newHTMLString = FileUtils.readFileToString(new File("target/test-classes/test" + testNr + "-new.xml"));
+         HTMLTag oldHTMLTag = new HTMLTag(oldHTMLString);
+         HTMLTag newHTMLTag = new HTMLTag(newHTMLString);
 
-         return XmlDiff.getDifferenceOfDocuments(
-               builder.parse(getClass().getResourceAsStream("/test" + testNr + "-old.xml")),
-               builder.parse(getClass().getResourceAsStream("/test" + testNr + "-new.xml")), deletions, changes);
+         List<String> deletions = new ArrayList<>();
+         List<String> changes = new ArrayList<>();
+         List<String> insertions = new ArrayList<>();
+
+         List<HTMLTag> updates = XmlDiff
+               .getDifferenceOfHTMLTags(oldHTMLTag, newHTMLTag, deletions, changes, insertions);
+         List<String> result = new ArrayList<>();
+         result.addAll(deletions);
+         result.addAll(changes);
+         result.addAll(insertions);
+         for (HTMLTag u : updates) {
+            result.add(u.toCompactString());
+         }
+         return result;
       }
       catch (Exception e) {
          throw new RuntimeException(e);
       }
    }
 
-   @SuppressWarnings("deprecation")
    @Test
    public void test1() {
-      ArrayList<Node> diff = diff(1);
-      assertEquals("<firstname id=\"f1\">low1</firstname>", xmlToString(diff.get(0)));
-      assertEquals("<salary id=\"s\"><test2>200000</test2></salary>", xmlToString(diff.get(1)));
-      assertEquals(2, diff.size());
-      assertEquals("f1", ((Element) diff.get(0)).getAttribute("id"));
-      assertEquals("s", ((Element) diff.get(1)).getAttribute("id"));
+      List<String> updates = diff(1);
+      assertEquals(2, updates.size());
+      assertEquals("<firstname id=\"f1\">low1</firstname>", updates.get(0));
+      assertEquals("<salary id=\"s\"><test2>200000</test2></salary>", updates.get(1));
    }
 
-   @SuppressWarnings("deprecation")
    @Test
    public void test2() {
-      ArrayList<Node> diff = diff(2);
-      assertTrue(xmlToString(diff.get(0)).startsWith("<staff id=\"1001\">"));
-      assertTrue(xmlToString(diff.get(1)).startsWith("<staff id=\"2001\">"));
+      List<String> updates = diff(2);
+      assertEquals(6, updates.size());
+      assertEquals("<insert id=\"s1001\"><after id=\"\"><![CDATA[<div id=\"s1001\" />]]></after></insert>",
+            updates.get(0));
+      assertEquals("<insert id=\"t\"><after id=\"s2001\"><![CDATA[<div id=\"t\" />]]></after></insert>", updates.get(1));
+      assertEquals("<someNewTag id=\"s1001\"><test2>200000</test2></someNewTag>", updates.get(2));
+      assertEquals("<firstname id=\"f1\">low1</firstname>", updates.get(3));
+      assertEquals("<salary id=\"s2001\"><test2>200000</test2></salary>", updates.get(4));
+      assertEquals("<someNewTag id=\"t\"><test2>200000</test2></someNewTag>", updates.get(5));
 
-      assertEquals(2, diff.size());
-      assertEquals("1001", ((Element) diff.get(0)).getAttribute("id"));
-      assertEquals("2001", ((Element) diff.get(1)).getAttribute("id"));
    }
 
-   private String xmlToString(Node node) {
-      try {
-         TransformerFactory tf = TransformerFactory.newInstance();
-         Transformer transformer = tf.newTransformer();
-         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-         StringWriter writer = new StringWriter();
-         transformer.transform(new DOMSource(node), new StreamResult(writer));
-         return writer.toString();
-      }
-      catch (TransformerException te) {
-         return "(TransformerException)";
-      }
-   }
 }
