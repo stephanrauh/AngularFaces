@@ -18,7 +18,6 @@ package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.*;
 import java.util.*;
@@ -85,13 +84,19 @@ public class DiffenceEngineTest {
          List<HTMLTag> necessaryChanges = diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode,
                deletions, attributeChanges, insertions);
          assertNotNull(necessaryChanges);
-         assertEquals(0, necessaryChanges.size());
+         assertEquals(1, necessaryChanges.size());
          assertEquals(0, deletions.size());
          assertEquals(0, attributeChanges.size());
          assertEquals(1, insertions.size());
-         String diff1 = insertions.get(0);
-         assertTrue(diff1
-               .startsWith("<after id=\"formID:controlsSection\"><table id=\"formID:firstSection\" border=\"0\"><tbody><tr><td><label>first name</label></td><td><input name=\"formID:j_idt12\" type=\"text\"/></td></tr><tr><td><label>last name</label></td><td><input name=\"formID:j_idt14\" type=\"text\"/></td></tr></tbody></table></after>"));
+         String insertion = insertions.get(0);
+         assertEquals(
+               "<insert id=\"formID:firstSection\"><after id=\"formID:controlsSection\"><![CDATA[<div id=\"formID:firstSection\" />]]></after></insert>",
+               insertion);
+         String update = necessaryChanges.get(0).toCompactString();
+         assertEquals(
+               "<table id=\"formID:firstSection\" border=\"0\"><tbody><tr><td><label>first name</label></td><td><input name=\"formID:j_idt12\" type=\"text\"/></td></tr><tr><td><label>last name</label></td><td><input name=\"formID:j_idt14\" type=\"text\"/></td></tr></tbody></table>",
+               update);
+
       }
    }
 

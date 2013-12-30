@@ -17,7 +17,6 @@
 package com.beyondee.faces.diff;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.*;
@@ -29,7 +28,7 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.XmlDiff
 import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
 
 public class XmlDiffTest {
-   public List<HTMLTag> diff(int testNr) {
+   public List<String> diff(int testNr) {
       try {
          String oldHTMLString = FileUtils.readFileToString(new File("target/test-classes/test" + testNr + "-old.xml"));
          String newHTMLString = FileUtils.readFileToString(new File("target/test-classes/test" + testNr + "-new.xml"));
@@ -40,7 +39,16 @@ public class XmlDiffTest {
          List<String> changes = new ArrayList<>();
          List<String> insertions = new ArrayList<>();
 
-         return XmlDiff.getDifferenceOfHTMLTags(oldHTMLTag, newHTMLTag, deletions, changes, insertions);
+         List<HTMLTag> updates = XmlDiff
+               .getDifferenceOfHTMLTags(oldHTMLTag, newHTMLTag, deletions, changes, insertions);
+         List<String> result = new ArrayList<>();
+         result.addAll(deletions);
+         result.addAll(changes);
+         result.addAll(insertions);
+         for (HTMLTag u : updates) {
+            result.add(u.toCompactString());
+         }
+         return result;
       }
       catch (Exception e) {
          throw new RuntimeException(e);
@@ -49,23 +57,24 @@ public class XmlDiffTest {
 
    @Test
    public void test1() {
-      List<HTMLTag> updates = diff(1);
-      assertEquals("<firstname id=\"f1\">low1</firstname>", updates.get(0).toCompactString());
-      assertEquals("<salary id=\"s\"><test2>200000</test2></salary>", updates.get(1).toCompactString());
+      List<String> updates = diff(1);
       assertEquals(2, updates.size());
-      assertEquals("f1", updates.get(0).getId());
-      assertEquals("s", updates.get(1).getId());
+      assertEquals("<firstname id=\"f1\">low1</firstname>", updates.get(0));
+      assertEquals("<salary id=\"s\"><test2>200000</test2></salary>", updates.get(1));
    }
 
    @Test
    public void test2() {
-      List<HTMLTag> updates = diff(2);
-      assertTrue(updates.get(0).toCompactString().startsWith("<staff id=\"1001\">"));
-      assertTrue(updates.get(1).toCompactString().startsWith("<staff id=\"2001\">"));
+      List<String> updates = diff(2);
+      assertEquals(6, updates.size());
+      assertEquals("<insert id=\"s1001\"><after id=\"\"><![CDATA[<div id=\"s1001\" />]]></after></insert>",
+            updates.get(0));
+      assertEquals("<insert id=\"t\"><after id=\"s2001\"><![CDATA[<div id=\"t\" />]]></after></insert>", updates.get(1));
+      assertEquals("<someNewTag id=\"s1001\"><test2>200000</test2></someNewTag>", updates.get(2));
+      assertEquals("<firstname id=\"f1\">low1</firstname>", updates.get(3));
+      assertEquals("<salary id=\"s2001\"><test2>200000</test2></salary>", updates.get(4));
+      assertEquals("<someNewTag id=\"t\"><test2>200000</test2></someNewTag>", updates.get(5));
 
-      assertEquals(2, updates.size());
-      assertEquals("1001", updates.get(0).getId());
-      assertEquals("2001", updates.get(1).getId());
    }
 
 }

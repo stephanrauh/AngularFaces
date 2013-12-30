@@ -11,6 +11,6 @@
 		<firstname id="f1">low</firstname>
 		<lastname>yin fong</lastname>
 		<nickname>fong fong</nickname>
-		<salary id="s"><test>2000001</test></salary>
+		<salary id="s2001"><test>2000001</test></salary>
 	</staff>
 </company>
