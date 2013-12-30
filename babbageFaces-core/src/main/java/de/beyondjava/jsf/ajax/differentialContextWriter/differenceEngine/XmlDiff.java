@@ -292,9 +292,9 @@ public class XmlDiff {
       List<HTMLTag> nonEmpty = new ArrayList<>();
       for (int i = 0; i < childHTMLTags.size(); i++) {
          HTMLTag n = childHTMLTags.get(i);
-         if (n.hasAttributes() || (n.children.size() > 0)
+         if (n.hasAttributes() || (n.getChildren().size() > 0)
                || ((n.getNodeName() != null) && (n.getNodeName().length() > 0))
-               || (n.innerHTML.toString().trim().length() > 0)) {
+               || (n.getInnerHTML().toString().trim().length() > 0)) {
             if (n.hasAttributes() && (n.getAttribute("name") != null)) {
                if (!n.getAttribute("name").value.equals("javax.faces.ViewState")) {
                   nonEmpty.add(n);
@@ -372,7 +372,8 @@ public class XmlDiff {
          return false;
       }
 
-      if (!areStringsEqualOrCanBeChangedLocally(oldHTMLTag.innerHTML.toString(), newHTMLTag.innerHTML.toString())) {
+      if (!areStringsEqualOrCanBeChangedLocally(oldHTMLTag.getInnerHTML().toString(), newHTMLTag.getInnerHTML()
+            .toString())) {
          return false;
       }
       List<String> localAttributeChanges = new ArrayList<>();

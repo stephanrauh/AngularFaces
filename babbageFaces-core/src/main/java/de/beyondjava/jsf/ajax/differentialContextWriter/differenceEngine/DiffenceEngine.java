@@ -132,8 +132,8 @@ public class DiffenceEngine {
          List<String> deletions, List<String> changes, List<String> inserts) {
       if (newHTML.startsWith("<")) {
          HTMLTag newDOM = new HTMLTag(newHTML);
-         List<HTMLTag> differences = XHtmlDiff.getDifferenceOfHTMLTags(lastKnownCorrespondingHTMLTag, newDOM,
-               deletions, changes, inserts);
+         List<HTMLTag> differences = XmlDiff.getDifferenceOfHTMLTags(lastKnownCorrespondingHTMLTag, newDOM, deletions,
+               changes, inserts);
          for (HTMLTag d : differences) {
             LOGGER.fine("Difference: " + d);
             // JUnitTestCreator.generateJUnitTest(newDOM,
@@ -281,8 +281,8 @@ public class DiffenceEngine {
                + ", but couldn't find the ID in the last known HTML tree");
       }
       else {
-         if (newSubtree.isCDATANode) {
-            newSubtree = new HTMLTag(newSubtree.innerHTML.toString());
+         if (newSubtree.isCDATANode()) {
+            newSubtree = new HTMLTag(newSubtree.getInnerHTML().toString());
          }
          HTMLTag parentHTMLTag = tagToBeReplaced.getParent();
          parentHTMLTag.replaceChild(newSubtree, tagToBeReplaced);

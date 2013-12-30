@@ -91,23 +91,23 @@ public class HTMLTag implements Serializable {
       HTMLTag.builder = builder;
    }
 
-   public List<HTMLAttribute> attributes = new ArrayList<>();
+   private List<HTMLAttribute> attributes = new ArrayList<>();
 
-   public List<HTMLTag> children = new ArrayList<>();
+   private List<HTMLTag> children = new ArrayList<>();
 
    /** convenience attribute (with the side effect of better performance) */
-   public String id = "";
+   private String id = "";
 
-   public List<String> idsOfChildren = new ArrayList<>();
+   private List<String> idsOfChildren = new ArrayList<>();
 
-   public StringBuffer innerHTML = new StringBuffer();
+   private StringBuffer innerHTML = new StringBuffer();
 
-   public boolean isCDATANode = false;
-   public boolean isTextNode = false;
+   private boolean isCDATANode = false;
+   private boolean isTextNode = false;
 
-   public String nodeName = "";
+   private String nodeName = "";
 
-   public HTMLTag parent = null;
+   private HTMLTag parent = null;
 
    /**
     * Converts a SAX DOM tree to a more simple HTMLTag.
@@ -324,6 +324,13 @@ public class HTMLTag implements Serializable {
     */
    public boolean hasAttributes() {
       return !attributes.isEmpty();
+   }
+
+   /**
+    * @return the isCDATANode
+    */
+   public boolean isCDATANode() {
+      return this.isCDATANode;
    }
 
    /**
