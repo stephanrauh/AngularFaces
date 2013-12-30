@@ -41,11 +41,14 @@ public class DiffenceEngine {
    }
 
    /**
-    * @param lastKnowDOMTree
+    * Fixes the DOM tree stored in the session by integrating the AJAX deletions
+    * into the last known DOM tree.
+    * 
+    * @param domTreeInSession
     * @param htmlTagid
     */
-   private void deleteHTMLTag(HTMLTag lastKnowDOMTree, String htmlTagid) {
-      HTMLTag tagToBeRemoved = findHTMLTagWithID(htmlTagid, lastKnowDOMTree);
+   private void deleteHTMLTag(HTMLTag domTreeInSession, String htmlTagid) {
+      HTMLTag tagToBeRemoved = domTreeInSession.findByID(htmlTagid);
       if (tagToBeRemoved == null) {
          LOGGER.severe("Wrong ID? Looking for " + htmlTagid + ", but couldn't find the ID in the last known HTML tree");
       }
@@ -57,15 +60,15 @@ public class DiffenceEngine {
 
    /**
     * @param change
-    * @param lastKnowDOMTree
+    * @param lastKnownDOMTree
     */
-   private List<HTMLTag> determineNecessaryChangeFromResponse(HTMLTag change, HTMLTag lastKnowDOMTree) {
+   private List<HTMLTag> determineNecessaryChangeFromResponse(HTMLTag change, HTMLTag lastKnownDOMTree) {
 
       if (change.getNodeName().equals("update")) {
          String id = change.getId();
          String changingHTML = change.getFirstChild().getInnerHTML().toString().trim();
 
-         HTMLTag lastKnownCorrespondingHTMLTag = findHTMLTagWithID(id, lastKnowDOMTree);
+         HTMLTag lastKnownCorrespondingHTMLTag = lastKnownDOMTree.findByID(id);
          List<String> deletions = new ArrayList<>();
          List<String> changes = new ArrayList<>();
          List<String> inserts = new ArrayList<>();
@@ -171,30 +174,6 @@ public class DiffenceEngine {
    }
 
    /**
-    * @param id
-    * @param lastKnowDOMTree
-    * @return
-    */
-   private HTMLTag findHTMLTagWithID(String id, HTMLTag tree) {
-      if (null != tree.getAttributes()) {
-         final String tagid = tree.getId();
-         if (null != tagid) {
-            if (id.equals(tagid)) {
-               return tree;
-            }
-         }
-      }
-      int length = tree.getChildren().size();
-      for (int i = 0; i < length; i++) {
-         HTMLTag result = findHTMLTagWithID(id, tree.getChildren().get(i));
-         if (null != result) {
-            return result;
-         }
-      }
-      return null;
-   }
-
-   /**
     * @param sessionMap
     * @return
     */
@@ -208,18 +187,23 @@ public class DiffenceEngine {
       // add an artificial umbrella tag (<original>) because HTML code often
       // consists of more than one root (<head> and <body>) and
       // XML parsers can't cope with that
-      HTMLTag lastKnowDOMTree = new HTMLTag("<original>" + html + "</original>");
-      return lastKnowDOMTree.getFirstChild(); // drop the <original> tag
+      HTMLTag lastKnownDOMTree = new HTMLTag("<original>" + html + "</original>");
+      return lastKnownDOMTree.getFirstChild(); // drop the <original> tag
    }
 
    /**
-    * @param updatedDOMTree
+    * Fixes the DOM tree stored in the session by integrating the AJAX inserts
+    * into the last known DOM tree.
+    * 
+    * @param domTreeInSession
     * @param children
+    *           list of insert command (more precisely: of after and before
+    *           subcommands).
     */
-   private void insertHTMLTag(HTMLTag updatedDOMTree, List<HTMLTag> children) {
+   private void insertHTMLTag(HTMLTag domTreeInSession, List<HTMLTag> children) {
       for (HTMLTag afterOrBefore : children) {
          String id = afterOrBefore.getId();
-         HTMLTag sibling = findHTMLTagWithID(id, updatedDOMTree);
+         HTMLTag sibling = domTreeInSession.findByID(id);
          HTMLTag parent = sibling.getParent();
          for (int i = 0; i < parent.getChildren().size(); i++) {
             if (parent.getChildren().get(i) == sibling) {
@@ -239,6 +223,9 @@ public class DiffenceEngine {
    }
 
    /**
+    * Retrieves the DOM tree that has been sent by the previous HTTP response
+    * (and that ought to be identical to the version displayed in the browser).
+    * 
     * @param sessionMap
     * @return
     */
@@ -251,12 +238,15 @@ public class DiffenceEngine {
    }
 
    /**
-    * @param lastKnowDOMTree
+    * Fixes the DOM tree stored in the session by integrating the AJAX attribute
+    * changes into the last known DOM tree.
+    * 
+    * @param domTreeInSession
     * @param HTMLTagid
     * @param c
     */
-   private void updateAttributes(HTMLTag lastKnowDOMTree, String HTMLTagid, String c) {
-      HTMLTag tagToBeReplaced = findHTMLTagWithID(HTMLTagid, lastKnowDOMTree);
+   private void updateAttributes(HTMLTag domTreeInSession, String HTMLTagid, String c) {
+      HTMLTag tagToBeReplaced = domTreeInSession.findByID(HTMLTagid);
       String attributes[] = c.split("<attribute name=\\\"");
 
       for (int i = 1; i < attributes.length; i++) {
@@ -276,15 +266,19 @@ public class DiffenceEngine {
    }
 
    /**
-    * @param lastKnowDOMTree
+    * Fixes the DOM tree stored in the session by integrating the AJAX updates
+    * into the last known DOM tree.
+    * 
+    * @param domTreeInSession
     * @param typeOfChange
-    * @param HTMLTagid
+    * @param idToBeUpdated
     */
-   private void updateHTMLTag(HTMLTag lastKnowDOMTree, HTMLTag newSubtree, String HTMLTagid) {
+   private void updateHTMLTag(HTMLTag domTreeInSession, HTMLTag newSubtree, String idToBeUpdated) {
 
-      HTMLTag tagToBeReplaced = findHTMLTagWithID(HTMLTagid, lastKnowDOMTree);
+      HTMLTag tagToBeReplaced = domTreeInSession.findByID(idToBeUpdated);
       if (tagToBeReplaced == null) {
-         LOGGER.severe("Wrong ID? Looking for " + HTMLTagid + ", but couldn't find the ID in the last known HTML tree");
+         LOGGER.severe("Wrong ID? Looking for " + idToBeUpdated
+               + ", but couldn't find the ID in the last known HTML tree");
       }
       else {
          if (newSubtree.isCDATANode) {
@@ -362,7 +356,6 @@ public class DiffenceEngine {
                sessionMap.remove(LAST_KNOWN_HTML_KEY);
                sessionMap.put(LAST_KNOWN_HTML_KEY, newHTML);
             }
-            // currentResponse = DEBUGdeleteCityHTMLTag(currentResponse);
          }
       }
       else {

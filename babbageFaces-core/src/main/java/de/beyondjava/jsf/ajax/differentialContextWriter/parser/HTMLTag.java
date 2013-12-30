@@ -216,6 +216,25 @@ public class HTMLTag implements Serializable {
    }
 
    /**
+    * Looks for a subtree bearing a particular id.
+    * 
+    * @param id
+    * @return null, if neither this nor any subtree of this bear the id
+    */
+   public HTMLTag findByID(String id) {
+      if (getId().equals(id)) {
+         return this;
+      }
+      for (HTMLTag child : getChildren()) {
+         HTMLTag result = child.findByID(id);
+         if (null != result) {
+            return result;
+         }
+      }
+      return null;
+   }
+
+   /**
     * returns a certain attribute, or null if there is no attribute with the
     * name asked for.
     * 
@@ -520,4 +539,5 @@ public class HTMLTag implements Serializable {
          return result;
       }
    }
+
 }
