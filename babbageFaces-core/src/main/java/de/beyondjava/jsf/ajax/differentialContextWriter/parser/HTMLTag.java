@@ -126,7 +126,7 @@ public class HTMLTag implements Serializable {
       }
       isTextNode = node.getNodeType() == Node.TEXT_NODE;
       if (isTextNode) {
-         innerHTML.append(node.getNodeValue().replace("<", "&lt;").replace("<", "&gt;"));
+         innerHTML.append(node.getNodeValue().replace("<", "&lt;").replace(">", "&gt;"));
       }
       else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
          isTextNode = true;

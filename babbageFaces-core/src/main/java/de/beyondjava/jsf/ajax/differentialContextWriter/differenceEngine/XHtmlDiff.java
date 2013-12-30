@@ -25,6 +25,13 @@ public class XHtmlDiff {
    private static final Logger LOGGER = Logger
          .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.XmlDiff");
 
+   /**
+    * Verifies whether one of the update tags lacks an id.
+    * 
+    * @param changed
+    * @deprecated isn't needed - will be removed soon
+    */
+   @Deprecated
    private static void fix(List<HTMLTag> changed) {
       List<HTMLTag> temp = new ArrayList<>();
 
@@ -75,6 +82,19 @@ public class XHtmlDiff {
       }
    }
 
+   /**
+    * Evaluates the smallest possible set of changes of two HTML trees and tries
+    * to fix changes without id.
+    * 
+    * @param oldDomTree
+    * @param newDomTree
+    * @param deletions
+    * @param changes
+    * @param inserts
+    * @return
+    * @deprecated every change has an id by design - method can be removed soon
+    */
+   @Deprecated
    public static List<HTMLTag> getDifferenceOfHTMLTags(HTMLTag oldDomTree, HTMLTag newDomTree, List<String> deletions,
          List<String> changes, List<String> inserts) {
       List<HTMLTag> updates = XmlDiff.getDifferenceOfHTMLTags(oldDomTree, newDomTree, deletions, changes, inserts);

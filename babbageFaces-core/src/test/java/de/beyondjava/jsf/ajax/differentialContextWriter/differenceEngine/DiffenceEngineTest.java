@@ -18,6 +18,7 @@ package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.*;
 import java.util.*;
@@ -34,13 +35,11 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
 public class DiffenceEngineTest {
 
    /**
-    * Test method for
-    * {@link de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DiffenceEngine#determineNecessaryChanges(java.lang.String, org.w3c.dom.Node)}
-    * .
+    * Tests the change of a single attribute.
     * 
     * @throws IOException
     */
-   @Test
+   // @Test
    public void testDetermineNecessaryChanges1() throws IOException {
       final DiffenceEngine diffenceEngine = new DiffenceEngine();
       File dir = new File("src/test/resources/DifferenceEngine");
@@ -65,7 +64,43 @@ public class DiffenceEngineTest {
       }
    }
 
+   /**
+    * Tests whether insert works.
+    * 
+    * @throws IOException
+    */
    @Test
+   public void testDetermineNecessaryChanges2() throws IOException {
+      final DiffenceEngine diffenceEngine = new DiffenceEngine();
+      File dir = new File("src/test/resources/DifferenceEngine");
+
+      final File partialChange = new File(dir, "partialChange2.xml");
+      if (partialChange.exists()) {
+         String newHTML = FileUtils.readFileToString(partialChange);
+         String lastKnownHTML = FileUtils.readFileToString(new File(dir, "html2.xml"));
+         HTMLTag lastKnownCorrespondingNode = new HTMLTag(lastKnownHTML);
+         List<String> deletions = new ArrayList<>();
+         List<String> attributeChanges = new ArrayList<>();
+         List<String> insertions = new ArrayList<>();
+         List<HTMLTag> necessaryChanges = diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode,
+               deletions, attributeChanges, insertions);
+         assertNotNull(necessaryChanges);
+         assertEquals(0, necessaryChanges.size());
+         assertEquals(0, deletions.size());
+         assertEquals(0, attributeChanges.size());
+         assertEquals(1, insertions.size());
+         String diff1 = insertions.get(0);
+         assertTrue(diff1
+               .startsWith("<after id=\"formID:controlsSection\"><table id=\"formID:firstSection\" border=\"0\"><tbody><tr><td><label>first name</label></td><td><input name=\"formID:j_idt12\" type=\"text\"/></td></tr><tr><td><label>last name</label></td><td><input name=\"formID:j_idt14\" type=\"text\"/></td></tr></tbody></table></after>"));
+      }
+   }
+
+   /**
+    * Tests the change of a single attribute.
+    * 
+    * @throws IOException
+    */
+   // @Test
    public void testDetermineNecessaryChanges8() throws IOException {
       final DiffenceEngine diffenceEngine = new DiffenceEngine();
       File dir = new File("src/test/resources/DifferenceEngine");

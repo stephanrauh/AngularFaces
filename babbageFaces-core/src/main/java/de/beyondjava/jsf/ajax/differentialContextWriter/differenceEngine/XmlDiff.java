@@ -144,30 +144,50 @@ public class XmlDiff {
     * @param deletions
     *           Call by reference parameter delivering the list of DOM trees
     *           that have been deleted.
-    * @param changes
+    * @param attributeChanges
     *           Call by reference parameter delivering the list of attributes
     *           that have to be modified.
     * @return false (aka GLOBAL_CHANGE_REQUIRED) if the parent node has to be
     *         exchanged completely via an update command.
     */
    private static boolean childHTMLTagAreEqualOrCanBeChangedLocally(List<HTMLTag> oldHTMLTags,
-         List<HTMLTag> newHTMLTags, List<HTMLTag> updates, List<String> deletions, List<String> changes,
+         List<HTMLTag> newHTMLTags, List<HTMLTag> updates, List<String> deletions, List<String> attributeChanges,
          List<String> inserts) {
       boolean needsUpdate = false;
       List<String> localDeletions = new ArrayList<>();
-      List<String> localChanges = new ArrayList<>();
+      List<String> localInserts = new ArrayList<>();
+      List<HTMLTag> localUpdates = new ArrayList<>();
+      oldHTMLTags = new ArrayList<>(oldHTMLTags); // defensive copying avoids
+                                                  // side effects
+      newHTMLTags = new ArrayList<>(newHTMLTags); // defensive copying avoids
+                                                  // side effects
       if (oldHTMLTags.size() != newHTMLTags.size()) {
          List<HTMLTag> insertList = getRecentlyAddedHTMLTags(oldHTMLTags, newHTMLTags);
          if (insertList.size() > 0) {
-            LOGGER.warning("TODO: add insert");
-            needsUpdate = true;
+            needsUpdate |= isThereANodeThatCannotBeInserted(insertList);
+            if (oldHTMLTags.size() == 0) {
+               // the insert command can only insert a node before or after
+               // another node. If there's no such node, you can't insert
+               // anything.
+               needsUpdate = true;
+            }
+            if (!needsUpdate) {
+               generateInsertCommands(newHTMLTags, localInserts, insertList, localUpdates);
+
+            }
          }
          if (!needsUpdate) {
             List<HTMLTag> deleteList = getRecentlyAddedHTMLTags(newHTMLTags, oldHTMLTags);
 
             for (HTMLTag d : deleteList) {
-               localDeletions.add(d.getId());
-               oldHTMLTags.remove(d);
+               if (d.getId().isEmpty()) {
+                  needsUpdate = true;
+                  break;
+               }
+               else {
+                  localDeletions.add(d.getId());
+                  oldHTMLTags.remove(d);
+               }
             }
          }
          if (needsUpdate) {
@@ -180,23 +200,65 @@ public class XmlDiff {
       int indexNew = 0;
       while (indexOld < oldHTMLTags.size()) {
          HTMLTag o = (oldHTMLTags.get(indexOld));
-         if (!tagsAreEqualOrCanBeChangedLocally(o, newHTMLTags.get(indexNew), updates, deletions, changes, inserts)) {
+         if (!tagsAreEqualOrCanBeChangedLocally(o, newHTMLTags.get(indexNew), updates, deletions, attributeChanges,
+               inserts)) {
             LOGGER.info("HTMLTags are different, require update of parent.");
             return GLOBAL_CHANGE_REQUIRED;
          }
          indexOld++;
          indexNew++;
       }
-      if (localChanges.size() > 0) {
-         LOGGER.info("Adding attribute changes");
-         changes.addAll(localChanges);
-      }
       if (localDeletions.size() > 0) {
          LOGGER.info("Adding HTMLTag deletions");
          deletions.addAll(localDeletions);
       }
+      if (localInserts.size() > 0) {
+         LOGGER.info("Adding HTMLTag insertions");
+         inserts.addAll(localInserts);
+      }
+      if (localUpdates.size() > 0) {
+         LOGGER.info("Adding HTMLTag update");
+         updates.addAll(localUpdates);
+      }
 
       return NO_CHANGE_REQUIRED;
+   }
+
+   /**
+    * Generates the insert command of the AJAX response.
+    * 
+    * @param newHTMLTags
+    * @param inserts
+    * @param insertList
+    */
+   private static void generateInsertCommands(List<HTMLTag> newHTMLTags, List<String> inserts,
+         List<HTMLTag> insertList, List<HTMLTag> updates) {
+      for (HTMLTag insert : insertList) {
+         HTMLTag parent = insert.getParent();
+         for (int index = 0; index < parent.getChildren().size(); index++) {
+            HTMLTag sibling = parent.getChildren().get(index);
+            if (insert == sibling) {
+               final String idOfNewTag = insert.getId();
+               // needed to fix a Mojarra bug
+               String temporaryDiv = "<div id=\"" + idOfNewTag + "\" />";
+               String s;
+               if (index == 0) {
+                  s = "<insert id=\"" + idOfNewTag + "\"><before id=\"" + parent.getChildren().get(index + 1).getId()
+                        + "\"><![CDATA[" + temporaryDiv + "]]></before></insert>";
+               }
+               else {
+                  s = "<insert id=\"" + idOfNewTag + "\"><after id=\"" + parent.getChildren().get(index - 1).getId()
+                        + "\"><![CDATA[" + temporaryDiv + "]]></after></insert>";
+               }
+               inserts.add(s);
+               // needed to fix a Mojarra bug
+               updates.add(insert);
+               newHTMLTags.remove(insert);
+               break;
+
+            }
+         }
+      }
    }
 
    /**
@@ -279,6 +341,26 @@ public class XmlDiff {
 
    public static boolean idsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag) {
       return oldHTMLTag.getId().equals(newHTMLTag.getId());
+   }
+
+   /**
+    * Verifies that every node of a given list has an id (a neccessary
+    * precondition to insert it into a DOM tree).
+    * 
+    * @param needsUpdate
+    * @param insertList
+    * @return
+    */
+   private static boolean isThereANodeThatCannotBeInserted(List<HTMLTag> insertList) {
+      boolean needsUpdate = false;
+      for (HTMLTag insert : insertList) {
+         if (insert.getId().isEmpty()) {
+            LOGGER.warning("TODO: add an ID to the node to be inserted");
+            needsUpdate = true;
+            break;
+         }
+      }
+      return needsUpdate;
    }
 
    private static boolean tagsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
