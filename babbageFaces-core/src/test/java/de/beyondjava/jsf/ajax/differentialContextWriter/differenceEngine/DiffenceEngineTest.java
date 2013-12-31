@@ -51,10 +51,11 @@ public class DiffenceEngineTest {
          List<String> deletions = new ArrayList<>();
          List<String> attributeChanges = new ArrayList<>();
          List<String> insertions = new ArrayList<>();
-         List<HTMLTag> necessaryChanges = diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode,
+         List<HTMLTag> updates = new ArrayList<>();
+        		 diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode,updates,
                deletions, attributeChanges, insertions);
-         assertNotNull(necessaryChanges);
-         assertEquals(0, necessaryChanges.size());
+         assertNotNull(updates);
+         assertEquals(0, updates.size());
          assertEquals(0, deletions.size());
          assertEquals(1, attributeChanges.size());
          String diff1 = attributeChanges.get(0);
@@ -81,10 +82,11 @@ public class DiffenceEngineTest {
          List<String> deletions = new ArrayList<>();
          List<String> attributeChanges = new ArrayList<>();
          List<String> insertions = new ArrayList<>();
-         List<HTMLTag> necessaryChanges = diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode,
+         List<HTMLTag> updates = new ArrayList<>();
+         diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode,updates,
                deletions, attributeChanges, insertions);
-         assertNotNull(necessaryChanges);
-         assertEquals(1, necessaryChanges.size());
+         assertNotNull(updates);
+         assertEquals(1, updates.size());
          assertEquals(0, deletions.size());
          assertEquals(0, attributeChanges.size());
          assertEquals(1, insertions.size());
@@ -92,7 +94,7 @@ public class DiffenceEngineTest {
          assertEquals(
                "<insert id=\"formID:firstSection\"><after id=\"formID:controlsSection\"><![CDATA[<div id=\"formID:firstSection\" />]]></after></insert>",
                insertion);
-         String update = necessaryChanges.get(0).toCompactString();
+         String update = updates.get(0).toCompactString();
          assertEquals(
                "<table id=\"formID:firstSection\" border=\"0\"><tbody><tr><td><label>first name</label></td><td><input name=\"formID:j_idt12\" type=\"text\"/></td></tr><tr><td><label>last name</label></td><td><input name=\"formID:j_idt14\" type=\"text\"/></td></tr></tbody></table>",
                update);
@@ -118,10 +120,11 @@ public class DiffenceEngineTest {
          List<String> deletions = new ArrayList<>();
          List<String> changes = new ArrayList<>();
          List<String> insertions = new ArrayList<>();
-         List<HTMLTag> necessaryChanges = diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode,
+         List<HTMLTag> updates = new ArrayList<>();
+         diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode,updates,
                deletions, changes, insertions);
-         assertNotNull(necessaryChanges);
-         assertEquals(0, necessaryChanges.size());
+         assertNotNull(updates);
+         assertEquals(0, updates.size());
          assertEquals(0, deletions.size());
          assertEquals(1, changes.size());
          String diff1 = changes.get(0);
