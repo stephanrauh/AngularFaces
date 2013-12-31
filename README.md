@@ -33,5 +33,9 @@ To learn more about AngularFaces, have a look at http://www.beyondjava.net/blog/
 
 There's also a tiny tutorial on http://www.beyondjava.net/blog/started-angularfaces/ and the nucleus of a showcase at http://showcase.angularfaces.com.
 
+Note on running the Maven build file: AngularFaces uses a developer build of PrimeFaces that has to be installed in your local Maven repository before any of the projects can be build. You do so by running the following command in the root project folder:
+mvn install:install-file -DlocalRepositoryPath=AngularFaces/lib/ -DcreateChecksum=true -Dpackaging=jar -Dfile=AngularFaces/lib/primefaces-4.1-S
+NAPSHOT.jar -DgroupId=org.primefaces -DartifactId=primefaces -Dversion=4.1-SNAPSHOT
+
 Legal disclaimer:
 This is an early version. Use at own risk.
