@@ -72,7 +72,8 @@ public class DiffenceEngine {
          List<String> deletions = new ArrayList<>();
          List<String> changes = new ArrayList<>();
          List<String> inserts = new ArrayList<>();
-         List<HTMLTag> necessaryChanges = determineNecessaryChanges(changingHTML, lastKnownCorrespondingHTMLTag,
+         List<HTMLTag> updates =new ArrayList<>();
+          determineNecessaryChanges(changingHTML, lastKnownCorrespondingHTMLTag,updates,
                deletions, changes, inserts);
          List<HTMLTag> partialChanges = new ArrayList<>();
          if ((null != inserts) && (inserts.size() > 0)) {
@@ -94,8 +95,8 @@ public class DiffenceEngine {
                partialChanges.add(partialChangeHTMLTag);
             }
          }
-         if (null != necessaryChanges) {
-            for (HTMLTag n : necessaryChanges) {
+         if (null != updates) {
+            for (HTMLTag n : updates) {
                String partialUpdate = n.toCompactString();
                String partialID = n.getId();
                if ((partialID == null) || (partialID.length() == 0)) {
@@ -129,13 +130,13 @@ public class DiffenceEngine {
     * @param changes2
     */
    protected List<HTMLTag> determineNecessaryChanges(String newHTML, HTMLTag lastKnownCorrespondingHTMLTag,
-         List<String> deletions, List<String> changes, List<String> inserts) {
+		   List<HTMLTag> updates, List<String> deletions, List<String> changes, List<String> inserts) {
       if (newHTML.startsWith("<")) {
          HTMLTag newDOM = new HTMLTag(newHTML);
-         List<HTMLTag> differences = XmlDiff.getDifferenceOfHTMLTags(lastKnownCorrespondingHTMLTag, newDOM, deletions,
+          XmlDiff.tagsAreEqualOrCanBeChangedLocally(lastKnownCorrespondingHTMLTag, newDOM,updates,  deletions,
                changes, inserts);
-         for (HTMLTag d : differences) {
-            LOGGER.fine("Difference: " + d);
+         for (HTMLTag d : updates) {
+            LOGGER.fine("Updates: " + d);
             // JUnitTestCreator.generateJUnitTest(newDOM,
             // lastKnownCorrespondingHTMLTag, differences);
          }
@@ -145,10 +146,10 @@ public class DiffenceEngine {
          for (String d : changes) {
             LOGGER.fine("Change: " + d);
          }
-         for (String d : changes) {
+         for (String d : inserts) {
             LOGGER.fine("Insertion: " + d);
          }
-         return differences;
+         return updates;
       }
       else {
          return null;

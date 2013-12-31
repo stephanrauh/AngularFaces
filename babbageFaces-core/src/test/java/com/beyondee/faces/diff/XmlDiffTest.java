@@ -39,8 +39,9 @@ public class XmlDiffTest {
          List<String> changes = new ArrayList<>();
          List<String> insertions = new ArrayList<>();
 
-         List<HTMLTag> updates = XmlDiff
-               .getDifferenceOfHTMLTags(oldHTMLTag, newHTMLTag, deletions, changes, insertions);
+         List<HTMLTag> updates = new ArrayList<>();
+         XmlDiff
+               .tagsAreEqualOrCanBeChangedLocally(oldHTMLTag, newHTMLTag,updates, deletions, changes, insertions);
          List<String> result = new ArrayList<>();
          result.addAll(deletions);
          result.addAll(changes);
