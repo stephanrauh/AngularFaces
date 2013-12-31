@@ -1,7 +1,10 @@
-AngularFaces
-============
+AngularFaces and BabbageFaces
+=============================
 
-AngularFaces is a JSF library making it easy to integrate AngularJS code. Currently, it offers
+AngularFaces is a JSF library making it easy to integrate AngularJS code.
+BabbageFaces optimizes the JSF responses. In most cases JSF exchanges an unnecessary large portion of the DOM tree. BabbageFaces fixes this. 
+
+Currently, AngularFaces offers
 <ul>
 <li>&lt;a:body&gt;. You need this component to activate AngularJS in a JSF page. 
 (<a target="demo" href="http://angularfaces-beyondjava.rhcloud.com/AngularFaces-1/index.jsf">demo</a>, <a target="description" href="http://www.beyondjava.net/blog/started-angularfaces/">description</a>)
