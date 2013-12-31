@@ -44,6 +44,7 @@ public class XmlDiff {
 
 	/**
 	 * Has any attribute been deleted?
+	 * 
 	 * @param oldHTMLTag
 	 */
 	private static boolean hasAnAttributeBeenDeleted(HTMLTag oldHTMLTag) {
@@ -56,7 +57,8 @@ public class XmlDiff {
 				newAttribute = oldHTMLTag.getAttribute(attributeName);
 
 				if (null == newAttribute) {
-					// we cannot fix this attribute change locally, the entire surrounding DOM node has to be replaced
+					// we cannot fix this attribute change locally, the entire
+					// surrounding DOM node has to be replaced
 					return true;
 				}
 			}
@@ -163,9 +165,11 @@ public class XmlDiff {
 	 * @param attributeChanges
 	 *            Call by reference parameter delivering the list of attributes
 	 *            that have to be modified.
-		 * @return GLOBAL_CHANGE_REQUIRED, if the entire tag has to be exchanged. ADDED_LOCAL_CHANGE, if the tags differ, but it is not necessary to exchange the entire tag.
-	 * NO_CHANGE_REQUIRED, if both tags are identical.
- */
+	 * @return GLOBAL_CHANGE_REQUIRED, if the entire tag has to be exchanged.
+	 *         ADDED_LOCAL_CHANGE, if the tags differ, but it is not necessary
+	 *         to exchange the entire tag. NO_CHANGE_REQUIRED, if both tags are
+	 *         identical.
+	 */
 	private static boolean childHTMLTagAreEqualOrCanBeChangedLocally(
 			List<HTMLTag> oldHTMLTags, List<HTMLTag> newHTMLTags,
 			List<HTMLTag> updates, List<String> deletions,
@@ -286,9 +290,11 @@ public class XmlDiff {
 	}
 
 	/**
-	 * XML parsers tend to produce empty HTML tags. This method strips empty HTML tags from a list of HTML tags.
+	 * XML parsers tend to produce empty HTML tags. This method strips empty
+	 * HTML tags from a list of HTML tags.
+	 * 
 	 * @param tags
-	 * @return 
+	 * @return
 	 */
 	private static List<HTMLTag> getNonEmptyHTMLTags(List<HTMLTag> tags) {
 		List<HTMLTag> nonEmpty = new ArrayList<>();
@@ -380,10 +386,9 @@ public class XmlDiff {
 	 *         to exchange the entire tag. NO_CHANGE_REQUIRED, if both tags are
 	 *         identical.
 	 */
-	public static boolean tagsAreEqualOrCanBeChangedLocally(
-			HTMLTag oldHTMLTag, HTMLTag newHTMLTag, List<HTMLTag> updates,
-			List<String> deletions, List<String> attributeChanges,
-			List<String> inserts) {
+	public static boolean tagsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag,
+			HTMLTag newHTMLTag, List<HTMLTag> updates, List<String> deletions,
+			List<String> attributeChanges, List<String> inserts) {
 		if (!oldHTMLTag.getNodeName().equals(newHTMLTag.getNodeName())) {
 			return GLOBAL_CHANGE_REQUIRED;
 		}
@@ -397,28 +402,26 @@ public class XmlDiff {
 		}
 		List<String> localAttributeChanges = new ArrayList<>();
 		if (GLOBAL_CHANGE_REQUIRED == attributesAreEqualOrCanBeChangedLocally(
-				oldHTMLTag, newHTMLTag, localAttributeChanges))
-		{
+				oldHTMLTag, newHTMLTag, localAttributeChanges)) {
 			LOGGER.info("Attributes are different, require update of parent. Old HTMLTag:"
 					+ oldHTMLTag.getDescription()
 					+ " new HTMLTag: "
 					+ newHTMLTag.getDescription());
-				return GLOBAL_CHANGE_REQUIRED;
+			return GLOBAL_CHANGE_REQUIRED;
 		}
-
-			List<HTMLTag> oldHTMLTags = getNonEmptyHTMLTags(oldHTMLTag
-					.getChildren());
-			List<HTMLTag> newHTMLTags = getNonEmptyHTMLTags(newHTMLTag
-					.getChildren());
-			boolean childHTMLTagHaveChanged = !childHTMLTagAreEqualOrCanBeChangedLocally(
-					oldHTMLTags, newHTMLTags, updates, deletions,
-					attributeChanges, inserts);
-			if (childHTMLTagHaveChanged) {
-				if (null == newHTMLTag.getId()) {
-					return GLOBAL_CHANGE_REQUIRED;
-				}
-				updates.add(newHTMLTag);
+		List<HTMLTag> oldHTMLTags = getNonEmptyHTMLTags(oldHTMLTag
+				.getChildren());
+		List<HTMLTag> newHTMLTags = getNonEmptyHTMLTags(newHTMLTag
+				.getChildren());
+		boolean childHTMLTagHaveChanged = !childHTMLTagAreEqualOrCanBeChangedLocally(
+				oldHTMLTags, newHTMLTags, updates, deletions, attributeChanges,
+				inserts);
+		if (childHTMLTagHaveChanged) {
+			if (null == newHTMLTag.getId()) {
+				return GLOBAL_CHANGE_REQUIRED;
 			}
+			updates.add(newHTMLTag);
+		}
 		if (localAttributeChanges.size() > 0) {
 			attributeChanges.addAll(localAttributeChanges);
 		}
