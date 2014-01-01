@@ -269,6 +269,26 @@ public class HTMLTag implements Serializable {
    }
 
    public String getDescription() {
+      if ((id == null) || (id.length() == 0)) {
+         if (isCDATANode) {
+            return "<![CDATA[" + innerHTML.toString() + "]]>";
+         }
+         else if (isTextNode) {
+            return innerHTML.toString();
+         }
+         String result = "<" + nodeName + attributesToString();
+         result += ">";
+         for (HTMLTag kid : children) {
+            if (kid.isTextNode()) {
+               result += kid.innerHTML.toString();
+            }
+            else if (kid.isCDATANode) {
+               result += "<![CDATA[" + kid.innerHTML.toString() + "]]>";
+            }
+         }
+         result += "</" + nodeName + ">";
+         return result;
+      }
       return id;
    }
 
