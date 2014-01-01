@@ -143,8 +143,8 @@ public class DiffenceEngine {
 					changes, inserts);
 			for (HTMLTag d : updates) {
 				LOGGER.fine("Updates: " + d);
-				JUnitTestCreator.generateJUnitTest(newDOM,
-				lastKnownCorrespondingHTMLTag, updates);
+//				JUnitTestCreator.generateJUnitTest(newDOM,
+//				lastKnownCorrespondingHTMLTag, updates);
 			}
 			for (String d : deletions) {
 				LOGGER.fine("Deletion: " + d);
