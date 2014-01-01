@@ -38,7 +38,8 @@ public class JUnitTestCreator {
     * @param differences
     */
    static void generateJUnitTest(HTMLTag newHTML, HTMLTag lastKnownCorrespondingHTMLTag, List<HTMLTag> differences) {
-      File dir = new File("E:\\this\\AngularFaces\\babbageFaces-core\\src\\test\\resources\\DifferenceEngine");
+      File dir = new File("D:\\eclipse\\workspace\\AngularFaces\\babbageFaces-core\\src\\test\\resources\\DifferenceEngine");
+      System.out.println("dir" + dir.exists());
       if (dir.exists()) {
          int freeNumber = 0;
          File testcase;

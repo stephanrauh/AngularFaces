@@ -100,13 +100,17 @@ public class XmlDiff {
 		String id = null;
 		for (int i = 0; i < newHTMLTag.getAttributes().size(); i++) {
 			newAttribute = newHTMLTag.getAttributes().get(i);
-			final String newString = String.valueOf(newAttribute.value);
+			final String newValue = String.valueOf(newAttribute.value);
 			final String attributeName = newAttribute.name;
 			oldAttribute = oldHTMLTag.getAttribute(attributeName);
 
 			if (null == oldAttribute) {
-				changeAttributes.append("<attribute name=\"" + attributeName
-						+ "\" value=\"" + newString + "\"/>");
+				if (newValue != null && newValue.length() > 0) 
+				{
+					changeAttributes
+							.append("<attribute name=\"" + attributeName
+									+ "\" value=\"" + newValue + "\"/>");
+				}
 			} else {
 				// the value of the attribute has changed
 				String oldString = String.valueOf(oldAttribute.value);
@@ -124,10 +128,10 @@ public class XmlDiff {
 						oldString = oldString.substring(0, start);
 					}
 				}
-				if (!(oldString.equals(newString))) {
-					changeAttributes.append("<attribute name=\""
-							+ attributeName + "\" value=\"" + newString
-							+ "\"/>");
+				if (!(oldString.equals(newValue))) {
+					changeAttributes
+							.append("<attribute name=\"" + attributeName
+									+ "\" value=\"" + newValue + "\"/>");
 				}
 			}
 		}

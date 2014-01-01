@@ -40,6 +40,10 @@ public class DifferenceDemoBean implements Serializable {
 	private boolean thirdSectionVisible = true;
 	private String zipcode;
 
+	public String doNothing()
+	{
+		return null;
+	}
 	public String changeCity() {
 		String[] cities = new String[] { "Armsheim", "Biebelsheim",
 				"Crumstadt", "Dolgesheim", "Ebersheim", "Framersheim",

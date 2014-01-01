@@ -1,0 +1,9 @@
+<div id="formID:j_idt5" class="ui-chkbox ui-widget">
+  <div class="ui-helper-hidden-accessible">
+    <input id="formID:j_idt5_input" name="formID:j_idt5_input" type="checkbox"/>
+  </div>
+
+  <div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default">
+    <span class="ui-chkbox-icon ui-c"/>
+  </div>
+</div>
