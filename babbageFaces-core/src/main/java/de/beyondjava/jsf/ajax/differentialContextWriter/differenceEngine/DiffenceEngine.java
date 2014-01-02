@@ -175,24 +175,6 @@ public class DiffenceEngine {
     }
 
     /**
-     * @param sessionMap
-     * @return
-     */
-    private HTMLTag getLastKnownHTMLBodyAsDomTree(Map<String, Object> sessionMap) {
-        String html = retrieveLastKnownHTMLFromSession(sessionMap);
-        int start = html.indexOf("<body");
-        int end = html.lastIndexOf("</body>");
-        if ((start >= 0) && (end > start)) {
-            html = html.substring(start, end + "</body>".length());
-        }
-        // add an artificial umbrella tag (<original>) because HTML code often
-        // consists of more than one root (<head> and <body>) and
-        // XML parsers can't cope with that
-        HTMLTag lastKnownDOMTree = new HTMLTag("<original>" + html + "</original>");
-        return lastKnownDOMTree.getFirstChild(); // drop the <original> tag
-    }
-
-    /**
      * Fixes the DOM tree stored in the session by integrating the AJAX inserts
      * into the last known DOM tree.
      * 
@@ -266,8 +248,8 @@ public class DiffenceEngine {
      * @param sessionMap
      * @return
      */
-    private String retrieveLastKnownHTMLFromSession(Map<String, Object> sessionMap) {
-        String html = (String) sessionMap.get(LAST_KNOWN_HTML_KEY);
+    private HTMLTag retrieveLastKnownHTMLFromSession(Map<String, Object> sessionMap) {
+        HTMLTag html = (HTMLTag) sessionMap.get(LAST_KNOWN_HTML_KEY);
         if (html == null) {
             throw new RuntimeException("HTML code is missing in the session");
         }
@@ -377,7 +359,7 @@ public class DiffenceEngine {
                 differentialEngineActive = false;
             }
             else {
-                HTMLTag domTreeToBeUpdated = getLastKnownHTMLBodyAsDomTree(sessionMap);
+                HTMLTag domTreeToBeUpdated = retrieveLastKnownHTMLFromSession(sessionMap);
                 HTMLTag partialResponseAsDOMTree = new HTMLTag(currentResponse);
                 List<HTMLTag> listOfChanges = extractChangesFromPartialResponse(partialResponseAsDOMTree);
                 for (HTMLTag change : listOfChanges) {
@@ -389,19 +371,12 @@ public class DiffenceEngine {
                         updateDOMTreeInSession(domTreeToBeUpdated, newPartialChanges);
 
                     }
-                    String newHTML = domTreeToBeUpdated.toCompactString();
-                    if (newHTML.startsWith("<original>")) {
-                        newHTML = newHTML.substring("<original>".length());
-                        newHTML = newHTML.substring(0, newHTML.length() - "</original>".length());
-                    }
-                    sessionMap.remove(LAST_KNOWN_HTML_KEY);
-                    sessionMap.put(LAST_KNOWN_HTML_KEY, newHTML);
                 }
             }
         }
         else {
             sessionMap.remove(LAST_KNOWN_HTML_KEY);
-            sessionMap.put(LAST_KNOWN_HTML_KEY, currentResponse);
+            sessionMap.put(LAST_KNOWN_HTML_KEY, new HTMLTag(currentResponse));
         }
         return currentResponse;
     }

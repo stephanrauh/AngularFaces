@@ -42,6 +42,9 @@ public class XmlDiff {
     }
 
     /**
+     * This method is used for debugging purposes and will soon be removed. It
+     * asserts two lists of tag have the same ids in the same order.
+     * 
      * @param oldHTMLTags
      * @param newHTMLTags
      */

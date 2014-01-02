@@ -68,6 +68,11 @@ public class HTMLTag implements Serializable {
                 html = html.substring(pos + 2).trim();
             }
         }
+        if (html.startsWith("<head>")) {
+            // PrimeFaces delivers code without the surroundings html tag.
+            // If we don't add it, the SAX parser refuses to parse the document
+            html = "<html>" + html + "</html>";
+        }
         html = html.replace("&&", "&amp;&amp;");
         InputSource inputSource = new InputSource(new StringReader(html));
 
@@ -404,6 +409,7 @@ public class HTMLTag implements Serializable {
             for (int i = 0; i < children.size(); i++) {
                 if (children.get(i) == tagToBeReplaced) {
                     children.set(i, newSubtree);
+                    newSubtree.setParent(this);
                     break;
                 }
             }
