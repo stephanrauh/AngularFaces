@@ -30,7 +30,7 @@ import org.xml.sax.*;
  */
 public class HTMLTag implements Serializable {
 
-    private static DocumentBuilder builder;
+    private transient static DocumentBuilder builder;
 
     private static final long serialVersionUID = 8958589454536115945L;
 
@@ -49,13 +49,6 @@ public class HTMLTag implements Serializable {
             throw new RuntimeException("Couldn't initialize the SAX parser.", e);
         }
 
-    }
-
-    /**
-     * @return the builder
-     */
-    public static DocumentBuilder getBuilder() {
-        return builder;
     }
 
     /**
@@ -88,22 +81,12 @@ public class HTMLTag implements Serializable {
         }
     }
 
-    /**
-     * @param builder
-     *            the builder to set
-     */
-    public static void setBuilder(DocumentBuilder builder) {
-        HTMLTag.builder = builder;
-    }
-
     private List<HTMLAttribute> attributes = new ArrayList<>();
 
     private List<HTMLTag> children = new ArrayList<>();
 
     /** convenience attribute (with the side effect of better performance) */
     private String id = "";
-
-    private List<String> idsOfChildren = new ArrayList<>();
 
     private StringBuffer innerHTML = new StringBuffer();
 
@@ -143,9 +126,7 @@ public class HTMLTag implements Serializable {
             if (null != node.getAttributes()) {
                 for (int i = 0; i < node.getAttributes().getLength(); i++) {
                     final Node item = node.getAttributes().item(i);
-                    final String attributeName = item.getNodeName();
-                    String attributeValue = item.getNodeValue();
-                    addAttribute(attributeName, attributeValue);
+                    addAttribute(item.getNodeName(), item.getNodeValue());
                 }
             }
             if (null != node.getChildNodes()) {
@@ -155,7 +136,6 @@ public class HTMLTag implements Serializable {
                             || ((item.getNodeValue() != null) && (item.getNodeValue().trim().length() > 0))) {
                         HTMLTag kid = new HTMLTag(item, this);
                         children.add(kid);
-                        idsOfChildren.add(kid.id);
                     }
                 }
             }
@@ -343,13 +323,6 @@ public class HTMLTag implements Serializable {
     }
 
     /**
-     * @return the idsOfChildren
-     */
-    public List<String> getIdsOfChildren() {
-        return this.idsOfChildren;
-    }
-
-    /**
      * @return the innerHTML
      */
     public StringBuffer getInnerHTML() {
@@ -460,14 +433,6 @@ public class HTMLTag implements Serializable {
      */
     public void setId(String id) {
         this.id = id;
-    }
-
-    /**
-     * @param idsOfChildren
-     *            the idsOfChildren to set
-     */
-    public void setIdsOfChildren(List<String> idsOfChildren) {
-        this.idsOfChildren = idsOfChildren;
     }
 
     /**
