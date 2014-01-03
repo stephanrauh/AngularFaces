@@ -181,7 +181,7 @@ public class XmlDiff {
                 needsUpdate = true;
             }
             if (!needsUpdate) {
-                generateInsertCommands(newHTMLTags, localInserts, insertList, localUpdates);
+                needsUpdate |= generateInsertCommands(newHTMLTags, localInserts, insertList, localUpdates);
 
             }
         }
@@ -246,8 +246,9 @@ public class XmlDiff {
      * @param newHTMLTags
      * @param inserts
      * @param insertList
+     * @return true if a global update is needed
      */
-    private static void generateInsertCommands(List<HTMLTag> newHTMLTags, List<String> inserts,
+    private static boolean generateInsertCommands(List<HTMLTag> newHTMLTags, List<String> inserts,
             List<HTMLTag> insertList, List<HTMLTag> updates) {
         for (HTMLTag insert : insertList) {
             HTMLTag parent = insert.getParent();
@@ -259,13 +260,27 @@ public class XmlDiff {
                     String temporaryDiv = "<div id=\"" + idOfNewTag + "\" />";
                     String s;
                     if (index == 0) {
+                        int offset = 1;
+                        while ("script".equals(parent.getChildren().get(index + offset).getNodeName())) {
+                            offset++;
+                            if ((index + offset) >= parent.getChildren().size()) {
+                                return true; // global change required
+                            }
+                        }
                         s = "<insert id=\"" + idOfNewTag + "\"><before id=\""
-                                + parent.getChildren().get(index + 1).getId() + "\"><![CDATA[" + temporaryDiv
+                                + parent.getChildren().get(index + offset).getId() + "\"><![CDATA[" + temporaryDiv
                                 + "]]></before></insert>";
                     }
                     else {
+                        int offset = 1;
+                        while ("script".equals(parent.getChildren().get(index - offset).getNodeName())) {
+                            offset++;
+                            if ((index - offset) < 0) {
+                                return true; // global change required
+                            }
+                        }
                         s = "<insert id=\"" + idOfNewTag + "\"><after id=\""
-                                + parent.getChildren().get(index - 1).getId() + "\"><![CDATA[" + temporaryDiv
+                                + parent.getChildren().get(index - offset).getId() + "\"><![CDATA[" + temporaryDiv
                                 + "]]></after></insert>";
                     }
                     inserts.add(s);
@@ -277,6 +292,7 @@ public class XmlDiff {
                 }
             }
         }
+        return false;
     }
 
     /**
