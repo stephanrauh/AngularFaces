@@ -33,35 +33,31 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
  */
 public class PrimeFacesCheckboxTest {
 
-   /**
-    * Tests what happens when a PrimeFaces SelectBoolean has been checked.
-    * 
-    * @throws IOException
-    */
-   @Test
-   public void testDetermineNecessaryChanges3() throws IOException {
-      final DiffenceEngine diffenceEngine = new DiffenceEngine();
-      File dir = new File("src/test/resources/DifferenceEngine");
+    /**
+     * Tests what happens when a PrimeFaces SelectBoolean has been checked.
+     * 
+     * @throws IOException
+     */
+    @Test
+    public void testDetermineNecessaryChanges3() throws IOException {
+        final DiffenceEngine diffenceEngine = new DiffenceEngine();
+        File dir = new File("src/test/resources/DifferenceEngine");
 
-      final File partialChange = new File(dir, "partialChange3.xml");
-      if (partialChange.exists()) {
-         String newHTML = FileUtils.readFileToString(partialChange);
-         String lastKnownHTML = FileUtils.readFileToString(new File(dir, "html3.xml"));
-         HTMLTag lastKnownCorrespondingNode = new HTMLTag(lastKnownHTML);
-         List<String> deletions = new ArrayList<>();
-         List<String> attributeChanges = new ArrayList<>();
-         List<String> insertions = new ArrayList<>();
-         List<HTMLTag> updates = new ArrayList<>();
-        		 diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode,updates,
-               deletions, attributeChanges, insertions);
-         assertNotNull(updates);
-         // ToDo: first update doesn't have an id, plus it's part of the second update
-         // --> need to fix both errors
-         assertEquals(1, updates.size());
-         for (HTMLTag u: updates) System.out.println("--->" +u.toCompactString());
-         assertEquals(1, deletions.size());
-         for (String d: deletions) System.out.println("--->delete " +d);
-         assertEquals(0, attributeChanges.size());
-      }
-   }
+        final File partialChange = new File(dir, "partialChange3.xml");
+        if (partialChange.exists()) {
+            String newHTML = FileUtils.readFileToString(partialChange);
+            String lastKnownHTML = FileUtils.readFileToString(new File(dir, "html3.xml"));
+            HTMLTag lastKnownCorrespondingNode = new HTMLTag(lastKnownHTML);
+            List<String> deletions = new ArrayList<>();
+            List<String> attributeChanges = new ArrayList<>();
+            List<String> insertions = new ArrayList<>();
+            List<HTMLTag> updates = new ArrayList<>();
+            diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode, updates, deletions,
+                    attributeChanges, insertions);
+            assertNotNull(updates);
+            assertEquals(0, updates.size());
+            assertEquals(1, deletions.size());
+            assertEquals(3, attributeChanges.size());
+        }
+    }
 }
