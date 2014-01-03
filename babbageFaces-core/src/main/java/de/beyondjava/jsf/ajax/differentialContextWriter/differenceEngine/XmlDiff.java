@@ -42,8 +42,8 @@ public class XmlDiff {
     }
 
     /**
-     * This method is used for debugging purposes and will soon be removed. It
-     * asserts two lists of tag have the same ids in the same order.
+     * This method is used for debugging purposes and will soon be removed. It asserts two lists of tag have the same
+     * ids in the same order.
      * 
      * @param oldHTMLTags
      * @param newHTMLTags
@@ -63,28 +63,26 @@ public class XmlDiff {
     }
 
     /**
-     * @return GLOBAL_CHANGE_REQUIRED, if the entire tag has to be exchanged.
-     *         ADDED_LOCAL_CHANGE, if the tags differ, but it is not necessary
-     *         to exchange the entire tag. NO_CHANGE_REQUIRED, if both tags are
-     *         identical.
+     * @return GLOBAL_CHANGE_REQUIRED, if the entire tag has to be exchanged. ADDED_LOCAL_CHANGE, if the tags differ,
+     *         but it is not necessary to exchange the entire tag. NO_CHANGE_REQUIRED, if both tags are identical.
      * 
      * @param oldHTMLTag
      * @param newHTMLTag
-     * @param changes
+     * @param attributeChanges
      * @return
      */
     public static boolean attributesAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
-            List<String> changes) {
+            List<String> attributeChanges) {
         if (!oldHTMLTag.hasAttributes() && !newHTMLTag.hasAttributes()) {
             return true;
         }
 
-        if (oldHTMLTag.getAttributes().size() > newHTMLTag.getAttributes().size()) {
-            return GLOBAL_CHANGE_REQUIRED;
-        }
+        // if (oldHTMLTag.getAttributes().size() > newHTMLTag.getAttributes().size()) {
+        // return GLOBAL_CHANGE_REQUIRED;
+        // }
 
         // Have attributes been deleted?
-        boolean attributeChangeMustBeFixedGlobally = hasAnAttributeBeenDeleted(oldHTMLTag, newHTMLTag);
+        boolean attributeChangeMustBeFixedGlobally = hasAnAttributeBeenDeleted(oldHTMLTag, newHTMLTag, attributeChanges);
         if (attributeChangeMustBeFixedGlobally) {
             return GLOBAL_CHANGE_REQUIRED;
         }
@@ -128,7 +126,7 @@ public class XmlDiff {
         if (changeAttributes.length() > 0) {
             if ((null != id) && (id.length() > 0)) {
                 String c = "<attributes id=\"" + id + "\">" + changeAttributes.toString() + "</attributes>";
-                changes.add(c);
+                attributeChanges.add(c);
                 return ADDED_LOCAL_CHANGE;
             }
             else {
@@ -142,32 +140,25 @@ public class XmlDiff {
     }
 
     /**
-     * Compares two lists of HTML tags (the new and the old version of the same
-     * DOM subtree). Returns the smallest possible set of changes required to
-     * transform the old to the new DOM subtree. <br>
-     * Note the similarity between the two methods
-     * childHTMLTagsAreEqualOrCanBeChangedLocally() and
-     * tagsAreEqualOrCanBeChangedLocally(). There need to be two methods because
-     * the first method recognizes the difference between two lists, while the
-     * latter looks at individual tags.
+     * Compares two lists of HTML tags (the new and the old version of the same DOM subtree). Returns the smallest
+     * possible set of changes required to transform the old to the new DOM subtree. <br>
+     * Note the similarity between the two methods childHTMLTagsAreEqualOrCanBeChangedLocally() and
+     * tagsAreEqualOrCanBeChangedLocally(). There need to be two methods because the first method recognizes the
+     * difference between two lists, while the latter looks at individual tags.
      * 
      * @param oldHTMLTags
      *            the old version of a DOM subtree
      * @param newHTMLTags
      *            the new version of a DOM subtree
      * @param updates
-     *            Call by reference parameter delivering the list of DOM trees
-     *            that have to be exchanged completely via an update command.
+     *            Call by reference parameter delivering the list of DOM trees that have to be exchanged completely via
+     *            an update command.
      * @param deletions
-     *            Call by reference parameter delivering the list of DOM trees
-     *            that have been deleted.
+     *            Call by reference parameter delivering the list of DOM trees that have been deleted.
      * @param attributeChanges
-     *            Call by reference parameter delivering the list of attributes
-     *            that have to be modified.
-     * @return GLOBAL_CHANGE_REQUIRED, if the entire tag has to be exchanged.
-     *         ADDED_LOCAL_CHANGE, if the tags differ, but it is not necessary
-     *         to exchange the entire tag. NO_CHANGE_REQUIRED, if both tags are
-     *         identical.
+     *            Call by reference parameter delivering the list of attributes that have to be modified.
+     * @return GLOBAL_CHANGE_REQUIRED, if the entire tag has to be exchanged. ADDED_LOCAL_CHANGE, if the tags differ,
+     *         but it is not necessary to exchange the entire tag. NO_CHANGE_REQUIRED, if both tags are identical.
      */
     private static boolean childHTMLTagsAreEqualOrCanBeChangedLocally(List<HTMLTag> oldHTMLTags,
             List<HTMLTag> newHTMLTags, List<HTMLTag> updates, List<String> deletions, List<String> attributeChanges,
@@ -289,8 +280,7 @@ public class XmlDiff {
     }
 
     /**
-     * XML parsers tend to produce empty HTML tags. This method strips empty
-     * HTML tags from a list of HTML tags.
+     * XML parsers tend to produce empty HTML tags. This method strips empty HTML tags from a list of HTML tags.
      * 
      * @param tags
      * @return
@@ -319,9 +309,8 @@ public class XmlDiff {
     }
 
     /**
-     * Does the new list of HTML tags one or more tags that weren't present in
-     * the old list of HTML tags? Note that the function can return the list of
-     * deleted tags be swapping the parameters.
+     * Does the new list of HTML tags one or more tags that weren't present in the old list of HTML tags? Note that the
+     * function can return the list of deleted tags be swapping the parameters.
      * 
      * @param oldHTMLTags
      * @param newHTMLTags
@@ -349,8 +338,9 @@ public class XmlDiff {
      * Has any attribute been deleted?
      * 
      * @param oldHTMLTag
+     * @param changes
      */
-    private static boolean hasAnAttributeBeenDeleted(HTMLTag oldHTMLTag, HTMLTag newHTMLTag) {
+    private static boolean hasAnAttributeBeenDeleted(HTMLTag oldHTMLTag, HTMLTag newHTMLTag, List<String> changes) {
         {
             HTMLAttribute newAttribute = null;
             HTMLAttribute oldAttribute = null;
@@ -360,9 +350,16 @@ public class XmlDiff {
                 newAttribute = newHTMLTag.getAttribute(attributeName);
 
                 if (null == newAttribute) {
-                    // we cannot fix this attribute change locally, the entire
-                    // surrounding DOM node has to be replaced
-                    return true;
+                    if ((newHTMLTag.getId() != null) && (newHTMLTag.getId().length() > 0)) {
+                        String s = "<eval><![CDATA[document.getElementById('" + newHTMLTag.getId()
+                                + "').removeAttribute('" + attributeName + "');]]></eval>";
+                        changes.add(s);
+                    }
+                    else {
+                        // we cannot fix this attribute change locally, the entire
+                        // surrounding DOM node has to be replaced
+                        return true;
+                    }
                 }
             }
         }
@@ -370,8 +367,7 @@ public class XmlDiff {
     }
 
     /**
-     * Verifies that every node of a given list has an id (a neccessary
-     * precondition to insert it into a DOM tree).
+     * Verifies that every node of a given list has an id (a neccessary precondition to insert it into a DOM tree).
      * 
      * @param needsUpdate
      * @param insertList
@@ -390,18 +386,13 @@ public class XmlDiff {
     }
 
     /**
-     * Compares a new and an old version of a tag. If they differ, the method
-     * tries to determine the smallest possible set of changes to transform the
-     * old version to the new version of the tags. These changes are returned
-     * via the call by reference parameters "updates", "deletions", "inserts"
-     * and "attributeChanges". Sometimes the transformation requires the
-     * exchange of the whole tag. If so, the method returns
-     * GLOBAL_CHANGE_REQUIRED. <br>
-     * Note the similarity between the two methods
-     * childHTMLTagsAreEqualOrCanBeChangedLocally() and
-     * tagsAreEqualOrCanBeChangedLocally(). There need to be two methods because
-     * the first method recognizes the difference between two lists, while the
-     * latter looks at individual tags.
+     * Compares a new and an old version of a tag. If they differ, the method tries to determine the smallest possible
+     * set of changes to transform the old version to the new version of the tags. These changes are returned via the
+     * call by reference parameters "updates", "deletions", "inserts" and "attributeChanges". Sometimes the
+     * transformation requires the exchange of the whole tag. If so, the method returns GLOBAL_CHANGE_REQUIRED. <br>
+     * Note the similarity between the two methods childHTMLTagsAreEqualOrCanBeChangedLocally() and
+     * tagsAreEqualOrCanBeChangedLocally(). There need to be two methods because the first method recognizes the
+     * difference between two lists, while the latter looks at individual tags.
      * 
      * 
      * @param oldHTMLTag
@@ -410,10 +401,8 @@ public class XmlDiff {
      * @param deletions
      * @param attributeChanges
      * @param inserts
-     * @return GLOBAL_CHANGE_REQUIRED, if the entire tag has to be exchanged.
-     *         ADDED_LOCAL_CHANGE, if the tags differ, but it is not necessary
-     *         to exchange the entire tag. NO_CHANGE_REQUIRED, if both tags are
-     *         identical.
+     * @return GLOBAL_CHANGE_REQUIRED, if the entire tag has to be exchanged. ADDED_LOCAL_CHANGE, if the tags differ,
+     *         but it is not necessary to exchange the entire tag. NO_CHANGE_REQUIRED, if both tags are identical.
      */
     public static boolean tagsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag, HTMLTag newHTMLTag,
             List<HTMLTag> updates, List<String> deletions, List<String> attributeChanges, List<String> inserts) {

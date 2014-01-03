@@ -110,8 +110,8 @@ public class DiffentialResponseWriter extends Writer {
       rawBuffer.append(s);
       if (endOfPage(s)) {
          if (rawbufferValid) {
-            String difference = new DiffenceEngine().yieldDifferences(rawBuffer.toString(), sessionMap, isAJAX);
-            sunWriter.write(difference);
+            String optimizedResponse = new DiffenceEngine().yieldDifferences(rawBuffer.toString(), sessionMap, isAJAX);
+            sunWriter.write(optimizedResponse);
          }
          else {
             sunWriter.write(rawBuffer.toString());

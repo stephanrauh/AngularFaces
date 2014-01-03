@@ -128,6 +128,15 @@ public class HTMLTag implements Serializable {
                     final Node item = node.getAttributes().item(i);
                     addAttribute(item.getNodeName(), item.getNodeValue());
                 }
+                if (null != parent) {
+                    if ((id == null) || (id.length() == 0)) {
+                        if ("div".equals(nodeName) || "span".equals(nodeName)) {
+                            if ((parent.getId() != null) && (parent.getId().length() > 0)) {
+                                addAttribute("id", parent.getId() + ":" + nodeName + parent.getChildren().size());
+                            }
+                        }
+                    }
+                }
             }
             if (null != node.getChildNodes()) {
                 for (int i = 0; i < node.getChildNodes().getLength(); i++) {
@@ -173,7 +182,7 @@ public class HTMLTag implements Serializable {
         }
     }
 
-    /** Yields a textual representation of the attributes. */
+    /** Returns a textual representation of the attributes. */
     private String attributesToString() {
         StringBuffer result = new StringBuffer();
         if ((null != id) && (id.length() > 0)) {
@@ -201,8 +210,8 @@ public class HTMLTag implements Serializable {
     }
 
     /**
-     * Looks for a subtree bearing a particular id, and extracts the Javascript
-     * code following the subtree (if there's any).
+     * Looks for a subtree bearing a particular id, and extracts the Javascript code following the subtree (if there's
+     * any).
      * 
      * @param idOfCurrentChange
      * @return null or the Java script node
@@ -246,8 +255,7 @@ public class HTMLTag implements Serializable {
     }
 
     /**
-     * returns a certain attribute, or null if there is no attribute with the
-     * name asked for.
+     * returns a certain attribute, or null if there is no attribute with the name asked for.
      * 
      * @param attributeName
      * @return
@@ -404,9 +412,13 @@ public class HTMLTag implements Serializable {
                 else {
                     a.value = value;
                 }
-                break;
+                return;
             }
         }
+        final HTMLAttribute newAttribute = new HTMLAttribute();
+        newAttribute.name = name;
+        newAttribute.value = value;
+        attributes.add(newAttribute);
     }
 
     /**
@@ -468,8 +480,7 @@ public class HTMLTag implements Serializable {
     }
 
     /**
-     * Returns a formatted representation of the HTML tag suited ideally for
-     * runtime.
+     * Returns a formatted representation of the HTML tag suited ideally for runtime.
      * 
      * @return the HTML code as a single line
      */
@@ -505,8 +516,7 @@ public class HTMLTag implements Serializable {
     }
 
     /**
-     * Returns a formatted representation of the HTML tag suited ideally for
-     * debugging purposes.
+     * Returns a formatted representation of the HTML tag suited ideally for debugging purposes.
      * 
      * @return multi-line, indented HTML code
      */
@@ -516,8 +526,7 @@ public class HTMLTag implements Serializable {
     }
 
     /**
-     * Returns an almost correctly formatted representation of the HTML tag
-     * suited ideally for debugging purposes.
+     * Returns an almost correctly formatted representation of the HTML tag suited ideally for debugging purposes.
      * 
      * @return multi-line, indented HTML code
      */

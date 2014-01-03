@@ -41,25 +41,6 @@ public class DiffenceEngine {
     }
 
     /**
-     * Fixes the DOM tree stored in the session by integrating the AJAX
-     * deletions into the last known DOM tree.
-     * 
-     * @param domTreeInSession
-     * @param htmlTagid
-     */
-    private void deleteHTMLTag(HTMLTag domTreeInSession, String htmlTagid) {
-        HTMLTag tagToBeRemoved = domTreeInSession.findByID(htmlTagid);
-        if (tagToBeRemoved == null) {
-            LOGGER.severe("Wrong ID? Looking for " + htmlTagid
-                    + ", but couldn't find the ID in the last known HTML tree");
-        }
-        else {
-            HTMLTag parentHTMLTag = tagToBeRemoved.getParent();
-            parentHTMLTag.removeChild(tagToBeRemoved);
-        }
-    }
-
-    /**
      * @param change
      * @param lastKnownDOMTree
      */
@@ -71,10 +52,11 @@ public class DiffenceEngine {
 
             HTMLTag lastKnownCorrespondingHTMLTag = lastKnownDOMTree.findByID(id);
             List<String> deletions = new ArrayList<>();
-            List<String> changes = new ArrayList<>();
+            List<String> attributeChanges = new ArrayList<>();
             List<String> inserts = new ArrayList<>();
             List<HTMLTag> updates = new ArrayList<>();
-            determineNecessaryChanges(changingHTML, lastKnownCorrespondingHTMLTag, updates, deletions, changes, inserts);
+            determineNecessaryChanges(changingHTML, lastKnownCorrespondingHTMLTag, updates, deletions,
+                    attributeChanges, inserts);
             List<HTMLTag> partialChanges = new ArrayList<>();
             if ((null != inserts) && (inserts.size() > 0)) {
                 for (String insert : inserts) {
@@ -89,8 +71,8 @@ public class DiffenceEngine {
                     partialChanges.add(partialChangeHTMLTag);
                 }
             }
-            if (null != changes) {
-                for (String partialChange : changes) {
+            if (null != attributeChanges) {
+                for (String partialChange : attributeChanges) {
                     HTMLTag partialChangeHTMLTag = new HTMLTag(partialChange);
                     partialChanges.add(partialChangeHTMLTag);
                 }
@@ -130,11 +112,11 @@ public class DiffenceEngine {
      * @param changes2
      */
     protected List<HTMLTag> determineNecessaryChanges(String newHTML, HTMLTag lastKnownCorrespondingHTMLTag,
-            List<HTMLTag> updates, List<String> deletions, List<String> changes, List<String> inserts) {
+            List<HTMLTag> updates, List<String> deletions, List<String> attributeChanges, List<String> inserts) {
         if (newHTML.startsWith("<")) {
             HTMLTag newDOM = new HTMLTag(newHTML);
             XmlDiff.tagsAreEqualOrCanBeChangedLocally(lastKnownCorrespondingHTMLTag, newDOM, updates, deletions,
-                    changes, inserts);
+                    attributeChanges, inserts);
             for (HTMLTag d : updates) {
                 LOGGER.fine("Updates: " + d);
                 // JUnitTestCreator.generateJUnitTest(newDOM,
@@ -143,7 +125,7 @@ public class DiffenceEngine {
             for (String d : deletions) {
                 LOGGER.fine("Deletion: " + d);
             }
-            for (String d : changes) {
+            for (String d : attributeChanges) {
                 LOGGER.fine("Change: " + d);
             }
             for (String d : inserts) {
@@ -175,38 +157,6 @@ public class DiffenceEngine {
     }
 
     /**
-     * Fixes the DOM tree stored in the session by integrating the AJAX inserts
-     * into the last known DOM tree.
-     * 
-     * @param domTreeInSession
-     * @param children
-     *            list of insert command (more precisely: of after and before
-     *            subcommands).
-     */
-    private void insertHTMLTag(HTMLTag domTreeInSession, List<HTMLTag> children) {
-        for (HTMLTag afterOrBefore : children) {
-            String id = afterOrBefore.getId();
-            HTMLTag sibling = domTreeInSession.findByID(id);
-            HTMLTag parent = sibling.getParent();
-            for (int i = 0; i < parent.getChildren().size(); i++) {
-                if (parent.getChildren().get(i) == sibling) {
-                    final HTMLTag elementToBeInserted = new HTMLTag(afterOrBefore.getFirstChild().getInnerHTML()
-                            .toString());
-                    elementToBeInserted.setParent(parent);
-                    if ("after".equals(afterOrBefore.getNodeName())) {
-                        parent.getChildren().add(i + 1, elementToBeInserted);
-                    }
-                    else {
-                        parent.getChildren().add(i, elementToBeInserted);
-                    }
-                    break;
-                }
-            }
-        }
-
-    }
-
-    /**
      * @param currentResponse
      * @param domTreeToBeUpdated
      * @param change
@@ -216,34 +166,37 @@ public class DiffenceEngine {
     private String optimizeResponse(String currentResponse, HTMLTag domTreeToBeUpdated, HTMLTag change,
             List<HTMLTag> newPartialChanges) {
         String id = change.getId();
+        if (!id.contains("javax.faces.ViewState")) {
 
-        int start = currentResponse.indexOf("<update id=\"" + id + "\">");
-        int end = currentResponse.indexOf("</update>", start);
-        String currentResponseEnd = currentResponse.substring(end + "</update>".length());
-        String tmpCurrentResponse = currentResponse.substring(0, start);
-        for (HTMLTag changeDefinition : newPartialChanges) {
-            tmpCurrentResponse += changeDefinition.toCompactString();
-            String idOfCurrentChange = changeDefinition.getId();
-            if ((idOfCurrentChange == null) || (idOfCurrentChange.length() == 0)) {
-                LOGGER.severe("Missing HTMLTag ID");
-            }
-            else if (changeDefinition.getNodeName().equals("update")) {
-                final HTMLTag scriptNode = domTreeToBeUpdated.extractPrimeFacesJavascript(idOfCurrentChange);
-                if (null != scriptNode) {
-                    tmpCurrentResponse = tmpCurrentResponse.substring(0,
-                            tmpCurrentResponse.length() - "]]></update>".length())
-                            + scriptNode.toCompactString() + "]]></update>";
+            int start = currentResponse.indexOf("<update id=\"" + id + "\">");
+            int end = currentResponse.indexOf("</update>", start);
+            String currentResponseEnd = currentResponse.substring(end + "</update>".length());
+            String tmpCurrentResponse = currentResponse.substring(0, start);
+            for (HTMLTag changeDefinition : newPartialChanges) {
+                // TODO: eval() zum Löschen der Attribute berücksichtigen;
+                tmpCurrentResponse += changeDefinition.toCompactString();
+                String idOfCurrentChange = changeDefinition.getId();
+                if ((idOfCurrentChange == null) || (idOfCurrentChange.length() == 0)) {
+                    LOGGER.severe("Missing HTMLTag ID");
                 }
-            }
+                else if (changeDefinition.getNodeName().equals("update")) {
+                    final HTMLTag scriptNode = domTreeToBeUpdated.extractPrimeFacesJavascript(idOfCurrentChange);
+                    if (null != scriptNode) {
+                        tmpCurrentResponse = tmpCurrentResponse.substring(0, tmpCurrentResponse.length()
+                                - "]]></update>".length())
+                                + scriptNode.toCompactString() + "]]></update>";
+                    }
+                }
 
+            }
+            currentResponse = tmpCurrentResponse + currentResponseEnd;
         }
-        currentResponse = tmpCurrentResponse + currentResponseEnd;
         return currentResponse;
     }
 
     /**
-     * Retrieves the DOM tree that has been sent by the previous HTTP response
-     * (and that ought to be identical to the version displayed in the browser).
+     * Retrieves the DOM tree that has been sent by the previous HTTP response (and that ought to be identical to the
+     * version displayed in the browser).
      * 
      * @param sessionMap
      * @return
@@ -257,62 +210,7 @@ public class DiffenceEngine {
     }
 
     /**
-     * Fixes the DOM tree stored in the session by integrating the AJAX
-     * attribute changes into the last known DOM tree.
-     * 
-     * @param domTreeInSession
-     * @param HTMLTagid
-     * @param c
-     */
-    private void updateAttributes(HTMLTag domTreeInSession, String HTMLTagid, String c) {
-        HTMLTag tagToBeReplaced = domTreeInSession.findByID(HTMLTagid);
-        String attributes[] = c.split("<attribute name=\\\"");
-
-        for (int i = 1; i < attributes.length; i++) {
-            String a = attributes[i];
-            String p[] = a.split("\" value=\"");
-            String name = p[0];
-            String value = p[1];
-            if (value.endsWith("\"/>")) {
-                value = value.substring(0, value.length() - 3);
-            }
-            else {
-                value = value.substring(0, value.length() - "\"/></attributes>".length());
-            }
-            tagToBeReplaced.setAttribute(name, value);
-        }
-
-    }
-
-    /**
-     * @param domTreeToBeUpdated
-     * @param newPartialChanges
-     */
-    private void updateDOMTreeInSession(HTMLTag domTreeToBeUpdated, List<HTMLTag> newPartialChanges) {
-        for (HTMLTag changeDefinition : newPartialChanges) {
-            String idOfCurrentChange = changeDefinition.getId();
-            if (changeDefinition.getNodeName().equals("insert")) {
-                insertHTMLTag(domTreeToBeUpdated, changeDefinition.getChildren());
-            }
-            else if ((idOfCurrentChange == null) || (idOfCurrentChange.length() == 0)) {
-                LOGGER.severe("Missing HTMLTag ID");
-            }
-            else if (changeDefinition.getNodeName().equals("update")) {
-                updateHTMLTag(domTreeToBeUpdated, changeDefinition.getFirstChild(), idOfCurrentChange);
-            }
-            else if (changeDefinition.getNodeName().equals("delete")) {
-                deleteHTMLTag(domTreeToBeUpdated, idOfCurrentChange);
-            }
-            else if (changeDefinition.getNodeName().equals("attributes")) {
-                updateAttributes(domTreeToBeUpdated, idOfCurrentChange, changeDefinition.toCompactString());
-            }
-
-        }
-    }
-
-    /**
-     * Fixes the DOM tree stored in the session by integrating the AJAX updates
-     * into the last known DOM tree.
+     * Fixes the DOM tree stored in the session by integrating the AJAX updates into the last known DOM tree.
      * 
      * @param domTreeInSession
      * @param typeOfChange
@@ -322,8 +220,10 @@ public class DiffenceEngine {
 
         HTMLTag tagToBeReplaced = domTreeInSession.findByID(idToBeUpdated);
         if (tagToBeReplaced == null) {
-            LOGGER.severe("Wrong ID? Looking for " + idToBeUpdated
-                    + ", but couldn't find the ID in the last known HTML tree");
+            if (!idToBeUpdated.contains("javax.faces.ViewState")) { // JSF omits the view state in AJAX responses
+                LOGGER.severe("Wrong ID? Looking for " + idToBeUpdated
+                        + ", but couldn't find the ID in the last known HTML tree");
+            }
         }
         else {
             if (newSubtree.isCDATANode()) {
@@ -341,10 +241,9 @@ public class DiffenceEngine {
     }
 
     /**
-     * Compares the current HTML response with the last known HTML code. If it's
-     * a regular HTML response, the HTML code is simply stored in the session.
-     * If it's an JSF AJAX response, the method looks at the differences and
-     * tries to remove unchanged HTML from the response.
+     * Compares the current HTML response with the last known HTML code. If it's a regular HTML response, the HTML code
+     * is simply stored in the session. If it's an JSF AJAX response, the method looks at the differences and tries to
+     * remove unchanged HTML from the response.
      * 
      * @param rawBuffer
      * @param sessionMap
@@ -352,31 +251,36 @@ public class DiffenceEngine {
      * @return
      */
     public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
-        if (isAJAX && differentialEngineActive) {
-            boolean atAll = currentResponse.contains("<head"); // update="@all"
-            if (atAll) {
-                LOGGER.severe("@all is not compatible with AngularFaces differential engine. Optimized AJAX is switched off.");
-                differentialEngineActive = false;
-            }
-            else {
-                HTMLTag domTreeToBeUpdated = retrieveLastKnownHTMLFromSession(sessionMap);
-                HTMLTag partialResponseAsDOMTree = new HTMLTag(currentResponse);
-                List<HTMLTag> listOfChanges = extractChangesFromPartialResponse(partialResponseAsDOMTree);
-                for (HTMLTag change : listOfChanges) {
+        final HTMLTag responseWithAdditionalIDs = new HTMLTag(currentResponse);
+        boolean atAll = currentResponse.contains("<head"); // update="@all"
+        if (isAJAX && differentialEngineActive && (!atAll)) {
+            HTMLTag domTreeToBeUpdated = retrieveLastKnownHTMLFromSession(sessionMap);
+            List<HTMLTag> listOfChanges = extractChangesFromPartialResponse(responseWithAdditionalIDs);
+            for (HTMLTag change : listOfChanges) {
+                if (change.getNodeName().equals("update")) {
                     List<HTMLTag> newPartialChanges = determineNecessaryChangeFromResponse(change, domTreeToBeUpdated);
                     if ((null != newPartialChanges)) {
                         currentResponse = optimizeResponse(currentResponse, domTreeToBeUpdated, change,
                                 newPartialChanges);
-
-                        updateDOMTreeInSession(domTreeToBeUpdated, newPartialChanges);
-
+                        updateHTMLTag(domTreeToBeUpdated, change.getFirstChild(), change.getId());
                     }
+
+                }
+                else {
+                    LOGGER.severe("Unexpected JSF response (" + change.getNodeName() + ")");
                 }
             }
         }
         else {
             sessionMap.remove(LAST_KNOWN_HTML_KEY);
-            sessionMap.put(LAST_KNOWN_HTML_KEY, new HTMLTag(currentResponse));
+            sessionMap.put(LAST_KNOWN_HTML_KEY, responseWithAdditionalIDs);
+            String body = responseWithAdditionalIDs.getChildren().get(1).toString();
+            int bodyIndex = currentResponse.indexOf("<body>");
+            int bodyEndIndex = currentResponse.indexOf("</body>");
+            if ((bodyIndex > 0) && (bodyEndIndex > 0)) {
+                currentResponse = currentResponse.substring(0, bodyIndex) + body
+                        + currentResponse.substring(bodyEndIndex + "</body>".length());
+            }
         }
         return currentResponse;
     }
