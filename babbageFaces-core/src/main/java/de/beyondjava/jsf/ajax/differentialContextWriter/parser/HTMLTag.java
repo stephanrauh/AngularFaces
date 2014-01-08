@@ -545,7 +545,7 @@ public class HTMLTag implements Serializable {
         else {
             String result = "<" + nodeName + attributesToString();
             if ((children.size() == 0) && (innerHTML.length() == 0)) {
-                result += "/>";
+                result += "></" + nodeName + ">";
             }
             else {
                 result += ">";
@@ -591,7 +591,7 @@ public class HTMLTag implements Serializable {
         else {
             String result = "<" + nodeName + attributesToString();
             if ((children.size() == 0) && (innerHTML.length() == 0)) {
-                result += "/>";
+                result += "></" + nodeName + ">";
             }
             else {
                 result += ">";
