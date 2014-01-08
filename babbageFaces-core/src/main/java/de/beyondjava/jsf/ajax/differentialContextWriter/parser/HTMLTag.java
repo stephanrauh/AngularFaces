@@ -52,6 +52,25 @@ public class HTMLTag implements Serializable {
     }
 
     /**
+     * Removes the document node from the XML tree.
+     * 
+     * @param html
+     * @return
+     */
+    private static Node getXMLRootNode(Node document) {
+        if (document.getNodeType() == Node.DOCUMENT_NODE) {
+            document = document.getFirstChild();
+            while (((document.getNodeType() == Node.DOCUMENT_TYPE_NODE) || (document.getNodeType() == Node.COMMENT_NODE))
+                    && (document.getNextSibling() != null)) {
+                // sometimes additional headers are added, such as <!DOCTYPE composition>
+                document = document.getNextSibling();
+            }
+        }
+
+        return document;
+    }
+
+    /**
      * @param html
      */
     private static Document htmlToDocument(String html) {
@@ -69,7 +88,7 @@ public class HTMLTag implements Serializable {
         html = html.replace("&&", "&amp;&amp;");
         InputSource inputSource = new InputSource(new StringReader(html));
 
-        try {
+        try { // <!DOCTYPE composition>
             Document domTree = builder.parse(inputSource);
             return domTree;
         }
@@ -89,8 +108,14 @@ public class HTMLTag implements Serializable {
     private String id = "";
 
     private StringBuffer innerHTML = new StringBuffer();
-
     private boolean isCDATANode = false;
+
+    /**
+     * Currently BabbageFaces ignores comments for the sake of saving network bandwith. Should I ever decide to use
+     * comment, this flag is going set to true, and the comment is put in the innerHTML.
+     */
+    private boolean isCommentNode = false;
+
     private boolean isTextNode = false;
 
     private String nodeName = "";
@@ -107,11 +132,6 @@ public class HTMLTag implements Serializable {
      */
     public HTMLTag(Node node, HTMLTag parent) {
         this.parent = parent;
-        if (node.getNodeType() == Node.DOCUMENT_NODE) {
-            // BabbageFaces isn't interested in the document wrapped around the
-            // HTML code
-            node = node.getFirstChild();
-        }
         isTextNode = node.getNodeType() == Node.TEXT_NODE;
         if (isTextNode) {
             innerHTML.append(node.getNodeValue().replace("<", "&lt;").replace(">", "&gt;"));
@@ -119,6 +139,10 @@ public class HTMLTag implements Serializable {
         else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
             isTextNode = true;
             isCDATANode = true;
+            innerHTML.append(node.getNodeValue().trim());
+        }
+        else if (node.getNodeType() == Node.COMMENT_NODE) {
+            isCommentNode = true;
             innerHTML.append(node.getNodeValue().trim());
         }
         else {
@@ -141,7 +165,13 @@ public class HTMLTag implements Serializable {
             if (null != node.getChildNodes()) {
                 for (int i = 0; i < node.getChildNodes().getLength(); i++) {
                     final Node item = node.getChildNodes().item(i);
-                    if ((item.getNodeType() != Node.TEXT_NODE)
+
+                    final short type = item.getNodeType();
+                    if (type == Node.COMMENT_NODE) {
+                        // removes comment nodes to save network bandwith
+                        continue;
+                    }
+                    if ((type != Node.TEXT_NODE)
                             || ((item.getNodeValue() != null) && (item.getNodeValue().trim().length() > 0))) {
                         HTMLTag kid = new HTMLTag(item, this);
                         children.add(kid);
@@ -162,7 +192,7 @@ public class HTMLTag implements Serializable {
      */
     public HTMLTag(String html) {
 
-        this(htmlToDocument(html), null);
+        this(getXMLRootNode(htmlToDocument(html)), null);
 
     }
 
@@ -366,6 +396,16 @@ public class HTMLTag implements Serializable {
     }
 
     /**
+     * Currently BabbageFaces ignores comments for the sake of saving network bandwith. Should I ever decide to use
+     * comment, this flag is going set to true, and the comment is put in the innerHTML.
+     * 
+     * @return the isCommentNode
+     */
+    public boolean isCommentNode() {
+        return this.isCommentNode;
+    }
+
+    /**
      * @return the isTextNode
      */
     public boolean isTextNode() {
@@ -435,6 +475,17 @@ public class HTMLTag implements Serializable {
      */
     public void setChildren(List<HTMLTag> children) {
         this.children = children;
+    }
+
+    /**
+     * Currently BabbageFaces ignores comments for the sake of saving network bandwith. Should I ever decide to use
+     * comment, this flag is going set to true, and the comment is put in the innerHTML.
+     * 
+     * @param isCommentNode
+     *            the isCommentNode to set
+     */
+    public void setCommentNode(boolean isCommentNode) {
+        this.isCommentNode = isCommentNode;
     }
 
     /**

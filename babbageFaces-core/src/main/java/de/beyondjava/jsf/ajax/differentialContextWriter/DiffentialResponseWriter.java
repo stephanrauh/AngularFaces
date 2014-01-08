@@ -27,96 +27,98 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.Diffenc
  * 
  */
 public class DiffentialResponseWriter extends Writer {
-   private static final Logger LOGGER = Logger
-         .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.DiffentialResponseWriter");
+    private static final Logger LOGGER = Logger
+            .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.DiffentialResponseWriter");
 
-   /**
-    * true if partial-response has been written, but the trailing ">" hasn't
-    * been written yet
-    */
-   boolean almostFinished = false;
+    /**
+     * true if partial-response has been written, but the trailing ">" hasn't been written yet
+     */
+    boolean almostFinished = false;
 
-   /** Is it an AJAX request or an HTML request? */
-   boolean isAJAX = false;
+    /** Is it an AJAX request or an HTML request? */
+    boolean isAJAX = false;
 
-   private StringBuffer rawBuffer = new StringBuffer();
+    private StringBuffer rawBuffer = new StringBuffer();
 
-   private boolean rawbufferValid = true;
+    private boolean rawbufferValid = true;
 
-   private Map<String, Object> sessionMap;
+    private Map<String, Object> sessionMap;
 
-   private Writer sunWriter;
+    private Writer sunWriter;
 
-   /**
-    * @param writer
-    * @param sessionMap
-    */
-   public DiffentialResponseWriter(Writer writer, Map<String, Object> sessionMap) {
-      sunWriter = writer;
-      this.sessionMap = sessionMap;
-   }
+    /**
+     * @param writer
+     * @param sessionMap
+     */
+    public DiffentialResponseWriter(Writer writer, Map<String, Object> sessionMap) {
+        sunWriter = writer;
+        this.sessionMap = sessionMap;
+        System.out.println("##### Initializing BabbageFaces DifferentialResponseWriter ##### ");
+    }
 
-   @Override
-   public void close() throws IOException {
-      sunWriter.write(rawBuffer.toString());
-      sunWriter.close();
-      rawBuffer.setLength(0);
-   }
+    @Override
+    public void close() throws IOException {
+        sunWriter.write(rawBuffer.toString());
+        sunWriter.close();
+        rawBuffer.setLength(0);
+    }
 
-   /**
-    * @param s
-    * @throws IOException
-    */
-   private boolean endOfPage(String s) {
-      if (rawBuffer.lastIndexOf("<![CDATA[") > rawBuffer.lastIndexOf("]]>")) {
-         return false;
-      }
-      boolean finished = false;
-      int fin = rawBuffer.length() - 1;
-      if (almostFinished) {
-         finished = true;
-      }
-      else if ((fin > 20) && (rawBuffer.charAt(fin - "partial-response".length()) == '/')
-            && (rawBuffer.charAt(fin - "partial-response".length() - 1) == '<')) {
-         if (s.contains("partial-response")) {
-            almostFinished = true;
-            isAJAX = true;
-         }
-      }
-      if (s.contains("</body>")) {
-         finished = true;
-      }
+    /**
+     * @param s
+     * @throws IOException
+     */
+    private boolean endOfPage(String s) {
+        if (rawBuffer.lastIndexOf("<![CDATA[") > rawBuffer.lastIndexOf("]]>")) {
+            return false;
+        }
+        boolean finished = false;
+        int fin = rawBuffer.length() - 1;
+        if (almostFinished) {
+            finished = true;
+        }
+        else if ((fin > 20) && (rawBuffer.charAt(fin - "partial-response".length()) == '/')
+                && (rawBuffer.charAt(fin - "partial-response".length() - 1) == '<')) {
+            if (s.contains("partial-response")) {
+                almostFinished = true;
+                isAJAX = true;
+            }
+        }
+        if (s.contains("</body>")) {
+            finished = true;
+        }
 
-      return finished;
-   }
+        return finished;
+    }
 
-   @Override
-   public void flush() throws IOException {
-      rawbufferValid = false;
-      LOGGER.warning("DifferentialResponseWriter hasn't been designed to work with flush(). Returning to non-differential mode.");
-      sunWriter.write(rawBuffer.toString());
-      sunWriter.flush();
-      rawBuffer.setLength(0);
-   }
+    @Override
+    public void flush() throws IOException {
+        rawbufferValid = false;
+        LOGGER.warning("DifferentialResponseWriter hasn't been designed to work with flush(). Returning to non-differential mode.");
+        sunWriter.write(rawBuffer.toString());
+        sunWriter.flush();
+        rawBuffer.setLength(0);
+    }
 
-   @Override
-   public void write(char[] cbuf, int off, int len) throws IOException {
-      if (cbuf[off] == '\n') {
-         off++;
-         len--;
-         rawBuffer.append('\n');
-      }
-      String s = new String(cbuf, off, len);
-      rawBuffer.append(s);
-      if (endOfPage(s)) {
-         if (rawbufferValid) {
-            String optimizedResponse = new DiffenceEngine().yieldDifferences(rawBuffer.toString(), sessionMap, isAJAX);
-            sunWriter.write(optimizedResponse);
-         }
-         else {
-            sunWriter.write(rawBuffer.toString());
-         }
-         rawBuffer.setLength(0);
-      }
-   }
+    @Override
+    public void write(char[] cbuf, int off, int len) throws IOException {
+        // System.out.println("##### BabbageFaces ####" + String.valueOf(cbuf, off, len));
+        if (cbuf[off] == '\n') {
+            off++;
+            len--;
+            rawBuffer.append('\n');
+        }
+        String s = new String(cbuf, off, len);
+        rawBuffer.append(s);
+        if (endOfPage(s)) {
+            if (rawbufferValid) {
+                String optimizedResponse = new DiffenceEngine().yieldDifferences(rawBuffer.toString(), sessionMap,
+                        isAJAX);
+                sunWriter.write(optimizedResponse);
+            }
+            else {
+                sunWriter.write(rawBuffer.toString());
+            }
+            rawBuffer.setLength(0);
+        }
+    }
 }

@@ -278,7 +278,8 @@ public class DiffenceEngine {
             int bodyIndex = currentResponse.indexOf("<body>");
             int bodyEndIndex = currentResponse.indexOf("</body>");
             if ((bodyIndex > 0) && (bodyEndIndex > 0)) {
-                currentResponse = currentResponse.substring(0, bodyIndex) + body
+                currentResponse = currentResponse.substring(0, bodyIndex)
+                        + "\n<!-- Optimized by BabbageFaces, an AngularFaces subproject -->\n" + body
                         + currentResponse.substring(bodyEndIndex + "</body>".length());
             }
         }
