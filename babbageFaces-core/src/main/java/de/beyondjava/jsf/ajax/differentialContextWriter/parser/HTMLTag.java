@@ -18,6 +18,7 @@ package de.beyondjava.jsf.ajax.differentialContextWriter.parser;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.*;
 
@@ -31,6 +32,9 @@ import org.xml.sax.*;
 public class HTMLTag implements Serializable {
 
     private transient static DocumentBuilder builder;
+
+    private static final Logger LOGGER = Logger
+            .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DiffenceEngine");
 
     private static final long serialVersionUID = 8958589454536115945L;
 
@@ -93,6 +97,9 @@ public class HTMLTag implements Serializable {
             return domTree;
         }
         catch (SAXException e) {
+            LOGGER.severe("Couldn't parse the HTML oder XML code due to a SAXException");
+            LOGGER.severe(html);
+
             throw new RuntimeException("Couldn't parse the HTML oder XML code due to a SAXException", e);
         }
         catch (IOException e) {
@@ -154,9 +161,14 @@ public class HTMLTag implements Serializable {
                 }
                 if (null != parent) {
                     if ((id == null) || (id.length() == 0)) {
-                        if ("div".equals(nodeName) || "span".equals(nodeName)) {
+                        if ("div".equals(nodeName) || "span".equals(nodeName) || "input".equals(nodeName)
+                                || "li".equals(nodeName) || "ul".equals(nodeName) || "a".equals(nodeName)
+                                || parent.getNodeName().equals("body")) {
                             if ((parent.getId() != null) && (parent.getId().length() > 0)) {
                                 addAttribute("id", parent.getId() + ":" + nodeName + parent.getChildren().size());
+                            }
+                            else if (parent.getNodeName().equals("body")) {
+                                addAttribute("id", parent.getNodeName() + ":" + nodeName + parent.getChildren().size());
                             }
                         }
                     }

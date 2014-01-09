@@ -101,7 +101,6 @@ public class DiffentialResponseWriter extends Writer {
 
     @Override
     public void write(char[] cbuf, int off, int len) throws IOException {
-        // System.out.println("##### BabbageFaces ####" + String.valueOf(cbuf, off, len));
         if (cbuf[off] == '\n') {
             off++;
             len--;
@@ -111,9 +110,15 @@ public class DiffentialResponseWriter extends Writer {
         rawBuffer.append(s);
         if (endOfPage(s)) {
             if (rawbufferValid) {
-                String optimizedResponse = new DiffenceEngine().yieldDifferences(rawBuffer.toString(), sessionMap,
-                        isAJAX);
-                sunWriter.write(optimizedResponse);
+                try {
+                    String optimizedResponse = new DiffenceEngine().yieldDifferences(rawBuffer.toString(), sessionMap,
+                            isAJAX);
+                    sunWriter.write(optimizedResponse);
+                }
+                catch (Exception anyError) {
+                    LOGGER.severe("An error occured when optimizing the AJAX response. I'll use the original response instead.");
+                    sunWriter.write(rawBuffer.toString());
+                }
             }
             else {
                 sunWriter.write(rawBuffer.toString());

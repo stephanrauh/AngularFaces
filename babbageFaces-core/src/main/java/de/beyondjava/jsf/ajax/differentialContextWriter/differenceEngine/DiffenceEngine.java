@@ -80,11 +80,16 @@ public class DiffenceEngine {
             if (null != updates) {
                 for (HTMLTag n : updates) {
                     while ((n.getId() == null) || (n.getId().length() == 0)) {
-                        LOGGER.severe("ID of update shouldn't be void");
                         if (n.getParent() == null) {
-                            LOGGER.severe("  and parent tag is null");
+                            LOGGER.severe("ID of update shouldn't be void - can't be fixed because parent tag is null");
                         }
+                        else {
+                            LOGGER.severe("ID of update shouldn't be void - using the parent instead");
+                        }
+                        LOGGER.info(n.toCompactString());
+
                         n = n.getParent();
+
                     }
                     String partialUpdate = n.toCompactString();
                     String partialID = n.getId();
@@ -251,17 +256,22 @@ public class DiffenceEngine {
      * @return
      */
     public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
+        int originalLength = currentResponse.length();
         final HTMLTag responseWithAdditionalIDs = new HTMLTag(currentResponse);
         boolean atAll = currentResponse.contains("<head"); // update="@all"
         if (isAJAX && differentialEngineActive && (!atAll)) {
+
             HTMLTag domTreeToBeUpdated = retrieveLastKnownHTMLFromSession(sessionMap);
             List<HTMLTag> listOfChanges = extractChangesFromPartialResponse(responseWithAdditionalIDs);
             for (HTMLTag change : listOfChanges) {
                 if (change.getNodeName().equals("update")) {
-                    List<HTMLTag> newPartialChanges = determineNecessaryChangeFromResponse(change, domTreeToBeUpdated);
-                    if ((null != newPartialChanges)) {
-                        currentResponse = optimizeResponse(currentResponse, domTreeToBeUpdated, change,
-                                newPartialChanges);
+                    if (!change.getId().contains("javax.faces.ViewState")) {
+                        List<HTMLTag> newPartialChanges = determineNecessaryChangeFromResponse(change,
+                                domTreeToBeUpdated);
+                        if ((null != newPartialChanges)) {
+                            currentResponse = optimizeResponse(currentResponse, domTreeToBeUpdated, change,
+                                    newPartialChanges);
+                        }
                         updateHTMLTag(domTreeToBeUpdated, change.getFirstChild(), change.getId());
                     }
 
@@ -283,6 +293,10 @@ public class DiffenceEngine {
                         + currentResponse.substring(bodyEndIndex + "</body>".length());
             }
         }
+        int optimizedLength = currentResponse.length();
+        LOGGER.info("#### BabbageFaces optimization result:");
+        LOGGER.info("Original response:  " + originalLength + " bytes");
+        LOGGER.info("Optimized response: " + optimizedLength + " bytes");
         return currentResponse;
     }
 
