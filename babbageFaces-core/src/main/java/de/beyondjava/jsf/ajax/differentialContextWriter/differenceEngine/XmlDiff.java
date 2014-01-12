@@ -200,7 +200,7 @@ public class XmlDiff {
             }
         }
         if (needsUpdate) {
-            LOGGER.info("HTMLTags contain different ids or descriptions, so they require update of parent.");
+            LOGGER.fine("HTMLTags contain different ids or descriptions, so they require update of parent.");
             return GLOBAL_CHANGE_REQUIRED;
         }
 
@@ -212,7 +212,7 @@ public class XmlDiff {
             HTMLTag oldTag = (oldHTMLTags.get(indexOld));
             final HTMLTag newTag = newHTMLTags.get(indexNew);
             if (!tagsAreEqualOrCanBeChangedLocally(oldTag, newTag, updates, deletions, attributeChanges, inserts)) {
-                LOGGER.info("HTMLTags are different, require update of parent. Old HTMLTag:" + oldTag.getDescription()
+                LOGGER.fine("HTMLTags are different, require update of parent. Old HTMLTag:" + oldTag.getDescription()
                         + " new HTMLTag: " + newTag.getDescription());
                 if ((oldTag.getId() != null) && (oldTag.getId().length() > 0)) {
                     localUpdates.add(newTag);
@@ -225,15 +225,15 @@ public class XmlDiff {
             indexNew++;
         }
         if (localDeletions.size() > 0) {
-            LOGGER.info("Adding HTMLTag deletions");
+            LOGGER.fine("Adding HTMLTag deletions");
             deletions.addAll(localDeletions);
         }
         if (localInserts.size() > 0) {
-            LOGGER.info("Adding HTMLTag insertions");
+            LOGGER.fine("Adding HTMLTag insertions");
             inserts.addAll(localInserts);
         }
         if (localUpdates.size() > 0) {
-            LOGGER.info("Adding HTMLTag update");
+            LOGGER.fine("Adding HTMLTag update");
             updates.addAll(localUpdates);
         }
 
@@ -267,9 +267,12 @@ public class XmlDiff {
                                 return true; // global change required
                             }
                         }
-                        s = "<insert id=\"" + idOfNewTag + "\"><before id=\""
-                                + parent.getChildren().get(index + offset).getId() + "\"><![CDATA[" + temporaryDiv
-                                + "]]></before></insert>";
+                        final String idOfSibling = parent.getChildren().get(index + offset).getId();
+                        if ((null == idOfSibling) || (idOfSibling.length() == 0)) {
+                            return true;
+                        }
+                        s = "<insert id=\"" + idOfNewTag + "\"><before id=\"" + idOfSibling + "\"><![CDATA["
+                                + temporaryDiv + "]]></before></insert>";
                     }
                     else {
                         int offset = 1;
@@ -279,9 +282,12 @@ public class XmlDiff {
                                 return true; // global change required
                             }
                         }
-                        s = "<insert id=\"" + idOfNewTag + "\"><after id=\""
-                                + parent.getChildren().get(index - offset).getId() + "\"><![CDATA[" + temporaryDiv
-                                + "]]></after></insert>";
+                        final String idOfSibling = parent.getChildren().get(index - offset).getId();
+                        if ((null == idOfSibling) || (idOfSibling.length() == 0)) {
+                            return true;
+                        }
+                        s = "<insert id=\"" + idOfNewTag + "\"><after id=\"" + idOfSibling + "\"><![CDATA["
+                                + temporaryDiv + "]]></after></insert>";
                     }
                     inserts.add(s);
                     // needed to fix a Mojarra bug
@@ -318,7 +324,7 @@ public class XmlDiff {
                 }
             }
             else {
-                System.out.println("Empty tag!");
+                LOGGER.severe("Empty tag!");
             }
         }
         return nonEmpty;
@@ -436,7 +442,7 @@ public class XmlDiff {
         List<String> localAttributeChanges = new ArrayList<>();
         if (GLOBAL_CHANGE_REQUIRED == attributesAreEqualOrCanBeChangedLocally(oldHTMLTag, newHTMLTag,
                 localAttributeChanges)) {
-            LOGGER.info("Attributes are so different that they require update of parent. Old HTMLTag:"
+            LOGGER.fine("Attributes are so different that they require update of parent. Old HTMLTag:"
                     + oldHTMLTag.getDescription() + " new HTMLTag: " + newHTMLTag.getDescription());
             return GLOBAL_CHANGE_REQUIRED;
         }

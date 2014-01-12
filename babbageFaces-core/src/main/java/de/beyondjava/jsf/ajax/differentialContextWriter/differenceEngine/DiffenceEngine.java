@@ -51,6 +51,9 @@ public class DiffenceEngine {
             String changingHTML = change.getFirstChild().getInnerHTML().toString().trim();
 
             HTMLTag lastKnownCorrespondingHTMLTag = lastKnownDOMTree.findByID(id);
+            if (null == lastKnownCorrespondingHTMLTag) {
+                throw new IllegalArgumentException("Couldn't find id " + id + " in the last known DOM tree");
+            }
             List<String> deletions = new ArrayList<>();
             List<String> attributeChanges = new ArrayList<>();
             List<String> inserts = new ArrayList<>();
@@ -86,7 +89,7 @@ public class DiffenceEngine {
                         else {
                             LOGGER.severe("ID of update shouldn't be void - using the parent instead");
                         }
-                        LOGGER.info(n.toCompactString());
+                        LOGGER.fine(n.toCompactString());
 
                         n = n.getParent();
 
@@ -104,7 +107,7 @@ public class DiffenceEngine {
             return partialChanges;
         }
         else {
-            LOGGER.info(change.getNodeName() + " - remains unchanged");
+            LOGGER.fine(change.getNodeName() + " - remains unchanged");
         }
         return null;
 
@@ -286,6 +289,9 @@ public class DiffenceEngine {
             sessionMap.put(LAST_KNOWN_HTML_KEY, responseWithAdditionalIDs);
             String body = responseWithAdditionalIDs.getChildren().get(1).toString();
             int bodyIndex = currentResponse.indexOf("<body>");
+            if (bodyIndex < 0) {
+                bodyIndex = currentResponse.indexOf("<body ");
+            }
             int bodyEndIndex = currentResponse.indexOf("</body>");
             if ((bodyIndex > 0) && (bodyEndIndex > 0)) {
                 currentResponse = currentResponse.substring(0, bodyIndex)
@@ -294,9 +300,9 @@ public class DiffenceEngine {
             }
         }
         int optimizedLength = currentResponse.length();
-        LOGGER.info("#### BabbageFaces optimization result:");
-        LOGGER.info("Original response:  " + originalLength + " bytes");
-        LOGGER.info("Optimized response: " + optimizedLength + " bytes");
+        LOGGER.fine("#### BabbageFaces optimization result:");
+        LOGGER.fine("Original response:  " + originalLength + " bytes");
+        LOGGER.fine("Optimized response: " + optimizedLength + " bytes");
         return currentResponse;
     }
 
