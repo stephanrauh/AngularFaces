@@ -6,6 +6,9 @@
     <versions>
       <version>4.1-SNAPSHOT</version>
     </versions>
+    <versions>
+      <version>5.0-SNAPSHOT</version>
+    </versions>
     <lastUpdated>20131231185700</lastUpdated>
   </versioning>
 </metadata>

@@ -19,13 +19,18 @@ package de.beyondjava.jsfComponents.searchExpressions;
 import org.primefaces.expression.SearchExpressionResolverFactory;
 
 public class SearchExpressionResolverFactoryExtension {
-   private static boolean initialized = false;
+    private static boolean initialized = false;
 
-   public static void init() {
-      if (!initialized) {
-         initialized = true;
-         SearchExpressionResolverFactory.registerResolver("@first", new FirstExpressionResolver());
-         SearchExpressionResolverFactory.registerResolver("@last", new LastExpressionResolver());
-      }
-   }
+    public static void init() {
+        if (!initialized) {
+            initialized = true;
+            SearchExpressionResolverFactory.registerResolver("@first", new FirstExpressionResolver());
+            SearchExpressionResolverFactory.registerResolver("@last", new LastExpressionResolver());
+            SearchExpressionResolverFactory.registerResolver("@body", new BodyExpressionResolver());
+            SearchExpressionResolverFactory.registerResolver("@head", new HeadExpressionResolver());
+            // SearchExpressionResolverFactory.registerResolver("@surrounding", new SurroundingExpressionResolver());
+            SearchExpressionResolverFactory.registerResolver("@content", new ContentExpressionResolver());
+            // SearchExpressionResolverFactory.registerResolver("@class", new ClassExpressionResolver());
+        }
+    }
 }

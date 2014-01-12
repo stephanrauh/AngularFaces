@@ -1,0 +1,18 @@
+#NOTE: This is an internal implementation file, its format can be changed without prior notice.
+#Sat Jan 11 22:08:52 CET 2014
+https\://maven.java.net/content/groups/staging/.error=
+http\://repository.sonarsource.org/content/repositories/sonar/.error=
+https\://repository.jboss.org/nexus/content/groups/public-jboss/.error=
+https\://maven.java.net/content/groups/staging/.lastUpdated=1389474530482
+https\://maven.java.net/content/repositories/snapshots/.lastUpdated=1389474532142
+file\://lib/.error=
+https\://repository.apache.org/content/repositories/snapshots/.error=
+https\://repository.apache.org/content/repositories/snapshots/.lastUpdated=1389474527879
+https\://maven.java.net/content/groups/public/.lastUpdated=1389474529610
+https\://maven.java.net/content/repositories/releases/.lastUpdated=1389474531312
+https\://maven.java.net/content/groups/public/.error=
+https\://maven.java.net/content/repositories/snapshots/.error=
+http\://repository.sonarsource.org/content/repositories/sonar/.lastUpdated=1389474526846
+https\://repository.jboss.org/nexus/content/groups/public-jboss/.lastUpdated=1389474528771
+file\://lib/.lastUpdated=1389474440301
+https\://maven.java.net/content/repositories/releases/.error=
