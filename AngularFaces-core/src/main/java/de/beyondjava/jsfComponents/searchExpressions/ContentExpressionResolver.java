@@ -32,6 +32,9 @@ import org.primefaces.expression.SearchExpressionResolver;
 public class ContentExpressionResolver implements SearchExpressionResolver {
     @Override
     public UIComponent resolve(UIComponent source, UIComponent last, String expression) {
+        if (true) {
+            throw new IllegalAccessError("@content hasn't been implemented yet.");
+        }
         UIComponent surrounding = source;
         while (null != surrounding) {
             if (surrounding.getClass() == HtmlBody.class) {

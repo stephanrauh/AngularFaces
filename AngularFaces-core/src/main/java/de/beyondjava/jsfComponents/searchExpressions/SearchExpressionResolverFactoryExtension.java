@@ -28,8 +28,7 @@ public class SearchExpressionResolverFactoryExtension {
             SearchExpressionResolverFactory.registerResolver("@last", new LastExpressionResolver());
             SearchExpressionResolverFactory.registerResolver("@body", new BodyExpressionResolver());
             SearchExpressionResolverFactory.registerResolver("@head", new HeadExpressionResolver());
-            // SearchExpressionResolverFactory.registerResolver("@surrounding", new SurroundingExpressionResolver());
-            SearchExpressionResolverFactory.registerResolver("@content", new ContentExpressionResolver());
+            // SearchExpressionResolverFactory.registerResolver("@content", new ContentExpressionResolver());
             // SearchExpressionResolverFactory.registerResolver("@class", new ClassExpressionResolver());
         }
     }
