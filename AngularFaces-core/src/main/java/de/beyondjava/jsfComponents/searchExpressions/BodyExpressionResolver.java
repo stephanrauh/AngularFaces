@@ -38,9 +38,6 @@ public class BodyExpressionResolver implements SearchExpressionResolver {
                 return surrounding;
             }
             String rendererType = surrounding.getRendererType();
-            System.out.println(surrounding.getClass().getName());
-            System.out.println(rendererType);
-            System.out.println(surrounding.getId());
             if ((rendererType != null) && rendererType.contains("Body")) {
                 if ((surrounding.getId() == null) || surrounding.getId().startsWith(UIViewRoot.UNIQUE_ID_PREFIX)) {
                     throw new FacesException("Please add an id to the body tag.");
