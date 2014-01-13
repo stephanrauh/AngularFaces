@@ -261,14 +261,19 @@ public class DiffenceEngine {
     public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
         int originalLength = currentResponse.length();
         final HTMLTag responseWithAdditionalIDs = new HTMLTag(currentResponse);
-        boolean atAll = currentResponse.contains("<head"); // update="@all"
-        if (isAJAX && differentialEngineActive && (!atAll)) {
+        if (isAJAX && differentialEngineActive) {
 
             HTMLTag domTreeToBeUpdated = retrieveLastKnownHTMLFromSession(sessionMap);
             List<HTMLTag> listOfChanges = extractChangesFromPartialResponse(responseWithAdditionalIDs);
             for (HTMLTag change : listOfChanges) {
                 if (change.getNodeName().equals("update")) {
-                    if (!change.getId().contains("javax.faces.ViewState")) {
+                    if (change.getId().equals("javax.faces.ViewRoot")) {
+                        HTMLTag newDom = new HTMLTag(change.getFirstChild().getInnerHTML().toString());
+                        domTreeToBeUpdated = newDom;
+                        sessionMap.remove(LAST_KNOWN_HTML_KEY);
+                        sessionMap.put(LAST_KNOWN_HTML_KEY, newDom);
+                    }
+                    else if (!change.getId().contains("javax.faces.ViewState")) {
                         List<HTMLTag> newPartialChanges = determineNecessaryChangeFromResponse(change,
                                 domTreeToBeUpdated);
                         if ((null != newPartialChanges)) {

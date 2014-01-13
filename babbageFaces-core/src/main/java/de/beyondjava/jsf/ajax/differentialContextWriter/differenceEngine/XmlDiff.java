@@ -271,7 +271,7 @@ public class XmlDiff {
                             break;
                         }
                     }
-                    if (!isScriptNode) {
+                    if (!isScriptNode && ((index - offset) >= 0)) {
                         final String idOfSibling = parent.getChildren().get(index - offset).getId();
                         if ((null != idOfSibling) && (idOfSibling.length() > 0)) {
                             s = "<insert id=\"" + idOfNewTag + "\"><after id=\"" + idOfSibling + "\"><![CDATA["
