@@ -118,6 +118,7 @@ public class DiffentialResponseWriter extends Writer {
                 catch (Exception anyError) {
                     LOGGER.severe("An error occured when optimizing the AJAX response. I'll use the original response instead.");
                     LOGGER.severe(anyError.toString());
+                    anyError.printStackTrace();
                     sunWriter.write(rawBuffer.toString());
                 }
             }

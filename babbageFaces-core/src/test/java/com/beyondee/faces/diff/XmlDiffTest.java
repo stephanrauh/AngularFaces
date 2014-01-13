@@ -28,54 +28,56 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.XmlDiff
 import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
 
 public class XmlDiffTest {
-   public List<String> diff(int testNr) {
-      try {
-         String oldHTMLString = FileUtils.readFileToString(new File("target/test-classes/test" + testNr + "-old.xml"));
-         String newHTMLString = FileUtils.readFileToString(new File("target/test-classes/test" + testNr + "-new.xml"));
-         HTMLTag oldHTMLTag = new HTMLTag(oldHTMLString);
-         HTMLTag newHTMLTag = new HTMLTag(newHTMLString);
+    public List<String> diff(int testNr) {
+        try {
+            String oldHTMLString = FileUtils
+                    .readFileToString(new File("target/test-classes/test" + testNr + "-old.xml"));
+            String newHTMLString = FileUtils
+                    .readFileToString(new File("target/test-classes/test" + testNr + "-new.xml"));
+            HTMLTag oldHTMLTag = new HTMLTag(oldHTMLString);
+            HTMLTag newHTMLTag = new HTMLTag(newHTMLString);
 
-         List<String> deletions = new ArrayList<>();
-         List<String> changes = new ArrayList<>();
-         List<String> insertions = new ArrayList<>();
+            List<String> deletions = new ArrayList<>();
+            List<String> changes = new ArrayList<>();
+            List<String> insertions = new ArrayList<>();
 
-         List<HTMLTag> updates = new ArrayList<>();
-         XmlDiff
-               .tagsAreEqualOrCanBeChangedLocally(oldHTMLTag, newHTMLTag,updates, deletions, changes, insertions);
-         List<String> result = new ArrayList<>();
-         result.addAll(deletions);
-         result.addAll(changes);
-         result.addAll(insertions);
-         for (HTMLTag u : updates) {
-            result.add(u.toCompactString());
-         }
-         return result;
-      }
-      catch (Exception e) {
-         throw new RuntimeException(e);
-      }
-   }
+            List<HTMLTag> updates = new ArrayList<>();
+            XmlDiff.tagsAreEqualOrCanBeChangedLocally(oldHTMLTag, newHTMLTag, updates, deletions, changes, insertions);
+            List<String> result = new ArrayList<>();
+            result.addAll(deletions);
+            result.addAll(changes);
+            result.addAll(insertions);
+            for (HTMLTag u : updates) {
+                result.add(u.toCompactString());
+            }
+            return result;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-   @Test
-   public void test1() {
-      List<String> updates = diff(1);
-      assertEquals(2, updates.size());
-      assertEquals("<firstname id=\"f1\">low1</firstname>", updates.get(0));
-      assertEquals("<salary id=\"s\"><test2>200000</test2></salary>", updates.get(1));
-   }
+    @Test
+    public void test1() {
+        List<String> updates = diff(1);
+        assertEquals(2, updates.size());
+        assertEquals("<firstname id=\"f1\">low1</firstname>", updates.get(0));
+        assertEquals("<salary id=\"s\"><test2>200000</test2></salary>", updates.get(1));
+    }
 
-   @Test
-   public void test2() {
-      List<String> updates = diff(2);
-      assertEquals(6, updates.size());
-      assertEquals("<insert id=\"s1001\"><after id=\"\"><![CDATA[<div id=\"s1001\" />]]></after></insert>",
-            updates.get(0));
-      assertEquals("<insert id=\"t\"><after id=\"s2001\"><![CDATA[<div id=\"t\" />]]></after></insert>", updates.get(1));
-      assertEquals("<someNewTag id=\"s1001\"><test2>200000</test2></someNewTag>", updates.get(2));
-      assertEquals("<firstname id=\"f1\">low1</firstname>", updates.get(3));
-      assertEquals("<salary id=\"s2001\"><test2>200000</test2></salary>", updates.get(4));
-      assertEquals("<someNewTag id=\"t\"><test2>200000</test2></someNewTag>", updates.get(5));
+    @Test
+    public void test2() {
+        List<String> updates = diff(2);
+        assertEquals(6, updates.size());
+        assertEquals("<insert id=\"s1001\"><after id=\"salaryID\"><![CDATA[<div id=\"s1001\" />]]></after></insert>",
+                updates.get(0));
+        assertEquals("<insert id=\"t\"><after id=\"s2001\"><![CDATA[<div id=\"t\" />]]></after></insert>",
+                updates.get(1));
+        assertEquals("<someNewTag id=\"s1001\"><test2>200000</test2></someNewTag>", updates.get(2));
+        assertEquals("<firstname id=\"f1\">low1</firstname>", updates.get(3));
+        assertEquals("<salary id=\"s2001\"><test2>200000</test2></salary>", updates.get(4));
+        assertEquals("<someNewTag id=\"t\"><test2>200000</test2></someNewTag>", updates.get(5));
 
-   }
+    }
 
 }

@@ -4,7 +4,7 @@
 		<firstname>yong</firstname>
 		<lastname>mook kim</lastname>
 		<nickname>mkyong</nickname>
-		<salary>100000</salary>
+		<salary id="salaryID">100000</salary>
 		<someNewTag id="s1001"><test2>200000</test2></someNewTag>
 	</staff>
 	<staff id="2001">

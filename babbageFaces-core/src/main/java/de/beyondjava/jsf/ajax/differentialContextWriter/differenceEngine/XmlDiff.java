@@ -258,36 +258,44 @@ public class XmlDiff {
                     final String idOfNewTag = insert.getId();
                     // needed to fix a Mojarra bug
                     String temporaryDiv = "<div id=\"" + idOfNewTag + "\" />";
-                    String s;
-                    if (index == 0) {
-                        int offset = 1;
-                        while ("script".equals(parent.getChildren().get(index + offset).getNodeName())) {
-                            offset++;
-                            if ((index + offset) >= parent.getChildren().size()) {
-                                return true; // global change required
-                            }
+                    String s = null;
+
+                    // try to insert the new node before a node bearing an id
+                    boolean isScriptNode = false;
+                    int offset = 1;
+                    while (((index - offset) >= 0)
+                            && "script".equals(parent.getChildren().get(index - offset).getNodeName())) {
+                        offset++;
+                        if ((index - offset) < 0) {
+                            isScriptNode = true;
+                            break;
                         }
-                        final String idOfSibling = parent.getChildren().get(index + offset).getId();
-                        if ((null == idOfSibling) || (idOfSibling.length() == 0)) {
-                            return true;
-                        }
-                        s = "<insert id=\"" + idOfNewTag + "\"><before id=\"" + idOfSibling + "\"><![CDATA["
-                                + temporaryDiv + "]]></before></insert>";
                     }
-                    else {
-                        int offset = 1;
-                        while ("script".equals(parent.getChildren().get(index - offset).getNodeName())) {
-                            offset++;
-                            if ((index - offset) < 0) {
-                                return true; // global change required
-                            }
-                        }
+                    if (!isScriptNode) {
                         final String idOfSibling = parent.getChildren().get(index - offset).getId();
-                        if ((null == idOfSibling) || (idOfSibling.length() == 0)) {
-                            return true;
+                        if ((null != idOfSibling) && (idOfSibling.length() > 0)) {
+                            s = "<insert id=\"" + idOfNewTag + "\"><after id=\"" + idOfSibling + "\"><![CDATA["
+                                    + temporaryDiv + "]]></after></insert>";
                         }
-                        s = "<insert id=\"" + idOfNewTag + "\"><after id=\"" + idOfSibling + "\"><![CDATA["
-                                + temporaryDiv + "]]></after></insert>";
+                    }
+
+                    if (null == s) {
+                        // try to insert the new node after a node bearing an id
+                        if (index == 0) {
+                            offset = 1;
+                            while ("script".equals(parent.getChildren().get(index + offset).getNodeName())) {
+                                offset++;
+                                if ((index + offset) >= parent.getChildren().size()) {
+                                    return true; // global change required
+                                }
+                            }
+                            final String idOfSibling = parent.getChildren().get(index + offset).getId();
+                            if ((null == idOfSibling) || (idOfSibling.length() == 0)) {
+                                return true;
+                            }
+                            s = "<insert id=\"" + idOfNewTag + "\"><before id=\"" + idOfSibling + "\"><![CDATA["
+                                    + temporaryDiv + "]]></before></insert>";
+                        }
                     }
                     inserts.add(s);
                     // needed to fix a Mojarra bug
