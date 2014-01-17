@@ -20,6 +20,8 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
+import javax.faces.application.ProjectStage;
+import javax.faces.context.FacesContext;
 import javax.xml.parsers.*;
 
 import org.w3c.dom.*;
@@ -78,6 +80,7 @@ public class HTMLTag implements Serializable {
      * @param html
      */
     private static Document htmlToDocument(String html) {
+        long DEBUG_startTime = System.nanoTime();
         if (html.trim().startsWith("<?")) {
             int pos = html.indexOf("?>");
             if (pos > 0) {
@@ -94,10 +97,14 @@ public class HTMLTag implements Serializable {
 
         try { // <!DOCTYPE composition>
             Document domTree = builder.parse(inputSource);
+            long DEBUG_time = System.nanoTime() - DEBUG_startTime;
+            if (FacesContext.getCurrentInstance().getApplication().getProjectStage() == ProjectStage.Development) {
+                LOGGER.info("HTML Parser took " + (((DEBUG_time) / 1000) / 1000.0d) + " ms");
+            }
             return domTree;
         }
         catch (SAXException e) {
-            LOGGER.severe("Couldn't parse the HTML oder XML code due to a SAXException");
+            LOGGER.severe("Couldn't parse the HTML oder XML code due to a SAXException. The HTML code is:");
             LOGGER.severe(html);
 
             throw new RuntimeException("Couldn't parse the HTML oder XML code due to a SAXException", e);
@@ -163,6 +170,7 @@ public class HTMLTag implements Serializable {
                     if ((id == null) || (id.length() == 0)) {
                         if ("div".equals(nodeName) || "span".equals(nodeName) || "input".equals(nodeName)
                                 || "li".equals(nodeName) || "ul".equals(nodeName) || "a".equals(nodeName)
+                                || "table".equals(nodeName) || "tr".equals(nodeName) || "td".equals(nodeName)
                                 || parent.getNodeName().equals("body")) {
                             if ((parent.getId() != null) && (parent.getId().length() > 0)) {
                                 addAttribute("id", parent.getId() + ":" + nodeName + parent.getChildren().size());

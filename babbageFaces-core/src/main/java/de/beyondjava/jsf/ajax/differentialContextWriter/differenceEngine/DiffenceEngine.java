@@ -20,6 +20,9 @@ package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 import java.util.*;
 import java.util.logging.Logger;
 
+import javax.faces.application.ProjectStage;
+import javax.faces.context.FacesContext;
+
 import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
 
 /**
@@ -31,6 +34,8 @@ public class DiffenceEngine {
 
     private static final Logger LOGGER = Logger
             .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DiffenceEngine");
+
+    final boolean isDeveloperMode = FacesContext.getCurrentInstance().getApplication().getProjectStage() == ProjectStage.Development;
 
     final String LAST_KNOWN_HTML_KEY = "com.beyondEE.faces.diff.lastKnownHTML";
 
@@ -304,10 +309,16 @@ public class DiffenceEngine {
                         + currentResponse.substring(bodyEndIndex + "</body>".length());
             }
         }
-        int optimizedLength = currentResponse.length();
-        LOGGER.fine("#### BabbageFaces optimization result:");
-        LOGGER.fine("Original response:  " + originalLength + " bytes");
-        LOGGER.fine("Optimized response: " + optimizedLength + " bytes");
+        if (isDeveloperMode) {
+            int optimizedLength = currentResponse.length();
+
+            LOGGER.info("##################################################################################");
+            // LOGGER.info(currentResponse);
+            LOGGER.info("##################################################################################");
+            LOGGER.info("#### BabbageFaces optimization result:");
+            LOGGER.info("Original response:  " + originalLength + " bytes");
+            LOGGER.info("Optimized response: " + optimizedLength + " bytes");
+        }
         return currentResponse;
     }
 
