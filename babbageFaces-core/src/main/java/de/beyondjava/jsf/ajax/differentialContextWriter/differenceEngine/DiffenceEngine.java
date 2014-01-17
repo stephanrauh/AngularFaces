@@ -94,7 +94,9 @@ public class DiffenceEngine {
                         else {
                             LOGGER.severe("ID of update shouldn't be void - using the parent instead");
                         }
-                        LOGGER.fine(n.toCompactString());
+                        if (isDeveloperMode) {
+                            LOGGER.fine(n.toCompactString());
+                        }
 
                         n = n.getParent();
 
@@ -131,18 +133,26 @@ public class DiffenceEngine {
             XmlDiff.tagsAreEqualOrCanBeChangedLocally(lastKnownCorrespondingHTMLTag, newDOM, updates, deletions,
                     attributeChanges, inserts);
             for (HTMLTag d : updates) {
-                LOGGER.fine("Updates: " + d);
-                // JUnitTestCreator.generateJUnitTest(newDOM,
-                // lastKnownCorrespondingHTMLTag, updates);
+                if (isDeveloperMode) {
+                    LOGGER.fine("Updates: " + d);
+                    // JUnitTestCreator.generateJUnitTest(newDOM,
+                    // lastKnownCorrespondingHTMLTag, updates);
+                }
             }
             for (String d : deletions) {
-                LOGGER.fine("Deletion: " + d);
+                if (isDeveloperMode) {
+                    LOGGER.fine("Deletion: " + d);
+                }
             }
             for (String d : attributeChanges) {
-                LOGGER.fine("Change: " + d);
+                if (isDeveloperMode) {
+                    LOGGER.fine("Change: " + d);
+                }
             }
             for (String d : inserts) {
-                LOGGER.fine("Insertion: " + d);
+                if (isDeveloperMode) {
+                    LOGGER.fine("Insertion: " + d);
+                }
             }
             return updates;
         }
@@ -186,7 +196,6 @@ public class DiffenceEngine {
             String currentResponseEnd = currentResponse.substring(end + "</update>".length());
             String tmpCurrentResponse = currentResponse.substring(0, start);
             for (HTMLTag changeDefinition : newPartialChanges) {
-                // TODO: eval() zum Löschen der Attribute berücksichtigen;
                 tmpCurrentResponse += changeDefinition.toCompactString();
                 String idOfCurrentChange = changeDefinition.getId();
                 if ((idOfCurrentChange == null) || (idOfCurrentChange.length() == 0)) {
@@ -312,7 +321,7 @@ public class DiffenceEngine {
         if (isDeveloperMode) {
             int optimizedLength = currentResponse.length();
 
-            LOGGER.info("##################################################################################");
+            // LOGGER.info("##################################################################################");
             // LOGGER.info(currentResponse);
             LOGGER.info("##################################################################################");
             LOGGER.info("#### BabbageFaces optimization result:");

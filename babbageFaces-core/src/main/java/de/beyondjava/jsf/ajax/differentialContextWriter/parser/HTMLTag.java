@@ -273,7 +273,13 @@ public class HTMLTag implements Serializable {
                 // look at every child but the last one (because the last node
                 // can't be followed by a Javascript node)
                 if (child.getId().equals(idOfCurrentChange)) {
-                    return getChildren().get(i + 1);
+                    final HTMLTag candidate = getChildren().get(i + 1);
+                    if ("script".equals(candidate.getNodeName())) {
+                        return candidate;
+                    }
+                    else {
+                        return null;
+                    }
                 }
             }
 
