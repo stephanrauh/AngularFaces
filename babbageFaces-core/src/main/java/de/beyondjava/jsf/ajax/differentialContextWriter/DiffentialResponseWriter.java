@@ -30,19 +30,22 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.Diffenc
  * 
  */
 public class DiffentialResponseWriter extends Writer {
+    private static long DEBUG_EndOfPageCalculationCumulated = 0l;
+
+    private static long DEBUG_OptimizationTimeCumulated = 0l;
+
+    private static long DEBUG_timerCumulated = 0l;
+
+    private static long DEBUG_totalTimeCumulated = 0l;
     private static final Logger LOGGER = Logger
             .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.DiffentialResponseWriter");
-
     /**
      * true if partial-response has been written, but the trailing ">" hasn't been written yet
      */
     boolean almostFinished = false;
-
     private boolean containsHTMLTag = false;
-
     private long DEBUG_EndOfPageCalculation = 0l;
     private long DEBUG_timer = 0l;
-
     private long DEBUG_totalTimeStart = 0l;
 
     /** Is it an AJAX request or an HTML request? */
@@ -85,10 +88,10 @@ public class DiffentialResponseWriter extends Writer {
      */
     private boolean endOfPage(String s) {
         if (!containsHTMLTag) {
-            containsHTMLTag |= s.equals("html");
-        }
-        if (rawBuffer.lastIndexOf("<![CDATA[") > rawBuffer.lastIndexOf("]]>")) {
-            return false;
+            int start = rawBuffer.length() - s.length() - "<html".length();
+            if (rawBuffer.indexOf("<html", start) > 0) {
+                containsHTMLTag = true;
+            }
         }
         boolean finished = false;
         int fin = rawBuffer.length() - 1;
@@ -98,17 +101,26 @@ public class DiffentialResponseWriter extends Writer {
         else if ((fin > 20) && (rawBuffer.charAt(fin - "partial-response".length()) == '/')
                 && (rawBuffer.charAt(fin - "partial-response".length() - 1) == '<')) {
             if (s.contains("partial-response")) {
-                almostFinished = true;
-                isAJAX = true;
+                if (rawBuffer.lastIndexOf("<![CDATA[") < rawBuffer.lastIndexOf("]]>")) {
+                    almostFinished = true;
+                    isAJAX = true;
+                }
             }
         }
 
         if (containsHTMLTag) {
-            if (s.contains("</html>")) {
+            int start = rawBuffer.length() - s.length() - "</html>".length();
+            if (rawBuffer.indexOf("</html>", start) > 0) {
+                if (rawBuffer.lastIndexOf("<![CDATA[") > rawBuffer.lastIndexOf("]]>")) {
+                    return false;
+                }
                 finished = true;
             }
         }
         else if (s.contains("</body>")) {
+            if (rawBuffer.lastIndexOf("<![CDATA[") > rawBuffer.lastIndexOf("]]>")) {
+                return false;
+            }
             finished = true;
         }
 
@@ -164,10 +176,23 @@ public class DiffentialResponseWriter extends Writer {
             DEBUG_timer += (DEBUG_endTime - DEBUG_StartTime);
             if (DEBUG_Finished) {
                 long total = (System.nanoTime() - DEBUG_totalTimeStart);
-                LOGGER.info("Total rendering time:       " + ((total / 1000) / 1000.0) + " ms");
-                LOGGER.info("  BabbageFaces Overhead:    " + ((DEBUG_timer / 1000) / 1000.0) + " ms");
-                LOGGER.info("  BabbageFaces optimization: " + ((DEBUG_OptimizationTime / 1000) / 1000.0) + " ms");
-                LOGGER.info("  BabbageFaces End-of-Page: " + ((DEBUG_EndOfPageCalculation / 1000) / 1000.0) + " ms");
+
+                if (total < (50 * 1000 * 1000)) {
+                    // we don't want to measure database access times
+                    DEBUG_timerCumulated += DEBUG_timer;
+                    DEBUG_totalTimeCumulated += total;
+                    DEBUG_OptimizationTimeCumulated += DEBUG_OptimizationTime;
+                    DEBUG_EndOfPageCalculationCumulated += DEBUG_EndOfPageCalculation;
+                }
+
+                LOGGER.info("Total rendering time:       " + ((total / 1000) / 1000.0) + " ms   Cumulated: "
+                        + ((DEBUG_totalTimeCumulated / 1000) / 1000.0) + " ms");
+                LOGGER.info("BabbageFaces Overhead:    " + ((DEBUG_timer / 1000) / 1000.0) + " ms   Cumulated: "
+                        + ((DEBUG_timerCumulated / 1000) / 1000.0) + " ms");
+                LOGGER.info("BabbageFaces optimization: " + ((DEBUG_OptimizationTime / 1000) / 1000.0)
+                        + " ms   Cumulated: " + ((DEBUG_OptimizationTimeCumulated / 1000) / 1000.0) + " ms");
+                LOGGER.info("BabbageFaces End-of-Page: " + ((DEBUG_EndOfPageCalculation / 1000) / 1000.0)
+                        + " ms   Cumulated: " + ((DEBUG_EndOfPageCalculationCumulated / 1000) / 1000.0) + " ms");
             }
         }
     }

@@ -562,31 +562,54 @@ public class HTMLTag implements Serializable {
      * @return the HTML code as a single line
      */
     public String toCompactString() {
+        StringBuffer s = new StringBuffer();
+        return toCompactString(s).toString();
+    }
+
+    /**
+     * Returns a formatted representation of the HTML tag suited ideally for runtime.
+     * 
+     * @return the HTML code as a single line
+     */
+    public StringBuffer toCompactString(StringBuffer result) {
+
         if (isCDATANode) {
-            return "<![CDATA[" + innerHTML.toString() + "]]>";
+            result.append("<![CDATA[");
+            result.append(innerHTML);
+            result.append("]]>");
+            return result;
         }
         else if (isTextNode) {
-            return innerHTML.toString();
+            result.append(innerHTML);
+            return result;
         }
         else {
-            String result = "<" + nodeName + attributesToString();
+            result.append("<");
+            result.append(nodeName);
+            result.append(attributesToString());
             if ((children.size() == 0) && (innerHTML.length() == 0)) {
-                result += "></" + nodeName + ">";
+                result.append("></");
+                result.append(nodeName);
+                result.append(">");
             }
             else {
-                result += ">";
+                result.append(">");
                 for (HTMLTag kid : children) {
                     if (!kid.isTextNode()) {
-                        result += kid.toCompactString();
+                        kid.toCompactString(result);
                     }
                     else if (kid.isCDATANode) {
-                        result += "<![CDATA[" + kid.innerHTML.toString() + "]]>";
+                        result.append("<![CDATA[");
+                        result.append(kid.innerHTML);
+                        result.append("]]>");
                     }
                     else {
-                        result += kid.innerHTML.toString();
+                        result.append(kid.innerHTML);
                     }
                 }
-                result += "</" + nodeName + ">";
+                result.append("</");
+                result.append(nodeName);
+                result.append('>');
             }
             return result;
         }
