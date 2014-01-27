@@ -87,10 +87,15 @@ public class DiffentialResponseWriter extends Writer {
      * @throws IOException
      */
     private boolean endOfPage(String s) {
-        if (!containsHTMLTag) {
-            int start = rawBuffer.length() - s.length() - "<html".length();
-            if (rawBuffer.indexOf("<html", start) > 0) {
-                containsHTMLTag = true;
+        if ((!isAJAX) && (s.contains("partial-response"))) {
+            isAJAX = true;
+        }
+        if (!isAJAX) {
+            if (!containsHTMLTag) {
+                int start = rawBuffer.length() - s.length() - "<html".length();
+                if (rawBuffer.indexOf("<html", start) > 0) {
+                    containsHTMLTag = true;
+                }
             }
         }
         boolean finished = false;
@@ -108,20 +113,22 @@ public class DiffentialResponseWriter extends Writer {
             }
         }
 
-        if (containsHTMLTag) {
-            int start = rawBuffer.length() - s.length() - "</html>".length();
-            if (rawBuffer.indexOf("</html>", start) > 0) {
+        if (!isAJAX) {
+            if (containsHTMLTag) {
+                int start = rawBuffer.length() - s.length() - "</html>".length();
+                if (rawBuffer.indexOf("</html>", start) > 0) {
+                    if (rawBuffer.lastIndexOf("<![CDATA[") > rawBuffer.lastIndexOf("]]>")) {
+                        return false;
+                    }
+                    finished = true;
+                }
+            }
+            else if (s.contains("</body>")) {
                 if (rawBuffer.lastIndexOf("<![CDATA[") > rawBuffer.lastIndexOf("]]>")) {
                     return false;
                 }
                 finished = true;
             }
-        }
-        else if (s.contains("</body>")) {
-            if (rawBuffer.lastIndexOf("<![CDATA[") > rawBuffer.lastIndexOf("]]>")) {
-                return false;
-            }
-            finished = true;
         }
 
         return finished;

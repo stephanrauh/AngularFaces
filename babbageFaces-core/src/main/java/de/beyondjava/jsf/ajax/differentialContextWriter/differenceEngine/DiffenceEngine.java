@@ -19,6 +19,7 @@ package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.regex.*;
 
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
@@ -53,65 +54,19 @@ public class DiffenceEngine {
 
         if (change.getNodeName().equals("update")) {
             String id = change.getId();
-            String changingHTML = change.getFirstChild().getInnerHTML().toString().trim();
+            HTMLTag changingHTML;
+            if (change.getFirstChild().getChildren().size() > 0) {
+                changingHTML = change.getFirstChild().getChildren().get(0);
+            }
+            else {
+                changingHTML = new HTMLTag(change.getFirstChild().getInnerHTML().toString().trim());
+            }
 
             HTMLTag lastKnownCorrespondingHTMLTag = lastKnownDOMTree.findByID(id);
             if (null == lastKnownCorrespondingHTMLTag) {
                 throw new IllegalArgumentException("Couldn't find id " + id + " in the last known DOM tree");
             }
-            List<String> deletions = new ArrayList<>();
-            List<String> attributeChanges = new ArrayList<>();
-            List<String> inserts = new ArrayList<>();
-            List<HTMLTag> updates = new ArrayList<>();
-            determineNecessaryChanges(changingHTML, lastKnownCorrespondingHTMLTag, updates, deletions,
-                    attributeChanges, inserts);
-            List<HTMLTag> partialChanges = new ArrayList<>();
-            if ((null != inserts) && (inserts.size() > 0)) {
-                for (String insert : inserts) {
-                    partialChanges.add(new HTMLTag(insert));
-                }
-            }
-
-            if (null != deletions) {
-                for (String partialID : deletions) {
-                    String partialChange = "<delete id=\"" + partialID + "\"/>";
-                    HTMLTag partialChangeHTMLTag = new HTMLTag(partialChange);
-                    partialChanges.add(partialChangeHTMLTag);
-                }
-            }
-            if (null != attributeChanges) {
-                for (String partialChange : attributeChanges) {
-                    HTMLTag partialChangeHTMLTag = new HTMLTag(partialChange);
-                    partialChanges.add(partialChangeHTMLTag);
-                }
-            }
-            if (null != updates) {
-                for (HTMLTag n : updates) {
-                    while ((n.getId() == null) || (n.getId().length() == 0)) {
-                        if (n.getParent() == null) {
-                            LOGGER.severe("ID of update shouldn't be void - can't be fixed because parent tag is null");
-                        }
-                        else {
-                            LOGGER.severe("ID of update shouldn't be void - using the parent instead");
-                        }
-                        if (isDeveloperMode) {
-                            LOGGER.fine(n.toCompactString());
-                        }
-
-                        n = n.getParent();
-
-                    }
-                    String partialUpdate = n.toCompactString();
-                    String partialID = n.getId();
-                    String partialChange = "<update id=\"" + partialID + "\"><![CDATA[" + partialUpdate
-                            + "]]></update>";
-
-                    HTMLTag partialChangeHTMLTag = new HTMLTag(partialChange);
-                    partialChanges.add(partialChangeHTMLTag);
-                }
-            }
-
-            return partialChanges;
+            return determineNecessaryChanges(changingHTML, lastKnownCorrespondingHTMLTag);
         }
         else {
             LOGGER.fine(change.getNodeName() + " - remains unchanged");
@@ -123,59 +78,137 @@ public class DiffenceEngine {
     /**
      * @param changingHTML
      * @param lastKnownCorrespondingHTMLTag
+     * @return
+     */
+    private List<HTMLTag> determineNecessaryChanges(HTMLTag changingHTML, HTMLTag lastKnownCorrespondingHTMLTag) {
+        List<String> deletions = new ArrayList<>();
+        List<String> attributeChanges = new ArrayList<>();
+        List<String> inserts = new ArrayList<>();
+        List<HTMLTag> updates = new ArrayList<>();
+        determineNecessaryChanges(changingHTML, lastKnownCorrespondingHTMLTag, updates, deletions, attributeChanges,
+                inserts);
+        List<HTMLTag> partialChanges = new ArrayList<>();
+        if ((null != inserts) && (inserts.size() > 0)) {
+            for (String insert : inserts) {
+                partialChanges.add(new HTMLTag(insert));
+            }
+        }
+
+        if (null != deletions) {
+            for (String partialID : deletions) {
+                String partialChange = "<delete id=\"" + partialID + "\"/>";
+                HTMLTag partialChangeHTMLTag = new HTMLTag(partialChange);
+                partialChanges.add(partialChangeHTMLTag);
+            }
+        }
+        if (null != attributeChanges) {
+            for (String partialChange : attributeChanges) {
+                HTMLTag partialChangeHTMLTag = new HTMLTag(partialChange);
+                partialChanges.add(partialChangeHTMLTag);
+            }
+        }
+        if (null != updates) {
+            for (HTMLTag n : updates) {
+                while ((n.getId() == null) || (n.getId().length() == 0)) {
+                    if (n.getParent() == null) {
+                        LOGGER.severe("ID of update shouldn't be void - can't be fixed because parent tag is null");
+                    }
+                    else {
+                        LOGGER.severe("ID of update shouldn't be void - using the parent instead");
+                    }
+                    if (isDeveloperMode) {
+                        LOGGER.fine(n.toCompactString());
+                    }
+
+                    n = n.getParent();
+
+                }
+                String partialUpdate = n.toCompactString();
+                String partialID = n.getId();
+                String partialChange = "<update id=\"" + partialID + "\"><![CDATA[" + partialUpdate + "]]></update>";
+
+                HTMLTag partialChangeHTMLTag = new HTMLTag(partialChange);
+                partialChanges.add(partialChangeHTMLTag);
+            }
+        }
+
+        return partialChanges;
+    }
+
+    /**
+     * @param changingHTML
+     * @param lastKnownCorrespondingHTMLTag
      * @param deletions2
      * @param changes2
      */
-    protected List<HTMLTag> determineNecessaryChanges(String newHTML, HTMLTag lastKnownCorrespondingHTMLTag,
+    protected List<HTMLTag> determineNecessaryChanges(HTMLTag newDOM, HTMLTag lastKnownCorrespondingHTMLTag,
             List<HTMLTag> updates, List<String> deletions, List<String> attributeChanges, List<String> inserts) {
-        if (newHTML.startsWith("<")) {
-            HTMLTag newDOM = new HTMLTag(newHTML);
-            XmlDiff.tagsAreEqualOrCanBeChangedLocally(lastKnownCorrespondingHTMLTag, newDOM, updates, deletions,
-                    attributeChanges, inserts);
-            for (HTMLTag d : updates) {
-                if (isDeveloperMode) {
-                    LOGGER.fine("Updates: " + d);
-                    // JUnitTestCreator.generateJUnitTest(newDOM,
-                    // lastKnownCorrespondingHTMLTag, updates);
-                }
+        XmlDiff.tagsAreEqualOrCanBeChangedLocally(lastKnownCorrespondingHTMLTag, newDOM, updates, deletions,
+                attributeChanges, inserts);
+        for (HTMLTag d : updates) {
+            if (isDeveloperMode) {
+                LOGGER.fine("Updates: " + d);
+                // JUnitTestCreator.generateJUnitTest(newDOM,
+                // lastKnownCorrespondingHTMLTag, updates);
             }
-            for (String d : deletions) {
-                if (isDeveloperMode) {
-                    LOGGER.fine("Deletion: " + d);
-                }
-            }
-            for (String d : attributeChanges) {
-                if (isDeveloperMode) {
-                    LOGGER.fine("Change: " + d);
-                }
-            }
-            for (String d : inserts) {
-                if (isDeveloperMode) {
-                    LOGGER.fine("Insertion: " + d);
-                }
-            }
-            return updates;
         }
-        else {
-            return null;
+        for (String d : deletions) {
+            if (isDeveloperMode) {
+                LOGGER.fine("Deletion: " + d);
+            }
         }
-
+        for (String d : attributeChanges) {
+            if (isDeveloperMode) {
+                LOGGER.fine("Change: " + d);
+            }
+        }
+        for (String d : inserts) {
+            if (isDeveloperMode) {
+                LOGGER.fine("Insertion: " + d);
+            }
+        }
+        return updates;
     }
 
     /**
      * @param partialResponseAsDOMTree
      * @return
      */
-    private List<HTMLTag> extractChangesFromPartialResponse(HTMLTag partialResponseAsDOMTree) {
-        // HTMLTagList partialResponses =
-        // partialResponseAsDOMTree.getElementsByTagName("partial-response");
+    private List<HTMLTag> extractChangesFromPartialResponse(String partialResponse) {
+
         List<HTMLTag> partialResponses = new ArrayList<>();
-        HTMLTag partialHTMLTag = partialResponseAsDOMTree.getFirstChild();
-        // HTMLTag changes = partialHTMLTag.getFirstChild();
-        for (int i = 0; i < partialHTMLTag.getChildren().size(); i++) {
-            HTMLTag n = partialHTMLTag.getChildren().get(i);
-            partialResponses.add(n);
+        partialResponse = partialResponse.replace("\n", "").replace("\r", "");
+        Pattern pattern = Pattern
+                .compile("(<update id=\"(.)*]]></update>)|(<attributes id=\")|(<delete id=\")|(<eval>)|(<insert id=\")|(<extension )|(<error>)|(<redirect url=\")");
+        Matcher matcher = pattern.matcher(partialResponse);
+        while (matcher.find()) {
+            String group = matcher.group();
+            if (group.startsWith("<update")) {
+                int start = "<update id=\"".length();
+                int end = group.indexOf('"', start);
+
+                String id = group.substring(start, end);
+                start = group.indexOf("<![CDATA[", end);
+                end = group.indexOf("]]>", start);
+                String html = group.substring(start + "<![CDATA[".length(), end);
+                HTMLTag update = new HTMLTag("<update id=\"" + id + "\">" + html + "</update>");
+                partialResponses.add(update);
+            }
         }
+
+        // aktueller Stand:
+        // Bei Updates werden jetzt die ID und das HTML richtig ausgelesen.
+        // Daraus müssen jetzt die richtigen partial Updates für die Weiterverarbeitung gemacht werden.
+        // Der CDATA-Teil kann auch gleich als HTML-Baum gespeichert werden.
+        //
+        // Alle anderen Attribute sind noch offen, werden von AngularFaces aber eh nicht richtig behandelt.
+        //
+        // HTMLTag partialResponseAsDOMTree = new HTMLTag(partialResponse);
+        // HTMLTag partialHTMLTag = partialResponseAsDOMTree.getFirstChild();
+        // for (int i = 0; i < partialHTMLTag.getChildren().size(); i++) {
+        // HTMLTag n = partialHTMLTag.getChildren().get(i);
+        // partialResponses.add(n);
+        // }
         return partialResponses;
     }
 
@@ -274,15 +307,28 @@ public class DiffenceEngine {
      */
     public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
         int originalLength = currentResponse.length();
-        final HTMLTag responseWithAdditionalIDs = new HTMLTag(currentResponse);
         if (isAJAX && differentialEngineActive) {
 
             HTMLTag domTreeToBeUpdated = retrieveLastKnownHTMLFromSession(sessionMap);
-            List<HTMLTag> listOfChanges = extractChangesFromPartialResponse(responseWithAdditionalIDs);
+            List<HTMLTag> listOfChanges = extractChangesFromPartialResponse(currentResponse);
             for (HTMLTag change : listOfChanges) {
                 if (change.getNodeName().equals("update")) {
                     if (change.getId().equals("javax.faces.ViewRoot")) {
-                        HTMLTag newDom = new HTMLTag(change.getFirstChild().getInnerHTML().toString());
+                        HTMLTag newDom = change.getFirstChild();
+                        HTMLTag header = newDom.findTag("head");
+                        HTMLTag originalHeader = domTreeToBeUpdated.findTag("head");
+                        List<HTMLTag> headerChanges = determineNecessaryChanges(header, originalHeader);
+                        if (((null != headerChanges) && (headerChanges.size() > 0))) {
+                            currentResponse = optimizeResponse(currentResponse, domTreeToBeUpdated, change,
+                                    headerChanges);
+                        }
+                        HTMLTag body = domTreeToBeUpdated.findTag("body");
+                        List<HTMLTag> newBodyChanges = determineNecessaryChanges(body,
+                                domTreeToBeUpdated.findTag("body"));
+                        if (((null != newBodyChanges) && (newBodyChanges.size() > 0))) {
+                            currentResponse = optimizeResponse(currentResponse, domTreeToBeUpdated, change,
+                                    newBodyChanges);
+                        }
                         domTreeToBeUpdated = newDom;
                         sessionMap.remove(LAST_KNOWN_HTML_KEY);
                         sessionMap.put(LAST_KNOWN_HTML_KEY, newDom);
@@ -298,12 +344,14 @@ public class DiffenceEngine {
                     }
 
                 }
-                else {
+                else if ((!"error-name".equals(change.getNodeName()))
+                        && (!"error-message".equals(change.getNodeName()))) {
                     LOGGER.severe("Unexpected JSF response (" + change.getNodeName() + ")");
                 }
             }
         }
         else {
+            final HTMLTag responseWithAdditionalIDs = new HTMLTag(currentResponse);
             sessionMap.remove(LAST_KNOWN_HTML_KEY);
             sessionMap.put(LAST_KNOWN_HTML_KEY, responseWithAdditionalIDs);
             String body = responseWithAdditionalIDs.getChildren().get(1).toString();

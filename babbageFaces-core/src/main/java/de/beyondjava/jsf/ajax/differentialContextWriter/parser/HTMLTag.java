@@ -49,12 +49,51 @@ public class HTMLTag implements Serializable {
             factory.setFeature("http://xml.org/sax/features/validation", false);
             factory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
             factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            factory.setIgnoringElementContentWhitespace(true);
+            factory.setIgnoringComments(true);
+            factory.setIgnoringElementContentWhitespace(true);
             builder = factory.newDocumentBuilder();
         }
         catch (ParserConfigurationException e) {
             throw new RuntimeException("Couldn't initialize the SAX parser.", e);
         }
 
+    }
+
+    /**
+     * As it seems we can't stop the DOM parsers from resolving entities in attributes. So we have to escape them to
+     * receive the original HTML code after converting string to XML and back to strings.
+     * 
+     * @param html
+     * @return a version of <code>html</code> with every ampersand replaced by the corresponding XML entity.
+     */
+    private static String escapeXmlEntities(String html) {
+        StringBuffer result = new StringBuffer();
+        if (html.indexOf("<body") > 0) {
+            int pos = html.indexOf("<body") + "<body".length();
+            result.append(html.substring(0, pos));
+            html = html.substring(pos);
+
+        }
+        boolean isInString = false;
+        boolean isBeingEscaped = false;
+        char[] charArray = html.toCharArray();
+        for (char c : charArray) {
+            if (!isBeingEscaped) {
+                if (c == '"') {
+                    isInString = !isInString;
+                }
+            }
+            if ((c == '&') && (isInString)) {
+                result.append("&amp;");
+
+            }
+            else {
+                result.append(c);
+            }
+        }
+
+        return result.toString();
     }
 
     /**
@@ -92,7 +131,7 @@ public class HTMLTag implements Serializable {
             // If we don't add it, the SAX parser refuses to parse the document
             html = "<html>" + html + "</html>";
         }
-        html = html.replace("&&", "&amp;&amp;");
+        html = escapeXmlEntities(html);
         InputSource inputSource = new InputSource(new StringReader(html));
 
         try { // <!DOCTYPE composition>
@@ -148,7 +187,7 @@ public class HTMLTag implements Serializable {
         this.parent = parent;
         isTextNode = node.getNodeType() == Node.TEXT_NODE;
         if (isTextNode) {
-            innerHTML.append(node.getNodeValue().replace("<", "&lt;").replace(">", "&gt;"));
+            innerHTML.append(node.getNodeValue());
         }
         else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
             isTextNode = true;
@@ -305,6 +344,18 @@ public class HTMLTag implements Serializable {
             HTMLTag result = child.findByID(id);
             if (null != result) {
                 return result;
+            }
+        }
+        return null;
+    }
+
+    /** Looks for a certain tag (non-recursive). */
+    public HTMLTag findTag(String tagName) {
+        if (null != children) {
+            for (HTMLTag c : children) {
+                if (c.getNodeName().equals(tagName)) {
+                    return c;
+                }
             }
         }
         return null;
