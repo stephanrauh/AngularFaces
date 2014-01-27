@@ -37,6 +37,7 @@ public class DiffentialResponseWriter extends Writer {
     private static long DEBUG_timerCumulated = 0l;
 
     private static long DEBUG_totalTimeCumulated = 0l;
+
     private static final Logger LOGGER = Logger
             .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.DiffentialResponseWriter");
     /**
@@ -45,6 +46,7 @@ public class DiffentialResponseWriter extends Writer {
     boolean almostFinished = false;
     private boolean containsHTMLTag = false;
     private long DEBUG_EndOfPageCalculation = 0l;
+    boolean DEBUG_Finished = false;
     private long DEBUG_timer = 0l;
     private long DEBUG_totalTimeStart = 0l;
 
@@ -68,7 +70,7 @@ public class DiffentialResponseWriter extends Writer {
     public DiffentialResponseWriter(Writer writer, Map<String, Object> sessionMap) {
         sunWriter = writer;
         this.sessionMap = sessionMap;
-        System.out.println("##### Initializing BabbageFaces DifferentialResponseWriter ##### ");
+        LOGGER.info("##### Initializing BabbageFaces DifferentialResponseWriter ##### ");
         DEBUG_timer = 0l;
         DEBUG_totalTimeStart = System.nanoTime();
         DEBUG_EndOfPageCalculation = 0l;
@@ -87,10 +89,15 @@ public class DiffentialResponseWriter extends Writer {
      * @throws IOException
      */
     private boolean endOfPage(String s) {
-        if (!containsHTMLTag) {
-            int start = rawBuffer.length() - s.length() - "<html".length();
-            if (rawBuffer.indexOf("<html", start) > 0) {
-                containsHTMLTag = true;
+        if ((!isAJAX) && (s.contains("partial-response"))) {
+            isAJAX = true;
+        }
+        if (!isAJAX) {
+            if (!containsHTMLTag) {
+                int start = rawBuffer.length() - s.length() - "<html".length();
+                if (rawBuffer.indexOf("<html", start) > 0) {
+                    containsHTMLTag = true;
+                }
             }
         }
         boolean finished = false;
@@ -108,20 +115,22 @@ public class DiffentialResponseWriter extends Writer {
             }
         }
 
-        if (containsHTMLTag) {
-            int start = rawBuffer.length() - s.length() - "</html>".length();
-            if (rawBuffer.indexOf("</html>", start) > 0) {
+        if (!isAJAX) {
+            if (containsHTMLTag) {
+                int start = rawBuffer.length() - s.length() - "</html>".length();
+                if (rawBuffer.indexOf("</html>", start) > 0) {
+                    if (rawBuffer.lastIndexOf("<![CDATA[") > rawBuffer.lastIndexOf("]]>")) {
+                        return false;
+                    }
+                    finished = true;
+                }
+            }
+            else if (s.contains("</body>")) {
                 if (rawBuffer.lastIndexOf("<![CDATA[") > rawBuffer.lastIndexOf("]]>")) {
                     return false;
                 }
                 finished = true;
             }
-        }
-        else if (s.contains("</body>")) {
-            if (rawBuffer.lastIndexOf("<![CDATA[") > rawBuffer.lastIndexOf("]]>")) {
-                return false;
-            }
-            finished = true;
         }
 
         return finished;
@@ -138,9 +147,11 @@ public class DiffentialResponseWriter extends Writer {
 
     @Override
     public void write(char[] cbuf, int off, int len) throws IOException {
+        if (DEBUG_Finished) {
+            LOGGER.severe("Unexpected use of DifferentialResponseWriter!");
+        }
         long DEBUG_StartTime = System.nanoTime();
         long DEBUG_OptimizationTime = 0;
-        boolean DEBUG_Finished = false;
         rawBuffer.append(cbuf, off, len);
         if (cbuf[off] == '\n') {
             off++;

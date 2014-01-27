@@ -21,40 +21,52 @@ import java.util.logging.Logger;
 
 import javax.faces.context.*;
 
-import de.beyondjava.jsf.ajax.differentialContextWriter.*;
+import de.beyondjava.jsf.ajax.differentialContextWriter.DiffentialResponseWriter;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
 public class BJExternalContextWrapper extends ExternalContextWrapper {
-   private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsf.ajax.context.BJExternalContextWrapper");
+    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsf.ajax.context.BJExternalContextWrapper");
 
-   private ExternalContext original;
+    private ExternalContext original;
 
-   private Writer originalResponseWriter;
-   private Writer prettyResponseWriter;
-   private Writer responseWriter;
+    private Writer originalResponseWriter;
+    private Writer responseWriter;
 
-   /**
+    /**
     * 
     */
-   public BJExternalContextWrapper(ExternalContext original) {
-      this.original = original;
-   }
+    public BJExternalContextWrapper(ExternalContext original) {
+        this.original = original;
+    }
 
-   @Override
-   public Writer getResponseOutputWriter() throws IOException {
-      if ((null == originalResponseWriter) || (originalResponseWriter != super.getResponseOutputWriter())) {
-         originalResponseWriter = super.getResponseOutputWriter();
-         prettyResponseWriter = new PrettyPrintResponseWriter(originalResponseWriter);
-         responseWriter = new DiffentialResponseWriter(originalResponseWriter, getSessionMap());
-      }
-      return responseWriter;
-   }
+    @Override
+    public Writer getResponseOutputWriter() throws IOException {
+        if ((null == originalResponseWriter) || (originalResponseWriter != super.getResponseOutputWriter())) {
+            LOGGER.info("Create new DifferentialResponseWriter");
+            originalResponseWriter = super.getResponseOutputWriter();
+            responseWriter = new DiffentialResponseWriter(originalResponseWriter, getSessionMap());
+        }
+        return responseWriter;
+    }
 
-   @Override
-   public ExternalContext getWrapped() {
-      return original;
-   }
+    @Override
+    public ExternalContext getWrapped() {
+        return original;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.faces.context.ExternalContextWrapper#invalidateSession()
+     */
+    @Override
+    public void invalidateSession() {
+        LOGGER.info("Invalidate Session");
+        originalResponseWriter = null;
+        responseWriter = null;
+        super.invalidateSession();
+    }
 }
