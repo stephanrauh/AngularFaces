@@ -52,8 +52,8 @@ public class DiffenceEngineTest {
             List<String> attributeChanges = new ArrayList<>();
             List<String> insertions = new ArrayList<>();
             List<HTMLTag> updates = new ArrayList<>();
-            diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode, updates, deletions,
-                    attributeChanges, insertions);
+            diffenceEngine.determineNecessaryChanges(new HTMLTag(newHTML), lastKnownCorrespondingNode, updates,
+                    deletions, attributeChanges, insertions);
             assertNotNull(updates);
             assertEquals(0, updates.size());
             assertEquals(0, deletions.size());
@@ -84,8 +84,8 @@ public class DiffenceEngineTest {
             List<String> attributeChanges = new ArrayList<>();
             List<String> insertions = new ArrayList<>();
             List<HTMLTag> updates = new ArrayList<>();
-            diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode, updates, deletions,
-                    attributeChanges, insertions);
+            diffenceEngine.determineNecessaryChanges(new HTMLTag(newHTML), lastKnownCorrespondingNode, updates,
+                    deletions, attributeChanges, insertions);
             assertNotNull(updates);
             assertEquals(1, updates.size());
             assertEquals(0, deletions.size());
@@ -122,8 +122,8 @@ public class DiffenceEngineTest {
             List<String> changes = new ArrayList<>();
             List<String> insertions = new ArrayList<>();
             List<HTMLTag> updates = new ArrayList<>();
-            diffenceEngine.determineNecessaryChanges(newHTML, lastKnownCorrespondingNode, updates, deletions, changes,
-                    insertions);
+            diffenceEngine.determineNecessaryChanges(new HTMLTag(newHTML), lastKnownCorrespondingNode, updates,
+                    deletions, changes, insertions);
             assertNotNull(updates);
             assertEquals(0, updates.size());
             assertEquals(0, deletions.size());
