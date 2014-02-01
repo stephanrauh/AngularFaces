@@ -62,7 +62,9 @@ public class HTMLTag implements Serializable {
 
     /**
      * As it seems we can't stop the DOM parsers from resolving entities in attributes. So we have to escape them to
-     * receive the original HTML code after converting string to XML and back to strings.
+     * receive the original HTML code after converting string to XML and back to strings. Nonetheless the entire method
+     * just seems wrong - after all, its unique purpose is to do nothing (more precisely, to prevent SAX from doing
+     * weird things). Feel free to drop me a note if you know how to do it right.
      * 
      * @param html
      * @return a version of <code>html</code> with every ampersand replaced by the corresponding XML entity.
@@ -77,16 +79,59 @@ public class HTMLTag implements Serializable {
         }
         boolean isInString = false;
         boolean isBeingEscaped = false;
+        boolean isInCDATA = false;
         char[] charArray = html.toCharArray();
-        for (char c : charArray) {
+        final int len = charArray.length;
+        for (int pos = 0; pos < len; pos++) {
+            char c = charArray[pos];
             if (!isBeingEscaped) {
+                if (c == '\\') {
+                    isBeingEscaped = true;
+                    continue;
+                }
                 if (c == '"') {
                     isInString = !isInString;
                 }
+                if ((!isInString) && (!isInCDATA)) {
+                    final String CDATA = "<![CDATA[";
+                    if ((c == '<') && ((pos + CDATA.length()) < len)) {
+                        boolean match = true;
+                        for (int i = 1; i < CDATA.length(); i++) {
+                            if (charArray[pos + i] == CDATA.charAt(i)) {
+                                continue;
+                            }
+                            else {
+                                match = false;
+                                break;
+                            }
+                        }
+                        if (match) {
+                            isInCDATA = true;
+                        }
+                    }
+                }
+                if ((!isInString) && (!isInCDATA)) {
+                    final String CDATAEND = "]]>";
+                    if ((c == ']') && ((pos + CDATAEND.length()) < len)) {
+                        boolean match = true;
+                        for (int i = 1; i < CDATAEND.length(); i++) {
+                            if (charArray[pos + i] == CDATAEND.charAt(i)) {
+                                continue;
+                            }
+                            else {
+                                match = false;
+                                break;
+                            }
+                        }
+                        if (match) {
+                            isInCDATA = false;
+                        }
+                    }
+                }
             }
-            if ((c == '&') && (isInString)) {
+            isBeingEscaped = false;
+            if ((c == '&') && (isInString) && (!isInCDATA)) {
                 result.append("&amp;");
-
             }
             else {
                 result.append(c);
@@ -134,11 +179,12 @@ public class HTMLTag implements Serializable {
         html = escapeXmlEntities(html);
         InputSource inputSource = new InputSource(new StringReader(html));
 
-        try { // <!DOCTYPE composition>
+        try {
             Document domTree = builder.parse(inputSource);
             long DEBUG_time = System.nanoTime() - DEBUG_startTime;
-            if (FacesContext.getCurrentInstance().getApplication().getProjectStage() == ProjectStage.Development) {
-                LOGGER.info("HTML Parser took " + (((DEBUG_time) / 1000) / 1000.0d) + " ms");
+            if ((null != FacesContext.getCurrentInstance())
+                    && (FacesContext.getCurrentInstance().getApplication().getProjectStage() == ProjectStage.Development)) {
+                LOGGER.info("HTML Parser took " + (((DEBUG_time) / 1000) / 1000.0d) + " ms. " + html.substring(0, 20));
             }
             return domTree;
         }
@@ -239,7 +285,7 @@ public class HTMLTag implements Serializable {
             }
 
             if ((node.getNodeValue() != null) && (node.getNodeValue().trim().length() > 0)) {
-                System.out.println("NodeValue nonempty?");
+                LOGGER.warning("NodeValue nonempty?");
             }
         }
     }
@@ -253,6 +299,19 @@ public class HTMLTag implements Serializable {
 
         this(getXMLRootNode(htmlToDocument(html)), null);
 
+    }
+
+    public HTMLTag(String tag, String id, String cdata) {
+        this.nodeName = tag;
+        this.id = id;
+        if (null != cdata) {
+            HTMLTag inner = new HTMLTag(null, null, null);
+            inner.innerHTML.append(cdata);
+            inner.isTextNode = true;
+            inner.isCDATANode = true;
+            inner.parent = this;
+            this.children.add(inner);
+        }
     }
 
     /**

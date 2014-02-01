@@ -30,7 +30,6 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.Diffenc
  * 
  */
 public class DiffentialResponseWriter extends Writer {
-    private static long DEBUG_EndOfPageCalculationCumulated = 0l;
 
     private static long DEBUG_OptimizationTimeCumulated = 0l;
 
@@ -45,7 +44,6 @@ public class DiffentialResponseWriter extends Writer {
      */
     boolean almostFinished = false;
     private boolean containsHTMLTag = false;
-    private long DEBUG_EndOfPageCalculation = 0l;
     boolean DEBUG_Finished = false;
     private long DEBUG_timer = 0l;
     private long DEBUG_totalTimeStart = 0l;
@@ -73,7 +71,6 @@ public class DiffentialResponseWriter extends Writer {
         LOGGER.info("##### Initializing BabbageFaces DifferentialResponseWriter ##### ");
         DEBUG_timer = 0l;
         DEBUG_totalTimeStart = System.nanoTime();
-        DEBUG_EndOfPageCalculation = 0l;
         containsHTMLTag = false;
     }
 
@@ -159,7 +156,6 @@ public class DiffentialResponseWriter extends Writer {
         }
         String s = new String(cbuf, off, len);
         final boolean endOfPageReached = endOfPage(s);
-        DEBUG_EndOfPageCalculation += System.nanoTime() - DEBUG_StartTime;
         if (endOfPageReached) {
             DEBUG_Finished = true;
             if (rawbufferValid) {
@@ -193,7 +189,6 @@ public class DiffentialResponseWriter extends Writer {
                     DEBUG_timerCumulated += DEBUG_timer;
                     DEBUG_totalTimeCumulated += total;
                     DEBUG_OptimizationTimeCumulated += DEBUG_OptimizationTime;
-                    DEBUG_EndOfPageCalculationCumulated += DEBUG_EndOfPageCalculation;
                 }
 
                 LOGGER.info("Total rendering time:       " + ((total / 1000) / 1000.0) + " ms   Cumulated: "
@@ -202,8 +197,6 @@ public class DiffentialResponseWriter extends Writer {
                         + ((DEBUG_timerCumulated / 1000) / 1000.0) + " ms");
                 LOGGER.info("BabbageFaces optimization: " + ((DEBUG_OptimizationTime / 1000) / 1000.0)
                         + " ms   Cumulated: " + ((DEBUG_OptimizationTimeCumulated / 1000) / 1000.0) + " ms");
-                LOGGER.info("BabbageFaces End-of-Page: " + ((DEBUG_EndOfPageCalculation / 1000) / 1000.0)
-                        + " ms   Cumulated: " + ((DEBUG_EndOfPageCalculationCumulated / 1000) / 1000.0) + " ms");
             }
         }
     }
