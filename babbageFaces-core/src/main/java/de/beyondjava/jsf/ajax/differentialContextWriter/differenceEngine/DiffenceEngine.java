@@ -179,20 +179,30 @@ public class DiffenceEngine {
         List<HTMLTag> partialResponses = new ArrayList<>();
         partialResponse = partialResponse.replace("\n", "").replace("\r", "");
         Pattern pattern = Pattern
-                .compile("(<update id=\"(.)*]]></update>)|(<attributes id=\")|(<delete id=\")|(<eval>)|(<insert id=\")|(<extension )|(<error>)|(<redirect url=\")");
+                .compile("(<update id=\".*?\">.*?</update>)|(<attributes id=\")|(<delete id=\")|(<eval>)|(<insert id=\")|(<extension )|(<error>)|(<redirect url=\")");
         Matcher matcher = pattern.matcher(partialResponse);
         while (matcher.find()) {
             String group = matcher.group();
             if (group.startsWith("<update")) {
                 int start = "<update id=\"".length();
                 int end = group.indexOf('"', start);
+                if (end > start) {
 
-                String id = group.substring(start, end);
-                start = group.indexOf("<![CDATA[", end);
-                end = group.indexOf("]]>", start);
-                String html = group.substring(start + "<![CDATA[".length(), end);
-                HTMLTag update = new HTMLTag("<update id=\"" + id + "\">" + html + "</update>");
-                partialResponses.add(update);
+                    String id = group.substring(start, end);
+                    start = group.indexOf("<![CDATA[", end);
+                    end = group.lastIndexOf("]]>");
+                    if ((start >= 0) && (end > start)) {
+                        String html = group.substring(start + "<![CDATA[".length(), end);
+                        HTMLTag update = new HTMLTag("<update id=\"" + id + "\">" + html + "</update>");
+                        partialResponses.add(update);
+                    }
+                    else {
+                        partialResponses.add(new HTMLTag(group));
+                    }
+                }
+                else {
+                    partialResponses.add(new HTMLTag(group));
+                }
             }
         }
 
@@ -271,7 +281,7 @@ public class DiffenceEngine {
     private HTMLTag retrieveLastKnownHTMLFromSession(Map<String, Object> sessionMap) {
         HTMLTag html = (HTMLTag) sessionMap.get(LAST_KNOWN_HTML_KEY);
         if (html == null) {
-            throw new RuntimeException("HTML code is missing in the session");
+            throw new RuntimeException("There's no HTML code stored in the session");
         }
         return html;
     }

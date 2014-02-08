@@ -52,6 +52,7 @@ public class HTMLTag implements Serializable {
             factory.setIgnoringElementContentWhitespace(true);
             factory.setIgnoringComments(true);
             factory.setIgnoringElementContentWhitespace(true);
+            factory.setValidating(false);
             builder = factory.newDocumentBuilder();
         }
         catch (ParserConfigurationException e) {
@@ -70,75 +71,76 @@ public class HTMLTag implements Serializable {
      * @return a version of <code>html</code> with every ampersand replaced by the corresponding XML entity.
      */
     private static String escapeXmlEntities(String html) {
-        StringBuffer result = new StringBuffer();
-        if (html.indexOf("<body") > 0) {
-            int pos = html.indexOf("<body") + "<body".length();
-            result.append(html.substring(0, pos));
-            html = html.substring(pos);
-
-        }
-        boolean isInString = false;
-        boolean isBeingEscaped = false;
-        boolean isInCDATA = false;
-        char[] charArray = html.toCharArray();
-        final int len = charArray.length;
-        for (int pos = 0; pos < len; pos++) {
-            char c = charArray[pos];
-            if (!isBeingEscaped) {
-                if (c == '\\') {
-                    isBeingEscaped = true;
-                    continue;
-                }
-                if (c == '"') {
-                    isInString = !isInString;
-                }
-                if ((!isInString) && (!isInCDATA)) {
-                    final String CDATA = "<![CDATA[";
-                    if ((c == '<') && ((pos + CDATA.length()) < len)) {
-                        boolean match = true;
-                        for (int i = 1; i < CDATA.length(); i++) {
-                            if (charArray[pos + i] == CDATA.charAt(i)) {
-                                continue;
-                            }
-                            else {
-                                match = false;
-                                break;
-                            }
-                        }
-                        if (match) {
-                            isInCDATA = true;
-                        }
-                    }
-                }
-                if ((!isInString) && (!isInCDATA)) {
-                    final String CDATAEND = "]]>";
-                    if ((c == ']') && ((pos + CDATAEND.length()) < len)) {
-                        boolean match = true;
-                        for (int i = 1; i < CDATAEND.length(); i++) {
-                            if (charArray[pos + i] == CDATAEND.charAt(i)) {
-                                continue;
-                            }
-                            else {
-                                match = false;
-                                break;
-                            }
-                        }
-                        if (match) {
-                            isInCDATA = false;
-                        }
-                    }
-                }
-            }
-            isBeingEscaped = false;
-            if ((c == '&') && (isInString) && (!isInCDATA)) {
-                result.append("&amp;");
-            }
-            else {
-                result.append(c);
-            }
-        }
-
-        return result.toString();
+        return html.replace("&", "AmPeRsAnD");
+        // StringBuffer result = new StringBuffer();
+        // if (html.indexOf("<body") > 0) {
+        // int pos = html.indexOf("<body") + "<body".length();
+        // result.append(html.substring(0, pos));
+        // html = html.substring(pos);
+        //
+        // }
+        // boolean isInString = false;
+        // boolean isBeingEscaped = false;
+        // boolean isInCDATA = false;
+        // char[] charArray = html.toCharArray();
+        // final int len = charArray.length;
+        // for (int pos = 0; pos < len; pos++) {
+        // char c = charArray[pos];
+        // if (!isBeingEscaped) {
+        // if (c == '\\') {
+        // isBeingEscaped = true;
+        // continue;
+        // }
+        // if (c == '"') {
+        // isInString = !isInString;
+        // }
+        // if ((!isInString) && (!isInCDATA)) {
+        // final String CDATA = "<![CDATA[";
+        // if ((c == '<') && ((pos + CDATA.length()) < len)) {
+        // boolean match = true;
+        // for (int i = 1; i < CDATA.length(); i++) {
+        // if (charArray[pos + i] == CDATA.charAt(i)) {
+        // continue;
+        // }
+        // else {
+        // match = false;
+        // break;
+        // }
+        // }
+        // if (match) {
+        // isInCDATA = true;
+        // }
+        // }
+        // }
+        // if ((!isInString) && (!isInCDATA)) {
+        // final String CDATAEND = "]]>";
+        // if ((c == ']') && ((pos + CDATAEND.length()) < len)) {
+        // boolean match = true;
+        // for (int i = 1; i < CDATAEND.length(); i++) {
+        // if (charArray[pos + i] == CDATAEND.charAt(i)) {
+        // continue;
+        // }
+        // else {
+        // match = false;
+        // break;
+        // }
+        // }
+        // if (match) {
+        // isInCDATA = false;
+        // }
+        // }
+        // }
+        // }
+        // isBeingEscaped = false;
+        // if ((c == '&') && (isInString) && (!isInCDATA)) {
+        // result.append("&amp;");
+        // }
+        // else {
+        // result.append(c);
+        // }
+        // }
+        //
+        // return result.toString();
     }
 
     /**
@@ -199,6 +201,19 @@ public class HTMLTag implements Serializable {
         }
     }
 
+    /**
+     * As it seems we can't stop the DOM parsers from resolving entities in attributes. So we have to escape them to
+     * receive the original HTML code after converting string to XML and back to strings. Nonetheless the entire method
+     * just seems wrong - after all, its unique purpose is to do nothing (more precisely, to prevent SAX from doing
+     * weird things). Feel free to drop me a note if you know how to do it right.
+     * 
+     * @param html
+     * @return a version of <code>html</code> with every ampersand replaced by the corresponding XML entity.
+     */
+    private static String unescapeXmlEntities(String html) {
+        return html.replace("AmPeRsAnD", "&");
+    }
+
     private List<HTMLAttribute> attributes = new ArrayList<>();
 
     private List<HTMLTag> children = new ArrayList<>();
@@ -233,28 +248,27 @@ public class HTMLTag implements Serializable {
         this.parent = parent;
         isTextNode = node.getNodeType() == Node.TEXT_NODE;
         if (isTextNode) {
-            innerHTML.append(node.getNodeValue());
+            innerHTML.append(unescapeXmlEntities(node.getNodeValue()));
         }
         else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
             isTextNode = true;
             isCDATANode = true;
-            innerHTML.append(node.getNodeValue().trim());
+            innerHTML.append(unescapeXmlEntities(node.getNodeValue().trim()));
         }
         else if (node.getNodeType() == Node.COMMENT_NODE) {
             isCommentNode = true;
-            innerHTML.append(node.getNodeValue().trim());
+            innerHTML.append(unescapeXmlEntities(node.getNodeValue().trim()));
         }
         else {
             nodeName = node.getNodeName();
             if (null != node.getAttributes()) {
                 for (int i = 0; i < node.getAttributes().getLength(); i++) {
                     final Node item = node.getAttributes().item(i);
-                    addAttribute(item.getNodeName(), item.getNodeValue());
+                    addAttribute(item.getNodeName(), unescapeXmlEntities(item.getNodeValue()));
                 }
                 if (null != parent) {
                     if ((id == null) || (id.length() == 0)) {
                         if ("div".equals(nodeName) || "span".equals(nodeName) || "input".equals(nodeName)
-                                || "li".equals(nodeName) || "ul".equals(nodeName) || "a".equals(nodeName)
                                 || "table".equals(nodeName) || "tr".equals(nodeName) || "td".equals(nodeName)
                                 || parent.getNodeName().equals("body")) {
                             if ((parent.getId() != null) && (parent.getId().length() > 0)) {

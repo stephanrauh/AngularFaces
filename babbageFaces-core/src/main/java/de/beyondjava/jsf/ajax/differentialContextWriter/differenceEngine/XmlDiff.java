@@ -283,11 +283,15 @@ public class XmlDiff {
                         // try to insert the new node after a node bearing an id
                         if (index == 0) {
                             offset = 1;
-                            while ("script".equals(parent.getChildren().get(index + offset).getNodeName())) {
+                            while (((index + offset) < parent.getChildren().size())
+                                    && ("script".equals(parent.getChildren().get(index + offset).getNodeName()))) {
                                 offset++;
                                 if ((index + offset) >= parent.getChildren().size()) {
                                     return true; // global change required
                                 }
+                            }
+                            if ((index + offset) >= parent.getChildren().size()) {
+                                return true;
                             }
                             final String idOfSibling = parent.getChildren().get(index + offset).getId();
                             if ((null == idOfSibling) || (idOfSibling.length() == 0)) {
