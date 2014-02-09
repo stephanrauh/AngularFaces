@@ -248,7 +248,7 @@ public class HTMLTag implements Serializable {
         this.parent = parent;
         isTextNode = node.getNodeType() == Node.TEXT_NODE;
         if (isTextNode) {
-            innerHTML.append(unescapeXmlEntities(node.getNodeValue()));
+            innerHTML.append(unescapeXmlEntities(node.getNodeValue().trim()));
         }
         else if (node.getNodeType() == Node.CDATA_SECTION_NODE) {
             isTextNode = true;
@@ -269,8 +269,8 @@ public class HTMLTag implements Serializable {
                 if (null != parent) {
                     if ((id == null) || (id.length() == 0)) {
                         if ("div".equals(nodeName) || "span".equals(nodeName) || "input".equals(nodeName)
-                                || "table".equals(nodeName) || "tr".equals(nodeName) || "td".equals(nodeName)
-                                || parent.getNodeName().equals("body")) {
+                                || "a".equals(nodeName) || "table".equals(nodeName) || "tr".equals(nodeName)
+                                || "td".equals(nodeName) || parent.getNodeName().equals("body")) {
                             if ((parent.getId() != null) && (parent.getId().length() > 0)) {
                                 addAttribute("id", parent.getId() + ":" + nodeName + parent.getChildren().size());
                             }
@@ -320,7 +320,7 @@ public class HTMLTag implements Serializable {
         this.id = id;
         if (null != cdata) {
             HTMLTag inner = new HTMLTag(null, null, null);
-            inner.innerHTML.append(cdata);
+            inner.innerHTML.append(cdata.trim());
             inner.isTextNode = true;
             inner.isCDATANode = true;
             inner.parent = this;

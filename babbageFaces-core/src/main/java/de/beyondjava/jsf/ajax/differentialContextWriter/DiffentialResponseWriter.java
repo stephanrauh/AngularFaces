@@ -161,7 +161,6 @@ public class DiffentialResponseWriter extends Writer {
             if (rawbufferValid) {
                 try {
                     DEBUG_OptimizationTime = System.nanoTime();
-                    System.out.println(rawBuffer.toString());
                     String optimizedResponse = new DiffenceEngine().yieldDifferences(rawBuffer.toString(), sessionMap,
                             isAJAX);
                     DEBUG_OptimizationTime = System.nanoTime() - DEBUG_OptimizationTime;
