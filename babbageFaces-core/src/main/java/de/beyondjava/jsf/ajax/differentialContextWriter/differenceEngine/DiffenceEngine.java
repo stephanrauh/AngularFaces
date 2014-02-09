@@ -103,12 +103,6 @@ public class DiffenceEngine {
                 partialChanges.add(partialChangeHTMLTag);
             }
         }
-        if (null != attributeChanges) {
-            for (String partialChange : attributeChanges) {
-                HTMLTag partialChangeHTMLTag = new HTMLTag(partialChange);
-                partialChanges.add(partialChangeHTMLTag);
-            }
-        }
         if (null != updates) {
             for (HTMLTag n : updates) {
                 while ((n.getId() == null) || (n.getId().length() == 0)) {
@@ -128,6 +122,12 @@ public class DiffenceEngine {
                 String partialUpdate = n.toCompactString();
                 String partialID = n.getId();
                 HTMLTag partialChangeHTMLTag = new HTMLTag("update", partialID, partialUpdate);
+                partialChanges.add(partialChangeHTMLTag);
+            }
+        }
+        if (null != attributeChanges) {
+            for (String partialChange : attributeChanges) {
+                HTMLTag partialChangeHTMLTag = new HTMLTag(partialChange);
                 partialChanges.add(partialChangeHTMLTag);
             }
         }
@@ -344,18 +344,22 @@ public class DiffenceEngine {
                         String secondUpdate = currentResponse.substring(endOfFirstUpdate);
 
                         String s = "<?xml version='1.0' encoding='UTF-8'?>\r\n<partial-response id=\"j_id1\"><changes>";
-                        s += "<update id=\"javax.faces.ViewHead\"><![CDATA[" + header.toCompactString()
-                                + "]]></update>";
+                        HTMLTag oldHeader = domTreeToBeUpdated.findTag("head");
+                        if (header.toCompactString().equals(oldHeader.toCompactString())) {
+                            // LOGGER.info("Identical headers");
+                        }
+                        else {
+                            s += "<update id=\"javax.faces.ViewHead\"><![CDATA[" + header.toCompactString()
+                                    + "]]></update>";
+                        }
                         s += "<update id=\"javax.faces.ViewBody\"><![CDATA[" + body.toCompactString() + "]]>";
                         s += secondUpdate;
                         currentResponse = s;
 
                         List<HTMLTag> newBodyChanges = determineNecessaryChanges(body,
                                 domTreeToBeUpdated.findTag("body"));
-                        if (((null != newBodyChanges) && (newBodyChanges.size() > 0))) {
-                            currentResponse = optimizeResponse(currentResponse, domTreeToBeUpdated, newBodyChanges,
-                                    "javax.faces.ViewBody");
-                        }
+                        currentResponse = optimizeResponse(currentResponse, domTreeToBeUpdated, newBodyChanges,
+                                "javax.faces.ViewBody");
                         domTreeToBeUpdated = newDom;
                         sessionMap.remove(LAST_KNOWN_HTML_KEY);
                         sessionMap.put(LAST_KNOWN_HTML_KEY, newDom);
