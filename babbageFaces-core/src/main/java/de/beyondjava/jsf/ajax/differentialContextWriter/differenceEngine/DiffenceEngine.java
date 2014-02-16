@@ -60,7 +60,14 @@ public class DiffenceEngine {
                 changingHTML = change.getFirstChild().getChildren().get(0);
             }
             else {
-                changingHTML = new HTMLTag(change.getFirstChild().getInnerHTML().toString().trim());
+                if (change.getFirstChild().isCDATANode() || change.getFirstChild().isTextNode()) {
+                    LOGGER.info("CDATA update node");
+                    changingHTML = new HTMLTag(change.getFirstChild().getInnerHTML().toString().trim());
+                }
+                else {
+                    LOGGER.info("regular update node");
+                    changingHTML = new HTMLTag(change.getFirstChild().toString().trim());
+                }
             }
 
             HTMLTag lastKnownCorrespondingHTMLTag = lastKnownDOMTree.findByID(id);
@@ -328,6 +335,7 @@ public class DiffenceEngine {
      * @return
      */
     public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
+        System.out.println("Hallo Welt!");
         int originalLength = currentResponse.length();
         if (isAJAX && differentialEngineActive) {
 

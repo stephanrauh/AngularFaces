@@ -9,7 +9,7 @@
   <version>0.0.1-SNAPSHOT</version>
 
   <description>
-      This is the umbrella project of AngularFaces, consisting of two library projects and two example projects showing you how to use the libraries.
+      This is the umbrella project of AngularFaces, consisting of two library projects and three example projects showing you how to use the libraries.
   </description>
 
     <modules>
@@ -17,6 +17,7 @@
         <module>babbageFaces-examples</module>
         <module>AngularFaces-core</module>
         <module>AngularFaces-examples</module>
+        <module>AJAX-petstore-ee6</module>
     </modules>
 
     <repositories>

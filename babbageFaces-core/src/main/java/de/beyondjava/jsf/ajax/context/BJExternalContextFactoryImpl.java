@@ -28,18 +28,23 @@ import com.sun.faces.context.ExternalContextFactoryImpl;
  * 
  */
 public class BJExternalContextFactoryImpl extends ExternalContextFactoryImpl {
-   private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsf.ajax.context.BJExternalContextFactoryImpl");
+    private static final Logger LOGGER = Logger
+            .getLogger("de.beyondjava.jsf.ajax.context.BJExternalContextFactoryImpl");
 
-   public BJExternalContextFactoryImpl() {
-   }
+    static {
+        LOGGER.info("Running on BabbageFaces 0.1");
+    }
 
-   @Override
-   public ExternalContext getExternalContext(Object servletContext, Object request, Object response)
+    public BJExternalContextFactoryImpl() {
+    }
 
-   throws FacesException {
-      ExternalContext ctx = super.getExternalContext(servletContext, request, response);
-      return new BJExternalContextWrapper(ctx);
+    @Override
+    public ExternalContext getExternalContext(Object servletContext, Object request, Object response)
 
-   }
+    throws FacesException {
+        ExternalContext ctx = super.getExternalContext(servletContext, request, response);
+        return new BJExternalContextWrapper(ctx);
+
+    }
 
 }

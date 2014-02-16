@@ -39,10 +39,11 @@ function storeValues() {
 							// ng-model
 							// (they behave unpredicably if they have one)
 							var ngModel = element.id.replace("_input", "");
+							ngModel=ngModel.replace(":", "_"); // fix automatically generated ids
 							if (element.type == "checkbox") {
 								values[index] = element.checked;
 							} else {
-								values[index] = element.value;
+								values[index] = '"' + element.value + '"';
 							}
 							models[index] = ngModel;
 							inputFields[index] = element;

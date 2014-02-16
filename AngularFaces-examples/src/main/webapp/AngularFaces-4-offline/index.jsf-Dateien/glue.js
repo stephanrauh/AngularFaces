@@ -1,3 +1,23 @@
+syncPullFunctions = new Array();
+syncPushFunctions = new Array();
+
+function isUndefined(value){return typeof value == 'undefined';}
+
+function addSyncPullFunction(f) {
+	var len = syncPullFunctions.length;
+	syncPullFunctions[len] = f;
+}
+
+function addSyncPushFunction(f) {
+	var len = syncPushFunctions.length;
+	syncPushFunctions[len] = f;
+}
+
+function injectJSonIntoScope(variablename, json)
+{
+	injectVariableIntoScope(variablename, json);
+}
+
 function storeValues() {
 	values = new Array();
 	models = new Array();
@@ -11,18 +31,19 @@ function storeValues() {
 			for ( var i = 0; i < elements.length; i++) {
 				var element = elements[i];
 				if (element.type == "text" || element.type == "number" || element.type == "select-one"
-						|| element.type == "checkbox") {
-//					console.log(element.id + "/" + element.value);
+					|| element.type == "checkbox"|| element.type == "hidden") {
+					// console.log(element.id + "/" + element.value);
 					if (element.value && element.value != "") {
 						if (element.type == "select-one" || element.type == "checkbox") {
 							// PrimeFaces SelectOne componenents must not have a
 							// ng-model
 							// (they behave unpredicably if they have one)
 							var ngModel = element.id.replace("_input", "");
+							ngModel=ngModel.replace(":", "_"); // fix automatically generated ids
 							if (element.type == "checkbox") {
 								values[index] = element.checked;
 							} else {
-								values[index] = element.value;
+								values[index] = '"' + element.value + '"';
 							}
 							models[index] = ngModel;
 							inputFields[index] = element;
@@ -47,7 +68,14 @@ function storeValues() {
 }
 
 function restoreValues() {
+	for ( var i = 0; i < syncPushFunctions.length; i++) {
+		syncPushFunctions[i]();
+	}
 	var $scope = angular.element('body').scope();
+	if (!$scope) {
+		alert("AngularJS hasn't been initialized properly.");
+		return;
+	}
 	for ( var i = 0; i < models.length; i++) {
 		var value = values[i];
 		var model = models[i];
@@ -72,16 +100,16 @@ function restoreValues() {
 			alert("Couldn't restore the field values. ngModel=" + model + " element=" + element + " Exception=" + e);
 		}
 	}
-	try
-	{
-		var code="if ($scope.init) $scope.init()";
+	try {
+		var code = "if ($scope.init) $scope.init()";
 		eval(code);
+	} catch (e) {
+		console.log("couldn't call the scope's init method: " + e);
 	}
-	catch (e)
-	{
-		console.log("couldn't call the scope's init method: "+ e);
+	
+	for ( var i = 0; i < syncPullFunctions.length; i++) {
+		syncPullFunctions[i]();
 	}
-
 }
 
 function injectVariableIntoScope(model, value) {
@@ -97,6 +125,8 @@ function injectVariableIntoScope(model, value) {
 				// but can safely be ignored
 				// alert("AngularFaces apply Exception " + e + " " +
 				// assignment);
+				console.log(assignment);
+				console.log(e);
 			}
 		});
 	} catch (e) {
@@ -105,7 +135,6 @@ function injectVariableIntoScope(model, value) {
 }
 
 function reinitAngular(app) {
-
 	storeValues();
 	angular.bootstrap(document, [ app ]);
 	restoreValues();
@@ -133,4 +162,3 @@ function readVariableFromScope(model) {
 	}
 	return value;
 }
-
