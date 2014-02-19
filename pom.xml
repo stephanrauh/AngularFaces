@@ -17,7 +17,7 @@
         <module>babbageFaces-examples</module>
         <module>AngularFaces-core</module>
         <module>AngularFaces-examples</module>
-        <module>AJAX-petstore-ee6</module>
+        <!-- <module>AJAX-petstore-ee6</module>  -->
     </modules>
 
     <repositories>
