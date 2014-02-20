@@ -44,7 +44,6 @@ public class NGBodyRenderer extends CoreRenderer {
         writer.append("\r\n");
         writer.startElement("body", null);
         String ngApp = (String) component.getAttributes().get("ng-app");
-        String dart = (String) component.getAttributes().get("dart");
         if (null != ngApp) {
             writer.writeAttribute("ng-app", ngApp, null);
         }
@@ -59,16 +58,6 @@ public class NGBodyRenderer extends CoreRenderer {
         writer.writeAttribute("onload", "restoreValues()", null);
         writer.append("\r\n");
         writer.append("\r\n");
-        if (dart != null) {
-            writer.append("<script src=\"" + ngController + ".dart\"></script>\r\n");
-            writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
-            writer.append("<script src=\"dart.js\">\r\n</script>\r\n");
-        }
-        else {
-            writer.append("<script src=\"../resources/AngularFaces/angular.js\">\r\n</script>\r\n");
-            writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
-            writer.append("<script src=\"" + ngController + ".js\"></script>\r\n");
-        }
 
         NGResponseWriter angularWriter = new NGResponseWriter(writer, writer.getContentType(),
                 writer.getCharacterEncoding(), "");
@@ -84,9 +73,32 @@ public class NGBodyRenderer extends CoreRenderer {
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         super.encodeEnd(context, component);
         ResponseWriter writer = context.getResponseWriter();
+        String ngController = (String) component.getAttributes().get("ng-controller");
+        renderJavascript(component, writer, ngController);
         writer.append("\r\n");
+
         writer.append("  <script>storeValues();</script>");
         writer.append("\r\n");
         writer.append("</body>");
+    }
+
+    /**
+     * @param component
+     * @param writer
+     * @param ngController
+     * @throws IOException
+     */
+    private void renderJavascript(UIComponent component, ResponseWriter writer, String ngController) throws IOException {
+        String dart = (String) component.getAttributes().get("dart");
+        if (dart != null) {
+            writer.append("<script src=\"" + ngController + ".dart\"></script>\r\n");
+            writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
+            writer.append("<script src=\"../packages/browser/dart.js\">\r\n</script>\r\n");
+        }
+        else {
+            writer.append("<script src=\"../resources/AngularFaces/angular.js\">\r\n</script>\r\n");
+            writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
+            writer.append("<script src=\"" + ngController + ".js\"></script>\r\n");
+        }
     }
 }
