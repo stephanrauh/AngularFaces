@@ -211,21 +211,11 @@ public class DiffenceEngine {
                     partialResponses.add(new HTMLTag(group));
                 }
             }
+            else {
+                LOGGER.severe("This tag is not supported by BabbageFaces. " + group);
+            }
         }
 
-        // aktueller Stand:
-        // Bei Updates werden jetzt die ID und das HTML richtig ausgelesen.
-        // Daraus müssen jetzt die richtigen partial Updates für die Weiterverarbeitung gemacht werden.
-        // Der CDATA-Teil kann auch gleich als HTML-Baum gespeichert werden.
-        //
-        // Alle anderen Attribute sind noch offen, werden von AngularFaces aber eh nicht richtig behandelt.
-        //
-        // HTMLTag partialResponseAsDOMTree = new HTMLTag(partialResponse);
-        // HTMLTag partialHTMLTag = partialResponseAsDOMTree.getFirstChild();
-        // for (int i = 0; i < partialHTMLTag.getChildren().size(); i++) {
-        // HTMLTag n = partialHTMLTag.getChildren().get(i);
-        // partialResponses.add(n);
-        // }
         return partialResponses;
     }
 
@@ -335,7 +325,6 @@ public class DiffenceEngine {
      * @return
      */
     public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
-        System.out.println("Hallo Welt!");
         int originalLength = currentResponse.length();
         if (isAJAX && differentialEngineActive) {
 
@@ -354,9 +343,11 @@ public class DiffenceEngine {
                         String s = "<?xml version='1.0' encoding='UTF-8'?>\r\n<partial-response id=\"j_id1\"><changes>";
                         HTMLTag oldHeader = domTreeToBeUpdated.findTag("head");
                         if (header.toCompactString().equals(oldHeader.toCompactString())) {
-                            // LOGGER.info("Identical headers");
+                            // nothing to do - just omit the header, it hasn't changed
                         }
                         else {
+                            // TODO: if everything but the header is identical extract the new header into a Javascript
+                            // command
                             s += "<update id=\"javax.faces.ViewHead\"><![CDATA[" + header.toCompactString()
                                     + "]]></update>";
                         }
@@ -418,5 +409,4 @@ public class DiffenceEngine {
         }
         return currentResponse;
     }
-
 }
