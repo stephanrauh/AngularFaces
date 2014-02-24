@@ -56,19 +56,19 @@ public class DiffenceEngine {
         if (change.getNodeName().equals("update")) {
             String id = change.getId();
             HTMLTag changingHTML;
-            if (change.getFirstChild().getChildren().size() > 0) {
-                changingHTML = change.getFirstChild().getChildren().get(0);
+            // if ((change.getFirstChild().getChildren().size() > 0)) {
+            // changingHTML = change.getFirstChild().getChildren().get(0);
+            // }
+            // else {
+            if (change.getFirstChild().isCDATANode() || change.getFirstChild().isTextNode()) {
+                LOGGER.info("CDATA update node");
+                changingHTML = new HTMLTag(change.getFirstChild().getInnerHTML().toString().trim());
             }
             else {
-                if (change.getFirstChild().isCDATANode() || change.getFirstChild().isTextNode()) {
-                    LOGGER.info("CDATA update node");
-                    changingHTML = new HTMLTag(change.getFirstChild().getInnerHTML().toString().trim());
-                }
-                else {
-                    LOGGER.info("regular update node");
-                    changingHTML = new HTMLTag(change.getFirstChild().toString().trim());
-                }
+                LOGGER.info("regular update node");
+                changingHTML = new HTMLTag(change.getFirstChild().toString().trim());
             }
+            // }
 
             HTMLTag lastKnownCorrespondingHTMLTag = lastKnownDOMTree.findByID(id);
             if (null == lastKnownCorrespondingHTMLTag) {
