@@ -342,14 +342,34 @@ public class DiffenceEngine {
 
                         String s = "<?xml version='1.0' encoding='UTF-8'?>\r\n<partial-response id=\"j_id1\"><changes>";
                         HTMLTag oldHeader = domTreeToBeUpdated.findTag("head");
-                        if (header.toCompactString().equals(oldHeader.toCompactString())) {
+                        String headerAsString = header.toCompactString();
+                        String oldHeaderAsString = oldHeader.toCompactString();
+                        if (headerAsString.equals(oldHeaderAsString)) {
                             // nothing to do - just omit the header, it hasn't changed
                         }
                         else {
-                            // TODO: if everything but the header is identical extract the new header into a Javascript
+                            // if everything but the header is identical extract the new header into a Javascript
                             // command
-                            s += "<update id=\"javax.faces.ViewHead\"><![CDATA[" + header.toCompactString()
-                                    + "]]></update>";
+                            int startNew = headerAsString.indexOf("<title>");
+                            int endNew = headerAsString.indexOf("</title>");
+                            String title = "";
+                            if ((startNew >= 0) && (endNew >= 0)) {
+                                title = headerAsString.substring(startNew + "<title>".length(), endNew);
+                                headerAsString = headerAsString.substring(0, startNew)
+                                        + headerAsString.substring(endNew);
+                            }
+                            int startOld = oldHeaderAsString.indexOf("<title>");
+                            int endOld = oldHeaderAsString.indexOf("</title>");
+                            if ((startOld >= 0) && (endNew >= 0)) {
+                                oldHeaderAsString = oldHeaderAsString.substring(0, startOld)
+                                        + oldHeaderAsString.substring(endOld);
+                            }
+                            if (headerAsString.equals(oldHeaderAsString)) {
+                                s += "<eval><![CDATA[" + "window.document.title='" + title + "';" + "]]></eval>";
+                            }
+                            else {
+                                s += "<update id=\"javax.faces.ViewHead\"><![CDATA[" + headerAsString + "]]></update>";
+                            }
                         }
                         s += "<update id=\"javax.faces.ViewBody\"><![CDATA[" + body.toCompactString() + "]]>";
                         s += secondUpdate;
