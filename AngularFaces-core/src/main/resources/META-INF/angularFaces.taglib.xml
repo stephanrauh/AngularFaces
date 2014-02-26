@@ -397,6 +397,18 @@
 			<required>false</required>
 			<type>java.lang.String</type>
 		</attribute>
+    <attribute>
+      <description><![CDATA[Set this optional attribute to true if you want to use AngularDart. By default the Javascript version AngularJS is used.]]></description>
+      <name>dart</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+        <attribute>
+      <description><![CDATA[Optional / only for AngularDart users: setting this attribute to true adds the interop.js library. By default interop.js is not included.]]></description>
+      <name>interop</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
 		<attribute>
 			<description><![CDATA[Name of the AngularJS controller class.]]></description>
 			<name>ng-controller</name>

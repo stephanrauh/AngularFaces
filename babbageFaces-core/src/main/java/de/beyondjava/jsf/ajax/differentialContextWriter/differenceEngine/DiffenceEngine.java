@@ -365,7 +365,7 @@ public class DiffenceEngine {
                                         + oldHeaderAsString.substring(endOld);
                             }
                             if (headerAsString.equals(oldHeaderAsString)) {
-                                s += "<eval><![CDATA[" + "window.document.title='" + title + "';" + "]]></eval>";
+                                s += "<eval><![CDATA[" + "window.document.title='::" + title + "';" + "]]></eval>";
                             }
                             else {
                                 s += "<update id=\"javax.faces.ViewHead\"><![CDATA[" + headerAsString + "]]></update>";

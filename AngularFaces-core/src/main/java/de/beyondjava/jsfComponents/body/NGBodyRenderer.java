@@ -90,10 +90,14 @@ public class NGBodyRenderer extends CoreRenderer {
      */
     private void renderJavascript(UIComponent component, ResponseWriter writer, String ngController) throws IOException {
         String dart = (String) component.getAttributes().get("dart");
-        if (dart != null) {
-            writer.append("<script src=\"" + ngController + ".dart\"></script>\r\n");
+        if ("true".equalsIgnoreCase(dart)) {
+            String interop = (String) component.getAttributes().get("interop");
             writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
-            writer.append("<script src=\"../packages/browser/dart.js\">\r\n</script>\r\n");
+            writer.append("<script type=\"application/dart\" src=\"" + ngController + ".dart\">\r\n</script>\r\n");
+            writer.append("<script src=\"packages/browser/dart.js\">\r\n</script>\r\n");
+            if ("true".equals(interop)) {
+                writer.append("<script src=\"packages/browser/interop.js\">\r\n</script>\r\n");
+            }
         }
         else {
             writer.append("<script src=\"../resources/AngularFaces/angular.js\">\r\n</script>\r\n");
