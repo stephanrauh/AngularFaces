@@ -22,7 +22,7 @@
         <h:message for="secondNumberID" />
 
         <a:commandButton value="add" action="#{calculatorBean.add}" />
-        <h:outputText value="Angular's calculation: {{toString(number1)}} + {{toString(number2)}} = {{add()}}" />
+        <h:outputText value="Angular's calculation: {{CalculatorController.number1}} + {{CalculatorController.number2}} = {{CalculatorController.add()}}" />
         <h:outputText />
         <h:outputLabel value="JSF result" for="jsfResultID" />
         
