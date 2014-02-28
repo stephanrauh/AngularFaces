@@ -24,7 +24,7 @@ import java.util.regex.*;
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
 
-import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
+import de.beyondjava.jsf.ajax.differentialContextWriter.parser.*;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
@@ -108,20 +108,7 @@ public class DiffenceEngine {
         }
         if (null != updates) {
             for (HTMLTag n : updates) {
-                while ((n.getId() == null) || (n.getId().length() == 0)) {
-                    if (n.getParent() == null) {
-                        LOGGER.severe("ID of update shouldn't be void - can't be fixed because parent tag is null");
-                    }
-                    else {
-                        LOGGER.severe("ID of update shouldn't be void - using the parent instead");
-                    }
-                    if (isDeveloperMode) {
-                        LOGGER.fine(n.toCompactString());
-                    }
-
-                    n = n.getParent();
-
-                }
+                n = findNodeThatCanBeReplaced(n);
                 String partialUpdate = n.toCompactString();
                 String partialID = n.getId();
                 HTMLTag partialChangeHTMLTag = new HTMLTag("update", partialID, partialUpdate);
@@ -216,6 +203,39 @@ public class DiffenceEngine {
     }
 
     /**
+     * @param n
+     * @return
+     */
+    private HTMLTag findNodeThatCanBeReplaced(HTMLTag n) {
+        // special treatment for PrimeFaces comboboxes
+        if ("select".equals(n.getNodeName())) {
+            if ((n.getParent() != null) && (n.getParent().getParent() != null)) {
+                HTMLTag grandpa = n.getParent().getParent();
+                final HTMLAttribute c = grandpa.getAttribute("class");
+                if ((c != null) && c.value.contains("ui-selectonemenu")) {
+                    n = grandpa;
+                }
+            }
+        }
+
+        while ((n.getId() == null) || (n.getId().length() == 0)) {
+            if (n.getParent() == null) {
+                LOGGER.severe("ID of update shouldn't be void - can't be fixed because parent tag is null");
+            }
+            else {
+                LOGGER.severe("ID of update shouldn't be void - using the parent instead");
+            }
+            if (isDeveloperMode) {
+                LOGGER.fine(n.toCompactString());
+            }
+
+            n = n.getParent();
+
+        }
+        return n;
+    }
+
+    /**
      * @param currentResponse
      * @param domTreeToBeUpdated
      * @param change
@@ -250,8 +270,10 @@ public class DiffenceEngine {
                     LOGGER.severe("Missing HTMLTag ID");
                 }
                 else if (changeDefinition.getNodeName().equals("update")) {
-                    final HTMLTag scriptNode = domTreeToBeUpdated.extractPrimeFacesJavascript(idOfCurrentChange);
-                    if (null != scriptNode) {
+                    Map<String, HTMLTag> scripts = domTreeToBeUpdated.collectScripts();
+                    HTMLTag currentChangeTag = domTreeToBeUpdated.findByID(idOfCurrentChange);
+                    final List<HTMLTag> requiredScripts = currentChangeTag.extractPrimeFacesJavascript(scripts);
+                    for (HTMLTag scriptNode : requiredScripts) {
                         tmpCurrentResponse = tmpCurrentResponse.substring(0, tmpCurrentResponse.length()
                                 - "]]></update>".length())
                                 + scriptNode.toCompactString() + "]]></update>";
