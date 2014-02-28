@@ -31,6 +31,10 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
  * 
  */
 public class DiffenceEngine {
+    private static long DEBUG_optimizedBytesCumulated = 0l;
+
+    private static long DEBUG_originalBytesCumulated = 0l;
+
     private static boolean differentialEngineActive = true;
 
     private static final Logger LOGGER = Logger
@@ -38,7 +42,6 @@ public class DiffenceEngine {
 
     final boolean isDeveloperMode = (FacesContext.getCurrentInstance() != null)
             && (FacesContext.getCurrentInstance().getApplication().getProjectStage() == ProjectStage.Development);
-
     final String LAST_KNOWN_HTML_KEY = "com.beyondEE.faces.diff.lastKnownHTML";
 
     /**
@@ -56,19 +59,12 @@ public class DiffenceEngine {
         if (change.getNodeName().equals("update")) {
             String id = change.getId();
             HTMLTag changingHTML;
-            // if ((change.getFirstChild().getChildren().size() > 0)) {
-            // changingHTML = change.getFirstChild().getChildren().get(0);
-            // }
-            // else {
             if (change.getFirstChild().isCDATANode() || change.getFirstChild().isTextNode()) {
-                LOGGER.info("CDATA update node");
                 changingHTML = new HTMLTag(change.getFirstChild().getInnerHTML().toString().trim());
             }
             else {
-                LOGGER.info("regular update node");
                 changingHTML = new HTMLTag(change.getFirstChild().toString().trim());
             }
-            // }
 
             HTMLTag lastKnownCorrespondingHTMLTag = lastKnownDOMTree.findByID(id);
             if (null == lastKnownCorrespondingHTMLTag) {
@@ -325,8 +321,11 @@ public class DiffenceEngine {
      * @return
      */
     public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
-        int originalLength = currentResponse.length();
-        if (isAJAX && differentialEngineActive) {
+        int originalLength = currentResponse.length(); // differentialEngine=false;
+        if (!differentialEngineActive) {
+            return currentResponse;
+        }
+        if (isAJAX) {
 
             HTMLTag domTreeToBeUpdated = retrieveLastKnownHTMLFromSession(sessionMap);
             List<HTMLTag> listOfChanges = extractChangesFromPartialResponse(currentResponse);
@@ -420,12 +419,19 @@ public class DiffenceEngine {
         }
         if (isDeveloperMode) {
             int optimizedLength = currentResponse.length();
+            DEBUG_optimizedBytesCumulated += optimizedLength;
+            DEBUG_originalBytesCumulated += originalLength;
+            if (isAJAX) {
+                LOGGER.info("AXAX - original response:  " + originalLength + " bytes  Optimized response: "
+                        + optimizedLength + " bytes  total original: " + DEBUG_originalBytesCumulated
+                        + "  total optimized: " + DEBUG_optimizedBytesCumulated);
+            }
+            else {
+                LOGGER.info("HTML - original response:  " + originalLength + " bytes  Optimized response: "
+                        + optimizedLength + " bytes  total original: " + DEBUG_originalBytesCumulated
+                        + "  total optimized: " + DEBUG_optimizedBytesCumulated);
 
-            // LOGGER.info("##################################################################################");
-            // LOGGER.info(currentResponse);
-            LOGGER.info("Original response:  " + originalLength + " bytes  Optimized response: " + optimizedLength
-                    + " bytes");
-            LOGGER.info("##################################################################################");
+            }
         }
         return currentResponse;
     }

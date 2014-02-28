@@ -45,7 +45,6 @@ public class BJExternalContextWrapper extends ExternalContextWrapper {
     @Override
     public Writer getResponseOutputWriter() throws IOException {
         if ((null == originalResponseWriter) || (originalResponseWriter != super.getResponseOutputWriter())) {
-            LOGGER.info("Create new DifferentialResponseWriter");
             originalResponseWriter = super.getResponseOutputWriter();
             responseWriter = new DiffentialResponseWriter(originalResponseWriter, getSessionMap());
         }
@@ -57,11 +56,6 @@ public class BJExternalContextWrapper extends ExternalContextWrapper {
         return original;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.faces.context.ExternalContextWrapper#invalidateSession()
-     */
     @Override
     public void invalidateSession() {
         LOGGER.info("Invalidate Session");

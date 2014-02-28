@@ -31,8 +31,6 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.Diffenc
  */
 public class DiffentialResponseWriter extends Writer {
 
-    private static long DEBUG_OptimizationTimeCumulated = 0l;
-
     private static long DEBUG_timerCumulated = 0l;
 
     private static long DEBUG_totalTimeCumulated = 0l;
@@ -68,7 +66,6 @@ public class DiffentialResponseWriter extends Writer {
     public DiffentialResponseWriter(Writer writer, Map<String, Object> sessionMap) {
         sunWriter = writer;
         this.sessionMap = sessionMap;
-        LOGGER.info("##### Initializing BabbageFaces DifferentialResponseWriter ##### ");
         DEBUG_timer = 0l;
         DEBUG_totalTimeStart = System.nanoTime();
         containsHTMLTag = false;
@@ -188,15 +185,14 @@ public class DiffentialResponseWriter extends Writer {
                     // we don't want to measure database access times
                     DEBUG_timerCumulated += DEBUG_timer;
                     DEBUG_totalTimeCumulated += total;
-                    DEBUG_OptimizationTimeCumulated += DEBUG_OptimizationTime;
                 }
 
                 LOGGER.info("Total rendering time:       " + ((total / 1000) / 1000.0) + " ms   Cumulated: "
                         + ((DEBUG_totalTimeCumulated / 1000) / 1000.0) + " ms");
                 LOGGER.info("BabbageFaces Overhead:    " + ((DEBUG_timer / 1000) / 1000.0) + " ms   Cumulated: "
                         + ((DEBUG_timerCumulated / 1000) / 1000.0) + " ms");
-                LOGGER.info("BabbageFaces optimization: " + ((DEBUG_OptimizationTime / 1000) / 1000.0)
-                        + " ms   Cumulated: " + ((DEBUG_OptimizationTimeCumulated / 1000) / 1000.0) + " ms");
+                LOGGER.info("##################################################################################");
+
             }
         }
     }

@@ -186,7 +186,8 @@ public class HTMLTag implements Serializable {
             long DEBUG_time = System.nanoTime() - DEBUG_startTime;
             if ((null != FacesContext.getCurrentInstance())
                     && (FacesContext.getCurrentInstance().getApplication().getProjectStage() == ProjectStage.Development)) {
-                LOGGER.info("HTML Parser took " + (((DEBUG_time) / 1000) / 1000.0d) + " ms. " + html.substring(0, 20));
+                // LOGGER.info("HTML Parser took " + (((DEBUG_time) / 1000) / 1000.0d) + " ms. " + html.substring(0,
+                // 20));
             }
             return domTree;
         }
