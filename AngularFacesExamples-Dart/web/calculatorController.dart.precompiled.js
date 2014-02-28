@@ -15829,7 +15829,7 @@ init.mangledGlobalNames = {AbstractNgRepeatDirective__LHS_SYNTAX: "_LHS_SYNTAX",
       this.result = 0;
     }, null, null, 0, 0, 122, ""],
     "@": function() {
-      return [C.NgController_Okn];
+      return [C.NgController_46y];
     },
     static: {CalculatorController$: [function() {
         var t1 = new R.CalculatorController(null, null, null);
@@ -38502,7 +38502,7 @@ init.mangledGlobalNames = {AbstractNgRepeatDirective__LHS_SYNTAX: "_LHS_SYNTAX",
     static: {"": "LogRecord__nextNumber"}
   }
 }],
-["metadata", "../../../Eclipse4.3.1/eclipse/dart-sdk/lib/html/html_common/metadata.dart", , B, {
+["metadata", "../../../../Dart/darteditor/dart/dart-sdk/lib/html/html_common/metadata.dart", , B, {
   "": "",
   SupportedBrowser: {
     "": "Object;browserName,minimumVersion",
@@ -40987,7 +40987,7 @@ C.NgAttr_MEl = new O.NgAttr("@", "minlength");
 C.NgAttr_wEo = new O.NgAttr("@", "maxlength");
 C.NgAttr_yzT = new O.NgAttr("@", "name");
 C.NgCallback_oyn = new O.NgCallback("&", "ng-model");
-C.NgController_Okn = new O.NgController("CalculatorController", "[todo-list]", "compile", null, C.List_empty2, null, null, null);
+C.NgController_46y = new O.NgController("CalculatorController", "[calculatorControllerSelector]", "compile", null, C.List_empty2, null, null, null);
 C.List_weg = Isolate.makeConstantList(["ng-click"]);
 C.Map_weUSw = new H.ConstantStringMap(1, {"ng-click": "&onClick"}, C.List_weg);
 C.NgDirective_0 = new O.NgDirective("[ng-click]", "compile", null, C.List_empty2, C.Map_weUSw, null, null);

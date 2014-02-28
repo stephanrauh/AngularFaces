@@ -22,6 +22,7 @@ import 'package:angular/angular.dart';
  * Similarly, the directive's public methods can be invoked from the view.
  */
 @NgController(
+    selector: '[calculatorControllerSelector]',
     publishAs: 'CalculatorController')
 class CalculatorController {
  int number1;
