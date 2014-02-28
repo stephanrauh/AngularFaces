@@ -18,6 +18,7 @@ package de.beyondjava.jsf.ajax.differentialContextWriter.parser;
 
 import java.io.*;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import javax.faces.application.ProjectStage;
@@ -269,6 +270,7 @@ public class HTMLTag implements Serializable {
                 }
                 if (null != parent) {
                     if ((id == null) || (id.length() == 0)) {
+                        // "div".equals(nodeName) excluded because SelectOneMenus don't work if updated partially
                         if ("div".equals(nodeName) || "span".equals(nodeName) || "input".equals(nodeName)
                                 || "a".equals(nodeName) || "table".equals(nodeName) || "tr".equals(nodeName)
                                 || "td".equals(nodeName) || parent.getNodeName().equals("body")) {
@@ -373,35 +375,52 @@ public class HTMLTag implements Serializable {
     }
 
     /**
-     * Looks for a subtree bearing a particular id, and extracts the Javascript code following the subtree (if there's
-     * any).
+     * Returns a hashmap of every script in the current HTML tag.
+     * 
+     * @return a hash map (never null). The keys are the names of the scripts (with the trailing "_s"). The objects are
+     *         the HTML tags containing the scripts.
+     */
+    public Map<String, HTMLTag> collectScripts() {
+        Map<String, HTMLTag> scripts = new HashMap<>();
+        for (HTMLTag candidate : children) {
+            if ("script".equals(candidate.getNodeName())) {
+                String scriptID = candidate.getId();
+                if ((null != scriptID) && (scriptID.length() > 0)) {
+                    if (scriptID.endsWith("_s")) {
+                        scriptID = scriptID.substring(0, scriptID.length() - 2);
+                    }
+                    scripts.put(scriptID, candidate);
+                }
+            }
+            else {
+                scripts.putAll(candidate.collectScripts());
+            }
+        }
+        return scripts;
+    }
+
+    /**
+     * Returns a list of scripts that have to be executed again to re-initialize the components in this HTML tag.
      * 
      * @param idOfCurrentChange
      * @return null or the Java script node
      */
-    public HTMLTag extractPrimeFacesJavascript(String idOfCurrentChange) {
-        for (int i = 0; i < getChildren().size(); i++) {
-            HTMLTag child = getChildren().get(i);
-            if (i < (getChildren().size() - 1)) {
-                // look at every child but the last one (because the last node
-                // can't be followed by a Javascript node)
-                if (child.getId().equals(idOfCurrentChange)) {
-                    final HTMLTag candidate = getChildren().get(i + 1);
-                    if ("script".equals(candidate.getNodeName())) {
-                        return candidate;
-                    }
-                    else {
-                        return null;
-                    }
+    public List<HTMLTag> extractPrimeFacesJavascript(Map<String, HTMLTag> availableScripts) {
+        List<HTMLTag> requiredScripts = new ArrayList<>();
+        if ((id != null) && (id.length() > 0)) {
+            for (Entry<String, HTMLTag> script : availableScripts.entrySet()) {
+                if (id.startsWith(script.getKey())) {
+                    requiredScripts.add(script.getValue());
                 }
             }
-
-            HTMLTag result = child.extractPrimeFacesJavascript(idOfCurrentChange);
-            if (null != result) {
-                return result;
-            }
         }
-        return null;
+        final List<HTMLTag> kids = getChildren();
+        for (int i = 0; i < kids.size(); i++) {
+            HTMLTag child = kids.get(i);
+            requiredScripts.addAll(child.extractPrimeFacesJavascript(availableScripts));
+        }
+
+        return requiredScripts;
     }
 
     /**
