@@ -68,7 +68,9 @@ public class NGBodyRenderer extends CoreRenderer {
             writer.append(" ng-app ");
         }
 
-        writer.writeAttribute("onload", "restoreValues()", null);
+        if (!SessionUtils.isDartControllerActive()) {
+            writer.writeAttribute("onload", "restoreValues()", null);
+        }
         writer.append("\r\n");
         writer.append("\r\n");
 
@@ -89,9 +91,10 @@ public class NGBodyRenderer extends CoreRenderer {
         String ngController = (String) component.getAttributes().get("ng-controller");
         renderJavascript(component, writer, ngController);
         writer.append("\r\n");
-
-        writer.append("  <script>storeValues();</script>");
-        writer.append("\r\n");
+        if (!SessionUtils.isDartControllerActive()) {
+            writer.append("  <script>storeValues();</script>");
+            writer.append("\r\n");
+        }
         writer.append("</body>");
         SessionUtils.deactivateDartController();
 
@@ -111,7 +114,7 @@ public class NGBodyRenderer extends CoreRenderer {
             if ("true".equals(interop)) {
                 writer.append("<script src=\"packages/browser/interop.js\">\r\n</script>\r\n");
             }
-            writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
+            // writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
         }
         else {
             writer.append("<script src=\"../resources/AngularFaces/angular.js\">\r\n</script>\r\n");
