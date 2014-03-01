@@ -23,7 +23,7 @@ import 'package:angular/angular.dart';
  */
 @NgController(
     selector: '[calculatorController]',
-    publishAs: 'calculatorController')
+    publishAs: 'calculatorBean')
 class CalculatorController {
  double number1;
  double number2;
