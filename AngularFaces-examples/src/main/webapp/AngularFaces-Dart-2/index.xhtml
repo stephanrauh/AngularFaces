@@ -1,36 +1,41 @@
 <f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
   xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://beyondjava.net/angularFaces"
-  xmlns:prime="http://primefaces.org/ui" locale="en-us">
+  xmlns:prime="http://primefaces.org/ui" locale="en-us"
+>
   <h:head />
-  
+
   <a:body ng-app="calculatorApp" ng-controller="calculatorController" dart="true">
   
   This demo shows how to use AngularDart instead of the Javascript version of Angular.<p />
-     <prime:tabView id="tabView">
+    <prime:tabView id="tabView">
       <prime:tab title="live demo">
-    <h:form ng:name="myform" >
-      <a:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
-      <h:panelGrid columns="3">
-        <h:outputLabel value="first number" for="firstNumberID"/>
-        <h:inputText label="first number" value="#{calculatorBean.number1}" id="firstNumberID"/>
-        <h:message for="firstNumberID" />
+        <h:form ng:name="myform">
+          <div calculatorController="">
+            <a:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
+            <h:panelGrid columns="3">
+              <h:outputLabel value="first number" for="firstNumberID" />
+              <h:inputText label="first number" value="#{calculatorBean.number1}" id="firstNumberID" />
+              <h:message for="firstNumberID" />
 
 
-        <h:outputLabel value="second number" for="secondNumberID"/>
-        <h:inputText label="second number" value="#{calculatorBean.number2}" id="secondNumberID" />
-        <h:message for="secondNumberID" />
+              <h:outputLabel value="second number" for="secondNumberID" />
+              <h:inputText label="second number" value="#{calculatorBean.number2}" id="secondNumberID" />
+              <h:message for="secondNumberID" />
 
-        <a:commandButton value="add" action="#{calculatorBean.add}" />
-        <h:outputText value="Angular's calculation: {{CalculatorController.number1}} + {{CalculatorController.number2}} = {{CalculatorController.add()}}" />
-        <h:outputText />
-        <h:outputLabel value="JSF result" for="jsfResultID" />
-        
-        <h:inputText label="JSF result" value="#{calculatorBean.result}" id="jsfResultID"/>
-        <h:message for="jsfResultID" />
-      </h:panelGrid>
-    </h:form>
-    <h:messages />
+              <a:commandButton value="add" action="#{calculatorBean.add}" />
+              <h:outputText
+                value="Angular's calculation: {{calculatorBean.number1}} + {{calculatorBean.number2}} = {{calculatorBean.add()}}"
+              />
+              <h:outputText />
+              <h:outputLabel value="JSF result" for="jsfResultID" />
+
+              <h:inputText label="JSF result" value="#{calculatorBean.result}" id="jsfResultID" />
+              <h:message for="jsfResultID" />
+            </h:panelGrid>
+          </div>
+        </h:form>
+        <h:messages />
       </prime:tab>
       <prime:tab title="XHTML code">
         <ui:include src="code.xhtml">
