@@ -22,20 +22,20 @@ import 'package:angular/angular.dart';
  * Similarly, the directive's public methods can be invoked from the view.
  */
 @NgController(
-    selector: '[calculatorControllerSelector]',
-    publishAs: 'CalculatorController')
+    selector: '[calculatorController]',
+    publishAs: 'calculatorController')
 class CalculatorController {
- int number1;
- int number2;
- int result;
+ double number1;
+ double number2;
+ double result;
 
  CalculatorController()
  {
-   number1=0;
-   number2=0;
-   result=0;
+   number1=42.0;
+   number2=0.0;
+   result=0.0;
  }
-  int add() {
+ double add() {
     return number1 + number2;
   }
   String convertToString(int number) {

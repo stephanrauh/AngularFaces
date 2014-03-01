@@ -24,6 +24,8 @@ import javax.faces.render.FacesRenderer;
 
 import org.primefaces.renderkit.CoreRenderer;
 
+import de.beyondjava.jsfComponents.core.SessionUtils;
+
 /**
  * This is an AngularJS-enabled html body tag.
  * 
@@ -43,6 +45,21 @@ public class NGBodyRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         writer.append("\r\n");
         writer.startElement("body", null);
+        String dart = (String) component.getAttributes().get("dart");
+        final boolean dartModeActive = "true".equalsIgnoreCase(dart);
+        if (dartModeActive) {
+            SessionUtils.activateDartController();
+        }
+        String ngController = (String) component.getAttributes().get("ng-controller");
+        if (null != ngController) {
+            if (dartModeActive) {
+                writer.writeAttribute(ngController, "", null);
+                SessionUtils.setControllerName(ngController);
+            }
+            else {
+                writer.writeAttribute("ng-controller", ngController, null);
+            }
+        }
         String ngApp = (String) component.getAttributes().get("ng-app");
         if (null != ngApp) {
             writer.writeAttribute("ng-app", ngApp, null);
@@ -50,17 +67,13 @@ public class NGBodyRenderer extends CoreRenderer {
         else {
             writer.append(" ng-app ");
         }
-        String ngController = (String) component.getAttributes().get("ng-controller");
-        if (null != ngController) {
-            writer.writeAttribute("ng-controller", ngController, null);
-        }
 
         writer.writeAttribute("onload", "restoreValues()", null);
         writer.append("\r\n");
         writer.append("\r\n");
 
         NGResponseWriter angularWriter = new NGResponseWriter(writer, writer.getContentType(),
-                writer.getCharacterEncoding(), "");
+                writer.getCharacterEncoding(), dartModeActive ? ngController : "");
         context.setResponseWriter(angularWriter);
     }
 
@@ -80,6 +93,8 @@ public class NGBodyRenderer extends CoreRenderer {
         writer.append("  <script>storeValues();</script>");
         writer.append("\r\n");
         writer.append("</body>");
+        SessionUtils.deactivateDartController();
+
     }
 
     /**
@@ -89,15 +104,14 @@ public class NGBodyRenderer extends CoreRenderer {
      * @throws IOException
      */
     private void renderJavascript(UIComponent component, ResponseWriter writer, String ngController) throws IOException {
-        String dart = (String) component.getAttributes().get("dart");
-        if ("true".equalsIgnoreCase(dart)) {
+        if (SessionUtils.isDartControllerActive()) {
             String interop = (String) component.getAttributes().get("interop");
-            writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
             writer.append("<script type=\"application/dart\" src=\"" + ngController + ".dart\">\r\n</script>\r\n");
             writer.append("<script src=\"packages/browser/dart.js\">\r\n</script>\r\n");
             if ("true".equals(interop)) {
                 writer.append("<script src=\"packages/browser/interop.js\">\r\n</script>\r\n");
             }
+            writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
         }
         else {
             writer.append("<script src=\"../resources/AngularFaces/angular.js\">\r\n</script>\r\n");
@@ -105,4 +119,5 @@ public class NGBodyRenderer extends CoreRenderer {
             writer.append("<script src=\"" + ngController + ".js\"></script>\r\n");
         }
     }
+
 }
