@@ -15,7 +15,6 @@ if (navigator.userAgent.indexOf('(Dart)') === -1) {
   var scripts = document.getElementsByTagName("script");
   var length = scripts.length;
   for (var i = 0; i < length; ++i) {
-  	console.info(scripts[i].type);
     if (scripts[i].type == "application/dart") {
       // Remap foo.dart to foo.dart.js.
       if (scripts[i].src && scripts[i].src != '') {
