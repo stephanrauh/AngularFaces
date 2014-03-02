@@ -460,15 +460,15 @@ public class XmlDiff {
         }
         List<HTMLTag> oldHTMLTags = getNonEmptyHTMLTags(oldHTMLTag.getChildren());
         List<HTMLTag> newHTMLTags = getNonEmptyHTMLTags(newHTMLTag.getChildren());
-        boolean childHTMLTagHaveChanged = !childHTMLTagsAreEqualOrCanBeChangedLocally(oldHTMLTags, newHTMLTags,
-                updates, deletions, attributeChanges, inserts);
-        if (childHTMLTagHaveChanged) {
+        boolean childHTMLTagsHaveChangedAndRequireGlobalUpdate = GLOBAL_CHANGE_REQUIRED == childHTMLTagsAreEqualOrCanBeChangedLocally(
+                oldHTMLTags, newHTMLTags, updates, deletions, attributeChanges, inserts);
+        if (childHTMLTagsHaveChangedAndRequireGlobalUpdate) {
             if (null == newHTMLTag.getId()) {
                 return GLOBAL_CHANGE_REQUIRED;
             }
             updates.add(newHTMLTag);
         }
-        if (localAttributeChanges.size() > 0) {
+        else if (localAttributeChanges.size() > 0) {
             attributeChanges.addAll(localAttributeChanges);
         }
 

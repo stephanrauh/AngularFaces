@@ -7,9 +7,9 @@
   <h:body>
     <h:form>
       <h:messages />
-      <h:outputText
+      <h:outputText id="infotextID"
         value="#{securityDemoBean.firstName} #{securityDemoBean.lastName}, it seems you are not a hacker. At least AngularFaces couldn't detect your malicious intent."></h:outputText>
-      <h:panelGrid columns="2" border="0">
+      <h:panelGrid columns="2" border="0" id="panelID">
         <prime:outputLabel value="first name" />
         <prime:inputText value="#{securityDemoBean.firstName}" />
         <prime:outputLabel value="last name" />

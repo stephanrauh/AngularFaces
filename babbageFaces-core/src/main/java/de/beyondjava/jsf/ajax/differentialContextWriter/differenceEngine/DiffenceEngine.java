@@ -51,6 +51,19 @@ public class DiffenceEngine {
     }
 
     /**
+     * @param newPartialChanges
+     */
+    // private String boast(List<HTMLTag> newPartialChanges) {
+    // String boasting;
+    // boasting = "<table>";
+    // for (HTMLTag c : newPartialChanges) {
+    // boasting += "<tr><td>" + c.getNodeName() + "=" + c.getId() + "</td></tr>";
+    // }
+    // boasting += "</table>";
+    // return boasting;
+    // }
+
+    /**
      * @param change
      * @param lastKnownDOMTree
      */
@@ -345,6 +358,7 @@ public class DiffenceEngine {
      * @return
      */
     public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
+        // String boasting = "";
         int originalLength = currentResponse.length(); // differentialEngine=false;
         if (!differentialEngineActive) {
             return currentResponse;
@@ -402,6 +416,7 @@ public class DiffenceEngine {
                                 domTreeToBeUpdated.findTag("body"));
                         currentResponse = optimizeResponse(currentResponse, domTreeToBeUpdated, newBodyChanges,
                                 "javax.faces.ViewBody");
+                        // boasting = boast(newBodyChanges);
                         domTreeToBeUpdated = newDom;
                         sessionMap.remove(LAST_KNOWN_HTML_KEY);
                         sessionMap.put(LAST_KNOWN_HTML_KEY, newDom);
@@ -414,6 +429,8 @@ public class DiffenceEngine {
                         if ((null != newPartialChanges)) {
                             currentResponse = optimizeResponse(currentResponse, domTreeToBeUpdated, change,
                                     newPartialChanges);
+
+                            // boasting = boast(newPartialChanges);
                         }
                         updateHTMLTag(domTreeToBeUpdated, change.getFirstChild(), change.getId());
                     }
@@ -445,17 +462,25 @@ public class DiffenceEngine {
             int optimizedLength = currentResponse.length();
             DEBUG_optimizedBytesCumulated += optimizedLength;
             DEBUG_originalBytesCumulated += originalLength;
+            String responseMessage;
             if (isAJAX) {
-                LOGGER.info("AXAX - original response:  " + originalLength + " bytes  Optimized response: "
+                responseMessage = "AXAX - original response:  " + originalLength + " bytes  Optimized response: "
                         + optimizedLength + " bytes  total original: " + DEBUG_originalBytesCumulated
-                        + "  total optimized: " + DEBUG_optimizedBytesCumulated);
+                        + "  total optimized: " + DEBUG_optimizedBytesCumulated;
+                LOGGER.info(responseMessage);
             }
             else {
-                LOGGER.info("HTML - original response:  " + originalLength + " bytes  Optimized response: "
+                responseMessage = "HTML - original response:  " + originalLength + " bytes  Optimized response: "
                         + optimizedLength + " bytes  total original: " + DEBUG_originalBytesCumulated
-                        + "  total optimized: " + DEBUG_optimizedBytesCumulated);
+                        + "  total optimized: " + DEBUG_optimizedBytesCumulated;
+                LOGGER.info(responseMessage);
 
             }
+            // if (currentResponse.contains("babbageFacesBoasting")) {
+            // boasting = "<div>" + responseMessage + "<br />" + boasting + "</div>";
+            // currentResponse = currentResponse.replace("babbageFacesBoasting", boasting);
+            // }
+
         }
         return currentResponse;
     }
