@@ -1,0 +1,43 @@
+<html>
+<head>
+<script src='../resources/AngularFaces/angular.js'>
+	
+</script>
+<script src='calculatorController.js'></script>
+</head>
+<body ng-app="calculatorApp" ng-controller="calculatorController">
+  <h2>Creating a user defined HTML tag using AngularJS</h2>
+  <h3>The first version uses the more traditional approach:</h3> &lt;div addition&gt;&lt;/div&gt; renders
+		<div addition style="background-color:#f8f8f8;width:55px;position:relative;left:20px;"></div>
+<hr>
+<h3>The second version</h3> defines an pseudo HTML tag: &lt;addition /&gt; renders
+<div style="background-color:#f8f8f8;width:55px;position:relative;left:20px;">
+		<addition />
+    </div>
+    
+    <table>
+    <tr>
+    <td style="padding-left:20px">
+    <addition />
+    </td>
+    <td style="padding-left:20px">
+    <addition />
+    </td>
+    <td style="padding-left:20px">
+    <addition />
+    </td>
+    <td style="padding-left:20px">
+    <addition />
+    </td>
+    </td>
+    <td style="padding-left:20px">
+    <addition />
+    </td>
+    </td>
+    <td style="padding-left:20px">
+    <addition />
+    </td>
+    </tr>
+    </table>
+</body>
+</html>
