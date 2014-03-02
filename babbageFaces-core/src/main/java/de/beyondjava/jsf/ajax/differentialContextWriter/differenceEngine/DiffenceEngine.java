@@ -272,11 +272,13 @@ public class DiffenceEngine {
                 else if (changeDefinition.getNodeName().equals("update")) {
                     Map<String, HTMLTag> scripts = domTreeToBeUpdated.collectScripts();
                     HTMLTag currentChangeTag = domTreeToBeUpdated.findByID(idOfCurrentChange);
-                    final List<HTMLTag> requiredScripts = currentChangeTag.extractPrimeFacesJavascript(scripts);
-                    for (HTMLTag scriptNode : requiredScripts) {
-                        tmpCurrentResponse = tmpCurrentResponse.substring(0, tmpCurrentResponse.length()
-                                - "]]></update>".length())
-                                + scriptNode.toCompactString() + "]]></update>";
+                    if (null != currentChangeTag) {
+                        final List<HTMLTag> requiredScripts = currentChangeTag.extractPrimeFacesJavascript(scripts);
+                        for (HTMLTag scriptNode : requiredScripts) {
+                            tmpCurrentResponse = tmpCurrentResponse.substring(0, tmpCurrentResponse.length()
+                                    - "]]></update>".length())
+                                    + scriptNode.toCompactString() + "]]></update>";
+                        }
                     }
                 }
 
