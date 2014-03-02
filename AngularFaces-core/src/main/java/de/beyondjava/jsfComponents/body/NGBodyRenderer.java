@@ -36,7 +36,7 @@ import de.beyondjava.jsfComponents.core.SessionUtils;
 public class NGBodyRenderer extends CoreRenderer {
 
     /**
-     * Begin the body tag. This is where the attributes ng-app, ng-controller and onload are set.
+     * Begins the body tag. This is where the attributes ng-app, ng-controller and onload are set.
      * 
      * @author Stephan Rauh http://www.beyondjava.net
      */
@@ -101,6 +101,8 @@ public class NGBodyRenderer extends CoreRenderer {
     }
 
     /**
+     * Generates the Javascript or Dart code needed to support AngularJS/AngularDart.
+     * 
      * @param component
      * @param writer
      * @param ngController
