@@ -444,6 +444,9 @@ public class HTMLTag implements Serializable {
 
     /** Looks for a certain tag (non-recursive). */
     public HTMLTag findTag(String tagName) {
+        if (getNodeName().equals(tagName)) {
+            return this;
+        }
         if (null != children) {
             for (HTMLTag c : children) {
                 if (c.getNodeName().equals(tagName)) {

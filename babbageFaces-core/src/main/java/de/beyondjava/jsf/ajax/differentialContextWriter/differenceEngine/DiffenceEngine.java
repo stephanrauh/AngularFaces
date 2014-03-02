@@ -356,7 +356,7 @@ public class DiffenceEngine {
             for (HTMLTag change : listOfChanges) {
                 if (change.getNodeName().equals("update")) {
                     if (change.getId().equals("javax.faces.ViewRoot")) {
-                        HTMLTag newDom = change.getFirstChild();
+                        HTMLTag newDom = change;
                         HTMLTag header = newDom.findTag("head");
                         HTMLTag body = newDom.findTag("body");
 
