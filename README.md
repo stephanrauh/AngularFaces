@@ -4,6 +4,8 @@ AngularFaces and BabbageFaces
 AngularFaces is a JSF library making it easy to integrate AngularJS code.
 BabbageFaces optimizes the JSF responses. In most cases JSF exchanges an unnecessary large portion of the DOM tree. BabbageFaces fixes this. 
 
+Announcement: The next version of AngularFaces will be based on a browser client written in Dart. This decision allows us to reduce the size of AJAX responses considerably. At the moment, development concentrates on the new Dart client (see my AngularPrime/Dart project on this repository). So don't be puzzled by the apparent lack of progress of AngularFaces. It's there, it's just in another repository.
+
 Currently, AngularFaces offers
 <ul>
 <li>&lt;a:body&gt;. You need this component to activate AngularJS in a JSF page. 
