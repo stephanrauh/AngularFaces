@@ -22,6 +22,10 @@ import javax.faces.component.*;
 import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
 
+/**
+ * PuiInput is an Angular-aware iput text field reading the JSR 303 annotations and providing a label and an error
+ * message.
+ */
 @FacesComponent("de.beyondjava.angularFaces.puiInput.PuiInput")
 public class PuiInput extends UIInput {
     enum propertyKeys {
