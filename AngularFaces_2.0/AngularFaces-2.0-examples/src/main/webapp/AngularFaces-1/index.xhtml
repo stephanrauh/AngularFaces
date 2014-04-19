@@ -1,0 +1,47 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:pui="http://beyondjava.net/angularFaces"
+  xmlns:prime="http://primefaces.org/ui" >
+  <h:head />
+  <h:body ng-app="calculatorApp" ng-controller="calculatorController">
+  This is a simple angularized JSF form using standard &lt;h:inputTexts&gt; and an AngularFaces &lt;a:commandButton&gt;.<p />
+     <prime:tabView id="tabView">
+      <prime:tab title="live demo">
+    <h:form ng:name="myform" >
+      <pui:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
+      <h:panelGrid columns="3">
+        <h:outputLabel value="first number" for="firstNumberID"/>
+        <pui:inputText label="first number" value="#{calculatorBean.number1}" id="firstNumberID"/>
+        <h:message for="firstNumberID" />
+
+
+        <h:outputLabel value="second number" for="secondNumberID"/>
+        <h:inputText label="second number" value="#{calculatorBean.number2}" id="secondNumberID" />
+        <h:message for="secondNumberID" />
+
+        <h:commandButton value="add" action="#{calculatorBean.add}" />
+        <h:outputText value="Angular's calculation: {{toString(number1)}} + {{toString(number2)}} = {{add()}}" />
+        <h:outputText />
+        <h:outputLabel value="JSF result" for="jsfResultID" />
+        
+        <h:inputText label="JSF result" value="#{calculatorBean.result}" id="jsfResultID"/>
+        <h:message for="jsfResultID" />
+      </h:panelGrid>
+    </h:form>
+    <h:messages />
+      </prime:tab>
+      <prime:tab title="XHTML code">
+        <ui:include src="code.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="AngularJS model">
+        <ui:include src="codemodel.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="JSF Bean">
+        <ui:include src="codebean.xhtml">
+        </ui:include>
+      </prime:tab>
+    </prime:tabView>
+  </h:body>
+</f:view>
