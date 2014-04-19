@@ -7,7 +7,7 @@
 	<artifactId>angularfaces-examples</artifactId>
 	<packaging>war</packaging>
 	<version>2.0.0-SNAPSHOT</version>
-	<name>angularfaces-examples</name>
+	<name>angularfaces-2.0-examples</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>

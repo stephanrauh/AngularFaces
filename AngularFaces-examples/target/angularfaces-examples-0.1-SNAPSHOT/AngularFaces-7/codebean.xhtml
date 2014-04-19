@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head />
+<body>
+  <ui:composition>
+  <script type="syntaxhighlighter" class="brush: groovy;toolbar: false">
+    <![CDATA[
+@ManagedBean
+@RequestScoped
+public class SmallNumberBean {
+   @Max(value = 100l)
+   private int rating = 50;
+
+   @Max(value = 10l)
+   @Size(min = 1, max = 1)
+   private int smallNumber = 10000;
+
+   public int getRating() {
+      return rating;
+   }
+
+   public int getSmallNumber() {
+      return smallNumber;
+   }
+
+   public void setRating(int rating) {
+      this.rating = rating;
+   }
+
+   public void setSmallNumber(int smallNumber) {
+      this.smallNumber = smallNumber;
+   }
+
+   public void showErrors() {
+   }
+}
+
+
+]]></script>
+  </ui:composition>
+</body>
+</html>

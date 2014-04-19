@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head />
+<body>
+  <ui:composition>
+  <script type="syntaxhighlighter" class="brush: xml;toolbar: false">
+    <![CDATA[
+       <h:form ng:name="myform">
+          <a:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
+          <prime:panel header="Which loan do you need?">
+            <table>
+              <tr>
+                <td>Loan amount</td>
+                <td><input type="number" ng-model="loanAmount" size="7" min="1" max="1000000" /> EUR</td>
+              </tr>
+              <tr>
+                <td>Loan term</td>
+                <td><input type="number" ng-model="loanTerm" size="3" maxlength="3" min="1" max="600" /> months</td>
+              </tr>
+              <tr>
+                <td>Interest rate</td>
+                <td><input type="number" ng-model="interestRate" size="4" maxlength="4" min="-1" max="20" />% p.a.</td>
+              </tr>
+            </table>
+          </prime:panel>
+          <br />
+          <prime:panel header="Result">
+            <table>
+              <tr>
+                <td>monthly payments</td>
+                <td><input type="number" ng-model="monthlyPayments" /></td>
+              </tr>
+            </table>
+          </prime:panel>
+          <prime:panel header="amortization plan">
+            <table>
+              <tr>
+                <td><a:sync direction="both"
+                    value="&#35;{amortizationPrinterController.amortizationPrinterBean.loanAmount}" /></td>
+              </tr>
+              <tr>
+                <td><a:sync direction="both"
+                    value="&#35;{amortizationPrinterController.amortizationPrinterBean.interestRate}" /></td>
+              </tr>
+              <tr>
+                <td><a:sync direction="both"
+                    value="&#35;{amortizationPrinterController.amortizationPrinterBean.loanTerm}" /></td>
+              </tr>
+              <tr>
+                <td><a:sync direction="both"
+                    value="&#35;{amortizationPrinterController.amortizationPrinterBean.monthlyPayments}" /></td>
+              </tr>
+              <tr>
+                <td><a:sync direction="both"
+                    value="&#35;{amortizationPrinterController.amortizationPrinterBean.amortizationPlan}" /></td>
+              </tr>
+              <tr>
+                <td><a:commandButton action="&#35;{amortizationPrinterController.generateAmortizationPlan}" /></td>
+
+              </tr>
+            </table>
+Please note this is only a technical demo. Don't rely on the figures. At the time being they are wrong, anyways.
+            <table border="1">
+            <tr >
+            <th>month</th>
+            <th>balance</th>
+            <th>interest paid</th>
+            <th>principal paid</th>
+            <th>monthly payment</th>
+            </tr>
+            <tr ng-repeat="row in amortizationPlan">
+            <td>  &#123; &#123;row.month&#125; &#125;</td>
+            <td>  &#123; &#123;row.balance&#125; &#125;</td>
+            <td>  &#123; &#123;row.interestPaid&#125; &#125;</td>
+            <td>  &#123; &#123;row.principalPaid&#125; &#125;</td>
+            <td>  &#123; &#123;row.monthlyPayment&#125; &#125;</td>
+            </tr>
+            </table>
+          </prime:panel>
+
+        </h:form>
+]]></script>
+
+    <link href="../syntaxhighlighter/shThemeDefault.css" rel="stylesheet" type="text/css" />
+    <link type="text/css" rel="Stylesheet" href="../syntaxhighlighter/shThemeEclipse.css" />
+    <script src="../syntaxhighlighter/shCore.js" type="text/javascript"></script>
+    <script src="../syntaxhighlighter/shAutoloader.js" type="text/javascript"></script>
+    <script src='../syntaxhighlighter/shBrushXml.js' type='text/javascript'></script>
+    <script src='../syntaxhighlighter/shBrushJava.js' type='text/javascript'></script>
+    <script src='../syntaxhighlighter/shBrushJScript.js' type='text/javascript'></script>
+    <script src='../syntaxhighlighter/shBrushGroovy.js' type='text/javascript'></script>
+    <script type="text/javascript">
+		SyntaxHighlighter.all();
+	</script>
+  </ui:composition>
+</body>
+</html>

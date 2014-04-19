@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head />
+<body>
+  <ui:composition>
+  <script type="syntaxhighlighter" class="brush: js;toolbar: false">
+    <![CDATA[
+function userBeanController($scope) {
+	$scope.howdy = function(name) {
+		if (name)
+			alert("Howdy, " + name + "!");
+		else
+			alert("Howdy, Angular!");
+	};
+}
+var app = angular.module('userBeanApp', []);
+
+]]></script>
+  </ui:composition>
+</body>
+</html>

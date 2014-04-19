@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head />
+<body>
+  <ui:composition>
+    <script type="syntaxhighlighter" class="brush: xml;toolbar: false">
+    <![CDATA[
+   <a:body ng-app="loanCalculatorApp" ng-controller="loanCalculatorController">
+        <h:form ng:name="myform">
+          <prime:panel header="@next, @previous and @parent:@parent">
+            <h:panelGrid columns="3">
+              <prime:outputLabel for="@next" value="small number (less than 10)" />
+              <prime:inputText value="&#35;{smallNumberBean.smallNumber}" required="true" label="small number">
+                <prime:clientValidator event="keyup" />
+              </prime:inputText>
+              <prime:message for="@previous" />
+              <prime:commandButton validateClient="true" value="validate"
+                action="&#35;{smallNumberBean.showErrors}" update="@parent:@parent" />
+              <h:outputText value="" />
+              <h:outputText value="Client validation error messages are generated as you type." />
+            </h:panelGrid>
+          </prime:panel>
+          <prime:spacer height="20px" />
+          <prime:panel header="@first, @last and @first:@next:@next">
+            <h:panelGrid columns="1">
+              <prime:outputLabel value="On a scale form 1 to 100, how much do you like this demo?" for="@first:@next:@next" />
+              <prime:slider for="@last" min="0" max="100" />
+              <prime:inputText value="&#35;{smallNumberBean.rating}" required="true" label="rating" />
+            </h:panelGrid>
+          </prime:panel>
+        </h:form>
+     <h:messages />
+  </a:body>
+]]></script>
+
+    <link href="../syntaxhighlighter/shThemeDefault.css" rel="stylesheet" type="text/css" />
+    <link type="text/css" rel="Stylesheet" href="../syntaxhighlighter/shThemeEclipse.css" />
+    <script src="../syntaxhighlighter/shCore.js" type="text/javascript"></script>
+    <script src="../syntaxhighlighter/shAutoloader.js" type="text/javascript"></script>
+    <script src='../syntaxhighlighter/shBrushXml.js' type='text/javascript'></script>
+    <script src='../syntaxhighlighter/shBrushJava.js' type='text/javascript'></script>
+    <script src='../syntaxhighlighter/shBrushJScript.js' type='text/javascript'></script>
+    <script src='../syntaxhighlighter/shBrushGroovy.js' type='text/javascript'></script>
+    <script type="text/javascript">
+					SyntaxHighlighter.all();
+				</script>
+  </ui:composition>
+</body>
+</html>

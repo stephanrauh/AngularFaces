@@ -4,11 +4,8 @@
   <artifactId>primefaces</artifactId>
   <versioning>
     <versions>
-      <version>4.1-SNAPSHOT</version>
-    </versions>
-    <versions>
       <version>5.0-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20131231185700</lastUpdated>
+    <lastUpdated>20140419163832</lastUpdated>
   </versioning>
 </metadata>

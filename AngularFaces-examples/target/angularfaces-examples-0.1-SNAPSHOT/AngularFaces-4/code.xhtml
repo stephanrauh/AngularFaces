@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head />
+<body>
+  <ui:composition>
+  <script type="syntaxhighlighter" class="brush: xml;toolbar: false">
+    <![CDATA[
+<a:body ng-app="mandelbrotApp" ng-controller="mandelbrotController">
+  <h:form ng:name="myform">
+    <h:panelGrid columns="4">
+      <a:selectBooleanCheckbox value="&#35;{mandelbrotController.showGlobeDemo}" />
+      <prime:outputLabel value="(deselect this check box to see the mandelbrot set as plane)" ng:ng-show="showGlobeDemo" />
+    </h:panelGrid>
+    <h:panelGrid columns="1" ng:ng-show="showGlobeDemo">
+      BeyondJava.net - Mandelbrot sphere<br />based on <a href='http://threejs.org' target='_blank'>three.js</a> - earth demo
+      </h:panelGrid>
+
+    <h:panelGrid columns="6" ng:ng-show="!showGlobeDemo">
+      <a:inputText value="&#35;{mandelbrotController.xMin}" />
+      <a:inputText value="&#35;{mandelbrotController.xMax}" />
+      <a:inputText value="&#35;{mandelbrotController.yMin}" />
+      <a:inputText value="&#35;{mandelbrotController.yMax}" />
+      <a:inputText value="&#35;{mandelbrotController.aperture}" />
+      <a:slider for="aperture" style="width:200px" />
+      <h:outputText />
+      <h:outputText />
+
+      <a:selectOneMenu value="&#35;{mandelbrotController.quality}">
+        <f:selectItem itemLabel="fast" itemValue="1" />
+        <f:selectItem itemLabel="mediocre" itemValue="2" />
+        <f:selectItem itemLabel="good" itemValue="3" />
+        <f:selectItem itemLabel="superior" itemValue="4" />
+      </a:selectOneMenu>
+      <a:slider for="quality" style="width:200px" minValue="1" maxValue="4" widgetVar="qualitySliderWidget" />
+      <h:outputText />
+      <h:outputText value="ng-model =  {{quality}}" />
+
+      <a:inputText value="&#35;{mandelbrotController.resolution}" />
+      <a:slider for="resolution" style="width:200px" step="16" />
+      <h:outputText />
+      <h:outputText value="ng-model = {{resolution}}" />
+
+      <a:commandButton value="draw" action="&#35;{mandelbrotController.calculateAction}" update="@form @(.data)"
+        oncomplete="document.getElementById('mandelbrot').innerHTML+='  3-d rendering on the client...'; window.setTimeout('initPlane();',100)"
+        suppressServerRequest="noServerActionRequired()" ng-function="clientAction" />
+
+    </h:panelGrid>
+</a:body>
+]]></script>
+
+    <link href="../syntaxhighlighter/shThemeDefault.css" rel="stylesheet" type="text/css" />
+    <link type="text/css" rel="Stylesheet" href="../syntaxhighlighter/shThemeEclipse.css" />
+    <script src="../syntaxhighlighter/shCore.js" type="text/javascript"></script>
+    <script src="../syntaxhighlighter/shAutoloader.js" type="text/javascript"></script>
+    <script src='../syntaxhighlighter/shBrushXml.js' type='text/javascript'></script>
+    <script src='../syntaxhighlighter/shBrushJava.js' type='text/javascript'></script>
+    <script src='../syntaxhighlighter/shBrushJScript.js' type='text/javascript'></script>
+    <script src='../syntaxhighlighter/shBrushGroovy.js' type='text/javascript'></script>
+    <script type="text/javascript">
+		SyntaxHighlighter.all();
+	</script>
+  </ui:composition>
+</body>
+</html>

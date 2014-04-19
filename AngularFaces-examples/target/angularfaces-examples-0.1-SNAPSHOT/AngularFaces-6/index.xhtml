@@ -1,0 +1,122 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://beyondjava.net/angularFaces"
+  xmlns:prime="http://primefaces.org/ui" locale="en-us">
+  <h:head />
+  <a:body ng-app="loanCalculatorApp" ng-controller="loanCalculatorController">
+  This is a simple loan calculator. The calculations are implemented in Javascript. The amortization plan
+  is a PDF file generated on the server.<br />
+      This example shows how to write an almost pure AngularJS application having a small server part.
+      <prime:tabView id="tabView">
+      <prime:tab title="live demo">
+        <prime:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false"
+          resizable="false">
+          <prime:graphicImage value="ajaxloadingbar.gif" />
+        </prime:dialog>
+        <h:form ng:name="myform">
+          <a:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
+          <prime:panel header="Which loan do you need?" id="loanPanelID">
+            <table>
+              <tr>
+                <td>Loan amount</td>
+                <td><input type="number" ng-model="loanAmount" size="7" min="1" max="1000000" /> EUR</td>
+              </tr>
+              <tr>
+                <td>Loan term</td>
+                <td><input type="number" ng-model="loanTerm" size="3" maxlength="3" min="1" max="600" /> months</td>
+              </tr>
+              <tr>
+                <td>Interest rate</td>
+                <td><input type="number" ng-model="interestRate" size="4" maxlength="4" min="-1" max="20" />% p.a.</td>
+              </tr>
+            </table>
+          </prime:panel>
+          <br />
+          <prime:panel header="Result" id="resultPanelID">
+            <table>
+              <tr>
+                <td>monthly payments</td>
+                <td><input type="number" ng-model="monthlyPayments" /></td>
+              </tr>
+            </table>
+          </prime:panel>
+          <prime:panel header="amortization plan" id="amortizationPlanPanelID">
+            <table>
+              <tr>
+                <td><a:sync direction="both"
+                    value="#{amortizationPrinterController.amortizationPrinterBean.loanAmount}" /></td>
+              </tr>
+              <tr>
+                <td><a:sync direction="both"
+                    value="#{amortizationPrinterController.amortizationPrinterBean.interestRate}" /></td>
+              </tr>
+              <tr>
+                <td><a:sync direction="both"
+                    value="#{amortizationPrinterController.amortizationPrinterBean.loanTerm}" /></td>
+              </tr>
+              <tr>
+                <td><a:sync direction="both"
+                    value="#{amortizationPrinterController.amortizationPrinterBean.monthlyPayments}" /></td>
+              </tr>
+              <tr>
+                <td><a:sync direction="both"
+                    value="#{amortizationPrinterController.amortizationPrinterBean.amortizationPlan}" /></td>
+              </tr>
+              <tr>
+                <td><a:commandButton action="#{amortizationPrinterController.generateAmortizationPlan}" /></td>
+                <td><prime:commandButton id="downloadLink" value="amortization plan as PDF" ajax="false"
+                    onclick="PrimeFaces.monitorDownload(start, stop)" icon="ui-icon-arrowthichk-s">
+                    <prime:fileDownload value="#{amortizationPrinterController.generateAmortizationPlanAsPDF}"
+                      contentDisposition="inline" />
+                  </prime:commandButton></td>
+              </tr>
+            </table>
+            <table border="1">
+              <tr>
+                <th>month</th>
+                <th>balance</th>
+                <th>interest paid</th>
+                <th>principal paid</th>
+                <th>monthly payment</th>
+              </tr>
+              <tr ng-repeat="row in amortizationPlan">
+                <td>{{row.month}}</td>
+                <td>{{row.balance}}</td>
+                <td>{{row.interestPaid}}</td>
+                <td>{{row.principalPaid}}</td>
+                <td>{{row.monthlyPayment}}</td>
+              </tr>
+            </table>
+          </prime:panel>
+
+        </h:form>
+        <h:messages />
+      </prime:tab>
+      <prime:tab title="XHTML code">
+        <ui:include src="code.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="AngularJS model">
+        <ui:include src="codemodel.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="JSF Controller">
+        <ui:include src="codeController.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="JSF Bean">
+        <ui:include src="codebean.xhtml">
+        </ui:include>
+      </prime:tab>
+    </prime:tabView>
+    <script type="text/javascript">
+					function start() {
+						PF('statusDialog').show();
+					}
+
+					function stop() {
+						PF('statusDialog').hide();
+					}
+				</script>
+  </a:body>
+</f:view>
