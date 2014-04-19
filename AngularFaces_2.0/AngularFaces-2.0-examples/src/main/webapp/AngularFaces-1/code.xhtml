@@ -5,30 +5,12 @@
 <h:head />
 <body>
   <ui:composition>
+  <br />
+  <br />
+  <hr />
   <script type="syntaxhighlighter" class="brush: xml;toolbar: false">
     <![CDATA[
-  <a:body ng-app="calculatorApp" ng-controller="calculatorController">
-    <h:form ng:name="myform" >
-      <h:panelGrid columns="3">
-        <h:outputLabel value="first number" for="firstNumberID"/>
-        <h:inputText label="first number" value="&#35;{calculatorBean.number1}" id="firstNumberID"/>
-        <h:message for="firstNumberID" />
-
-
-        <h:outputLabel value="second number" for="secondNumberID"/>
-        <h:inputText label="second number" value="&#35;{calculatorBean.number2}" id="secondNumberID" />
-        <h:message for="secondNumberID" />
-
-        <a:commandButton value="add" action="&#35;{calculatorBean.add}" />
-        <h:outputText value="Angular's calculation: {{toString(number1)}} + {{toString(number2)}} = {{add()}}" />
-        <h:outputText />
-        <h:outputLabel value="JSF result" for="jsfResultID" />
-        
-        <h:inputText label="JSF result" value="&#35;{calculatorBean.result}" id="jsfResultID"/>
-        <h:message for="jsfResultID" />
-      </h:panelGrid>
-    </h:form>
-  </a:body>
+  <a:body ng-app="calculatorApp" ng-controller="calculatorController">  </a:body>
 ]]></script>
 
     <link href="../syntaxhighlighter/shThemeDefault.css" rel="stylesheet" type="text/css" />

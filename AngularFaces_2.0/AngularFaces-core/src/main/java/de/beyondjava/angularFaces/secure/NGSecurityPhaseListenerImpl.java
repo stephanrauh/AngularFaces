@@ -93,7 +93,7 @@ public class NGSecurityPhaseListenerImpl implements PhaseListener, NGSecurityPha
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @return {@link javax.faces.event.PhaseId#ANY_PHASE}
      */
     @Override

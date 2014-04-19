@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.beyondjava.angularFaces.puiInput;
+package de.beyondjava.angularFaces.puiButton;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -27,18 +27,18 @@ import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
 
 import de.beyondjava.angularFaces.common.*;
 
-@FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.angularFaces.puiInput.PuiInput")
-public class PuiInputTextRenderer extends HtmlBasicInputRenderer {
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiInputTextRenderer");
+@FacesRenderer(componentFamily = "javax.faces.Output", rendererType = "de.beyondjava.angularFaces.puiButton.PuiButton")
+public class PuiIButtonRenderer extends HtmlBasicInputRenderer {
+    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiButton.PuiButtonRenderer");
 
     static {
-        LOGGER.info("AngularFaces renderer of 'PuiInput' is available for use.");
+        LOGGER.info("AngularFaces renderer of 'PuiButton' is available for use.");
     }
 
     /**
      *
      */
-    public PuiInputTextRenderer() {
+    public PuiIButtonRenderer() {
         LOGGER.info(getClass().getName() + " is being initialized");
     }
 
@@ -48,9 +48,9 @@ public class PuiInputTextRenderer extends HtmlBasicInputRenderer {
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter responseWriter = context.getResponseWriter();
-        PuiInput input = (PuiInput) component;
+        PuiButton input = (PuiButton) component;
         StringBuffer html = new StringBuffer();
-        html.append("<pui-input ");
+        html.append("<pui-button ");
         renderNonEmptyAttribute(html, "label", input.getLabel());
         renderNonEmptyAttribute(html, "value", ELTools.getCoreValueExpression(input));
         NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(input);
@@ -70,11 +70,12 @@ public class PuiInputTextRenderer extends HtmlBasicInputRenderer {
             renderNonEmptyAttribute(html, "required", "true");
         }
         html.append(">");
-        html.append("</pui-input>");
+        html.append("</pui-button>");
 
         // responseWriter.append(html.toString());
         responseWriter.append(html.toString().replace("<", "&lt;").replace(">", "&gt;"));
         responseWriter.append("<br />");
+
     }
 
     /**

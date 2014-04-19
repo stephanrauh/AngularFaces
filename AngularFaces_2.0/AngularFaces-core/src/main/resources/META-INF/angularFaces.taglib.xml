@@ -1,39 +1,69 @@
 <facelet-taglib version="2.0"
-	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
+  xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd"
+>
 
-	<namespace>http://beyondjava.net/angularFaces</namespace>
+  <namespace>http://beyondjava.net/angularFaces</namespace>
 
-	<tag>
-		<description><![CDATA[Secure add a certain - albeit not perfect - level of security to your application.]]></description>
-		<tag-name>secure</tag-name>
-		<component>
-			<component-type>de.beyondjava.Secure</component-type>
-			<renderer-type>de.beyondjava.Secure</renderer-type>
-		</component>
-		<attribute>
-			<description><![CDATA[User-defined security checker class (fully qualified class name).]]></description>
-			<name>checkedBy</name>
-			<required>false</required>
-			<type>java.lang.String</type>
-		</attribute>
-		
-	</tag>
-    <tag>
+  <tag>
+    <description><![CDATA[Secure add a certain - albeit not perfect - level of security to your application.]]></description>
+    <tag-name>secure</tag-name>
+    <component>
+      <component-type>de.beyondjava.Secure</component-type>
+      <renderer-type>de.beyondjava.Secure</renderer-type>
+    </component>
+    <attribute>
+      <description><![CDATA[User-defined security checker class (fully qualified class name).]]></description>
+      <name>checkedBy</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+  </tag>
+
+  <tag>
+    <description><![CDATA[Angular-aware text input field to select a week.]]></description>
+    <tag-name>week</tag-name>
+    <component>
+      <component-type>de.beyondjava.angularFaces.puiInput.PuiWeek</component-type>
+      <renderer-type>de.beyondjava.angularFaces.puiInput.PuiInput</renderer-type>
+    </component>
+  </tag>
+
+  <tag>
     <description><![CDATA[Angular-aware text input field.]]></description>
     <tag-name>inputText</tag-name>
     <component>
       <component-type>de.beyondjava.angularFaces.puiInput.PuiInput</component-type>
       <renderer-type>de.beyondjava.angularFaces.puiInput.PuiInput</renderer-type>
     </component>
-    <attribute>
-      <description><![CDATA[The label is shown in front of the input field.]]></description>
-      <name>label</name>
-      <required>false</required>
-      <type>java.lang.String</type>
-    </attribute>
-    
   </tag>
-  
 
-	</facelet-taglib>
+  <tag>
+    <description><![CDATA[Angular-aware color picker.]]></description>
+    <tag-name>color</tag-name>
+    <component>
+      <component-type>de.beyondjava.angularFaces.puiInput.PuiColor</component-type>
+      <renderer-type>de.beyondjava.angularFaces.puiInput.PuiInput</renderer-type>
+    </component>
+  </tag>
+
+  <tag>
+    <description><![CDATA[Angular-aware textarea.]]></description>
+    <tag-name>textarea</tag-name>
+    <component>
+      <component-type>de.beyondjava.angularFaces.puiInput.PuiInputarea</component-type>
+      <renderer-type>de.beyondjava.angularFaces.puiInput.PuiInputareaRenderer</renderer-type>
+    </component>
+  </tag>
+
+  <tag>
+    <description><![CDATA[Angular-aware button.]]></description>
+    <tag-name>button</tag-name>
+    <component>
+      <component-type>de.beyondjava.angularFaces.puiButton.PuiButton</component-type>
+      <renderer-type>de.beyondjava.angularFaces.puiButton.PuiButton</renderer-type>
+    </component>
+  </tag>
+
+
+</facelet-taglib>

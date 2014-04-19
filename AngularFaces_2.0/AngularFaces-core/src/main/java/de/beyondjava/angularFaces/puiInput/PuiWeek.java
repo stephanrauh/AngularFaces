@@ -18,7 +18,7 @@ package de.beyondjava.angularFaces.puiInput;
 
 import java.util.logging.Logger;
 
-import javax.faces.component.*;
+import javax.faces.component.FacesComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
 
@@ -26,34 +26,27 @@ import javax.faces.render.Renderer;
  * PuiInput is an Angular-aware iput text field reading the JSR 303 annotations and providing a label and an error
  * message.
  */
-@FacesComponent("de.beyondjava.angularFaces.puiInput.PuiInput")
-public class PuiInput extends UIInput {
+@FacesComponent("de.beyondjava.angularFaces.puiInput.PuiWeek")
+public class PuiWeek extends PuiInput {
     enum propertyKeys {
         label, value
     }
 
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiInput");
+    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiWeek");
 
     static {
-        LOGGER.info("AngularFaces component 'PuiInput' is available for use.");
+        LOGGER.info("AngularFaces component 'PuiWeek' is available for use.");
     }
 
     /**
      *
      */
-    public PuiInput() {
+    public PuiWeek() {
         LOGGER.info(getClass().getName() + " is initialized");
+        // setRendererType("de.beyondjava.angularFaces.puiInput.PuiInputTextRenderer");
         LOGGER.info(getFamily());
         Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
         LOGGER.info(renderer.getClass().getName());
-    }
-
-    public String getLabel() {
-        return (String) getStateHelper().eval(propertyKeys.label, null);
-    }
-
-    public void setLabel(String label) {
-        getStateHelper().put(propertyKeys.label, label);
     }
 
 }

@@ -5,12 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -26,6 +26,8 @@ import javax.validation.constraints.*;
 @ManagedBean
 @SessionScoped
 public class CalculatorBean implements Serializable {
+    String color = "#0F0";
+
     @Min(7L)
     @Max(50L)
     @NotNull
@@ -48,6 +50,13 @@ public class CalculatorBean implements Serializable {
         String msg = "Last calculation on the server side: " + number1 + "+" + number2 + "=" + result;
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
         return null;
+    }
+
+    /**
+     * @return the color
+     */
+    public String getColor() {
+        return this.color;
     }
 
     /**
@@ -74,6 +83,14 @@ public class CalculatorBean implements Serializable {
      */
     public int getResult() {
         return this.result;
+    }
+
+    /**
+     * @param color
+     *            the color to set
+     */
+    public void setColor(String color) {
+        this.color = color;
     }
 
     /**

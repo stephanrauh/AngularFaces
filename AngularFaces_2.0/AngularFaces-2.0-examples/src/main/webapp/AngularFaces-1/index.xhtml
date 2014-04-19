@@ -9,23 +9,15 @@
       <prime:tab title="live demo">
     <h:form ng:name="myform" >
       <pui:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
-      <h:panelGrid columns="3">
-        <h:outputLabel value="first number" for="firstNumberID"/>
+      <h:panelGrid columns="1">
         <pui:inputText label="first number" value="#{calculatorBean.number1}" id="firstNumberID"/>
-        <h:message for="firstNumberID" />
+        <pui:inputText label="second number" value="#{calculatorBean.number2}" id="secondNumberID" />
 
-
-        <h:outputLabel value="second number" for="secondNumberID"/>
-        <h:inputText label="second number" value="#{calculatorBean.number2}" id="secondNumberID" />
-        <h:message for="secondNumberID" />
-
-        <h:commandButton value="add" action="#{calculatorBean.add}" />
+        <pui:button value="add" action="#{calculatorBean.add}" />
         <h:outputText value="Angular's calculation: {{toString(number1)}} + {{toString(number2)}} = {{add()}}" />
         <h:outputText />
-        <h:outputLabel value="JSF result" for="jsfResultID" />
+        <pui:color label="color" value="#{calculatorBean.color}"></pui:color>
         
-        <h:inputText label="JSF result" value="#{calculatorBean.result}" id="jsfResultID"/>
-        <h:message for="jsfResultID" />
       </h:panelGrid>
     </h:form>
     <h:messages />

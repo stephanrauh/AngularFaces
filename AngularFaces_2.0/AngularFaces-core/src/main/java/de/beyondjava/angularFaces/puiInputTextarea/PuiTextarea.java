@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.beyondjava.angularFaces.puiInput;
+package de.beyondjava.angularFaces.puiInputTextarea;
 
 import java.util.logging.Logger;
 
@@ -26,23 +26,24 @@ import javax.faces.render.Renderer;
  * PuiInput is an Angular-aware iput text field reading the JSR 303 annotations and providing a label and an error
  * message.
  */
-@FacesComponent("de.beyondjava.angularFaces.puiInput.PuiInput")
-public class PuiInput extends UIInput {
+@FacesComponent("de.beyondjava.angularFaces.puiInput.PuiTextarea")
+public class PuiTextarea extends UIInput {
     enum propertyKeys {
         label, value
     }
 
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiInput");
+    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiTextArea");
 
     static {
-        LOGGER.info("AngularFaces component 'PuiInput' is available for use.");
+        LOGGER.info("AngularFaces component 'PuiTextArea' is available for use.");
     }
 
     /**
      *
      */
-    public PuiInput() {
+    public PuiTextarea() {
         LOGGER.info(getClass().getName() + " is initialized");
+        setRendererType("de.beyondjava.angularFaces.puiInputTextArea.PuiTextArea");
         LOGGER.info(getFamily());
         Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
         LOGGER.info(renderer.getClass().getName());
