@@ -1,0 +1,17 @@
+.pui-inputtext {
+    margin: 0;
+    outline: medium none;
+    padding: 4px;
+    font-weight: normal;
+}
+
+.ui-widget-header .pui-inputtext,
+.ui-widget-content .pui-inputtext {
+    font-weight: normal;
+}
+
+/* Sort of a misnomer: the component is not by the user, but by filling the content area until more space is needed */
+.pui-inputtextarea-resizable {
+    overflow: hidden;
+    resize:none;
+}

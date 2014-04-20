@@ -21,6 +21,15 @@
   </tag>
 
   <tag>
+    <description><![CDATA[pui:body renders the include statements needed to initialize AngularDart.]]></description>
+    <tag-name>body</tag-name>
+    <component>
+      <component-type>de.beyondjava.angularFaces.puiBody.PuiBody</component-type>
+      <renderer-type>de.beyondjava.angularFaces.puiBody.PuiBody</renderer-type>
+    </component>
+  </tag>
+
+  <tag>
     <description><![CDATA[Angular-aware text input field to select a week.]]></description>
     <tag-name>week</tag-name>
     <component>
@@ -52,7 +61,7 @@
     <tag-name>textarea</tag-name>
     <component>
       <component-type>de.beyondjava.angularFaces.puiInput.PuiInputarea</component-type>
-      <renderer-type>de.beyondjava.angularFaces.puiInput.PuiInputareaRenderer</renderer-type>
+      <renderer-type>de.beyondjava.angularFaces.puiInput.PuiInputarea</renderer-type>
     </component>
   </tag>
 

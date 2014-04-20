@@ -52,7 +52,7 @@ public class PuiInputTextRenderer extends HtmlBasicInputRenderer {
         StringBuffer html = new StringBuffer();
         html.append("<pui-input ");
         renderNonEmptyAttribute(html, "label", input.getLabel());
-        renderNonEmptyAttribute(html, "value", ELTools.getCoreValueExpression(input));
+        renderNonEmptyAttribute(html, "ng-model", ELTools.getCoreValueExpression(input));
         NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(input);
         if (infos.isHasMin()) {
             renderNonEmptyAttribute(html, "min", String.valueOf(infos.getMin()));
@@ -72,7 +72,7 @@ public class PuiInputTextRenderer extends HtmlBasicInputRenderer {
         html.append(">");
         html.append("</pui-input>");
 
-        // responseWriter.append(html.toString());
+        responseWriter.append(html.toString());
         responseWriter.append(html.toString().replace("<", "&lt;").replace(">", "&gt;"));
         responseWriter.append("<br />");
     }
