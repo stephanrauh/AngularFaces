@@ -52,7 +52,13 @@ public class PuiBodyRenderer extends BodyRenderer {
 			main = main + ".dart";
 		writer.append("<script type='application/dart' src='" + main
 				+ "'></script>");
-		writer.append("<script type='text/javascript' src='controller/packages/browser/dart.js'></script>");
+		
+		int index = main.lastIndexOf("/");
+		String mainFolder="";
+		if (index>=0) {
+		 mainFolder = main.substring(0, index+1);
+		}
+		writer.append("<script type='text/javascript' src='" + mainFolder + "packages/browser/dart.js'></script>");
 		super.encodeEnd(context, component);
 	}
 
