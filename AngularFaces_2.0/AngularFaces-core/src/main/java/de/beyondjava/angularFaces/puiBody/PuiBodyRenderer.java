@@ -25,14 +25,35 @@ public class PuiBodyRenderer extends BodyRenderer {
 	public PuiBodyRenderer() {
 		LOGGER.info(getClass().getName() + " is being initialized");
 	}
-	
+
+	@Override
+	public void encodeBegin(FacesContext context, UIComponent component)
+			throws IOException {
+		// TODO Auto-generated method stub
+		super.encodeBegin(context, component);
+		ResponseWriter writer = context.getResponseWriter();
+		String controller = (String) component.getAttributes()
+				.get("controller"); // TODO
+		if (null == controller) {
+			controller = "controllerBean";
+		}
+		writer.writeAttribute(controller, "", null);
+
+	}
+
 	@Override
 	public void encodeEnd(FacesContext context, UIComponent component)
 			throws IOException {
 		ResponseWriter writer = context.getResponseWriter();
-		writer.append("<script type='application/dart' src='main.dart'></script>");
-		writer.append("<script type='text/javascript' src='packages/browser/dart.js'></script>");
+		String main = (String) component.getAttributes().get("mainclassfile");
+		if (main == null)
+			main = "main.dart";
+		if (!main.endsWith(".dart"))
+			main = main + ".dart";
+		writer.append("<script type='application/dart' src='" + main
+				+ "'></script>");
+		writer.append("<script type='text/javascript' src='controller/packages/browser/dart.js'></script>");
 		super.encodeEnd(context, component);
 	}
 
-}
+};
