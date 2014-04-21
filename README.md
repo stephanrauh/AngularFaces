@@ -7,11 +7,11 @@ AngularFaces and BabbageFaces
 <b>Announcement:</b> The next version of AngularFaces will be based on a browser client written in Dart. This decision allows us to reduce the size of AJAX responses considerably. At the moment, development concentrates on the new Dart client (see our <a href="https://github.com/stephanrauh/AngularPrime-Dart">AngularPrime/Dart project</a>). So don't be puzzled by the apparent lack of progress of AngularFaces. It's there, it's just in another repository.
 
 <b>Note on AngularFaces 2.0:</b><br />
-I had to use symbolic links to convince DartEditor and Eclipse WTP to work together in harmony. Symlinks allow you to edit a file in DartEditor - which is ideal for editing Dart file - and to deploy it in a web application run by Eclipse WTP.
+I had to use symbolic links to convince DartEditor and Eclipse WTP to work together in harmony. Symlinks allow you to edit a file in DartEditor - which is ideal for editing Dart file - and to deploy it in a web application run by Eclipse WTP (which is ideal to edit almost every other file in your JSF project).
 <br>
 Alternatively, you can use the file sync plugin of eclipse (or sync your files by any other means, such as a batch file). <br>
 The bottom line is AngularFaces 2.0 requires a symbolic link to the AngularDart project (which may reside in a different folder of your hard disk).
-If you're a Windows users, it's a good idea to create the link in Eclipse (because Eclipse doesn't always respect symbolic links created on the file system). Currently, I'm using these links:
+If you're a Windows user, it's a good idea to create the link in Eclipse (because Eclipse doesn't always respect symbolic links created on the file system). Currently, I'm using these links:
 <ul>
 <li>
 	AngularFaces\AngularFaces_2.0\AngularFaces-2.0-examples\src\main\webapp\<b>examples</b> points to AngularPrime-Dart\web\angularFaces\examples.<br>
@@ -19,6 +19,7 @@ If you're a Windows users, it's a good idea to create the link in Eclipse (becau
 </li>
 </ul>
 
+<b>State of the art</b><br />
 Currently, AngularFaces 1.0 offers
 <ul>
 <li>&lt;a:body&gt;. You need this component to activate AngularJS in a JSF page. 
