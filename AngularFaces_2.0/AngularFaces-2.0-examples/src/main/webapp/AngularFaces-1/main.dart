@@ -17,7 +17,7 @@
 
 library showcase;
 
-import 'lib/core/pui-module.dart';
+import 'package:angularprime_dart/core/pui-module.dart';
 import 'package:angular/angular.dart';
 import 'dart:html';
 part 'puiInputDemoController.dart';
