@@ -27,7 +27,7 @@ import javax.faces.render.Renderer;
  * a number of input fields that are automatically aligned to each other. More precisely, &lt;pui-grid&gt; creates a
  * column consisting of three columns. The first column is the label (which is automatically extracted from the
  * component), the second is the components itself and the third column is the field-specific error message.
- * Alternative, the error message is placed below its field. Likewise, the label can be put above the input field.
+ * Alternatively, the error message is placed below its field. Likewise, the label can be put above the input field.
  *
  * @ToDo &lt;pui-grid&gt; is limited to a single column of components
  * @ToDo put labels optionally above the component

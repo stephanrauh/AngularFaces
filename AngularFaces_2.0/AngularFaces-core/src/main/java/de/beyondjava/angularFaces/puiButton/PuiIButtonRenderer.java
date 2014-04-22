@@ -25,8 +25,10 @@ import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
 
-import de.beyondjava.angularFaces.common.*;
-
+/**
+ * &ltpui-button&gt; is a command button that can call Dart code (or Javascript code, albeit JS code can't interoperate
+ * with Dart). &ltpui-button&gt; can contain a caption and an image that can be put in front of or behind the caption.
+ */
 @FacesRenderer(componentFamily = "javax.faces.Output", rendererType = "de.beyondjava.angularFaces.puiButton.PuiButton")
 public class PuiIButtonRenderer extends HtmlBasicInputRenderer {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiButton.PuiButtonRenderer");
@@ -48,34 +50,17 @@ public class PuiIButtonRenderer extends HtmlBasicInputRenderer {
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter responseWriter = context.getResponseWriter();
-        PuiButton input = (PuiButton) component;
+        PuiButton button = (PuiButton) component;
         StringBuffer html = new StringBuffer();
         html.append("<pui-button ");
-        renderNonEmptyAttribute(html, "label", input.getLabel());
-        renderNonEmptyAttribute(html, "value", ELTools.getCoreValueExpression(input));
-        NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(input);
-        if (infos.isHasMin()) {
-            renderNonEmptyAttribute(html, "min", String.valueOf(infos.getMin()));
-        }
-        if (infos.isHasMax()) {
-            renderNonEmptyAttribute(html, "max", String.valueOf(infos.getMin()));
-        }
-        if (infos.isHasMinSize()) {
-            renderNonEmptyAttribute(html, "minlength", String.valueOf(infos.getMin()));
-        }
-        if (infos.isHasMaxSize()) {
-            renderNonEmptyAttribute(html, "maxlength", String.valueOf(infos.getMin()));
-        }
-        if (infos.isRequired()) {
-            renderNonEmptyAttribute(html, "required", "true");
-        }
+        renderNonEmptyAttribute(html, "actionListener", button.getActionListener());
+        renderNonEmptyAttribute(html, "disabled", button.getDisabled());
+        renderNonEmptyAttribute(html, "icon", button.getIcon());
+        renderNonEmptyAttribute(html, "iconPos", button.getIconPos());
+        renderNonEmptyAttribute(html, "value", button.getValue());
         html.append(">");
         html.append("</pui-button>");
-
-        // responseWriter.append(html.toString());
-        responseWriter.append(html.toString().replace("<", "&lt;").replace(">", "&gt;"));
-        responseWriter.append("<br />");
-
+        responseWriter.append(html.toString());
     }
 
     /**

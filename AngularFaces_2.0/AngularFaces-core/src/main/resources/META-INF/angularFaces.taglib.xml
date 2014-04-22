@@ -72,6 +72,36 @@
       <component-type>de.beyondjava.angularFaces.puiButton.PuiButton</component-type>
       <renderer-type>de.beyondjava.angularFaces.puiButton.PuiButton</renderer-type>
     </component>
+    <attribute>
+      <description><![CDATA[ optional: the name of a Dart function called when the button is clicked. Similar to ng-click (but more natural to PrimeFaces programmers). Note that onClick is also a legal attribute, only it calls a Javascript function instead of a Dart function!]]></description>
+      <name>actionListener</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[optional: if set to "true", the button is disabled and doesn't react to being clicked.]]></description>
+      <name>disabled</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[optional: if set to "true", the button is disabled and doesn't react to being clicked.]]></description>
+      <name>icon</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[optional: the button's icon's position. Legal values: "right" and "left" (=default).]]></description>
+      <name>iconPos</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[The button's caption.]]></description>
+      <name>value</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
   </tag>
 
   <tag>
