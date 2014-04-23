@@ -25,10 +25,10 @@ import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
 
-import de.beyondjava.angularFaces.common.*;
+import de.beyondjava.angularFaces.core.*;
 
 @FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.angularFaces.puiInput.PuiInput")
-public class PuiInputTextRenderer extends HtmlBasicInputRenderer {
+public class PuiInputTextRenderer extends HtmlBasicInputRenderer implements RendererUtils, NGModelUtils {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiInputTextRenderer");
 
     static {
@@ -52,8 +52,12 @@ public class PuiInputTextRenderer extends HtmlBasicInputRenderer {
         StringBuffer html = new StringBuffer();
         html.append("<pui-input ");
         renderNonEmptyAttribute(html, "label", input.getLabel());
-        renderNonEmptyAttribute(html, "ng-model", ELTools.getCoreValueExpression(input));
+        final String ngModel = getNGModel(input, html);
+        renderNonEmptyAttribute(html, "ng-model", String.valueOf(ngModel));
+
         NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(input);
+        Object value = ELTools.evalAsObject("#{" + infos.getCoreExpression() + "}");
+        renderNonEmptyAttribute(html, "value", value == null ? null : String.valueOf(value));
         if (infos.isHasMin()) {
             renderNonEmptyAttribute(html, "min", String.valueOf(infos.getMin()));
         }
@@ -69,29 +73,15 @@ public class PuiInputTextRenderer extends HtmlBasicInputRenderer {
         if (infos.isRequired()) {
             renderNonEmptyAttribute(html, "required", "true");
         }
+        if (infos.isNumeric()) {
+            html.append("type='number' ");
+        }
         html.append(">");
         html.append("</pui-input>");
 
         responseWriter.append(html.toString());
         responseWriter.append(html.toString().replace("<", "&lt;").replace(">", "&gt;"));
         responseWriter.append("<br />");
-    }
-
-    /**
-     * Checks whether an attibute is empty, and adds it to the HTML code if it's not.
-     *
-     * @param input
-     * @param html
-     * @param attibuteName
-     * @param attributeValue
-     */
-    private void renderNonEmptyAttribute(StringBuffer html, final String attibuteName, final String attributeValue) {
-        if (attributeValue != null) {
-            html.append(attibuteName);
-            html.append("='");
-            html.append(attributeValue);
-            html.append("' ");
-        }
     }
 
 }

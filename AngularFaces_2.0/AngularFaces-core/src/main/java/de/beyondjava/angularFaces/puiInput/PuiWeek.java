@@ -23,27 +23,19 @@ import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
 
 /**
- * PuiInput is an Angular-aware iput text field reading the JSR 303 annotations and providing a label and an error
- * message.
+ * PuiWeek is an Angular-aware input text field reading the JSR 303 annotations and providing a label and an error
+ * message. It automatically adds a week selector.
  */
 @FacesComponent("de.beyondjava.angularFaces.puiInput.PuiWeek")
 public class PuiWeek extends PuiInput {
-    enum propertyKeys {
-        label, value
-    }
-
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiWeek");
 
     static {
         LOGGER.info("AngularFaces component 'PuiWeek' is available for use.");
     }
 
-    /**
-     *
-     */
     public PuiWeek() {
         LOGGER.info(getClass().getName() + " is initialized");
-        // setRendererType("de.beyondjava.angularFaces.puiInput.PuiInputTextRenderer");
         LOGGER.info(getFamily());
         Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
         LOGGER.info(renderer.getClass().getName());

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.beyondjava.angularFaces.common;
+package de.beyondjava.angularFaces.core;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;

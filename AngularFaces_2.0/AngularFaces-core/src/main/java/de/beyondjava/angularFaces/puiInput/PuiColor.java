@@ -23,27 +23,18 @@ import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
 
 /**
- * PuiInput is an Angular-aware iput text field reading the JSR 303 annotations and providing a label and an error
- * message.
+ * PuiColor is an Angular-aware color picker reading the JSR 303 annotations and providing a label and an error message.
  */
 @FacesComponent("de.beyondjava.angularFaces.puiInput.PuiColor")
 public class PuiColor extends PuiInput {
-    enum propertyKeys {
-        label, value
-    }
-
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiColor");
 
     static {
         LOGGER.info("AngularFaces component 'PuiColor' is available for use.");
     }
 
-    /**
-     *
-     */
     public PuiColor() {
         LOGGER.info(getClass().getName() + " is initialized");
-        // setRendererType("de.beyondjava.angularFaces.puiInput.PuiInputTextRenderer");
         LOGGER.info(getFamily());
         Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
         LOGGER.info(renderer.getClass().getName());

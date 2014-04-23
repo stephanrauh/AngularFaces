@@ -29,7 +29,7 @@ import javax.faces.render.Renderer;
 @FacesComponent("de.beyondjava.angularFaces.puiButton.PuiButton")
 public class PuiButton extends UIOutput {
     enum propertyKeys {
-        actionListener, disabled, icon, iconPos, value
+        actionListener, disabled, icon, iconPos
     }
 
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiButton.PuiButton");
@@ -69,10 +69,12 @@ public class PuiButton extends UIOutput {
         return (String) getStateHelper().eval(propertyKeys.iconPos, null);
     }
 
-    /** The button's caption */
+    /**
+     * We need this virtually superfluous method to be able to call it in defender methods.
+     */
     @Override
-    public String getValue() {
-        return (String) getStateHelper().eval(propertyKeys.value, null);
+    public StateHelper getStateHelper() {
+        return super.getStateHelper();
     }
 
     /**
@@ -98,10 +100,4 @@ public class PuiButton extends UIOutput {
     public void setIconPos(String iconPos) {
         getStateHelper().put(propertyKeys.iconPos, iconPos);
     }
-
-    /** The button's caption */
-    public void setValue(String value) {
-        getStateHelper().put(propertyKeys.value, value);
-    }
-
 }

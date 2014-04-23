@@ -23,6 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.*;
 
 import de.beyondjava.angularFaces.common.*;
+import de.beyondjava.angularFaces.core.*;
 
 /**
  * Default implementation of an AngularFaces security phase listener. Default implementation of a security filter to add

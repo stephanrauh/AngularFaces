@@ -26,6 +26,7 @@ import javax.faces.render.FacesRenderer;
 import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
 
 import de.beyondjava.angularFaces.common.*;
+import de.beyondjava.angularFaces.core.*;
 
 @FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.angularFaces.puiInput.PuiTextarea")
 public class PuiInputTextareaRenderer extends HtmlBasicInputRenderer {

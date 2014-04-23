@@ -25,22 +25,21 @@ import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
 
+import de.beyondjava.angularFaces.core.RendererUtils;
+
 /**
  * &ltpui-button&gt; is a command button that can call Dart code (or Javascript code, albeit JS code can't interoperate
  * with Dart). &ltpui-button&gt; can contain a caption and an image that can be put in front of or behind the caption.
  */
 @FacesRenderer(componentFamily = "javax.faces.Output", rendererType = "de.beyondjava.angularFaces.puiButton.PuiButton")
-public class PuiIButtonRenderer extends HtmlBasicInputRenderer {
+public class PuiButtonRenderer extends HtmlBasicInputRenderer implements RendererUtils {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiButton.PuiButtonRenderer");
 
     static {
         LOGGER.info("AngularFaces renderer of 'PuiButton' is available for use.");
     }
 
-    /**
-     *
-     */
-    public PuiIButtonRenderer() {
+    public PuiButtonRenderer() {
         LOGGER.info(getClass().getName() + " is being initialized");
     }
 
@@ -62,22 +61,4 @@ public class PuiIButtonRenderer extends HtmlBasicInputRenderer {
         html.append("</pui-button>");
         responseWriter.append(html.toString());
     }
-
-    /**
-     * Checks whether an attibute is empty, and adds it to the HTML code if it's not.
-     *
-     * @param input
-     * @param html
-     * @param attibuteName
-     * @param attributeValue
-     */
-    private void renderNonEmptyAttribute(StringBuffer html, final String attibuteName, final String attributeValue) {
-        if (attributeValue != null) {
-            html.append(attibuteName);
-            html.append("='");
-            html.append(attributeValue);
-            html.append("' ");
-        }
-    }
-
 }

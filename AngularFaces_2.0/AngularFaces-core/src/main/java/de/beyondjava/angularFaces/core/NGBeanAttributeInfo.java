@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.beyondjava.angularFaces.common;
+package de.beyondjava.angularFaces.core;
 
 import java.lang.annotation.Annotation;
 
@@ -26,11 +26,16 @@ import javax.validation.constraints.*;
  */
 public class NGBeanAttributeInfo {
     private Class<?> clazz;
+    private String coreExpression;
+
     private boolean hasMax = false;
 
     private boolean hasMaxSize = false;
     private boolean hasMin = false;
     private boolean hasMinSize = false;
+    /** Is the attribute a float or a double? */
+    private boolean isFloat = false;
+    /** Is the attribute one of the integer types (int, long, short, byte)? */
     private boolean isInteger = false;
 
     /** Numeric values include integers and doubles. */
@@ -52,6 +57,13 @@ public class NGBeanAttributeInfo {
         return clazz;
     }
 
+    /**
+     * @return the coreExpression
+     */
+    public String getCoreExpression() {
+        return this.coreExpression;
+    }
+
     public long getMax() {
         return max;
     }
@@ -66,6 +78,13 @@ public class NGBeanAttributeInfo {
 
     public long getMinSize() {
         return minSize;
+    }
+
+    /**
+     * Is the attribute a float or a double?
+     */
+    public boolean isFloat() {
+        return this.isFloat;
     }
 
     public boolean isHasMax() {
@@ -84,6 +103,9 @@ public class NGBeanAttributeInfo {
         return hasMinSize;
     }
 
+    /**
+     * Is the attribute one of the integer types (int, long, short, byte)?
+     */
     public boolean isInteger() {
         return isInteger;
     }
@@ -102,6 +124,7 @@ public class NGBeanAttributeInfo {
      * @param component
      */
     private void readJSR303Annotations(UIComponent component) {
+        coreExpression = ELTools.getCoreValueExpression(component);
         Annotation[] annotations = ELTools.readAnnotations(component);
         if (null != annotations) {
             for (Annotation a : annotations) {
@@ -128,8 +151,14 @@ public class NGBeanAttributeInfo {
         }
 
         clazz = ELTools.getType(component);
-        if ((clazz == Integer.class) || (clazz == int.class)) {
+        if ((clazz == Integer.class) || (clazz == int.class) || (clazz == Byte.class) || (clazz == byte.class)
+                || (clazz == Short.class) || (clazz == short.class) || (clazz == Long.class) || (clazz == long.class)) {
             isInteger = true;
+            isNumeric = true;
+        }
+        else if ((clazz == Double.class) || (clazz == double.class) || (clazz == Float.class) || (clazz == float.class)) {
+            isFloat = true;
+            isNumeric = true;
         }
     }
 }

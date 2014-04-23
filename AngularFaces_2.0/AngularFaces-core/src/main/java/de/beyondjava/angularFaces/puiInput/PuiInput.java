@@ -22,25 +22,20 @@ import javax.faces.component.*;
 import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
 
+import de.beyondjava.angularFaces.common.HasLabel;
+
 /**
- * PuiInput is an Angular-aware iput text field reading the JSR 303 annotations and providing a label and an error
- * message.
+ * PuiInput is an Angular-aware input text field reading the JSR 303 annotations and providing a label and an error
+ * message. Depending on the type of the bean attribute the field is displayed as type="number" or type="date".
  */
 @FacesComponent("de.beyondjava.angularFaces.puiInput.PuiInput")
-public class PuiInput extends UIInput {
-    enum propertyKeys {
-        label, value
-    }
-
+public class PuiInput extends UIInput implements HasLabel {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiInput");
 
     static {
         LOGGER.info("AngularFaces component 'PuiInput' is available for use.");
     }
 
-    /**
-     *
-     */
     public PuiInput() {
         LOGGER.info(getClass().getName() + " is initialized");
         LOGGER.info(getFamily());
@@ -48,12 +43,9 @@ public class PuiInput extends UIInput {
         LOGGER.info(renderer.getClass().getName());
     }
 
-    public String getLabel() {
-        return (String) getStateHelper().eval(propertyKeys.label, null);
+    /** This method seems superfluous, but we need it to be able to call getStateHelper() in defender methods */
+    @Override
+    public StateHelper getStateHelper() {
+        return super.getStateHelper();
     }
-
-    public void setLabel(String label) {
-        getStateHelper().put(propertyKeys.label, label);
-    }
-
 }

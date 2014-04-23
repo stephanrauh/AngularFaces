@@ -43,11 +43,11 @@ public class CalculatorBean implements Serializable {
     @NotNull
     int number3 = 33;
 
-    int result = 0;
+    int sum = 0;
 
     public String add() {
-        result = number1 + number2;
-        String msg = "Last calculation on the server side: " + number1 + "+" + number2 + "=" + result;
+        sum = number1 + number2;
+        String msg = "Last calculation on the server side: " + number1 + "+" + number2 + "=" + sum;
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
         return null;
     }
@@ -82,7 +82,7 @@ public class CalculatorBean implements Serializable {
      * @return the result
      */
     public int getResult() {
-        return this.result;
+        return this.sum;
     }
 
     /**
@@ -118,6 +118,6 @@ public class CalculatorBean implements Serializable {
      *            the result to set
      */
     public void setResult(int result) {
-        this.result = result;
+        this.sum = result;
     }
 }

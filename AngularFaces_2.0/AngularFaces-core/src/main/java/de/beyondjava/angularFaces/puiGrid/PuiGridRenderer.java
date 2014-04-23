@@ -44,9 +44,6 @@ public class PuiGridRenderer extends HtmlBasicInputRenderer {
         LOGGER.info("AngularFaces renderer of 'PuiGrid' is available for use.");
     }
 
-    /**
-     *
-     */
     public PuiGridRenderer() {
         LOGGER.info(getClass().getName() + " is being initialized");
     }
@@ -59,7 +56,6 @@ public class PuiGridRenderer extends HtmlBasicInputRenderer {
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        // TODO Auto-generated method stub
         super.encodeEnd(context, component);
         ResponseWriter responseWriter = context.getResponseWriter();
         responseWriter.append("</pui-grid>");
