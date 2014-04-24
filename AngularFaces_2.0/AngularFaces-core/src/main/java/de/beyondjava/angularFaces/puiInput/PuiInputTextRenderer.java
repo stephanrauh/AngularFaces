@@ -62,13 +62,13 @@ public class PuiInputTextRenderer extends HtmlBasicInputRenderer implements Rend
             renderNonEmptyAttribute(html, "min", String.valueOf(infos.getMin()));
         }
         if (infos.isHasMax()) {
-            renderNonEmptyAttribute(html, "max", String.valueOf(infos.getMin()));
+            renderNonEmptyAttribute(html, "max", String.valueOf(infos.getMax()));
         }
         if (infos.isHasMinSize()) {
-            renderNonEmptyAttribute(html, "minlength", String.valueOf(infos.getMin()));
+            renderNonEmptyAttribute(html, "minlength", String.valueOf(infos.getMinSize()));
         }
         if (infos.isHasMaxSize()) {
-            renderNonEmptyAttribute(html, "maxlength", String.valueOf(infos.getMin()));
+            renderNonEmptyAttribute(html, "maxlength", String.valueOf(infos.getMaxSize()));
         }
         if (infos.isRequired()) {
             renderNonEmptyAttribute(html, "required", "true");

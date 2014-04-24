@@ -52,7 +52,11 @@ public class PuiButtonRenderer extends HtmlBasicInputRenderer implements Rendere
         PuiButton button = (PuiButton) component;
         StringBuffer html = new StringBuffer();
         html.append("<pui-button ");
-        renderNonEmptyAttribute(html, "actionListener", button.getActionListener());
+        String actionListener = button.getActionListener();
+        if ((null != actionListener) && (!actionListener.contains("("))) {
+            actionListener += "()";
+        }
+        renderNonEmptyAttribute(html, "actionListener", actionListener);
         renderNonEmptyAttribute(html, "disabled", button.getDisabled());
         renderNonEmptyAttribute(html, "icon", button.getIcon());
         renderNonEmptyAttribute(html, "iconPos", button.getIconPos());
