@@ -31,11 +31,12 @@ public class PuiBodyRenderer extends BodyRenderer {
         // TODO Auto-generated method stub
         super.encodeBegin(context, component);
         ResponseWriter writer = context.getResponseWriter();
-        String controller = (String) component.getAttributes().get("controller"); // TODO
+        String controller = (String) component.getAttributes().get("selector"); // TODO
         if (null == controller) {
             controller = "controllerBean";
+            LOGGER.warning("PuiBody: Missing attribute selector. I'm using controllerBean as default selector name.");
         }
-        writer.writeAttribute(controller, "", null);
+        writer.writeAttribute(controller, controller, null);
 
     }
 

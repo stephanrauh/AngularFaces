@@ -29,9 +29,9 @@ public interface RendererUtils {
             final Object attributeValue) {
         if (attributeValue != null) {
             html.append(attibuteName);
-            html.append("='");
+            html.append("=\"");
             html.append(String.valueOf(attributeValue));
-            html.append("' ");
+            html.append("\" ");
         }
     }
 
