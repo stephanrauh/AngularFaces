@@ -16,7 +16,26 @@
  */
 package de.beyondjava.angularFaces.core;
 
+import java.io.IOException;
+
+import javax.faces.context.ResponseWriter;
+
 public interface RendererUtils {
+    /**
+     * Checks whether an attibute is empty, and adds it to the HTML code if it's not.
+     * @param html
+     * @param attributeValue
+     * @param input
+     * @param attibuteName
+     *
+     * @throws IOException
+     */
+    default public void renderNonEmptyAttribute(ResponseWriter html, final String attributeName, final Object attributeValue) throws IOException {
+        if (attributeValue != null) {
+            html.writeAttribute(attributeName, String.valueOf(attributeValue), attributeName);
+        }
+    }
+
     /**
      * Checks whether an attibute is empty, and adds it to the HTML code if it's not.
      *
