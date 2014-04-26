@@ -14,28 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.beyondjava.angularFaces.core;
+package de.beyondjava.angularFaces.common;
 
-import java.io.IOException;
+import javax.faces.component.StateHelper;
 
-import javax.faces.context.ResponseWriter;
+public interface IEditable {
+    public default String getEditable() {
+        return (String) getStateHelper().eval("editable", null);
+    }
 
-public interface RendererUtils {
-    /**
-     * Checks whether an attibute is empty, and adds it to the HTML code if it's not.
-     * 
-     * @param writer
-     * @param attributeValue
-     * @param input
-     * @param attibuteName
-     *
-     * @throws IOException
-     */
-    default public void renderNonEmptyAttribute(ResponseWriter writer, final String attributeName,
-            final Object attributeValue) throws IOException {
-        if (attributeValue != null) {
-            writer.writeAttribute(attributeName, String.valueOf(attributeValue), attributeName);
-        }
+    public StateHelper getStateHelper();
+
+    public default void setEditable(String label) {
+        getStateHelper().put("editable", label);
     }
 
 }

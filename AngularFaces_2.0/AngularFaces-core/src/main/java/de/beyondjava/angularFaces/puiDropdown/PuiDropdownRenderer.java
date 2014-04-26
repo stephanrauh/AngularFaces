@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.beyondjava.angularFaces.puiInputTextarea;
+package de.beyondjava.angularFaces.puiDropdown;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -27,19 +27,20 @@ import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
 
 import de.beyondjava.angularFaces.core.*;
 
-@FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.angularFaces.puiInput.PuiTextarea")
-public class PuiInputTextareaRenderer extends HtmlBasicInputRenderer implements NGModelRendererUtils,
-        JSR303RendererUtils {
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiTextareaRenderer");
+@FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.angularFaces.puiDropdown.PuiDropdown")
+public class PuiDropdownRenderer extends HtmlBasicInputRenderer implements RendererUtils, NGModelRendererUtils,
+JSR303RendererUtils {
+    private static final Logger LOGGER = Logger
+            .getLogger("de.beyondjava.angularFaces.puiDropdown.PuiDropdownTextRenderer");
 
     static {
-        LOGGER.info("AngularFaces renderer of 'PuiTextarea' is available for use.");
+        LOGGER.info("AngularFaces renderer of 'PuiDropdown' is available for use.");
     }
 
     /**
      *
      */
-    public PuiInputTextareaRenderer() {
+    public PuiDropdownRenderer() {
         LOGGER.info(getClass().getName() + " is being initialized");
     }
 
@@ -49,12 +50,17 @@ public class PuiInputTextareaRenderer extends HtmlBasicInputRenderer implements 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        PuiTextarea input = (PuiTextarea) component;
-        writer.startElement("pui-textarea", component);
+        PuiDropdown input = (PuiDropdown) component;
+        writer.startElement("pui-dropdown", component);
         renderNonEmptyAttribute(writer, "label", input.getLabel());
         renderNGModel(input, writer);
         renderJSR303Constraints(writer, input);
-        writer.endElement("pui-textarea");
+    }
+
+    @Override
+    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+        ResponseWriter writer = context.getResponseWriter();
+        writer.endElement("pui-dropdown");
     }
 
 }

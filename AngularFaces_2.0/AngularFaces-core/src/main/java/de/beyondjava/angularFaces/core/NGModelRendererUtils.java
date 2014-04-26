@@ -16,30 +16,34 @@
  */
 package de.beyondjava.angularFaces.core;
 
+import java.io.IOException;
+
 import javax.faces.component.UIComponent;
+import javax.faces.context.ResponseWriter;
 
-import de.beyondjava.angularFaces.puiBody.PuiBody;
+import de.beyondjava.angularFaces.common.IAngularController;
 
-public interface NGModelUtils extends RendererUtils {
-
+public interface NGModelRendererUtils extends RendererUtils {
     /**
      * Extracts the ng-model attribute from the bean attribute name.
      *
      * @param input
-     * @param html
+     * @param writer
      * @return
+     * @throws IOException
      */
-    public default String getNGModel(UIComponent input, StringBuffer html) {
+    public default String renderNGModel(UIComponent input, ResponseWriter writer) throws IOException {
         String coreValueExpression = ELTools.getCoreValueExpression(input);
-        while ((input != null) && (!(input instanceof PuiBody))) {
+        while ((input != null) && (!(input instanceof IAngularController))) {
             input = input.getParent();
         }
         if (null != input) {
-            String publishAs = ((PuiBody) input).getPublishAs();
-            String selector = ((PuiBody) input).getSelector();
+            String publishAs = ((IAngularController) input).getPublishAs();
+            String selector = ((IAngularController) input).getSelector();
             coreValueExpression = coreValueExpression.replace(selector, publishAs);
         }
-        renderNonEmptyAttribute(html, "ng-model", coreValueExpression);
+        renderNonEmptyAttribute(writer, "ng-model", coreValueExpression);
         return coreValueExpression;
     }
+
 }

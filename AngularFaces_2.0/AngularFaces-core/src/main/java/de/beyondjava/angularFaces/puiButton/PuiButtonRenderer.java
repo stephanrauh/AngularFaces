@@ -48,21 +48,18 @@ public class PuiButtonRenderer extends HtmlBasicInputRenderer implements Rendere
      */
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        ResponseWriter responseWriter = context.getResponseWriter();
+        ResponseWriter writer = context.getResponseWriter();
         PuiButton button = (PuiButton) component;
-        StringBuffer html = new StringBuffer();
-        html.append("<pui-button ");
+        writer.startElement("pui-button", component);
         String actionListener = button.getActionListener();
         if ((null != actionListener) && (!actionListener.contains("("))) {
             actionListener += "()";
         }
-        renderNonEmptyAttribute(html, "actionListener", actionListener);
-        renderNonEmptyAttribute(html, "disabled", button.getDisabled());
-        renderNonEmptyAttribute(html, "icon", button.getIcon());
-        renderNonEmptyAttribute(html, "iconPos", button.getIconPos());
-        renderNonEmptyAttribute(html, "value", button.getValue());
-        html.append(">");
-        html.append("</pui-button>");
-        responseWriter.append(html.toString());
+        renderNonEmptyAttribute(writer, "actionListener", actionListener);
+        renderNonEmptyAttribute(writer, "disabled", button.getDisabled());
+        renderNonEmptyAttribute(writer, "icon", button.getIcon());
+        renderNonEmptyAttribute(writer, "iconPos", button.getIconPos());
+        renderNonEmptyAttribute(writer, "value", button.getValue());
+        writer.endElement("pui-button");
     }
 }

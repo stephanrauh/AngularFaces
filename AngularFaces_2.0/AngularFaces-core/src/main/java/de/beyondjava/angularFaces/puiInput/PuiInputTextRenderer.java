@@ -28,7 +28,8 @@ import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
 import de.beyondjava.angularFaces.core.*;
 
 @FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.angularFaces.puiInput.PuiInput")
-public class PuiInputTextRenderer extends HtmlBasicInputRenderer implements RendererUtils, NGModelUtils {
+public class PuiInputTextRenderer extends HtmlBasicInputRenderer implements RendererUtils, NGModelRendererUtils,
+JSR303RendererUtils {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiInputTextRenderer");
 
     static {
@@ -47,41 +48,13 @@ public class PuiInputTextRenderer extends HtmlBasicInputRenderer implements Rend
      */
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        ResponseWriter responseWriter = context.getResponseWriter();
+        ResponseWriter writer = context.getResponseWriter();
         PuiInput input = (PuiInput) component;
-        StringBuffer html = new StringBuffer();
-        html.append("<pui-input ");
-        renderNonEmptyAttribute(html, "label", input.getLabel());
-        final String ngModel = getNGModel(input, html);
-        renderNonEmptyAttribute(html, "ng-model", String.valueOf(ngModel));
-
-        NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(input);
-        Object value = ELTools.evalAsObject("#{" + infos.getCoreExpression() + "}");
-        renderNonEmptyAttribute(html, "value", value == null ? null : String.valueOf(value));
-        if (infos.isHasMin()) {
-            renderNonEmptyAttribute(html, "min", String.valueOf(infos.getMin()));
-        }
-        if (infos.isHasMax()) {
-            renderNonEmptyAttribute(html, "max", String.valueOf(infos.getMax()));
-        }
-        if (infos.isHasMinSize()) {
-            renderNonEmptyAttribute(html, "minlength", String.valueOf(infos.getMinSize()));
-        }
-        if (infos.isHasMaxSize()) {
-            renderNonEmptyAttribute(html, "maxlength", String.valueOf(infos.getMaxSize()));
-        }
-        if (infos.isRequired()) {
-            renderNonEmptyAttribute(html, "required", "true");
-        }
-        if (infos.isNumeric()) {
-            html.append("type='number' ");
-        }
-        html.append(">");
-        html.append("</pui-input>");
-
-        responseWriter.append(html.toString());
-        responseWriter.append(html.toString().replace("<", "&lt;").replace(">", "&gt;"));
-        responseWriter.append("<br />");
+        writer.startElement("pui-input", component);
+        renderNonEmptyAttribute(writer, "label", input.getLabel());
+        renderNGModel(input, writer);
+        renderJSR303Constraints(writer, input);
+        writer.endElement("pui-input");
     }
 
 }
