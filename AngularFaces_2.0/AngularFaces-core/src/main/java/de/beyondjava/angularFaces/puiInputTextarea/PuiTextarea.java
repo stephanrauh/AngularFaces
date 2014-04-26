@@ -22,14 +22,16 @@ import javax.faces.component.*;
 import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
 
+import de.beyondjava.angularFaces.common.ILabel;
+
 /**
- * PuiInput is an Angular-aware iput text field reading the JSR 303 annotations and providing a label and an error
- * message.
+ * PuiInputTextare is an Angular-aware input textarea field reading the JSR 303 annotations and providing a label and an
+ * error message.
  */
 @FacesComponent("de.beyondjava.angularFaces.puiInput.PuiTextarea")
-public class PuiTextarea extends UIInput {
+public class PuiTextarea extends UIInput implements ILabel {
     enum propertyKeys {
-        label, value
+        value
     }
 
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiTextArea");
@@ -49,12 +51,12 @@ public class PuiTextarea extends UIInput {
         LOGGER.info(renderer.getClass().getName());
     }
 
-    public String getLabel() {
-        return (String) getStateHelper().eval(propertyKeys.label, null);
+    /**
+     * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender
+     * methods.
+     */
+    @Override
+    public StateHelper getStateHelper() {
+        return super.getStateHelper();
     }
-
-    public void setLabel(String label) {
-        getStateHelper().put(propertyKeys.label, label);
-    }
-
 }
