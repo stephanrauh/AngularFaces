@@ -150,17 +150,75 @@
       <required>false</required>
       <type>java.lang.String</type>
     </attribute>
-    
   </tag>
 
   <tag>
-    <description><![CDATA[pui:tabView renders a tabview.]]></description>
-    <tag-name>tabView</tag-name>
+    <description><![CDATA[pui:accordion is a panel the content of which can be hidden. Typically, several pui:accordions are stack on top of each other, with only one accordion rib expanded.]]></description>
+    <tag-name>accordion</tag-name>
     <component>
-      <component-type>de.beyondjava.angularFaces.puiTabview.PuiTabView</component-type>
-      <renderer-type>de.beyondjava.angularFaces.puiTabview.PuiTabView</renderer-type>
+      <component-type>de.beyondjava.angularFaces.puiAccordion.PuiAccordion</component-type>
+      <renderer-type>de.beyondjava.angularFaces.puiAccordion.PuiAccordion</renderer-type>
     </component>
-  </tag>
 
+    <attribute>
+      <description><![CDATA[Is the accordion rib initially collapsed? Default: false]]></description>
+      <name>collapsed</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[Caption of the accordion rib.]]></description>
+      <name>header</name>
+      <required>true</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[Can the accordion rib be collapsed?]]></description>
+      <name>toggleable</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[Is the accordion rib to collapse horizontally or vertical? Legal values: vertical and horizontal. Default: vertical.]]></description>
+      <name>toggleOrientation</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+  </tag>
+  
+  <tag>
+    <description><![CDATA[pui:panel is a field group with a caption.]]></description>
+    <tag-name>panel</tag-name>
+    <component>
+      <component-type>de.beyondjava.angularFaces.puiPanel.PuiPanel</component-type>
+      <renderer-type>de.beyondjava.angularFaces.puiPanel.PuiPanel</renderer-type>
+    </component>
+
+    <attribute>
+      <description><![CDATA[Is the panel initially collapsed? Default: false]]></description>
+      <name>collapsed</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[Caption of the panel.]]></description>
+      <name>header</name>
+      <required>true</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[Can the panel be collapsed?]]></description>
+      <name>toggleable</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[Is the panel to collapse horizontally or vertical? Legal values: vertical and horizontal. Default: vertical.]]></description>
+      <name>toggleOrientation</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+  </tag>
+  
 
 </facelet-taglib>

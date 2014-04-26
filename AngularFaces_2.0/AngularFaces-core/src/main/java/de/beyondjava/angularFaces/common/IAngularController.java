@@ -18,15 +18,23 @@ package de.beyondjava.angularFaces.common;
 
 import javax.faces.component.StateHelper;
 
-public interface HasValue {
-    StateHelper getStateHelper();
-
-    public default String getValue() {
-        return (String) getStateHelper().eval("value", null);
+public interface IAngularController {
+    public default String getPublishAs() {
+        return (String) getStateHelper().eval("publishAs", null);
     }
 
-    public default void setValue(String value) {
-        getStateHelper().put("value", value);
+    public default String getSelector() {
+        return (String) getStateHelper().eval("selector", null);
+    }
+
+    StateHelper getStateHelper();
+
+    public default void setPublishAs(String publishAs) {
+        getStateHelper().put("publishAs", publishAs);
+    }
+
+    public default void setSelector(String selector) {
+        getStateHelper().put("selector", selector);
     }
 
 }

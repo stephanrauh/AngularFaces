@@ -1,30 +1,26 @@
-package de.beyondjava.angularFaces.puiBody;
+package de.beyondjava.angularFaces.puiAngularController;
 
 import java.util.logging.Logger;
 
 import javax.faces.component.*;
-import javax.faces.component.html.HtmlBody;
 import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
 
 import de.beyondjava.angularFaces.common.IAngularController;
 
 /**
- * PuiBody is an HtmlBody that activates the AngularDart framework.
+ * PuiAngularController is a HTML span element with an AngularDart controller.
  */
-@FacesComponent("de.beyondjava.angularFaces.puiBody.PuiBody")
-public class PuiBody extends HtmlBody implements IAngularController {
-    enum propertyKeys {
-        publishAs, selector
-    }
-
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiBody.PuiBody");
+@FacesComponent("de.beyondjava.angularFaces.puiAngularController.PuiAngularController")
+public class PuiAngularController extends UIOutput implements IAngularController {
+    private static final Logger LOGGER = Logger
+            .getLogger("de.beyondjava.angularFaces.puiAngularController.PuiAngularController");
 
     static {
-        LOGGER.info("AngularFaces component 'PuiBody' is available for use.");
+        LOGGER.info("AngularFaces component 'PuiAngularController' is available for use.");
     }
 
-    public PuiBody() {
+    public PuiAngularController() {
         LOGGER.info(getClass().getName() + " is initialized");
         LOGGER.info(getFamily());
         Renderer renderer = getRenderer(FacesContext.getCurrentInstance());

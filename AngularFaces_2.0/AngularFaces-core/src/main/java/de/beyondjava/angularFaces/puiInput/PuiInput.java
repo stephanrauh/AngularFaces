@@ -22,14 +22,14 @@ import javax.faces.component.*;
 import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
 
-import de.beyondjava.angularFaces.common.HasLabel;
+import de.beyondjava.angularFaces.common.ILabel;
 
 /**
  * PuiInput is an Angular-aware input text field reading the JSR 303 annotations and providing a label and an error
  * message. Depending on the type of the bean attribute the field is displayed as type="number" or type="date".
  */
 @FacesComponent("de.beyondjava.angularFaces.puiInput.PuiInput")
-public class PuiInput extends UIInput implements HasLabel {
+public class PuiInput extends UIInput implements ILabel {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiInput");
 
     static {
@@ -43,7 +43,10 @@ public class PuiInput extends UIInput implements HasLabel {
         LOGGER.info(renderer.getClass().getName());
     }
 
-    /** This method seems superfluous, but we need it to be able to call getStateHelper() in defender methods */
+    /**
+     * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender
+     * methods.
+     */
     @Override
     public StateHelper getStateHelper() {
         return super.getStateHelper();

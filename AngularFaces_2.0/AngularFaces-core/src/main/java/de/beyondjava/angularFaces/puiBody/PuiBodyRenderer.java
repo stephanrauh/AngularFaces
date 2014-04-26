@@ -9,13 +9,16 @@ import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.BodyRenderer;
 
+import de.beyondjava.angularFaces.common.IAngularController;
+import de.beyondjava.angularFaces.core.RendererUtils;
+
 /**
  * PuiBody is an HtmlBody that activates the AngularDart framework.
  */
 // ToDo @ResourceDependencies({ @ResourceDependency(library = "angularPrimeDart", name = "packages/browser/dart.js",
 // target = "body") })
 @FacesRenderer(componentFamily = "javax.faces.Output", rendererType = "de.beyondjava.angularFaces.puiBody.PuiBody")
-public class PuiBodyRenderer extends BodyRenderer {
+public class PuiBodyRenderer extends BodyRenderer implements RendererUtils {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiButton.PuiBodyRenderer");
 
     static {
@@ -28,16 +31,21 @@ public class PuiBodyRenderer extends BodyRenderer {
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        // TODO Auto-generated method stub
         super.encodeBegin(context, component);
         ResponseWriter writer = context.getResponseWriter();
-        String controller = (String) component.getAttributes().get("selector"); // TODO
-        if (null == controller) {
-            controller = "controllerBean";
-            LOGGER.warning("PuiBody: Missing attribute selector. I'm using controllerBean as default selector name.");
+        String controller = ((IAngularController) component).getSelector();
+        String publishAs = ((IAngularController) component).getPublishAs();
+        if ((null == controller) ^ (null == publishAs)) {
+            if (null == controller) {
+                controller = "controllerBean";
+                LOGGER.warning("PuiBody: Missing attribute 'controller'. Using 'controllerBean' as default.");
+            }
+            else {
+                publishAs = "ctrl";
+                LOGGER.warning("PuiBody: Missing attribute 'publishAs'. Using 'publishAs' as default.");
+            }
         }
-        writer.writeAttribute(controller, controller, null);
-
+        renderNonEmptyAttribute(writer, controller, controller);
     }
 
     @Override

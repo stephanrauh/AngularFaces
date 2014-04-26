@@ -18,15 +18,15 @@ package de.beyondjava.angularFaces.common;
 
 import javax.faces.component.StateHelper;
 
-public interface HasLabel {
-    public default String getLabel() {
-        return (String) getStateHelper().eval("label", null);
+public interface IValue {
+    StateHelper getStateHelper();
+
+    public default String getValue() {
+        return (String) getStateHelper().eval("value", null);
     }
 
-    public StateHelper getStateHelper();
-
-    public default void setLabel(String label) {
-        getStateHelper().put("label", label);
+    public default void setValue(String value) {
+        getStateHelper().put("value", value);
     }
 
 }
