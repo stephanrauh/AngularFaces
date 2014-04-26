@@ -25,6 +25,8 @@ import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
 
+import de.beyondjava.angularFaces.core.RendererUtils;
+
 /**
  * &lt;pui-grid&gt; makes it a little easier to create simple but decently looking input dialogs. Typically it contains
  * a number of input fields that are automatically aligned to each other. More precisely, &lt;pui-grid&gt; creates a
@@ -37,7 +39,7 @@ import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
  * @ToDo put error message optionally behind the component
  */
 @FacesRenderer(componentFamily = "javax.faces.Output", rendererType = "de.beyondjava.angularFaces.puiGrid.PuiGrid")
-public class PuiGridRenderer extends HtmlBasicInputRenderer {
+public class PuiGridRenderer extends HtmlBasicInputRenderer implements RendererUtils {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiGrid.PuiGridRenderer");
 
     static {
@@ -51,13 +53,18 @@ public class PuiGridRenderer extends HtmlBasicInputRenderer {
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter responseWriter = context.getResponseWriter();
-        responseWriter.append("<pui-grid>");
+        PuiGrid grid = (PuiGrid) component;
+        responseWriter.startElement("pui-grid", component);
+        if (grid.getColumns() > 1) {
+            renderNonEmptyAttribute(responseWriter, "columns", grid.getColumns());
+        }
+
     }
 
     @Override
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         super.encodeEnd(context, component);
         ResponseWriter responseWriter = context.getResponseWriter();
-        responseWriter.append("</pui-grid>");
+        responseWriter.endElement("pui-grid");
     }
 }

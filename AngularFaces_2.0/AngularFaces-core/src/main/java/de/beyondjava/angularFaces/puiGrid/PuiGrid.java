@@ -36,7 +36,7 @@ import javax.faces.render.Renderer;
 @FacesComponent("de.beyondjava.angularFaces.puiGrid.PuiGrid")
 public class PuiGrid extends UIOutput {
     enum propertyKeys {
-        errorMessagePosition, labelPosition
+        columns, errorMessagePosition, labelPosition
     }
 
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiGrid.PuiGrid");
@@ -50,6 +50,15 @@ public class PuiGrid extends UIOutput {
         LOGGER.info(getFamily());
         Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
         LOGGER.info(renderer.getClass().getName());
+    }
+
+    /**
+     * How many columns of fields do you need? Please note the difference between a pui:grid column and an HTML column.
+     * pui:grid columns consists of two or three HTML columns (the label, the component and optionally the error
+     * message).
+     */
+    public int getColumns() {
+        return (int) getStateHelper().eval(propertyKeys.columns, 1);
     }
 
     /**
@@ -69,6 +78,15 @@ public class PuiGrid extends UIOutput {
     }
 
     /**
+     * How many columns of fields do you need? Please note the difference between a pui:grid column and an HTML column.
+     * pui:grid columns consists of two or three HTML columns (the label, the component and optionally the error
+     * message).
+     */
+    public void setColumns(int columns) {
+        getStateHelper().put(propertyKeys.columns, columns);
+    }
+
+    /**
      * Do you want to put the error message below or behind the field? Legal values: "below" and "behind". Default
      * value: "below".
      */
@@ -83,4 +101,5 @@ public class PuiGrid extends UIOutput {
     public void setLabelPosition(String aboveOrBefore) {
         getStateHelper().put(propertyKeys.labelPosition, aboveOrBefore);
     }
+
 }
