@@ -77,7 +77,7 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>5.0-SNAPSHOT</version>
+			<version>5.0</version>
 		</dependency>
 		<!-- Gson: Java to Json conversion -->
 		<dependency>
