@@ -1,4 +1,0 @@
-<form action="/AngularFaces/Differencia/tercera.jsf" enctype="application/x-www-form-urlencoded" id="formID" method="post" name="formID">
-<label>city</label>
-<input id="formID:cityID" name="formID:cityID" type="text"/>
-</form>
