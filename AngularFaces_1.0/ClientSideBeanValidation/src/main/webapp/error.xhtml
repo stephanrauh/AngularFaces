@@ -1,7 +1,13 @@
 <f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:h="http://java.sun.com/jsf/html" xmlns:a="http://beyondjava.net/angularFaces">
+  xmlns:h="http://java.sun.com/jsf/html" >
   <h:head />
   <h:body>
-    <h:outputText value="An error occurred." />
+    <h:panelGrid columns="1">
+      <h:outputText value="An error occurred." />
+      <h:outputText value="Error class :#{pfExceptionHandler.type}" />
+      <h:outputText value="Message:#{pfExceptionHandler.message}" />
+      <h:outputText value="Time:   #{pfExceptionHandler.formattedTimestamp}" />
+      <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false" />
+    </h:panelGrid>
   </h:body>
 </f:view>

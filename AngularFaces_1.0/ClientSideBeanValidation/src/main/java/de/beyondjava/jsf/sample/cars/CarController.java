@@ -16,6 +16,7 @@
  */
 package de.beyondjava.jsf.sample.cars;
 
+import java.util.*;
 import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
@@ -24,15 +25,33 @@ import javax.faces.bean.ManagedBean;
 public class CarController {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsf.sample.cars.CarController");
 
+    private List<Car> cars = new ArrayList<>();
+
     /**
      *
      */
     public CarController() {
+        cars.add(new Car());
+    }
+
+    /**
+     * @return the cars
+     */
+    public List<Car> getCars() {
+        return this.cars;
     }
 
     public String save() {
         LOGGER.info("save action called");
         return "table.jsf";
+    }
+
+    /**
+     * @param cars
+     *            the cars to set
+     */
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
     }
 
 }

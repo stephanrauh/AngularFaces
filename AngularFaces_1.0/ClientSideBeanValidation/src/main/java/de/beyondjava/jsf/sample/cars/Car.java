@@ -19,15 +19,20 @@ package de.beyondjava.jsf.sample.cars;
 import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
+import javax.validation.constraints.*;
 
 @ManagedBean
 public class Car {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsf.sample.cars.Car");
 
+    @Size(min = 4, max = 10)
     private String brand = "Honda";
 
+    @Size(min = 5, max = 5)
     private String type = "Civic";
 
+    @Min(2000)
+    @Max(2015)
     private int year = 2008;
 
     /**

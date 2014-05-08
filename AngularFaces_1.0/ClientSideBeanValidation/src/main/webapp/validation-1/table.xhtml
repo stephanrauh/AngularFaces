@@ -17,7 +17,19 @@
       <p />
       Table of cars:
       <h:form ng:name="myform">
-    </h:form>
+         <prime:dataTable value="#{carController.cars}" var="car">
+            <h:inputText value="#{car.brand}" />
+         </prime:dataTable>
+    
+          <prime:ajaxExceptionHandler type="java.lang.Throwable"
+            update="exceptionDialog" onexception="PF('exceptionDialog').show();" />
+          <prime:dialog id="exceptionDialog" header="Exception: #{pfExceptionHandler.type} occured!" widgetVar="exceptionDialog" height="500px">
+            Message: #{pfExceptionHandler.message} <br/>
+            StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}"  escape="false" />
+            <prime:button onclick="document.location.href = document.location.href;" value="Reload!"/>
+          </prime:dialog>
+        </h:form>
     <h:messages />
+    
   </h:body>
 </f:view>

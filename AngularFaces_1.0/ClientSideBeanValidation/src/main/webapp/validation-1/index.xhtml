@@ -15,15 +15,23 @@
     <h3>Client Side Bean Validation</h3>
       An extension to PrimeFaces 5.1
       <h:form ng:name="myform">
-        <prime:panelGrid columns="2">
+        <prime:panelGrid columns="3">
           Brand:
-          <prime:inputText value="#{car.brand}" />
+          <prime:inputText value="#{car.brand}" /><prime:message for="@previous" />
           Type:
-          <prime:inputText value="#{car.type}" />
+          <prime:inputText value="#{car.type}" /><prime:message for="@previous" />
           Year:
-          <prime:inputText value="#{car.year}" />
+          <prime:inputText value="#{car.year}" /><prime:message for="@previous" />
         </prime:panelGrid>
-        <prime:commandButton value="Update backend" action="#{carController.save}"/>
+        <prime:commandButton value="Update backend" action="#{carController.save}" validateClient="true"/>
+        <prime:ajaxExceptionHandler type="java.lang.Throwable"
+            update="exceptionDialog" onexception="PF('exceptionDialog').show();" />
+          <prime:dialog id="exceptionDialog" header="Exception: #{pfExceptionHandler.type} occured!" widgetVar="exceptionDialog" height="500px">
+            Message: #{pfExceptionHandler.message} <br/>
+            StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}"  escape="false" />
+            <prime:button onclick="document.location.href = document.location.href;" value="Reload!" />
+          </prime:dialog>
+        
     </h:form>
     <h:messages />
   </h:body>

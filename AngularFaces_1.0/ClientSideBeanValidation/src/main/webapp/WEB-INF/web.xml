@@ -22,8 +22,12 @@
     <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
     <param-value>server</param-value>
   </context-param>
-  <error-page>
+  <context-param>
+    <param-name>primefaces.TRANSFORM_METADATA</param-name>
+    <param-value>true</param-value>
+</context-param>
+<!--   <error-page>
     <exception-type>java.lang.Throwable</exception-type>
     <location>/error.jsf</location>
-  </error-page>
+  </error-page> -->
 </web-app>
