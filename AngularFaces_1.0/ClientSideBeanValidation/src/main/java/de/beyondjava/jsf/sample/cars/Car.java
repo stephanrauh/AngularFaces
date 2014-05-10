@@ -16,6 +16,7 @@
  */
 package de.beyondjava.jsf.sample.cars;
 
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
@@ -28,6 +29,10 @@ public class Car {
     @Size(min = 4, max = 10)
     private String brand = "Honda";
 
+    private Date deliveryDate = new Date();
+
+    @NotNull
+    @Max(3)
     @Size(min = 5, max = 5)
     private String type = "Civic";
 
@@ -50,6 +55,13 @@ public class Car {
     }
 
     /**
+     * @return the deliveryDate
+     */
+    public Date getDeliveryDate() {
+        return this.deliveryDate;
+    }
+
+    /**
      * @return the type
      */
     public String getType() {
@@ -69,6 +81,14 @@ public class Car {
      */
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    /**
+     * @param deliveryDate
+     *            the deliveryDate to set
+     */
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
     /**

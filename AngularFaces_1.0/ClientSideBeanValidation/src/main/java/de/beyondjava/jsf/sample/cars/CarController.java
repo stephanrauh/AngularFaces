@@ -19,7 +19,9 @@ package de.beyondjava.jsf.sample.cars;
 import java.util.*;
 import java.util.logging.Logger;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
 public class CarController {
@@ -43,6 +45,11 @@ public class CarController {
 
     public String save() {
         LOGGER.info("save action called");
+        if (true) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Validation failed"));
+            return null;
+        }
         return "table.jsf";
     }
 

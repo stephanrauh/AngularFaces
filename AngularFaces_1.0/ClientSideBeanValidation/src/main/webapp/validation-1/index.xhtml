@@ -15,13 +15,18 @@
     <h3>Client Side Bean Validation</h3>
       An extension to PrimeFaces 5.1
       <h:form ng:name="myform">
+      <h:messages></h:messages>
         <prime:panelGrid columns="3">
-          Brand:
+          <prime:outputLabel value="Brand:" for="@next" />
           <prime:inputText value="#{car.brand}" /><prime:message for="@previous" />
-          Type:
+          <prime:outputLabel value="Type:" for="@next" />
           <prime:inputText value="#{car.type}" /><prime:message for="@previous" />
-          Year:
+          <prime:outputLabel value="Year:" for="@next" />
           <prime:inputText value="#{car.year}" /><prime:message for="@previous" />
+          <!-- 
+          <prime:outputLabel value="Date of delivery:" for="@next" />
+          <prime:inputText value="#{car.deliveryDate}" /><prime:message for="@previous" />
+           -->
         </prime:panelGrid>
         <prime:commandButton value="Update backend" action="#{carController.save}" validateClient="true"/>
         <prime:ajaxExceptionHandler type="java.lang.Throwable"

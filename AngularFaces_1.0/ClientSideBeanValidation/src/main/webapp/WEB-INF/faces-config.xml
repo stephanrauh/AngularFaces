@@ -13,4 +13,14 @@
       org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
     </exception-handler-factory>
   </factory>
+  <render-kit>
+  <render-kit-id>HTML_BASIC</render-kit-id>
+  <renderer>
+    <component-family>org.primefaces.component</component-family>
+    <renderer-type>org.primefaces.component.InputTextRenderer</renderer-type>
+    <renderer-class>
+      de.beyondjava.jsf.sample.cars.HTML5InputRenderer
+    </renderer-class>
+  </renderer>
+</render-kit>
 </faces-config>
