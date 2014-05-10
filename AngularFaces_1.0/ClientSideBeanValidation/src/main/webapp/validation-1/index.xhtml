@@ -22,13 +22,14 @@
           <prime:outputLabel value="Type:" for="@next" />
           <prime:inputText value="#{car.type}" /><prime:message for="@previous" />
           <prime:outputLabel value="Year:" for="@next" />
-          <prime:inputText value="#{car.year}" /><prime:message for="@previous" />
+          <prime:inputText value="#{car.year}" />
+          <prime:message for="@previous" />
           <!-- 
           <prime:outputLabel value="Date of delivery:" for="@next" />
           <prime:inputText value="#{car.deliveryDate}" /><prime:message for="@previous" />
            -->
         </prime:panelGrid>
-        <prime:commandButton value="Update backend" action="#{carController.save}" validateClient="true"/>
+        <prime:commandButton value="Update backend" action="#{carController.save}" validateClient="false"/>
         <prime:ajaxExceptionHandler type="java.lang.Throwable"
             update="exceptionDialog" onexception="PF('exceptionDialog').show();" />
           <prime:dialog id="exceptionDialog" header="Exception: #{pfExceptionHandler.type} occured!" widgetVar="exceptionDialog" height="500px">
