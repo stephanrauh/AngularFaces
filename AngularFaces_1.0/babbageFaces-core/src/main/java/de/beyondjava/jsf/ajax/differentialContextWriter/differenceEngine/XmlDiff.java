@@ -5,12 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -44,7 +44,7 @@ public class XmlDiff {
     /**
      * This method is used for debugging purposes and will soon be removed. It asserts two lists of tag have the same
      * ids in the same order.
-     * 
+     *
      * @param oldHTMLTags
      * @param newHTMLTags
      */
@@ -65,7 +65,7 @@ public class XmlDiff {
     /**
      * @return GLOBAL_CHANGE_REQUIRED, if the entire tag has to be exchanged. ADDED_LOCAL_CHANGE, if the tags differ,
      *         but it is not necessary to exchange the entire tag. NO_CHANGE_REQUIRED, if both tags are identical.
-     * 
+     *
      * @param oldHTMLTag
      * @param newHTMLTag
      * @param attributeChanges
@@ -145,7 +145,7 @@ public class XmlDiff {
      * Note the similarity between the two methods childHTMLTagsAreEqualOrCanBeChangedLocally() and
      * tagsAreEqualOrCanBeChangedLocally(). There need to be two methods because the first method recognizes the
      * difference between two lists, while the latter looks at individual tags.
-     * 
+     *
      * @param oldHTMLTags
      *            the old version of a DOM subtree
      * @param newHTMLTags
@@ -242,7 +242,7 @@ public class XmlDiff {
 
     /**
      * Generates the insert command of the AJAX response.
-     * 
+     *
      * @param newHTMLTags
      * @param inserts
      * @param insertList
@@ -260,7 +260,7 @@ public class XmlDiff {
                     String temporaryDiv = "<div id=\"" + idOfNewTag + "\" />";
                     String s = null;
 
-                    // try to insert the new node before a node bearing an id
+                    // try to insert the new node after a node bearing an id
                     boolean isScriptNode = false;
                     int offset = 1;
                     while (((index - offset) >= 0)
@@ -280,26 +280,24 @@ public class XmlDiff {
                     }
 
                     if (null == s) {
-                        // try to insert the new node after a node bearing an id
-                        if (index == 0) {
-                            offset = 1;
-                            while (((index + offset) < parent.getChildren().size())
-                                    && ("script".equals(parent.getChildren().get(index + offset).getNodeName()))) {
-                                offset++;
-                                if ((index + offset) >= parent.getChildren().size()) {
-                                    return true; // global change required
-                                }
-                            }
+                        // try to insert the new node before a node bearing an id
+                        offset = 1;
+                        while (((index + offset) < parent.getChildren().size())
+                                && ("script".equals(parent.getChildren().get(index + offset).getNodeName()))) {
+                            offset++;
                             if ((index + offset) >= parent.getChildren().size()) {
-                                return true;
+                                return true; // global change required
                             }
-                            final String idOfSibling = parent.getChildren().get(index + offset).getId();
-                            if ((null == idOfSibling) || (idOfSibling.length() == 0)) {
-                                return true;
-                            }
-                            s = "<insert id=\"" + idOfNewTag + "\"><before id=\"" + idOfSibling + "\"><![CDATA["
-                                    + temporaryDiv + "]]></before></insert>";
                         }
+                        if ((index + offset) >= parent.getChildren().size()) {
+                            return true;
+                        }
+                        final String idOfSibling = parent.getChildren().get(index + offset).getId();
+                        if ((null == idOfSibling) || (idOfSibling.length() == 0)) {
+                            return true;
+                        }
+                        s = "<insert id=\"" + idOfNewTag + "\"><before id=\"" + idOfSibling + "\"><![CDATA["
+                                + temporaryDiv + "]]></before></insert>";
                     }
                     inserts.add(s);
                     // needed to fix a Mojarra bug
@@ -315,7 +313,7 @@ public class XmlDiff {
 
     /**
      * XML parsers tend to produce empty HTML tags. This method strips empty HTML tags from a list of HTML tags.
-     * 
+     *
      * @param tags
      * @return
      */
@@ -345,7 +343,7 @@ public class XmlDiff {
     /**
      * Does the new list of HTML tags one or more tags that weren't present in the old list of HTML tags? Note that the
      * function can return the list of deleted tags be swapping the parameters.
-     * 
+     *
      * @param oldHTMLTags
      * @param newHTMLTags
      * @return The list of HTML tags that have been added.
@@ -370,7 +368,7 @@ public class XmlDiff {
 
     /**
      * Has any attribute been deleted?
-     * 
+     *
      * @param oldHTMLTag
      * @param changes
      */
@@ -402,7 +400,7 @@ public class XmlDiff {
 
     /**
      * Verifies that every node of a given list has an id (a neccessary precondition to insert it into a DOM tree).
-     * 
+     *
      * @param needsUpdate
      * @param insertList
      * @return
@@ -427,8 +425,8 @@ public class XmlDiff {
      * Note the similarity between the two methods childHTMLTagsAreEqualOrCanBeChangedLocally() and
      * tagsAreEqualOrCanBeChangedLocally(). There need to be two methods because the first method recognizes the
      * difference between two lists, while the latter looks at individual tags.
-     * 
-     * 
+     *
+     *
      * @param oldHTMLTag
      * @param newHTMLTag
      * @param updates

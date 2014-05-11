@@ -21,7 +21,8 @@
               <f:ajax render=":formID" listener="#{differenceDemoBean.toggleThirdSection}" />
             </h:selectBooleanCheckbox>
           </h:panelGrid>
-          <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}">
+          <hr />
+          <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}" id="firstSection">
             <h:outputLabel style="font-weight:bold" value="first section:" />
             <h:outputLabel></h:outputLabel>
             <h:outputLabel value="first name" />
@@ -29,13 +30,15 @@
             <h:outputLabel value="last name" />
             <h:inputText value="#{securityDemoBean.lastName}" />
           </h:panelGrid>
-          <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.secondSectionVisible}">
+          <hr />
+          <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.secondSectionVisible}" id="secondSection">
             <h:outputLabel style="font-weight:bold" value="second section:" />
             <h:outputLabel></h:outputLabel>
             <h:outputLabel value="street" />
             <h:inputText value="#{differenceDemoBean.street}" />
           </h:panelGrid>
-          <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.thirdSectionVisible}">
+          <hr />
+          <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.thirdSectionVisible}" id="thirdSection">
             <h:outputLabel style="font-weight:bold" value="third section:" />
             <h:outputLabel></h:outputLabel>
             <h:outputLabel value="zip code" />
