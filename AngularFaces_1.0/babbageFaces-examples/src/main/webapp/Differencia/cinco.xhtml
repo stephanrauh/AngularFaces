@@ -1,27 +1,10 @@
-<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:prime="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
 >
-  <h:head>
-    <style>
-td {
-	vertical-align: top;
-}
-
-p {
-	margin: 0px;
-	padding-top: 0px;
-	padding-bottom: 0.7em;
-}
-
-br {
-	margin: 0px;
-	padding-top: 0px;
-	padding-bottom: 0.0em;
-}
-</style>
-  </h:head>
-  <h:body>
-    <h:form id="formID">
+<body>
+  <ui:composition>
+    <h:form >
       <h:messages />
       <h3>Mojarra demo / IDs missing</h3>
       <br>This is a simple pure Mojarra demo. You can toggle the visibility of the field groups, and you can modify
@@ -29,20 +12,20 @@ br {
       None of the sections or input fields have an id. Hence the best optimization BabbageFaces can offer is to redraw the entire form.
       <br />
       <h:panelGrid columns="3" cellpadding="20px" border="1">
-      
-        <h:panelGroup>
+
+        <h:panelGroup id="panelCincoID">
           <h:panelGrid columns="2" border="0">
             <h:outputLabel value="Toggle first section"></h:outputLabel>
             <h:selectBooleanCheckbox>
-              <f:ajax render=":formID" listener="#{differenceDemoBean.toggleFirstSection}" />
+              <f:ajax render="@form" listener="#{differenceDemoBean.toggleFirstSection}" />
             </h:selectBooleanCheckbox>
             <h:outputLabel value="Toggle second section and change the city"></h:outputLabel>
             <h:selectBooleanCheckbox>
-              <f:ajax render=":formID" listener="#{differenceDemoBean.toggleSecondSectionAndChangeCity}" />
+              <f:ajax render="@form" listener="#{differenceDemoBean.toggleSecondSectionAndChangeCity}" />
             </h:selectBooleanCheckbox>
             <h:outputLabel value="Toggle first and third section"></h:outputLabel>
             <h:selectBooleanCheckbox>
-              <f:ajax render=":formID" listener="#{differenceDemoBean.toggleFirstAndThirdSection}" />
+              <f:ajax render="@form" listener="#{differenceDemoBean.toggleFirstAndThirdSection}" />
             </h:selectBooleanCheckbox>
           </h:panelGrid>
           <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}">
@@ -68,20 +51,21 @@ br {
             <h:inputText value="#{differenceDemoBean.city}" />
           </h:panelGrid>
           <h:commandButton value="change city" action="#{differenceDemoBean.changeCity}">
-            <f:ajax render=":formID"></f:ajax>
+            <f:ajax render="@form"></f:ajax>
           </h:commandButton>
         </h:panelGroup>
-        
+
         <h:panelGroup>
           <img src="cinco.png" />
         </h:panelGroup>
         <h:panelGroup>
           <h3>Expected results:</h3>
-          <p>The original response consists of roughly 5400 bytes.</p>
+          <p>The original response consists of roughly 26400 bytes.</p>
           <p>No matter what you do, the entire form has to be redrawn (roughly 2100-3000 bytes).</p>
         </h:panelGroup>
 
       </h:panelGrid>
     </h:form>
-  </h:body>
-</f:view>
+  </ui:composition>
+</body>
+</html>

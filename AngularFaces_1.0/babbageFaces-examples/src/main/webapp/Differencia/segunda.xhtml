@@ -1,42 +1,68 @@
-<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
   xmlns:h="http://java.sun.com/jsf/html" xmlns:prime="http://primefaces.org/ui"
-  xmlns:a="http://beyondjava.net/angularFaces">
-  <h:head />
-  <h:body>
-    <h:form>
-      <a:secure checkedBy="de.beyondjava.security.SQLInjectionFilter" />
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+  <body>
+    <ui:composition>
       <h:messages />
-      <h:panelGrid columns="2" border="0" >
-        <prime:outputLabel value="Toggle first section" for="@next"></prime:outputLabel>
-        <prime:selectBooleanCheckbox>
-          <prime:ajax update="@form" listener="#{differenceDemoBean.toggleFirstSection}" />
-        </prime:selectBooleanCheckbox>
-        <prime:outputLabel value="Change the city" for="@next"></prime:outputLabel>
-        <prime:selectBooleanCheckbox>
-          <prime:ajax update="@form" listener="#{differenceDemoBean.toggleSecondSection}" />
-        </prime:selectBooleanCheckbox>
-        <prime:outputLabel value="Toggle first and third section" for="@next"></prime:outputLabel>
-        <prime:selectBooleanCheckbox>
-          <prime:ajax update="@form" listener="#{differenceDemoBean.toggleThirdSection}" />
-        </prime:selectBooleanCheckbox>
+      <h3>Mojarra demo / IDs missing</h3>
+      <br>This is a simple pure Mojarra demo. You can toggle the visibility of the field groups, and you can modify
+        the city name by clicking the button.</br>
+        None of the sections or input fields have an id. Hence the best optimization BabbageFaces can offer is to redraw the entire form.
+        <br />
+      <h:panelGrid columns="3" cellpadding="20px" border="1">
+  
+        <h:panelGroup>
+  
+          <h:form>
+            <h:panelGrid columns="2" border="0">
+              <prime:outputLabel value="Toggle first section" for="@next"></prime:outputLabel>
+              <prime:selectBooleanCheckbox>
+                <prime:ajax update="@form" listener="#{differenceDemoBean.toggleFirstSection}" />
+              </prime:selectBooleanCheckbox>
+              <prime:outputLabel value="Toggle 2nd section and change the city" for="@next"></prime:outputLabel>
+              <prime:selectBooleanCheckbox>
+                <prime:ajax update="@form" listener="#{differenceDemoBean.toggleSecondSectionAndChangeCity}" />
+              </prime:selectBooleanCheckbox>
+              <prime:outputLabel value="Toggle first and third section" for="@next"></prime:outputLabel>
+              <prime:selectBooleanCheckbox>
+                <prime:ajax update="@form" listener="#{differenceDemoBean.toggleThirdSection}" />
+              </prime:selectBooleanCheckbox>
+            </h:panelGrid>
+            <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}" id="firstSection">
+              <prime:outputLabel value="first name" for="@next" />
+              <prime:inputText value="#{securityDemoBean.firstName}" />
+              <prime:outputLabel value="last name" for="@next" />
+              <prime:inputText value="#{securityDemoBean.lastName}" />
+            </h:panelGrid>
+            <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.secondSectionVisible}" id="secondSection">
+              <prime:outputLabel value="street" for="@next" />
+              <prime:inputText value="#{differenceDemoBean.street}" />
+            </h:panelGrid>
+            <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.thirdSectionVisible}" id="thirdSection">
+              <prime:outputLabel value="zip code" for="@next" />
+              <prime:inputText id="zipcode" value="#{differenceDemoBean.zipcode}" />
+              <prime:outputLabel value="city" for="@next" />
+              <prime:inputText value="#{differenceDemoBean.city}" />
+            </h:panelGrid>
+            <prime:commandButton value="change city" action="#{differenceDemoBean.changeCity}" update="@form" />
+          </h:form>
+        </h:panelGroup>
+  
+        <h:panelGroup>
+          <img src="segunda.png" />
+        </h:panelGroup>
+        <h:panelGroup>
+          <h3>Expected results:</h3>
+          <p>The original response consists of roughly 26400 bytes.</p>
+          <p>The button click results in a "attribute" response (rougly 480 bytes).</p>
+          <p>The check boxes result in "insert" and "update" responses. The values of the checkboxes are updated in the same response, requiring an additional "attribute" tag and an "update" of the PrimeFaces HTML code displaying the check box.</p>
+          <p>Delete responses take roughly 800-1200 bytes.</p>
+          <p style="color:red">Insert responses vary from 1500 to 210 bytes. Due to an implementation bug they don't take place at the moment.</p>
+        </h:panelGroup>
+  
       </h:panelGrid>
-      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}" id="firstSection">
-        <prime:outputLabel value="first name" for="@next" />
-        <prime:inputText value="#{securityDemoBean.firstName}" />
-        <prime:outputLabel value="last name" for="@next" />
-        <prime:inputText value="#{securityDemoBean.lastName}" />
-      </h:panelGrid>
-      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.secondSectionVisible}" id="secondSection">
-        <prime:outputLabel value="street" for="@next" />
-        <prime:inputText value="#{differenceDemoBean.street}" />
-      </h:panelGrid>
-      <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.thirdSectionVisible}" id="thirdSection">
-        <prime:outputLabel value="zip code" for="@next" />
-        <prime:inputText id="zipcode" value="#{differenceDemoBean.zipcode}" />
-        <prime:outputLabel value="city" for="@next" />
-        <prime:inputText value="#{differenceDemoBean.city}" />
-      </h:panelGrid>
-      <prime:commandButton value="test" action="#{differenceDemoBean.showErrors}" update="@form" />
-    </h:form>
-  </h:body>
-</f:view>
+  
+    </ui:composition>
+  </body>
+</html>
