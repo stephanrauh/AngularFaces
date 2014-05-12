@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:prime="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+  <body>
+    <ui:composition>
+      <style>
+        td {
+        	vertical-align: top;
+        }
+      </style>
+      <prime:tabView>
+        <prime:tab title="PrimeFaces 5.0">
+          <ui:include src="segunda.xhtml">
+          </ui:include>
+        </prime:tab>
+        <prime:tab title="Mojarra without IDs">
+          <ui:include src="cinco.xhtml">
+          </ui:include>
+        </prime:tab>
+        <prime:tab title="Mojarra with IDs">
+          <ui:include src="seis.xhtml">
+          </ui:include>
+        </prime:tab>
+      </prime:tabView>
+    </ui:composition>
+  </body>
+</html>

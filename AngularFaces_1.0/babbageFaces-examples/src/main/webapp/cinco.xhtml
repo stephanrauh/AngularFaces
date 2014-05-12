@@ -4,16 +4,17 @@
 >
 <body>
   <ui:composition>
-    <h:form>
+    <h:form >
       <h:messages />
-      <h3>Mojarra demo</h3>
+      <h3>Mojarra demo / IDs missing</h3>
       <br>This is a simple pure Mojarra demo. You can toggle the visibility of the field groups, and you can modify
         the city name by clicking the button.</br>
-      Every section and the city input field has an id. Hence they can be updated, inserted or deleted individually.
+      None of the sections or input fields have an id. Hence the best optimization BabbageFaces can offer is to redraw the entire form.
       <br />
       <h:panelGrid columns="3" cellpadding="20px" border="1">
-        <h:panelGroup id="panelSeisID">
-          <h:panelGrid columns="2" border="0" id="controlsSection">
+
+        <h:panelGroup id="panelCincoID">
+          <h:panelGrid columns="2" border="0">
             <h:outputLabel value="Toggle first section"></h:outputLabel>
             <h:selectBooleanCheckbox>
               <f:ajax render="@form" listener="#{differenceDemoBean.toggleFirstSection}" />
@@ -27,8 +28,7 @@
               <f:ajax render="@form" listener="#{differenceDemoBean.toggleFirstAndThirdSection}" />
             </h:selectBooleanCheckbox>
           </h:panelGrid>
-          <hr />
-          <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}" id="firstSection">
+          <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}">
             <h:outputLabel style="font-weight:bold" value="first section:" />
             <h:outputLabel></h:outputLabel>
             <h:outputLabel value="first name" />
@@ -36,39 +36,32 @@
             <h:outputLabel value="last name" />
             <h:inputText value="#{securityDemoBean.lastName}" />
           </h:panelGrid>
-          <hr />
-          <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.secondSectionVisible}" id="secondSection">
+          <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.secondSectionVisible}">
             <h:outputLabel style="font-weight:bold" value="second section:" />
             <h:outputLabel></h:outputLabel>
             <h:outputLabel value="street" />
             <h:inputText value="#{differenceDemoBean.street}" />
           </h:panelGrid>
-          <hr />
-          <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.thirdSectionVisible}" id="thirdSection">
+          <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.thirdSectionVisible}">
             <h:outputLabel style="font-weight:bold" value="third section:" />
             <h:outputLabel></h:outputLabel>
             <h:outputLabel value="zip code" />
             <h:inputText value="#{differenceDemoBean.zipcode}" />
             <h:outputLabel value="city" />
-            <h:inputText value="#{differenceDemoBean.city}" id="cityID" />
+            <h:inputText value="#{differenceDemoBean.city}" />
           </h:panelGrid>
-          <h:commandButton value="test" action="#{differenceDemoBean.changeCity}">
+          <h:commandButton value="change city" action="#{differenceDemoBean.changeCity}">
             <f:ajax render="@form"></f:ajax>
           </h:commandButton>
         </h:panelGroup>
+
         <h:panelGroup>
-          <img src="seis.png" />
+          <img src="cinco.png" />
         </h:panelGroup>
         <h:panelGroup>
           <h3>Expected results:</h3>
-          <p>The original response consists of roughly 26400 bytes.</p>
-          <p>The button click results in a "attribute" response (rougly 480 bytes).</p>
-          <p>The check boxes result in "insert" and "update" responses. The values of the checkboxes are updated in
-            the same response, requiring an additional "attribute" tag.</p>
-          <p>Delete responses take roughly 500-600 bytes.</p>
-          <p style="color: red">Insert responses vary from xxx to yyy bytes. Due to an implementation bug they don't
-            take place at the moment.</p>
-          <p>Under certain circumstances the entire form has to be redrawn (roughly 4100 bytes).</p>
+          <p>The original response consists of roughly 19100 bytes.</p>
+          <p>No matter what you do, the entire form has to be redrawn (roughly 2100-3000 bytes).</p>
         </h:panelGroup>
 
       </h:panelGrid>
