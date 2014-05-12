@@ -1,11 +1,21 @@
 <f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
   xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
 >
-  <h:head />
+  <h:head>
+    <style>
+    td {vertical-align:top;}
+    p{margin:0px;padding-top:0px;padding-bottom:0.7em;}
+    br{margin:0px;padding-top:0px;padding-bottom:0.0em;}
+    </style>
+  </h:head>
   <h:body>
     <h:form id="formID">
       <h:messages />
-      <h:panelGrid columns="2">
+      <h3>Mojarra demo</h3>
+      <br>This is a simple pure Mojarra demo. You can toggle the visibility of the field groups, and you can modify the city name by clicking the button.</br>
+      Every section and the city input field has an id. Hence they can be updated, inserted or deleted individually.
+      <br />
+      <h:panelGrid columns="3" cellpadding="20px" border="1">
         <h:panelGroup>
           <h:panelGrid columns="2" border="0" id="controlsSection">
             <h:outputLabel value="Toggle first section"></h:outputLabel>
@@ -16,9 +26,9 @@
             <h:selectBooleanCheckbox>
               <f:ajax render=":formID" listener="#{differenceDemoBean.toggleSecondSectionAndChangeCity}" />
             </h:selectBooleanCheckbox>
-            <h:outputLabel value="Toggle first section"></h:outputLabel>
+            <h:outputLabel value="Toggle first and third section"></h:outputLabel>
             <h:selectBooleanCheckbox>
-              <f:ajax render=":formID" listener="#{differenceDemoBean.toggleThirdSection}" />
+              <f:ajax render=":formID" listener="#{differenceDemoBean.toggleFirstAndThirdSection}" />
             </h:selectBooleanCheckbox>
           </h:panelGrid>
           <hr />
@@ -44,15 +54,25 @@
             <h:outputLabel value="zip code" />
             <h:inputText value="#{differenceDemoBean.zipcode}" />
             <h:outputLabel value="city" />
-            <h:inputText value="#{differenceDemoBean.city}" />
+            <h:inputText value="#{differenceDemoBean.city}" id="cityID"/>
           </h:panelGrid>
           <h:commandButton value="test" action="#{differenceDemoBean.changeCity}">
             <f:ajax render=":formID"></f:ajax>
           </h:commandButton>
         </h:panelGroup>
         <h:panelGroup>
-          <img src="cinco.png" />
+          <img src="seis.png" />
         </h:panelGroup>
+        <h:panelGroup>
+          <h3>Expected results:</h3>
+          <p>The original response consists of roughly 5500 bytes. </p>
+          <p>The button click results in a "attribute" response (rougly 480 bytes).</p>
+          <p>The check boxes result in "insert" and "update" responses. The values of the checkboxes are updated in the same response, requiring an additional "attribute" tag.</p>
+          <p>Delete responses take roughly 500-600 bytes.</p>
+          <p style="color:red">Insert responses vary from xxx to yyy bytes. Due to an implementation bug they don't take place at the moment.</p>
+          <p>Under certain circumstances the entire form has to be redrawn (roughly 2900 bytes).</p>
+        </h:panelGroup>
+        
       </h:panelGrid>
     </h:form>
   </h:body>
