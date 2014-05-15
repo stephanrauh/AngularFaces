@@ -5,12 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,7 +28,7 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.parser.*;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
- * 
+ *
  */
 public class DiffenceEngine {
     private static long DEBUG_optimizedBytesCumulated = 0l;
@@ -45,8 +45,8 @@ public class DiffenceEngine {
     final String LAST_KNOWN_HTML_KEY = "com.beyondEE.faces.diff.lastKnownHTML";
 
     /**
-    * 
-    */
+     *
+     */
     public DiffenceEngine() {
     }
 
@@ -182,7 +182,7 @@ public class DiffenceEngine {
         List<HTMLTag> partialResponses = new ArrayList<>();
         partialResponse = partialResponse.replace("\n", "").replace("\r", "");
         Pattern pattern = Pattern
-                .compile("(<update id=\".*?\">.*?</update>)|(<attributes id=\")|(<delete id=\")|(<eval>)|(<insert id=\")|(<extension )|(<error>)|(<redirect url=\")");
+                .compile("(<update id=\".*?\">.*?</update>)|(<attributes id=\")|(<delete id=\")|(<eval>)|(<insert id=\")|(<extension ?.>.*?</extension>)|(<error>)|(<redirect url=\")");
         Matcher matcher = pattern.matcher(partialResponse);
         while (matcher.find()) {
             String group = matcher.group();
@@ -208,7 +208,8 @@ public class DiffenceEngine {
                 }
             }
             else {
-                LOGGER.severe("This tag is not supported by BabbageFaces. " + group);
+                partialResponses.add(new HTMLTag(group));
+                // LOGGER.severe("This tag is not supported by BabbageFaces. " + group);
             }
         }
 
@@ -304,7 +305,7 @@ public class DiffenceEngine {
     /**
      * Retrieves the DOM tree that has been sent by the previous HTTP response (and that ought to be identical to the
      * version displayed in the browser).
-     * 
+     *
      * @param sessionMap
      * @return
      */
@@ -318,7 +319,7 @@ public class DiffenceEngine {
 
     /**
      * Fixes the DOM tree stored in the session by integrating the AJAX updates into the last known DOM tree.
-     * 
+     *
      * @param domTreeInSession
      * @param typeOfChange
      * @param idToBeUpdated
@@ -351,7 +352,7 @@ public class DiffenceEngine {
      * Compares the current HTML response with the last known HTML code. If it's a regular HTML response, the HTML code
      * is simply stored in the session. If it's an JSF AJAX response, the method looks at the differences and tries to
      * remove unchanged HTML from the response.
-     * 
+     *
      * @param rawBuffer
      * @param sessionMap
      * @param isAJAX

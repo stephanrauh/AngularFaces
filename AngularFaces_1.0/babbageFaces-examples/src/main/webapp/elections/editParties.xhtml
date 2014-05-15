@@ -4,13 +4,46 @@
 >
 <body>
   <ui:composition>
-    <h:form >
+    <h:form>
       <h:messages />
-      Edit parties
-      <br />
-      Show a combobox containing the countries
-      <br />
-      after selecting a country, show the datatable of parties
+      <h3>Select a country to edit the parties.</h3>
+      Granted, the user experience of this experience could be better. It's optimized in that it does a lot of partial page updates, thereby showing the effect of BabbageFaces.
+      
+      <prime:panelGrid columns="2">
+        <h:panelGroup>
+          <prime:outputLabel value="Country:" for="@next" />
+          <prime:selectOneMenu value="#{partyEditorController.selectedCountry}" converter="CountryConverter">
+            <f:selectItem itemLabel="" itemValue="#{null}" />
+            <f:selectItems value="#{partyEditorController.countries}" var="country" itemLabel="#{country.name}"
+              itemValue="#{country}"
+            />
+            <prime:ajax listener="#{partyEditorController.selectCountry()}" update="@all" />
+          </prime:selectOneMenu>
+          <br />
+          <prime:dataTable value="#{partyEditorController.parties}" var="party"
+            rendered="#{partyEditorController.parties != null}" style="width:300px"
+          >
+            <prime:column headerText="Party">
+          #{party.name}
+        </prime:column>
+            <prime:column>
+              <prime:commandButton value="edit" icon="ui-icon-pencil"
+                actionListener="#{partyEditorController.editParty(party)}" update="@all"
+              />
+            </prime:column>
+          </prime:dataTable>
+        </h:panelGroup>
+        <h:panelGroup id="detailGroupID" rendered="#{partyEditorController.selectedParty!=null}">
+          <prime:panelGrid columns="2">
+            <prime:outputLabel value="Name:" for="@next" />
+            <prime:inputText value="#{partyEditorController.selectedParty.name}" />
+            <prime:outputLabel value="Year of establishment:" for="@next" />
+            <prime:inputText value="#{partyEditorController.selectedParty.yearOfEstablishment}" />
+            <prime:outputLabel value="Color:" for="@next" />
+            <prime:inputText value="#{partyEditorController.selectedParty.color}" />
+          </prime:panelGrid>
+        </h:panelGroup>
+      </prime:panelGrid>
     </h:form>
   </ui:composition>
 </body>
