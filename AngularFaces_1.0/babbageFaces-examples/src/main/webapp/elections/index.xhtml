@@ -21,17 +21,27 @@ td {
             <prime:submenu label="Edit">
               <prime:menuitem value="Countries" action="#{electionController.editCountriesAction}" update="@all">
               </prime:menuitem>
-              <prime:menuitem value="Parties"  action="#{electionController.editPartiesAction}" update="@all">
+              <prime:menuitem value="Parties" action="#{electionController.editPartiesAction}" update="@all">
               </prime:menuitem>
-              <prime:menuitem value="Elections"  action="#{electionController.editElectionsAction}" update="@all">
+              <prime:menuitem value="Elections" action="#{electionController.editElectionsAction}" update="@all">
               </prime:menuitem>
             </prime:submenu>
             <prime:submenu label="Charts">
               <prime:menuitem value="History" action="#{electionController.electionHistoryChartAction}" update="@all">
               </prime:menuitem>
-              <prime:menuitem value="Single election" action="#{electionController.singleElectionChartAction}" update="@all">
+              <prime:menuitem value="Single election" action="#{electionController.singleElectionChartAction}"
+                update="@all"
+              >
               </prime:menuitem>
             </prime:submenu>
+            <ui:remove>
+              <!-- 
+                <prime:submenu label="Sandbox">
+                  <prime:menuitem value="missing TR" action="#{electionController.missingTDAction()}" update="@all">
+                  </prime:menuitem>
+                </prime:submenu>
+             -->
+            </ui:remove>
           </prime:menu>
         </h:form>
       </h:panelGroup>
@@ -51,8 +61,15 @@ td {
         <h:panelGroup rendered="#{electionController.singleElectionChartVisible}" id="singleElectionPanelID">
           <ui:include src="singleElectionChart.xhtml"></ui:include>
         </h:panelGroup>
+        <ui:remove>
+          <!-- 
+            <h:panelGroup rendered="#{electionController.missingTDVisible}" id="missingTDPanelID">
+              <ui:include src="missingTD.xhtml"></ui:include>
+            </h:panelGroup> 
+          -->
+        </ui:remove>
       </h:panelGroup>
     </h:panelGrid>
-
+    <div id="babbageFacesStatistics"></div>
   </h:body>
 </f:view>

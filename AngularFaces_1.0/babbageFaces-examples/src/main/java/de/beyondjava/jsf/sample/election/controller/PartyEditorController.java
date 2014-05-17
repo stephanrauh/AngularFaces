@@ -80,14 +80,18 @@ public class PartyEditorController implements Serializable {
     public void init() {
     }
 
+    public String partyTableVisible() {
+        return selectedCountry == null ? "display:none" : "display:block";
+    }
+
     public void selectCountry() {
         if (null == selectedCountry) {
             parties = null;
+            selectedParty = null;
         }
         else {
             parties = selectedCountry.getParties();
         }
-        // selectedParty = null;
     }
 
     /**

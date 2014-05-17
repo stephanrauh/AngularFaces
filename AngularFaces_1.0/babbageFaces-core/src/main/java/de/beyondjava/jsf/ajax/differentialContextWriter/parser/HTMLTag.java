@@ -5,12 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -30,7 +30,7 @@ import org.xml.sax.*;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
- * 
+ *
  */
 public class HTMLTag implements Serializable {
 
@@ -67,7 +67,7 @@ public class HTMLTag implements Serializable {
      * receive the original HTML code after converting string to XML and back to strings. Nonetheless the entire method
      * just seems wrong - after all, its unique purpose is to do nothing (more precisely, to prevent SAX from doing
      * weird things). Feel free to drop me a note if you know how to do it right.
-     * 
+     *
      * @param html
      * @return a version of <code>html</code> with every ampersand replaced by the corresponding XML entity.
      */
@@ -146,7 +146,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * Removes the document node from the XML tree.
-     * 
+     *
      * @param html
      * @return
      */
@@ -208,7 +208,7 @@ public class HTMLTag implements Serializable {
      * receive the original HTML code after converting string to XML and back to strings. Nonetheless the entire method
      * just seems wrong - after all, its unique purpose is to do nothing (more precisely, to prevent SAX from doing
      * weird things). Feel free to drop me a note if you know how to do it right.
-     * 
+     *
      * @param html
      * @return a version of <code>html</code> with every ampersand replaced by the corresponding XML entity.
      */
@@ -240,7 +240,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * Converts a SAX DOM tree to a more simple HTMLTag.
-     * 
+     *
      * @param node
      *            the SAX DOM tree to be converted to the simplified version.
      * @param parent
@@ -271,9 +271,8 @@ public class HTMLTag implements Serializable {
                 if (null != parent) {
                     if ((id == null) || (id.length() == 0)) {
                         // "div".equals(nodeName) excluded because SelectOneMenus don't work if updated partially
-                        if ("div".equals(nodeName) || "span".equals(nodeName) || "input".equals(nodeName)
-                                || "a".equals(nodeName) || "table".equals(nodeName) || "tr".equals(nodeName)
-                                || "td".equals(nodeName) || parent.getNodeName().equals("body")) {
+                        if ("span".equals(nodeName) || "input".equals(nodeName) || "a".equals(nodeName)
+                                || "tr".equals(nodeName) || "td".equals(nodeName) || "option".equals(nodeName)) {
                             if ((parent.getId() != null) && (parent.getId().length() > 0)) {
                                 addAttribute("id", parent.getId() + ":" + nodeName + parent.getChildren().size());
                             }
@@ -309,7 +308,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * Create an HTMLTag tree structure from html source code.
-     * 
+     *
      * @param html
      */
     public HTMLTag(String html) {
@@ -333,7 +332,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * Adds an attribute to an HTML tag.
-     * 
+     *
      * @param name
      * @param value
      */
@@ -376,7 +375,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * Returns a hashmap of every script in the current HTML tag.
-     * 
+     *
      * @return a hash map (never null). The keys are the names of the scripts (with the trailing "_s"). The objects are
      *         the HTML tags containing the scripts.
      */
@@ -389,11 +388,20 @@ public class HTMLTag implements Serializable {
                     if (scriptID.endsWith("_s")) {
                         scriptID = scriptID.substring(0, scriptID.length() - 2);
                     }
-                    scripts.put(scriptID, candidate);
+                    if (!scripts.containsKey(scriptID)) {
+                        scripts.put(scriptID, candidate);
+                    }
                 }
             }
             else {
-                scripts.putAll(candidate.collectScripts());
+                Map<String, HTMLTag> collectScripts = candidate.collectScripts();
+                if (!collectScripts.isEmpty()) {
+                    for (String key : collectScripts.keySet()) {
+                        if (!scripts.containsKey(key)) {
+                            scripts.put(key, collectScripts.get(key));
+                        }
+                    }
+                }
             }
         }
         return scripts;
@@ -401,31 +409,36 @@ public class HTMLTag implements Serializable {
 
     /**
      * Returns a list of scripts that have to be executed again to re-initialize the components in this HTML tag.
-     * 
+     *
      * @param idOfCurrentChange
      * @return null or the Java script node
      */
-    public List<HTMLTag> extractPrimeFacesJavascript(Map<String, HTMLTag> availableScripts) {
-        List<HTMLTag> requiredScripts = new ArrayList<>();
+    public Collection<HTMLTag> extractPrimeFacesJavascript(Map<String, HTMLTag> availableScripts) {
+        Map<String, HTMLTag> requiredScripts = new HashMap<>();
         if ((id != null) && (id.length() > 0)) {
             for (Entry<String, HTMLTag> script : availableScripts.entrySet()) {
                 if (id.startsWith(script.getKey())) {
-                    requiredScripts.add(script.getValue());
+                    requiredScripts.put(script.getKey(), script.getValue());
                 }
             }
         }
         final List<HTMLTag> kids = getChildren();
         for (int i = 0; i < kids.size(); i++) {
             HTMLTag child = kids.get(i);
-            requiredScripts.addAll(child.extractPrimeFacesJavascript(availableScripts));
+            Collection<HTMLTag> list = child.extractPrimeFacesJavascript(availableScripts);
+            for (HTMLTag t : list) {
+                if (!requiredScripts.containsKey(t.id)) {
+                    requiredScripts.put(t.id, t);
+                }
+            }
         }
 
-        return requiredScripts;
+        return requiredScripts.values();
     }
 
     /**
      * Looks for a subtree bearing a particular id.
-     * 
+     *
      * @param id
      * @return null, if neither this nor any subtree of this bear the id
      */
@@ -459,7 +472,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * returns a certain attribute, or null if there is no attribute with the name asked for.
-     * 
+     *
      * @param attributeName
      * @return
      */
@@ -474,7 +487,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * Return the list of attributes.
-     * 
+     *
      * @return The list of attributes is never null (even if its empty).
      */
     public List<HTMLAttribute> getAttributes() {
@@ -483,7 +496,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * Return the list of children (aka HTML or DOM subtrees).
-     * 
+     *
      * @return The list of children is never null (even if its empty).
      */
     public List<HTMLTag> getChildren() {
@@ -526,7 +539,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * convenience attribute (with the side effect of better performance)
-     * 
+     *
      * @return the id
      */
     public String getId() {
@@ -571,7 +584,7 @@ public class HTMLTag implements Serializable {
     /**
      * Currently BabbageFaces ignores comments for the sake of saving network bandwith. Should I ever decide to use
      * comment, this flag is going set to true, and the comment is put in the innerHTML.
-     * 
+     *
      * @return the isCommentNode
      */
     public boolean isCommentNode() {
@@ -587,7 +600,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * Removes a particular HTML tag from the childrens subtree.
-     * 
+     *
      * @param tagToBeRemoved
      */
     public void removeChild(HTMLTag tagToBeRemoved) {
@@ -653,7 +666,7 @@ public class HTMLTag implements Serializable {
     /**
      * Currently BabbageFaces ignores comments for the sake of saving network bandwith. Should I ever decide to use
      * comment, this flag is going set to true, and the comment is put in the innerHTML.
-     * 
+     *
      * @param isCommentNode
      *            the isCommentNode to set
      */
@@ -663,7 +676,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * convenience attribute (with the side effect of better performance)
-     * 
+     *
      * @param id
      *            the id to set
      */
@@ -705,7 +718,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * Returns a formatted representation of the HTML tag suited ideally for runtime.
-     * 
+     *
      * @return the HTML code as a single line
      */
     public String toCompactString() {
@@ -715,7 +728,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * Returns a formatted representation of the HTML tag suited ideally for runtime.
-     * 
+     *
      * @return the HTML code as a single line
      */
     public StringBuffer toCompactString(StringBuffer result) {
@@ -764,7 +777,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * Returns a formatted representation of the HTML tag suited ideally for debugging purposes.
-     * 
+     *
      * @return multi-line, indented HTML code
      */
     @Override
@@ -774,7 +787,7 @@ public class HTMLTag implements Serializable {
 
     /**
      * Returns an almost correctly formatted representation of the HTML tag suited ideally for debugging purposes.
-     * 
+     *
      * @return multi-line, indented HTML code
      */
     private String toStringIntern() {

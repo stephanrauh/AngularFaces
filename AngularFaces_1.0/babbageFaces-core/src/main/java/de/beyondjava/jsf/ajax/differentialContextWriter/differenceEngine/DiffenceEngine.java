@@ -182,7 +182,7 @@ public class DiffenceEngine {
         List<HTMLTag> partialResponses = new ArrayList<>();
         partialResponse = partialResponse.replace("\n", "").replace("\r", "");
         Pattern pattern = Pattern
-                .compile("(<update id=\".*?\">.*?</update>)|(<attributes id=\")|(<delete id=\")|(<eval>)|(<insert id=\")|(<extension ?.>.*?</extension>)|(<error>)|(<redirect url=\")");
+                .compile("(<update id=\".*?\">.*?</update>)|(<attributes id=\".*?\">.*?</attributes>)|(<delete id=\".*?\">.*?</update>)|(<eval>.*</eval>)|(<insert id=\".*?\\\">.*?</insert>)|(<extension ?.>.*?</extension>)|(<error>.*</error>)|(<redirect url=\".*?\">.*?</redirect>)");
         Matcher matcher = pattern.matcher(partialResponse);
         while (matcher.find()) {
             String group = matcher.group();
@@ -196,8 +196,15 @@ public class DiffenceEngine {
                     end = group.lastIndexOf("]]>");
                     if ((start >= 0) && (end > start)) {
                         String html = group.substring(start + "<![CDATA[".length(), end);
-                        HTMLTag update = new HTMLTag("<update id=\"" + id + "\">" + html + "</update>");
-                        partialResponses.add(update);
+                        try {
+                            HTMLTag update = new HTMLTag("<update id=\"" + id + "\">" + html + "</update>");
+                            partialResponses.add(update);
+                        }
+                        catch (Exception invalidXML) {
+                            LOGGER.severe("One of the update statements in the response contains invalid XHTML code!");
+                            LOGGER.severe("ID = " + id);
+                            throw invalidXML;
+                        }
                     }
                     else {
                         partialResponses.add(new HTMLTag(group));
@@ -287,7 +294,8 @@ public class DiffenceEngine {
                     Map<String, HTMLTag> scripts = domTreeToBeUpdated.collectScripts();
                     HTMLTag currentChangeTag = domTreeToBeUpdated.findByID(idOfCurrentChange);
                     if (null != currentChangeTag) {
-                        final List<HTMLTag> requiredScripts = currentChangeTag.extractPrimeFacesJavascript(scripts);
+                        final Collection<HTMLTag> requiredScripts = currentChangeTag
+                                .extractPrimeFacesJavascript(scripts);
                         for (HTMLTag scriptNode : requiredScripts) {
                             tmpCurrentResponse = tmpCurrentResponse.substring(0, tmpCurrentResponse.length()
                                     - "]]></update>".length())
@@ -359,8 +367,16 @@ public class DiffenceEngine {
      * @return
      */
     public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
-        // String boasting = "";
+        String boasting = "";
+        int originalUpdates = 0;
+        int originalOtherTags = 0;
+        int originalErrorTags = 0;
+        int optimizedUpdates = 0;
+        int optimizedInserts = 0;
+        int optimizedDeletes = 0;
+        int optimizedAttributes = 0;
         int originalLength = currentResponse.length(); // differentialEngine=false;
+
         if (!differentialEngineActive) {
             return currentResponse;
         }
@@ -370,6 +386,7 @@ public class DiffenceEngine {
             List<HTMLTag> listOfChanges = extractChangesFromPartialResponse(currentResponse);
             for (HTMLTag change : listOfChanges) {
                 if (change.getNodeName().equals("update")) {
+                    originalUpdates++;
                     if (change.getId().equals("javax.faces.ViewRoot")) {
                         HTMLTag newDom = change;
                         HTMLTag header = newDom.findTag("head");
@@ -404,9 +421,11 @@ public class DiffenceEngine {
                             }
                             if (headerAsString.equals(oldHeaderAsString)) {
                                 s += "<eval><![CDATA[" + "window.document.title='::" + title + "';" + "]]></eval>";
+                                optimizedAttributes++;
                             }
                             else {
                                 s += "<update id=\"javax.faces.ViewHead\"><![CDATA[" + headerAsString + "]]></update>";
+                                optimizedUpdates++;
                             }
                         }
                         s += "<update id=\"javax.faces.ViewBody\"><![CDATA[" + body.toCompactString() + "]]>";
@@ -415,6 +434,22 @@ public class DiffenceEngine {
 
                         List<HTMLTag> newBodyChanges = determineNecessaryChanges(body,
                                 domTreeToBeUpdated.findTag("body"));
+
+                        for (HTMLTag t : newBodyChanges) {
+                            if ("update".equals(t.getNodeName())) {
+                                optimizedUpdates++;
+                            }
+                            else if ("insert".equals(t.getNodeName())) {
+                                optimizedInserts++;
+                            }
+                            else if ("delete".equals(t.getNodeName())) {
+                                optimizedDeletes++;
+                            }
+                            else if ("attribute".equals(t.getNodeName())) {
+                                optimizedAttributes++;
+                            }
+                        }
+
                         currentResponse = optimizeResponse(currentResponse, domTreeToBeUpdated, newBodyChanges,
                                 "javax.faces.ViewBody");
                         // boasting = boast(newBodyChanges);
@@ -431,6 +466,21 @@ public class DiffenceEngine {
                             currentResponse = optimizeResponse(currentResponse, domTreeToBeUpdated, change,
                                     newPartialChanges);
 
+                            for (HTMLTag t : newPartialChanges) {
+                                if ("update".equals(t.getNodeName())) {
+                                    optimizedUpdates++;
+                                }
+                                else if ("insert".equals(t.getNodeName())) {
+                                    optimizedInserts++;
+                                }
+                                else if ("delete".equals(t.getNodeName())) {
+                                    optimizedDeletes++;
+                                }
+                                else if ("attribute".equals(t.getNodeName())) {
+                                    optimizedAttributes++;
+                                }
+                            }
+
                             // boasting = boast(newPartialChanges);
                         }
                         updateHTMLTag(domTreeToBeUpdated, change.getFirstChild(), change.getId());
@@ -440,6 +490,10 @@ public class DiffenceEngine {
                 else if ((!"error-name".equals(change.getNodeName()))
                         && (!"error-message".equals(change.getNodeName()))) {
                     LOGGER.severe("Unexpected JSF response (" + change.getNodeName() + ")");
+                    originalOtherTags++;
+                }
+                else {
+                    originalErrorTags++;
                 }
             }
         }
@@ -458,31 +512,59 @@ public class DiffenceEngine {
                         + "\n<!-- Optimized by BabbageFaces, an AngularFaces subproject -->\n" + body
                         + currentResponse.substring(bodyEndIndex + "</body>".length());
             }
+            int pos = currentResponse.indexOf("<div id=\"babbageFacesStatistics\"></div>");
+            if (pos > 0) {
+                pos += "<div id=\"babbageFacesStatistics\">".length();
+                currentResponse = currentResponse.substring(0, pos) + "Non-AJAX response - nothing to optimize"
+                        + currentResponse.substring(pos);
+            }
         }
-        if (isDeveloperMode) {
-            int optimizedLength = currentResponse.length();
-            DEBUG_optimizedBytesCumulated += optimizedLength;
-            DEBUG_originalBytesCumulated += originalLength;
-            String responseMessage;
-            if (isAJAX) {
-                responseMessage = "AXAX - original response:  " + originalLength + " bytes  Optimized response: "
-                        + optimizedLength + " bytes  total original: " + DEBUG_originalBytesCumulated
-                        + "  total optimized: " + DEBUG_optimizedBytesCumulated;
+        int optimizedLength = currentResponse.length();
+        DEBUG_optimizedBytesCumulated += optimizedLength;
+        DEBUG_originalBytesCumulated += originalLength;
+        String responseMessage;
+        if (isAJAX) {
+            responseMessage = "AXAX - original response:  " + originalLength + " bytes  Optimized response: "
+                    + optimizedLength + " bytes  total original: " + DEBUG_originalBytesCumulated
+                    + "  total optimized: " + DEBUG_optimizedBytesCumulated;
+            responseMessage += "\r\n";
+            responseMessage += "Original updates: " + originalUpdates;
+            responseMessage += "\r\n";
+            responseMessage += "Original error tags: " + originalErrorTags;
+            responseMessage += "\r\n";
+            responseMessage += "other original tags: " + originalOtherTags;
+            responseMessage += "\r\n";
+            responseMessage += "optimized updates: " + optimizedUpdates;
+            responseMessage += "\r\n";
+            responseMessage += "optimized inserts: " + optimizedInserts;
+            responseMessage += "\r\n";
+            responseMessage += "optimized deletes: " + optimizedDeletes;
+            responseMessage += "\r\n";
+            responseMessage += "optimized attributes: " + optimizedAttributes;
+            if (isDeveloperMode) {
                 LOGGER.info(responseMessage);
             }
-            else {
-                responseMessage = "HTML - original response:  " + originalLength + " bytes  Optimized response: "
-                        + optimizedLength + " bytes  total original: " + DEBUG_originalBytesCumulated
-                        + "  total optimized: " + DEBUG_optimizedBytesCumulated;
-                LOGGER.info(responseMessage);
-
+            responseMessage = responseMessage.replace("\r\n", "<br />");
+            int pos = currentResponse.indexOf("</changes>");
+            if (pos > 0) {
+                currentResponse = currentResponse.substring(0, pos)
+                        + "<update id=\"babbageFacesStatistics\"><![CDATA[<div id=\"babbageFacesStatistics\">"
+                        + responseMessage + "</div>]]></update>" + currentResponse.substring(pos);
             }
-            // if (currentResponse.contains("babbageFacesBoasting")) {
-            // boasting = "<div>" + responseMessage + "<br />" + boasting + "</div>";
-            // currentResponse = currentResponse.replace("babbageFacesBoasting", boasting);
-            // }
 
         }
+        else {
+            responseMessage = "HTML - original response:  " + originalLength + " bytes  Optimized response: "
+                    + optimizedLength + " bytes  total original: " + DEBUG_originalBytesCumulated
+                    + "  total optimized: " + DEBUG_optimizedBytesCumulated;
+            LOGGER.info(responseMessage);
+
+        }
+        // if (currentResponse.contains("babbageFacesBoasting")) {
+        // boasting = "<div>" + responseMessage + "<br />" + boasting + "</div>";
+        // currentResponse = currentResponse.replace("babbageFacesBoasting", boasting);
+        // }
+
         return currentResponse;
     }
 }

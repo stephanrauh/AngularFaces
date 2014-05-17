@@ -10,7 +10,7 @@
       Granted, the user experience of this experience could be better. It's optimized in that it does a lot of partial page updates, thereby showing the effect of BabbageFaces.
       
       <prime:panelGrid columns="2">
-        <h:panelGroup>
+        <prime:panel id="selectPartyPanelID">
           <prime:outputLabel value="Country:" for="@next" />
           <prime:selectOneMenu value="#{partyEditorController.selectedCountry}" converter="CountryConverter">
             <f:selectItem itemLabel="" itemValue="#{null}" />
@@ -19,22 +19,21 @@
             />
             <prime:ajax listener="#{partyEditorController.selectCountry()}" update="@all" />
           </prime:selectOneMenu>
-          <br />
           <prime:dataTable value="#{partyEditorController.parties}" var="party"
-            rendered="#{partyEditorController.parties != null}" style="width:300px"
+            style="width:300px #{partyEditorController.partyTableVisible()}"
           >
             <prime:column headerText="Party">
-          #{party.name}
-        </prime:column>
+              #{party.name}
+            </prime:column>
             <prime:column>
               <prime:commandButton value="edit" icon="ui-icon-pencil"
                 actionListener="#{partyEditorController.editParty(party)}" update="@all"
               />
             </prime:column>
           </prime:dataTable>
-        </h:panelGroup>
-        <h:panelGroup id="detailGroupID" rendered="#{partyEditorController.selectedParty!=null}">
-          <prime:panelGrid columns="2">
+        </prime:panel>
+        <prime:panel id="editPartyPanelID" rendered="#{partyEditorController.selectedParty!=null}">
+          <prime:panelGrid columns="3">
             <prime:outputLabel value="Name:" for="@next" />
             <prime:inputText value="#{partyEditorController.selectedParty.name}" />
             <prime:outputLabel value="Year of establishment:" for="@next" />
@@ -42,7 +41,9 @@
             <prime:outputLabel value="Color:" for="@next" />
             <prime:inputText value="#{partyEditorController.selectedParty.color}" />
           </prime:panelGrid>
-        </h:panelGroup>
+        </prime:panel>
+        <prime:panel style="display:none" id="invisibleID">
+        </prime:panel>
       </prime:panelGrid>
     </h:form>
   </ui:composition>

@@ -18,6 +18,7 @@ public class ElectionController implements Serializable {
     boolean countryEditorVisible = false;
     boolean electionEditorVisible = false;
     boolean electionHistoryChartVisible = false;
+    private boolean missingTDVisible = false;
     boolean partyEditorVisible = false;
     boolean singleElectionChartVisible = false;
 
@@ -58,6 +59,7 @@ public class ElectionController implements Serializable {
         electionHistoryChartVisible = false;
         partyEditorVisible = false;
         singleElectionChartVisible = false;
+        setMissingTDVisible(false);
     }
 
     /**
@@ -82,6 +84,13 @@ public class ElectionController implements Serializable {
     }
 
     /**
+     * @return the missingTDVisible
+     */
+    public boolean isMissingTDVisible() {
+        return missingTDVisible;
+    }
+
+    /**
      * @return the partyEditorVisible
      */
     public boolean isPartyEditorVisible() {
@@ -93,6 +102,11 @@ public class ElectionController implements Serializable {
      */
     public boolean isSingleElectionChartVisible() {
         return this.singleElectionChartVisible;
+    }
+
+    public void missingTDAction() {
+        hideEveryDialog();
+        missingTDVisible = true;
     }
 
     /**
@@ -125,6 +139,14 @@ public class ElectionController implements Serializable {
      */
     public void setElectionHistoryChartVisible(boolean electionHistoryChartVisible) {
         this.electionHistoryChartVisible = electionHistoryChartVisible;
+    }
+
+    /**
+     * @param missingTDVisible
+     *            the missingTDVisible to set
+     */
+    public void setMissingTDVisible(boolean missingTDVisible) {
+        this.missingTDVisible = missingTDVisible;
     }
 
     /**

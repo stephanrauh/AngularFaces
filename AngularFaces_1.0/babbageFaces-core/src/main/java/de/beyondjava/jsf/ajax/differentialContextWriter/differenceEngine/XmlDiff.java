@@ -51,7 +51,7 @@ public class XmlDiff {
     private static void assertTagIDMatch(List<HTMLTag> oldHTMLTags, List<HTMLTag> newHTMLTags) {
         {
             int index = 0;
-            while (index < oldHTMLTags.size()) {
+            while ((index < oldHTMLTags.size()) && (index < newHTMLTags.size())) {
                 HTMLTag oldTag = (oldHTMLTags.get(index));
                 final HTMLTag newTag = newHTMLTags.get(index);
                 if (!oldTag.getId().equals(newTag.getId())) {
@@ -182,7 +182,6 @@ public class XmlDiff {
             }
             if (!needsUpdate) {
                 needsUpdate |= generateInsertCommands(newHTMLTags, localInserts, insertList, localUpdates);
-
             }
         }
         if (!needsUpdate) {
@@ -208,7 +207,7 @@ public class XmlDiff {
 
         int indexOld = 0;
         int indexNew = 0;
-        while (indexOld < oldHTMLTags.size()) {
+        while ((indexOld < oldHTMLTags.size()) && (indexOld < newHTMLTags.size())) {
             HTMLTag oldTag = (oldHTMLTags.get(indexOld));
             final HTMLTag newTag = newHTMLTags.get(indexNew);
             if (!tagsAreEqualOrCanBeChangedLocally(oldTag, newTag, updates, deletions, attributeChanges, inserts)) {
@@ -409,7 +408,7 @@ public class XmlDiff {
         boolean needsUpdate = false;
         for (HTMLTag insert : insertList) {
             if (insert.getId().isEmpty()) {
-                LOGGER.fine("TODO: modify the original AJAX response by adding an ID to the node to be inserted");
+                LOGGER.warning("TODO: modify the original AJAX response by adding an ID to the node to be inserted");
                 needsUpdate = true;
                 break;
             }

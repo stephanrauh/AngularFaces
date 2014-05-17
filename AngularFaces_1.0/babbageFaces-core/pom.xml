@@ -68,11 +68,6 @@
 			<artifactId>omnifaces</artifactId>
 			<version>1.6</version>
 		</dependency>
- 		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>5.0</version>
-		</dependency>
 		<!-- Gson: Java to Json conversion -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

@@ -23,7 +23,7 @@
 	</context-param>
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
-		<param-value>production</param-value>
+		<param-value>Production</param-value>
 	</context-param>
 	<error-page>
 		<exception-type>java.lang.Throwable</exception-type>
