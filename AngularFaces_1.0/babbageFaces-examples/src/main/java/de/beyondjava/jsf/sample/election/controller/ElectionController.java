@@ -21,7 +21,7 @@ public class ElectionController implements Serializable {
     private boolean missingTDVisible = false;
     boolean partyEditorVisible = false;
     boolean singleElectionChartVisible = false;
-    
+
     public ElectionController() {
         DBPopulator.populateWorld(this);
     }
@@ -51,6 +51,27 @@ public class ElectionController implements Serializable {
      */
     public List<Country> getCountries() {
         return this.countries;
+    }
+
+    public String getTitle() {
+        if (countryEditorVisible) {
+            return "Edit countries";
+        }
+        else if (electionEditorVisible) {
+            return "Edit elections";
+        }
+        else if (electionHistoryChartVisible) {
+            return "Historical election charts";
+        }
+        else if (partyEditorVisible) {
+            return "Edit parties";
+        }
+        else if (singleElectionChartVisible) {
+            return "Dive into the details of a single election";
+        }
+        else {
+            return "BabbagesFaces election demo";
+        }
     }
 
     private void hideEveryDialog() {
@@ -169,5 +190,4 @@ public class ElectionController implements Serializable {
         hideEveryDialog();
         singleElectionChartVisible = true;
     }
-
 }

@@ -419,7 +419,7 @@ public class DifferenceEngine {
                                         + oldHeaderAsString.substring(endOld);
                             }
                             if (headerAsString.equals(oldHeaderAsString)) {
-                                s += "<eval><![CDATA[" + "window.document.title='::" + title + "';" + "]]></eval>";
+                                s += "<eval><![CDATA[" + "window.document.title='" + title + "';" + "]]></eval>";
                                 optimizedAttributes++;
                             }
                             else {
@@ -514,10 +514,15 @@ public class DifferenceEngine {
             int pos = currentResponse.indexOf("<div id=\"babbageFacesStatistics\"></div>");
             if (pos > 0) {
                 pos += "<div id=\"babbageFacesStatistics\">".length();
-                currentResponse = currentResponse.substring(0, pos) + "Non-AJAX response - nothing to optimize.<br />"
-                		+ "Original response:  " + originalLength + "<br />"
-                		+ "Optimized response: " + currentResponse.length()  + "<br />"
-                		+ "(usually bigger because the HMTL code is reformatted and lots of ids have to be inserted to make BabbabgeFaces smoother)"
+                currentResponse = currentResponse.substring(0, pos)
+                        + "Non-AJAX response - nothing to optimize.<br />"
+                        + "Original response:  "
+                        + originalLength
+                        + "<br />"
+                        + "Optimized response: "
+                        + currentResponse.length()
+                        + "<br />"
+                        + "(usually bigger because the HMTL code is reformatted and lots of ids have to be inserted to make BabbabgeFaces smoother)"
                         + currentResponse.substring(pos);
             }
         }
