@@ -28,110 +28,112 @@ import de.beyondjava.jsf.sample.election.domain.*;
 @ManagedBean
 @ViewScoped
 public class PartyEditorController implements Serializable {
-	private static final Logger LOGGER = Logger
-			.getLogger("de.beyondjava.jsf.sample.election.controller.PartyEditorController");
-	private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger
+            .getLogger("de.beyondjava.jsf.sample.election.controller.PartyEditorController");
+    private static final long serialVersionUID = 1L;
 
-	@ManagedProperty("#{electionController.countries}")
-	private List<Country> countries;
-	@ManagedProperty("#{electionController}")
-	private ElectionController electionController;
+    @ManagedProperty("#{electionController.countries}")
+    private List<Country> countries;
+    @ManagedProperty("#{electionController}")
+    private ElectionController electionController;
 
-	private List<Party> parties;
+    private List<Party> parties;
 
-	private Country selectedCountry;
+    private Country selectedCountry;
 
-	private Party selectedParty;
+    private Party selectedParty;
 
-	public PartyEditorController() {
-	}
+    public PartyEditorController() {
+    }
 
-	public void editParty(Party selectedParty) {
-		this.selectedParty = selectedParty;
-	}
-
-	/**
-	 * @return the countries
-	 */
-	public List<Country> getCountries() {
-		return this.countries;
-	}
-
-	/**
-	 * @return the parties
-	 */
-	public List<Party> getParties() {
-		return this.parties;
-	}
-
-	/**
-	 * @return the selectedCountry
-	 */
-	public Country getSelectedCountry() {
-		return this.selectedCountry;
-	}
-
-	/**
-	 * @return the selectedParty
-	 */
-	public Party getSelectedParty() {
-		return this.selectedParty;
-	}
-
-	@PostConstruct
-	public void init() {
-	}
-
-	public String partyTableVisible() {
-		return selectedCountry == null ? "display:none" : "display:block";
-	}
-
-	public void selectCountry() {
-		if (null == selectedCountry) {
-			parties = null;
-			selectedParty = null;
-		} else {
-			parties = selectedCountry.getParties();
-		}
-	}
-
-	/**
-	 * @param countries
-	 *            the countries to set
-	 */
-	public void setCountries(List<Country> countries) {
-		this.countries = countries;
-	}
-
-	/**
-	 * @param selectedCountry
-	 *            the selectedCountry to set
-	 */
-	public void setSelectedCountry(Country selectedCountry) {
-		if (this.selectedCountry != selectedCountry)
-			selectedParty = null;
-		this.selectedCountry = selectedCountry;
-	}
-
-	/**
-	 * @param selectedParty
-	 *            the selectedParty to set
-	 */
-	public void setSelectedParty(Party selectedParty) {
-		this.selectedParty = selectedParty;
-	}
-	
     public void editPartiesAction(Country country) {
-        getElectionController().editPartiesAction(); 
+        getElectionController().editPartiesAction();
         setSelectedCountry(country);
     }
 
-	public ElectionController getElectionController() {
-		return electionController;
-	}
+    public void editParty(Party selectedParty) {
+        this.selectedParty = selectedParty;
+    }
 
-	public void setElectionController(ElectionController electionController) {
-		this.electionController = electionController;
-	}
+    /**
+     * @return the countries
+     */
+    public List<Country> getCountries() {
+        return this.countries;
+    }
+
+    public ElectionController getElectionController() {
+        return electionController;
+    }
+
+    /**
+     * @return the parties
+     */
+    public List<Party> getParties() {
+        return this.parties;
+    }
+
+    /**
+     * @return the selectedCountry
+     */
+    public Country getSelectedCountry() {
+        return this.selectedCountry;
+    }
+
+    /**
+     * @return the selectedParty
+     */
+    public Party getSelectedParty() {
+        return this.selectedParty;
+    }
+
+    @PostConstruct
+    public void init() {
+    }
+
+    public String partyTableVisible() {
+        return selectedCountry == null ? "display:none" : "display:block";
+    }
+
+    public void selectCountry() {
+        if (null == selectedCountry) {
+            parties = null;
+            selectedParty = null;
+        }
+        else {
+            parties = selectedCountry.getParties();
+        }
+    }
+
+    /**
+     * @param countries
+     *            the countries to set
+     */
+    public void setCountries(List<Country> countries) {
+        this.countries = countries;
+    }
+
+    public void setElectionController(ElectionController electionController) {
+        this.electionController = electionController;
+    }
+
+    /**
+     * @param selectedCountry
+     *            the selectedCountry to set
+     */
+    public void setSelectedCountry(Country selectedCountry) {
+        if (this.selectedCountry != selectedCountry) {
+            selectedParty = null;
+        }
+        this.selectedCountry = selectedCountry;
+    }
+
+    /**
+     * @param selectedParty
+     *            the selectedParty to set
+     */
+    public void setSelectedParty(Party selectedParty) {
+        this.selectedParty = selectedParty;
+    }
 
 }

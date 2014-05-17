@@ -7,7 +7,7 @@
     <h:form >
       <h:messages />
       Edit countries
-      <prime:dataTable value="#{electionController.countries}" var="country">
+      <prime:dataTable value="#{electionController.countries}" var="country" style="width:770px;">
       <prime:column headerText="Country"><prime:inputText value="#{country.name}"></prime:inputText>
       </prime:column>
       <prime:column><prime:commandButton value="save"></prime:commandButton>

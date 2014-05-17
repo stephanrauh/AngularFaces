@@ -73,75 +73,6 @@ public class HTMLTag implements Serializable {
      */
     private static String escapeXmlEntities(String html) {
         return html.replace("&", "AmPeRsAnD");
-        // StringBuffer result = new StringBuffer();
-        // if (html.indexOf("<body") > 0) {
-        // int pos = html.indexOf("<body") + "<body".length();
-        // result.append(html.substring(0, pos));
-        // html = html.substring(pos);
-        //
-        // }
-        // boolean isInString = false;
-        // boolean isBeingEscaped = false;
-        // boolean isInCDATA = false;
-        // char[] charArray = html.toCharArray();
-        // final int len = charArray.length;
-        // for (int pos = 0; pos < len; pos++) {
-        // char c = charArray[pos];
-        // if (!isBeingEscaped) {
-        // if (c == '\\') {
-        // isBeingEscaped = true;
-        // continue;
-        // }
-        // if (c == '"') {
-        // isInString = !isInString;
-        // }
-        // if ((!isInString) && (!isInCDATA)) {
-        // final String CDATA = "<![CDATA[";
-        // if ((c == '<') && ((pos + CDATA.length()) < len)) {
-        // boolean match = true;
-        // for (int i = 1; i < CDATA.length(); i++) {
-        // if (charArray[pos + i] == CDATA.charAt(i)) {
-        // continue;
-        // }
-        // else {
-        // match = false;
-        // break;
-        // }
-        // }
-        // if (match) {
-        // isInCDATA = true;
-        // }
-        // }
-        // }
-        // if ((!isInString) && (!isInCDATA)) {
-        // final String CDATAEND = "]]>";
-        // if ((c == ']') && ((pos + CDATAEND.length()) < len)) {
-        // boolean match = true;
-        // for (int i = 1; i < CDATAEND.length(); i++) {
-        // if (charArray[pos + i] == CDATAEND.charAt(i)) {
-        // continue;
-        // }
-        // else {
-        // match = false;
-        // break;
-        // }
-        // }
-        // if (match) {
-        // isInCDATA = false;
-        // }
-        // }
-        // }
-        // }
-        // isBeingEscaped = false;
-        // if ((c == '&') && (isInString) && (!isInCDATA)) {
-        // result.append("&amp;");
-        // }
-        // else {
-        // result.append(c);
-        // }
-        // }
-        //
-        // return result.toString();
     }
 
     /**
@@ -277,7 +208,8 @@ public class HTMLTag implements Serializable {
                     if ((id == null) || (id.length() == 0)) {
                         // "div".equals(nodeName) excluded because SelectOneMenus don't work if updated partially
                         if ("span".equals(nodeName) || "input".equals(nodeName) || "a".equals(nodeName)
-                                || "tr".equals(nodeName) || "td".equals(nodeName) || "option".equals(nodeName)) {
+                                || "table".equals(nodeName) || "tbody".equals(nodeName) || "tr".equals(nodeName)
+                                || "td".equals(nodeName) || "option".equals(nodeName)) {
                             if ((parent.getId() != null) && (parent.getId().length() > 0)) {
                                 addAttribute("id", parent.getId() + ":" + nodeName + parent.getChildren().size());
                             }

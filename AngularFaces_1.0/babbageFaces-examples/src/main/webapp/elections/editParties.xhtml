@@ -20,7 +20,7 @@
             <prime:ajax listener="#{partyEditorController.selectCountry()}" update="@all" />
           </prime:selectOneMenu>
           <prime:dataTable value="#{partyEditorController.parties}" var="party"
-            style="width:300px #{partyEditorController.partyTableVisible()}"
+            style="width:770px; #{partyEditorController.partyTableVisible()}"
           >
             <prime:column headerText="Party">
               #{party.name}
