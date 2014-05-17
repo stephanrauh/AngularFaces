@@ -21,7 +21,7 @@ public class ElectionController implements Serializable {
     private boolean missingTDVisible = false;
     boolean partyEditorVisible = false;
     boolean singleElectionChartVisible = false;
-
+    
     public ElectionController() {
         DBPopulator.populateWorld(this);
     }

@@ -12,7 +12,8 @@
       </prime:column>
       <prime:column><prime:commandButton value="save"></prime:commandButton>
       </prime:column>
-      <prime:column><prime:commandButton value="edit parties"></prime:commandButton>
+      <prime:column><prime:commandButton value="edit parties" actionListener="#{partyEditorController.editPartiesAction(country)}"
+      update="@all"></prime:commandButton>
       </prime:column>
       </prime:dataTable>
     </h:form>

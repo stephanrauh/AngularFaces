@@ -7,7 +7,7 @@
     <h:form>
       <h:messages />
       <h3>Select a country to edit the parties.</h3>
-      Granted, the user experience of this experience could be better. It's optimized in that it does a lot of partial page updates, thereby showing the effect of BabbageFaces.
+      Granted, the user experience of this example could be better. It's optimized in that it does a lot of partial page updates, thereby showing the effect of BabbageFaces.
       
       <prime:panelGrid columns="2">
         <prime:panel id="selectPartyPanelID">
@@ -33,7 +33,7 @@
           </prime:dataTable>
         </prime:panel>
         <prime:panel id="editPartyPanelID" rendered="#{partyEditorController.selectedParty!=null}">
-          <prime:panelGrid columns="3">
+          <prime:panelGrid columns="2">
             <prime:outputLabel value="Name:" for="@next" />
             <prime:inputText value="#{partyEditorController.selectedParty.name}" />
             <prime:outputLabel value="Year of establishment:" for="@next" />
@@ -42,8 +42,9 @@
             <prime:inputText value="#{partyEditorController.selectedParty.color}" />
           </prime:panelGrid>
         </prime:panel>
-        <prime:panel style="display:none" id="invisibleID">
+        <prime:panel style="display:none" id="editPartyPanel2ID" rendered="#{partyEditorController.selectedParty==null}">
         </prime:panel>
+        
       </prime:panelGrid>
     </h:form>
   </ui:composition>

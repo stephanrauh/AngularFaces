@@ -1,0 +1,32 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:prime="http://primefaces.org/ui" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+>
+  <h:head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Welcome to AngularFaces@OpenShift</title>
+    <style>
+td {
+	vertical-align: top;
+}
+</style>
+  </h:head>
+  <h:body>
+  	<prime:outputLabel value="first name" for="@next" />
+  	<h:inputText value="#{person.firstName" onChange="disableIfEmpty(this, $('#lastNameID')))" />
+  	<prime:outputLabel value="lasst name" for="@next" />
+  	<h:inputText value="#{person.lastName" id="lastNameID"/>
+  	<h:commandButton value="save" action="#{personController.save}" />
+	<script>
+	function disableIfEmpty(source, target) {
+		if (source.value="") {
+			target.addStyle("disabled");
+	    else
+			target.removeStyle("disabled");
+		}
+	}
+	</script>
+
+  </h:body>
+</f:view>
