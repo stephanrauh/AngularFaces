@@ -5,12 +5,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,11 +23,13 @@ import java.util.logging.Logger;
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
 
-import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DiffenceEngine;
+import org.xml.sax.SAXParseException;
+
+import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DifferenceEngine;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
- * 
+ *
  */
 public class DiffentialResponseWriter extends Writer {
 
@@ -45,6 +47,8 @@ public class DiffentialResponseWriter extends Writer {
     boolean DEBUG_Finished = false;
     private long DEBUG_timer = 0l;
     private long DEBUG_totalTimeStart = 0l;
+
+    private boolean disabledAfterError = false;
 
     /** Is it an AJAX request or an HTML request? */
     boolean isAJAX = false;
@@ -142,6 +146,11 @@ public class DiffentialResponseWriter extends Writer {
     @Override
     public void write(char[] cbuf, int off, int len) throws IOException {
         if (DEBUG_Finished) {
+            if (disabledAfterError) {
+                sunWriter.write(cbuf, off, len);
+                return;
+            }
+
             LOGGER.severe("Unexpected use of DifferentialResponseWriter!");
         }
         long DEBUG_StartTime = System.nanoTime();
@@ -158,42 +167,53 @@ public class DiffentialResponseWriter extends Writer {
             if (rawbufferValid) {
                 try {
                     DEBUG_OptimizationTime = System.nanoTime();
-                    String optimizedResponse = new DiffenceEngine().yieldDifferences(rawBuffer.toString(), sessionMap,
-                            isAJAX);
+                    String optimizedResponse = new DifferenceEngine().yieldDifferences(rawBuffer.toString(),
+                            sessionMap, isAJAX);
                     DEBUG_OptimizationTime = System.nanoTime() - DEBUG_OptimizationTime;
+                    long DEBUG_endTime = System.nanoTime();
+                    DEBUG_timer += (DEBUG_endTime - DEBUG_StartTime);
+                    long total = (System.nanoTime() - DEBUG_totalTimeStart);
+
+                    if (total < (50 * 1000 * 1000)) {
+                        // we don't want to measure database access times
+                        DEBUG_timerCumulated += DEBUG_timer;
+                        DEBUG_totalTimeCumulated += total;
+                    }
+
+                    if (isDeveloperMode) {
+                        LOGGER.info("Total rendering time:       " + ((total / 1000) / 1000.0) + " ms   Cumulated: "
+                                + ((DEBUG_totalTimeCumulated / 1000) / 1000.0) + " ms");
+                        LOGGER.info("BabbageFaces Overhead:    " + ((DEBUG_timer / 1000) / 1000.0)
+                                + " ms   Cumulated: " + ((DEBUG_timerCumulated / 1000) / 1000.0) + " ms");
+                        LOGGER.info("##################################################################################");
+                    }
+
+                    int pos = optimizedResponse.indexOf("<div id=\"babbageFacesStatistics\">");
+                    if (pos > 0) {
+                        pos += "<div id=\"babbageFacesStatistics\">".length();
+                        optimizedResponse = optimizedResponse.substring(0, pos) + "<br />"
+                                + "Total rendering time:       " + ((total / 1000) / 1000.0) + " ms   Cumulated: "
+                                + ((DEBUG_totalTimeCumulated / 1000) / 1000.0) + " ms" + "<br />"
+                                + "BabbageFaces Overhead:    " + ((DEBUG_timer / 1000) / 1000.0) + " ms   Cumulated: "
+                                + ((DEBUG_timerCumulated / 1000) / 1000.0) + " ms" + optimizedResponse.substring(pos);
+                    }
                     sunWriter.write(optimizedResponse);
                 }
                 catch (Exception anyError) {
-                    LOGGER.severe("An error occured when optimizing the AJAX response. I'll use the original response instead.");
-                    LOGGER.severe(anyError.toString());
-                    anyError.printStackTrace();
+                    if (!(anyError.getCause() instanceof SAXParseException)) // Error has already been reported
+                    {
+                        LOGGER.severe("An error occured when optimizing the AJAX response. I'll use the original response instead.");
+                        LOGGER.severe(anyError.toString());
+                        anyError.printStackTrace();
+                    }
                     sunWriter.write(rawBuffer.toString());
+                    disabledAfterError = true;
                 }
             }
             else {
                 sunWriter.write(rawBuffer.toString());
             }
             rawBuffer.setLength(0);
-        }
-        if (isDeveloperMode) {
-            long DEBUG_endTime = System.nanoTime();
-            DEBUG_timer += (DEBUG_endTime - DEBUG_StartTime);
-            if (DEBUG_Finished) {
-                long total = (System.nanoTime() - DEBUG_totalTimeStart);
-
-                if (total < (50 * 1000 * 1000)) {
-                    // we don't want to measure database access times
-                    DEBUG_timerCumulated += DEBUG_timer;
-                    DEBUG_totalTimeCumulated += total;
-                }
-
-                LOGGER.info("Total rendering time:       " + ((total / 1000) / 1000.0) + " ms   Cumulated: "
-                        + ((DEBUG_totalTimeCumulated / 1000) / 1000.0) + " ms");
-                LOGGER.info("BabbageFaces Overhead:    " + ((DEBUG_timer / 1000) / 1000.0) + " ms   Cumulated: "
-                        + ((DEBUG_timerCumulated / 1000) / 1000.0) + " ms");
-                LOGGER.info("##################################################################################");
-
-            }
         }
     }
 }

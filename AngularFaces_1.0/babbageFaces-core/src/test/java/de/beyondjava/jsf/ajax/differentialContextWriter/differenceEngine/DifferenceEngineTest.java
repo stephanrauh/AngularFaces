@@ -31,7 +31,7 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
  * @author Stephan Rauh http://www.beyondjava.net
  * 
  */
-public class DiffenceEngineTest {
+public class DifferenceEngineTest {
 
     /**
      * Tests the change of a single attribute.
@@ -40,7 +40,7 @@ public class DiffenceEngineTest {
      */
     // @Test
     public void testDetermineNecessaryChanges1() throws IOException {
-        final DiffenceEngine diffenceEngine = new DiffenceEngine();
+        final DifferenceEngine diffenceEngine = new DifferenceEngine();
         File dir = new File("src/test/resources/DifferenceEngine");
 
         final File partialChange = new File(dir, "partialChange1.xml");
@@ -72,7 +72,7 @@ public class DiffenceEngineTest {
      */
     @Test
     public void testDetermineNecessaryChanges2() throws IOException {
-        final DiffenceEngine diffenceEngine = new DiffenceEngine();
+        final DifferenceEngine diffenceEngine = new DifferenceEngine();
         File dir = new File("src/test/resources/DifferenceEngine");
 
         final File partialChange = new File(dir, "partialChange2.xml");
@@ -110,7 +110,7 @@ public class DiffenceEngineTest {
      */
     // @Test
     public void testDetermineNecessaryChanges8() throws IOException {
-        final DiffenceEngine diffenceEngine = new DiffenceEngine();
+        final DifferenceEngine diffenceEngine = new DifferenceEngine();
         File dir = new File("src/test/resources/DifferenceEngine");
 
         final File partialChange = new File(dir, "partialChange8.xml");

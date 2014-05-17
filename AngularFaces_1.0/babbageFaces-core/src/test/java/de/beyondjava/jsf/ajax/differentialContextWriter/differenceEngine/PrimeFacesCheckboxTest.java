@@ -40,7 +40,7 @@ public class PrimeFacesCheckboxTest {
      */
     @Test
     public void testDetermineNecessaryChanges3() throws IOException {
-        final DiffenceEngine diffenceEngine = new DiffenceEngine();
+        final DifferenceEngine diffenceEngine = new DifferenceEngine();
         File dir = new File("src/test/resources/DifferenceEngine");
 
         final File partialChange = new File(dir, "partialChange3.xml");

@@ -193,8 +193,13 @@ public class HTMLTag implements Serializable {
             return domTree;
         }
         catch (SAXException e) {
-            LOGGER.severe("Couldn't parse the HTML oder XML code due to a SAXException. The HTML code is:");
-            LOGGER.severe(html);
+            if (!e.getMessage().contains("]]>")) {
+                LOGGER.severe("Couldn't parse the HTML oder XML code due to a SAXException. This may have been caused by an application exception.");
+            }
+            else {
+                LOGGER.severe("Couldn't parse the HTML oder XML code due to a SAXException. The HTML code is:");
+                LOGGER.severe(html);
+            }
 
             throw new RuntimeException("Couldn't parse the HTML oder XML code due to a SAXException", e);
         }

@@ -22,6 +22,7 @@
 			</prime:panel>
 			<prime:panel
 				rendered="#{electionEditorController.selectedCountry!=null}">
+        
 				<prime:dataTable
 					value="#{electionEditorController.selectedCountry.elections}"
 					var="election"
@@ -29,7 +30,7 @@
 					<prime:column headerText="year">
 		              #{election.year}
         		    </prime:column>
-					<prime:column headerText="#{electionEditorController.selectedCountry.parties.get(0).name}" rendered="#{electionEditorController.selectedCountry.parties.size()>=1}">
+					<prime:column headerText="#{electionEditorController.selectedCountry.parties.get(30).name}" rendered="#{electionEditorController.selectedCountry.parties.size()>=1}">
 		              #{election.results.get(0)}
         		    </prime:column>
 					<prime:column headerText="#{electionEditorController.selectedCountry.parties.get(1).name}" rendered="#{electionEditorController.selectedCountry.parties.size()>=2}">

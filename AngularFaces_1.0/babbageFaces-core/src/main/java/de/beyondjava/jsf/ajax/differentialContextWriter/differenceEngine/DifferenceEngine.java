@@ -30,7 +30,7 @@ import de.beyondjava.jsf.ajax.differentialContextWriter.parser.*;
  * @author Stephan Rauh http://www.beyondjava.net
  *
  */
-public class DiffenceEngine {
+public class DifferenceEngine {
     private static long DEBUG_optimizedBytesCumulated = 0l;
 
     private static long DEBUG_originalBytesCumulated = 0l;
@@ -47,7 +47,7 @@ public class DiffenceEngine {
     /**
      *
      */
-    public DiffenceEngine() {
+    public DifferenceEngine() {
     }
 
     /**
