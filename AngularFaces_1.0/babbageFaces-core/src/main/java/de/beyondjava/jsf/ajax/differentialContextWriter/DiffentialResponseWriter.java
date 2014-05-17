@@ -174,7 +174,7 @@ public class DiffentialResponseWriter extends Writer {
                     DEBUG_timer += (DEBUG_endTime - DEBUG_StartTime);
                     long total = (System.nanoTime() - DEBUG_totalTimeStart);
 
-                    if (total < (50 * 1000 * 1000)) {
+                    if (total < (500 * 1000 * 1000)) {
                         // we don't want to measure database access times
                         DEBUG_timerCumulated += DEBUG_timer;
                         DEBUG_totalTimeCumulated += total;
@@ -195,7 +195,8 @@ public class DiffentialResponseWriter extends Writer {
                                 + "Total rendering time:       " + ((total / 1000) / 1000.0) + " ms   Cumulated: "
                                 + ((DEBUG_totalTimeCumulated / 1000) / 1000.0) + " ms" + "<br />"
                                 + "BabbageFaces Overhead:    " + ((DEBUG_timer / 1000) / 1000.0) + " ms   Cumulated: "
-                                + ((DEBUG_timerCumulated / 1000) / 1000.0) + " ms" + optimizedResponse.substring(pos);
+                                + ((DEBUG_timerCumulated / 1000) / 1000.0) + " ms" + "<br />"
+                                + optimizedResponse.substring(pos);
                     }
                     sunWriter.write(optimizedResponse);
                 }

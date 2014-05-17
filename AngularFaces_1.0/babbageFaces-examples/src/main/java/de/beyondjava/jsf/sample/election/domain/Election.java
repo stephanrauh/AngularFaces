@@ -6,17 +6,36 @@ import java.util.*;
 public class Election implements Serializable {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private int year;
+    private List<String> parties;
 
     private Map<Party, Double> result = new HashMap<>();
-    
-    private List<String> parties;
-    
+
     private List<Double> results;
+
+    private int year;
+
+    public List<String> getParties() {
+        return parties;
+    }
+
+    /**
+     * @return the result
+     */
+    public Map<Party, Double> getResult() {
+        return this.result;
+    }
+
+    public double getResult(Long index) {
+        return results.get(index.intValue());
+    }
+
+    public List<Double> getResults() {
+        return results;
+    }
 
     /**
      * @return the date
@@ -25,11 +44,8 @@ public class Election implements Serializable {
         return this.year;
     }
 
-    /**
-     * @return the result
-     */
-    public Map<Party, Double> getResult() {
-        return this.result;
+    public void setParties(List<String> parties) {
+        this.parties = parties;
     }
 
     /**
@@ -40,24 +56,12 @@ public class Election implements Serializable {
         this.result = result;
     }
 
-	public List<String> getParties() {
-		return parties;
-	}
+    public void setResults(List<Double> results) {
+        this.results = results;
+    }
 
-	public void setParties(List<String> parties) {
-		this.parties = parties;
-	}
+    public void setYear(int year) {
+        this.year = year;
 
-	public List<Double> getResults() {
-		return results;
-	}
-
-	public void setResults(List<Double> results) {
-		this.results = results;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-		
-	}
+    }
 }

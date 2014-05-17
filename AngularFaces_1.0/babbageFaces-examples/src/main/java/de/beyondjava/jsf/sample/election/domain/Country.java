@@ -5,10 +5,10 @@ import java.util.*;
 
 public class Country implements Serializable {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private List<Election> elections = new ArrayList<>();
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private List<Election> elections = new ArrayList<>();
     private String name;
     private List<Party> parties;
 
@@ -31,6 +31,10 @@ public class Country implements Serializable {
      */
     public List<Party> getParties() {
         return this.parties;
+    }
+
+    public String getParty(Long index) {
+        return parties.get(index.intValue()).getName();
     }
 
     /**
