@@ -19,17 +19,26 @@
 					<prime:ajax listener="#{electionEditorController.selectCountry()}"
 						update="@all" />
 				</prime:selectOneMenu>
-				</prime:panel>
-				<prime:panel rendered="#{electionEditorController.selectedCountry!=null}">
-				
-				<h:outputText value="#{electionEditorController.selectedCountry.elections==null}"></h:outputText>
-				
-				<prime:dataTable value="#{electionEditorController.selectedCountry.elections}"
+			</prime:panel>
+			<prime:panel
+				rendered="#{electionEditorController.selectedCountry!=null}">
+
+				<h:outputText
+					value="#{electionEditorController.selectedCountry.elections.size()}"></h:outputText>
+
+				<prime:dataTable
+					value="#{electionEditorController.selectedCountry.elections}"
 					var="election"
 					style="width:300px #{electionEditorController.electionTableVisible()}">
 					<prime:column headerText="year">
-              #{election.year}
-            </prime:column>
+		              #{election.year}
+        		    </prime:column>
+					<prime:column headerText="#{electionEditorController.selectedCountry.parties.get(0).name}">
+		              #{election.results.get(0)}
+        		    </prime:column>
+					<prime:column headerText="SPD">
+		              #{election.results.get(1)}
+        		    </prime:column>
 					<prime:column>
 						<prime:commandButton value="edit" icon="ui-icon-pencil"
 							actionListener="#{electionEditorController.editElection(election)}"

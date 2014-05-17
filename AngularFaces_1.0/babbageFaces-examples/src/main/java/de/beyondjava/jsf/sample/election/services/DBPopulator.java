@@ -68,10 +68,17 @@ public class DBPopulator {
         	Election election = new Election();
         	election.setYear((int)data[0]);
         	Map<Party, Double> votes = new HashMap<>();
+        	List<Double> results = new ArrayList<>();
+        	election.setResults(results);
+        	List<String> parties = new ArrayList<>();
+        	election.setParties(parties);
         	election.setResult(votes);
         	for (int p=1; p < data.length;p++ ) {
         		votes.put(partiesInGermany.get(p-1), data[p]);
+        		results.add(data[p]);
+        		parties.add(partiesInGermany.get(p-1).getName());
         	}
+        	electionsInGermany.add(election);
         }
 
     }

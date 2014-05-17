@@ -13,6 +13,10 @@ public class Election implements Serializable {
 	private int year;
 
     private Map<Party, Double> result = new HashMap<>();
+    
+    private List<String> parties;
+    
+    private List<Double> results;
 
     /**
      * @return the date
@@ -35,6 +39,22 @@ public class Election implements Serializable {
     public void setResult(Map<Party, Double> result) {
         this.result = result;
     }
+
+	public List<String> getParties() {
+		return parties;
+	}
+
+	public void setParties(List<String> parties) {
+		this.parties = parties;
+	}
+
+	public List<Double> getResults() {
+		return results;
+	}
+
+	public void setResults(List<Double> results) {
+		this.results = results;
+	}
 
 	public void setYear(int year) {
 		this.year = year;
