@@ -1,9 +1,14 @@
 package de.beyondjava.jsf.sample.election.domain;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Country {
-    private List<Election> elections = new ArrayList<>();
+public class Country implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private List<Election> elections = new ArrayList<>();
     private String name;
     private List<Party> parties;
 

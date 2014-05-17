@@ -1,18 +1,24 @@
 package de.beyondjava.jsf.sample.election.domain;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Election {
+public class Election implements Serializable {
 
-    private Calendar date;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private int year;
 
     private Map<Party, Double> result = new HashMap<>();
 
     /**
      * @return the date
      */
-    public Calendar getDate() {
-        return this.date;
+    public int getYear() {
+        return this.year;
     }
 
     /**
@@ -23,24 +29,6 @@ public class Election {
     }
 
     /**
-     * @return the year
-     */
-    public int getYear() {
-        if (null == date) {
-            return 0;
-        }
-        return date.get(Calendar.YEAR);
-    }
-
-    /**
-     * @param date
-     *            the date to set
-     */
-    public void setDate(Calendar date) {
-        this.date = date;
-    }
-
-    /**
      * @param result
      *            the result to set
      */
@@ -48,4 +36,8 @@ public class Election {
         this.result = result;
     }
 
+	public void setYear(int year) {
+		this.year = year;
+		
+	}
 }

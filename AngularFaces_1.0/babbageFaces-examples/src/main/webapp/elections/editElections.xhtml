@@ -1,13 +1,44 @@
-<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:h="http://java.sun.com/jsf/html" xmlns:prime="http://primefaces.org/ui"
-  xmlns:ui="http://java.sun.com/jsf/facelets"
->
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:prime="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <body>
-  <ui:composition>
-    <h:form >
-      <h:messages />
-      Edit elections
-    </h:form>
-  </ui:composition>
+	<ui:composition>
+		<h:form>
+			<h:messages />
+			<h3>Select a country to edit an election</h3>
+			<prime:panel id="selectPartyPanelID">
+				<prime:outputLabel value="Country:" for="@next" />
+				<prime:selectOneMenu
+					value="#{electionEditorController.selectedCountry}"
+					converter="CountryConverter">
+					<f:selectItem itemLabel="" itemValue="#{null}" />
+					<f:selectItems value="#{electionEditorController.countries}"
+						var="country" itemLabel="#{country.name}" itemValue="#{country}" />
+					<prime:ajax listener="#{electionEditorController.selectCountry()}"
+						update="@all" />
+				</prime:selectOneMenu>
+				</prime:panel>
+				<prime:panel rendered="#{electionEditorController.selectedCountry!=null}">
+				
+				
+				
+				<prime:dataTable value="#{electionEditorController.selectedCountry.elections}"
+					var="election"
+					style="width:300px #{electionEditorController.electionTableVisible()}">
+					<prime:column headerText="year">
+              #{election.year}
+            </prime:column>
+					<prime:column>
+						<prime:commandButton value="edit" icon="ui-icon-pencil"
+							actionListener="#{electionEditorController.editElection(election)}"
+							update="@all" />
+					</prime:column>
+				</prime:dataTable>
+			</prime:panel>
+
+		</h:form>
+	</ui:composition>
 </body>
 </html>

@@ -1,7 +1,14 @@
 package de.beyondjava.jsf.sample.election.domain;
 
-public class Party {
-    private String color;
+import java.io.Serializable;
+
+public class Party implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String color;
 
     private String name;
 

@@ -367,7 +367,6 @@ public class DiffenceEngine {
      * @return
      */
     public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
-        String boasting = "";
         int originalUpdates = 0;
         int originalOtherTags = 0;
         int originalErrorTags = 0;
