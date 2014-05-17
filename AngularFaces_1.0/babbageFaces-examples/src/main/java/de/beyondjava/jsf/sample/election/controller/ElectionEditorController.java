@@ -17,13 +17,17 @@
 package de.beyondjava.jsf.sample.election.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.*;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 
-import de.beyondjava.jsf.sample.election.domain.*;
+import de.beyondjava.jsf.sample.election.domain.Country;
+import de.beyondjava.jsf.sample.election.domain.Election;
 
 @ManagedBean
 @ViewScoped
@@ -39,8 +43,6 @@ public class ElectionEditorController implements Serializable {
 
 	private Country selectedCountry;
 	
-	
-
 	public ElectionEditorController() {
 	}
 	
