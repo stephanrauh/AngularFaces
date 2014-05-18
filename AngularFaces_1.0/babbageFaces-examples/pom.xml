@@ -14,6 +14,9 @@
     <gmavenVersion>1.4</gmavenVersion>
     <gmavenProviderSelection>2.0</gmavenProviderSelection>
     <groovyVersion>2.1.7</groovyVersion>
+    <myfaces.version>2.2.3</myfaces.version>
+    <mojarra.version>2.2.2</mojarra.version>
+    <jetty.version>8.1.5.v20120716</jetty.version>
   </properties>
   <repositories>
     <repository>
@@ -21,6 +24,54 @@
       <url>file://lib</url>
     </repository>
   </repositories>
+  <profiles>
+    <profile>
+      <id>mojarra</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>com.sun.faces</groupId>
+          <artifactId>jsf-api</artifactId>
+          <version>${mojarra.version}</version>
+          <scope>compile</scope>
+        </dependency>
+        <dependency>
+          <groupId>com.sun.faces</groupId>
+          <artifactId>jsf-impl</artifactId>
+          <version>${mojarra.version}</version>
+          <scope>compile</scope>
+        </dependency>
+      </dependencies>
+      <properties>
+        <override-web-xml>src/main/jetty/override-mojarra-web.xml</override-web-xml>
+      </properties>
+    </profile>
+    <profile>
+      <id>myfaces</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.myfaces.core</groupId>
+          <artifactId>myfaces-api</artifactId>
+          <version>${myfaces.version}</version>
+          <scope>compile</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.myfaces.core</groupId>
+          <artifactId>myfaces-impl</artifactId>
+          <version>${myfaces.version}</version>
+          <scope>compile</scope>
+        </dependency>
+      </dependencies>
+      <properties>
+        <override-web-xml>src/main/jetty/override-myfaces-web.xml</override-web-xml>
+      </properties>
+    </profile>
+  </profiles>
   <dependencies>
     <dependency>
       <groupId>de.beyondjava.angularFaces</groupId>
@@ -42,13 +93,6 @@
       <artifactId>validation-api</artifactId>
       <version>1.1.0.Final</version>
     </dependency>
-    <dependency>
-      <groupId>org.apache.myfaces.core</groupId>
-      <artifactId>myfaces-bundle</artifactId>
-      <version>2.2.0</version>
-    </dependency>
-    <!-- <dependency> <groupId>org.glassfish</groupId> <artifactId>javax.faces</artifactId> 
-      <version>2.2.3</version> </dependency> -->
     <dependency>
       <groupId>org.jboss.spec</groupId>
       <artifactId>jboss-javaee-6.0</artifactId>
@@ -72,21 +116,5 @@
       <version>4.8.1</version>
       <scope>test</scope>
     </dependency>
-  </dependencies>
-  <!-- <profiles> <profile> -->
-  <!-- When built in OpenShift the 'openshift' profile will be used when 
-    invoking mvn. -->
-  <!-- Use this profile for any OpenShift specific customization your app 
-    will need. -->
-  <!-- By default that is to put the resulting archive into the 'deployments' 
-    folder. -->
-  <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
-  <!-- <id>openshift</id> <build> <finalName>babbageFaces-examples</finalName> 
-    <plugins> <plugin> <artifactId>maven-war-plugin</artifactId> <version>2.1.1</version> 
-    <configuration> <outputDirectory>webapps</outputDirectory> <warName>babbageFaces-examples</warName> 
-    </configuration> </plugin> </plugins> </build> </profile> <profile> <id>eclipse</id> 
-    <build> <finalName>babbageFaces-examples</finalName> <plugins> <plugin> <artifactId>maven-war-plugin</artifactId> 
-    <version>2.1.1</version> <configuration> <outputDirectory>webapps</outputDirectory> 
-    <warName>babbageFaces-examples</warName> </configuration> </plugin> </plugins> 
-    </build> </profile> </profiles> -->
+    </dependencies>
 </project>
