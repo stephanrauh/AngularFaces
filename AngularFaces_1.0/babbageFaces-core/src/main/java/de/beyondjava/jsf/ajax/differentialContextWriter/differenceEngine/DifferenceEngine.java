@@ -279,7 +279,8 @@ public class DifferenceEngine {
     private String optimizeResponse(String currentResponse, HTMLTag domTreeToBeUpdated,
             List<HTMLTag> newPartialChanges, String id) {
         if (!id.contains("javax.faces.ViewState")) {
-
+    		Map<String, String> scriptsToBeAdded = new HashMap<>();
+            Map<String, HTMLTag> scriptsInOriginalDomTree = domTreeToBeUpdated.collectScripts();
             int start = currentResponse.indexOf("<update id=\"" + id + "\">");
             int end = currentResponse.indexOf("</update>", start);
             String currentResponseEnd = currentResponse.substring(end + "</update>".length());
@@ -291,19 +292,24 @@ public class DifferenceEngine {
                     LOGGER.severe("Missing HTMLTag ID");
                 }
                 else if (changeDefinition.getNodeName().equals("update")) {
-                    Map<String, HTMLTag> scripts = domTreeToBeUpdated.collectScripts();
                     HTMLTag currentChangeTag = domTreeToBeUpdated.findByID(idOfCurrentChange);
                     if (null != currentChangeTag) {
                         final Collection<HTMLTag> requiredScripts = currentChangeTag
-                                .extractPrimeFacesJavascript(scripts);
+                                .extractPrimeFacesJavascript(scriptsInOriginalDomTree);
                         for (HTMLTag scriptNode : requiredScripts) {
-                            tmpCurrentResponse = tmpCurrentResponse.substring(0, tmpCurrentResponse.length()
-                                    - "]]></update>".length())
-                                    + scriptNode.toCompactString() + "]]></update>";
+                        	if (!scriptsToBeAdded.containsKey(scriptNode.getId()))
+                        		scriptsToBeAdded.put(scriptNode.getId(), scriptNode.getFirstChild().toCompactString());
                         }
                     }
                 }
 
+            }
+            if (!scriptsToBeAdded.isEmpty()) {
+            	tmpCurrentResponse += "<eval>";
+	            for (String currentScript:scriptsToBeAdded.values()) {
+	            	tmpCurrentResponse +=currentScript+";";
+	            }
+            	tmpCurrentResponse += "</eval>";
             }
             currentResponse = tmpCurrentResponse + currentResponseEnd;
         }
