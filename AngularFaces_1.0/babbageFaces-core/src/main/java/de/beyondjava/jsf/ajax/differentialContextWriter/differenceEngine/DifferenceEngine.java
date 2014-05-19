@@ -555,11 +555,6 @@ public class DifferenceEngine {
             responseMessage += "<tr><td>attributes:</td><td></td><td> " + optimizedAttributes + "</td></tr>";
             responseMessage += "<tr><td>Original error tags</td><td>" + originalErrorTags + "</td></tr>";
             responseMessage += "<tr><td>other original tags</td><td>" + originalOtherTags + "</td></tr></table>";
-            responseMessage += "\r\n";
-            if (isDeveloperMode) {
-                LOGGER.info(responseMessage);
-            }
-            responseMessage = responseMessage.replace("\r\n", "<br />");
             int pos = currentResponse.indexOf("</changes>");
             if (pos > 0) {
                 currentResponse = currentResponse.substring(0, pos)

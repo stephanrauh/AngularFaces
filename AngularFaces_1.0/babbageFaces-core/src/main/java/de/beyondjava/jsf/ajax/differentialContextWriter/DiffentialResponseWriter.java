@@ -114,14 +114,6 @@ public class DiffentialResponseWriter extends Writer {
                     DEBUG_totalTimeCumulated += total;
                 }
 
-                if (isDeveloperMode) {
-                    LOGGER.info("Total rendering time:       " + ((total / 1000) / 1000.0) + " ms   Cumulated: "
-                            + ((DEBUG_totalTimeCumulated / 1000) / 1000.0) + " ms");
-                    LOGGER.info("BabbageFaces Overhead:    " + ((DEBUG_timer / 1000) / 1000.0) + " ms   Cumulated: "
-                            + ((DEBUG_timerCumulated / 1000) / 1000.0) + " ms");
-                    LOGGER.info("##################################################################################");
-                }
-
                 int pos = optimizedResponse.indexOf("<div id=\"babbageFacesStatistics\">");
                 if (pos > 0) {
                     pos += "<div id=\"babbageFacesStatistics\">".length();
