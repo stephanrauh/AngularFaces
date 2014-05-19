@@ -279,7 +279,7 @@ public class DifferenceEngine {
     private String optimizeResponse(String currentResponse, HTMLTag domTreeToBeUpdated,
             List<HTMLTag> newPartialChanges, String id) {
         if (!id.contains("javax.faces.ViewState")) {
-    		Map<String, String> scriptsToBeAdded = new HashMap<>();
+            Map<String, String> scriptsToBeAdded = new HashMap<>();
             Map<String, HTMLTag> scriptsInOriginalDomTree = domTreeToBeUpdated.collectScripts();
             int start = currentResponse.indexOf("<update id=\"" + id + "\">");
             int end = currentResponse.indexOf("</update>", start);
@@ -297,19 +297,20 @@ public class DifferenceEngine {
                         final Collection<HTMLTag> requiredScripts = currentChangeTag
                                 .extractPrimeFacesJavascript(scriptsInOriginalDomTree);
                         for (HTMLTag scriptNode : requiredScripts) {
-                        	if (!scriptsToBeAdded.containsKey(scriptNode.getId()))
-                        		scriptsToBeAdded.put(scriptNode.getId(), scriptNode.getFirstChild().toCompactString());
+                            if (!scriptsToBeAdded.containsKey(scriptNode.getId())) {
+                                scriptsToBeAdded.put(scriptNode.getId(), scriptNode.getFirstChild().toCompactString());
+                            }
                         }
                     }
                 }
 
             }
             if (!scriptsToBeAdded.isEmpty()) {
-            	tmpCurrentResponse += "<eval>";
-	            for (String currentScript:scriptsToBeAdded.values()) {
-	            	tmpCurrentResponse +=currentScript+";";
-	            }
-            	tmpCurrentResponse += "</eval>";
+                tmpCurrentResponse += "<eval>";
+                for (String currentScript : scriptsToBeAdded.values()) {
+                    tmpCurrentResponse += currentScript + ";";
+                }
+                tmpCurrentResponse += "</eval>";
             }
             currentResponse = tmpCurrentResponse + currentResponseEnd;
         }
@@ -537,23 +538,24 @@ public class DifferenceEngine {
         DEBUG_originalBytesCumulated += originalLength;
         String responseMessage;
         if (isAJAX) {
-            responseMessage = "AXAX - original response:  " + originalLength + " bytes  Optimized response: "
-                    + optimizedLength + " bytes  total original: " + DEBUG_originalBytesCumulated
-                    + "  total optimized: " + DEBUG_optimizedBytesCumulated;
+            responseMessage = "<table><tr><td></td><td ><b>Original response</b></td><td><b>Optimized response</b></td></tr>"
+                    + "<tr><td>Size:</td><td>"
+                    + originalLength
+                    + " bytes</td><td> "
+                    + optimizedLength
+                    + " bytes</td><td>" + (((100 * optimizedLength) / originalLength)) + "%</td></tr>";
+            responseMessage += "<tr><td>total </td><td> " + DEBUG_originalBytesCumulated + "</td><td> "
+                    + DEBUG_optimizedBytesCumulated;
+            responseMessage += "</td><td>" + (((100 * DEBUG_optimizedBytesCumulated) / DEBUG_originalBytesCumulated))
+                    + "% </tr><tr><td>";
+            responseMessage += "updates:</td><td> " + originalUpdates;
+            responseMessage += "</td><td>" + optimizedUpdates + "</td></tr>";
+            responseMessage += "<tr><td>inserts:</td><td></td><td> " + optimizedInserts + "</td></tr>";
+            responseMessage += "<tr><td>deletes:</td><td></td><td> " + optimizedDeletes + "</td></tr>";
+            responseMessage += "<tr><td>attributes:</td><td></td><td> " + optimizedAttributes + "</td></tr>";
+            responseMessage += "<tr><td>Original error tags</td><td>" + originalErrorTags + "</td></tr>";
+            responseMessage += "<tr><td>other original tags</td><td>" + originalOtherTags + "</td></tr></table>";
             responseMessage += "\r\n";
-            responseMessage += "Original updates: " + originalUpdates;
-            responseMessage += "\r\n";
-            responseMessage += "Original error tags: " + originalErrorTags;
-            responseMessage += "\r\n";
-            responseMessage += "other original tags: " + originalOtherTags;
-            responseMessage += "\r\n";
-            responseMessage += "optimized updates: " + optimizedUpdates;
-            responseMessage += "\r\n";
-            responseMessage += "optimized inserts: " + optimizedInserts;
-            responseMessage += "\r\n";
-            responseMessage += "optimized deletes: " + optimizedDeletes;
-            responseMessage += "\r\n";
-            responseMessage += "optimized attributes: " + optimizedAttributes;
             if (isDeveloperMode) {
                 LOGGER.info(responseMessage);
             }

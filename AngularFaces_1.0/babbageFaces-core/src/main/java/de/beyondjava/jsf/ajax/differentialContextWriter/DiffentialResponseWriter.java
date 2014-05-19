@@ -126,12 +126,14 @@ public class DiffentialResponseWriter extends Writer {
                 if (pos > 0) {
                     pos += "<div id=\"babbageFacesStatistics\">".length();
                     optimizedResponse = optimizedResponse.substring(0, pos) + "<br />" + "BabbageFaces 0.9 running on "
-                            + (isMyFaces ? "Apache MyFaces" : "Oracle Mojarra") + "<br />" + "<table border=1><tr>"
-                            + "<td>Total rendering time:</td><td>" + ((total / 1000) / 1000.0)
-                            + " ms</td><td>Cumulated:</td><td> " + ((DEBUG_totalTimeCumulated / 1000) / 1000.0)
+                            + (isMyFaces ? "Apache MyFaces" : "Oracle Mojarra") + "<br />" + "<table><tr>"
+                            + "<td>Total rendering time:</td><td>" + ((total / 100000) / 10.0)
+                            + " ms</td><td>Cumulated:</td><td> " + ((DEBUG_totalTimeCumulated / 10000) / 10.0)
                             + " ms</td></tr><tr>" + "<td>BabbageFaces overhead:</td><td>"
-                            + ((DEBUG_timer / 1000) / 1000.0) + " ms</td><td>Cumulated: </td><td>"
-                            + ((DEBUG_timerCumulated / 1000) / 1000.0) + " ms</td></tr></table>"
+                            + ((DEBUG_timer / 100000) / 10.0) + " ms (" + ((100 * DEBUG_timer) / total)
+                            + "%)</td><td>Cumulated: </td><td>" + ((DEBUG_timerCumulated / 10000) / 10.0) + " ms ("
+
+                            + ((100 * DEBUG_timerCumulated) / DEBUG_totalTimeCumulated) + "%)</td></tr></table>"
                             + optimizedResponse.substring(pos);
                 }
                 sunWriter.write(optimizedResponse);
