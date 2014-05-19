@@ -211,10 +211,21 @@ public class HTMLTag implements Serializable {
                                 || "table".equals(nodeName) || "tbody".equals(nodeName) || "tr".equals(nodeName)
                                 || "td".equals(nodeName) || "option".equals(nodeName)) {
                             if ((parent.getId() != null) && (parent.getId().length() > 0)) {
-                                addAttribute("id", parent.getId() + ":" + nodeName + parent.getChildren().size());
+                                String syntheticID = parent.getId() + ":" + nodeName + parent.getChildren().size();
+                                final String hex = Integer.toHexString(syntheticID.hashCode());
+                                if (hex.length() < syntheticID.length()) {
+                                    syntheticID = hex;
+                                }
+                                addAttribute("id", syntheticID);
                             }
                             else if (parent.getNodeName().equals("body")) {
-                                addAttribute("id", parent.getNodeName() + ":" + nodeName + parent.getChildren().size());
+                                String syntheticID = parent.getNodeName() + ":" + nodeName
+                                        + parent.getChildren().size();
+                                final String hex = Integer.toHexString(syntheticID.hashCode());
+                                if (hex.length() < syntheticID.length()) {
+                                    syntheticID = hex;
+                                }
+                                addAttribute("id", syntheticID);
                             }
                         }
                     }

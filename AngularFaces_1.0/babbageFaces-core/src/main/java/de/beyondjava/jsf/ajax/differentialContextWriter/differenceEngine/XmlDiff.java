@@ -408,7 +408,7 @@ public class XmlDiff {
         boolean needsUpdate = false;
         for (HTMLTag insert : insertList) {
             if (insert.getId().isEmpty()) {
-                LOGGER.warning("TODO: modify the original AJAX response by adding an ID to the node to be inserted");
+                // LOGGER.warning("TODO: modify the original AJAX response by adding an ID to the node to be inserted");
                 needsUpdate = true;
                 break;
             }

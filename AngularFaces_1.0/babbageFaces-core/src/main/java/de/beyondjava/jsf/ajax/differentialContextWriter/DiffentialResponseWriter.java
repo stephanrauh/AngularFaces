@@ -50,8 +50,7 @@ public class DiffentialResponseWriter extends Writer {
             isMyFaces = true;
         }
         catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            isMyFaces = false; // activates Mojarra support
         }
     }
     /**
@@ -126,11 +125,13 @@ public class DiffentialResponseWriter extends Writer {
                 int pos = optimizedResponse.indexOf("<div id=\"babbageFacesStatistics\">");
                 if (pos > 0) {
                     pos += "<div id=\"babbageFacesStatistics\">".length();
-                    optimizedResponse = optimizedResponse.substring(0, pos) + "<br />" + "Total rendering time:       "
-                            + ((total / 1000) / 1000.0) + " ms   Cumulated: "
-                            + ((DEBUG_totalTimeCumulated / 1000) / 1000.0) + " ms" + "<br />"
-                            + "BabbageFaces Overhead:    " + ((DEBUG_timer / 1000) / 1000.0) + " ms   Cumulated: "
-                            + ((DEBUG_timerCumulated / 1000) / 1000.0) + " ms" + "<br />"
+                    optimizedResponse = optimizedResponse.substring(0, pos) + "<br />" + "BabbageFaces 0.9 running on "
+                            + (isMyFaces ? "Apache MyFaces" : "Oracle Mojarra") + "<br />" + "<table border=1><tr>"
+                            + "<td>Total rendering time:</td><td>" + ((total / 1000) / 1000.0)
+                            + " ms</td><td>Cumulated:</td><td> " + ((DEBUG_totalTimeCumulated / 1000) / 1000.0)
+                            + " ms</td></tr><tr>" + "<td>BabbageFaces overhead:</td><td>"
+                            + ((DEBUG_timer / 1000) / 1000.0) + " ms</td><td>Cumulated: </td><td>"
+                            + ((DEBUG_timerCumulated / 1000) / 1000.0) + " ms</td></tr></table>"
                             + optimizedResponse.substring(pos);
                 }
                 sunWriter.write(optimizedResponse);
