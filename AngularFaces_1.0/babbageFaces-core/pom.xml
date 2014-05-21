@@ -4,7 +4,7 @@
 	<groupId>de.beyondjava.angularFaces</groupId>
 	<artifactId>babbageFaces</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1-SNAPSHOT</version>
+	<version>1.0-RC2</version>
 	<name>babbageFaces</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
