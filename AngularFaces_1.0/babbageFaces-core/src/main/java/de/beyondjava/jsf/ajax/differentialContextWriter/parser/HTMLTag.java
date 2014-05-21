@@ -232,50 +232,6 @@ public class HTMLTag implements Serializable {
     }
 
     /**
-     * @param node
-     * @param parent
-     */
-    private void generateSyntheticID(Node node, HTMLTag parent) {
-        if ((id == null) || (id.length() == 0)) {
-            // "div".equals(nodeName) excluded because SelectOneMenus don't work if updated partially
-            if ("span".equals(nodeName) || "input".equals(nodeName) || "a".equals(nodeName)
-                    || "table".equals(nodeName) || "tbody".equals(nodeName) || "tr".equals(nodeName)
-                    || "td".equals(nodeName) || "option".equals(nodeName)) {
-                boolean omitID = false;
-                if ("td".equals(nodeName) && (node.getNodeType() == Node.ELEMENT_NODE)) {
-                    if ((node.getChildNodes().getLength() == 1)
-                            && (node.getFirstChild().getNodeType() == Node.TEXT_NODE)) {
-                        if (node.getTextContent().trim().length() < 30) {
-                            omitID = true;
-                        }
-                    }
-                }
-                if (!omitID) {
-                    if ((parent.getId() != null) && (parent.getId().length() > 0)) {
-                        String syntheticID = parent.getId() + ":" + nodeName + parent.getChildren().size();
-                        final String hex = nodeName.substring(0, 1)
-                                + Integer.toString(Math.abs(syntheticID.hashCode()), 36);
-                        if (hex.length() < syntheticID.length()) {
-                            syntheticID = hex;
-                        }
-                        addAttribute("id", syntheticID);
-                    }
-                    else if (parent.getNodeName().equals("body")) {
-                        String syntheticID = parent.getNodeName() + ":" + nodeName
-                                + parent.getChildren().size();
-                        final String hex = nodeName.substring(0, 1)
-                                + Integer.toString(Math.abs(syntheticID.hashCode()), 36);
-                        if (hex.length() < syntheticID.length()) {
-                            syntheticID = hex;
-                        }
-                        addAttribute("id", syntheticID);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Create an HTMLTag tree structure from html source code.
      *
      * @param html
@@ -437,6 +393,57 @@ public class HTMLTag implements Serializable {
             }
         }
         return null;
+    }
+
+    /**
+     * This method replaces an arbitrary id by another very short unique id.
+     *
+     * @param syntheticID
+     * @return
+     */
+    private String generateShorthandID(String syntheticID) {
+        if (false) {
+            final String hex = nodeName.substring(0, 1) + Integer.toString(Math.abs(syntheticID.hashCode()), 36);
+            if (hex.length() < syntheticID.length()) {
+                syntheticID = hex;
+            }
+        }
+        return syntheticID;
+    }
+
+    /**
+     * @param node
+     * @param parent
+     */
+    private void generateSyntheticID(Node node, HTMLTag parent) {
+        if ((id == null) || (id.length() == 0)) {
+            // "div".equals(nodeName) excluded because SelectOneMenus don't work if updated partially
+            if ("span".equals(nodeName) || "input".equals(nodeName) || "a".equals(nodeName) || "table".equals(nodeName)
+                    || "tbody".equals(nodeName) || "tr".equals(nodeName) || "td".equals(nodeName)
+                    || "option".equals(nodeName)) {
+                boolean omitID = false;
+                if ("td".equals(nodeName) && (node.getNodeType() == Node.ELEMENT_NODE)) {
+                    if ((node.getChildNodes().getLength() == 1)
+                            && (node.getFirstChild().getNodeType() == Node.TEXT_NODE)) {
+                        if (node.getTextContent().trim().length() < 30) {
+                            omitID = true;
+                        }
+                    }
+                }
+                if (!omitID) {
+                    if ((parent.getId() != null) && (parent.getId().length() > 0)) {
+                        String syntheticID = parent.getId() + ":" + nodeName + parent.getChildren().size();
+                        syntheticID = generateShorthandID(syntheticID);
+                        addAttribute("id", syntheticID);
+                    }
+                    else if (parent.getNodeName().equals("body")) {
+                        String syntheticID = parent.getNodeName() + ":" + nodeName + parent.getChildren().size();
+                        syntheticID = generateShorthandID(syntheticID);
+                        addAttribute("id", syntheticID);
+                    }
+                }
+            }
+        }
     }
 
     /**

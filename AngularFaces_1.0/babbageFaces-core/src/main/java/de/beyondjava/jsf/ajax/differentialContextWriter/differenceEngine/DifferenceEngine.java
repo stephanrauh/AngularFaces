@@ -81,6 +81,7 @@ public class DifferenceEngine {
 
             HTMLTag lastKnownCorrespondingHTMLTag = lastKnownDOMTree.findByID(id);
             if (null == lastKnownCorrespondingHTMLTag) {
+                LOGGER.severe(lastKnownDOMTree.toString());
                 LOGGER.severe("Couldn't find id " + id + " in the last known DOM tree");
                 throw new IllegalArgumentException("Couldn't find id " + id + " in the last known DOM tree");
             }
@@ -341,6 +342,7 @@ public class DifferenceEngine {
      */
     private void updateHTMLTag(HTMLTag domTreeInSession, HTMLTag newSubtree, String idToBeUpdated) {
 
+        System.out.println("Updating " + idToBeUpdated);
         HTMLTag tagToBeReplaced = domTreeInSession.findByID(idToBeUpdated);
         if (tagToBeReplaced == null) {
             if (!idToBeUpdated.contains("javax.faces.ViewState")) { // JSF omits the view state in AJAX responses
@@ -383,7 +385,8 @@ public class DifferenceEngine {
         int optimizedAttributes = 0;
         int originalLength = currentResponse.length(); // differentialEngine=false;
 
-        if (!differentialEngineActive) {
+        if (true && !differentialEngineActive) {
+            System.out.println(currentResponse);
             return currentResponse;
         }
         if (isAJAX) {

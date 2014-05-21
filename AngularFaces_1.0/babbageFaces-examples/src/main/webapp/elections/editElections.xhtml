@@ -23,9 +23,12 @@
 			<prime:panel
 				rendered="#{electionEditorController.selectedCountry!=null}">
         
-				<prime:dataTable
+				<prime:dataTable paginator="true" rows="5" id="tableID"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"
 					value="#{electionEditorController.selectedCountry.elections}"
 					var="election"
+          
 					style="width:770px; #{electionEditorController.electionTableVisible()}">
 					<prime:column headerText="year">
 		              #{election.year}
