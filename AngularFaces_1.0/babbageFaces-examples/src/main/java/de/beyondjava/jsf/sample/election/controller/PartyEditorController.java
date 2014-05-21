@@ -49,6 +49,7 @@ public class PartyEditorController implements Serializable {
     public void editPartiesAction(Country country) {
         getElectionController().editPartiesAction();
         setSelectedCountry(country);
+        selectCountry();
     }
 
     public void editParty(Party selectedParty) {

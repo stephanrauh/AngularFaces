@@ -3,7 +3,9 @@ package de.beyondjava.jsf.sample.election.controller;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
+import javax.faces.context.FacesContext;
 
 import de.beyondjava.jsf.sample.election.domain.Country;
 import de.beyondjava.jsf.sample.election.services.DBPopulator;
@@ -20,6 +22,7 @@ public class ElectionController implements Serializable {
     boolean electionHistoryChartVisible = false;
     private boolean missingTDVisible = false;
     boolean partyEditorVisible = false;
+
     boolean singleElectionChartVisible = false;
 
     public ElectionController() {
@@ -128,6 +131,12 @@ public class ElectionController implements Serializable {
     public void missingTDAction() {
         hideEveryDialog();
         missingTDVisible = true;
+    }
+
+    public void saveAction(Country country) {
+        FacesMessage notImplementedMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Saving a country's name",
+                "This action hasn't been implemented yet.");
+        FacesContext.getCurrentInstance().addMessage(null, notImplementedMessage);
     }
 
     /**

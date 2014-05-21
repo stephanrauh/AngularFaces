@@ -17,88 +17,87 @@
 package de.beyondjava.jsf.sample.election.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.*;
+import javax.faces.context.FacesContext;
 
-import de.beyondjava.jsf.sample.election.domain.Country;
-import de.beyondjava.jsf.sample.election.domain.Election;
+import de.beyondjava.jsf.sample.election.domain.*;
 
 @ManagedBean
 @ViewScoped
 public class ElectionEditorController implements Serializable {
-	private static final Logger LOGGER = Logger
-			.getLogger("de.beyondjava.jsf.sample.election.controller.ElectionEditorController");
-	private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger
+            .getLogger("de.beyondjava.jsf.sample.election.controller.ElectionEditorController");
+    private static final long serialVersionUID = 1L;
 
-	@ManagedProperty("#{electionController.countries}")
-	private List<Country> countries;
-	@ManagedProperty("#{electionController}")
-	private ElectionController electionController;
+    @ManagedProperty("#{electionController.countries}")
+    private List<Country> countries;
+    @ManagedProperty("#{electionController}")
+    private ElectionController electionController;
 
-	private Country selectedCountry;
-	
-	public ElectionEditorController() {
-	}
-	
-	/**
-	 * @return the countries
-	 */
-	public List<Country> getCountries() {
-		return this.countries;
-	}
+    private Country selectedCountry;
 
-	/**
-	 * @return the selectedCountry
-	 */
-	public Country getSelectedCountry() {
-		return this.selectedCountry;
-	}
-	
-	public void selectCountry() {
-		
-	}
-
-	@PostConstruct
-	public void init() {
-//		selectedCountry=countries.get(1);
-	}
-
-	public String electionTableVisible() {
-		return selectedCountry == null ? "display:none" : "display:block";
-	}
-
-	/**
-	 * @param countries
-	 *            the countries to set
-	 */
-	public void setCountries(List<Country> countries) {
-		this.countries = countries;
-	}
-
-	/**
-	 * @param selectedCountry
-	 *            the selectedCountry to set
-	 */
-	public void setSelectedCountry(Country selectedCountry) {
-		this.selectedCountry = selectedCountry;
-	}
-
-	
-    public void editElectionAction(Election election) {
+    public ElectionEditorController() {
     }
 
-	public ElectionController getElectionController() {
-		return electionController;
-	}
+    public void editElectionAction(Election election) {
+        FacesMessage notImplementedMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Edit an election",
+                "This action hasn't been implemented yet.");
+        FacesContext.getCurrentInstance().addMessage(null, notImplementedMessage);
+    }
 
-	public void setElectionController(ElectionController electionController) {
-		this.electionController = electionController;
-	}
+    public String electionTableVisible() {
+        return selectedCountry == null ? "display:none" : "display:block";
+    }
 
+    /**
+     * @return the countries
+     */
+    public List<Country> getCountries() {
+        return this.countries;
+    }
+
+    public ElectionController getElectionController() {
+        return electionController;
+    }
+
+    /**
+     * @return the selectedCountry
+     */
+    public Country getSelectedCountry() {
+        return this.selectedCountry;
+    }
+
+    @PostConstruct
+    public void init() {
+        // selectedCountry=countries.get(1);
+    }
+
+    public void selectCountry() {
+
+    }
+
+    /**
+     * @param countries
+     *            the countries to set
+     */
+    public void setCountries(List<Country> countries) {
+        this.countries = countries;
+    }
+
+    public void setElectionController(ElectionController electionController) {
+        this.electionController = electionController;
+    }
+
+    /**
+     * @param selectedCountry
+     *            the selectedCountry to set
+     */
+    public void setSelectedCountry(Country selectedCountry) {
+        this.selectedCountry = selectedCountry;
+    }
 }

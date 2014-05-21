@@ -178,7 +178,7 @@ public class DifferenceEngine {
     /**
      * Removes a script from an update response command. The script is added to the hash map. If there's HTML content in
      * the command, it is appended to the StringBuffer.
-     * 
+     *
      * @param scriptsToBeAdded
      * @param replacement
      * @param changeDefinition
@@ -407,7 +407,6 @@ public class DifferenceEngine {
      */
     private void updateHTMLTag(HTMLTag domTreeInSession, HTMLTag newSubtree, String idToBeUpdated) {
 
-        System.out.println("Updating " + idToBeUpdated);
         HTMLTag tagToBeReplaced = domTreeInSession.findByID(idToBeUpdated);
         if (tagToBeReplaced == null) {
             if (!idToBeUpdated.contains("javax.faces.ViewState")) { // JSF omits
@@ -454,7 +453,7 @@ public class DifferenceEngine {
         int optimizedAttributes = 0;
         int originalLength = currentResponse.length(); // differentialEngine=false;
 
-        if (true && !differentialEngineActive) {
+        if (!differentialEngineActive) {
             System.out.println(currentResponse);
             return currentResponse;
         }

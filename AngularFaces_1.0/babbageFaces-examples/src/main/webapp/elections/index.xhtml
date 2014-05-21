@@ -46,6 +46,7 @@ td {
         </h:form>
       </h:panelGroup>
       <h:panelGroup id="rightHandSide">
+      <prime:messages autoUpdate="true" showDetail="true"></prime:messages>
         <h:panelGroup rendered="#{electionController.countryEditorVisible}" id="countyPanelID">
           <ui:include src="editCountries.xhtml"></ui:include>
         </h:panelGroup>
