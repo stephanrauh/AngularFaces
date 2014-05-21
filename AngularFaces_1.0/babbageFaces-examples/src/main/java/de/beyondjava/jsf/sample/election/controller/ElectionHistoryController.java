@@ -30,91 +30,97 @@ import de.beyondjava.jsf.sample.election.domain.*;
 @ManagedBean
 @SessionScoped
 public class ElectionHistoryController implements Serializable {
-    private static final Logger LOGGER = Logger
-            .getLogger("de.beyondjava.jsf.sample.election.controller.ElectionHistoryController");
-    /**
+	private static final Logger LOGGER = Logger
+			.getLogger("de.beyondjava.jsf.sample.election.controller.ElectionHistoryController");
+	/**
      *
      */
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @ManagedProperty("#{electionController.countries}")
-    private List<Country> countries;
-    private LineChartModel historicalLineChart;
+	@ManagedProperty("#{electionController.countries}")
+	private List<Country> countries;
+	private LineChartModel historicalLineChart;
 
-    private Country selectedCountry;
+	private Country selectedCountry;
 
-    private void createLineModels() {
-        historicalLineChart = initLinearModel();
-        historicalLineChart.setTitle("Elections in " + selectedCountry.getName());
-        historicalLineChart.setLegendPosition("nw");
-        Axis yAxis = historicalLineChart.getAxis(AxisType.Y);
-        yAxis.setLabel("Percent");
-        yAxis.setMin(0);
-        Axis xAxis = historicalLineChart.getAxis(AxisType.X);
-        xAxis.setLabel("Year");
+	private void createLineModels() {
+		historicalLineChart = initLinearModel();
+		if (null != selectedCountry)
+		historicalLineChart.setTitle("Elections in "
+				+ selectedCountry.getName());
+		else historicalLineChart.setTitle("Please select a country");
+		historicalLineChart.setLegendPosition("nw");
+		Axis yAxis = historicalLineChart.getAxis(AxisType.Y);
+		yAxis.setLabel("Percent");
+		yAxis.setMin(0);
+		Axis xAxis = historicalLineChart.getAxis(AxisType.X);
+		xAxis.setLabel("Year");
 
-    }
+	}
 
-    /**
-     * @return the countries
-     */
-    public List<Country> getCountries() {
-        return this.countries;
-    }
+	/**
+	 * @return the countries
+	 */
+	public List<Country> getCountries() {
+		return this.countries;
+	}
 
-    public LineChartModel getHistoricalLineChart() {
-        return historicalLineChart;
-    }
+	public LineChartModel getHistoricalLineChart() {
+		return historicalLineChart;
+	}
 
-    /**
-     * @return the selectedCountry
-     */
-    public Country getSelectedCountry() {
-        return this.selectedCountry;
-    }
+	/**
+	 * @return the selectedCountry
+	 */
+	public Country getSelectedCountry() {
+		return this.selectedCountry;
+	}
 
-    @PostConstruct
-    public void init() {
-        // selectedCountry=countries.get(1);
-    }
+	@PostConstruct
+	public void init() {
+		// selectedCountry=countries.get(1);
+	}
 
-    private LineChartModel initLinearModel() {
-        List<Party> parties = selectedCountry.getParties();
-        List<Election> elections = selectedCountry.getElections();
-        LineChartModel model = new LineChartModel();
-        for (int partyIndex = 0; partyIndex < parties.size(); partyIndex++) {
-            Party party = parties.get(partyIndex);
+	private LineChartModel initLinearModel() {
+		LineChartModel model = new LineChartModel();
+		if (null != selectedCountry) {
+			List<Party> parties = selectedCountry.getParties();
+			List<Election> elections = selectedCountry.getElections();
+			for (int partyIndex = 0; partyIndex < parties.size(); partyIndex++) {
+				Party party = parties.get(partyIndex);
 
-            LineChartSeries currentLine = new LineChartSeries();
-            currentLine.setLabel(party.getName());
-            for (int year = 0; year < elections.size(); year++) {
-                currentLine.set(elections.get(year).getYear(), elections.get(year).getResults().get(partyIndex));
-            }
+				LineChartSeries currentLine = new LineChartSeries();
+				currentLine.setLabel(party.getName());
+				for (int year = 0; year < elections.size(); year++) {
+					currentLine.set(elections.get(year).getYear(), elections
+							.get(year).getResults().get(partyIndex));
+				}
 
-            model.addSeries(currentLine);
-        }
+				model.addSeries(currentLine);
+			}
+		}
 
-        return model;
-    }
+		return model;
+	}
 
-    public void selectCountry() {
-        createLineModels();
+	public void selectCountry() {
+		createLineModels();
 
-    }
+	}
 
-    /**
-     * @param countries
-     *            the countries to set
-     */
-    public void setCountries(List<Country> countries) {
-        this.countries = countries;
-    }
+	/**
+	 * @param countries
+	 *            the countries to set
+	 */
+	public void setCountries(List<Country> countries) {
+		this.countries = countries;
+	}
 
-    /**
-     * @param selectedCountry
-     *            the selectedCountry to set
-     */
-    public void setSelectedCountry(Country selectedCountry) {
-        this.selectedCountry = selectedCountry;
-    }
+	/**
+	 * @param selectedCountry
+	 *            the selectedCountry to set
+	 */
+	public void setSelectedCountry(Country selectedCountry) {
+		this.selectedCountry = selectedCountry;
+	}
 }
