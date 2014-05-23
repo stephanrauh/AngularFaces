@@ -4,12 +4,37 @@
 >
 <body>
   <ui:composition>
-    <h:form >
+    <h:form>
       <h:messages />
       Show the details of a single election.<br />
       - pie chart<br />
 - gains and losses as line chart<br />
 - radiobuttons switch between the two types of charts<br />
+      <prime:panel id="selectPartyPanelID">
+        <prime:outputLabel value="Country:" for="@next" />
+        <prime:selectOneMenu value="#{singleElectionChartController.selectedCountry}" converter="CountryConverter">
+          <f:selectItem itemLabel="" itemValue="#{null}" />
+          <f:selectItems value="#{singleElectionChartController.countries}" var="country" itemLabel="#{country.name}"
+            itemValue="#{country}"
+          />
+          <prime:ajax listener="#{singleElectionChartController.selectCountry()}" update="@all" />
+        </prime:selectOneMenu>
+      </prime:panel>
+      <prime:panel rendered="#{singleElectionChartController.selectedCountry != null}">
+        <prime:outputLabel value="Year:" for="@next" />
+        <prime:selectOneMenu value="#{singleElectionChartController.selectedElection}" converter="ElectionConverter">
+          <f:selectItem itemLabel="" itemValue="#{null}" />
+          <f:selectItems value="#{singleElectionChartController.selectedCountry.elections}" var="election" itemLabel="#{election.year}"
+            itemValue="#{election}"
+          />
+          <prime:ajax listener="#{singleElectionChartController.selectYear()}" update="@all" />
+        </prime:selectOneMenu>
+      </prime:panel>
+      <prime:panel
+        rendered="#{singleElectionChartController.selectedElection!=null}">
+        <prime:chart type="pie" model="#{singleElectionChartController.chart}" style="width:800px;height:600px" />
+      </prime:panel>
+
     </h:form>
   </ui:composition>
 </body>

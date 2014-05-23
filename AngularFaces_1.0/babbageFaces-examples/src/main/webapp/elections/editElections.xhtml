@@ -59,6 +59,11 @@
 							actionListener="#{electionEditorController.editElectionAction(election)}"
 							update="@all" />
 					</prime:column>
+          <prime:column>
+              <prime:commandButton value="chart" actionListener="#{singleElectionChartController.showElection(election)}"
+              update="@all" />
+          </prime:column>
+          
 				</prime:dataTable>
 			</prime:panel>
 
