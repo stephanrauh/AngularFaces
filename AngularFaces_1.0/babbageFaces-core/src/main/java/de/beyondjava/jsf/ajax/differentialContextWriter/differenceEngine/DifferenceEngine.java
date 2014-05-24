@@ -193,7 +193,7 @@ public class DifferenceEngine {
             int scriptIDEnd = c.indexOf("\"", scriptIDStart + 1);
             if (scriptIDEnd > 0) {
                 int scriptStart = c.indexOf("\">", scriptIDEnd + 1);
-                int scriptEnd = c.indexOf("</script>");
+                int scriptEnd = c.indexOf("</script>", scriptStart);
                 if ((scriptStart > 0) && (scriptEnd > 0)) {
                     scriptsToBeAdded.put(c.substring(scriptIDStart, scriptIDEnd),
                             c.substring(scriptStart + 2, scriptEnd));
@@ -300,8 +300,11 @@ public class DifferenceEngine {
      * @param change
      * @return
      */
-    private boolean isRegularChange(HTMLTag change) {
-        if (change.getChildren().size() > 1) {
+    private boolean isRegularUpdateCommand(HTMLTag change) {
+        if (change.getChildren().size() != 1) {
+            return false;
+        }
+        else if ((change.getFirstChild().getId() == null) || "".equals(change.getFirstChild().getId())) {
             return false;
         }
         else {
@@ -368,12 +371,12 @@ public class DifferenceEngine {
 
             }
             if (!scriptsToBeAdded.isEmpty()) {
-                replacement.append("<eval>");
+                replacement.append("<eval><![CDATA[");
                 for (String currentScript : scriptsToBeAdded.values()) {
                     replacement.append(currentScript);
                     replacement.append(";");
                 }
-                replacement.append("</eval>");
+                replacement.append("]]></eval>");
             }
 
             if ((replacement.length() < lengthOfOriginalCommand) || (!BabbageConfiguration.isOptimizeSize())) {
@@ -539,7 +542,7 @@ public class DifferenceEngine {
                     else if ((!change.getId().contains("javax.faces.ViewState"))
                             && ((!change.getId().contains("javax.faces.ViewHead")))
                             && ((!change.getId().contains("javax.faces.ViewBody")))) {
-                        if (isRegularChange(change)) {
+                        if (isRegularUpdateCommand(change)) {
                             List<HTMLTag> newPartialChanges = determineNecessaryChangeFromResponse(change,
                                     domTreeToBeUpdated);
                             if ((null != newPartialChanges)) {

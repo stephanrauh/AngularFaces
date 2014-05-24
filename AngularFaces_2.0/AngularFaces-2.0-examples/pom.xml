@@ -61,14 +61,12 @@
 	</dependencies>
 
 	<build>
-		<finalName>angularfaces-examples</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.4</version>
 				<configuration>
 					<outputDirectory>dist</outputDirectory>
-					<warName>ROOT</warName>
 				</configuration>
 			</plugin>
 			<plugin>

@@ -15,7 +15,7 @@ td {
   <h:body>
   	<prime:outputLabel value="first name" for="@next" />
   	<h:inputText value="#{person.firstName" onChange="disableIfEmpty(this, $('#lastNameID')))" />
-  	<prime:outputLabel value="lasst name" for="@next" />
+  	<prime:outputLabel value="last name" for="@next" />
   	<h:inputText value="#{person.lastName" id="lastNameID"/>
   	<h:commandButton value="save" action="#{personController.save}" />
 	<script>

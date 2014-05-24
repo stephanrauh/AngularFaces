@@ -8,6 +8,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/AngularFaces-1.0-examples/target/classes"/>
-        <property name="context-root" value="ROOT"/>
+        <property name="context-root" value="angularfaces-examples"/>
     </wb-module>
 </project-modules>

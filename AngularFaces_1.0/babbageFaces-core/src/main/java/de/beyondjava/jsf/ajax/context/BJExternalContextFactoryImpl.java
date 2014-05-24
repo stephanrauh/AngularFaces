@@ -31,7 +31,7 @@ public class BJExternalContextFactoryImpl extends ExternalContextFactory {
             .getLogger("de.beyondjava.jsf.ajax.context.BJExternalContextFactoryImpl");
 
     static {
-        LOGGER.info("Running on BabbageFaces 0.9");
+        LOGGER.info("Running on BabbageFaces 1.0 RC2");
     }
 
     private ExternalContextFactory parent;

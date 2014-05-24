@@ -4,24 +4,24 @@
 >
 <body>
   <ui:composition>
-    <h:form >
+    <h:form>
       <h:messages />
-      <h3>Select a country to show the history of the elections.</h3>
-            <prime:panel id="selectPartyPanelID">
+      <h3><h:outputText value="Select a country to show the history of the elections." escape="false"
+        rendered="#{electionHistoryController.selectedCountry==null}" /></h3>
+      <prime:panel id="selectPartyPanelID">
         <prime:outputLabel value="Country:" for="@next" />
-        <prime:selectOneMenu
-          value="#{electionHistoryController.selectedCountry}"
-          converter="CountryConverter">
+        <prime:selectOneMenu value="#{electionHistoryController.selectedCountry}" converter="CountryConverter">
           <f:selectItem itemLabel="" itemValue="#{null}" />
-          <f:selectItems value="#{electionHistoryController.countries}"
-            var="country" itemLabel="#{country.name}" itemValue="#{country}" />
-          <prime:ajax listener="#{electionHistoryController.selectCountry()}"
-            update="@all" />
+          <f:selectItems value="#{electionHistoryController.countries}" var="country" itemLabel="#{country.name}"
+            itemValue="#{country}"
+          />
+          <prime:ajax listener="#{electionHistoryController.selectCountry()}" update="@all" />
         </prime:selectOneMenu>
       </prime:panel>
-      <prime:panel
-        rendered="#{electionHistoryController.selectedCountry!=null}">
-        <prime:chart type="line" model="#{electionHistoryController.historicalLineChart}" style="width:800px;height:600px" />
+      <prime:panel rendered="#{electionHistoryController.selectedCountry!=null}">
+        <prime:chart type="line" model="#{electionHistoryController.historicalLineChart}"
+          style="width:600px;height:400px"
+        />
       </prime:panel>
     </h:form>
   </ui:composition>

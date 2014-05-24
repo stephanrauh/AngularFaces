@@ -115,15 +115,16 @@ public class DiffentialResponseWriter extends Writer {
                 }
 
                 int pos = optimizedResponse.indexOf("<div id=\"babbageFacesStatistics\">");
-                if (pos > 0 && DEBUG_totalTimeCumulated>0 && total>0) {
+                if ((pos > 0) && (DEBUG_totalTimeCumulated > 0) && (total > 0)) {
                     pos += "<div id=\"babbageFacesStatistics\">".length();
-                    optimizedResponse = optimizedResponse.substring(0, pos) + "<br />" + "BabbageFaces 0.9 running on "
-                            + (isMyFaces ? "Apache MyFaces" : "Oracle Mojarra") + "<br />" + "<table><tr>"
-                            + "<td>Total rendering time:</td><td>" + ((total / 100000) / 10.0)
-                            + " ms</td><td>Cumulated:</td><td> " + ((DEBUG_totalTimeCumulated / 10000) / 10.0)
-                            + " ms</td></tr><tr>" + "<td>BabbageFaces overhead:</td><td>"
-                            + ((DEBUG_timer / 100000) / 10.0) + " ms (" + ((100 * DEBUG_timer) / total)
-                            + "%)</td><td>Cumulated: </td><td>" + ((DEBUG_timerCumulated / 10000) / 10.0) + " ms ("
+                    optimizedResponse = optimizedResponse.substring(0, pos) + "<br />"
+                            + "BabbageFaces 1.0 RC2 running on " + (isMyFaces ? "Apache MyFaces" : "Oracle Mojarra")
+                            + "<br />" + "<table><tr>" + "<td>Total rendering time:</td><td>"
+                            + ((total / 100000) / 10.0) + " ms</td><td>Cumulated:</td><td> "
+                            + ((DEBUG_totalTimeCumulated / 10000) / 10.0) + " ms</td></tr><tr>"
+                            + "<td>BabbageFaces overhead:</td><td>" + ((DEBUG_timer / 100000) / 10.0) + " ms ("
+                            + ((100 * DEBUG_timer) / total) + "%)</td><td>Cumulated: </td><td>"
+                            + ((DEBUG_timerCumulated / 10000) / 10.0) + " ms ("
 
                             + ((100 * DEBUG_timerCumulated) / DEBUG_totalTimeCumulated) + "%)</td></tr></table>"
                             + optimizedResponse.substring(pos);

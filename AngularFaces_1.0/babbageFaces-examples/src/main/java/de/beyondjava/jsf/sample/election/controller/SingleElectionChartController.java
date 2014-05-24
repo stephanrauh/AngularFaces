@@ -24,7 +24,6 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.*;
 
-import org.apache.commons.collections.iterators.EntrySetMapIterator;
 import org.primefaces.model.chart.*;
 
 import de.beyondjava.jsf.sample.election.domain.*;
@@ -32,245 +31,255 @@ import de.beyondjava.jsf.sample.election.domain.*;
 @ManagedBean
 @ViewScoped
 public class SingleElectionChartController implements Serializable {
-	private static final Logger LOGGER = Logger
-			.getLogger("de.beyondjava.jsf.sample.election.controller.SingleElectionChartController");
-	private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger
+            .getLogger("de.beyondjava.jsf.sample.election.controller.SingleElectionChartController");
+    private static final long serialVersionUID = 1L;
 
-	private ChartModel chart;
-	
-	private BarChartModel changesChartModel;
+    private BarChartModel changesChartModel;
 
-	public ChartModel getChangesChartModel() {
-		return changesChartModel;
-	}
+    private ChartModel chart;
 
-	@ManagedProperty("#{electionController.countries}")
-	private List<Country> countries;
+    private String chartType = "votes";
 
-	private String chartType = "votes";
+    @ManagedProperty("#{electionController.countries}")
+    private List<Country> countries;
 
-	public String getChartType() {
-		return chartType;
-	}
+    @ManagedProperty("#{electionController}")
+    private ElectionController electionController;
 
-	public boolean isVotesChart() {
-		return "votes".equals(chartType);
-	}
+    private List<Party> parties;
 
-	public boolean isSeatsChart() {
-		return "seats".equals(chartType);
-	}
+    private MeterGaugeChartModel seatsModel;
 
-	public boolean isChangesChart() {
-		return "changes".equals(chartType);
-	}
+    private Country selectedCountry;
 
-	public void setChartType(String chartType) {
-		this.chartType = chartType;
-	}
+    private Election selectedElection;
 
-	@ManagedProperty("#{electionController}")
-	private ElectionController electionController;
+    public SingleElectionChartController() {
+    }
 
-	private List<Party> parties;
+    public void createChangesChart() {
+        if (null != selectedElection) {
+            Election previousElection = null;
+            for (int i = selectedCountry.getElections().size() - 1; i >= 0; i--) {
+                Election e = selectedCountry.getElections().get(i);
+                if (e == selectedElection) {
+                    break;
+                }
+                previousElection = e;
 
-	private Country selectedCountry;
+            }
+            changesChartModel = new BarChartModel();
+            String colors = "";
+            for (Entry<Party, Double> e : selectedElection.getResult().entrySet()) {
+                ChartSeries s = new ChartSeries();
+                s.setLabel(e.getKey().getName());
+                if (null == previousElection) {
+                    s.set(e.getKey().getName(), e.getValue());
+                }
+                else {
+                    Double previousPercentage = previousElection.getResult().get(e.getKey());
+                    s.set(e.getKey().getName(), e.getValue() - previousPercentage);
+                }
+                if (e.getKey().getColor() != null) {
+                    String color = e.getKey().getColor();
+                    if (colors.length() > 0) {
+                        colors += ",";
+                    }
+                    colors += color;
+                }
+                changesChartModel.addSeries(s);
+            }
 
-	private Election selectedElection;
-	private MeterGaugeChartModel seatsModel;
+            changesChartModel.setSeriesColors(colors);
+            changesChartModel.setLegendPosition("ne");
 
-	public MeterGaugeChartModel getSeatsModel() {
-		return seatsModel;
-	}
+        }
+    }
 
-	public void setSeatsModel(MeterGaugeChartModel seatsModel) {
-		this.seatsModel = seatsModel;
-	}
+    public void createSeatsChart() {
+        if (null != selectedElection) {
+            List<Number> seats = new ArrayList<>();
+            String colors = "";
+            double sum = 0d;
+            for (Entry<Party, Double> e : selectedElection.getResult().entrySet()) {
+                sum += e.getValue();
+                seats.add(sum);
+                if (e.getKey().getColor() != null) {
+                    String color = e.getKey().getColor();
+                    if (colors.length() > 0) {
+                        colors += ",";
+                    }
+                    colors += color;
+                }
+            }
+            seatsModel = new MeterGaugeChartModel(0, seats);
+            // seatsModel.setTitle("Custom Options");
+            seatsModel.setSeriesColors(colors);
 
-	public SingleElectionChartController() {
-	}
+            seatsModel.setGaugeLabel("seats in parliament");
+            seatsModel.setGaugeLabelPosition("bottom");
+            seatsModel.setShowTickLabels(false);
+            seatsModel.setLabelHeightAdjust(110);
+            seatsModel.setIntervalOuterRadius(130);
+        }
+    }
 
-	/**
-	 * @return the chart
-	 */
-	public ChartModel getChart() {
-		return chart;
-	}
+    public ChartModel getChangesChartModel() {
+        return changesChartModel;
+    }
 
-	/**
-	 * @return the countries
-	 */
-	public List<Country> getCountries() {
-		return this.countries;
-	}
+    /**
+     * @return the chart
+     */
+    public ChartModel getChart() {
+        return chart;
+    }
 
-	public ElectionController getElectionController() {
-		return electionController;
-	}
+    public String getChartType() {
+        return chartType;
+    }
 
-	/**
-	 * @return the parties
-	 */
-	public List<Party> getParties() {
-		return this.parties;
-	}
+    /**
+     * @return the countries
+     */
+    public List<Country> getCountries() {
+        return this.countries;
+    }
 
-	/**
-	 * @return the selectedCountry
-	 */
-	public Country getSelectedCountry() {
-		return this.selectedCountry;
-	}
+    public ElectionController getElectionController() {
+        return electionController;
+    }
 
-	/**
-	 * @return the selectedElection
-	 */
-	public Election getSelectedElection() {
-		return selectedElection;
-	}
+    /**
+     * @return the parties
+     */
+    public List<Party> getParties() {
+        return this.parties;
+    }
 
-	@PostConstruct
-	public void init() {
-	}
+    public MeterGaugeChartModel getSeatsModel() {
+        return seatsModel;
+    }
 
-	public String partyTableVisible() {
-		return selectedCountry == null ? "display:none" : "display:block";
-	}
+    /**
+     * @return the selectedCountry
+     */
+    public Country getSelectedCountry() {
+        return this.selectedCountry;
+    }
 
-	public void selectCountry() {
-		if (null == selectedCountry) {
-			setSelectedElection(null);
-		} else {
-		}
-	}
+    /**
+     * @return the selectedElection
+     */
+    public Election getSelectedElection() {
+        return selectedElection;
+    }
 
-	public void selectYear() {
-		if (null != selectedElection) {
-			String colors="";
-			Map<String, Number> data = new HashMap<>();
-			for (Entry<Party, Double> e : selectedElection.getResult()
-					.entrySet()) {
-				data.put(e.getKey().getName(), e.getValue());
-				if (e.getKey().getColor()!=null) {
-					String color=e.getKey().getColor();
-					if (colors.length()>0) colors+=",";
-					colors += color;
-				}
-			}
+    @PostConstruct
+    public void init() {
+    }
 
-			chart = new PieChartModel(data);
-			chart.setLegendPosition("ne");
-			chart.setSeriesColors(colors);
-			createSeatsChart();
-			createChangesChart();
-		} else {
-			chart = null;
-		}
+    public boolean isChangesChart() {
+        return "changes".equals(chartType);
+    }
 
-	}
+    public boolean isSeatsChart() {
+        return "seats".equals(chartType);
+    }
 
-	/**
-	 * @param countries
-	 *            the countries to set
-	 */
-	public void setCountries(List<Country> countries) {
-		this.countries = countries;
-	}
+    public boolean isVotesChart() {
+        return "votes".equals(chartType);
+    }
 
-	public void setElectionController(ElectionController electionController) {
-		this.electionController = electionController;
-	}
+    public String partyTableVisible() {
+        return selectedCountry == null ? "display:none" : "display:block";
+    }
 
-	/**
-	 * @param selectedCountry
-	 *            the selectedCountry to set
-	 */
-	public void setSelectedCountry(Country selectedCountry) {
-		if (this.selectedCountry != selectedCountry) {
-			setSelectedElection(null);
-		}
-		this.selectedCountry = selectedCountry;
-	}
+    public void selectCountry() {
+        if (null == selectedCountry) {
+            setSelectedElection(null);
+        }
+        else {
+        }
+    }
 
-	/**
-	 * @param selectedElection
-	 *            the selectedElection to set
-	 */
-	public void setSelectedElection(Election selectedElection) {
-		this.selectedElection = selectedElection;
-	}
+    public void selectYear() {
+        if (null != selectedElection) {
+            String colors = "";
+            Map<String, Number> data = new HashMap<>();
+            for (Entry<Party, Double> e : selectedElection.getResult().entrySet()) {
+                data.put(e.getKey().getName(), e.getValue());
+                if (e.getKey().getColor() != null) {
+                    String color = e.getKey().getColor();
+                    if (colors.length() > 0) {
+                        colors += ",";
+                    }
+                    colors += color;
+                }
+            }
 
-	public void showElection(Election election) {
-		electionController.singleElectionChartAction();
-		for (Country country : countries) {
-			for (Election e : country.getElections()) {
-				if (e == election) {
-					setSelectedCountry(country);
-					setSelectedElection(election);
-					selectYear();
-				}
-			}
-		}
-	}
+            chart = new PieChartModel(data);
+            chart.setLegendPosition("ne");
+            chart.setSeriesColors(colors);
+            createSeatsChart();
+            createChangesChart();
+        }
+        else {
+            chart = null;
+        }
 
-	public void createSeatsChart() {
-		if (null != selectedElection) {
-			List<Number> seats = new ArrayList<>();
-			String colors="";
-			double sum=0d;
-			for (Entry<Party, Double> e : selectedElection.getResult()
-					.entrySet()) {
-				sum += e.getValue();
-				seats.add(sum);
-				if (e.getKey().getColor()!=null) {
-					String color=e.getKey().getColor();
-					if (colors.length()>0) colors+=",";
-					colors += color;
-				}
-			}
-			seatsModel = new MeterGaugeChartModel(0, seats);
-			// seatsModel.setTitle("Custom Options");
-			seatsModel.setSeriesColors(colors);
+    }
 
-			seatsModel.setGaugeLabel("seats in parliament");
-			seatsModel.setGaugeLabelPosition("bottom");
-			seatsModel.setShowTickLabels(false);
-			seatsModel.setLabelHeightAdjust(110);
-			seatsModel.setIntervalOuterRadius(130);
-		}
-	}
-	public void createChangesChart() {
-		if (null != selectedElection) {
-			Election previousElection=null;
-			for (int i=selectedCountry.getElections().size()-1; i>=0; i--) {
-				Election e = selectedCountry.getElections().get(i);
-				if (e==selectedElection) break;
-				previousElection=e;
-				
-			}
-			changesChartModel = new BarChartModel();
-			String colors="";
-			for (Entry<Party, Double> e : selectedElection.getResult()
-					.entrySet()) {
-				ChartSeries s = new ChartSeries();
-				s.setLabel(e.getKey().getName());
-				if (null==previousElection)
-				s.set(e.getKey().getName(), e.getValue());
-				else {
-					Double previousPercentage = previousElection.getResult().get(e.getKey());
-					s.set(e.getKey().getName(), e.getValue()-previousPercentage);
-				}
-				if (e.getKey().getColor()!=null) {
-					String color=e.getKey().getColor();
-					if (colors.length()>0) colors+=",";
-					colors += color;
-				}
-				changesChartModel.addSeries(s);
-			}
-			
-			changesChartModel.setSeriesColors(colors);
-			changesChartModel.setLegendPosition("ne");
+    public void setChartType(String chartType) {
+        this.chartType = chartType;
+    }
 
-		}
-	}
+    /**
+     * @param countries
+     *            the countries to set
+     */
+    public void setCountries(List<Country> countries) {
+        this.countries = countries;
+    }
+
+    public void setElectionController(ElectionController electionController) {
+        this.electionController = electionController;
+    }
+
+    public void setSeatsModel(MeterGaugeChartModel seatsModel) {
+        this.seatsModel = seatsModel;
+    }
+
+    /**
+     * @param selectedCountry
+     *            the selectedCountry to set
+     */
+    public void setSelectedCountry(Country selectedCountry) {
+        if (this.selectedCountry != selectedCountry) {
+            setSelectedElection(null);
+        }
+        this.selectedCountry = selectedCountry;
+    }
+
+    /**
+     * @param selectedElection
+     *            the selectedElection to set
+     */
+    public void setSelectedElection(Election selectedElection) {
+        this.selectedElection = selectedElection;
+    }
+
+    public void showElection(Election election) {
+        electionController.singleElectionChartAction();
+        for (Country country : countries) {
+            for (Election e : country.getElections()) {
+                if (e == election) {
+                    setSelectedCountry(country);
+                    setSelectedElection(election);
+                    selectYear();
+                }
+            }
+        }
+    }
 }

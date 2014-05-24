@@ -15,39 +15,39 @@
 
         <h:panelGroup id="panelCincoID">
           <h:panelGrid columns="2" border="0">
-            <h:outputLabel value="Toggle first section"></h:outputLabel>
+            <h:outputText value="Toggle first section"></h:outputText>
             <h:selectBooleanCheckbox>
               <f:ajax render="@form" listener="#{differenceDemoBean.toggleFirstSection}" />
             </h:selectBooleanCheckbox>
-            <h:outputLabel value="Toggle second section and change the city"></h:outputLabel>
+            <h:outputText value="Toggle second section and change the city"></h:outputText>
             <h:selectBooleanCheckbox>
               <f:ajax render="@form" listener="#{differenceDemoBean.toggleSecondSectionAndChangeCity}" />
             </h:selectBooleanCheckbox>
-            <h:outputLabel value="Toggle first and third section"></h:outputLabel>
+            <h:outputText value="Toggle first and third section"></h:outputText>
             <h:selectBooleanCheckbox>
               <f:ajax render="@form" listener="#{differenceDemoBean.toggleFirstAndThirdSection}" />
             </h:selectBooleanCheckbox>
           </h:panelGrid>
           <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}">
-            <h:outputLabel style="font-weight:bold" value="first section:" />
-            <h:outputLabel></h:outputLabel>
-            <h:outputLabel value="first name" />
+            <h:outputText style="font-weight:bold" value="first section:" />
+            <h:outputText></h:outputText>
+            <h:outputText value="first name" />
             <h:inputText value="#{securityDemoBean.firstName}" />
-            <h:outputLabel value="last name" />
+            <h:outputText value="last name" />
             <h:inputText value="#{securityDemoBean.lastName}" />
           </h:panelGrid>
           <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.secondSectionVisible}">
-            <h:outputLabel style="font-weight:bold" value="second section:" />
-            <h:outputLabel></h:outputLabel>
-            <h:outputLabel value="street" />
+            <h:outputText style="font-weight:bold" value="second section:" />
+            <h:outputText></h:outputText>
+            <h:outputText value="street" />
             <h:inputText value="#{differenceDemoBean.street}" />
           </h:panelGrid>
           <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.thirdSectionVisible}">
-            <h:outputLabel style="font-weight:bold" value="third section:" />
-            <h:outputLabel></h:outputLabel>
-            <h:outputLabel value="zip code" />
+            <h:outputText style="font-weight:bold" value="third section:" />
+            <h:outputText></h:outputText>
+            <h:outputText value="zip code" />
             <h:inputText value="#{differenceDemoBean.zipcode}" />
-            <h:outputLabel value="city" />
+            <h:outputText value="city" />
             <h:inputText value="#{differenceDemoBean.city}" />
           </h:panelGrid>
           <h:commandButton value="change city" action="#{differenceDemoBean.changeCity}">
