@@ -6,10 +6,7 @@
   <ui:composition>
     <h:form>
       <h:messages />
-      Show the details of a single election.<br />
-      - pie chart<br />
-- gains and losses as line chart<br />
-- radiobuttons switch between the two types of charts<br />
+      Select a country to show the details of a single election.<br />
       <prime:panel id="selectPartyPanelID">
         <prime:outputLabel value="Country:" for="@next" />
         <prime:selectOneMenu value="#{singleElectionChartController.selectedCountry}" converter="CountryConverter">

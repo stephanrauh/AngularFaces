@@ -115,7 +115,7 @@ public class DiffentialResponseWriter extends Writer {
                 }
 
                 int pos = optimizedResponse.indexOf("<div id=\"babbageFacesStatistics\">");
-                if (pos > 0) {
+                if (pos > 0 && DEBUG_totalTimeCumulated>0 && total>0) {
                     pos += "<div id=\"babbageFacesStatistics\">".length();
                     optimizedResponse = optimizedResponse.substring(0, pos) + "<br />" + "BabbageFaces 0.9 running on "
                             + (isMyFaces ? "Apache MyFaces" : "Oracle Mojarra") + "<br />" + "<table><tr>"

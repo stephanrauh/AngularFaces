@@ -40,15 +40,18 @@ public class ElectionHistoryController implements Serializable {
 	@ManagedProperty("#{electionController.countries}")
 	private List<Country> countries;
 	private LineChartModel historicalLineChart;
+	@ManagedProperty("#{electionController}")
+	private ElectionController electionController;
 
 	private Country selectedCountry;
 
 	private void createLineModels() {
 		historicalLineChart = initLinearModel();
 		if (null != selectedCountry)
-		historicalLineChart.setTitle("Elections in "
-				+ selectedCountry.getName());
-		else historicalLineChart.setTitle("Please select a country");
+			historicalLineChart.setTitle("Elections in "
+					+ selectedCountry.getName());
+		else
+			historicalLineChart.setTitle("Please select a country");
 		historicalLineChart.setLegendPosition("nw");
 		Axis yAxis = historicalLineChart.getAxis(AxisType.Y);
 		yAxis.setLabel("Percent");
@@ -105,7 +108,12 @@ public class ElectionHistoryController implements Serializable {
 
 	public void selectCountry() {
 		createLineModels();
+	}
 
+	public void showChart(Country country) {
+		getElectionController().electionHistoryChartAction();
+		setSelectedCountry(country);
+		createLineModels();
 	}
 
 	/**
@@ -122,5 +130,13 @@ public class ElectionHistoryController implements Serializable {
 	 */
 	public void setSelectedCountry(Country selectedCountry) {
 		this.selectedCountry = selectedCountry;
+	}
+
+	public ElectionController getElectionController() {
+		return electionController;
+	}
+
+	public void setElectionController(ElectionController electionController) {
+		this.electionController = electionController;
 	}
 }
