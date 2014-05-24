@@ -22,6 +22,9 @@ public class DBPopulator {
 
 	public static final String[] PARTIES_IN_GERMANY = { "CDU/CSU", "SPD",
 			"FDP", "Grüne", "PDS", "others" };
+	public static final String[] PARTY_COLORS_IN_GERMANY = { "000000", "E20019",
+		"FBEE31", "1FA12D", "FF0000", "FF8800" };
+
 	public static final double[][] ELECTIONS_IN_GERMANY = {
 			{ 2013, 41.5, 25.7, 4.8, 8.4, 8.6, 11 },
 			{ 2009, 33.8, 23.0, 14.6, 10.7, 11.9, 6.0 },
@@ -58,13 +61,16 @@ public class DBPopulator {
 		greatBritain.setParties(partiesInUK);
 		Party tories = new Party();
 		tories.setName("Tories");
+		tories.setColor("172459");
 		partiesInUK.add(tories);
 		Party labour = new Party();
 		labour.setName("Labour");
+		labour.setColor("E20019");
 		partiesInUK.add(labour);
 
 		Party sdp = new Party();
 		sdp.setName("SDP");
+		sdp.setColor("C43A2F");
 		partiesInUK.add(sdp);
 
 		for (int i = 0; i < ELECTIONS_IN_UK_PERCENTAGES.length; i++) {
@@ -96,6 +102,7 @@ public class DBPopulator {
 		for (int i = 0; i < PARTIES_IN_GERMANY.length; i++) {
 			Party p = new Party();
 			p.setName(PARTIES_IN_GERMANY[i]);
+			p.setColor(PARTY_COLORS_IN_GERMANY[i]);
 			partiesInGermany.add(p);
 		}
 

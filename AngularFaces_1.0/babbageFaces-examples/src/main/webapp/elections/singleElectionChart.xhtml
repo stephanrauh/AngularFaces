@@ -29,7 +29,16 @@
       </prime:panel>
       <prime:panel
         rendered="#{singleElectionChartController.selectedElection!=null}">
-        <prime:chart type="pie" model="#{singleElectionChartController.chart}" style="width:800px;height:600px" />
+        <prime:selectOneRadio value="#{singleElectionChartController.chartType}">
+            <f:selectItem itemLabel="Votes" itemValue="votes" />
+            <f:selectItem itemLabel="Seats" itemValue="seats" />
+            <f:selectItem itemLabel="Changes" itemValue="changes" />
+          <prime:ajax update="@all" />
+        </prime:selectOneRadio>
+        <prime:chart type="pie" model="#{singleElectionChartController.chart}" style="width:800px;height:600px" rendered="#{singleElectionChartController.isVotesChart()}"/>
+        <prime:chart type="metergauge" model="#{singleElectionChartController.seatsModel}" style="width:400px;height:300px" rendered="#{singleElectionChartController.isSeatsChart()}"/>
+        <h:outputText value="This chart currently displays percentages instead of seats." rendered="#{singleElectionChartController.isSeatsChart()}"/>
+        <prime:chart type="bar" model="#{singleElectionChartController.changesChartModel}" style="width:800px;height:600px" rendered="#{singleElectionChartController.isChangesChart()}"/>
       </prime:panel>
 
     </h:form>
