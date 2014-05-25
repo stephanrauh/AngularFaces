@@ -186,6 +186,7 @@ public class XmlDiff {
 		List<String> localDeletions = new ArrayList<>();
 		List<String> localInserts = new ArrayList<>();
 		List<HTMLTag> localUpdates = new ArrayList<>();
+		List<String> localAttributeChanges = new ArrayList<>();
 		oldHTMLTags = new ArrayList<>(oldHTMLTags); // defensive copying avoids
 		// side effects
 		newHTMLTags = new ArrayList<>(newHTMLTags); // defensive copying avoids
@@ -234,8 +235,10 @@ public class XmlDiff {
 				&& (indexOld < newHTMLTags.size())) {
 			HTMLTag oldTag = (oldHTMLTags.get(indexOld));
 			final HTMLTag newTag = newHTMLTags.get(indexNew);
-			if (!tagsAreEqualOrCanBeChangedLocally(oldTag, newTag, updates,
-					deletions, attributeChanges, inserts)) {
+
+			if (!tagsAreEqualOrCanBeChangedLocally(oldTag, newTag,
+					localUpdates, localDeletions, localAttributeChanges,
+					localInserts)) {
 				LOGGER.fine("HTMLTags are different, require update of parent. Old HTMLTag:"
 						+ oldTag.getDescription()
 						+ " new HTMLTag: "
@@ -260,6 +263,10 @@ public class XmlDiff {
 		if (localUpdates.size() > 0) {
 			LOGGER.fine("Adding HTMLTag update");
 			updates.addAll(localUpdates);
+		}
+		if (localAttributeChanges.size() > 0) {
+			LOGGER.fine("Adding HTMLTag attribute");
+			attributeChanges.addAll(localAttributeChanges);
 		}
 
 		return NO_CHANGE_REQUIRED;
@@ -489,6 +496,7 @@ public class XmlDiff {
 	public static boolean tagsAreEqualOrCanBeChangedLocally(HTMLTag oldHTMLTag,
 			HTMLTag newHTMLTag, List<HTMLTag> updates, List<String> deletions,
 			List<String> attributeChanges, List<String> inserts) {
+
 		if (!oldHTMLTag.getNodeName().equals(newHTMLTag.getNodeName())) {
 			return GLOBAL_CHANGE_REQUIRED;
 		}
@@ -500,6 +508,9 @@ public class XmlDiff {
 				.toString(), newHTMLTag.getInnerHTML().toString())) {
 			return GLOBAL_CHANGE_REQUIRED;
 		}
+		List<String> localDeletions = new ArrayList<>();
+		List<String> localInserts = new ArrayList<>();
+		List<HTMLTag> localUpdates = new ArrayList<>();
 		List<String> localAttributeChanges = new ArrayList<>();
 		if (GLOBAL_CHANGE_REQUIRED == attributesAreEqualOrCanBeChangedLocally(
 				oldHTMLTag, newHTMLTag, localAttributeChanges)) {
@@ -514,15 +525,40 @@ public class XmlDiff {
 		List<HTMLTag> newHTMLTags = getNonEmptyHTMLTags(newHTMLTag
 				.getChildren());
 		boolean childHTMLTagsHaveChangedAndRequireGlobalUpdate = GLOBAL_CHANGE_REQUIRED == childHTMLTagsAreEqualOrCanBeChangedLocally(
-				oldHTMLTags, newHTMLTags, updates, deletions, attributeChanges,
-				inserts);
+				oldHTMLTags, newHTMLTags, localUpdates, localDeletions,
+				attributeChanges, localInserts);
+
+		HTMLAttribute classAttribute = newHTMLTag.getAttribute("class");
+		if (null != classAttribute) {
+			String c = classAttribute.value;
+			if (c.contains("ui-selectonemenu ")) {
+				if (0 < localUpdates.size() + localDeletions.size()
+						+ localInserts.size()) {
+					LOGGER.info("The combobox seems to have changed. Updating the inner structure isn't reliable enough. I exchange the widget as a whole.");
+//					updates.add(newHTMLTag); // not reliable 
+					return GLOBAL_CHANGE_REQUIRED;
+				}
+			}
+		}
+
 		if (childHTMLTagsHaveChangedAndRequireGlobalUpdate) {
 			if (null == newHTMLTag.getId()) {
 				return GLOBAL_CHANGE_REQUIRED;
 			}
 			updates.add(newHTMLTag);
-		} else if (localAttributeChanges.size() > 0) {
-			attributeChanges.addAll(localAttributeChanges);
+		} else {
+			if (localAttributeChanges.size() > 0) {
+				attributeChanges.addAll(localAttributeChanges);
+			}
+			if (localInserts.size() > 0) {
+				inserts.addAll(localInserts);
+			}
+			if (localUpdates.size() > 0) {
+				updates.addAll(localUpdates);
+			}
+			if (localDeletions.size() > 0) {
+				deletions.addAll(localDeletions);
+			}
 		}
 
 		return NO_CHANGE_REQUIRED;
