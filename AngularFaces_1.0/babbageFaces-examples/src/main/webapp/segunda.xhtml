@@ -4,7 +4,6 @@
 >
   <body>
     <ui:composition>
-      <h:messages />
       <h3>PrimeFaces demo with IDs</h3>
       <p>This demo uses the PrimeFaces widgets. PrimeFaces widgets are very sophisticated, which means they require lengthy HTML code. 
         Thus, the effect of BabbageFaces is particularly pronounced. On the other side, you need a lot more code to update a PrimeFaces
@@ -62,7 +61,7 @@
           <p>The button click results in a "attribute" response (rougly 480 bytes).</p>
           <p>The check boxes result in "insert" and "update" responses. The values of the checkboxes are updated in the same response, requiring an additional "attribute" tag and an "update" of the PrimeFaces HTML code displaying the check box.</p>
           <p>Delete responses take roughly 800-1200 bytes.</p>
-          <p style="color:red">Insert responses vary from 1500 to 210 bytes. Due to an implementation bug they don't take place at the moment.</p>
+          <p style="color:red">Insert responses vary from 1500 to 210 bytes. Due to an implementation bug they are disabled at the moment.</p>
         </h:panelGroup>
   
       </h:panelGrid>

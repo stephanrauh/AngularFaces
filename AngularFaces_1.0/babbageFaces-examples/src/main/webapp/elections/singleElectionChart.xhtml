@@ -6,7 +6,7 @@
   <ui:composition>
     <h:form>
       <h:messages />
-      Select a country to show the details of a single election.<br />
+      <h:outputText value="Select a country and year to show the details of a single election." rendered="#{singleElectionChartController.selectedElection == null}" />
       <prime:panel id="selectPartyPanelID">
         <prime:outputLabel value="Country:" for="@next" />
         <prime:selectOneMenu value="#{singleElectionChartController.selectedCountry}" converter="CountryConverter">
@@ -35,10 +35,10 @@
             <f:selectItem itemLabel="Changes" itemValue="changes" />
           <prime:ajax update="@all" />
         </prime:selectOneRadio>
-        <prime:chart type="pie" model="#{singleElectionChartController.chart}" style="width:600px;height:400px" rendered="#{singleElectionChartController.isVotesChart()}"/>
-        <prime:chart type="metergauge" model="#{singleElectionChartController.seatsModel}" style="width:600px;height:400px" rendered="#{singleElectionChartController.isSeatsChart()}"/>
+        <prime:chart type="pie" model="#{singleElectionChartController.chart}" style="width:700px;height:500px" rendered="#{singleElectionChartController.isVotesChart()}"/>
+        <prime:chart type="metergauge" model="#{singleElectionChartController.seatsModel}" style="width:700px;height:500px" rendered="#{singleElectionChartController.isSeatsChart()}"/>
         <h:outputText value="This chart currently displays percentages instead of seats." rendered="#{singleElectionChartController.isSeatsChart()}"/>
-        <prime:chart type="bar" model="#{singleElectionChartController.changesChartModel}" style="width:600px;height:400px" rendered="#{singleElectionChartController.isChangesChart()}"/>
+        <prime:chart type="bar" model="#{singleElectionChartController.changesChartModel}" style="width:700px;height:500px" rendered="#{singleElectionChartController.isChangesChart()}"/>
       </prime:panel>
 
     </h:form>

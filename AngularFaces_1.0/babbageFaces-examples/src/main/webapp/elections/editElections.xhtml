@@ -30,36 +30,36 @@
 					var="election"
           
 					style="width:770px; #{electionEditorController.electionTableVisible()}">
-					<prime:column headerText="year">
+					<prime:column headerText="year" style="text-align:right;width:30px">
 		              #{election.year}
         		    </prime:column>
-					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(0)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=1}">
+					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(0)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=1}" style="text-align:right">
 		              #{election.getResult(0)}
         		    </prime:column>
-					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(1)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=2}">
+					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(1)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=2}" style="text-align:right">
 		              #{election.getResult(1)}
         		    </prime:column>
-					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(2)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=3}">
+					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(2)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=3}" style="text-align:right">
 		              #{election.getResult(2)}
         		    </prime:column>
-					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(3)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=4}">
+					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(3)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=4}" style="text-align:right">
 		              #{election.getResult(3)}
         		    </prime:column>
-					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(4)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=5}">
+					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(4)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=5}" style="text-align:right">
 		              #{election.getResult(4)}
         		    </prime:column>
-					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(5)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=6}">
+					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(5)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=6}" style="text-align:right">
 		              #{election.getResult(5)}
         		    </prime:column>
-					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(6)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=7}">
+					<prime:column headerText="#{electionEditorController.selectedCountry.getParty(6)}" rendered="#{electionEditorController.selectedCountry.parties.size()>=7}" style="text-align:right">
 		              #{election.getResult(6)}
         		    </prime:column>
-					<prime:column>
+					<prime:column style="width:77px">
 						<prime:commandButton value="edit" icon="ui-icon-pencil"
 							actionListener="#{electionEditorController.editElectionAction(election)}"
 							update="@all" />
 					</prime:column>
-          <prime:column>
+          <prime:column style="width:72px">
               <prime:commandButton value="chart" actionListener="#{singleElectionChartController.showElection(election)}"
               update="@all" />
           </prime:column>

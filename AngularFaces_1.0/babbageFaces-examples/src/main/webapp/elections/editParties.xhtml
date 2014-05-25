@@ -19,34 +19,35 @@
             <prime:ajax listener="#{partyEditorController.selectCountry()}" update="@all" />
           </prime:selectOneMenu>
           <prime:dataTable value="#{partyEditorController.parties}" var="party"
-            style="width:770px; #{partyEditorController.partyTableVisible()}"
+            style="width:500px; #{partyEditorController.partyTableVisible()}"
           >
-            <prime:column headerText="Party">
+            <prime:column headerText="Party" style="width:78%">
               #{party.name}
             </prime:column>
-            <prime:column>
-              <prime:commandButton value="edit" icon="ui-icon-pencil" immediate="true"
+            <prime:column style="width:22%" >
+              <prime:commandButton value="edit" icon="ui-icon-pencil" 
                 actionListener="#{partyEditorController.editParty(party)}" update="@all"
+                disabled="#{partyEditorController.selectedParty!=null}"
               />
             </prime:column>
           </prime:dataTable>
         </prime:panel>
-        <prime:panel id="editPartyPanelID" rendered="#{partyEditorController.selectedParty!=null}">
+        <prime:panel id="editPartyPanelID" rendered="#{partyEditorController.editedParty!=null}">
           <prime:panelGrid columns="2">
             <prime:outputLabel value="Name:" for="@next" />
-            <prime:inputText value="#{partyEditorController.selectedParty.name}" />
+            <prime:inputText value="#{partyEditorController.editedParty.name}" />
             <prime:outputLabel value="Year of establishment:" for="@next" />
-            <prime:inputText value="#{partyEditorController.selectedParty.yearOfEstablishment}" />
+            <prime:inputText value="#{partyEditorController.editedParty.yearOfEstablishment}" />
             <prime:outputLabel value="Color:" for="@next" />
-            <prime:inputText value="#{partyEditorController.selectedParty.color}" />
-              <prime:commandButton value="save" icon="ui-icon-disk"
-                actionListener="#{partyEditorController.saveParty()}" update="@all"
-              />
+            <prime:inputText value="#{partyEditorController.editedParty.color}" />
+            <prime:commandButton value="save" icon="ui-icon-disk"
+              actionListener="#{partyEditorController.saveParty()}" update="@all"
+            />
+            <prime:commandButton value="cancel" icon="ui-icon-cancel" 
+              actionListener="#{partyEditorController.cancelParty()}" update="@all"
+            />
           </prime:panelGrid>
         </prime:panel>
-        <prime:panel style="display:none" id="editPartyPanel2ID" rendered="#{partyEditorController.selectedParty==null}">
-        </prime:panel>
-        
       </prime:panelGrid>
     </h:form>
   </ui:composition>

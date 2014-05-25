@@ -120,8 +120,8 @@ public class SingleElectionChartController implements Serializable {
             seatsModel.setGaugeLabel("seats in parliament");
             seatsModel.setGaugeLabelPosition("bottom");
             seatsModel.setShowTickLabels(false);
-            seatsModel.setLabelHeightAdjust(110);
-            seatsModel.setIntervalOuterRadius(130);
+            seatsModel.setLabelHeightAdjust(180);
+            seatsModel.setIntervalOuterRadius(230);
         }
     }
 

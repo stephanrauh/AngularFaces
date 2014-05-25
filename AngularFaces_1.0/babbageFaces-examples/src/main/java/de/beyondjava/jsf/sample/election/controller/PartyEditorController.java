@@ -36,6 +36,8 @@ public class PartyEditorController implements Serializable {
 
     @ManagedProperty("#{electionController.countries}")
     private List<Country> countries;
+    private Party editedParty;
+
     @ManagedProperty("#{electionController}")
     private ElectionController electionController;
 
@@ -48,6 +50,11 @@ public class PartyEditorController implements Serializable {
     public PartyEditorController() {
     }
 
+    public void cancelParty() {
+        selectedParty = null;
+        setEditedParty(null);
+    }
+
     public void editPartiesAction(Country country) {
         getElectionController().editPartiesAction();
         setSelectedCountry(country);
@@ -56,6 +63,10 @@ public class PartyEditorController implements Serializable {
 
     public void editParty(Party selectedParty) {
         this.selectedParty = selectedParty;
+        setEditedParty(new Party());
+        getEditedParty().setColor(selectedParty.getColor());
+        getEditedParty().setName(selectedParty.getName());
+        getEditedParty().setYearOfEstablishment(selectedParty.getYearOfEstablishment());
     }
 
     /**
@@ -63,6 +74,13 @@ public class PartyEditorController implements Serializable {
      */
     public List<Country> getCountries() {
         return this.countries;
+    }
+
+    /**
+     * @return the editedParty
+     */
+    public Party getEditedParty() {
+        return editedParty;
     }
 
     public ElectionController getElectionController() {
@@ -99,7 +117,11 @@ public class PartyEditorController implements Serializable {
     }
 
     public void saveParty() {
+        selectedParty.setColor(getEditedParty().getColor());
+        selectedParty.setName(getEditedParty().getName());
+        selectedParty.setYearOfEstablishment(getEditedParty().getYearOfEstablishment());
         selectedParty = null;
+        setEditedParty(null);
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Your input has been saved.");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
@@ -120,6 +142,14 @@ public class PartyEditorController implements Serializable {
      */
     public void setCountries(List<Country> countries) {
         this.countries = countries;
+    }
+
+    /**
+     * @param editedParty
+     *            the editedParty to set
+     */
+    public void setEditedParty(Party editedParty) {
+        this.editedParty = editedParty;
     }
 
     public void setElectionController(ElectionController electionController) {
