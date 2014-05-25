@@ -21,7 +21,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
+import javax.faces.context.FacesContext;
 
 import de.beyondjava.jsf.sample.election.domain.*;
 
@@ -94,6 +96,12 @@ public class PartyEditorController implements Serializable {
 
     public String partyTableVisible() {
         return selectedCountry == null ? "display:none" : "display:block";
+    }
+
+    public void saveParty() {
+        selectedParty = null;
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Your input has been saved.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     public void selectCountry() {

@@ -25,7 +25,7 @@
               #{party.name}
             </prime:column>
             <prime:column>
-              <prime:commandButton value="edit" icon="ui-icon-pencil"
+              <prime:commandButton value="edit" icon="ui-icon-pencil" immediate="true"
                 actionListener="#{partyEditorController.editParty(party)}" update="@all"
               />
             </prime:column>
@@ -39,6 +39,9 @@
             <prime:inputText value="#{partyEditorController.selectedParty.yearOfEstablishment}" />
             <prime:outputLabel value="Color:" for="@next" />
             <prime:inputText value="#{partyEditorController.selectedParty.color}" />
+              <prime:commandButton value="save" icon="ui-icon-disk"
+                actionListener="#{partyEditorController.saveParty()}" update="@all"
+              />
           </prime:panelGrid>
         </prime:panel>
         <prime:panel style="display:none" id="editPartyPanel2ID" rendered="#{partyEditorController.selectedParty==null}">
