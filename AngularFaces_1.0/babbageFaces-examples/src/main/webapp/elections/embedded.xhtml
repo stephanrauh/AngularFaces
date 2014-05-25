@@ -10,18 +10,18 @@
         <h:form>
           <prime:menu>
             <prime:submenu label="Edit">
-              <prime:menuitem value="Countries" action="#{electionController.editCountriesAction}" update="@form:@parent:@parent:@parent">
+              <prime:menuitem value="Countries" action="#{electionController.editCountriesAction}" update="@all">
               </prime:menuitem>
-              <prime:menuitem value="Parties" action="#{electionController.editPartiesAction}" update="@form:@parent:@parent:@parent">
+              <prime:menuitem value="Parties" action="#{electionController.editPartiesAction}" update="@all">
               </prime:menuitem>
-              <prime:menuitem value="Elections" action="#{electionController.editElectionsAction}" update="@form:@parent:@parent:@parent">
+              <prime:menuitem value="Elections" action="#{electionController.editElectionsAction}" update="@all">
               </prime:menuitem>
             </prime:submenu>
             <prime:submenu label="Charts">
-              <prime:menuitem value="History" action="#{electionController.electionHistoryChartAction}" update="@form:@parent:@parent:@parent">
+              <prime:menuitem value="History" action="#{electionController.electionHistoryChartAction}" update="@all">
               </prime:menuitem>
               <prime:menuitem value="Single election" action="#{electionController.singleElectionChartAction}"
-                update="@form:@parent:@parent:@parent"
+                update="@all"
               >
               </prime:menuitem>
             </prime:submenu>

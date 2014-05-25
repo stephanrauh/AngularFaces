@@ -6,30 +6,43 @@ package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
  */
 public class BabbageConfiguration {
 	public static final String VERSION = "1.0 RC2";
-	
-    /**
-     * If the application runs on Apache MyFaces, we can detect the end of the HTML stream a lot simpler and faster than
-     * on Mojarra
-     */
-    public static boolean isMyFaces = false;
-    static {
-        try {
-            Class.forName("org.apache.myfaces.application.ApplicationImpl");
-            isMyFaces = true;
-        }
-        catch (ClassNotFoundException e) {
-            isMyFaces = false; // activates Mojarra support
-        }
-    }
+
+	/**
+	 * If the application runs on Apache MyFaces, we can detect the end of the
+	 * HTML stream a lot simpler and faster than on Mojarra
+	 */
+	public static boolean isMyFaces = false;
+	static {
+		try {
+			Class.forName("org.apache.myfaces.application.ApplicationImpl");
+			isMyFaces = true;
+			// MyFaces uses an older format of the insert command,
+			// so we switch it off provisionally
+			useInsertStatements = false;
+		} catch (ClassNotFoundException e) {
+			isMyFaces = false; // activates Mojarra support
+		}
+	}
 
 	/**
 	 * If true, BabbageFaces never generates a sequence of response statements
 	 * that need more bytes than the original sequence. If optimizeSize is set
-	 * to false, the response tends to be bigger, but the user experience usually
-	 * is smoother (less cursor focus losses etc., less flicker on browsers
-	 * lacking double buffering, possibly even more speed).
+	 * to false, the response tends to be bigger, but the user experience
+	 * usually is smoother (less cursor focus losses etc., less flicker on
+	 * browsers lacking double buffering, possibly even more speed).
 	 */
 	private static boolean optimizeSize = false;
+
+	/**
+	 * Is BabbageFaces allowed to use insert command in the response? Inserts can optimize the response considerably,
+	 * but cause many incompatibilities. Plus, JSF 2.2 introduced a new syntax of the insert command that's not
+	 * supported by MyFaces.
+	 */
+	private static boolean useInsertStatements = false;
+
+	public static boolean isUseInsertStatements() {
+		return useInsertStatements;
+	}
 
 	/**
 	 * If true, IDs are replaced by shorter IDs. Only applies to IDs generated
@@ -60,9 +73,9 @@ public class BabbageConfiguration {
 	/**
 	 * If true, BabbageFaces never generates a sequence of response statements
 	 * that need more bytes than the original sequence. If optimizeSize is set
-	 * to false, the response tends to be bigger, but the user experience usually
-	 * is smoother (less cursor focus losses etc., less flicker on browsers
-	 * lacking double buffering, possibly even more speed).
+	 * to false, the response tends to be bigger, but the user experience
+	 * usually is smoother (less cursor focus losses etc., less flicker on
+	 * browsers lacking double buffering, possibly even more speed).
 	 */
 	public static boolean isOptimizeSize() {
 		return optimizeSize;
