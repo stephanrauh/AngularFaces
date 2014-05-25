@@ -7,9 +7,6 @@
         <dependent-module archiveName="babbageFaces-1.0-RC2.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/babbageFaces-core/babbageFaces-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="primefaces-5.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/primefaces/primefaces">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="java-output-path" value="/babbage-examples/target/classes"/>
         <property name="context-root" value="babbageFaces-examples"/>
     </wb-module>

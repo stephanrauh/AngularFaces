@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 
 import org.xml.sax.SAXParseException;
 
+import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.BabbageConfiguration;
 import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DifferenceEngine;
 
 /**
@@ -37,22 +38,8 @@ public class DiffentialResponseWriter extends Writer {
 
     private static long DEBUG_totalTimeCumulated = 0l;
 
-    /**
-     * If the application runs on Apache MyFaces, we can detect the end of the HTML stream a lot simpler and faster than
-     * on Mojarra
-     */
-    private static boolean isMyFaces = false;
     private static final Logger LOGGER = Logger
             .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.DiffentialResponseWriter");
-    static {
-        try {
-            Class.forName("org.apache.myfaces.application.ApplicationImpl");
-            isMyFaces = true;
-        }
-        catch (ClassNotFoundException e) {
-            isMyFaces = false; // activates Mojarra support
-        }
-    }
     /**
      * true if partial-response has been written, but the trailing ">" hasn't been written yet
      */
@@ -109,7 +96,8 @@ public class DiffentialResponseWriter extends Writer {
                 long total = (System.nanoTime() - DEBUG_totalTimeStart);
 
                 if (total < (500 * 1000 * 1000)) {
-                    // we don't want to measure database access times
+                    // we don't want to measure database access times 
+                	// (or the time spent debugging JSF or BabbageFaces :))
                     DEBUG_timerCumulated += DEBUG_timer;
                     DEBUG_totalTimeCumulated += total;
                 }
@@ -118,7 +106,7 @@ public class DiffentialResponseWriter extends Writer {
                 if ((pos > 0) && (DEBUG_totalTimeCumulated > 0) && (total > 0)) {
                     pos += "<div id=\"babbageFacesStatistics\">".length();
                     optimizedResponse = optimizedResponse.substring(0, pos) + "<br />"
-                            + "BabbageFaces 1.0 RC2 running on " + (isMyFaces ? "Apache MyFaces" : "Oracle Mojarra")
+                            + "BabbageFaces 1.0 RC2 running on " + (BabbageConfiguration.isMyFaces ? "Apache MyFaces" : "Oracle Mojarra")
                             + "<br />" + "<table><tr>" + "<td>Total rendering time:</td><td>"
                             + ((total / 100000) / 10.0) + " ms</td><td>Cumulated:</td><td> "
                             + ((DEBUG_totalTimeCumulated / 10000) / 10.0) + " ms</td></tr><tr>"
@@ -171,7 +159,7 @@ public class DiffentialResponseWriter extends Writer {
                 }
             }
         }
-        if (isMyFaces) {
+        if (BabbageConfiguration.isMyFaces) {
             return false;
         }
         boolean finished = false;

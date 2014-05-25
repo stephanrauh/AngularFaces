@@ -9,7 +9,9 @@
       <h3>Mojarra demo / IDs missing</h3>
       <br>This is a simple pure Mojarra demo. You can toggle the visibility of the field groups, and you can modify
         the city name by clicking the button.</br>
-      None of the sections or input fields have an id. Hence the best optimization BabbageFaces can offer is to redraw the entire form.
+      None of the sections or input fields have an id. However, BabbageFaces automatically inserts ids into the HTML source code,
+      so in many cases it still optimizes the responses (at the expense of an bigger initial response). Due to an implementation error
+      labels pop up in this particular demo.
       <br />
       <h:panelGrid columns="3" cellpadding="20px" border="1">
 
@@ -61,7 +63,9 @@
         <h:panelGroup>
           <h3>Expected results:</h3>
           <p>The original response consists of roughly 19100 bytes.</p>
-          <p>No matter what you do, the entire form has to be redrawn (roughly 2100-3000 bytes).</p>
+          <p>The responses are shrunk to 1300 to 3500 bytes, or 400 byte if only the city is changed. You'll probably observe
+          bigger responses in the developers tool. That's because of the (optional) BabbageFaces statistics, which are
+          always updated and take roughly 900 bytes.</p>
         </h:panelGroup>
 
       </h:panelGrid>

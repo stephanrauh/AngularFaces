@@ -5,6 +5,23 @@ package de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine;
  * BabbageFaces.
  */
 public class BabbageConfiguration {
+	public static final String VERSION = "1.0 RC2";
+	
+    /**
+     * If the application runs on Apache MyFaces, we can detect the end of the HTML stream a lot simpler and faster than
+     * on Mojarra
+     */
+    public static boolean isMyFaces = false;
+    static {
+        try {
+            Class.forName("org.apache.myfaces.application.ApplicationImpl");
+            isMyFaces = true;
+        }
+        catch (ClassNotFoundException e) {
+            isMyFaces = false; // activates Mojarra support
+        }
+    }
+
 	/**
 	 * If true, BabbageFaces never generates a sequence of response statements
 	 * that need more bytes than the original sequence. If optimizeSize is set
@@ -12,7 +29,7 @@ public class BabbageConfiguration {
 	 * is smoother (less cursor focus losses etc., less flicker on browsers
 	 * lacking double buffering, possibly even more speed).
 	 */
-	private static boolean optimizeSize = true;
+	private static boolean optimizeSize = false;
 
 	/**
 	 * If true, IDs are replaced by shorter IDs. Only applies to IDs generated

@@ -9,7 +9,7 @@ td {
 	vertical-align: top;
 }
 </style>
-    <prime:tabView activeIndex="#{menuController.tabIndex}">
+    <prime:tabView activeIndex="#{menuController.activeTabIndex}" >
       <prime:tab title="PrimeFaces 5.0">
         <ui:include src="segunda.xhtml">
         </ui:include>
@@ -22,12 +22,11 @@ td {
         <ui:include src="seis.xhtml">
         </ui:include>
       </prime:tab>
-      <ui:remove>
         <prime:tab title="Election chart example">
           <ui:include src="elections/embedded.xhtml">
           </ui:include>
         </prime:tab>
-      </ui:remove>
+      <prime:ajax event="tabChange" listener="#{menuController.onTabChange}" />
     </prime:tabView>
   </ui:composition>
 </body>
