@@ -409,6 +409,25 @@ public class DifferenceEngine {
 					|| (!BabbageConfiguration.isOptimizeSize())) {
 				currentResponse = currentResponseStart + replacement.toString()
 						+ currentResponseEnd;
+			} else {
+				String originalUpdateString=currentResponse.substring(start, end + "</update>".length());
+				HTMLTag originalUpdate = new HTMLTag(originalUpdateString);
+				HTMLTag cdata = originalUpdate.getFirstChild();
+				String htmlWithIDsString = new HTMLTag(cdata.getInnerHTML().toString()).toCompactString();
+				cdata.setInnerHTML(new StringBuffer(htmlWithIDsString));
+				String optimizedUpdateString = cdata.toCompactString();
+				if (replacement.length() < optimizedUpdateString.length())
+				{
+					currentResponse = currentResponseStart + replacement.toString()
+							+ currentResponseEnd;
+					
+				}
+				else {
+					currentResponse = currentResponseStart + optimizedUpdateString
+							+ currentResponseEnd;
+					
+				}
+				
 			}
 		}
 		return currentResponse;
