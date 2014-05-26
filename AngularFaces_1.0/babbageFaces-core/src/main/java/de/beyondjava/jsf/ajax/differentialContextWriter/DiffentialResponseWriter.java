@@ -25,8 +25,7 @@ import javax.faces.context.FacesContext;
 
 import org.xml.sax.SAXParseException;
 
-import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.BabbageConfiguration;
-import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DifferenceEngine;
+import de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.*;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
@@ -90,33 +89,7 @@ public class DiffentialResponseWriter extends Writer {
                 DEBUG_OptimizationTime = System.nanoTime();
                 String optimizedResponse = new DifferenceEngine().yieldDifferences(rawBuffer.toString(), sessionMap,
                         isAJAX);
-                DEBUG_OptimizationTime = System.nanoTime() - DEBUG_OptimizationTime;
-                long DEBUG_endTime = System.nanoTime();
-                DEBUG_timer += (DEBUG_endTime - DEBUG_StartTime);
-                long total = (System.nanoTime() - DEBUG_totalTimeStart);
-
-                if (total < (500 * 1000 * 1000)) {
-                    // we don't want to measure database access times 
-                	// (or the time spent debugging JSF or BabbageFaces :))
-                    DEBUG_timerCumulated += DEBUG_timer;
-                    DEBUG_totalTimeCumulated += total;
-                }
-
-                int pos = optimizedResponse.indexOf("<div id=\"babbageFacesStatistics\">");
-                if ((pos > 0) && (DEBUG_totalTimeCumulated > 0) && (total > 0)) {
-                    pos += "<div id=\"babbageFacesStatistics\">".length();
-                    optimizedResponse = optimizedResponse.substring(0, pos) + "<br />"
-                            + "BabbageFaces 1.0 RC2 running on " + (BabbageConfiguration.isMyFaces ? "Apache MyFaces" : "Oracle Mojarra")
-                            + "<br />" + "<table><tr>" + "<td>Total rendering time:</td><td>"
-                            + ((total / 100000) / 10.0) + " ms</td><td>Cumulated:</td><td> "
-                            + ((DEBUG_totalTimeCumulated / 10000) / 10.0) + " ms</td></tr><tr>"
-                            + "<td>BabbageFaces overhead:</td><td>" + ((DEBUG_timer / 100000) / 10.0) + " ms ("
-                            + ((100 * DEBUG_timer) / total) + "%)</td><td>Cumulated: </td><td>"
-                            + ((DEBUG_timerCumulated / 10000) / 10.0) + " ms ("
-
-                            + ((100 * DEBUG_timerCumulated) / DEBUG_totalTimeCumulated) + "%)</td></tr></table>"
-                            + optimizedResponse.substring(pos);
-                }
+                optimizedResponse = logStatistics(DEBUG_StartTime, DEBUG_OptimizationTime, optimizedResponse);
                 sunWriter.write(optimizedResponse);
             }
             catch (Exception anyError) {
@@ -206,6 +179,44 @@ public class DiffentialResponseWriter extends Writer {
         // sunWriter.write(rawBuffer.toString());
         // sunWriter.flush();
         // rawBuffer.setLength(0);
+    }
+
+    /**
+     * @param DEBUG_StartTime
+     * @param DEBUG_OptimizationTime
+     * @param optimizedResponse
+     * @return
+     */
+    private String logStatistics(long DEBUG_StartTime, long DEBUG_OptimizationTime, String optimizedResponse) {
+        DEBUG_OptimizationTime = System.nanoTime() - DEBUG_OptimizationTime;
+        long DEBUG_endTime = System.nanoTime();
+        DEBUG_timer += (DEBUG_endTime - DEBUG_StartTime);
+        long total = (System.nanoTime() - DEBUG_totalTimeStart);
+
+        if (total < (500 * 1000 * 1000)) {
+            // we don't want to measure database access times
+            // (or the time spent debugging JSF or BabbageFaces :))
+            DEBUG_timerCumulated += DEBUG_timer;
+            DEBUG_totalTimeCumulated += total;
+        }
+
+        if (isDeveloperMode && sessionMap.containsKey(DifferenceEngine.DISPLAY_STATISTICS)) {
+            int pos = optimizedResponse.indexOf("<div id=\"babbageFacesStatistics\">");
+            if ((pos > 0) && (DEBUG_totalTimeCumulated > 0) && (total > 0)) {
+                pos += "<div id=\"babbageFacesStatistics\">".length();
+                optimizedResponse = optimizedResponse.substring(0, pos) + "<br />" + "BabbageFaces 1.0 RC2 running on "
+                        + (BabbageConfiguration.isMyFaces ? "Apache MyFaces" : "Oracle Mojarra") + "<br />"
+                        + "<table><tr>" + "<td>Total rendering time:</td><td>" + ((total / 100000) / 10.0)
+                        + " ms</td><td>Cumulated:</td><td> " + ((DEBUG_totalTimeCumulated / 10000) / 10.0)
+                        + " ms</td></tr><tr>" + "<td>BabbageFaces overhead:</td><td>" + ((DEBUG_timer / 100000) / 10.0)
+                        + " ms (" + ((100 * DEBUG_timer) / total) + "%)</td><td>Cumulated: </td><td>"
+                        + ((DEBUG_timerCumulated / 10000) / 10.0) + " ms ("
+
+                        + ((100 * DEBUG_timerCumulated) / DEBUG_totalTimeCumulated) + "%)</td></tr></table>"
+                        + optimizedResponse.substring(pos);
+            }
+        }
+        return optimizedResponse;
     }
 
     @Override

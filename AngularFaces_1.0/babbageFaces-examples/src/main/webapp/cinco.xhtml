@@ -61,8 +61,11 @@
         </h:panelGroup>
         <h:panelGroup>
           <h3>Expected results:</h3>
-          <p>The original response consists of roughly 19100 bytes.</p>
-          <p>The responses are shrunk to 1300 to 3500 bytes, or 400 byte if only the city is changed. You'll probably observe
+          <p>The original response consists of roughly 3000-4000 bytes.</p>
+          <p>If a section is removed from the page, a delete response is triggered, shrinking the response to 1200-2200 bytes. If a section is shown again, the response is even bigger than the original. This is because 
+          insert commands are currently disabled, and additional IDs are inserted to allow BabbageFaces to optimize the response (which doesn't always pay). If merely the city is changed, the response consists of roughly 320 bytes.
+          </p><p>
+          You'll probably observe
           bigger responses in the developers tool. That's because of the (optional) BabbageFaces statistics, which are
           always updated and take roughly 900 bytes.</p>
         </h:panelGroup>

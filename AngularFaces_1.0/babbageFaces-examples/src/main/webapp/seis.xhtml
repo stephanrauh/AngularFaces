@@ -14,16 +14,16 @@
         <h:panelGroup id="panelSeisID">
           <h:panelGrid columns="2" border="0" id="controlsSection">
             <h:outputText value="Toggle first section"></h:outputText>
-            <h:selectBooleanCheckbox>
+            <h:selectBooleanCheckbox id="cbx1ID">
               <f:ajax render="@form" listener="#{differenceDemoBean.toggleFirstSection}" />
             </h:selectBooleanCheckbox>
             <h:outputText value="Toggle second section and change the city"></h:outputText>
             <h:selectBooleanCheckbox>
-              <f:ajax render="@form" listener="#{differenceDemoBean.toggleSecondSectionAndChangeCity}" />
+              <f:ajax render="@form" listener="#{differenceDemoBean.toggleSecondSectionAndChangeCity}"  id="cbx2ID"/>
             </h:selectBooleanCheckbox>
             <h:outputText value="Toggle first and third section"></h:outputText>
             <h:selectBooleanCheckbox>
-              <f:ajax render="@form" listener="#{differenceDemoBean.toggleFirstAndThirdSection}" />
+              <f:ajax render="@form" listener="#{differenceDemoBean.toggleFirstAndThirdSection}" id="cbx3ID" />
             </h:selectBooleanCheckbox>
           </h:panelGrid>
           <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}" id="firstSection">
@@ -57,12 +57,13 @@
         </h:panelGroup>
         <h:panelGroup>
           <h3>Expected results:</h3>
-          <p>The original response consists of roughly 19100 bytes.</p>
-          <p>The button click results in a "attribute" response (rougly 480 bytes).</p>
+          <p>The original AJAX responses consist of 3000-4000 bytes.</p>
+          <p>The button click results in a "attribute" response (rougly 320 bytes).</p>
           <p>The check boxes result in "insert" and "update" responses. The values of the checkboxes are updated in
             the same response, requiring an additional "attribute" tag.</p>
-          <p>Delete responses take roughly 500-600 bytes.</p>
-          <p style="color: red">Insert responses vary from 900 to 1700 bytes.</p>
+          <p>Delete responses take roughly 350-600 bytes.</p>
+          <p>Currently insert responses are disabled and required an update of the entire form. This update is slightly bigger than the original request
+          because additional IDs are inserted by BabbageFaces.</p>
         </h:panelGroup>
 
       </h:panelGrid>

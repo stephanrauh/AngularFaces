@@ -21,15 +21,15 @@
             <h:panelGrid columns="2" border="0">
               <prime:outputLabel value="Toggle first section" for="@next"></prime:outputLabel>
               <prime:selectBooleanCheckbox>
-                <prime:ajax update="@form" listener="#{differenceDemoBean.toggleFirstSection}" />
+                <prime:ajax update="@all" listener="#{differenceDemoBean.toggleFirstSection}" />
               </prime:selectBooleanCheckbox>
               <prime:outputLabel value="Toggle 2nd section and change the city" for="@next"></prime:outputLabel>
               <prime:selectBooleanCheckbox>
-                <prime:ajax update="@form" listener="#{differenceDemoBean.toggleSecondSectionAndChangeCity}" />
+                <prime:ajax update="@all" listener="#{differenceDemoBean.toggleSecondSectionAndChangeCity}" />
               </prime:selectBooleanCheckbox>
               <prime:outputLabel value="Toggle first and third section" for="@next"></prime:outputLabel>
               <prime:selectBooleanCheckbox>
-                <prime:ajax update="@form" listener="#{differenceDemoBean.toggleThirdSection}" />
+                <prime:ajax update="@all" listener="#{differenceDemoBean.toggleThirdSection}" />
               </prime:selectBooleanCheckbox>
             </h:panelGrid>
             <h:panelGrid columns="2" border="0" rendered="#{differenceDemoBean.firstSectionVisible}" id="firstSection">
@@ -48,7 +48,7 @@
               <prime:outputLabel value="city" for="@next" />
               <prime:inputText value="#{differenceDemoBean.city}" />
             </h:panelGrid>
-            <prime:commandButton value="change city" action="#{differenceDemoBean.changeCity}" update="@form" />
+            <prime:commandButton value="change city" action="#{differenceDemoBean.changeCity}" update="@all" />
           </h:form>
         </h:panelGroup>
   
@@ -57,11 +57,11 @@
         </h:panelGroup>
         <h:panelGroup>
           <h3>Expected results:</h3>
-          <p>The original response consists of roughly 19100 bytes.</p>
+          <p>The original response consists of roughly 21000-25000 bytes.</p>
           <p>The button click results in a "attribute" response (rougly 480 bytes).</p>
           <p>The check boxes result in "insert" and "update" responses. The values of the checkboxes are updated in the same response, requiring an additional "attribute" tag and an "update" of the PrimeFaces HTML code displaying the check box.</p>
-          <p>Delete responses take roughly 800-1200 bytes.</p>
-          <p style="color:red">Insert responses vary from 1500 to 210 bytes. Due to an implementation bug they are disabled at the moment.</p>
+          <p>Delete responses take roughly 4000-6500 bytes.</p>
+          <p>Insert responses are currently disabled. Instead an update of the entire form is required. This takes roughly 9500-15000 bytes.</p>
         </h:panelGroup>
   
       </h:panelGrid>

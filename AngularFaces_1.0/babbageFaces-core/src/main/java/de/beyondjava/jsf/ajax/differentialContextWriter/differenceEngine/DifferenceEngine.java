@@ -37,12 +37,13 @@ public class DifferenceEngine {
 
     private static boolean differentialEngineActive = true;
 
+    public static final String DISPLAY_STATISTICS = "com.beyondjava.babbageFaces.displayStatistics";
+
+    final static String LAST_KNOWN_HTML_KEY = "com.beyondEE.faces.diff.lastKnownHTML";
     private static final Logger LOGGER = Logger
             .getLogger("de.beyondjava.jsf.ajax.differentialContextWriter.differenceEngine.DiffenceEngine");
-
     final boolean isDeveloperMode = (FacesContext.getCurrentInstance() != null)
             && (FacesContext.getCurrentInstance().getApplication().getProjectStage() == ProjectStage.Development);
-    final String LAST_KNOWN_HTML_KEY = "com.beyondEE.faces.diff.lastKnownHTML";
 
     /**
      *
@@ -63,6 +64,112 @@ public class DifferenceEngine {
     // boasting += "</table>";
     // return boasting;
     // }
+
+    /**
+     * @param currentResponse
+     * @param sessionMap
+     * @param isAJAX
+     * @param originalUpdates
+     * @param originalOtherTags
+     * @param originalErrorTags
+     * @param optimizedUpdates
+     * @param optimizedInserts
+     * @param optimizedDeletes
+     * @param optimizedAttributes
+     * @param originalLength
+     * @param optimizedLength
+     * @return
+     */
+    private String addStatisticsToAJAXResponse(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX,
+            int originalUpdates, int originalOtherTags, int originalErrorTags, int optimizedUpdates,
+            int optimizedInserts, int optimizedDeletes, int optimizedAttributes, int originalLength, int optimizedLength) {
+        if (isAJAX) {
+            if (isDeveloperMode) {
+                int pos = currentResponse.indexOf("<div id=\"babbageFacesStatistics\"></div>");
+                if (pos > 0) {
+                    sessionMap.put(DISPLAY_STATISTICS, "true");
+                }
+                if (sessionMap.containsKey(DISPLAY_STATISTICS)) {
+                    String responseMessage;
+                    responseMessage = "<table><tr><td></td><td ><b>Original response</b></td><td><b>Optimized response</b></td></tr>"
+                            + "<tr><td>Size:</td><td>"
+                            + originalLength
+                            + " bytes</td><td> "
+                            + optimizedLength
+                            + " bytes</td><td>" + (((100 * optimizedLength) / originalLength)) + "%</td></tr>";
+                    responseMessage += "<tr><td>total </td><td> " + DEBUG_originalBytesCumulated + "</td><td> "
+                            + DEBUG_optimizedBytesCumulated;
+                    responseMessage += "</td><td>"
+                            + (((100 * DEBUG_optimizedBytesCumulated) / DEBUG_originalBytesCumulated))
+                            + "% </tr><tr><td>";
+                    responseMessage += "updates:</td><td> " + originalUpdates;
+                    responseMessage += "</td><td>" + optimizedUpdates + "</td></tr>";
+                    responseMessage += "<tr><td>inserts:</td><td></td><td> " + optimizedInserts + "</td></tr>";
+                    responseMessage += "<tr><td>deletes:</td><td></td><td> " + optimizedDeletes + "</td></tr>";
+                    responseMessage += "<tr><td>attributes:</td><td></td><td> " + optimizedAttributes + "</td></tr>";
+                    responseMessage += "<tr><td>Original error tags</td><td>" + originalErrorTags + "</td></tr>";
+                    responseMessage += "<tr><td>other original tags</td><td>" + originalOtherTags
+                            + "</td></tr></table>";
+                    pos = currentResponse.indexOf("</changes>");
+                    if (pos > 0) {
+                        currentResponse = currentResponse.substring(0, pos)
+                                + "<update id=\"babbageFacesStatistics\"><![CDATA[<div id=\"babbageFacesStatistics\">"
+                                + responseMessage + "</div>]]></update>" + currentResponse.substring(pos);
+                    }
+                }
+            }
+
+        }
+        else if (isDeveloperMode) {
+            String responseMessage;
+            responseMessage = "HTML - original response:  " + originalLength + " bytes  Optimized response: "
+                    + optimizedLength + " bytes  total original: " + DEBUG_originalBytesCumulated
+                    + "  total optimized: " + DEBUG_optimizedBytesCumulated;
+            LOGGER.info(responseMessage);
+
+        }
+        return currentResponse;
+    }
+
+    /**
+     * @param currentResponse
+     * @param sessionMap
+     * @param originalLength
+     * @param responseWithAdditionalIDs
+     * @return
+     */
+    private String addStatisticsToNonAJAXResponse(String currentResponse, Map<String, Object> sessionMap,
+            int originalLength, final HTMLTag responseWithAdditionalIDs) {
+        if (isDeveloperMode) {
+            String body = responseWithAdditionalIDs.getChildren().get(1).toString();
+            int bodyIndex = currentResponse.indexOf("<body>");
+            if (bodyIndex < 0) {
+                bodyIndex = currentResponse.indexOf("<body ");
+            }
+            int bodyEndIndex = currentResponse.indexOf("</body>");
+            if ((bodyIndex > 0) && (bodyEndIndex > 0)) {
+                currentResponse = currentResponse.substring(0, bodyIndex)
+                        + "\n<!-- Optimized by BabbageFaces, an AngularFaces subproject -->\n" + body
+                        + currentResponse.substring(bodyEndIndex + "</body>".length());
+            }
+            int pos = currentResponse.indexOf("<div id=\"babbageFacesStatistics\"></div>");
+            if (pos > 0) {
+                sessionMap.put(DISPLAY_STATISTICS, "true");
+                pos += "<div id=\"babbageFacesStatistics\">".length();
+                currentResponse = currentResponse.substring(0, pos)
+                        + "Non-AJAX response - nothing to optimize.<br />"
+                        + "Original response:  "
+                        + originalLength
+                        + "<br />"
+                        + "Optimized response: "
+                        + currentResponse.length()
+                        + "<br />"
+                        + "(usually bigger because the HMTL code is reformatted and lots of ids have to be inserted to make BabbabgeFaces smoother)"
+                        + currentResponse.substring(pos);
+            }
+        }
+        return currentResponse;
+    }
 
     /**
      * @param change
@@ -606,79 +713,20 @@ public class DifferenceEngine {
             }
         }
         else {
-            boolean isPrimefacesResponse = currentResponse.contains("javax.faces.resource/primefaces.js");
+            // todo: find out if the page is generated by PrimeFaces, MyFaces or Mojarra (and which version)
+            // boolean isPrimefacesResponse = currentResponse.contains("javax.faces.resource/primefaces.js");
             final HTMLTag responseWithAdditionalIDs = new HTMLTag(currentResponse);
             sessionMap.remove(LAST_KNOWN_HTML_KEY);
             sessionMap.put(LAST_KNOWN_HTML_KEY, responseWithAdditionalIDs);
-            String body = responseWithAdditionalIDs.getChildren().get(1).toString();
-            int bodyIndex = currentResponse.indexOf("<body>");
-            if (bodyIndex < 0) {
-                bodyIndex = currentResponse.indexOf("<body ");
-            }
-            int bodyEndIndex = currentResponse.indexOf("</body>");
-            if ((bodyIndex > 0) && (bodyEndIndex > 0)) {
-                currentResponse = currentResponse.substring(0, bodyIndex)
-                        + "\n<!-- Optimized by BabbageFaces, an AngularFaces subproject -->\n" + body
-                        + currentResponse.substring(bodyEndIndex + "</body>".length());
-            }
-            int pos = currentResponse.indexOf("<div id=\"babbageFacesStatistics\"></div>");
-            if (pos > 0) {
-                pos += "<div id=\"babbageFacesStatistics\">".length();
-                currentResponse = currentResponse.substring(0, pos)
-                        + "Non-AJAX response - nothing to optimize.<br />"
-                        + "Original response:  "
-                        + originalLength
-                        + "<br />"
-                        + "Optimized response: "
-                        + currentResponse.length()
-                        + "<br />"
-                        + "(usually bigger because the HMTL code is reformatted and lots of ids have to be inserted to make BabbabgeFaces smoother)"
-                        + currentResponse.substring(pos);
-            }
+            currentResponse = addStatisticsToNonAJAXResponse(currentResponse, sessionMap, originalLength,
+                    responseWithAdditionalIDs);
         }
         int optimizedLength = currentResponse.length();
         DEBUG_optimizedBytesCumulated += optimizedLength;
         DEBUG_originalBytesCumulated += originalLength;
-        String responseMessage;
-        if (isAJAX) {
-            responseMessage = "<table><tr><td></td><td ><b>Original response</b></td><td><b>Optimized response</b></td></tr>"
-                    + "<tr><td>Size:</td><td>"
-                    + originalLength
-                    + " bytes</td><td> "
-                    + optimizedLength
-                    + " bytes</td><td>" + (((100 * optimizedLength) / originalLength)) + "%</td></tr>";
-            responseMessage += "<tr><td>total </td><td> " + DEBUG_originalBytesCumulated + "</td><td> "
-                    + DEBUG_optimizedBytesCumulated;
-            responseMessage += "</td><td>" + (((100 * DEBUG_optimizedBytesCumulated) / DEBUG_originalBytesCumulated))
-                    + "% </tr><tr><td>";
-            responseMessage += "updates:</td><td> " + originalUpdates;
-            responseMessage += "</td><td>" + optimizedUpdates + "</td></tr>";
-            responseMessage += "<tr><td>inserts:</td><td></td><td> " + optimizedInserts + "</td></tr>";
-            responseMessage += "<tr><td>deletes:</td><td></td><td> " + optimizedDeletes + "</td></tr>";
-            responseMessage += "<tr><td>attributes:</td><td></td><td> " + optimizedAttributes + "</td></tr>";
-            responseMessage += "<tr><td>Original error tags</td><td>" + originalErrorTags + "</td></tr>";
-            responseMessage += "<tr><td>other original tags</td><td>" + originalOtherTags + "</td></tr></table>";
-            int pos = currentResponse.indexOf("</changes>");
-            if (pos > 0) {
-                currentResponse = currentResponse.substring(0, pos)
-                        + "<update id=\"babbageFacesStatistics\"><![CDATA[<div id=\"babbageFacesStatistics\">"
-                        + responseMessage + "</div>]]></update>" + currentResponse.substring(pos);
-            }
-
-        }
-        else {
-            responseMessage = "HTML - original response:  " + originalLength + " bytes  Optimized response: "
-                    + optimizedLength + " bytes  total original: " + DEBUG_originalBytesCumulated
-                    + "  total optimized: " + DEBUG_optimizedBytesCumulated;
-            LOGGER.info(responseMessage);
-
-        }
-        // if (currentResponse.contains("babbageFacesBoasting")) {
-        // boasting = "<div>" + responseMessage + "<br />" + boasting +
-        // "</div>";
-        // currentResponse = currentResponse.replace("babbageFacesBoasting",
-        // boasting);
-        // }
+        currentResponse = addStatisticsToAJAXResponse(currentResponse, sessionMap, isAJAX, originalUpdates,
+                originalOtherTags, originalErrorTags, optimizedUpdates, optimizedInserts, optimizedDeletes,
+                optimizedAttributes, originalLength, optimizedLength);
 
         return currentResponse;
     }
