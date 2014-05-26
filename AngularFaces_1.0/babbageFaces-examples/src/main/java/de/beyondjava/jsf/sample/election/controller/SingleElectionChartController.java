@@ -125,6 +125,36 @@ public class SingleElectionChartController implements Serializable {
         }
     }
 
+    /**
+     *
+     */
+    private void createVotesChart() {
+        Map<String, Number> data = new HashMap<>();
+        for (Entry<Party, Double> e : selectedElection.getResult().entrySet()) {
+            data.put(e.getKey().getName(), e.getValue());
+        }
+        // Data put in a hashmap is read in any order.
+        // To get the colors right, we read the data in the default order and assign
+        // the colors correspondingly.
+        String colors = "";
+        for (String name : data.keySet()) {
+
+            for (Party e : selectedCountry.getParties()) {
+                if (e.getName().equals(name)) {
+                    String color = e.getColor();
+                    if (colors.length() > 0) {
+                        colors += ",";
+                    }
+                    colors += color;
+                }
+            }
+        }
+
+        chart = new PieChartModel(data);
+        chart.setLegendPosition("ne");
+        chart.setSeriesColors(colors);
+    }
+
     public ChartModel getChangesChartModel() {
         return changesChartModel;
     }
@@ -206,22 +236,7 @@ public class SingleElectionChartController implements Serializable {
 
     public void selectYear() {
         if (null != selectedElection) {
-            String colors = "";
-            Map<String, Number> data = new HashMap<>();
-            for (Entry<Party, Double> e : selectedElection.getResult().entrySet()) {
-                data.put(e.getKey().getName(), e.getValue());
-                if (e.getKey().getColor() != null) {
-                    String color = e.getKey().getColor();
-                    if (colors.length() > 0) {
-                        colors += ",";
-                    }
-                    colors += color;
-                }
-            }
-
-            chart = new PieChartModel(data);
-            chart.setLegendPosition("ne");
-            chart.setSeriesColors(colors);
+            createVotesChart();
             createSeatsChart();
             createChangesChart();
         }

@@ -5,9 +5,9 @@
 <body>
   <ui:composition>
     <h:form>
-      <h3><h:outputText value="Select a country to show the history of the elections." escape="false"
+      <h3><h:outputText value="Select a country to show the history of the elections." 
         rendered="#{electionHistoryController.selectedCountry==null}" /></h3>
-      <prime:panel id="selectPartyPanelID">
+      <prime:panel id="selectPartyPanelID"  style="border:none">
         <prime:outputLabel value="Country:" for="@next" />
         <prime:selectOneMenu value="#{electionHistoryController.selectedCountry}" converter="CountryConverter">
           <f:selectItem itemLabel="" itemValue="#{null}" />
@@ -17,7 +17,7 @@
           <prime:ajax listener="#{electionHistoryController.selectCountry()}" update="@all" />
         </prime:selectOneMenu>
       </prime:panel>
-      <prime:panel rendered="#{electionHistoryController.selectedCountry!=null}">
+      <prime:panel rendered="#{electionHistoryController.selectedCountry!=null}"  style="border:none">
         <prime:chart type="line" model="#{electionHistoryController.historicalLineChart}"
           style="width:600px;height:400px"
         />

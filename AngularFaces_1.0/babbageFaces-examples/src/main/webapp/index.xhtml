@@ -1,6 +1,7 @@
 <f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
   xmlns:h="http://java.sun.com/jsf/html"  xmlns:ui="http://java.sun.com/jsf/facelets"
-  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
+  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:prime="http://primefaces.org/ui">
   <h:head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -17,6 +18,14 @@ body {
 .ui-widget {
   font-size:12pt;
 }
+
+.ui-panelgrid > tbody > .ui-widget-content {
+  border:none;
+}
+.ui-panelgrid > tbody > .ui-widget-content > td {
+  border:none;
+}
+
 </style>
   </h:head>
   <h:body>
@@ -27,7 +36,28 @@ body {
   
   The smaller the difference in the view in the browser, the smaller the response.
   <br />
-  <ui:include src="todo.xhtml"></ui:include>
+    <prime:tabView activeIndex="#{menuController.activeTabIndex}">
+      <prime:tab title="PrimeFaces 5.0">
+        <ui:include src="segunda.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="Mojarra without IDs">
+        <ui:include src="cinco.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="Mojarra with IDs">
+        <ui:include src="seis.xhtml">
+        </ui:include>
+      </prime:tab>
+      <prime:tab title="Election chart example">
+        <prime:panel id="wrongResponseWorkaroundID"  style="border:none">
+          <ui:include src="elections/embedded.xhtml">
+          </ui:include>
+        </prime:panel>
+      </prime:tab>
+      <prime:ajax event="tabChange"
+        listener="#{menuController.onTabChange}" />
+    </prime:tabView>
    
   </h:body>
 </f:view>

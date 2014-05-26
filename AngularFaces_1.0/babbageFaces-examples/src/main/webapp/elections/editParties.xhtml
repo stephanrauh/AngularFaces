@@ -5,10 +5,11 @@
 <body>
   <ui:composition>
     <h:form>
-      <h3>Select a country to edit the parties.</h3>
+      <h3><h:outputText value="Select a country to edit the parties." 
+        rendered="#{partyEditorController.selectedCountry==null}" /></h3>
       
-      <prime:panelGrid columns="2">
-        <prime:panel id="selectPartyPanelID">
+      <prime:panelGrid columns="2"  style="border:none">
+        <prime:panel id="selectPartyPanelID"  style="border:none">
           <prime:outputLabel value="Country:" for="@next" />
           <prime:selectOneMenu value="#{partyEditorController.selectedCountry}" converter="CountryConverter">
             <f:selectItem itemLabel="" itemValue="#{null}" />
@@ -31,8 +32,8 @@
             </prime:column>
           </prime:dataTable>
         </prime:panel>
-        <prime:panel id="editPartyPanelID" rendered="#{partyEditorController.editedParty!=null}">
-          <prime:panelGrid columns="2">
+        <prime:panel id="editPartyPanelID" rendered="#{partyEditorController.editedParty!=null}"  style="border:none">
+          <prime:panelGrid columns="2"  style="border:none;margin-top:35px" >
             <prime:outputLabel value="Name:" for="@next" />
             <prime:inputText value="#{partyEditorController.editedParty.name}" />
             <prime:outputLabel value="Year of establishment:" for="@next" />

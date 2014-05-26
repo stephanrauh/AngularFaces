@@ -6,8 +6,9 @@
 <body>
 	<ui:composition>
 		<h:form>
-			<h3>Select a country to edit an election</h3>
-			<prime:panel id="selectPartyPanelID">
+			<h3><h:outputText value="Select a country to edit an election" 
+        rendered="#{electionEditorController.selectedCountry==null}" /></h3>
+			<prime:panel id="selectPartyPanelID"  style="border:none">
 				<prime:outputLabel value="Country:" for="@next" />
 				<prime:selectOneMenu
 					value="#{electionEditorController.selectedCountry}"
@@ -19,7 +20,7 @@
 						update="@all" />
 				</prime:selectOneMenu>
 			</prime:panel>
-			<prime:panel
+			<prime:panel  style="border:none"
 				rendered="#{electionEditorController.selectedCountry!=null}">
         
 				<prime:dataTable paginator="true" rows="5" id="tableID"

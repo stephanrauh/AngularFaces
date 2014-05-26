@@ -6,7 +6,7 @@
   <ui:composition>
     <h:form>
       <h:outputText value="Select a country and year to show the details of a single election." rendered="#{singleElectionChartController.selectedElection == null}" />
-      <prime:panel id="selectPartyPanelID">
+      <prime:panel id="selectPartyPanelID"  style="border:none">
         <prime:outputLabel value="Country:" for="@next" />
         <prime:selectOneMenu value="#{singleElectionChartController.selectedCountry}" converter="CountryConverter">
           <f:selectItem itemLabel="" itemValue="#{null}" />
@@ -16,7 +16,7 @@
           <prime:ajax listener="#{singleElectionChartController.selectCountry()}" update="@all" />
         </prime:selectOneMenu>
       </prime:panel>
-      <prime:panel rendered="#{singleElectionChartController.selectedCountry != null}">
+      <prime:panel rendered="#{singleElectionChartController.selectedCountry != null}"  style="border:none">
         <prime:outputLabel value="Year:" for="@next" />
         <prime:selectOneMenu value="#{singleElectionChartController.selectedElection}" converter="ElectionConverter">
           <f:selectItem itemLabel="" itemValue="#{null}" />
@@ -26,7 +26,7 @@
           <prime:ajax listener="#{singleElectionChartController.selectYear()}" update="@all" />
         </prime:selectOneMenu>
       </prime:panel>
-      <prime:panel
+      <prime:panel  style="border:none"
         rendered="#{singleElectionChartController.selectedElection!=null}">
         <prime:selectOneRadio value="#{singleElectionChartController.chartType}">
             <f:selectItem itemLabel="Votes" itemValue="votes" />

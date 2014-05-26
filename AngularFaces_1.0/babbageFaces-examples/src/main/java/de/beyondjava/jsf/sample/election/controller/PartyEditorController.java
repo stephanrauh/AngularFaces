@@ -130,6 +130,7 @@ public class PartyEditorController implements Serializable {
         if (null == selectedCountry) {
             parties = null;
             selectedParty = null;
+            editedParty = null;
         }
         else {
             parties = selectedCountry.getParties();
