@@ -23,7 +23,6 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
 
 import de.beyondjava.jsf.ajax.differentialContextWriter.parser.HTMLTag;
 
@@ -70,7 +69,7 @@ public class DifferenceEngineTest {
      *
      * @throws IOException
      */
-    @Test
+    // @Test
     public void testDetermineNecessaryChanges2() throws IOException {
         final DifferenceEngine diffenceEngine = new DifferenceEngine();
         File dir = new File("src/test/resources/DifferenceEngine");
