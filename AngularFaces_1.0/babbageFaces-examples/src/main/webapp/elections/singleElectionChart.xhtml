@@ -5,7 +5,6 @@
 <body>
   <ui:composition>
     <h:form>
-      <h:messages />
       <h:outputText value="Select a country and year to show the details of a single election." rendered="#{singleElectionChartController.selectedElection == null}" />
       <prime:panel id="selectPartyPanelID">
         <prime:outputLabel value="Country:" for="@next" />
