@@ -43,4 +43,39 @@
       <type>java.lang.String</type>
     </attribute>
   </tag>
+  
+    <tag>
+    <description><![CDATA[pui:panel is a field group with a caption.]]></description>
+    <tag-name>panel</tag-name>
+    <component>
+      <component-type>de.beyondjava.kendoFaces.puiPanel.PuiPanel</component-type>
+      <renderer-type>de.beyondjava.kendoFaces.puiPanel.PuiPanel</renderer-type>
+    </component>
+
+    <attribute>
+      <description><![CDATA[Is the panel initially collapsed? Default: false]]></description>
+      <name>collapsed</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[Caption of the panel.]]></description>
+      <name>header</name>
+      <required>true</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[Can the panel be collapsed?]]></description>
+      <name>toggleable</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[Is the panel to collapse horizontally or vertical? Legal values: vertical and horizontal. Default: vertical.]]></description>
+      <name>toggleOrientation</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+  </tag>
+  
 </facelet-taglib>
