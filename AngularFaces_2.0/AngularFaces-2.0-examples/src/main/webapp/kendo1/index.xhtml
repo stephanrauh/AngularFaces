@@ -1,0 +1,23 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough" xmlns:pui="http://beyondjava.net/kendoFaces"
+>
+  <h:head>
+    <link rel="stylesheet" href="themes/aristo/theme.css"></link>
+    <link rel="stylesheet" href="themes/jquery-ui.css"></link>
+    <link rel="stylesheet" href="pui.css"></link>
+    <link rel="stylesheet" href="style.css"></link>
+  </h:head>
+  <pui:body mainclassfile="kendo1controller.js" ng-app="KendoDemos">
+    <h2>Welcome to AngularFaces 2.0 (Kendo style)!</h2>
+    Based firmly in the future...
+    
+    <div kendo-slider="" ng-model="width" k-tooltip="{ enabled: false }"
+                style="width: 270px;">
+    </div>
+    
+    <hr />
+    <pui:slider orientation="vertical" />
+    
+  </pui:body>
+</f:view>
