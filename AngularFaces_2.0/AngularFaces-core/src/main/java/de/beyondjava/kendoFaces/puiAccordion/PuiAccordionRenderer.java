@@ -30,8 +30,23 @@ public class PuiAccordionRenderer extends Renderer implements RendererUtils {
 			throws IOException {
 		ResponseWriter writer = context.getResponseWriter();
 		writer.startElement("ul", component);
+		writer.writeAttribute("ng-controller", component.getClientId()
+				+ "AccordionCtrl", "ng-controller");
 		writer.writeAttribute("kendo-panel-bar", "", null);
+		String options = (String) component.getAttributes().get("k-options");
+		String expandMode = (String) component.getAttributes()
+				.get("expandMode");
+		if (options != null && expandMode != null) {
+			throw new IllegalArgumentException(
+					"You can't provide k-options and expandMode at the same time.");
+		}
+
+		if (options == null) {
+			options = "panelBarOptions";
+		}
+		renderNonEmptyAttribute(writer, "k-options", options);
 		renderMostCommonAttributes(writer, component);
+
 	}
 
 	@Override
@@ -39,5 +54,19 @@ public class PuiAccordionRenderer extends Renderer implements RendererUtils {
 			throws IOException {
 		ResponseWriter writer = context.getResponseWriter();
 		writer.endElement("ul");
+
+		String expandMode = (String) component.getAttributes()
+				.get("expandMode");
+		String options = (String) component.getAttributes().get("k-options");
+		if (options == null && expandMode == null)
+			expandMode = "single";
+		if (null != expandMode && expandMode.length() > 0) {
+			String s = "<script>function "
+					+ component.getClientId()
+					+ "AccordionCtrl($scope) { $scope.panelBarOptions ={ expandMode : '"
+					+ expandMode + "' };}</script>";
+			writer.write(s);
+		}
+
 	}
-};
+}

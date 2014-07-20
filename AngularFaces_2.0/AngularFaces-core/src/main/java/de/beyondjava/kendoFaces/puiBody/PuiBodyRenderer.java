@@ -38,6 +38,9 @@ public class PuiBodyRenderer extends BodyRenderer implements RendererUtils {
         else {
             writer.append(" ng-app ");
         }
+        String ngController = (String) component.getAttributes().get("ng-controller");
+        renderNonEmptyAttribute(writer, "ng-controller", ngController);
+
     }
 
     @Override

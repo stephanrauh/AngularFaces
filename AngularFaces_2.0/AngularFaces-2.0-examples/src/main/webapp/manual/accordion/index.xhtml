@@ -1,0 +1,32 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pui="http://beyondjava.net/kendoFaces">
+	<h:head>
+		<link href="../../kendo/styles/kendo.common.min.css" rel="stylesheet" />
+		<link href="../../kendo/styles/kendo.default.min.css" rel="stylesheet" />
+		<script src="../../kendo/js/jquery.min.js"></script>
+		<script src="../../kendo/js/angular.min.js"></script>
+		<script src="../../kendo/js/kendo.all.min.js"></script>
+	</h:head>
+	<pui:body ng-app="KendoDemos" ng-controller="MyCtrl">
+		<h2>Welcome to AngularFaces 2.0 (Kendo style)!</h2>
+    	Based firmly in the future...
+    
+    	<pui:accordion style="width:300px" expandMode="single">
+			<pui:panel header="one height={{height}}">
+		    	Now the content of the panel is visible. <br />
+		    	Scope variables from parent scope: height={{height}}, width={{width}}
+		    	Panel bar options: {{panelBarOptions}}
+		    </pui:panel>
+			<pui:panel header="two width={{width}}">
+				This is the second panel of the accordion.
+			</pui:panel>
+			<pui:panel header="three">
+				Panel number 3!
+		    </pui:panel>
+		</pui:accordion>
+	</pui:body>
+</f:view>

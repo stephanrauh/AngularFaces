@@ -5,13 +5,13 @@
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pui="http://beyondjava.net/kendoFaces">
 	<h:head>
-    <link href="styles/kendo.common.min.css" rel="stylesheet" />
-    <link href="styles/kendo.default.min.css" rel="stylesheet" />
-    <script src="js/jquery.min.js"></script>
-    <script src="js/angular.min.js"></script>
-    <script src="js/kendo.all.min.js"></script>
-    	</h:head>
-	<pui:body mainclassfile="kendo1controller.js" ng-app="KendoDemos">
+		<link href="../kendo/styles/kendo.common.min.css" rel="stylesheet" />
+		<link href="../kendo/styles/kendo.default.min.css" rel="stylesheet" />
+		<script src="../kendo/js/jquery.min.js"></script>
+		<script src="../kendo/js/angular.min.js"></script>
+		<script src="../kendo/js/kendo.all.min.js"></script>
+	</h:head>
+	<pui:body mainclassfile="kendo1controller.js" ng-app="KendoDemos" ng-controller="MyCtrl">
 		<h2>Welcome to AngularFaces 2.0 (Kendo style)!</h2>
     Based firmly in the future...
     
@@ -35,7 +35,8 @@
 				</tr>
 				<tr>
 					<td></td>
-					<td><pui:slider ng-model="width" style="width:400px;margin-bottom:20px"
+					<td><pui:slider ng-model="width"
+							style="width:400px;margin-bottom:20px"
 							k-tooltip="{ enabled: false }" /></td>
 					<td></td>
 				</tr>
