@@ -122,5 +122,14 @@
 			<renderer-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</renderer-type>
 		</component>
 	</tag>
+		<tag>
+		<description><![CDATA[pui:accordion is a collection of collapsible panels.]]></description>
+		<tag-name>accordion</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiAccordion.puiAccordion</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiAccordion.puiAccordion</renderer-type>
+		</component>
+	</tag>
+	
 
 </facelet-taglib>

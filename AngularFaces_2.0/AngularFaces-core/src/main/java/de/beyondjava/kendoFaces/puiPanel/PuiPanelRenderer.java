@@ -8,6 +8,7 @@ import javax.faces.context.*;
 import javax.faces.render.*;
 
 import de.beyondjava.angularFaces.core.RendererUtils;
+import de.beyondjava.kendoFaces.puiAccordion.PuiAccordion;
 
 /**
  * A pui:panel is a field group with a caption.
@@ -24,32 +25,29 @@ public class PuiPanelRenderer extends Renderer implements RendererUtils {
         LOGGER.info(getClass().getName() + " is being initialized");
     }
 
-    @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        //super.encodeBegin(context, component);
-        ResponseWriter writer = context.getResponseWriter();
-        PuiPanel tab = (PuiPanel) component;
-        writer.startElement("ul", component);
-        writer.writeAttribute("kendo-panel-bar", "", null);
-        renderMostCommonAttributes(writer, component);
-        writer.startElement("li", component);
-        writer.append(tab.getHeader());
-//        renderNonEmptyAttribute(writer, "header", tab.getHeader());
-        writer.startElement("div", component);
-//        encodeChildren(context, component);
-//        renderNonEmptyAttribute(writer, "collapsed", tab.getCollapsed());
-//        renderNonEmptyAttribute(writer, "toggleable", tab.getToggleable());
-//        renderNonEmptyAttribute(writer, "toggleOrientation", tab.getToggleOrientation());
-    }
+	@Override
+	public void encodeBegin(FacesContext context, UIComponent component)
+			throws IOException {
+		ResponseWriter writer = context.getResponseWriter();
+		if (!(component.getParent() instanceof PuiAccordion)) {
+			writer.startElement("ul", component);
+			writer.writeAttribute("kendo-panel-bar", "", null);
+			renderMostCommonAttributes(writer, component);
+		}
+		writer.startElement("li", component);
+		writer.append(((PuiPanel)component).getHeader());
+		writer.startElement("div", component);
+	}
 
-    @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        super.encodeEnd(context, component);
-        writer.endElement("div");
-        writer.endElement("li");
-        writer.endElement("ul");
-        writer.append("\r\n");
-    }
-
+	@Override
+	public void encodeEnd(FacesContext context, UIComponent component)
+			throws IOException {
+		ResponseWriter writer = context.getResponseWriter();
+		super.encodeEnd(context, component);
+		writer.endElement("div");
+		writer.endElement("li");
+		if (!(component.getParent() instanceof PuiAccordion)) {
+			writer.endElement("ul");
+		}
+	}
 };
