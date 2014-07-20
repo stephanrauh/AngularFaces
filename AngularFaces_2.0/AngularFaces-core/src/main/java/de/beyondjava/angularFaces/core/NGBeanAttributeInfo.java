@@ -17,6 +17,7 @@
 package de.beyondjava.angularFaces.core;
 
 import java.lang.annotation.Annotation;
+import java.sql.Date;
 
 import javax.faces.component.UIComponent;
 import javax.validation.constraints.*;
@@ -25,140 +26,149 @@ import javax.validation.constraints.*;
  * Stores server side validation and layout informations.
  */
 public class NGBeanAttributeInfo {
-    private Class<?> clazz;
-    private String coreExpression;
+	private Class<?> clazz;
+	private String coreExpression;
 
-    private boolean hasMax = false;
+	private boolean hasMax = false;
 
-    private boolean hasMaxSize = false;
-    private boolean hasMin = false;
-    private boolean hasMinSize = false;
-    /** Is the attribute a float or a double? */
-    private boolean isFloat = false;
-    /** Is the attribute one of the integer types (int, long, short, byte)? */
-    private boolean isInteger = false;
+	private boolean hasMaxSize = false;
+	private boolean hasMin = false;
+	private boolean hasMinSize = false;
+	/** Is the attribute a date? */
+	private boolean isDate = false;
 
-    /** Numeric values include integers and doubles. */
-    private boolean isNumeric = false;
-    private boolean isRequired = false;
-    private long max = 0;
-    private long maxSize = Integer.MIN_VALUE;
-    private long min = 0;
-    private long minSize = Integer.MIN_VALUE;
+	/** Is the attribute a float or a double? */
+	private boolean isFloat = false;
+	/** Is the attribute one of the integer types (int, long, short, byte)? */
+	private boolean isInteger = false;
 
-    /**
-     * Extract the server side validation and layout informations.
-     */
-    public NGBeanAttributeInfo(UIComponent component) {
-        readJSR303Annotations(component);
-    }
+	/** Numeric values include integers and doubles. */
+	private boolean isNumeric = false;
+	private boolean isRequired = false;
+	private long max = 0;
+	private long maxSize = Integer.MIN_VALUE;
+	private long min = 0;
+	private long minSize = Integer.MIN_VALUE;
 
-    public Class<?> getClazz() {
-        return clazz;
-    }
+	/**
+	 * Extract the server side validation and layout informations.
+	 */
+	public NGBeanAttributeInfo(UIComponent component) {
+		readJSR303Annotations(component);
+	}
 
-    /**
-     * @return the coreExpression
-     */
-    public String getCoreExpression() {
-        return this.coreExpression;
-    }
+	public Class<?> getClazz() {
+		return clazz;
+	}
 
-    public long getMax() {
-        return max;
-    }
+	/**
+	 * @return the coreExpression
+	 */
+	public String getCoreExpression() {
+		return this.coreExpression;
+	}
 
-    public long getMaxSize() {
-        return maxSize;
-    }
+	public long getMax() {
+		return max;
+	}
 
-    public long getMin() {
-        return min;
-    }
+	public long getMaxSize() {
+		return maxSize;
+	}
 
-    public long getMinSize() {
-        return minSize;
-    }
+	public long getMin() {
+		return min;
+	}
 
-    /**
-     * Is the attribute a float or a double?
-     */
-    public boolean isFloat() {
-        return this.isFloat;
-    }
+	public long getMinSize() {
+		return minSize;
+	}
 
-    public boolean isHasMax() {
-        return hasMax;
-    }
+	/** Is the attribute a date? */
+	public boolean isDate() {
+		return isDate;
+	}
 
-    public boolean isHasMaxSize() {
-        return hasMaxSize;
-    }
+	/**
+	 * Is the attribute a float or a double?
+	 */
+	public boolean isFloat() {
+		return this.isFloat;
+	}
 
-    public boolean isHasMin() {
-        return hasMin;
-    }
+	public boolean isHasMax() {
+		return hasMax;
+	}
 
-    public boolean isHasMinSize() {
-        return hasMinSize;
-    }
+	public boolean isHasMaxSize() {
+		return hasMaxSize;
+	}
 
-    /**
-     * Is the attribute one of the integer types (int, long, short, byte)?
-     */
-    public boolean isInteger() {
-        return isInteger;
-    }
+	public boolean isHasMin() {
+		return hasMin;
+	}
 
-    public boolean isNumeric() {
-        return isNumeric;
-    }
+	public boolean isHasMinSize() {
+		return hasMinSize;
+	}
 
-    public boolean isRequired() {
-        return isRequired;
-    }
+	/**
+	 * Is the attribute one of the integer types (int, long, short, byte)?
+	 */
+	public boolean isInteger() {
+		return isInteger;
+	}
 
-    /**
-     * Read the JSR 303 annotations from a bean\"s attribute.
-     *
-     * @param component
-     */
-    private void readJSR303Annotations(UIComponent component) {
-        coreExpression = ELTools.getCoreValueExpression(component);
-        Annotation[] annotations = ELTools.readAnnotations(component);
-        if (null != annotations) {
-            for (Annotation a : annotations) {
-                if (a instanceof Max) {
-                    long maximum = ((Max) a).value();
-                    max = maximum;
-                    hasMax = true;
-                }
-                else if (a instanceof Min) {
-                    long minimum = ((Min) a).value();
-                    hasMin = true;
-                    min = minimum;
-                }
-                else if (a instanceof Size) {
-                    maxSize = ((Size) a).max();
-                    hasMaxSize = maxSize > 0;
-                    minSize = ((Size) a).min();
-                    hasMinSize = minSize > 0;
-                }
-                else if (a instanceof NotNull) {
-                    isRequired = true;
-                }
-            }
-        }
+	public boolean isNumeric() {
+		return isNumeric;
+	}
 
-        clazz = ELTools.getType(component);
-        if ((clazz == Integer.class) || (clazz == int.class) || (clazz == Byte.class) || (clazz == byte.class)
-                || (clazz == Short.class) || (clazz == short.class) || (clazz == Long.class) || (clazz == long.class)) {
-            isInteger = true;
-            isNumeric = true;
-        }
-        else if ((clazz == Double.class) || (clazz == double.class) || (clazz == Float.class) || (clazz == float.class)) {
-            isFloat = true;
-            isNumeric = true;
-        }
-    }
+	public boolean isRequired() {
+		return isRequired;
+	}
+
+	/**
+	 * Read the JSR 303 annotations from a bean\"s attribute.
+	 *
+	 * @param component
+	 */
+	private void readJSR303Annotations(UIComponent component) {
+		coreExpression = ELTools.getCoreValueExpression(component);
+		Annotation[] annotations = ELTools.readAnnotations(component);
+		if (null != annotations) {
+			for (Annotation a : annotations) {
+				if (a instanceof Max) {
+					long maximum = ((Max) a).value();
+					max = maximum;
+					hasMax = true;
+				} else if (a instanceof Min) {
+					long minimum = ((Min) a).value();
+					hasMin = true;
+					min = minimum;
+				} else if (a instanceof Size) {
+					maxSize = ((Size) a).max();
+					hasMaxSize = maxSize > 0;
+					minSize = ((Size) a).min();
+					hasMinSize = minSize > 0;
+				} else if (a instanceof NotNull) {
+					isRequired = true;
+				}
+			}
+		}
+
+		clazz = ELTools.getType(component);
+		if ((clazz == Integer.class) || (clazz == int.class)
+				|| (clazz == Byte.class) || (clazz == byte.class)
+				|| (clazz == Short.class) || (clazz == short.class)
+				|| (clazz == Long.class) || (clazz == long.class)) {
+			isInteger = true;
+			isNumeric = true;
+		} else if ((clazz == Double.class) || (clazz == double.class)
+				|| (clazz == Float.class) || (clazz == float.class)) {
+			isFloat = true;
+			isNumeric = true;
+		} else if ((clazz==Date.class) || (clazz==java.util.Date.class)) {
+			isDate=true;
+		}
+	}
 }
