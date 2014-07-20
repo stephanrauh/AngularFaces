@@ -2,15 +2,20 @@ package de.beyondjava.kendoFaces.puiPanel;
 
 import java.util.logging.Logger;
 
-import javax.faces.component.*;
+import javax.faces.component.FacesComponent;
+import javax.faces.component.StateHelper;
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
+
+import de.beyondjava.angularFaces.common.IStyle;
+import de.beyondjava.angularFaces.common.IStyleClass;
 
 /**
  * A pui:panel is a field group with a caption.
  */
 @FacesComponent("de.beyondjava.kendoFaces.puiPanel.PuiPanel")
-public class PuiPanel extends UIOutput {
+public class PuiPanel extends UIOutput  implements IStyle, IStyleClass {
     enum propertyKeys {
         collapsed, header, toggleable, toggleOrientation
     }
@@ -26,6 +31,14 @@ public class PuiPanel extends UIOutput {
         LOGGER.info(getFamily());
         Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
         LOGGER.info(renderer.getClass().getName());
+    }
+    /**
+     * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender
+     * methods.
+     */
+    @Override
+    public StateHelper getStateHelper() {
+        return super.getStateHelper();
     }
 
     public String getCollapsed() {
@@ -59,5 +72,4 @@ public class PuiPanel extends UIOutput {
     public void setToggleOrientation(String toggleOrientation) {
         getStateHelper().put(propertyKeys.toggleOrientation, toggleOrientation);
     }
-
 }

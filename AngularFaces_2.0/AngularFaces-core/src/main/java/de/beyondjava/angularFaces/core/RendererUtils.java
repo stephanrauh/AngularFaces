@@ -17,12 +17,18 @@
 package de.beyondjava.angularFaces.core;
 
 import java.io.IOException;
+import java.util.Map.Entry;
 
+import javax.faces.component.UIComponent;
 import javax.faces.context.ResponseWriter;
+
+import de.beyondjava.angularFaces.common.IModel;
+import de.beyondjava.angularFaces.common.IStyle;
+import de.beyondjava.angularFaces.common.IStyleClass;
 
 public interface RendererUtils {
     /**
-     * Checks whether an attibute is empty, and adds it to the HTML code if it's not.
+     * Checks whether an attribute is empty, and adds it to the HTML code if it's not.
      * 
      * @param writer
      * @param attributeValue
@@ -38,4 +44,26 @@ public interface RendererUtils {
         }
     }
 
+    default public void renderMostCommonAttributes(ResponseWriter writer, UIComponent component) throws IOException {
+    	if (component instanceof IStyle) {
+    		String s=((IStyle) component).getStyle();
+    		if (null!=s && s.length()>0) {
+    			writer.writeAttribute("style", s, "style");
+    		}
+    	}
+    	if (component instanceof IStyleClass) {
+    		String s=((IStyleClass) component).getStyleClass();
+    		if (null!=s && s.length()>0) {
+    			writer.writeAttribute("class", s, "class");
+    		}
+    	}
+    	if (component instanceof IModel) {
+    		String s=((IModel) component).getNgModel();
+    		if (null!=s && s.length()>0) {
+    			writer.writeAttribute("ng-model", s, "ng-model");
+    		}
+    	}
+    }
+
 }
+;

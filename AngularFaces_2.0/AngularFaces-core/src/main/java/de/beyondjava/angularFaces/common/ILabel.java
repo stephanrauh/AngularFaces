@@ -16,17 +16,10 @@
  */
 package de.beyondjava.angularFaces.common;
 
-import javax.faces.component.StateHelper;
+import javax.faces.component.UIComponent;
 
 public interface ILabel {
     public default String getLabel() {
-        return (String) getStateHelper().eval("label", null);
+    	return (String) ((UIComponent)this).getAttributes().get("label");
     }
-
-    public StateHelper getStateHelper();
-
-    public default void setLabel(String label) {
-        getStateHelper().put("label", label);
-    }
-
 }

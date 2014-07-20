@@ -42,6 +42,24 @@
       <required>false</required>
       <type>java.lang.String</type>
     </attribute>
+    <attribute>
+      <description><![CDATA[optional CSS declarations]]></description>
+      <name>style</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[optional CSS declarations]]></description>
+      <name>styleClass</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[the ng-model (only needed if no value attribute is set, or if the ng-model is to be different than the JSF value attribute)]]></description>
+      <name>ng-model</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
   </tag>
   
     <tag>
@@ -76,6 +94,26 @@
       <required>false</required>
       <type>java.lang.String</type>
     </attribute>
+    <attribute>
+      <description><![CDATA[optional CSS declarations]]></description>
+      <name>style</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description><![CDATA[optional CSS declarations]]></description>
+      <name>styleClass</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
   </tag>
+    <tag>
+    <description><![CDATA[Angular-aware text input field.]]></description>
+    <tag-name>inputtext</tag-name>
+    <component>
+      <component-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</component-type>
+      <renderer-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</renderer-type>
+    </component>
+    </tag>
   
 </facelet-taglib>

@@ -16,17 +16,10 @@
  */
 package de.beyondjava.angularFaces.common;
 
-import javax.faces.component.StateHelper;
+import javax.faces.component.UIComponent;
 
 public interface IEditable {
     public default String getEditable() {
-        return (String) getStateHelper().eval("editable", null);
+    	return (String) ((UIComponent)this).getAttributes().get("editable");
     }
-
-    public StateHelper getStateHelper();
-
-    public default void setEditable(String label) {
-        getStateHelper().put("editable", label);
-    }
-
 }

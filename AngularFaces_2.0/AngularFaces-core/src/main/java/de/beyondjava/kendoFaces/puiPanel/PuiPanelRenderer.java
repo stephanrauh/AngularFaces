@@ -31,6 +31,7 @@ public class PuiPanelRenderer extends Renderer implements RendererUtils {
         PuiPanel tab = (PuiPanel) component;
         writer.startElement("ul", component);
         writer.writeAttribute("kendo-panel-bar", "", null);
+        renderMostCommonAttributes(writer, component);
         writer.startElement("li", component);
         writer.append(tab.getHeader());
 //        renderNonEmptyAttribute(writer, "header", tab.getHeader());
@@ -48,6 +49,7 @@ public class PuiPanelRenderer extends Renderer implements RendererUtils {
         writer.endElement("div");
         writer.endElement("li");
         writer.endElement("ul");
+        writer.append("\r\n");
     }
 
 };

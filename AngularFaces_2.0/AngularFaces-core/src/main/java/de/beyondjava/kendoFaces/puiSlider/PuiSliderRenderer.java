@@ -29,13 +29,18 @@ public class PuiSliderRenderer extends BodyRenderer implements RendererUtils {
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         // super.encodeBegin(context, component);
+    	PuiSlider slider = (PuiSlider) component;
         ResponseWriter writer = context.getResponseWriter();
+        writer.append("\r\n");
+        writer.startElement("span", component);
+
         writer.startElement("div", component);
         writer.writeAttribute("kendo-slider", "", null);
+        renderMostCommonAttributes(writer, component);
 
-        String orientation = (String) component.getAttributes().get("orientation");
+        String orientation = (String) slider.getOrientation();
         if ((null != orientation) && (!orientation.equalsIgnoreCase("horizontal"))) {
-            writer.writeAttribute("k-orientation", orientation, null);
+            writer.writeAttribute("k-orientation", "'"+orientation+"'", null);
         }
     }
 
@@ -43,5 +48,7 @@ public class PuiSliderRenderer extends BodyRenderer implements RendererUtils {
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         writer.endElement("div");
+        writer.endElement("span");
+        writer.append("\r\n");
     }
 };

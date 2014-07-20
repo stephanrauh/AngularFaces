@@ -16,17 +16,11 @@
  */
 package de.beyondjava.angularFaces.common;
 
-import javax.faces.component.StateHelper;
+import javax.faces.component.UIComponent;
 
 public interface IValue {
-    StateHelper getStateHelper();
-
     public default String getValue() {
-        return (String) getStateHelper().eval("value", null);
-    }
-
-    public default void setValue(String value) {
-        getStateHelper().put("value", value);
+    	return (String) ((UIComponent)this).getAttributes().get("value");
     }
 
 }
