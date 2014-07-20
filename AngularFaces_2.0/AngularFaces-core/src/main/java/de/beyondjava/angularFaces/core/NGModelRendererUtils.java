@@ -32,7 +32,7 @@ public interface NGModelRendererUtils extends RendererUtils {
      * @return
      * @throws IOException
      */
-    public default String renderNGModel(UIComponent input, ResponseWriter writer) throws IOException {
+    public default String renderNGModel(UIComponent input, ResponseWriter writer)  {
         String coreValueExpression = ELTools.getCoreValueExpression(input);
         while ((input != null) && (!(input instanceof IAngularController))) {
             input = input.getParent();

@@ -27,43 +27,86 @@ import de.beyondjava.angularFaces.common.IStyle;
 import de.beyondjava.angularFaces.common.IStyleClass;
 
 public interface RendererUtils {
-    /**
-     * Checks whether an attribute is empty, and adds it to the HTML code if it's not.
-     * 
-     * @param writer
-     * @param attributeValue
-     * @param input
-     * @param attibuteName
-     *
-     * @throws IOException
-     */
-    default public void renderNonEmptyAttribute(ResponseWriter writer, final String attributeName,
-            final Object attributeValue) throws IOException {
-        if (attributeValue != null) {
-            writer.writeAttribute(attributeName, String.valueOf(attributeValue), attributeName);
-        }
-    }
+	/**
+	 * Checks whether an attribute is empty, and adds it to the HTML code if
+	 * it's not.
+	 * 
+	 * @param writer
+	 * @param attributeValue
+	 * @param input
+	 * @param attibuteName
+	 *
+	 * @throws IOException
+	 */
+	default public void renderNonEmptyAttribute(ResponseWriter writer,
+			final String attributeName, final Object attributeValue)
+			 {
+		if (attributeValue != null) {
+			try
+			{
+			writer.writeAttribute(attributeName,
+					String.valueOf(attributeValue), attributeName);
+			}
+			catch (IOException exception) {
+				System.out.println("TODO: an IOException has been thrown" + exception.getMessage());
+				exception.printStackTrace();
+			}
+		}
+	}
 
-    default public void renderMostCommonAttributes(ResponseWriter writer, UIComponent component) throws IOException {
-    	if (component instanceof IStyle) {
-    		String s=((IStyle) component).getStyle();
-    		if (null!=s && s.length()>0) {
-    			writer.writeAttribute("style", s, "style");
-    		}
-    	}
-    	if (component instanceof IStyleClass) {
-    		String s=((IStyleClass) component).getStyleClass();
-    		if (null!=s && s.length()>0) {
-    			writer.writeAttribute("class", s, "class");
-    		}
-    	}
-    	if (component instanceof IModel) {
-    		String s=((IModel) component).getNgModel();
-    		if (null!=s && s.length()>0) {
-    			writer.writeAttribute("ng-model", s, "ng-model");
-    		}
-    	}
-    }
+	default public void renderMostCommonAttributes(ResponseWriter writer,
+			UIComponent component) {
+		try
+		{
+		if (component instanceof IStyle) {
+			String s = ((IStyle) component).getStyle();
+			if (null != s && s.length() > 0) {
+				writer.writeAttribute("style", s, "style");
+			}
+		}
+		if (component instanceof IStyleClass) {
+			String s = ((IStyleClass) component).getStyleClass();
+			if (null != s && s.length() > 0) {
+				writer.writeAttribute("class", s, "class");
+			}
+		}
+		if (component instanceof IModel) {
+			String s = ((IModel) component).getNgModel();
+			if (null != s && s.length() > 0) {
+				writer.writeAttribute("ng-model", s, "ng-model");
+			} else {
+				String coreValueExpression = ELTools
+						.getCoreValueExpression(component);
+				if (null != coreValueExpression
+						&& coreValueExpression.length() > 0) {
+					int pos = coreValueExpression.lastIndexOf('.');
+					if (pos >= 0)
+						s = coreValueExpression.substring(pos + 1);
+					else
+						s = coreValueExpression;
+					writer.writeAttribute("ng-model", s, "ng-model");
+				}
+			}
 
-}
-;
+		}
+		String coreValueExpression = ELTools
+				.getCoreValueExpression(component);
+		if (null != coreValueExpression
+				&& coreValueExpression.length() > 0) {
+			String s;
+			int pos = coreValueExpression.lastIndexOf('.');
+			if (pos >= 0)
+				s = coreValueExpression.substring(pos + 1);
+			else
+				s = coreValueExpression;
+			writer.writeAttribute("jsf-model", s, "jsf-model");
+
+		}
+		}
+		catch (IOException e) {
+			System.out.println("TODO: an IOException has been thrown " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+};

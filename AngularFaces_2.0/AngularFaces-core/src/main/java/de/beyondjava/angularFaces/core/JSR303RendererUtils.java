@@ -30,7 +30,7 @@ public interface JSR303RendererUtils extends RendererUtils {
      * @param input
      * @throws IOException
      */
-    public default void renderJSR303Constraints(ResponseWriter writer, UIComponent input) throws IOException {
+    public default void renderJSR303Constraints(ResponseWriter writer, UIComponent input)  {
         NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(input);
         Object value = ELTools.evalAsObject("#{" + infos.getCoreExpression() + "}");
         renderNonEmptyAttribute(writer, "value", value == null ? null : String.valueOf(value));
@@ -50,7 +50,13 @@ public interface JSR303RendererUtils extends RendererUtils {
             renderNonEmptyAttribute(writer, "required", "true");
         }
         if (infos.isNumeric()) {
+        	try {
             writer.writeAttribute("type", "number", "type");
+        	}
+        	catch (Exception e) {
+        		System.out.println("TODO: an IOException has been thrown." + e.getMessage());
+        		e.printStackTrace();
+        	}
         }
     }
 
