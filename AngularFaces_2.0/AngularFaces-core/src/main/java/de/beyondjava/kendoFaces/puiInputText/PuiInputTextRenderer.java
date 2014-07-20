@@ -1,6 +1,7 @@
 package de.beyondjava.kendoFaces.puiInputText;
 
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
@@ -35,7 +36,15 @@ public class PuiInputTextRenderer extends TextRenderer implements RendererUtils,
     protected String writeIdAttributeIfNecessary(FacesContext context,
             ResponseWriter writer,
             UIComponent component) {
+    	try {
         renderMostCommonAttributes(writer, component);
+        String type = ((PuiInputText)component).getTypeSpecificAttributes();
+        if (null != type && type.length()>0) {
+        	writer.writeAttribute(type, "", type);
+        }
+    	} catch (Exception e) {
+    		LOGGER.log(Level.SEVERE, "TODO: An exception has been thrown." + e.getMessage(),e);
+    	}
         return super.writeIdAttributeIfNecessary(context, writer, component);
     }
 

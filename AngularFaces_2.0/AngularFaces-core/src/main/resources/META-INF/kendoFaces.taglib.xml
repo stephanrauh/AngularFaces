@@ -1,119 +1,126 @@
 <facelet-taglib version="2.0"
-  xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd"
->
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
 
-  <namespace>http://beyondjava.net/kendoFaces</namespace>
+	<namespace>http://beyondjava.net/kendoFaces</namespace>
 
-  <tag>
-    <description><![CDATA[Secure add a certain - albeit not perfect - level of security to your application.]]></description>
-    <tag-name>secure</tag-name>
-    <component>
-      <component-type>de.beyondjava.Secure</component-type>
-      <renderer-type>de.beyondjava.Secure</renderer-type>
-    </component>
-    <attribute>
-      <description><![CDATA[User-defined security checker class (fully qualified class name).]]></description>
-      <name>checkedBy</name>
-      <required>false</required>
-      <type>java.lang.String</type>
-    </attribute>
-  </tag>
+	<tag>
+		<description><![CDATA[Secure add a certain - albeit not perfect - level of security to your application.]]></description>
+		<tag-name>secure</tag-name>
+		<component>
+			<component-type>de.beyondjava.Secure</component-type>
+			<renderer-type>de.beyondjava.Secure</renderer-type>
+		</component>
+		<attribute>
+			<description><![CDATA[User-defined security checker class (fully qualified class name).]]></description>
+			<name>checkedBy</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
 
-  <tag>
-    <description><![CDATA[pui:body renders the include statements needed to initialize Kendo and AngularJS.]]></description>
-    <tag-name>body</tag-name>
-    <component>
-      <component-type>de.beyondjava.kendoFaces.puiBody.PuiBody</component-type>
-      <renderer-type>de.beyondjava.kendoFaces.puiBody.PuiBody</renderer-type>
-    </component>
-  </tag>
+	<tag>
+		<description><![CDATA[pui:body renders the include statements needed to initialize Kendo and AngularJS.]]></description>
+		<tag-name>body</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiBody.PuiBody</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiBody.PuiBody</renderer-type>
+		</component>
+	</tag>
 
-  <tag>
-    <description><![CDATA[Angular-aware slider.]]></description>
-    <tag-name>slider</tag-name>
-    <component>
-      <component-type>de.beyondjava.kendoFaces.puiSlider.PuiSlider</component-type>
-      <renderer-type>de.beyondjava.kendoFaces.puiSlider.PuiSlider</renderer-type>
-    </component>
-    <attribute>
-      <description><![CDATA[The label to draw in front of the field and to use in error message]]></description>
-      <name>label</name>
-      <required>false</required>
-      <type>java.lang.String</type>
-    </attribute>
-    <attribute>
-      <description><![CDATA[optional CSS declarations]]></description>
-      <name>style</name>
-      <required>false</required>
-      <type>java.lang.String</type>
-    </attribute>
-    <attribute>
-      <description><![CDATA[optional CSS declarations]]></description>
-      <name>styleClass</name>
-      <required>false</required>
-      <type>java.lang.String</type>
-    </attribute>
-    <attribute>
-      <description><![CDATA[the ng-model (only needed if no value attribute is set, or if the ng-model is to be different than the JSF value attribute)]]></description>
-      <name>ng-model</name>
-      <required>false</required>
-      <type>java.lang.String</type>
-    </attribute>
-  </tag>
-  
-    <tag>
-    <description><![CDATA[pui:panel is a field group with a caption.]]></description>
-    <tag-name>panel</tag-name>
-    <component>
-      <component-type>de.beyondjava.kendoFaces.puiPanel.PuiPanel</component-type>
-      <renderer-type>de.beyondjava.kendoFaces.puiPanel.PuiPanel</renderer-type>
-    </component>
+	<tag>
+		<description><![CDATA[Angular-aware slider.]]></description>
+		<tag-name>slider</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiSlider.PuiSlider</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiSlider.PuiSlider</renderer-type>
+		</component>
+		<attribute>
+			<description><![CDATA[The label to draw in front of the field and to use in error message]]></description>
+			<name>label</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[optional CSS declarations]]></description>
+			<name>style</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[optional CSS declarations]]></description>
+			<name>styleClass</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[the ng-model (only needed if no value attribute is set, or if the ng-model is to be different than the JSF value attribute)]]></description>
+			<name>ng-model</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
 
-    <attribute>
-      <description><![CDATA[Is the panel initially collapsed? Default: false]]></description>
-      <name>collapsed</name>
-      <required>false</required>
-      <type>java.lang.String</type>
-    </attribute>
-    <attribute>
-      <description><![CDATA[Caption of the panel.]]></description>
-      <name>header</name>
-      <required>true</required>
-      <type>java.lang.String</type>
-    </attribute>
-    <attribute>
-      <description><![CDATA[Can the panel be collapsed?]]></description>
-      <name>toggleable</name>
-      <required>false</required>
-      <type>java.lang.String</type>
-    </attribute>
-    <attribute>
-      <description><![CDATA[Is the panel to collapse horizontally or vertical? Legal values: vertical and horizontal. Default: vertical.]]></description>
-      <name>toggleOrientation</name>
-      <required>false</required>
-      <type>java.lang.String</type>
-    </attribute>
-    <attribute>
-      <description><![CDATA[optional CSS declarations]]></description>
-      <name>style</name>
-      <required>false</required>
-      <type>java.lang.String</type>
-    </attribute>
-    <attribute>
-      <description><![CDATA[optional CSS declarations]]></description>
-      <name>styleClass</name>
-      <required>false</required>
-      <type>java.lang.String</type>
-    </attribute>
-  </tag>
-    <tag>
-    <description><![CDATA[Angular-aware text input field.]]></description>
-    <tag-name>inputtext</tag-name>
-    <component>
-      <component-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</component-type>
-      <renderer-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</renderer-type>
-    </component>
-    </tag>
-  
+	<tag>
+		<description><![CDATA[pui:panel is a field group with a caption.]]></description>
+		<tag-name>panel</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiPanel.PuiPanel</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiPanel.PuiPanel</renderer-type>
+		</component>
+
+		<attribute>
+			<description><![CDATA[Is the panel initially collapsed? Default: false]]></description>
+			<name>collapsed</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Caption of the panel.]]></description>
+			<name>header</name>
+			<required>true</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Can the panel be collapsed?]]></description>
+			<name>toggleable</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Is the panel to collapse horizontally or vertical? Legal values: vertical and horizontal. Default: vertical.]]></description>
+			<name>toggleOrientation</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[optional CSS declarations]]></description>
+			<name>style</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[optional CSS declarations]]></description>
+			<name>styleClass</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+	<tag>
+		<description><![CDATA[Angular-aware text input field.]]></description>
+		<tag-name>inputtext</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</renderer-type>
+		</component>
+	</tag>
+	<tag>
+		<description><![CDATA[Angular-aware date picker.]]></description>
+		<tag-name>date</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiDate.puiDate</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</renderer-type>
+		</component>
+	</tag>
+
 </facelet-taglib>
