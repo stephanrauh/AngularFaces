@@ -122,7 +122,7 @@
 			<renderer-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</renderer-type>
 		</component>
 	</tag>
-		<tag>
+	<tag>
 		<description><![CDATA[pui:accordion is a collection of collapsible panels.]]></description>
 		<tag-name>accordion</tag-name>
 		<component>
@@ -130,6 +130,52 @@
 			<renderer-type>de.beyondjava.kendoFaces.puiAccordion.puiAccordion</renderer-type>
 		</component>
 	</tag>
-	
+
+	<tag>
+		<description><![CDATA[<pui-grid> makes it a little easier to create simple but decently looking input dialogs. Typically it contains a number of input fields that are automatically aligned to each other. More precisely, <pui-grid> creates a column consisting of three columns. The first column is the label (which is automatically extracted from the component), the second is the components itself and the third column is the field-specific error message. Alternatively, the error message is placed below its field. Likewise, the label can be put above the input field.]]></description>
+		<tag-name>grid</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiGrid.PuiGrid</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiGrid.PuiGrid</renderer-type>
+		</component>
+		<attribute>
+			<description><![CDATA[Do you want to put the error message below or behind the field? Legal values: "below" and "behind". Default value: "below".]]></description>
+			<name>errorMessagePosition</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Do you want to put the label above or in front of the field? Legal values: "above" and "before". Default value: "before".]]></description>
+			<name>labelPosition</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[You you want to display labels?]]></description>
+			<name>showLabels</name>
+			<required>false</required>
+			<type>java.lang.Boolean</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[How many columns of fields do you need? Please note the difference between a pui:grid column and an HTML column. pui:grid columns consists of two or three HTML columns (the label, the component and optionally the error message).]]></description>
+			<name>columns</name>
+			<required>false</required>
+			<type>java.lang.Integer</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[The CSS style of the entire grid.]]></description>
+			<name>style</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[The CSS class of the entire grid.]]></description>
+			<name>styleClass</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+
+
 
 </facelet-taglib>
