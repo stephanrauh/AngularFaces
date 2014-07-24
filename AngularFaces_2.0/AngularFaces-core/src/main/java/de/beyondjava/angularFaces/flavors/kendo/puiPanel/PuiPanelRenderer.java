@@ -35,8 +35,25 @@ public class PuiPanelRenderer extends Renderer implements RendererUtils {
 			renderMostCommonAttributes(writer, component);
 		}
 		writer.startElement("li", component);
-		writer.append(((PuiPanel)component).getHeader());
+		PuiPanel puiPanel = (PuiPanel)component;
+		writer.append(puiPanel.getHeader());
 		writer.startElement("div", component);
+		String style=puiPanel.getContentStyle();
+		if (null==style) style="";
+		String height=puiPanel.getHeight();
+		if (null != height) {
+			if (style.length()>0) style+=";";
+			style += "height:"+ height;
+		}
+		String width=puiPanel.getWidth();
+		if (null != width) {
+			if (style.length()>0) style+=";";
+			style += "width:"+ width;
+		}
+		if (style.length()>0) {
+			writer.writeAttribute("style", style, "style");
+		}
+			
 	}
 
 	@Override
