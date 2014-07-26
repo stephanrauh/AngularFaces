@@ -22,4 +22,8 @@ public interface IStyleClass {
     public default String getStyleClass() {
     	return (String) ((UIComponent)this).getAttributes().get("styleClass");
     }
+    public default void setStyleClass(String styleClass) {
+    	((UIComponent)this).getAttributes().remove("styleClass");
+    	((UIComponent)this).getAttributes().put("styleClass", styleClass);
+    }
 }
