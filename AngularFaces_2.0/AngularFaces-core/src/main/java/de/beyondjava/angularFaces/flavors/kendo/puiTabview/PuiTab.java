@@ -28,16 +28,16 @@ import javax.faces.render.Renderer;
  * Kudos: This component's development was helped a lot by a stackoverflow answer:
  * http://stackoverflow.com/questions/20531349/struggling-to-implement-tabs-in-angulardart.
  */
-@FacesComponent("de.beyondjava.angularFaces.puiTabview.PuiTab")
+@FacesComponent("de.beyondjava.kendoFaces.puiTabview.PuiTab")
 public class PuiTab extends UIOutput {
     enum propertyKeys {
         closeable, selected, title
     }
 
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiTabview.PuiTab");
+    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiTabview.PuiTab");
 
     static {
-        LOGGER.info("AngularFaces component 'PuiTab' is available for use.");
+        LOGGER.info("KendoFaces component 'PuiTab' is available for use.");
     }
 
     public PuiTab() {

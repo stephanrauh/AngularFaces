@@ -175,7 +175,38 @@
 			<type>java.lang.String</type>
 		</attribute>
 	</tag>
-
-
-
+	<tag>
+		<description><![CDATA[pui:tab renders the a single tab.]]></description>
+		<tag-name>tab</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiTabview.PuiTab</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiTabview.PuiTab</renderer-type>
+		</component>
+		<attribute>
+			<description><![CDATA[Caption of the tab]]></description>
+			<name>title</name>
+			<required>true</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Can the tab be closed?]]></description>
+			<name>closeable</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Is the tab initially selected? Default: false]]></description>
+			<name>selected</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+	<tag>
+		<description><![CDATA[pui:tabview renders a tab strip.]]></description>
+		<tag-name>tabview</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiTabview.PuiTabView</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiTabview.PuiTabView</renderer-type>
+		</component>
+	</tag>
 </facelet-taglib>
