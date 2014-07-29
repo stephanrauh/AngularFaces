@@ -30,7 +30,7 @@ public class PuiAccordionRenderer extends Renderer implements RendererUtils {
 			throws IOException {
 		ResponseWriter writer = context.getResponseWriter();
 		writer.startElement("ul", component);
-		writer.writeAttribute("ng-controller", component.getClientId()
+		writer.writeAttribute("ng-controller", component.getClientId().replace(':', '_')
 				+ "AccordionCtrl", "ng-controller");
 		writer.writeAttribute("kendo-panel-bar", "", null);
 		String options = (String) component.getAttributes().get("k-options");
@@ -62,7 +62,7 @@ public class PuiAccordionRenderer extends Renderer implements RendererUtils {
 			expandMode = "single";
 		if (null != expandMode && expandMode.length() > 0) {
 			String s = "<script>function "
-					+ component.getClientId()
+					+ component.getClientId().replace(':', '_')
 					+ "AccordionCtrl($scope) { $scope.panelBarOptions ={ expandMode : '"
 					+ expandMode + "' };}</script>";
 			writer.write(s);
