@@ -16,22 +16,22 @@
     	Based firmly in the future...
     
     	<pui:grid style="width:300px" columns="2" showlabels="false">
-			<pui:panel header="What is it?">
-		    	A pui:panel groups a field group.
-		    </pui:panel>
-			<pui:panel header="How to use it?">
-				ToDo: One or two source codes.
-			</pui:panel>
-			<pui:panel header="How to configure it?" colspan="2">
-				pui:panel has these properties:
-				<ul>
-					<li>header</li>
-					<li>toggleable</li>
-					<li>collapsed</li>
-					<li>style</li>
-					<li>styleClass</li>
-				</ul>
-			</pui:panel>
+			<pui:tabview>
+				<pui:tab title="What is it?">
+					A pui:tabview is a tab strip.
+				</pui:tab>
+				<pui:tab title="How to use it?" selected="true">
+					ToDo: One or two source codes.
+				</pui:tab>
+				<pui:tab title="How to configure it?">
+					pui:tabview has these properties:
+					<ul>
+						<li>title</li>
+						<li>closeable (not implemented yet)</li>
+						<li>selected</li>
+					</ul>
+				</pui:tab>
+			</pui:tabview>
 		</pui:grid>
 	</pui:body>
 </f:view>
