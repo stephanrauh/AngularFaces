@@ -1,6 +1,5 @@
 angular.module("KendoDemos", [ "kendo.directives" ]);
 function MyCtrl($scope) {
-	$scope.width = 0;
+	$scope.width = 4;
 	$scope.height = 0;
-	alert("Hi!");
 }
