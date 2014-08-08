@@ -9,6 +9,7 @@ import javax.faces.context.*;
 import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.BodyRenderer;
+import com.sun.faces.renderkit.html_basic.ScriptRenderer;
 
 import de.beyondjava.angularFaces.core.RendererUtils;
 
@@ -17,44 +18,57 @@ import de.beyondjava.angularFaces.core.RendererUtils;
  */
 @FacesRenderer(componentFamily = "javax.faces.Output", rendererType = "de.beyondjava.kendoFaces.puiBody.PuiBody")
 public class PuiBodyRenderer extends BodyRenderer implements RendererUtils {
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiButton.PuiBodyRenderer");
+	private static final Logger LOGGER = Logger
+			.getLogger("de.beyondjava.kendoFaces.puiButton.PuiBodyRenderer");
 
-    static {
-        LOGGER.info("KendoFaces renderer of 'PuiBody' is available for use.");
-    }
+	static {
+		LOGGER.info("KendoFaces renderer of 'PuiBody' is available for use.");
+	}
 
-    public PuiBodyRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
+	public PuiBodyRenderer() {
+		LOGGER.info(getClass().getName() + " is being initialized");
+	}
 
-    @Override
-    public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        super.encodeBegin(context, component);
-        ResponseWriter writer = context.getResponseWriter();
-        String ngApp = (String) component.getAttributes().get("ng-app");
-        if (null != ngApp) {
-            writer.writeAttribute("ng-app", ngApp, null);
-        }
-        else {
-            writer.append(" ng-app ");
-        }
-        String ngController = (String) component.getAttributes().get("ng-controller");
-        renderNonEmptyAttribute(writer, "ng-controller", ngController);
+	@Override
+	public void encodeBegin(FacesContext context, UIComponent component)
+			throws IOException {
+		super.encodeBegin(context, component);
+		ResponseWriter writer = context.getResponseWriter();
+		String ngApp = (String) component.getAttributes().get("ng-app");
+		if (null != ngApp) {
+			writer.writeAttribute("ng-app", ngApp, null);
+		} else {
+			writer.append(" ng-app ");
+		}
+		String ngController = (String) component.getAttributes().get(
+				"ng-controller");
+		renderNonEmptyAttribute(writer, "ng-controller", ngController);
+		writer.writeAttribute("onload", "restoreValues()", null);
 
-    }
+	}
 
-    @Override
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-        ResponseWriter writer = context.getResponseWriter();
-        String main = (String) component.getAttributes().get("mainclassfile");
-        if (main == null) {
-            main = "main.js";
-        }
-        if (!main.endsWith(".js")) {
-            main = main + ".js";
-        }
-        writer.append("<script src='" + main + "'></script>");
-
-        super.encodeEnd(context, component);
-    }
+	@Override
+	public void encodeEnd(FacesContext context, UIComponent component)
+			throws IOException {
+		ResponseWriter writer = context.getResponseWriter();
+		String main = (String) component.getAttributes().get("mainclassfile");
+		if (main == null) {
+			main = "main.js";
+		}
+		if (!main.endsWith(".js")) {
+			main = main + ".js";
+		}
+		writer.append("<script src='" + main + "'></script>");
+		
+		PuiScriptRenderer r = new PuiScriptRenderer();
+		r.encodeScript(context, component, "glue.js", "AngularFaces");
+ 
+//		writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
+        writer.append("\r\n");
+        writer.append("  <script>storeValues();</script>");
+        writer.append("\r\n");
+ 
+		super.encodeEnd(context, component);
+		
+	}
 };

@@ -209,4 +209,13 @@
 			<renderer-type>de.beyondjava.kendoFaces.puiTabview.PuiTabView</renderer-type>
 		</component>
 	</tag>
+	<tag>
+		<description><![CDATA[pui:button is a command button that reactivates AngularJS after an AJAX request.]]></description>
+		<tag-name>button</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiButton.PuiButton</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiButton.PuiButton</renderer-type>
+		</component>
+	</tag>
+
 </facelet-taglib>
