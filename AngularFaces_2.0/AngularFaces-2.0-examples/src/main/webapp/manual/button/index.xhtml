@@ -12,35 +12,37 @@
 		<script src="../kendo/js/kendo.all.min.js"></script>
 	</h:head>
 	<pui:body ng-app="KendoDemos" ng-controller="MyCtrl">
-		<h2>Welcome to AngularFaces 2.0 (Kendo style)!</h2>
+		<h:form>
+			<h2>Welcome to AngularFaces 2.0 (Kendo style)!</h2>
     	Based firmly in the future...
     
      	<pui:grid style="width:300px" columns="2" showlabels="false">
-			<pui:panel header="What is it?">
-		    	A pui:inputText is an input field. If it's connected to a JSF attribute, the JSR 303 annotations
-		    	are read and influence the HTML code.
+				<pui:panel header="What is it?">
+		    	A pui:button is a JSF button that reactivates the AngularJS framework after an AJAX request.
 		    </pui:panel>
-			<pui:panel header="How to use it?">
+				<pui:panel header="How to use it?">
 				ToDo: One or two source codes.
 			</pui:panel>
-			<pui:panel header="related components">
-		    	<ul>
-		    	<li>pui:date</li>
-		    	<li>pui:week (todo)</li>
-		    	<li>pui:color  (todo)</li>
-		    	</ul>
+				<pui:panel header="related components" columns="2">
+					<ul>
+						<li>pui:button</li>
+					</ul>
 		    	are read and influence the HTML code.
 		    </pui:panel>
-			<pui:panel header="How to configure it?" colspan="2">
-				pui:inputText has these properties:
+				<pui:panel header="How to configure it?" colspan="2">
+				pui:button has these properties:
 				<ul>
-				<li>label</li>
-				<li>value</li>
-				<li>ng-model</li>
-				<li>style</li>
-				<li>styleClass</li>
-				</ul>
-		    </pui:panel>
-		</pui:grid>
+						<li>value</li>
+						<li>style</li>
+						<li>styleClass</li>
+					</ul>
+				</pui:panel>
+				<pui:panel columns="2">
+					<h:commandButton value="123" action="#{calculatorBean.add}" >
+						<f:ajax />
+					</h:commandButton>
+				</pui:panel>
+			</pui:grid>
+		</h:form>
 	</pui:body>
 </f:view>
