@@ -108,7 +108,7 @@
 	</tag>
 	<tag>
 		<description><![CDATA[Angular-aware text input field.]]></description>
-		<tag-name>inputtext</tag-name>
+		<tag-name>inputText</tag-name>
 		<component>
 			<component-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</component-type>
 			<renderer-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</renderer-type>

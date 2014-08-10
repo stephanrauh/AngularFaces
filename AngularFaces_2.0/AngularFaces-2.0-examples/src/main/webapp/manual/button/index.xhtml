@@ -23,11 +23,11 @@
 				<pui:panel header="How to use it?">
 				ToDo: One or two source codes.
 			</pui:panel>
-				<pui:panel header="related components" columns="2">
+				<pui:panel header="related components" colspan="2">
 					<ul>
-						<li>pui:button</li>
+						<li>h:commandButton</li>
+						<li>prime:commandButton</li>
 					</ul>
-		    	are read and influence the HTML code.
 		    </pui:panel>
 				<pui:panel header="How to configure it?" colspan="2">
 				pui:button has these properties:
@@ -37,10 +37,21 @@
 						<li>styleClass</li>
 					</ul>
 				</pui:panel>
-				<pui:panel columns="2">
-					<h:commandButton value="123" action="#{calculatorBean.add}" >
-						<f:ajax />
-					</h:commandButton>
+				<pui:panel colspan="2" header="live demo">
+					<pui:grid columns="2">
+						<pui:inputText value="#{calculatorBean.number1}" />
+						<pui:inputText value="#{calculatorBean.number2}" />
+						<h:outputText value="Angular sum:" />
+						<h:outputText value="{{number1+number2}}" />
+						<h:outputText value="Server side sum:" />
+						<h:outputText value="#{calculatorBean.result}" id="resultID"/>
+						
+						<h:commandButton value="Add on server (via AJAX)" action="#{calculatorBean.add}" >
+							<f:ajax render="resultID" execute="@form" />
+						</h:commandButton>
+						<h:commandButton value="Add on server (without AJAX)" action="#{calculatorBean.add}" />
+					</pui:grid>
+					
 				</pui:panel>
 			</pui:grid>
 		</h:form>
