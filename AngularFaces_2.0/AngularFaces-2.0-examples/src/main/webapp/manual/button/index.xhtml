@@ -41,10 +41,8 @@
 					<pui:grid columns="2">
 						<pui:inputText value="#{calculatorBean.number1}" />
 						<pui:inputText value="#{calculatorBean.number2}" />
-						<h:outputText value="Angular sum:" />
-						<h:outputText value="{{number1+number2}}" />
-						<h:outputText value="Server side sum:" />
-						<h:outputText value="#{calculatorBean.result}" id="resultID"/>
+						<h:outputText value="Angular sum: {{number1+number2}}" />
+						<pui:inputText disabled="true" value="#{calculatorBean.result}" id="resultID"/>
 						
 						<h:commandButton value="Add on server (via AJAX)" action="#{calculatorBean.add}" >
 							<f:ajax render="resultID" execute="@form" />

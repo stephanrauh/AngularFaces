@@ -18,8 +18,16 @@ package de.beyondjava.angularFaces.common;
 
 import javax.faces.component.UIComponent;
 
+import de.beyondjava.angularFaces.core.ELTools;
+import de.beyondjava.angularFaces.core.NGWordUtiltites;
+
 public interface ILabel {
-    public default String getLabel() {
-    	return (String) ((UIComponent)this).getAttributes().get("label");
-    }
+	public default String getLabel() {
+		String l = (String) ((UIComponent) this).getAttributes().get("label");
+		if (l == null) {
+			String ngModel = ELTools.getNGModel((UIComponent) this);
+			l = NGWordUtiltites.labelFromCamelCase(ngModel);
+		}
+		return l;
+	}
 }
