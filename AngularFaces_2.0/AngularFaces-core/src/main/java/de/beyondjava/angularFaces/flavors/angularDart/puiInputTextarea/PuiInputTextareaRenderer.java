@@ -17,32 +17,20 @@
 package de.beyondjava.angularFaces.flavors.angularDart.puiInputTextarea;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.*;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
 
-import de.beyondjava.angularFaces.core.*;
+import de.beyondjava.angularFaces.core.JSR303RendererUtils;
+import de.beyondjava.angularFaces.core.NGModelRendererUtils;
 
 @FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.angularFaces.puiInput.PuiTextarea")
 public class PuiInputTextareaRenderer extends HtmlBasicInputRenderer implements NGModelRendererUtils,
         JSR303RendererUtils {
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiTextareaRenderer");
-
-    static {
-        LOGGER.info("AngularFaces renderer of 'PuiTextarea' is available for use.");
-    }
-
-    /**
-     *
-     */
-    public PuiInputTextareaRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
-
     /**
      * Generates the HTML code.
      */

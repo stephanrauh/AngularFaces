@@ -20,28 +20,20 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.*;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
 
-import de.beyondjava.angularFaces.core.*;
+import de.beyondjava.angularFaces.core.JSR303RendererUtils;
+import de.beyondjava.angularFaces.core.NGModelRendererUtils;
+import de.beyondjava.angularFaces.core.RendererUtils;
 
 @FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.angularFaces.puiInput.PuiInput")
 public class PuiInputTextRenderer extends HtmlBasicInputRenderer implements RendererUtils, NGModelRendererUtils,
 JSR303RendererUtils {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiInputTextRenderer");
-
-    static {
-        LOGGER.info("AngularFaces renderer of 'PuiInput' is available for use.");
-    }
-
-    /**
-     *
-     */
-    public PuiInputTextRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
 
     /**
      * Generates the HTML code.

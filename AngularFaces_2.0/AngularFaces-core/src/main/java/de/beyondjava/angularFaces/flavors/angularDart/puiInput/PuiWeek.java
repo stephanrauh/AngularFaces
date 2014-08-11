@@ -16,11 +16,7 @@
  */
 package de.beyondjava.angularFaces.flavors.angularDart.puiInput;
 
-import java.util.logging.Logger;
-
 import javax.faces.component.FacesComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.render.Renderer;
 
 /**
  * PuiWeek is an Angular-aware input text field reading the JSR 303 annotations and providing a label and an error
@@ -28,17 +24,4 @@ import javax.faces.render.Renderer;
  */
 @FacesComponent("de.beyondjava.angularFaces.puiInput.PuiWeek")
 public class PuiWeek extends PuiInput {
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiWeek");
-
-    static {
-        LOGGER.info("AngularFaces component 'PuiWeek' is available for use.");
-    }
-
-    public PuiWeek() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
-
 }

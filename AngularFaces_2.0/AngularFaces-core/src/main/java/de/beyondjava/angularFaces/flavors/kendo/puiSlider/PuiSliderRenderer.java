@@ -18,17 +18,8 @@ import de.beyondjava.angularFaces.core.RendererUtils;
 public class PuiSliderRenderer extends BodyRenderer implements RendererUtils {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiButton.PuiSliderRenderer");
 
-    static {
-        LOGGER.info("KendoFaces renderer of 'PuiSlider' is available for use.");
-    }
-
-    public PuiSliderRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
-
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
-        // super.encodeBegin(context, component);
     	PuiSlider slider = (PuiSlider) component;
         ResponseWriter writer = context.getResponseWriter();
         writer.append("\r\n");

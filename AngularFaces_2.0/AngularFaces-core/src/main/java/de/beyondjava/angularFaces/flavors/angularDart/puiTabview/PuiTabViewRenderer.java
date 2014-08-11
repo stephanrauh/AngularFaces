@@ -1,11 +1,12 @@
 package de.beyondjava.angularFaces.flavors.angularDart.puiTabview;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.*;
-import javax.faces.render.*;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
+import javax.faces.render.FacesRenderer;
+import javax.faces.render.Renderer;
 
 /**
  * A &lt;pui-tabview&gt; consists of a number of &lt;pui-tabs&gt;, each containing content that's hidden of shown
@@ -31,16 +32,6 @@ import javax.faces.render.*;
  */
 @FacesRenderer(componentFamily = "javax.faces.Output", rendererType = "de.beyondjava.angularFaces.puiTabview.PuiTabView")
 public class PuiTabViewRenderer extends Renderer {
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiTabview.PuiTabView");
-
-    static {
-        LOGGER.info("AngularFaces renderer of 'PuiTabView' is available for use.");
-    }
-
-    public PuiTabViewRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
-
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         super.encodeBegin(context, component);

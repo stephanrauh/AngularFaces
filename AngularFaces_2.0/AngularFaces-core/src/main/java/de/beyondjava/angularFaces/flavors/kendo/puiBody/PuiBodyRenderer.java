@@ -21,14 +21,6 @@ public class PuiBodyRenderer extends BodyRenderer implements RendererUtils {
 	private static final Logger LOGGER = Logger
 			.getLogger("de.beyondjava.kendoFaces.puiButton.PuiBodyRenderer");
 
-	static {
-		LOGGER.info("KendoFaces renderer of 'PuiBody' is available for use.");
-	}
-
-	public PuiBodyRenderer() {
-		LOGGER.info(getClass().getName() + " is being initialized");
-	}
-
 	@Override
 	public void encodeBegin(FacesContext context, UIComponent component)
 			throws IOException {

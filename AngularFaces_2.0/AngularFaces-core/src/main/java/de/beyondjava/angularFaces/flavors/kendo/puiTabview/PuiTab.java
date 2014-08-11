@@ -36,17 +36,6 @@ public class PuiTab extends UIOutput {
 
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiTabview.PuiTab");
 
-    static {
-        LOGGER.info("KendoFaces component 'PuiTab' is available for use.");
-    }
-
-    public PuiTab() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
-
     public String getCloseable() {
         return (String) getStateHelper().eval(propertyKeys.closeable, null);
     }

@@ -16,11 +16,9 @@
  */
 package de.beyondjava.angularFaces.flavors.angularDart.puiInputTextarea;
 
-import java.util.logging.Logger;
-
-import javax.faces.component.*;
-import javax.faces.context.FacesContext;
-import javax.faces.render.Renderer;
+import javax.faces.component.FacesComponent;
+import javax.faces.component.StateHelper;
+import javax.faces.component.UIInput;
 
 import de.beyondjava.angularFaces.common.ILabel;
 
@@ -34,22 +32,7 @@ public class PuiTextarea extends UIInput implements ILabel {
         value
     }
 
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiTextArea");
 
-    static {
-        LOGGER.info("AngularFaces component 'PuiTextArea' is available for use.");
-    }
-
-    /**
-     *
-     */
-    public PuiTextarea() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        setRendererType("de.beyondjava.angularFaces.puiInputTextArea.PuiTextArea");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
 
     /**
      * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender

@@ -20,7 +20,8 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.*;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
@@ -34,14 +35,6 @@ import de.beyondjava.angularFaces.core.RendererUtils;
 @FacesRenderer(componentFamily = "javax.faces.Output", rendererType = "de.beyondjava.angularFaces.puiButton.PuiButton")
 public class PuiButtonRenderer extends HtmlBasicInputRenderer implements RendererUtils {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiButton.PuiButtonRenderer");
-
-    static {
-        LOGGER.info("AngularFaces renderer of 'PuiButton' is available for use.");
-    }
-
-    public PuiButtonRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
 
     /**
      * Generates the HTML code.

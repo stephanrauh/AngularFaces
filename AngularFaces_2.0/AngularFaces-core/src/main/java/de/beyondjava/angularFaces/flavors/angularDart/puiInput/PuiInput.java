@@ -16,11 +16,9 @@
  */
 package de.beyondjava.angularFaces.flavors.angularDart.puiInput;
 
-import java.util.logging.Logger;
-
-import javax.faces.component.*;
-import javax.faces.context.FacesContext;
-import javax.faces.render.Renderer;
+import javax.faces.component.FacesComponent;
+import javax.faces.component.StateHelper;
+import javax.faces.component.UIInput;
 
 import de.beyondjava.angularFaces.common.ILabel;
 
@@ -30,19 +28,6 @@ import de.beyondjava.angularFaces.common.ILabel;
  */
 @FacesComponent("de.beyondjava.angularFaces.puiInput.PuiInput")
 public class PuiInput extends UIInput implements ILabel {
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiInput");
-
-    static {
-        LOGGER.info("AngularFaces component 'PuiInput' is available for use.");
-    }
-
-    public PuiInput() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
-
     /**
      * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender
      * methods.

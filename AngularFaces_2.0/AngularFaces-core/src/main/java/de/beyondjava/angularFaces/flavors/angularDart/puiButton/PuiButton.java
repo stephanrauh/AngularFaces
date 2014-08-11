@@ -18,9 +18,9 @@ package de.beyondjava.angularFaces.flavors.angularDart.puiButton;
 
 import java.util.logging.Logger;
 
-import javax.faces.component.*;
-import javax.faces.context.FacesContext;
-import javax.faces.render.Renderer;
+import javax.faces.component.FacesComponent;
+import javax.faces.component.StateHelper;
+import javax.faces.component.UIOutput;
 
 /**
  * &ltpui-button&gt; is a command button that can call Dart code (or Javascript code, albeit JS code can't interoperate
@@ -33,17 +33,6 @@ public class PuiButton extends UIOutput {
     }
 
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiButton.PuiButton");
-
-    static {
-        LOGGER.info("AngularFaces component 'PuiButton' is available for use.");
-    }
-
-    public PuiButton() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
 
     /**
      * optional: the name of a Dart function called when the button is clicked. Similar to ng-click (but more natural to

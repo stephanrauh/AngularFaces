@@ -2,10 +2,9 @@ package de.beyondjava.angularFaces.flavors.angularDart.puiForm;
 
 import java.util.logging.Logger;
 
-import javax.faces.component.*;
+import javax.faces.component.FacesComponent;
+import javax.faces.component.StateHelper;
 import javax.faces.component.html.HtmlForm;
-import javax.faces.context.FacesContext;
-import javax.faces.render.Renderer;
 
 import de.beyondjava.angularFaces.common.IAngularController;
 
@@ -19,17 +18,6 @@ public class PuiForm extends HtmlForm implements IAngularController {
     }
 
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiForm.PuiForm");
-
-    static {
-        LOGGER.info("AngularFaces component 'PuiForm' is available for use.");
-    }
-
-    public PuiForm() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
 
     /**
      * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender

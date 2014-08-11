@@ -40,10 +40,6 @@ public class NGSecure extends HtmlInputText implements SystemEventListener {
 
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.secure.NGSecure");
 
-    static {
-        LOGGER.info("AngularFaces component 'NGSecure' is available for use.");
-    }
-
     public NGSecure() {
         FacesContext context = FacesContext.getCurrentInstance();
         UIViewRoot root = context.getViewRoot();

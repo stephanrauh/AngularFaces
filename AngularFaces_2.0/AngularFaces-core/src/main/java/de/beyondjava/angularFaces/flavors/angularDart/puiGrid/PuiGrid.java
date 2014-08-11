@@ -18,9 +18,8 @@ package de.beyondjava.angularFaces.flavors.angularDart.puiGrid;
 
 import java.util.logging.Logger;
 
-import javax.faces.component.*;
-import javax.faces.context.FacesContext;
-import javax.faces.render.Renderer;
+import javax.faces.component.FacesComponent;
+import javax.faces.component.UIOutput;
 
 /**
  * &lt;pui-grid&gt; makes it a little easier to create simple but decently looking input dialogs. Typically it contains
@@ -40,17 +39,6 @@ public class PuiGrid extends UIOutput {
     }
 
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiGrid.PuiGrid");
-
-    static {
-        LOGGER.info("AngularFaces component 'PuiGrid' is available for use.");
-    }
-
-    public PuiGrid() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
 
     /**
      * How many columns of fields do you need? Please note the difference between a pui:grid column and an HTML column.

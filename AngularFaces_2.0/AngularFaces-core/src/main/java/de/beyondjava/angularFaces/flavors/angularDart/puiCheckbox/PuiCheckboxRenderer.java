@@ -20,12 +20,15 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.*;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
 
-import de.beyondjava.angularFaces.core.*;
+import de.beyondjava.angularFaces.core.JSR303RendererUtils;
+import de.beyondjava.angularFaces.core.NGModelRendererUtils;
+import de.beyondjava.angularFaces.core.RendererUtils;
 import de.beyondjava.angularFaces.flavors.angularDart.puiDropdown.PuiDropdown;
 
 @FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.angularFaces.puiCheckbox.PuiCheckbox")
@@ -33,17 +36,6 @@ public class PuiCheckboxRenderer extends HtmlBasicInputRenderer implements Rende
         JSR303RendererUtils {
     private static final Logger LOGGER = Logger
             .getLogger("de.beyondjava.angularFaces.puiCheckbox.PuiCheckboxTextRenderer");
-
-    static {
-        LOGGER.info("AngularFaces renderer of 'PuiCheckbox' is available for use.");
-    }
-
-    /**
-     *
-     */
-    public PuiCheckboxRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
 
     /**
      * Generates the HTML code.

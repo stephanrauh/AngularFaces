@@ -39,10 +39,6 @@ public class NGSecureRenderer extends HtmlBasicInputRenderer {
 
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.secure.NGSecureRenderer");
 
-    static {
-        LOGGER.info("AngularFaces renderer of 'NGSecure' is available for use.");
-    }
-
     /**
      * This method analyzes user input to prevent security breaches.
      */

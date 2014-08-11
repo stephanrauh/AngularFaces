@@ -18,14 +18,6 @@ public class PuiAngularControllerRenderer extends Renderer implements RendererUt
     private static final Logger LOGGER = Logger
             .getLogger("de.beyondjava.angularFaces.puiButton.PuiAngularControllerRenderer");
 
-    static {
-        LOGGER.info("AngularFaces renderer of 'PuiAngularController' is available for use.");
-    }
-
-    public PuiAngularControllerRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
-
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
         super.encodeBegin(context, component);

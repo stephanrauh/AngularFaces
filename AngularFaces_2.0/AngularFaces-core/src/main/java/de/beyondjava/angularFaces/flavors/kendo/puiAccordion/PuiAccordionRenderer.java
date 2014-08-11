@@ -17,14 +17,6 @@ public class PuiAccordionRenderer extends Renderer implements RendererUtils {
 	private static final Logger LOGGER = Logger
 			.getLogger("de.beyondjava.kendoFaces.puiAccordion.puiAccordion");
 
-	static {
-		LOGGER.info("AngularFaces renderer of 'PuiAccordion' is available for use.");
-	}
-
-	public PuiAccordionRenderer() {
-		LOGGER.info(getClass().getName() + " is being initialized");
-	}
-
 	@Override
 	public void encodeBegin(FacesContext context, UIComponent component)
 			throws IOException {

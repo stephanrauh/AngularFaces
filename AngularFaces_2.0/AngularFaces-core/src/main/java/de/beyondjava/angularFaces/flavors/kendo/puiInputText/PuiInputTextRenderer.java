@@ -28,13 +28,6 @@ public class PuiInputTextRenderer extends TextRenderer implements
 	private static final Logger LOGGER = Logger
 			.getLogger("de.beyondjava.kendoFaces.puiInputText.PuiInputText");
 
-	static {
-		LOGGER.info("KendoFaces renderer of 'PuiInputText' is available for use.");
-	}
-
-	public PuiInputTextRenderer() {
-		LOGGER.info(getClass().getName() + " is being initialized");
-	}
 
 	protected String writeIdAttributeIfNecessary(FacesContext context,
 			ResponseWriter writer, UIComponent component) {

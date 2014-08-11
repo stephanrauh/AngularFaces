@@ -20,7 +20,8 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.*;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
@@ -41,14 +42,6 @@ import de.beyondjava.angularFaces.core.RendererUtils;
 @FacesRenderer(componentFamily = "javax.faces.Output", rendererType = "de.beyondjava.angularFaces.puiGrid.PuiGrid")
 public class PuiGridRenderer extends HtmlBasicInputRenderer implements RendererUtils {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiGrid.PuiGridRenderer");
-
-    static {
-        LOGGER.info("AngularFaces renderer of 'PuiGrid' is available for use.");
-    }
-
-    public PuiGridRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
