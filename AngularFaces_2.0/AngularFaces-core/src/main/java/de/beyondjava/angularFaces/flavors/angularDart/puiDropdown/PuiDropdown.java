@@ -18,11 +18,12 @@ package de.beyondjava.angularFaces.flavors.angularDart.puiDropdown;
 
 import java.util.logging.Logger;
 
-import javax.faces.component.*;
-import javax.faces.context.FacesContext;
-import javax.faces.render.Renderer;
+import javax.faces.component.FacesComponent;
+import javax.faces.component.StateHelper;
+import javax.faces.component.UIInput;
 
-import de.beyondjava.angularFaces.common.*;
+import de.beyondjava.angularFaces.common.IEditable;
+import de.beyondjava.angularFaces.common.ILabel;
 
 /**
  * PuiDropdown is an Angular-aware input text field reading the JSR 303 annotations and providing a label and an error
@@ -31,17 +32,6 @@ import de.beyondjava.angularFaces.common.*;
 @FacesComponent("de.beyondjava.angularFaces.puiDropdown.PuiDropdown")
 public class PuiDropdown extends UIInput implements ILabel, IEditable {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiDropdown.PuiDropdown");
-
-    static {
-        LOGGER.info("AngularFaces component 'PuiDropdown' is available for use.");
-    }
-
-    public PuiDropdown() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
 
     /**
      * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender

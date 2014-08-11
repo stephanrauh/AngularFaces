@@ -48,14 +48,6 @@ public class PuiGridRenderer extends HtmlBasicInputRenderer implements
 	private static final Logger LOGGER = Logger
 			.getLogger("de.beyondjava.kendoFaces.puiGrid.PuiGridRenderer");
 
-	static {
-		LOGGER.info("KendoFaces renderer of 'PuiGrid' is available for use.");
-	}
-
-	public PuiGridRenderer() {
-		LOGGER.info(getClass().getName() + " is being initialized");
-	}
-
 	@Override
 	public void encodeBegin(FacesContext context, UIComponent component)
 			throws IOException {

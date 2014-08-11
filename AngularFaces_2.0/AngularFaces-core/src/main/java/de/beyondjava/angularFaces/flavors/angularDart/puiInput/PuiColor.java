@@ -16,27 +16,11 @@
  */
 package de.beyondjava.angularFaces.flavors.angularDart.puiInput;
 
-import java.util.logging.Logger;
-
 import javax.faces.component.FacesComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.render.Renderer;
 
 /**
  * PuiColor is an Angular-aware color picker reading the JSR 303 annotations and providing a label and an error message.
  */
 @FacesComponent("de.beyondjava.angularFaces.puiInput.PuiColor")
 public class PuiColor extends PuiInput {
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiInput.PuiColor");
-
-    static {
-        LOGGER.info("AngularFaces component 'PuiColor' is available for use.");
-    }
-
-    public PuiColor() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
 }

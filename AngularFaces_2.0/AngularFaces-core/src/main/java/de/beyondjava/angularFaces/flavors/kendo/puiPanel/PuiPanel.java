@@ -23,17 +23,6 @@ public class PuiPanel extends UIOutput implements IStyle, IStyleClass {
 	private static final Logger LOGGER = Logger
 			.getLogger("de.beyondjava.kendoFaces.puiPanel.PuiPanel");
 
-	static {
-		LOGGER.info("AngularFaces component 'PuiPanel' is available for use.");
-	}
-
-	public PuiPanel() {
-		LOGGER.info(getClass().getName() + " is initialized");
-		LOGGER.info(getFamily());
-		Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-		LOGGER.info(renderer.getClass().getName());
-	}
-
 	/**
 	 * This method is not as superfluous as it seems. We need it to be able to
 	 * call getStateHelper() in defender methods.

@@ -2,9 +2,9 @@ package de.beyondjava.angularFaces.flavors.angularDart.puiDatatable;
 
 import java.util.logging.Logger;
 
-import javax.faces.component.*;
-import javax.faces.context.FacesContext;
-import javax.faces.render.Renderer;
+import javax.faces.component.FacesComponent;
+import javax.faces.component.StateHelper;
+import javax.faces.component.UIOutput;
 
 /**
  * PuiDatatable is looks like a PrimeFaces DataTable, only it's rendered on the client and it's got less features.
@@ -16,17 +16,6 @@ public class PuiDatatable extends UIOutput {
     }
 
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiDatatable.PuiDatatable");
-
-    static {
-        LOGGER.info("AngularFaces component 'PuiDatatable' is available for use.");
-    }
-
-    public PuiDatatable() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
 
     public String getInitialSort() {
         return (String) getStateHelper().eval("initialsort", null);

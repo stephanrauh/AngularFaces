@@ -18,9 +18,9 @@ package de.beyondjava.angularFaces.flavors.angularDart.puiCheckbox;
 
 import java.util.logging.Logger;
 
-import javax.faces.component.*;
-import javax.faces.context.FacesContext;
-import javax.faces.render.Renderer;
+import javax.faces.component.FacesComponent;
+import javax.faces.component.StateHelper;
+import javax.faces.component.UIInput;
 
 import de.beyondjava.angularFaces.common.ILabel;
 
@@ -31,17 +31,6 @@ import de.beyondjava.angularFaces.common.ILabel;
 @FacesComponent("de.beyondjava.angularFaces.puiCheckbox.PuiCheckbox")
 public class PuiCheckbox extends UIInput implements ILabel {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiCheckbox.PuiCheckbox");
-
-    static {
-        LOGGER.info("AngularFaces component 'PuiCheckbox' is available for use.");
-    }
-
-    public PuiCheckbox() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
 
     /**
      * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender

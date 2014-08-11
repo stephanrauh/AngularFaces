@@ -1,10 +1,7 @@
 package de.beyondjava.angularFaces.flavors.angularDart.puiTabview;
 
-import java.util.logging.Logger;
-
-import javax.faces.component.*;
-import javax.faces.context.FacesContext;
-import javax.faces.render.Renderer;
+import javax.faces.component.FacesComponent;
+import javax.faces.component.UIOutput;
 
 /**
  * A &lt;pui-tabview&gt; consists of a number of &lt;pui-tabs&gt;, each containing content that's hidden of shown
@@ -30,16 +27,4 @@ import javax.faces.render.Renderer;
  */
 @FacesComponent("de.beyondjava.angularFaces.puiTabview.PuiTabView")
 public class PuiTabView extends UIOutput {
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiTabview.PuiTabView");
-
-    static {
-        LOGGER.info("AngularFaces component 'PuiTabView' is available for use.");
-    }
-
-    public PuiTabView() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
 }

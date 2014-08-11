@@ -17,35 +17,24 @@ import de.beyondjava.angularFaces.common.IStyleClass;
  */
 @FacesComponent("de.beyondjava.kendoFaces.puiSlider.PuiSlider")
 public class PuiSlider extends UIInput implements IModel, IStyle, IStyleClass {
-    enum propertyKeys {
-        orientation
-    }
+	enum propertyKeys {
+		orientation
+	}
 
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiSlider.PuiSlider");
+	private static final Logger LOGGER = Logger
+			.getLogger("de.beyondjava.kendoFaces.puiSlider.PuiSlider");
 
-    static {
-        LOGGER.info("KendoFaces component 'PuiSlider' is available for use.");
-    }
+	@Override
+	public StateHelper getStateHelper() {
+		return super.getStateHelper();
+	}
 
-    public PuiSlider() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
+	public String getOrientation() {
+		return (String) getStateHelper().eval(propertyKeys.orientation, null);
+	}
 
-    @Override
-    public StateHelper getStateHelper() {
-        return super.getStateHelper();
-    }
-    
-    public String getOrientation() {
-        return (String) getStateHelper().eval(propertyKeys.orientation, null);
-    }
-
-    public void setOrientation(String isOrientation) {
-        getStateHelper().put(propertyKeys.orientation, isOrientation);
-    }
-
+	public void setOrientation(String isOrientation) {
+		getStateHelper().put(propertyKeys.orientation, isOrientation);
+	}
 
 }

@@ -20,29 +20,21 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.*;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.HtmlBasicInputRenderer;
 
-import de.beyondjava.angularFaces.core.*;
+import de.beyondjava.angularFaces.core.JSR303RendererUtils;
+import de.beyondjava.angularFaces.core.NGModelRendererUtils;
+import de.beyondjava.angularFaces.core.RendererUtils;
 
 @FacesRenderer(componentFamily = "javax.faces.Input", rendererType = "de.beyondjava.angularFaces.puiDropdown.PuiDropdown")
 public class PuiDropdownRenderer extends HtmlBasicInputRenderer implements RendererUtils, NGModelRendererUtils,
 JSR303RendererUtils {
     private static final Logger LOGGER = Logger
             .getLogger("de.beyondjava.angularFaces.puiDropdown.PuiDropdownTextRenderer");
-
-    static {
-        LOGGER.info("AngularFaces renderer of 'PuiDropdown' is available for use.");
-    }
-
-    /**
-     *
-     */
-    public PuiDropdownRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
 
     /**
      * Generates the HTML code.

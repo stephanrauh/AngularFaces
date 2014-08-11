@@ -41,17 +41,6 @@ public class PuiGrid extends UIOutput {
 
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiGrid.PuiGrid");
 
-    static {
-        LOGGER.info("KendoFaces component 'PuiGrid' is available for use.");
-    }
-
-    public PuiGrid() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
-
     /**
      * How many columns of fields do you need? Please note the difference between a pui:grid column and an HTML column.
      * pui:grid columns consists of two or three HTML columns (the label, the component and optionally the error

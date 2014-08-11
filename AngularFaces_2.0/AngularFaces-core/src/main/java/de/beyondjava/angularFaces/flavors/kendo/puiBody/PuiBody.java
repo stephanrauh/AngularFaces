@@ -14,30 +14,20 @@ import de.beyondjava.angularFaces.common.IAngularController;
  */
 @FacesComponent("de.beyondjava.kendoFaces.puiBody.PuiBody")
 public class PuiBody extends HtmlBody implements IAngularController {
-    enum propertyKeys {
-        publishAs, selector
-    }
+	enum propertyKeys {
+		publishAs, selector
+	}
 
-    private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
+	private static final Logger LOGGER = Logger
+			.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
 
-    static {
-        LOGGER.info("KendoFaces component 'PuiBody' is available for use.");
-    }
-
-    public PuiBody() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
-
-    /**
-     * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender
-     * methods.
-     */
-    @Override
-    public StateHelper getStateHelper() {
-        return super.getStateHelper();
-    }
+	/**
+	 * This method is not as superfluous as it seems. We need it to be able to
+	 * call getStateHelper() in defender methods.
+	 */
+	@Override
+	public StateHelper getStateHelper() {
+		return super.getStateHelper();
+	}
 
 }

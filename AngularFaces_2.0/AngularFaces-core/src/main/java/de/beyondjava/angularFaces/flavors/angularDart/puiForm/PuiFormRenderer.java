@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.*;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 
 import com.sun.faces.renderkit.html_basic.FormRenderer;
@@ -17,14 +18,6 @@ import de.beyondjava.angularFaces.common.IAngularController;
 @FacesRenderer(componentFamily = "javax.faces.Form", rendererType = "de.beyondjava.angularFaces.puiForm.PuiForm")
 public class PuiFormRenderer extends FormRenderer {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiButton.PuiFormRenderer");
-
-    static {
-        LOGGER.info("AngularFaces renderer of 'PuiForm' is available for use.");
-    }
-
-    public PuiFormRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {

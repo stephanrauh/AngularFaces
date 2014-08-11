@@ -38,14 +38,6 @@ public class PuiTabViewRenderer extends Renderer {
 	private static final Logger LOGGER = Logger
 			.getLogger("de.beyondjava.kendoFaces.puiTabview.PuiTabView");
 
-	static {
-		LOGGER.info("KendoFaces renderer of 'de.beyondjava.kendoFaces.puiTabview.PuiTabView' is available for use.");
-	}
-
-	public PuiTabViewRenderer() {
-		LOGGER.info(getClass().getName() + " is being initialized");
-	}
-
 	@Override
 	public void encodeEnd(FacesContext context, UIComponent component)
 			throws IOException {

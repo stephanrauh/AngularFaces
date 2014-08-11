@@ -32,14 +32,4 @@ import javax.faces.render.Renderer;
 public class PuiTabView extends UIOutput {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiTabview.PuiTabView");
 
-    static {
-        LOGGER.info("KendoFaces component 'PuiTabView' is available for use.");
-    }
-
-    public PuiTabView() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
 }

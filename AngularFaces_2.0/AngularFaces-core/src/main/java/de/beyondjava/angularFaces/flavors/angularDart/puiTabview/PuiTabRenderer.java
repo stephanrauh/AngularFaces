@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.*;
-import javax.faces.render.*;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
+import javax.faces.render.FacesRenderer;
+import javax.faces.render.Renderer;
 
 import de.beyondjava.angularFaces.core.RendererUtils;
 
@@ -34,14 +36,6 @@ import de.beyondjava.angularFaces.core.RendererUtils;
 @FacesRenderer(componentFamily = "javax.faces.Output", rendererType = "de.beyondjava.angularFaces.puiTabview.PuiTab")
 public class PuiTabRenderer extends Renderer implements RendererUtils {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiTabview.PuiTab");
-
-    static {
-        LOGGER.info("AngularFaces renderer of 'PuiTab' is available for use.");
-    }
-
-    public PuiTabRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
 
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {

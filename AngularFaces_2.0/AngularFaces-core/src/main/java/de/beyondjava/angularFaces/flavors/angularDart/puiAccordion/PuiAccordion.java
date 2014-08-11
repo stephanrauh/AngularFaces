@@ -2,9 +2,9 @@ package de.beyondjava.angularFaces.flavors.angularDart.puiAccordion;
 
 import java.util.logging.Logger;
 
-import javax.faces.component.*;
-import javax.faces.context.FacesContext;
-import javax.faces.render.Renderer;
+import javax.faces.component.FacesComponent;
+import javax.faces.component.StateHelper;
+import javax.faces.component.UIOutput;
 
 /**
  * The pui-accordion component is a panel group that can be shrinked to a single line. Typically, there are multiple
@@ -17,17 +17,6 @@ public class PuiAccordion extends UIOutput {
     }
 
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiAccordion.PuiAccordion");
-
-    static {
-        LOGGER.info("AngularFaces component 'PuiAccordion' is available for use.");
-    }
-
-    public PuiAccordion() {
-        LOGGER.info(getClass().getName() + " is initialized");
-        LOGGER.info(getFamily());
-        Renderer renderer = getRenderer(FacesContext.getCurrentInstance());
-        LOGGER.info(renderer.getClass().getName());
-    }
 
     public String getCollapsed() {
         return (String) getStateHelper().eval(propertyKeys.collapsed, null);

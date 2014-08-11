@@ -35,14 +35,6 @@ import de.beyondjava.angularFaces.core.RendererUtils;
 public class PuiTabRenderer extends Renderer implements RendererUtils {
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiTabview.PuiTab");
 
-    static {
-        LOGGER.info("KendoFaces renderer of 'PuiTab' is available for use.");
-    }
-
-    public PuiTabRenderer() {
-        LOGGER.info(getClass().getName() + " is being initialized");
-    }
-
     @Override
     public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
     	// rendered by PuiTabViewRenderer
