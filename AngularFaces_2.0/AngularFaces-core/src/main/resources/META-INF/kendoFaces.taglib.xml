@@ -3,6 +3,13 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
 
 	<namespace>http://beyondjava.net/kendoFaces</namespace>
+	
+	<function>
+		<function-name>ng</function-name>
+		<function-class>de.beyondjava.angularFaces.core.ANGELResolver</function-class>
+		<function-signature>java.lang.String af(java.lang.String)</function-signature>
+	</function>
+	
 
 	<tag>
 		<description><![CDATA[Secure add a certain - albeit not perfect - level of security to your application.]]></description>
@@ -217,5 +224,4 @@
 			<renderer-type>de.beyondjava.kendoFaces.puiButton.PuiButton</renderer-type>
 		</component>
 	</tag>
-
 </facelet-taglib>

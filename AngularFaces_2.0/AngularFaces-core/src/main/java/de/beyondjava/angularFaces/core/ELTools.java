@@ -231,6 +231,10 @@ public class ELTools {
 
         if (p_expression.startsWith("#{") && p_expression.endsWith("}")) {
             int delimiterPos = p_expression.lastIndexOf('.');
+            if (delimiterPos<0) {
+                LOGGER.log(Level.WARNING, "There's no field to access: #{"+p_expression+"}");
+            	return null;
+            }
             String beanExp = p_expression.substring(0, delimiterPos) + "}";
             String fieldName = p_expression.substring(delimiterPos + 1, p_expression.length() - 1);
             Object container = evalAsObject(beanExp);

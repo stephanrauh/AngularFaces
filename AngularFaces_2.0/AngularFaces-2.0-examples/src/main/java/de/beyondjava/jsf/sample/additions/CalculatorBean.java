@@ -120,4 +120,11 @@ public class CalculatorBean implements Serializable {
     public void setResult(int result) {
         this.sum = result;
     }
+    
+    public String getGridStyle(){
+    	return "font-weight:bold";
+    }
+    public String getHeaderText(){
+    	return "Header text from Angular Model. The last calculation on the server side was " + number1 + " + " + number2 + " = " + sum;
+    }
 }

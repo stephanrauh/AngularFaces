@@ -22,7 +22,7 @@ public class PuiPanelRenderer extends Renderer implements RendererUtils {
         ResponseWriter writer = context.getResponseWriter();
         PuiPanel tab = (PuiPanel) component;
         writer.startElement("pui-panel", component);
-        renderNonEmptyAttribute(writer, "header", tab.getHeader());
+        renderNonEmptyAttribute(writer, "header", tab.getAttributes().get("header"));
         renderNonEmptyAttribute(writer, "collapsed", tab.getCollapsed());
         renderNonEmptyAttribute(writer, "toggleable", tab.getToggleable());
         renderNonEmptyAttribute(writer, "toggleOrientation", tab.getToggleOrientation());

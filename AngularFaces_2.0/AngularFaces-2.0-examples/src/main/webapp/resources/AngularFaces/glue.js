@@ -13,9 +13,14 @@ function addSyncPushFunction(f) {
 	syncPushFunctions[len] = f;
 }
 
-function injectJSonIntoScope(variablename, json)
+function injectJSonIntoScope(json, $scope)
 {
-	injectVariableIntoScope(variablename, json);
+	try {
+		$scope.faces= json;
+//		alert($scope.angularFaces.calculatorBean.headerText);
+	} catch (e) {
+		alert("Couldn't inject variable angularFaces into scope.\n" + "value =" + json + "\n" + e);
+	}
 }
 
 function storeValues() {

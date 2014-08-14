@@ -16,10 +16,6 @@ public class PuiPanel extends UIOutput {
 		return (String) getStateHelper().eval(propertyKeys.collapsed, null);
 	}
 
-	public String getHeader() {
-		return (String) getStateHelper().eval(propertyKeys.header, null);
-	}
-
 	public String getToggleable() {
 		return (String) getStateHelper().eval(propertyKeys.toggleable, null);
 	}
@@ -31,10 +27,6 @@ public class PuiPanel extends UIOutput {
 
 	public void setCollapsed(String isCollapsed) {
 		getStateHelper().put(propertyKeys.collapsed, isCollapsed);
-	}
-
-	public void setHeader(String closeable) {
-		getStateHelper().put(propertyKeys.header, closeable);
 	}
 
 	public void setToggleable(String selected) {

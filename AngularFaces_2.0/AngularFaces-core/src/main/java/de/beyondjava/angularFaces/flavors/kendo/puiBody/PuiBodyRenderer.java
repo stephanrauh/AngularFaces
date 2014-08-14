@@ -35,7 +35,7 @@ public class PuiBodyRenderer extends BodyRenderer implements RendererUtils {
 		String ngController = (String) component.getAttributes().get(
 				"ng-controller");
 		renderNonEmptyAttribute(writer, "ng-controller", ngController);
-		writer.writeAttribute("onload", "restoreValues()", null);
+		writer.writeAttribute("onload", "restoreValues();", null);
 
 	}
 
@@ -43,6 +43,14 @@ public class PuiBodyRenderer extends BodyRenderer implements RendererUtils {
 	public void encodeEnd(FacesContext context, UIComponent component)
 			throws IOException {
 		ResponseWriter writer = context.getResponseWriter();
+		String json = ((PuiBody)component).getFacesModel();
+		writer.startElement("script", component);
+		writer.writeText("function initJSFScope($scope){",null);
+		writer.writeText("var jsf = " + json + ";", null);
+		writer.writeText("injectJSonIntoScope(jsf,$scope);", null);
+		writer.writeText("}", null);
+		writer.endElement("script");
+
 		String main = (String) component.getAttributes().get("mainclassfile");
 		if (main == null) {
 			main = "main.js";
