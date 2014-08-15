@@ -32,14 +32,11 @@ public class PuiEL implements SystemEventListener {
 
 	@Override
 	public void processEvent(SystemEvent event) throws AbortProcessingException {
-		// ResponseStateManager.
 		boolean postback = FacesContext.getCurrentInstance().isPostback();
 		boolean ajaxRequest = FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest();
 		Collection<String> renderIds = FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds();
 		Object source = event.getSource();
 		if (!ajaxRequest) {
-//			if (source instanceof UIComponent)
-//				addLabel((UIComponent) source);
 			PuiBody body = findBodyTag(source);
 			if (source instanceof UIComponent && null != body) {
 				UIComponent component = (UIComponent) source;
@@ -53,30 +50,6 @@ public class PuiEL implements SystemEventListener {
 					}
 				}
 			}
-		}
-	}
-
-	private void addLabel(UIComponent component) {
-		String capture = (String) component.getAttributes().get("label");
-		ValueExpression captureExpression = null;
-		if (null == capture) {
-			if (component.getValueExpression("label") != null) {
-				captureExpression = component.getValueExpression("label");
-			}
-		}
-		if (null != capture || null != captureExpression) {
-			HtmlOutputLabel label = new HtmlOutputLabel();
-			label.setFor(component.getId());
-			if (null != capture)
-				label.setValue(capture);
-			else
-				label.setValueExpression("label", captureExpression);
-			UIComponent parent = component.getParent();
-			int i = 0;
-			while (parent.getChildren().get(i) != component)
-				i++;
-			parent.getChildren().add(i, label);
-
 		}
 	}
 

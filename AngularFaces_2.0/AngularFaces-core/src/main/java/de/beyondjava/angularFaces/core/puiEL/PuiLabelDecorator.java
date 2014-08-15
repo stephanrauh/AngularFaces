@@ -11,7 +11,6 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 
-import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.NGWordUtiltites;
 
 /**
