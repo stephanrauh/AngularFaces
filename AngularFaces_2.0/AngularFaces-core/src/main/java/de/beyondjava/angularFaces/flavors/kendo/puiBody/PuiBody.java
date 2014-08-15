@@ -1,6 +1,8 @@
 package de.beyondjava.angularFaces.flavors.kendo.puiBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -11,6 +13,7 @@ import javax.faces.component.html.HtmlBody;
 import com.google.gson.Gson;
 
 import de.beyondjava.angularFaces.common.IAngularController;
+import de.beyondjava.angularFaces.core.ELTools;
 
 /**
  * PuiBody is an HtmlBody that activates the AngularDart framework.
@@ -21,7 +24,8 @@ public class PuiBody extends HtmlBody implements IAngularController {
 		publishAs, selector
 	}
 
-	private Map<String, Object> model = new HashMap<>();
+	
+	List<String> jsfAttributes = new ArrayList<>();
 
 	private static final Logger LOGGER = Logger
 			.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
@@ -35,8 +39,14 @@ public class PuiBody extends HtmlBody implements IAngularController {
 		return super.getStateHelper();
 	}
 
+	
+	public void addJSFAttrbitute(String key) {
+		jsfAttributes.add(key);
+	}
+
+
 	/** Builds basically a JSON structure from the JSF model. */
-	public void addJSFAttrbituteToAngularModel(String key, Object value) {
+	public void addJSFAttrbituteToAngularModel(Map<String, Object> model, String key, Object value) {
 		String[] keys = key.split("\\.");
 		Map<String, Object> currentMap = model;
 		for (int i = 0; i < keys.length - 1; i++) {
@@ -53,6 +63,12 @@ public class PuiBody extends HtmlBody implements IAngularController {
 	}
 
 	String getFacesModel() {
+		Map<String, Object> model = new HashMap<>();
+		for (String attribute:jsfAttributes) {
+			String value = ELTools.evalAsString("#{"+attribute+"}");
+			// vex.getValue(FacesContext.getCurrentInstance().getELContext())
+			addJSFAttrbituteToAngularModel(model, attribute, value);
+		}
 		Gson gs = new Gson();
 		return gs.toJson(model);
 	}

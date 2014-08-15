@@ -45,14 +45,14 @@ public class PuiEL implements SystemEventListener {
 					if (value instanceof String) {
 						String vs = (String)value;
 						if (vs.contains(".{")) {
-							ValueExpression vex = ELTools.createValueExpression( "#{"+vs.substring(2));
-							body.addJSFAttrbituteToAngularModel(vs.substring(2, vs.length()-1), vex.getValue(FacesContext.getCurrentInstance().getELContext()));
+							body.addJSFAttrbitute(vs.substring(2, vs.length()-1));
 							if ("ngvalue".equals(key)) {
 								vs = vs
 										.replace(".{", "faces.");
 								vs = vs.replace("}", "");
 								component.getPassThroughAttributes().put(
 										"ng-model", vs);
+								ValueExpression vex = ELTools.createValueExpression( "#{"+((String) value).substring(2));
 								component.setValueExpression("value",vex);
 								if (component instanceof UIInput) {
 									NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(component);
