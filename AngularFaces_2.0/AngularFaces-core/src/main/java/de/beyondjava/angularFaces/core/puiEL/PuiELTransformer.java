@@ -21,7 +21,7 @@ import de.beyondjava.angularFaces.flavors.kendo.puiBody.PuiBody;
 /**
  * Converts EL expressions to Angular expressions
  */
-public class PuiEL implements SystemEventListener {
+public class PuiELTransformer implements SystemEventListener {
 	static String[] properties = { "label", "ngvalue", "header", "style", "styleClass" };
 
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiEL.PuiEL");

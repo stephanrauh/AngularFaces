@@ -18,12 +18,10 @@ import de.beyondjava.angularFaces.core.RendererUtils;
  */
 @FacesRenderer(componentFamily = "javax.faces.Output", rendererType = "de.beyondjava.kendoFaces.puiBody.PuiBody")
 public class PuiBodyRenderer extends BodyRenderer implements RendererUtils {
-	private static final Logger LOGGER = Logger
-			.getLogger("de.beyondjava.kendoFaces.puiButton.PuiBodyRenderer");
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiButton.PuiBodyRenderer");
 
 	@Override
-	public void encodeBegin(FacesContext context, UIComponent component)
-			throws IOException {
+	public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
 		super.encodeBegin(context, component);
 		ResponseWriter writer = context.getResponseWriter();
 		String ngApp = (String) component.getAttributes().get("ng-app");
@@ -32,20 +30,26 @@ public class PuiBodyRenderer extends BodyRenderer implements RendererUtils {
 		} else {
 			writer.append(" ng-app ");
 		}
-		String ngController = (String) component.getAttributes().get(
-				"ng-controller");
+		String ngController = (String) component.getAttributes().get("ng-controller");
 		renderNonEmptyAttribute(writer, "ng-controller", ngController);
 		writer.writeAttribute("onload", "restoreValues();", null);
-
 	}
 
 	@Override
-	public void encodeEnd(FacesContext context, UIComponent component)
-			throws IOException {
+	public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
+		boolean ajaxRequest = FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest();
+		if (!ajaxRequest)
+			super.encodeChildren(context, component);
+	}
+
+	@Override
+	public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
 		ResponseWriter writer = context.getResponseWriter();
-		String json = ((PuiBody)component).getFacesModel();
+		String json = ((PuiBody) component).getFacesModel();
 		writer.startElement("script", component);
-		writer.writeText("function initJSFScope($scope){",null);
+		writer.writeText("window.jsfScope=null;", null);
+		writer.writeText("function initJSFScope($scope){", null);
+		writer.writeText("window.jsfScope=$scope;", null);
 		writer.writeText("var jsf = " + json + ";", null);
 		writer.writeText("injectJSonIntoScope(jsf,$scope);", null);
 		writer.writeText("}", null);
@@ -59,16 +63,16 @@ public class PuiBodyRenderer extends BodyRenderer implements RendererUtils {
 			main = main + ".js";
 		}
 		writer.append("<script src='" + main + "'></script>");
-		
+
 		PuiScriptRenderer r = new PuiScriptRenderer();
 		r.encodeScript(context, component, "glue.js", "AngularFaces");
- 
-//		writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
-        writer.append("\r\n");
-        writer.append("  <script>storeValues();</script>");
-        writer.append("\r\n");
- 
+
+		// writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
+		writer.append("\r\n");
+		writer.append("  <script>storeValues();</script>");
+		writer.append("\r\n");
+
 		super.encodeEnd(context, component);
-		
+
 	}
 };

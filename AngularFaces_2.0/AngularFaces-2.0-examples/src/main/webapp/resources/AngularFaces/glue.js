@@ -141,8 +141,14 @@ function injectVariableIntoScope(model, value) {
 
 function reinitAngular(app) {
 	storeValues();
-	angular.bootstrap(document, [ app ]);
-	restoreValues();
+	try {
+		angular.bootstrap(document, [ app ]);
+		restoreValues();
+	}
+	catch (e) {
+		console.log("Angular probably doesn't need to be initialized again");
+		console.log(e);
+	}
 }
 
 function updateAngularModel(model, value) {

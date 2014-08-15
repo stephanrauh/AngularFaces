@@ -44,16 +44,10 @@
 						<h:inputText ngvalue=".{calculatorBean.number1}" label="number1"/>
 						<h:inputText ngvalue=".{calculatorBean.number2}" />
 						<h:inputText ngvalue=".{calculatorBean.result}" label="#{calculatorBean.resultCapture}" />
-						<!-- <pui:inputText value=".{calculatorBean_number1}" />
-						<pui:inputText value="#{pui:ng('calculatorBean_number2')}" />
-						<h:outputText value="Angular sum: {{number1+number2}}" />
-						<pui:inputText disabled="true" value=".{calculatorBean_result}" id="resultID"/>
-						 -->
-<!-- 						<h:commandButton value="Add on server (via AJAX)"
-							action="# {calculatorBean.addf}">
-							<f:ajax render="resultID" execute="@form" />
+ 						<h:commandButton value="Add on server (via AJAX) (doesn't work yet)"
+							action="# {calculatorBean.add}">
+							<f:ajax render="@form" execute="@form" />
 						</h:commandButton>
-						 -->
 						<h:commandButton value="Add on server (without AJAX)"
 							action="#{calculatorBean.add}" />
 					</pui:grid>

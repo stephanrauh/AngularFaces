@@ -8,7 +8,7 @@
 
 	     <system-event-listener>
 	         <system-event-listener-class>
-	            de.beyondjava.angularFaces.core.puiEL.PuiEL
+	            de.beyondjava.angularFaces.core.puiEL.PuiELTransformer
 	         </system-event-listener-class>
 	         <system-event-class>
 	            javax.faces.event.PostAddToViewEvent
