@@ -62,7 +62,7 @@ public class PuiBody extends HtmlBody implements IAngularController {
 		currentMap.put(keys[keys.length - 1], v);
 	}
 
-	String getFacesModel() {
+	public String getFacesModel() {
 		Map<String, Object> model = new HashMap<>();
 		for (String attribute:jsfAttributes) {
 			String value = ELTools.evalAsString("#{"+attribute+"}");

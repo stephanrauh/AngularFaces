@@ -29,6 +29,19 @@ public class PuiELTransformer implements SystemEventListener {
 	static {
 		LOGGER.info("AngularFaces utility class PuiEL ready for use.");
 	}
+	
+	public static void processEverything(UIComponent parent) {
+		int index = 0;
+		while (index < parent.getChildCount()) {
+			UIComponent kid = parent.getChildren().get(index);
+			if (kid instanceof UIComponent) {
+				processUIComponent(kid);
+			}
+			processEverything(kid);
+			index++;
+		}
+	}
+
 
 	@Override
 	public void processEvent(SystemEvent event) throws AbortProcessingException {
@@ -37,23 +50,28 @@ public class PuiELTransformer implements SystemEventListener {
 		Collection<String> renderIds = FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds();
 		Object source = event.getSource();
 		if (!ajaxRequest) {
-			PuiBody body = findBodyTag(source);
-			if (source instanceof UIComponent && null != body) {
-				UIComponent component = (UIComponent) source;
-				for (String key : properties) {
-					Object value = component.getAttributes().get(key);
-					if (value != null) {
-						if (value instanceof String) {
-							String vs = (String) value;
-							processAngularExpression(body, component, key, value, vs);
-						}
+			processUIComponent(source);
+		}
+	}
+
+
+	private static void processUIComponent(Object source) {
+		PuiBody body = findBodyTag(source);
+		if (source instanceof UIComponent && null != body) {
+			UIComponent component = (UIComponent) source;
+			for (String key : properties) {
+				Object value = component.getAttributes().get(key);
+				if (value != null) {
+					if (value instanceof String) {
+						String vs = (String) value;
+						processAngularExpression(body, component, key, value, vs);
 					}
 				}
 			}
 		}
 	}
 
-	private void processAngularExpression(PuiBody body, UIComponent component, String key, Object value, String vs) {
+	private static void processAngularExpression(PuiBody body, UIComponent component, String key, Object value, String vs) {
 		if (vs.contains(".{")) {
 			body.addJSFAttrbitute(vs.substring(2, vs.length() - 1));
 			if ("ngvalue".equals(key)) {
@@ -86,7 +104,7 @@ public class PuiELTransformer implements SystemEventListener {
 		return false;
 	}
 
-	private PuiBody findBodyTag(Object source) {
+	private static PuiBody findBodyTag(Object source) {
 		UIComponent c = (UIComponent) source;
 		while ((c != null) && !(c instanceof PuiBody))
 			c = c.getParent();

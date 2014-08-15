@@ -13,7 +13,7 @@
 			src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
 		<script src="../kendo/js/kendo.all.min.js"></script>
 	</h:head>
-	<pui:body ng-app="KendoDemos" ng-controller="MyCtrl">
+	<pui:body ng-app="KendoDemos" ng-controller="MyCtrl" id="puiBody">
 		<h:form>
 			<h2>Welcome to AngularFaces 2.0 (Kendo style)!</h2>
     	Based firmly in the future...
@@ -45,8 +45,8 @@
 						<h:inputText ngvalue=".{calculatorBean.number2}" />
 						<h:inputText ngvalue=".{calculatorBean.result}" label="#{calculatorBean.resultCapture}" />
  						<h:commandButton value="Add on server (via AJAX) (doesn't work yet)"
-							action="# {calculatorBean.add}">
-							<f:ajax render="@form" execute="@form" />
+							action="#{calculatorBean.add}">
+							<f:ajax render="angular" execute="@form" />
 						</h:commandButton>
 						<h:commandButton value="Add on server (without AJAX)"
 							action="#{calculatorBean.add}" />

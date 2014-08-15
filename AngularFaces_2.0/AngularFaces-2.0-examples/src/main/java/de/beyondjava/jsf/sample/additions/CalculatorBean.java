@@ -82,7 +82,7 @@ public class CalculatorBean implements Serializable {
      * @return the result
      */
     public int getResult() {
-        return this.sum;
+        return --this.sum;
     }
 
     /**
