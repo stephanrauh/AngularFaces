@@ -22,28 +22,41 @@ package de.beyondjava.angularFaces.core;
  * @author Stephan Rauh http://www.beyondjava.net
  */
 public class NGWordUtiltites {
-   /**
-    * Converts a camelcase variable name to a human readable text.
-    * 
-    * @param camel
-    * @return
-    */
+	/**
+	 * Converts a camelcase variable name to a human readable text.
+	 * 
+	 * @param camel
+	 * @return
+	 */
 
-   public static String labelFromCamelCase(String camel) {
-      StringBuffer label = new StringBuffer();
-      for (int i = 0; i < camel.length(); i++) {
-         char c = camel.charAt(i);
-         if (c == '_') {
-            label.append(" ");
-         }
-         else if (Character.isUpperCase(c)) {
-            label.append(' ');
-            label.append(Character.toLowerCase(c));
-         }
-         else {
-            label.append(c);
-         }
-      }
-      return label.toString();
-   }
+	public static String labelFromCamelCase(String camel) {
+		StringBuffer label = new StringBuffer();
+		for (int i = 0; i < camel.length(); i++) {
+			char c = camel.charAt(i);
+			if (c == '_') {
+				label.append(" ");
+			} else if (Character.isUpperCase(c)) {
+				label.append(' ');
+				label.append(Character.toLowerCase(c));
+			} else {
+				label.append(c);
+			}
+		}
+		return label.toString();
+	}
+
+	public static String labelFromELExpression(String expression) {
+		int pos = expression.indexOf("#{");
+		int pos2 = expression.indexOf("}", pos);
+		String core;
+		if (pos >= 0 && pos2 >= 0)
+			core = expression.substring(pos + 2, pos2);
+		else
+			core = expression;
+		pos = core.lastIndexOf('.');
+		if (pos > 0)
+			core = core.substring(pos + 1);
+		
+		return labelFromCamelCase(core);
+	}
 }

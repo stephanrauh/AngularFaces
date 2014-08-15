@@ -1,11 +1,14 @@
 package de.beyondjava.angularFaces.core.puiEL;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
 import javax.faces.component.UIInput;
+import javax.faces.component.UIOutput;
+import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.SystemEvent;
@@ -19,10 +22,9 @@ import de.beyondjava.angularFaces.flavors.kendo.puiBody.PuiBody;
  * Converts EL expressions to Angular expressions
  */
 public class PuiEL implements SystemEventListener {
-	static String[] properties = { "ngvalue", "header", "style", "styleClass" };
+	static String[] properties = { "label", "ngvalue", "header", "style", "styleClass" };
 
-	private static final Logger LOGGER = Logger
-			.getLogger("de.beyondjava.angularFaces.puiEL.PuiEL");
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiEL.PuiEL");
 
 	static {
 		LOGGER.info("AngularFaces utility class PuiEL ready for use.");
@@ -32,44 +34,72 @@ public class PuiEL implements SystemEventListener {
 	public void processEvent(SystemEvent event) throws AbortProcessingException {
 		// ResponseStateManager.
 		boolean postback = FacesContext.getCurrentInstance().isPostback();
+		boolean ajaxRequest = FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest();
+		Collection<String> renderIds = FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds();
 		Object source = event.getSource();
-		if (source instanceof UIForm) {
-
-		}
-		PuiBody body = findBodyTag(source);
-		if (source instanceof UIComponent && null != body) {
-			UIComponent component = (UIComponent) source;
-			for (String key : properties) {
-				Object value = component.getAttributes().get(key);
-				if (value != null) {
-					if (value instanceof String) {
-						String vs = (String)value;
-						if (vs.contains(".{")) {
-							body.addJSFAttrbitute(vs.substring(2, vs.length()-1));
-							if ("ngvalue".equals(key)) {
-								vs = vs
-										.replace(".{", "faces.");
-								vs = vs.replace("}", "");
-								component.getPassThroughAttributes().put(
-										"ng-model", vs);
-								ValueExpression vex = ELTools.createValueExpression( "#{"+((String) value).substring(2));
-								component.setValueExpression("value",vex);
-								if (component instanceof UIInput) {
-									NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(component);
-									if (infos.isNumeric()) {
-										component.getPassThroughAttributes().put("type", "number");
-									}
-									
-								}
-							} else {
-								vs = vs.replace(".{",
-										"{{faces.");
-								vs = vs.replace("}", "}}");
-								component.getAttributes().put(key, vs);
-							}
+		if (!ajaxRequest) {
+//			if (source instanceof UIComponent)
+//				addLabel((UIComponent) source);
+			PuiBody body = findBodyTag(source);
+			if (source instanceof UIComponent && null != body) {
+				UIComponent component = (UIComponent) source;
+				for (String key : properties) {
+					Object value = component.getAttributes().get(key);
+					if (value != null) {
+						if (value instanceof String) {
+							String vs = (String) value;
+							processAngularExpression(body, component, key, value, vs);
 						}
 					}
 				}
+			}
+		}
+	}
+
+	private void addLabel(UIComponent component) {
+		String capture = (String) component.getAttributes().get("label");
+		ValueExpression captureExpression = null;
+		if (null == capture) {
+			if (component.getValueExpression("label") != null) {
+				captureExpression = component.getValueExpression("label");
+			}
+		}
+		if (null != capture || null != captureExpression) {
+			HtmlOutputLabel label = new HtmlOutputLabel();
+			label.setFor(component.getId());
+			if (null != capture)
+				label.setValue(capture);
+			else
+				label.setValueExpression("label", captureExpression);
+			UIComponent parent = component.getParent();
+			int i = 0;
+			while (parent.getChildren().get(i) != component)
+				i++;
+			parent.getChildren().add(i, label);
+
+		}
+	}
+
+	private void processAngularExpression(PuiBody body, UIComponent component, String key, Object value, String vs) {
+		if (vs.contains(".{")) {
+			body.addJSFAttrbitute(vs.substring(2, vs.length() - 1));
+			if ("ngvalue".equals(key)) {
+				vs = vs.replace(".{", "faces.");
+				vs = vs.replace("}", "");
+				component.getPassThroughAttributes().put("ng-model", vs);
+				ValueExpression vex = ELTools.createValueExpression("#{" + ((String) value).substring(2));
+				component.setValueExpression("value", vex);
+				if (component instanceof UIInput) {
+					NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(component);
+					if (infos.isNumeric()) {
+						component.getPassThroughAttributes().put("type", "number");
+					}
+
+				}
+			} else {
+				vs = vs.replace(".{", "{{faces.");
+				vs = vs.replace("}", "}}");
+				component.getAttributes().put(key, vs);
 			}
 		}
 	}

@@ -127,4 +127,8 @@ public class CalculatorBean implements Serializable {
     public String getHeaderText(){
     	return "Header text from Angular Model. The last calculation on the server side was " + number1 + " + " + number2 + " = " + sum;
     }
+    
+    public String getResultCapture() {
+    	return "result";
+    }
 }

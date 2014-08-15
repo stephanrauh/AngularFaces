@@ -41,9 +41,9 @@
 				</pui:panel>
 				<pui:panel colspan="2" header=".{calculatorBean.headerText}" style=".{calculatorBean.gridStyle}">
 					<pui:grid columns="2" >
-						<h:inputText ngvalue=".{calculatorBean.number1}" />
+						<h:inputText ngvalue=".{calculatorBean.number1}" label="number1"/>
 						<h:inputText ngvalue=".{calculatorBean.number2}" />
-						<h:inputText ngvalue=".{calculatorBean.result}" />
+						<h:inputText ngvalue=".{calculatorBean.result}" label="#{calculatorBean.resultCapture}" />
 						<!-- <pui:inputText value=".{calculatorBean_number1}" />
 						<pui:inputText value="#{pui:ng('calculatorBean_number2')}" />
 						<h:outputText value="Angular sum: {{number1+number2}}" />

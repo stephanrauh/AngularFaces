@@ -75,7 +75,7 @@ public class PuiGridRenderer extends HtmlBasicInputRenderer implements
 				responseWriter.endElement("td");
 				column += colspan;
 				if (column>=columns) {
-					columns=0;
+					column=0;
 					responseWriter.endElement("tr");
 				}
 
