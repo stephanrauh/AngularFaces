@@ -1,6 +1,8 @@
-<f:view xmlns="http://www.w3c.org/1999/xhtml"
+<f:view
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pui="http://beyondjava.net/kendoFaces">
@@ -52,7 +54,7 @@
 						<h:commandButton value="Add on server (without AJAX)"
 							action="#{calculatorBean.add}" />
 					</pui:grid>
-
+					<h:messages globalOnly="true" />
 				</pui:panel>
 			</pui:grid>
 		</h:form>

@@ -91,6 +91,11 @@ public class CalculatorBean implements Serializable {
     public int getServerSideResult() {
         return this.sum;
     }
+    
+    public void setServerSideResult(int result) {
+    	// do nothing - this method is there just because the input field is sent,
+    	// but we don't want to process it
+    }
 
     /**
      * @param color
