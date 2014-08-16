@@ -47,12 +47,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>javax.faces</artifactId>
-			<version>2.2.7</version>
-		</dependency>
-
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
@@ -67,10 +61,44 @@
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>5.0</version>
-			<scope>runtime</scope>
+			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>
+	
+		<profiles>
+		<profile>
+			<id>Mojarra 2.2.7</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>com.sun.faces</groupId>
+					<artifactId>jsf-api</artifactId>
+					<version>2.2.7</version>
+					<scope>compile</scope>
+				</dependency>
+				<dependency>
+					<groupId>com.sun.faces</groupId>
+					<artifactId>jsf-impl</artifactId>
+					<version>2.2.7</version>
+					<scope>compile</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>MyFaces 2.2.4</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.myfaces.core</groupId>
+					<artifactId>myfaces-api</artifactId>
+					<version>2.2.4</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+	
 
 
 	<build>
