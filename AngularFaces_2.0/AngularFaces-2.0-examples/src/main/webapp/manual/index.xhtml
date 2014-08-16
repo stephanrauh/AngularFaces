@@ -1,56 +1,64 @@
-<f:view xmlns="http://www.w3c.org/1999/xhtml"
+<f:view
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:pui="http://beyondjava.net/kendoFaces">
 	<h:head>
 		<link href="../kendo/styles/kendo.common.min.css" rel="stylesheet" />
 		<link href="../kendo/styles/kendo.default.min.css" rel="stylesheet" />
-    	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+		<script
+			src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+		<script
+			src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.js"></script>
 		<script src="../kendo/js/kendo.all.min.js"></script>
 	</h:head>
-	<pui:body ng-app="KendoDemos" ng-controller="MyCtrl">
-
+	<pui:body ng-app="KendoDemos" ng-controller="MyCtrl" id="puiBody">
 		<h:form>
-
 			<h2>Welcome to AngularFaces 2.0 (Kendo style)!</h2>
-    		Based firmly in the future...
-			<pui:accordion style="width:300px" expandMode="single">
-				<pui:panel header="pui:accordion">
-					<h:commandLink action="accordion/index.xhtml">Simple usage</h:commandLink>
-				</pui:panel>
-				<pui:panel header="pui:body">
-					Body Tag.
-					<h:commandLink action="body/index.xhtml">Simple usage</h:commandLink>
-				</pui:panel>
-					<pui:panel header="pui:grid">
-					grid tab
-					<h:commandLink action="grid/index.xhtml">Simple usage</h:commandLink>
-			    </pui:panel>
-				<pui:panel header="pui:inputText">
+    	Based firmly in the future...
+    
+     	<pui:grid style="width:300px" columns="2" showlabels="false">
+				<pui:panel header="What is it?">
+		    	A pui:button is a JSF button that reactivates the AngularJS framework after an AJAX request.
+		    </pui:panel>
+				<pui:panel header="How to use it?">
+				ToDo: One or two source codes.
+			</pui:panel>
+				<pui:panel header="related components" colspan="2">
 					<ul>
-						<li>pui:date</li>
-						<li>pui:week (todo)</li>
-						<li>pui:color (todo)</li>
+						<li>h:commandButton</li>
+						<li>prime:commandButton</li>
 					</ul>
-					<h:commandLink action="inputText/index.xhtml">Simple usage</h:commandLink>
 				</pui:panel>
-				<pui:panel header="pui:panel">
-					panels to arrange fields in groups
-					<h:commandLink action="panel/index.xhtml">Simple usage</h:commandLink>
-			    </pui:panel>
-				<pui:panel header="pui:slider">
-					sliders to input numeric data
-					<h:commandLink action="slider/index.xhtml">Simple usage</h:commandLink>
-					
-			    </pui:panel>
-				<pui:panel header="pui:tabview and pui:tab">
-					tab strips
-					<h:commandLink action="tabstrip/index.xhtml">Simple usage</h:commandLink>
-			    </pui:panel>
-			</pui:accordion>
+				<pui:panel header="How to configure it?" colspan="2">
+				pui:button has these properties:
+				<ul>
+						<li>value</li>
+						<li>style</li>
+						<li>styleClass</li>
+					</ul>
+				</pui:panel>
+				<pui:panel colspan="2" header=".{calculatorBean.headerText}" style=".{calculatorBean.gridStyle}">
+					<pui:grid columns="2" >
+						<h:inputText ngvalue=".{calculatorBean.number1}" label="number1"/>
+						<h:inputText ngvalue=".{calculatorBean.number2}" />
+						<h:inputText ngvalue=".{calculatorBean.result}" label="#{calculatorBean.resultCapture}" />
+						<h:inputText ngvalue=".{calculatorBean.serverSideResult}"  />
+						<h:inputText ngvalue=".{calculatorBean.randomNumberFromServer}"  />
+ 						<h:commandButton value="Add on server (via AJAX)"
+							action="#{calculatorBean.add}">
+							<f:ajax render="angular" execute="@form" />
+						</h:commandButton>
+						<h:commandButton value="Add on server (without AJAX)"
+							action="#{calculatorBean.add}" />
+					</pui:grid>
+					<h:messages globalOnly="true" />
+				</pui:panel>
+			</pui:grid>
 		</h:form>
+		
 	</pui:body>
 </f:view>

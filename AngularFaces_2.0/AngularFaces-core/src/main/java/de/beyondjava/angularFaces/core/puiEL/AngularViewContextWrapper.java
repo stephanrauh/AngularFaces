@@ -2,8 +2,10 @@ package de.beyondjava.angularFaces.core.puiEL;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.faces.component.UIComponent;
+import javax.faces.component.UINamingContainer;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -13,11 +15,10 @@ import javax.faces.context.PartialViewContextWrapper;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.PhaseId;
 import javax.faces.lifecycle.ClientWindow;
+import javax.faces.render.ResponseStateManager;
+import javax.rmi.CORBA.Util;
 
-import com.sun.faces.util.Util;
-
-import de.beyondjava.angularFaces.flavors.kendo.puiBody.PuiBody;
-import de.beyondjava.angularFaces.flavors.kendo.puiBody.PuiScriptRenderer;
+import de.beyondjava.angularFaces.puiModelSync.PuiModelSync;
 
 public class AngularViewContextWrapper extends PartialViewContextWrapper {
 
@@ -29,6 +30,48 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		this.wrapped = wrapped;
 
 	}
+	
+	/**
+	 * Copied from com.sun.faces.util.Util, Mojarra 2.2.7
+	 */
+	public static String getViewStateId(FacesContext context) {
+        String result = null;
+        final String viewStateCounterKey = "com.sun.faces.util.ViewStateCounterKey";
+        Map<Object, Object> contextAttrs = context.getAttributes();
+        Integer counter = (Integer) contextAttrs.get(viewStateCounterKey);
+        if (null == counter) {
+            counter = Integer.valueOf(0);
+        }
+        
+        char sep = UINamingContainer.getSeparatorChar(context);
+        UIViewRoot root = context.getViewRoot();
+        result = root.getContainerClientId(context) + sep + 
+                ResponseStateManager.VIEW_STATE_PARAM + sep +
+                + counter;
+        contextAttrs.put(viewStateCounterKey, ++counter);
+        
+        return result;
+    }
+
+	/**
+	 * Copied from com.sun.faces.util.Util, Mojarra 2.2.7
+	 */
+    public static String getClientWindowId(FacesContext context) {
+        String result = null;
+        final String clientWindowIdCounterKey = "com.sun.faces.util.ClientWindowCounterKey";
+        Map<Object, Object> contextAttrs = context.getAttributes();
+        Integer counter = (Integer) contextAttrs.get(clientWindowIdCounterKey);
+        if (null == counter) {
+            counter = Integer.valueOf(0);
+        }
+        
+        char sep = UINamingContainer.getSeparatorChar(context);
+        result = context.getViewRoot().getContainerClientId(context) + sep + 
+                ResponseStateManager.CLIENT_WINDOW_PARAM + sep + counter;
+        contextAttrs.put(clientWindowIdCounterKey, ++counter);
+        
+        return result;
+    }
 
 	@Override
 	public PartialViewContext getWrapped() {
@@ -55,8 +98,7 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		}
 		if (phaseId==PhaseId.APPLY_REQUEST_VALUES) {
 			UIViewRoot viewRoot = ctx.getViewRoot();
-			PuiBody body = (PuiBody) findPuiBody(viewRoot);
-			PuiELTransformer.processEverything(body);
+			PuiELTransformer.processEverything(viewRoot);
 		}
 		getWrapped().processPartial(phaseId);
 
@@ -88,7 +130,7 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 			writer.writePreamble("<?xml version='1.0' encoding='" + encoding + "'?>\n");
 			writer.startDocument();
 			writer.startEval();
-			PuiBody body = (PuiBody) findPuiBody(viewRoot);
+			PuiModelSync body = (PuiModelSync) findPuiBody(viewRoot);
 //			PuiELTransformer.processEverything(body);
 			encodeAngularScript(writer, ctx, body);
 			writer.endEval();
@@ -108,7 +150,7 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		int index = 0;
 		while (index < parent.getChildCount()) {
 			UIComponent kid = parent.getChildren().get(index);
-			if (kid instanceof PuiBody) {
+			if (kid instanceof PuiModelSync) {
 				return kid;
 			}
 			UIComponent grandChild = findPuiBody(kid);
@@ -135,7 +177,7 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		// Get the view state and write it to the response..
 		PartialViewContext pvc = context.getPartialViewContext();
 		PartialResponseWriter writer = pvc.getPartialResponseWriter();
-		String viewStateId = Util.getViewStateId(context);
+		String viewStateId = getViewStateId(context);
 
 		writer.startUpdate(viewStateId);
 		String state = context.getApplication().getStateManager().getViewState(context);
@@ -144,14 +186,14 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 
 		ClientWindow window = context.getExternalContext().getClientWindow();
 		if (null != window) {
-			String clientWindowId = Util.getClientWindowId(context);
+			String clientWindowId = getClientWindowId(context);
 			writer.startUpdate(clientWindowId);
 			writer.write(window.getId());
 			writer.endUpdate();
 		}
 	}
 
-	public void encodeAngularScript(ResponseWriter writer, FacesContext context, PuiBody component) throws IOException {
+	public void encodeAngularScript(ResponseWriter writer, FacesContext context, PuiModelSync component) throws IOException {
 		String json = component.getFacesModel();
 //		writer.startElement("script", component);
 		writer.writeText("var facesBeans = " + json + ";", null);

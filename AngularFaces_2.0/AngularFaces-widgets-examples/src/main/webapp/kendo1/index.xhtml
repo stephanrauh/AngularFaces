@@ -1,0 +1,52 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pui="http://beyondjava.net/kendoFaces">
+	<h:head>
+		<link href="../kendo/styles/kendo.common.min.css" rel="stylesheet" />
+		<link href="../kendo/styles/kendo.default.min.css" rel="stylesheet" />
+		<script src="../kendo/js/jquery.min.js"></script>
+		<script src="../kendo/js/angular.min.js"></script>
+		<script src="../kendo/js/kendo.all.min.js"></script>
+	</h:head>
+	<pui:body mainclassfile="kendo1controller.js" ng-app="KendoDemos" ng-controller="MyCtrl">
+		<h2>Welcome to AngularFaces 2.0 (Kendo style)!</h2>
+    Based firmly in the future...
+    
+    <pui:panel header="Collapsible panel" style="width:500px">
+    	Now the content of the panel is visible.
+    </pui:panel>
+		<pui:panel header="Sliders" style="width:500px">
+			<table>
+				<tr>
+					<td></td>
+					<td><pui:slider ng-model="width" style="width:400px"
+							k-tooltip="{ enabled: false }" /></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><pui:slider orientation="vertical" ng-model="height"
+							style="height:270px" /></td>
+					<td></td>
+					<td><pui:slider orientation="vertical" ng-model="height"
+							style="height:270px" /></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><pui:slider ng-model="width"
+							style="width:400px;margin-bottom:20px"
+							k-tooltip="{ enabled: false }" /></td>
+					<td></td>
+				</tr>
+			</table>
+			<pui:inputtext ng-model="width" />
+			<pui:inputtext ng-model="height" />
+		</pui:panel>
+		<pui:panel header="Date picker" style="width:500px">
+			<pui:date ng-model="myDate"></pui:date>
+		</pui:panel>
+		
+	</pui:body>
+</f:view>

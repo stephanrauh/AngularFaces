@@ -5,7 +5,6 @@ import javax.faces.context.PartialViewContext;
 import javax.faces.context.PartialViewContextFactory;
 
 import org.primefaces.expression.SearchExpressionResolverFactory;
-import org.primefaces.expression.impl.FormExpressionResolver;
 
 public class AngularViewContextWrapperFactory extends PartialViewContextFactory {
 	static {

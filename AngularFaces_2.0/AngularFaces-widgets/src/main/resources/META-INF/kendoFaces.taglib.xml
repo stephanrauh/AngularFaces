@@ -1,0 +1,227 @@
+<facelet-taglib version="2.0"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
+
+	<namespace>http://beyondjava.net/kendoFaces</namespace>
+	
+	<function>
+		<function-name>ng</function-name>
+		<function-class>de.beyondjava.angularFaces.core.ANGELResolver</function-class>
+		<function-signature>java.lang.String af(java.lang.String)</function-signature>
+	</function>
+	
+
+	<tag>
+		<description><![CDATA[Secure add a certain - albeit not perfect - level of security to your application.]]></description>
+		<tag-name>secure</tag-name>
+		<component>
+			<component-type>de.beyondjava.Secure</component-type>
+			<renderer-type>de.beyondjava.Secure</renderer-type>
+		</component>
+		<attribute>
+			<description><![CDATA[User-defined security checker class (fully qualified class name).]]></description>
+			<name>checkedBy</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+
+	<tag>
+		<description><![CDATA[pui:body renders the include statements needed to initialize Kendo and AngularJS.]]></description>
+		<tag-name>body</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiBody.PuiBody</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiBody.PuiBody</renderer-type>
+		</component>
+	</tag>
+
+	<tag>
+		<description><![CDATA[Angular-aware slider.]]></description>
+		<tag-name>slider</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiSlider.PuiSlider</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiSlider.PuiSlider</renderer-type>
+		</component>
+		<attribute>
+			<description><![CDATA[The label to draw in front of the field and to use in error message]]></description>
+			<name>label</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[optional CSS declarations]]></description>
+			<name>style</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[optional CSS declarations]]></description>
+			<name>styleClass</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[the ng-model (only needed if no value attribute is set, or if the ng-model is to be different than the JSF value attribute)]]></description>
+			<name>ng-model</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+
+	<tag>
+		<description><![CDATA[pui:panel is a field group with a caption.]]></description>
+		<tag-name>panel</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiPanel.PuiPanel</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiPanel.PuiPanel</renderer-type>
+		</component>
+
+		<attribute>
+			<description><![CDATA[Is the panel initially collapsed? Default: false]]></description>
+			<name>collapsed</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Caption of the panel.]]></description>
+			<name>header</name>
+			<required>true</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Can the panel be collapsed?]]></description>
+			<name>toggleable</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Is the panel to collapse horizontally or vertical? Legal values: vertical and horizontal. Default: vertical.]]></description>
+			<name>toggleOrientation</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[optional CSS declarations]]></description>
+			<name>style</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[optional CSS declarations]]></description>
+			<name>styleClass</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+	<tag>
+		<description><![CDATA[Angular-aware text input field.]]></description>
+		<tag-name>inputText</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</renderer-type>
+		</component>
+	</tag>
+	<tag>
+		<description><![CDATA[Angular-aware date picker.]]></description>
+		<tag-name>date</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiDate.puiDate</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiInputText.PuiInputText</renderer-type>
+		</component>
+	</tag>
+	<tag>
+		<description><![CDATA[pui:accordion is a collection of collapsible panels.]]></description>
+		<tag-name>accordion</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiAccordion.puiAccordion</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiAccordion.puiAccordion</renderer-type>
+		</component>
+	</tag>
+
+	<tag>
+		<description><![CDATA[<pui-grid> makes it a little easier to create simple but decently looking input dialogs. Typically it contains a number of input fields that are automatically aligned to each other. More precisely, <pui-grid> creates a column consisting of three columns. The first column is the label (which is automatically extracted from the component), the second is the components itself and the third column is the field-specific error message. Alternatively, the error message is placed below its field. Likewise, the label can be put above the input field.]]></description>
+		<tag-name>grid</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiGrid.PuiGrid</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiGrid.PuiGrid</renderer-type>
+		</component>
+		<attribute>
+			<description><![CDATA[Do you want to put the error message below or behind the field? Legal values: "below" and "behind". Default value: "below".]]></description>
+			<name>errorMessagePosition</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Do you want to put the label above or in front of the field? Legal values: "above" and "before". Default value: "before".]]></description>
+			<name>labelPosition</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[You you want to display labels?]]></description>
+			<name>showLabels</name>
+			<required>false</required>
+			<type>java.lang.Boolean</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[How many columns of fields do you need? Please note the difference between a pui:grid column and an HTML column. pui:grid columns consists of two or three HTML columns (the label, the component and optionally the error message).]]></description>
+			<name>columns</name>
+			<required>false</required>
+			<type>java.lang.Integer</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[The CSS style of the entire grid.]]></description>
+			<name>style</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[The CSS class of the entire grid.]]></description>
+			<name>styleClass</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+	<tag>
+		<description><![CDATA[pui:tab renders the a single tab.]]></description>
+		<tag-name>tab</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiTabview.PuiTab</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiTabview.PuiTab</renderer-type>
+		</component>
+		<attribute>
+			<description><![CDATA[Caption of the tab]]></description>
+			<name>title</name>
+			<required>true</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Can the tab be closed?]]></description>
+			<name>closeable</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[Is the tab initially selected? Default: false]]></description>
+			<name>selected</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+	<tag>
+		<description><![CDATA[pui:tabview renders a tab strip.]]></description>
+		<tag-name>tabview</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiTabview.PuiTabView</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiTabview.PuiTabView</renderer-type>
+		</component>
+	</tag>
+	<tag>
+		<description><![CDATA[pui:button is a command button that reactivates AngularJS after an AJAX request.]]></description>
+		<tag-name>button</tag-name>
+		<component>
+			<component-type>de.beyondjava.kendoFaces.puiButton.PuiButton</component-type>
+			<renderer-type>de.beyondjava.kendoFaces.puiButton.PuiButton</renderer-type>
+		</component>
+	</tag>
+</facelet-taglib>

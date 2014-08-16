@@ -7,9 +7,6 @@
 		<partial-view-context-factory>de.beyondjava.angularFaces.core.puiEL.AngularViewContextWrapperFactory</partial-view-context-factory>
 	</factory>
 	<application>
- 	   	<el-resolver>de.beyondjava.angularFaces.core.ANGELResolver</el-resolver>  
- 	   	
-
 	     <system-event-listener>
 	         <system-event-listener-class>
 	            de.beyondjava.angularFaces.core.puiEL.PuiELTransformer

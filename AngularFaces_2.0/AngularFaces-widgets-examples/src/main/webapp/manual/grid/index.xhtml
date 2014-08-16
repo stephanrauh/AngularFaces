@@ -1,0 +1,41 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pui="http://beyondjava.net/kendoFaces">
+	<h:head>
+		<title>AngularFaces does Kendo</title>
+		<link href="../kendo/styles/kendo.common.min.css" rel="stylesheet" />
+		<link href="../kendo/styles/kendo.default.min.css" rel="stylesheet" />
+    	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+		<script src="../kendo/js/kendo.all.min.js"></script>
+	</h:head>
+	<pui:body ng-app="KendoDemos" ng-controller="MyCtrl">
+		<h2>Welcome to AngularFaces 2.0 (Kendo style)!</h2>
+    	Based firmly in the future...
+   		<h:form>
+			<pui:grid style="width:300px" columns="2" showlabels="false">
+				<pui:panel header="What is it?" height="200px" width="300px">
+		    	A pui:grid is a comfortable way to layout input fields automatically.<br />
+		    	You can also arrange arbitrary JSF components in a tabular way.
+		    </pui:panel>
+				<pui:panel header="How to use it?" height="200px" width="300px">
+				ToDo: One or two source codes.
+			</pui:panel>
+				<pui:panel header="How to configure it?" colspan="2">
+					pui:grid has these properties:
+					<ul>
+						<li>columns</li>
+						<li>showLabels</li>
+						<li>errorMessagePosition</li>
+						<li>labelPosition</li>
+						<li>style</li>
+						<li>styleClass</li>
+					</ul>
+				</pui:panel>
+			</pui:grid>
+		</h:form>
+	</pui:body>
+</f:view>

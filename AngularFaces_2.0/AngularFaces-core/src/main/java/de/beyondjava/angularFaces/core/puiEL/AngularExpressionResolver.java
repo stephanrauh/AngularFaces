@@ -14,7 +14,7 @@ public class AngularExpressionResolver implements SearchExpressionResolver {
 		UIComponent parent = last.getParent();
 
 		while (parent != null) {
-			if (parent instanceof de.beyondjava.angularFaces.flavors.kendo.puiBody.PuiBody) {
+			if (parent instanceof de.beyondjava.angularFaces.puiModelSync.PuiModelSync) {
 				return parent;
 			}
 

