@@ -49,6 +49,13 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 				}
 			}
 		}
+		if (phaseId==PhaseId.APPLY_REQUEST_VALUES) {
+			UIViewRoot viewRoot = ctx.getViewRoot();
+			PuiBody body = (PuiBody) findPuiBody(viewRoot);
+			PuiELTransformer.processEverything(body);
+		}
+		getWrapped().processPartial(phaseId);
+
 		return;
 	}
 
@@ -78,7 +85,7 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 			writer.startDocument();
 			writer.startEval();
 			PuiBody body = (PuiBody) findPuiBody(viewRoot);
-			PuiELTransformer.processEverything(body);
+//			PuiELTransformer.processEverything(body);
 			encodeAngularScript(writer, ctx, body);
 			writer.endEval();
 			renderState(ctx);

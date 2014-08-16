@@ -72,7 +72,15 @@ public class PuiELTransformer implements SystemEventListener {
 	}
 
 	private static void processAngularExpression(PuiBody body, UIComponent component, String key, Object value, String vs) {
-		if (vs.contains(".{")) {
+		if (vs.contains("{{faces.")) {
+			body.addJSFAttrbitute(vs.substring("{{faces.".length(), vs.length() - 2));
+			if ("ngvalue".equals(key)) {
+				System.out.println(component.getValueExpression("value") + "/" + component.getAttributes().get("value"));
+				ValueExpression vex = ELTools.createValueExpression("#{" + ((String) value).substring(2));
+				component.setValueExpression("value", vex);
+			}
+		}
+		else if (vs.contains(".{")) {
 			body.addJSFAttrbitute(vs.substring(2, vs.length() - 1));
 			if ("ngvalue".equals(key)) {
 				vs = vs.replace(".{", "faces.");
