@@ -8,9 +8,9 @@
 		<link href="../kendo/styles/kendo.common.min.css" rel="stylesheet" />
 		<link href="../kendo/styles/kendo.default.min.css" rel="stylesheet" />
 		<script
-			src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+			src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
 		<script
-			src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+			src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.js"></script>
 		<script src="../kendo/js/kendo.all.min.js"></script>
 	</h:head>
 	<pui:body ng-app="KendoDemos" ng-controller="MyCtrl" id="puiBody">
@@ -44,6 +44,7 @@
 						<h:inputText ngvalue=".{calculatorBean.number1}" label="number1"/>
 						<h:inputText ngvalue=".{calculatorBean.number2}" />
 						<h:inputText ngvalue=".{calculatorBean.result}" label="#{calculatorBean.resultCapture}" />
+						<h:inputText ngvalue=".{calculatorBean.serverSideResult}"  />
  						<h:commandButton value="Add on server (via AJAX) (doesn't work yet)"
 							action="#{calculatorBean.add}">
 							<f:ajax render="angular" execute="@form" />

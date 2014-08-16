@@ -55,9 +55,13 @@ public class PuiBody extends HtmlBody implements IAngularController {
 			}
 			currentMap = (Map<String, Object>) currentMap.get(keys[i]);
 		}
-		String v = null;
+		Object v = null;
 		if (value != null) {
-			v = value.toString();
+			Class<? extends Object> type = value.getClass();
+			if (type==int.class || type==long.class|| type==float.class|| type==double.class|| type==byte.class|| type==short.class || Number.class.isAssignableFrom(type)) {
+				v=value;
+			}
+			else v = value.toString();
 		}
 		currentMap.put(keys[keys.length - 1], v);
 	}
@@ -65,7 +69,7 @@ public class PuiBody extends HtmlBody implements IAngularController {
 	public String getFacesModel() {
 		Map<String, Object> model = new HashMap<>();
 		for (String attribute:jsfAttributes) {
-			String value = ELTools.evalAsString("#{"+attribute+"}");
+			Object value = ELTools.evalAsObject("#{"+attribute+"}");
 			// vex.getValue(FacesContext.getCurrentInstance().getELContext())
 			addJSFAttrbituteToAngularModel(model, attribute, value);
 		}

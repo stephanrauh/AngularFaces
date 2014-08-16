@@ -32,7 +32,7 @@ public class PuiBodyRenderer extends BodyRenderer implements RendererUtils {
 		}
 		String ngController = (String) component.getAttributes().get("ng-controller");
 		renderNonEmptyAttribute(writer, "ng-controller", ngController);
-		writer.writeAttribute("onload", "restoreValues();", null);
+//		writer.writeAttribute("onload", "restoreValues();", null);
 	}
 
 	@Override
@@ -46,14 +46,23 @@ public class PuiBodyRenderer extends BodyRenderer implements RendererUtils {
 	public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
 		ResponseWriter writer = context.getResponseWriter();
 		String json = ((PuiBody) component).getFacesModel();
+		if (context.isProjectStage(ProjectStage.Development)) {writer.append("\r\n");}
 		writer.startElement("script", component);
+		if (context.isProjectStage(ProjectStage.Development)) {writer.append("\r\n");}
 		writer.writeText("window.jsfScope=null;", null);
+		if (context.isProjectStage(ProjectStage.Development)) {writer.append("\r\n");}
 		writer.writeText("function initJSFScope($scope){", null);
+		if (context.isProjectStage(ProjectStage.Development)) {writer.append("\r\n  ");}
 		writer.writeText("window.jsfScope=$scope;", null);
+		if (context.isProjectStage(ProjectStage.Development)) {writer.append("\r\n  ");}
 		writer.writeText("var jsf = " + json + ";", null);
+		if (context.isProjectStage(ProjectStage.Development)) {writer.append("\r\n  ");}
 		writer.writeText("injectJSonIntoScope(jsf,$scope);", null);
+		if (context.isProjectStage(ProjectStage.Development)) {writer.append("\r\n");}
 		writer.writeText("}", null);
+		if (context.isProjectStage(ProjectStage.Development)) {writer.append("\r\n");}
 		writer.endElement("script");
+		if (context.isProjectStage(ProjectStage.Development)) {writer.append("\r\n");}
 
 		String main = (String) component.getAttributes().get("mainclassfile");
 		if (main == null) {
@@ -68,9 +77,9 @@ public class PuiBodyRenderer extends BodyRenderer implements RendererUtils {
 		r.encodeScript(context, component, "glue.js", "AngularFaces");
 
 		// writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
-		writer.append("\r\n");
-		writer.append("  <script>storeValues();</script>");
-		writer.append("\r\n");
+//		writer.append("\r\n");
+//		writer.append("  <script>storeValues();</script>");
+//		writer.append("\r\n");
 
 		super.encodeEnd(context, component);
 

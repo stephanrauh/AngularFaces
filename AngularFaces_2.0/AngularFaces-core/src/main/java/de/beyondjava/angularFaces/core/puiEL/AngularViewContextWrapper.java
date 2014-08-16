@@ -143,8 +143,8 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 	public void encodeAngularScript(ResponseWriter writer, FacesContext context, PuiBody component) throws IOException {
 		String json = component.getFacesModel();
 //		writer.startElement("script", component);
-		writer.writeText("var jsf = " + json + ";", null);
-		writer.writeText("injectJSonIntoScope(jsf,windows.jsfScope);", null);
+		writer.writeText("var facesBeans = " + json + ";", null);
+		writer.writeText("injectJSonIntoScope(facesBeans,window.jsfScope);", null);
 //		writer.endElement("script");
 	}
 }
