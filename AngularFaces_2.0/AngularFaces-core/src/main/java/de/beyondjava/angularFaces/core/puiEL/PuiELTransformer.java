@@ -14,6 +14,8 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 
+import org.primefaces.component.inputtext.InputText;
+
 import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.NGBeanAttributeInfo;
 import de.beyondjava.angularFaces.flavors.kendo.puiBody.PuiBody;
@@ -91,9 +93,15 @@ public class PuiELTransformer implements SystemEventListener {
 				if (component instanceof UIInput) {
 					NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(component);
 					if (infos.isNumeric()) {
-						component.getPassThroughAttributes().put("type", "number");
-					}
+						if (component.getClass().getName().equals("org.primefaces.component.inputtext.InputText")) {
+							((InputText)component).setType("number");
+						}
 
+						else {
+
+							component.getPassThroughAttributes().put("type", "number");
+						}
+					}
 				}
 			} else {
 				vs = vs.replace(".{", "{{faces.");

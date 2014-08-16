@@ -42,12 +42,16 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		Collection<String> myRenderIds = pvc.getRenderIds();
 
 		if (phaseId == PhaseId.RENDER_RESPONSE) {
+			
 			if (isAjaxRequest()) {
-				if (myRenderIds.contains("angular")) {
+				Object isAngularRequest = FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("de.beyondjava.angularFaces.angularRequest");
+				ctx.getExternalContext().getRequestParameterMap();
+				if (null != isAngularRequest || myRenderIds.contains("angular")) {
 					renderAngularResponse();
 					return;
 				}
 			}
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("de.beyondjava.angularFaces.angularRequest");
 		}
 		if (phaseId==PhaseId.APPLY_REQUEST_VALUES) {
 			UIViewRoot viewRoot = ctx.getViewRoot();

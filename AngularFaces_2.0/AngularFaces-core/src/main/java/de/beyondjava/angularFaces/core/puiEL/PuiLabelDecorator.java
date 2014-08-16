@@ -11,6 +11,8 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 
+import org.primefaces.component.outputlabel.OutputLabel;
+
 import de.beyondjava.angularFaces.core.NGWordUtiltites;
 
 /**
@@ -51,7 +53,14 @@ public class PuiLabelDecorator implements SystemEventListener {
 				}
 			}
 			if (null != capture) {
-				HtmlOutputLabel label = new HtmlOutputLabel();
+				HtmlOutputLabel label;
+				if (kid.getClass().getName().contains("primefaces")) {
+					// todo: do it by reflection
+					label = new OutputLabel();
+				}
+				else {
+					label = new HtmlOutputLabel();
+				}
 				label.setFor(kid.getId());
 				if (null != capture) {
 					label.setValue(capture);

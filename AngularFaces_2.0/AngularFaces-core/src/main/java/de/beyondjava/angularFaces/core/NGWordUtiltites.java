@@ -33,6 +33,10 @@ public class NGWordUtiltites {
 		StringBuffer label = new StringBuffer();
 		for (int i = 0; i < camel.length(); i++) {
 			char c = camel.charAt(i);
+			if (Character.isDigit(c)) {
+				if (i > 0 && Character.isAlphabetic(camel.charAt(i - 1)))
+					label.append(" ");
+			}
 			if (c == '_') {
 				label.append(" ");
 			} else if (Character.isUpperCase(c)) {
@@ -56,7 +60,7 @@ public class NGWordUtiltites {
 		pos = core.lastIndexOf('.');
 		if (pos > 0)
 			core = core.substring(pos + 1);
-		
+
 		return labelFromCamelCase(core);
 	}
 }
