@@ -85,23 +85,27 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		Collection<String> myRenderIds = pvc.getRenderIds();
 
 		if (phaseId == PhaseId.RENDER_RESPONSE) {
+			UIViewRoot viewRoot = ctx.getViewRoot();
+//			PuiELTransformer.eliminateDuplicatePuiModelSyncTags(viewRoot);
 			
 			if (isAjaxRequest()) {
 				Object isAngularRequest = FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("de.beyondjava.angularFaces.angularRequest");
 				ctx.getExternalContext().getRequestParameterMap();
 				if (null != isAngularRequest || myRenderIds.contains("angular")) {
 					renderAngularResponse();
+					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("de.beyondjava.angularFaces.angularRequest");
 					return;
 				}
 			}
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("de.beyondjava.angularFaces.angularRequest");
 		}
 		if (phaseId==PhaseId.APPLY_REQUEST_VALUES) {
 			UIViewRoot viewRoot = ctx.getViewRoot();
 			PuiELTransformer.processEverything(viewRoot);
 		}
 		getWrapped().processPartial(phaseId);
-
+		if (phaseId == PhaseId.RENDER_RESPONSE) {
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("de.beyondjava.angularFaces.angularRequest");
+		}
 		return;
 	}
 

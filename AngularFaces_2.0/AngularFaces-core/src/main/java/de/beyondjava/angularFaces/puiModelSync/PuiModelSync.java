@@ -26,10 +26,10 @@ import de.beyondjava.angularFaces.core.ELTools;
  */
 @FacesComponent("de.beyondjava.kendoFaces.puiBody.PuiBody")
 public class PuiModelSync extends HtmlBody implements IAngularController {
-	enum propertyKeys {
-		publishAs, selector
-	}
 
+	public PuiModelSync() {
+		// TODO Auto-generated constructor stub
+	}
 	Map<String, UIComponent> jsfAttributes = new HashMap<>();
 
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
@@ -70,6 +70,7 @@ public class PuiModelSync extends HtmlBody implements IAngularController {
 
 	public String getFacesModel() {
 		Map<String, Object> model = new HashMap<>();
+		System.out.println(jsfAttributes.size() + " in " + this);
 		for (Entry<String, UIComponent> entry : jsfAttributes.entrySet()) {
 			String attribute = entry.getKey();
 			UIComponent comp = entry.getValue();
@@ -91,7 +92,7 @@ public class PuiModelSync extends HtmlBody implements IAngularController {
 		return gs.toJson(model);
 	}
 
-	private Object convertToDatatype(String valueToRender, Class targetClass) {
+	private Object convertToDatatype(String valueToRender, Class targetClass) {	
 		if ("".equals(valueToRender)) return null;
 		if (targetClass==int.class) return new Integer((String)valueToRender).intValue();
 		if (targetClass==long.class) return new Long((String)valueToRender).longValue();

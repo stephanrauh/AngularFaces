@@ -1,6 +1,7 @@
 package de.beyondjava.angularFaces.core.puiEL;
 
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlBody;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.expression.SearchExpressionResolver;
@@ -14,7 +15,7 @@ public class AngularExpressionResolver implements SearchExpressionResolver {
 		UIComponent parent = last.getParent();
 
 		while (parent != null) {
-			if (parent instanceof de.beyondjava.angularFaces.puiModelSync.PuiModelSync) {
+			if (parent instanceof HtmlBody) {
 				return parent;
 			}
 

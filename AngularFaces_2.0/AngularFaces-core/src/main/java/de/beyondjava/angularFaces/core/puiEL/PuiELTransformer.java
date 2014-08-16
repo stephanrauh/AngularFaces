@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.SystemEvent;
@@ -44,10 +45,16 @@ public class PuiELTransformer implements SystemEventListener {
 
 	@Override
 	public void processEvent(SystemEvent event) throws AbortProcessingException {
-		boolean ajaxRequest = FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest();
 		Object source = event.getSource();
-		if (!ajaxRequest) {
-			processUIComponent(source);
+		if (source instanceof UIViewRoot) {
+			boolean ajaxRequest = FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest();
+			boolean postback = FacesContext.getCurrentInstance().isPostback();
+			if ((!ajaxRequest) && (!postback)) {
+				// processUIComponent(source);
+				UIComponent c = findModelSyncTag(source);
+				processEverything((UIViewRoot) source);
+
+			}
 		}
 	}
 
@@ -64,7 +71,17 @@ public class PuiELTransformer implements SystemEventListener {
 		if (null != ngController) {
 			component.getPassThroughAttributes().put("ng-controller", ngController);
 			List<UIComponent> children = component.getParent().getChildren();
-			children.add(new PuiModelSync());
+			boolean needsToBeAdded = true;
+			int index = 0;
+			for (UIComponent maybe : children) {
+				if (maybe instanceof PuiModelSync) {
+					needsToBeAdded = false;
+				}
+				index++;
+			}
+			if (needsToBeAdded) {
+				children.add(new PuiModelSync());
+			}
 		}
 
 		PuiModelSync body = findModelSyncTag(source);
@@ -145,4 +162,19 @@ public class PuiELTransformer implements SystemEventListener {
 		}
 		return null;
 	}
+
+	// public static void eliminateDuplicatePuiModelSyncTags(UIViewRoot viewRoot) {
+	// PuiModelSync first = findModelSyncTag(viewRoot);
+	// if (null!=first) {
+	// List<UIComponent> siblings= first.getParent().getChildren();
+	// for (int i = siblings.size(); i>=0;i--) {
+	// if (siblings.get(i) instanceof PuiModelSync)
+	// if (siblings.get(i)!=first) {
+	// System.out.println("gotcha");
+	// }
+	// }
+	//
+	// }
+	//
+	// }
 }
