@@ -27,10 +27,7 @@ import de.beyondjava.angularFaces.core.ELTools;
 @FacesComponent("de.beyondjava.kendoFaces.puiBody.PuiBody")
 public class PuiModelSync extends HtmlBody implements IAngularController {
 
-	public PuiModelSync() {
-		// TODO Auto-generated constructor stub
-	}
-	Map<String, UIComponent> jsfAttributes = new HashMap<>();
+	private static final String JSF_ATTRIBUTES_SESSION_PARAMETER = "de.beyondjava.angularFaces.jsfAttributes";
 
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
 
@@ -43,6 +40,11 @@ public class PuiModelSync extends HtmlBody implements IAngularController {
 	}
 
 	public void addJSFAttrbitute(String key, UIComponent component) {
+		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		if (!sessionMap.containsKey(JSF_ATTRIBUTES_SESSION_PARAMETER)) {
+			sessionMap.put(JSF_ATTRIBUTES_SESSION_PARAMETER, new HashMap<String, UIComponent>());
+		}
+		Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
 		jsfAttributes.put(key, component);
 	}
 
@@ -69,8 +71,10 @@ public class PuiModelSync extends HtmlBody implements IAngularController {
 	}
 
 	public String getFacesModel() {
-		Map<String, Object> model = new HashMap<>();
-		System.out.println(jsfAttributes.size() + " in " + this);
+		Map<String, Object> model = new HashMap<>();		
+		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
+		sessionMap.remove(JSF_ATTRIBUTES_SESSION_PARAMETER);
 		for (Entry<String, UIComponent> entry : jsfAttributes.entrySet()) {
 			String attribute = entry.getKey();
 			UIComponent comp = entry.getValue();
@@ -185,11 +189,6 @@ public class PuiModelSync extends HtmlBody implements IAngularController {
 
 		PuiScriptRenderer r = new PuiScriptRenderer();
 		r.encodeScript(context, this, "glue.js", "AngularFaces");
-
-		// writer.append("<script src=\"../resources/AngularFaces/glue.js\">\r\n</script>\r\n");
-//		writer.append("\r\n");
-//		writer.append("  <script>storeValues();</script>");
-//		writer.append("\r\n");
 	}
 	
 	@Override

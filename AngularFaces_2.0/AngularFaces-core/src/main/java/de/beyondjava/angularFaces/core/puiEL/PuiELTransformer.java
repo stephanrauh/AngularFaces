@@ -49,9 +49,10 @@ public class PuiELTransformer implements SystemEventListener {
 		if (source instanceof UIViewRoot) {
 			boolean ajaxRequest = FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest();
 			boolean postback = FacesContext.getCurrentInstance().isPostback();
-			if ((!ajaxRequest) && (!postback)) {
+			UIComponent c = findModelSyncTag(source);
+			if (null == c) {
+//			if ((!ajaxRequest) && (!postback)) {
 				// processUIComponent(source);
-				UIComponent c = findModelSyncTag(source);
 				processEverything((UIViewRoot) source);
 
 			}
