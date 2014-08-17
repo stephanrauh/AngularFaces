@@ -19,13 +19,13 @@
 				style=".{calculatorBean.gridStyle}">
 				This demo uses the new JSF 2.2 HTML5 style to define the components.
 				<h:panelGrid columns="2">
-					<prime:inputText ngvalue=".{calculatorBean.number1}"
+					<prime:inputText value="#{calculatorBean.number1}"
 						label="number1" />
-					<prime:inputText ngvalue=".{calculatorBean.number2}" />
-					<prime:inputText ngvalue=".{calculatorBean.result}"
+					<prime:inputText value="#{calculatorBean.number2}" />
+					<prime:inputText value="#{calculatorBean.result}"
 						label="#{calculatorBean.resultCapture}" />
-					<prime:inputText ngvalue=".{calculatorBean.serverSideResult}" />
-					<prime:inputText ngvalue=".{calculatorBean.randomNumberFromServer}" />
+					<prime:inputText value="#{calculatorBean.serverSideResult}" />
+					<prime:inputText value="#{calculatorBean.randomNumberFromServer}" />
 					<h:commandButton value="Add on server (via AJAX)"
 						action="#{calculatorBean.add}">
 						<f:ajax render="angular" execute="@form" />

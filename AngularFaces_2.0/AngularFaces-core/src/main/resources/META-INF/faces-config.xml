@@ -12,16 +12,8 @@
 	            de.beyondjava.angularFaces.core.puiEL.PuiELTransformer
 	         </system-event-listener-class>
 	         <system-event-class>
-	            javax.faces.event.PostAddToViewEvent
-	         </system-event-class>    					
-	      </system-event-listener>
-	     <system-event-listener>
-	         <system-event-listener-class>
-	            de.beyondjava.angularFaces.core.puiEL.PuiLabelDecorator
-	         </system-event-listener-class>
-	         <system-event-class>
 	            javax.faces.event.PreRenderViewEvent
 	         </system-event-class>    					
-      </system-event-listener>
+	      </system-event-listener>
 	</application>
 </faces-config>

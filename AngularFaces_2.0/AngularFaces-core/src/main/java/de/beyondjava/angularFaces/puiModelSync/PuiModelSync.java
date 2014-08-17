@@ -39,11 +39,18 @@ public class PuiModelSync extends HtmlBody implements IAngularController {
 		return super.getStateHelper();
 	}
 
-	public void addJSFAttrbitute(String key, UIComponent component) {
+	public static void initJSFAttributesTable() {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		if (!sessionMap.containsKey(JSF_ATTRIBUTES_SESSION_PARAMETER)) {
 			sessionMap.put(JSF_ATTRIBUTES_SESSION_PARAMETER, new HashMap<String, UIComponent>());
+		} else {
+			Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
+			jsfAttributes.clear();
 		}
+	}
+	
+	public static void addJSFAttrbitute(String key, UIComponent component) {
+		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
 		jsfAttributes.put(key, component);
 	}

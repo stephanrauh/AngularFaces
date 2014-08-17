@@ -16,7 +16,6 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.event.PhaseId;
 import javax.faces.lifecycle.ClientWindow;
 import javax.faces.render.ResponseStateManager;
-import javax.rmi.CORBA.Util;
 
 import de.beyondjava.angularFaces.puiModelSync.PuiModelSync;
 
@@ -85,7 +84,7 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		Collection<String> myRenderIds = pvc.getRenderIds();
 
 		if (phaseId == PhaseId.RENDER_RESPONSE) {
-			UIViewRoot viewRoot = ctx.getViewRoot();
+//			UIViewRoot viewRoot = ctx.getViewRoot();
 //			PuiELTransformer.eliminateDuplicatePuiModelSyncTags(viewRoot);
 			
 			if (isAjaxRequest()) {
@@ -97,10 +96,6 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 					return;
 				}
 			}
-		}
-		if (phaseId==PhaseId.APPLY_REQUEST_VALUES) {
-			UIViewRoot viewRoot = ctx.getViewRoot();
-			PuiELTransformer.processEverything(viewRoot);
 		}
 		getWrapped().processPartial(phaseId);
 		if (phaseId == PhaseId.RENDER_RESPONSE) {
@@ -131,7 +126,7 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 			if (encoding == null) {
 				encoding = "UTF-8";
 			}
-			writer.writePreamble("<?xml version='1.0' encoding='" + encoding + "'?>\n");
+			writer.writePreamble("<?xml version='1.0' encoding='" + encoding + "'?>");
 			writer.startDocument();
 			writer.startEval();
 			PuiModelSync body = (PuiModelSync) findPuiBody(viewRoot);
@@ -200,8 +195,8 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 	public void encodeAngularScript(ResponseWriter writer, FacesContext context, PuiModelSync component) throws IOException {
 		String json = component.getFacesModel();
 //		writer.startElement("script", component);
-		writer.writeText("var facesBeans = " + json + ";", null);
-		writer.writeText("injectJSonIntoScope(facesBeans,window.jsfScope);", null);
+		writer.write("var facesBeans = " + json + ";");
+		writer.write("injectJSonIntoScope(facesBeans,window.jsfScope);");
 //		writer.endElement("script");
 	}
 }
