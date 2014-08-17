@@ -5,9 +5,11 @@ AngularFaces and BabbageFaces
 <b>BabbageFaces</b> optimizes the JSF responses. In most cases JSF exchanges an unnecessary large portion of the DOM tree. BabbageFaces fixes this. 
 
 <b>Breaking news:</b>
-AngularFaces 2.0 provides AngularJS integration in Apache MyFaces, Oracle Mojarra, PrimeFaces and the new HTML5 friendly style. It doesn't need widgets of its own.
+AngularFaces 2.0 provides AngularJS integration in Apache MyFaces, Oracle Mojarra, PrimeFaces and the new HTML5 friendly style. It doesn't need widgets of its own. Instead it 
+supports most JSF and PrimeFaces widgets out of the box.
 
-Therefore the AngularJS and AngularDart widgets I already implemented have been moved to a widgets subproject ("AngularFaces-widgets"). 
+Therefore the AngularJS and AngularDart widgets I already implemented have been moved to a widgets subproject ("AngularFaces-widgets"). Those widgets make
+the AngularFaces experience even more fun, but they aren't necessary.
 
 <b>State of the art:</b>
 <ul>
