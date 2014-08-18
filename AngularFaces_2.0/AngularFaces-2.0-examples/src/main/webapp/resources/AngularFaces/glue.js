@@ -16,17 +16,19 @@ function addSyncPushFunction(f) {
 	syncPushFunctions[len] = f;
 }
 
-function injectJSonIntoScope(json, $scope) {
+function injectJSonIntoScope(bean, json, $scope) {
 	try {
 		if ($scope.$$phase) {
 //			console.log("immediate injectIntoJson call #" + counter);
 //			console.log(json);
-			$scope.faces = json;
+//			eval("$scope." + bean + "=null;");
+			eval("$scope." + bean + "=" + json + ";");
 		} else {
 			$scope.$apply(function() {
 //				console.log("delayed injectIntoJson call #" + counter);
 //				console.log(json);
-				$scope.faces = json;
+//				eval("$scope." + bean + "=null;");
+				eval("$scope." + bean + "=" + json + ";");
 			});
 		}
 	} catch (e) {

@@ -14,8 +14,8 @@
 		<h:form>
 			<h2>Welcome to AngularFaces 2.0!</h2>
     		Based firmly in the future...
-    		<prime:panel colspan="2" header=".{calculatorBean.headerText}"
-				style=".{calculatorBean.gridStyle}">
+    		<prime:panel colspan="2" header="{{calculatorBean.headerText}}"
+				style="{{calculatorBean.gridStyle}}">
 				This demo uses the new JSF 2.2 HTML5 style to define the components.
 				<prime:panelGrid columns="2">
 					<prime:inputText value="#{calculatorBean.number1}"
@@ -25,13 +25,6 @@
 						label="#{calculatorBean.resultCapture}" />
 					<prime:inputText value="#{calculatorBean.serverSideResult}" />
 					<prime:inputText value="#{calculatorBean.randomNumberFromServer}" />
-					<h:commandButton value="Add on server (via AJAX)"
-						action="#{calculatorBean.add}">
-						<f:ajax render="angular" execute="@form" />
-
-					</h:commandButton>
-					<h:commandButton value="Add on server (without AJAX)"
-						action="#{calculatorBean.add}" />
 					<prime:commandButton value="Add on server (via AJAX)"
 						action="#{calculatorBean.add}" update="@angular" process="@form" />
 					<prime:commandButton value="Add on server (without AJAX)"

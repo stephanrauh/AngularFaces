@@ -5,7 +5,7 @@ import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
 
-import de.beyondjava.angularFaces.puiModelSync.PuiModelSync;
+import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 
 public class ProcessAngularExpressionsCallback implements VisitCallback {
 	static String[] properties = { "label", "header", "style", "styleClass" };
@@ -25,14 +25,8 @@ public class ProcessAngularExpressionsCallback implements VisitCallback {
 		return VisitResult.ACCEPT;
 	}
 	private static void processAngularExpression(UIComponent component, String key, Object value, String vs) {
-		if (vs.contains("{{faces.")) {
-			PuiModelSync.addJSFAttrbitute(vs.substring("{{faces.".length(), vs.length() - 2), null);
-		} else if (vs.contains(".{")) {
-			PuiModelSync.addJSFAttrbitute(vs.substring(2, vs.length() - 1), null);
-
-			vs = vs.replace(".{", "{{faces.");
-			vs = vs.replace("}", "}}");
-			component.getAttributes().put(key, vs);
+		if (vs.contains("{{")) {
+			PuiModelSync.addJSFAttrbitute(vs.substring("{{".length(), vs.length() - 2), null);
 		}
 	}
 

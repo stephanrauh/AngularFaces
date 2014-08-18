@@ -1,7 +1,9 @@
-package de.beyondjava.angularFaces.puiModelSync;
+package de.beyondjava.angularFaces.components.puiModelSync;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
@@ -18,14 +20,13 @@ import javax.faces.context.ResponseWriter;
 
 import com.google.gson.Gson;
 
-import de.beyondjava.angularFaces.common.IAngularController;
 import de.beyondjava.angularFaces.core.ELTools;
 
 /**
  * PuiBody is an HtmlBody that activates the AngularDart framework.
  */
 @FacesComponent("de.beyondjava.kendoFaces.puiBody.PuiBody")
-public class PuiModelSync extends HtmlBody implements IAngularController {
+public class PuiModelSync extends HtmlBody {
 
 	private static final String JSF_ATTRIBUTES_SESSION_PARAMETER = "de.beyondjava.angularFaces.jsfAttributes";
 
@@ -77,7 +78,7 @@ public class PuiModelSync extends HtmlBody implements IAngularController {
 		currentMap.put(keys[keys.length - 1], v);
 	}
 
-	public String getFacesModel() {
+	public List<String> getFacesModel() {
 		Map<String, Object> model = new HashMap<>();		
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
@@ -100,7 +101,12 @@ public class PuiModelSync extends HtmlBody implements IAngularController {
 		}
 
 		Gson gs = new Gson();
-		return gs.toJson(model);
+		List<String> beans = new ArrayList<>();
+		for (Entry<String, Object> bean: model.entrySet()) {
+			String assignment = "\"" + bean.getKey() + "\",'" + gs.toJson(bean.getValue())+"'";
+			beans.add(assignment);
+		}
+		return beans;
 	}
 
 	private Object convertToDatatype(String valueToRender, Class targetClass) {	
@@ -165,7 +171,6 @@ public class PuiModelSync extends HtmlBody implements IAngularController {
 	@Override
 	public void encodeBegin(FacesContext context) throws IOException {
 		ResponseWriter writer = context.getResponseWriter();
-		String json = getFacesModel();
 		boolean debugMode = context.isProjectStage(ProjectStage.Development);
 		if (debugMode) {writer.append("\r\n");}
 		writer.startElement("script", this);
@@ -176,9 +181,11 @@ public class PuiModelSync extends HtmlBody implements IAngularController {
 		if (debugMode) {writer.append("\r\n  ");}
 		writer.writeText("window.jsfScope=$scope;", null);
 		if (debugMode) {writer.append("\r\n  ");}
-		writer.writeText("var jsf = " + json + ";", null);
 		if (debugMode) {writer.append("\r\n  ");}
-		writer.writeText("injectJSonIntoScope(jsf,$scope);", null);
+		List<String> beansAsJSon = getFacesModel();
+		for (String bean:beansAsJSon){
+			writer.writeText("injectJSonIntoScope(" +bean +",$scope);", null);
+		}
 		if (debugMode) {writer.append("\r\n");}
 		writer.writeText("}", null);
 		if (debugMode) {writer.append("\r\n");}

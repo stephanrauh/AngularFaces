@@ -1,4 +1,4 @@
-package de.beyondjava.angularFaces.puiModelSync;
+package de.beyondjava.angularFaces.components.puiModelSync;
 
 import java.io.IOException;
 import java.util.Map;

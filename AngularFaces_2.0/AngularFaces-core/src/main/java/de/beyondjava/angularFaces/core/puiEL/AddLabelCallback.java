@@ -11,8 +11,8 @@ import javax.faces.component.visit.VisitResult;
 
 import org.primefaces.component.outputlabel.OutputLabel;
 
+import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 import de.beyondjava.angularFaces.core.NGWordUtiltites;
-import de.beyondjava.angularFaces.puiModelSync.PuiModelSync;
 
 public class AddLabelCallback implements VisitCallback {
 	int duplicateLabels=0;

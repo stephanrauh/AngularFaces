@@ -13,8 +13,8 @@
 		<h:form>
 			<h2>Welcome to AngularFaces 2.0!</h2>
     		Based firmly in the future...
-    		<h:panelGroup colspan="2" header=".{calculatorBean.headerText}"
-				style=".{calculatorBean.gridStyle}">
+    		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
+				style="{{calculatorBean.gridStyle}}">
 				This demo uses the new JSF 2.2 HTML5 style to define the components.
 				<h:panelGrid columns="2">
 					<input type="number" jsf:value="#{calculatorBean.number1}" />

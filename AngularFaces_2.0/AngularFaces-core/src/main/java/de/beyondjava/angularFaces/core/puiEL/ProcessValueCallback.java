@@ -6,7 +6,7 @@ import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
 
-import de.beyondjava.angularFaces.puiModelSync.PuiModelSync;
+import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 
 public class ProcessValueCallback implements VisitCallback {
 
@@ -16,8 +16,7 @@ public class ProcessValueCallback implements VisitCallback {
 		if (null != vex) {
 			String vexAsString = vex.getExpressionString();
 			String coreValue = vexAsString.substring(2, vexAsString.length() - 1);
-			String vs = "faces." + coreValue;
-			component.getPassThroughAttributes().put("ng-model", vs);
+			component.getPassThroughAttributes().put("ng-model", coreValue);
 			PuiModelSync.addJSFAttrbitute(coreValue, component);
 		}
 		return VisitResult.ACCEPT;

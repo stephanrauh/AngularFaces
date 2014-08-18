@@ -9,7 +9,7 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 
-import de.beyondjava.angularFaces.puiModelSync.PuiModelSync;
+import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 
 /**
  * Converts EL expressions to Angular expressions
