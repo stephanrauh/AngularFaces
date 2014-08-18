@@ -4,7 +4,6 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:pui="http://beyondjava.net/kendoFaces"
 	xmlns:prime="http://primefaces.org/ui">
 	<h:head>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
@@ -15,10 +14,10 @@
 		<h:form>
 			<h2>Welcome to AngularFaces 2.0!</h2>
     		Based firmly in the future...
-    		<h:panelGroup colspan="2" header=".{calculatorBean.headerText}"
+    		<prime:panel colspan="2" header=".{calculatorBean.headerText}"
 				style=".{calculatorBean.gridStyle}">
 				This demo uses the new JSF 2.2 HTML5 style to define the components.
-				<h:panelGrid columns="2">
+				<prime:panelGrid columns="2">
 					<prime:inputText value="#{calculatorBean.number1}"
 						label="number1" />
 					<prime:inputText value="#{calculatorBean.number2}" />
@@ -37,9 +36,9 @@
 						action="#{calculatorBean.add}" update="@angular" process="@form" />
 					<prime:commandButton value="Add on server (without AJAX)"
 						action="#{calculatorBean.add}" ajax="false" />
-				</h:panelGrid>
-				<h:messages globalOnly="false" />
-			</h:panelGroup>
+				</prime:panelGrid>
+				<prime:messages globalOnly="false" />
+			</prime:panel>
 		</h:form>
 	</h:body>
 </f:view>

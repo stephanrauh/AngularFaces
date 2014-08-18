@@ -13,7 +13,7 @@ the AngularFaces experience even more fun, but they aren't necessary.
 
 <b>State of the art:</b>
 <ul>
-<li>A basic version of AngularFaces-core currently runs under MyFaces with or without PrimeFaces. Mojarra compatibility seems to be temporarily broken.</li>
+<li>A basic version of AngularFaces-core currently runs under MyFaces or Mojarra, both with or without PrimeFaces.</li>
 <li>The Javascript version of the widget library ought the run, but I didn't test it yet after extracting the core project, so don't expect too much.</li>
 <li>AngularDart/Prime is currently broken due to API changes of the AngularDart team. Currently I'm waiting for an announced API change to be released, so I put
 AngularDart/Prime on hold. As a consequence the Dart version of AngularFaces is temporarily stopped, too.</li>
