@@ -44,6 +44,15 @@ public class ELTools {
         ValueExpression vex = expressionFactory.createValueExpression(elContext, p_expression, Object.class);
         return vex;
     }
+    
+    public static ValueExpression createValueExpression(String p_expression, Class expectedType) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExpressionFactory expressionFactory = context.getApplication().getExpressionFactory();
+        ELContext elContext = context.getELContext();
+        ValueExpression vex = expressionFactory.createValueExpression(elContext, p_expression, expectedType);
+        return vex;
+    }
+
 
     /**
      * Evaluates an EL expression into an object.

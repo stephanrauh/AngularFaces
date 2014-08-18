@@ -37,9 +37,9 @@ public class PuiELTransformer implements SystemEventListener {
 				AddLabelCallback labelDecorator = new AddLabelCallback();
 				((UIViewRoot) source).visitTree(new FullVisitContext(FacesContext.getCurrentInstance()), labelDecorator);
 				System.out.println("AJAX: " + ajaxRequest + " Postback: "+ postback + " duplicate Labels: " +labelDecorator.duplicateLabels );
-				((UIViewRoot) source).visitTree(new FullVisitContext(FacesContext.getCurrentInstance()), new AddTypeCallback());
 				((UIViewRoot) source).visitTree(new FullVisitContext(FacesContext.getCurrentInstance()), new ProcessAngularExpressionsCallback());
 				((UIViewRoot) source).visitTree(new FullVisitContext(FacesContext.getCurrentInstance()), new ProcessValueCallback());
+				((UIViewRoot) source).visitTree(new FullVisitContext(FacesContext.getCurrentInstance()), new AddTypeCallback());
 			}
 		}
 	}

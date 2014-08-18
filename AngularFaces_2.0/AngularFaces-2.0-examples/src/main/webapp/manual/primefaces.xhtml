@@ -14,11 +14,12 @@
 		<h:form>
 			<h2>Welcome to AngularFaces 2.0!</h2>
     		Based firmly in the future...
+    		<h:outputText title="{{test}}" value="test mit title"/>
     		<prime:panel colspan="2" header="{{calculatorBean.headerText}}"
 				style="{{calculatorBean.gridStyle}}">
 				This demo uses the new JSF 2.2 HTML5 style to define the components.
 				<prime:panelGrid columns="2">
-					<prime:inputText value="#{calculatorBean.number1}"
+					<prime:inputText value="{{calculatorBean.number1}}"
 						label="number1" />
 					<prime:inputText value="#{calculatorBean.number2}" />
 					<prime:inputText value="#{calculatorBean.result}"
