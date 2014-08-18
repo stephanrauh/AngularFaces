@@ -31,6 +31,12 @@ public class AddLabelCallback implements VisitCallback {
 					String core =vex.getExpressionString();
 					capture = NGWordUtiltites.labelFromELExpression(core);
 				}
+				else {
+					String angularExpression = (String) kid.getAttributes().get("value");
+					if (angularExpression!=null && angularExpression.startsWith("{{") && angularExpression.endsWith("}}")) {
+						capture = NGWordUtiltites.labelFromELExpression(angularExpression.substring(2, angularExpression.length()-2));
+					}
+				}
 			}
 			if (null != capture) {
 				for (int j = 0; j < children.size();j++) {

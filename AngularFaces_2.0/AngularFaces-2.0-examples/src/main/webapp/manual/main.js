@@ -5,6 +5,7 @@ function MyCtrl($scope) {
 
 	$scope.width = 0;
 	$scope.height = 20;
+	$scope.angularModelStyle="color:blue;";
 
 	//$scope.calculatorBean.result = $scope.calculatorBean.number1 + $scope.calculatorBean.number2;
 	

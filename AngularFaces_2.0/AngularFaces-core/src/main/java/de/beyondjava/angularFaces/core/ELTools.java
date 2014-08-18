@@ -49,6 +49,11 @@ public class ELTools {
         FacesContext context = FacesContext.getCurrentInstance();
         ExpressionFactory expressionFactory = context.getApplication().getExpressionFactory();
         ELContext elContext = context.getELContext();
+        if (null == expectedType)
+        {
+        	LOGGER.severe("The expected type of " + p_expression + " is null. Defaulting to String.");
+        	expectedType=String.class;
+        }
         ValueExpression vex = expressionFactory.createValueExpression(elContext, p_expression, expectedType);
         return vex;
     }
@@ -297,6 +302,7 @@ public class ELTools {
         if (null != declaredField) {
             return declaredField.getType();
         }
+        LOGGER.info("TODO: check the getter type instead of the field type");
         return null;
     }
 

@@ -14,18 +14,14 @@
 		<h:form>
 			<h2>Welcome to AngularFaces 2.0!</h2>
     		Based firmly in the future...
-    		<h:outputText title="{{test}}" value="test mit title"/>
-    		<prime:panel colspan="2" header="{{calculatorBean.headerText}}"
-				style="{{calculatorBean.gridStyle}}">
-				This demo uses the new JSF 2.2 HTML5 style to define the components.
+			<prime:panel colspan="2" header="This is a JSF view enriched by an AngularJS bean">
 				<prime:panelGrid columns="2">
-					<prime:inputText value="{{calculatorBean.number1}}"
-						label="number1" />
-					<prime:inputText value="#{calculatorBean.number2}" />
-					<prime:inputText value="#{calculatorBean.result}"
+					<prime:inputText value="{{calculatorBean.number1}}" label="number1" />
+					<prime:inputText value="{{calculatorBean.number2}}" />
+					<prime:inputText value="{{calculatorBean.result}}"
 						label="#{calculatorBean.resultCapture}" />
-					<prime:inputText value="#{calculatorBean.serverSideResult}" />
-					<prime:inputText value="#{calculatorBean.randomNumberFromServer}" />
+					<prime:inputText value="{{calculatorBean.serverSideResult}}" />
+					<prime:inputText value="{{calculatorBean.randomNumberFromServer}}" />
 					<prime:commandButton value="Add on server (via AJAX)"
 						action="#{calculatorBean.add}" update="@angular" process="@form" />
 					<prime:commandButton value="Add on server (without AJAX)"
@@ -33,6 +29,15 @@
 				</prime:panelGrid>
 				<prime:messages globalOnly="false" />
 			</prime:panel>
+    		<prime:panel colspan="2" header="{{calculatorBean.headerText}}"
+				style="{{calculatorBean.gridStyle}}">
+				The header text is set both by the JSF bean and the AngularJS controller. The header style is set by an AngularJS watch.
+			</prime:panel>
+			<prime:panel colspan="2" header="pure AngularJS">
+				<h:outputText style="{{angularModelStyle}}"
+					value="This text has a css style that stems from the Angular model, but not from any JSF bean." />
+			</prime:panel>
+
 		</h:form>
 	</h:body>
 </f:view>
