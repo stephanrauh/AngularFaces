@@ -40,6 +40,7 @@ public class PuiELTransformer implements SystemEventListener {
 				((UIViewRoot) source).visitTree(new FullVisitContext(FacesContext.getCurrentInstance()), new ProcessAngularExpressionsCallback());
 				((UIViewRoot) source).visitTree(new FullVisitContext(FacesContext.getCurrentInstance()), new ProcessValueCallback());
 				((UIViewRoot) source).visitTree(new FullVisitContext(FacesContext.getCurrentInstance()), new AddTypeCallback());
+				((UIViewRoot) source).visitTree(new FullVisitContext(FacesContext.getCurrentInstance()), new AddMessagesCallback());
 			}
 		}
 	}
