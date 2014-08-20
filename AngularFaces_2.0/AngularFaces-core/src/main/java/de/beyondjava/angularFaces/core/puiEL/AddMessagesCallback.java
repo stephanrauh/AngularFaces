@@ -30,7 +30,7 @@ public class AddMessagesCallback implements VisitCallback {
 				for (int j = 0; j < children.size();j++) {
 					UIComponent maybe = children.get(j);
 					if (maybe instanceof PuiMessage) {
-						if (kid.getId().equals(((PuiMessage) maybe).getFor())){
+						if (kid.getClientId().equals(((PuiMessage) maybe).getFor())){
 							duplicateLabels++;
 							if (j != index+1) {
 								System.out.println("Message has been restored at the wrong position");
@@ -45,7 +45,7 @@ public class AddMessagesCallback implements VisitCallback {
 				if (index< children.size()-1) {
 					UIComponent maybe = children.get(index+1);
 					if (maybe instanceof PuiMessage) {
-						if (kid.getId().equals(((PuiMessage) maybe).getFor())){
+						if (kid.getClientId().equals(((PuiMessage) maybe).getFor())){
 							duplicateLabels++;
 							continue;
 						}
@@ -62,7 +62,22 @@ public class AddMessagesCallback implements VisitCallback {
 				else {
 					message = new PuiMessage();
 				}
-				message.setFor(kid.getId());
+				message.setFor(kid.getClientId());
+//				String model = (String) kid.getPassThroughAttributes().get("ng-model");
+				message.getPassThroughAttributes().put("af-for", kid.getClientId());
+				
+//				if (null==model) continue;
+//				String clientId = kid.getClientId();
+//				String name = (String)kid.getAttributes().get("name");
+//				if (null==name) {
+//					name=model;
+//					kid.getAttributes().put("name", name);
+//				}
+//
+//				if (null != model) {
+//					message.getPassThroughAttributes().put("ng-show", "error."+clientId+"$pristine");
+//				}
+				//ng-show="myForm.site.$error.required"
 				children.add(index+1, message);
 			}
 		}

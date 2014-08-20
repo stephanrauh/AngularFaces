@@ -21,7 +21,7 @@ public class FindNGControllerCallback implements VisitCallback {
 
 		String ngApp = (String) component.getAttributes().get("ng-app");
 		if (null != ngApp) {
-			component.getPassThroughAttributes().put("ng-app", "");
+			component.getPassThroughAttributes().put("ng-app", ngApp);
 		}
 		String ngController = (String) component.getAttributes().get("ng-controller");
 		if (null != ngController) {

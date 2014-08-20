@@ -1,0 +1,83 @@
+
+<head>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+	<script
+		src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.js"></script>
+	</head>
+<body id="angular" ng-controller="MyCtrl" ng-app="AngularFacesExamples">
+	<form id="j_idt3" name="j_idt3" method="post"
+		action="/angularfaces-examples/manual/html5.jsf"
+		enctype="application/x-www-form-urlencoded">
+		<input type="hidden" name="j_idt3" value="j_idt3" />
+
+		<h2>Welcome to AngularFaces 2.0!</h2>
+		Based firmly in the future...<br />
+		<span style="" style="{{calculatorBean.gridStyle}}"> <br />
+			This demo uses the new JSF 2.2 HTML5 style to define the components.
+			<table>
+				<tbody>
+					<tr>
+						<td><label for="j_idt3:j_idt8">number 1</label></td>
+						<td><input name="j_idt3:j_idt8" value="42"
+							ng-model="calculatorBean.number1" type="number" /></td>
+						<td><span angularfacesmessage="j_idt8"
+							>an error message</span></td>
+					</tr>
+					<tr>
+						<td><label for="j_idt3:j_idt9">number 2</label></td>
+						<td><input name="j_idt3:j_idt9" value="65"
+							ng-model="calculatorBean.number2" type="number" /></td>
+						<td><angularfacesmessage></angularfacesmessage></td>
+					</tr>
+					<tr>
+						<td><label for="j_idt3:j_idt10">result</label></td>
+						<td><input name="j_idt3:j_idt10" value="0"
+							ng-model="calculatorBean.result" label="result" type="number" /></td>
+						<td><span angularfacesmessage="j_idt10"
+							>an error message</span></td>
+					</tr>
+					<tr>
+						<td><label for="j_idt3:j_idt11">server side result</label></td>
+						<td><input name="j_idt3:j_idt11" value="0"
+							ng-model="calculatorBean.serverSideResult" type="number" /></td>
+						<td><span angularfacesmessage="j_idt11"
+							>an error message</span></td>
+					</tr>
+					<tr>
+						<td><label for="j_idt3:j_idt12">random number from
+								server</label></td>
+						<td><input name="j_idt3:j_idt12" value="0"
+							ng-model="calculatorBean.randomNumberFromServer" type="number" /></td>
+						<td><span angularfacesmessage="j_idt12"
+							>an error message</span></td>
+					</tr>
+					<tr>
+						<td><input id="j_idt3:j_idt13" type="submit"
+							name="j_idt3:j_idt13" value="Add on server (via AJAX)"
+							onclick="mojarra.ab(this,event,'action','@form','angular');return false" /></td>
+						<td><input type="submit" name="j_idt3:j_idt14"
+							value="Add on server (without AJAX)" /></td>
+					</tr>
+				</tbody>
+			</table>
+		</span><input type="hidden" name="javax.faces.ViewState"
+			id="j_id1:javax.faces.ViewState:0"
+			value="7131429667178621572:3507386102652017285" autocomplete="off" />
+	</form>
+</body>
+<script>
+	window.jsfScope = null;
+	function initJSFScope($scope) {
+		window.jsfScope = $scope;
+
+		injectJSonIntoScope(
+				"calculatorBean",
+				'{"result":0,"gridStyle":"font-weight:bold","headerText":"Header text from Angular Model. The last calculation on the server side was 42 + 65 \u003d 0","randomNumberFromServer":99,"number1":42,"serverSideResult":0,"number2":65}',
+				$scope);
+	}
+</script>
+<script src='main.js'></script>
+<script type="text/javascript"
+	src="/angularfaces-examples/resources/AngularFaces/components.js"></script>
+<script type="text/javascript"
+	src="/angularfaces-examples/resources/AngularFaces/glue.js"></script>

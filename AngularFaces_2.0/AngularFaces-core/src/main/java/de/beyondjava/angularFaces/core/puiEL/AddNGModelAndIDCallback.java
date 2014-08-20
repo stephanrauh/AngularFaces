@@ -9,8 +9,9 @@ import javax.faces.context.FacesContext;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 import de.beyondjava.angularFaces.core.ELTools;
+import de.beyondjava.angularFaces.core.NGWordUtiltites;
 
-public class ProcessValueCallback implements VisitCallback {
+public class AddNGModelAndIDCallback implements VisitCallback {
 
 	@Override
 	public VisitResult visit(VisitContext arg0, UIComponent component) {
@@ -33,6 +34,9 @@ public class ProcessValueCallback implements VisitCallback {
 			String vexAsString = vex.getExpressionString();
 			String coreValue = vexAsString.substring(2, vexAsString.length() - 1);
 			component.getPassThroughAttributes().put("ng-model", coreValue);
+//			if (null != component.getId()) {
+//				component.setId(NGWordUtiltites.lastTerm(coreValue));
+//			}
 			PuiModelSync.addJSFAttrbitute(coreValue, component);
 		}
 		return VisitResult.ACCEPT;

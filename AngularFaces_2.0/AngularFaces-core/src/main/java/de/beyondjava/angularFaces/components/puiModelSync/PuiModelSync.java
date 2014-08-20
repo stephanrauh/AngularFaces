@@ -202,6 +202,7 @@ public class PuiModelSync extends HtmlBody {
 		writer.append("<script src='" + main + "'></script>");
 
 		PuiScriptRenderer r = new PuiScriptRenderer();
+		r.encodeScript(context, this, "components.js", "AngularFaces");
 		r.encodeScript(context, this, "glue.js", "AngularFaces");
 	}
 	

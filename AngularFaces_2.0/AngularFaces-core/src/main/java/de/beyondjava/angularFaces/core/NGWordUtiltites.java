@@ -63,4 +63,10 @@ public class NGWordUtiltites {
 
 		return labelFromCamelCase(core);
 	}
+
+	public static String lastTerm(String coreValue) {
+		int pos = coreValue.indexOf('.');
+		if (pos < 0) return coreValue;
+		return coreValue.substring(pos+1);
+	}
 }
