@@ -17,7 +17,7 @@ public class ProcessAngularExpressionsCallback implements VisitCallback {
 	
 	final static String identifier="([A-Z]|[a-z]|[0-9]|_|\\.)+";
 
-	private final static Pattern ngRepeat = Pattern.compile("ng-repeat=\"" + identifier + "\\sin\\s" + identifier);
+	private final static Pattern ngRepeat = Pattern.compile("ng-repeat=\"" + identifier + "\\sin\\s(\\$)?" + identifier);
 
 	@Override
 	public VisitResult visit(VisitContext arg0, UIComponent component) {
@@ -53,7 +53,8 @@ public class ProcessAngularExpressionsCallback implements VisitCallback {
 			if (index>=0)
 			{
 				String var = exp.substring(index + 4).trim();
-			PuiModelSync.addJSFAttrbitute(var, null);
+				if (var.startsWith("$")) var=var.substring(1);
+				PuiModelSync.addJSFAttrbitute(var, null);
 			}
 		}
 	}
