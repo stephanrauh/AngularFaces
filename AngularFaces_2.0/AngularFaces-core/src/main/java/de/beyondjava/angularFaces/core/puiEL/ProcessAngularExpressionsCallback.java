@@ -1,5 +1,8 @@
 package de.beyondjava.angularFaces.core.puiEL;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.faces.component.UIComponent;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
@@ -10,23 +13,48 @@ import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 public class ProcessAngularExpressionsCallback implements VisitCallback {
 	static String[] properties = { "label", "header", "style", "styleClass", "title" };
 
+	private final static Pattern angularExpression = Pattern.compile("\\{\\{([A-Z]|[a-z]|\\.)+\\}\\}");
+	
+	final static String identifier="([A-Z]|[a-z]|[0-9]|_|\\.)+";
+
+	private final static Pattern ngRepeat = Pattern.compile("ng-repeat=\"" + identifier + "\\sin\\s" + identifier);
+
 	@Override
 	public VisitResult visit(VisitContext arg0, UIComponent component) {
-		for (String key : properties) {
-			Object value = component.getAttributes().get(key);
-			if (value != null) {
-				if (value instanceof String) {
-					String vs = (String) value;
-					processAngularExpression(component, key, value, vs);
+		if (component.getClass().getName().endsWith(".UIInstructions")) {
+			String html = component.toString();
+			addAngularExpressionToJSFAttributeList(html);
+		} else {
+			for (String key : properties) {
+				Object value = component.getAttributes().get(key);
+				if (value != null) {
+					if (value instanceof String) {
+						String vs = (String) value;
+						addAngularExpressionToJSFAttributeList(vs);
+					}
 				}
 			}
 		}
 
 		return VisitResult.ACCEPT;
 	}
-	private static void processAngularExpression(UIComponent component, String key, Object value, String vs) {
-		if (vs.contains("{{")) {
-			PuiModelSync.addJSFAttrbitute(vs.substring("{{".length(), vs.length() - 2), null);
+
+	private static void addAngularExpressionToJSFAttributeList(String html) {
+		Matcher matcher = angularExpression.matcher(html);
+		while (matcher.find()) {
+			String exp = matcher.group();
+			PuiModelSync.addJSFAttrbitute(exp.substring(2, exp.length() - 2), null);
+		}
+		
+		matcher = ngRepeat.matcher(html);
+		while (matcher.find()) {
+			String exp = matcher.group();
+			int index = exp.indexOf(" in ");
+			if (index>=0)
+			{
+				String var = exp.substring(index + 4).trim();
+			PuiModelSync.addJSFAttrbitute(var, null);
+			}
 		}
 	}
 

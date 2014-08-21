@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
+import javax.el.PropertyNotFoundException;
 import javax.faces.application.ProjectStage;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.FacesComponent;
@@ -32,6 +33,8 @@ public class PuiModelSync extends HtmlBody {
 
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
 
+	private final Gson gson = new Gson();
+	
 	/**
 	 * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender methods.
 	 */
@@ -66,16 +69,16 @@ public class PuiModelSync extends HtmlBody {
 			}
 			currentMap = (Map<String, Object>) currentMap.get(keys[i]);
 		}
-		Object v = null;
-		if (value != null) {
-			Class<? extends Object> type = value.getClass();
-			if (type == int.class || type == long.class || type == float.class || type == double.class || type == byte.class
-					|| type == short.class || Number.class.isAssignableFrom(type)) {
-				v = value;
-			} else
-				v = value.toString();
-		}
-		currentMap.put(keys[keys.length - 1], v);
+//		Object v = null;
+//		if (value != null) {
+//			Class<? extends Object> type = value.getClass();
+//			if (type == int.class || type == long.class || type == float.class || type == double.class || type == byte.class
+//					|| type == short.class || Number.class.isAssignableFrom(type)) {
+//				v = value;
+//			} else
+//				v = gson.toJson(value);
+//		}
+		currentMap.put(keys[keys.length - 1], value);
 	}
 
 	public List<String> getFacesModel() {
@@ -84,6 +87,7 @@ public class PuiModelSync extends HtmlBody {
 		Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
 		sessionMap.remove(JSF_ATTRIBUTES_SESSION_PARAMETER);
 		for (Entry<String, UIComponent> entry : jsfAttributes.entrySet()) {
+			try {
 			String attribute = entry.getKey();
 			UIComponent comp = entry.getValue();
 			if (null != comp) {
@@ -98,12 +102,16 @@ public class PuiModelSync extends HtmlBody {
 				// vex.getValue(FacesContext.getCurrentInstance().getELContext())
 				addJSFAttrbituteToAngularModel(model, attribute, value);
 			}
+			}
+			catch (PropertyNotFoundException pureAngularAttribute) {
+				// probably it's an AngularJS attribute that doesn't have a JSF counterpart, so we don't consider this an error
+			}
 		}
 
-		Gson gs = new Gson();
+		
 		List<String> beans = new ArrayList<>();
 		for (Entry<String, Object> bean: model.entrySet()) {
-			String assignment = "\"" + bean.getKey() + "\",'" + gs.toJson(bean.getValue())+"'";
+			String assignment = "\"" + bean.getKey() + "\",'" + gson.toJson(bean.getValue())+"'";
 			beans.add(assignment);
 		}
 		return beans;

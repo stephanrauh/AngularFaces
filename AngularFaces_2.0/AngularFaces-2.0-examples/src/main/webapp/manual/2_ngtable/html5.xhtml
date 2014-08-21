@@ -14,8 +14,6 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
 		<script
 			src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.js"></script>
-		<script
-			src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.js"></script>
         <script src="ng-table.min.js"></script>
         <link rel="stylesheet" href="ng-table.min.css"></link>
         <style type="text/css">
@@ -33,12 +31,12 @@
 			
 			
 			        <table ng-table="tableParams" class="table ng-table-responsive" style="border: 1px solid; border-color:#ddd;">
-			            <tr ng-repeat="user in $data">
-			                <td data-title="'Name'" sortable="'name'">
-			                    {{user.name}}
+			            <tr ng-repeat="car in carPool.carPool">
+			                <td data-title="'Brand'" sortable="'brand'">
+			                    {{car.brand}}
 			                </td>
-			                <td data-title="'Age'" sortable="'age'">
-			                    {{user.age}}
+			                <td data-title="'Type'" sortable="'type'">
+			                    {{car.type}}
 			                </td>
 			            </tr>
 			        </table>

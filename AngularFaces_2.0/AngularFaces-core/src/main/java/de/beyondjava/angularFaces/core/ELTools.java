@@ -65,12 +65,16 @@ public class ELTools {
      * @param p_expression
      * @return
      */
-    public static Object evalAsObject(String p_expression) {
+    public static Object evalAsObject(String p_expression) throws PropertyNotFoundException {
         FacesContext context = FacesContext.getCurrentInstance();
         ExpressionFactory expressionFactory = context.getApplication().getExpressionFactory();
         ELContext elContext = context.getELContext();
         ValueExpression vex = expressionFactory.createValueExpression(elContext, p_expression, Object.class);
         Object result = vex.getValue(elContext);
+        if (null == result) {
+        	// check whether the JSF attributes exists
+        	vex.getValueReference(elContext);
+        }
         return result;
     }
 

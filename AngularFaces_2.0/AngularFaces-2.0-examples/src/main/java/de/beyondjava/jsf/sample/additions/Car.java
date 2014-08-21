@@ -21,15 +21,53 @@ import javax.validation.constraints.*;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-@ManagedBean
 public class Car {
     String brand;
     @NotEmpty
     String color;
-    String type;
 
-    @Min(1886)
+	String type;
+
+	@Min(1886)
     @Max(2014)
     @NotEmpty
     int year;
+	
+	public Car(String brand, String type, int year, String color) {
+    	this.brand=brand;
+    	this.type=type;
+    	this.year=year;
+    	this.color=color;
+    }
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+    public void setColor(String color) {
+		this.color = color;
+	}
+
+    public void setType(String type) {
+		this.type = type;
+	}
+    
+    public void setYear(int year) {
+		this.year = year;
+	}
 }
