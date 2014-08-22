@@ -29,9 +29,7 @@
 			    <p><strong>Page:</strong> {{tableParams.page()}}
 			    <strong>Count per page:</strong> {{tableParams.count()}}</p>
 			
-			
-			    	<span ng-hide="true">{{carPool.carPool}} load the list of cars (peculiarity required by ng-table widget)</span>
-			        <table ng-table="tableParams" class="table ng-table-responsive" style="border: 1px solid; border-color:#ddd;">
+			        <table ng-table="tableParams" value="{{carPool.carPool}}" class="table ng-table-responsive" style="border: 1px solid; border-color:#ddd;">
 			            <tr ng-repeat="car in $data">
 			                <td data-title="'Brand'" sortable="'brand'">
 			                    {{car.brand}}
