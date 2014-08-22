@@ -1,5 +1,5 @@
-var app = angular.module('AngularFacesExamples', ["angularfaces", 'ngTable']).
-controller('MyCtrl', function($scope, $filter, ngTableParams) {
+var app = angular.module('CarShop', ["angularfaces", 'ngTable']).
+controller('CarShopController', function($scope, $filter, ngTableParams) {
 	// This initializes the Angular Model with the values of the JSF bean attributes
 	initJSFScope($scope);
 
