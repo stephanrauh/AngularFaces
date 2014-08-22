@@ -22,9 +22,13 @@
 						jsf:value="#{calculatorBean.serverSideResult}" />
 					<input type="number"
 						jsf:value="#{calculatorBean.randomNumberFromServer}" />
-					<h:commandButton value="Add on server (via AJAX)"
+					<h:commandButton value="Add on server (AF AJAX)"
 						action="#{calculatorBean.add}">
 						<f:ajax render="angular" execute="@form" />
+					</h:commandButton>
+					<h:commandButton value="Add on server (JSF AJAX)"
+						action="#{calculatorBean.add}">
+						<f:ajax render="@form" execute="@form" />
 					</h:commandButton>
 					<h:commandButton value="Add on server (without AJAX)"
 						action="#{calculatorBean.add}" />

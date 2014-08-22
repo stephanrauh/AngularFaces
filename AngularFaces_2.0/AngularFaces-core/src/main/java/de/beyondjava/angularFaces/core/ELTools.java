@@ -33,6 +33,9 @@ public class ELTools {
     /** Caching */
     private static Map<String, Field> fields = new HashMap<String, Field>();
 
+    /** Caching */
+    private static Map<String, Method> getters = new HashMap<String, Method>();
+
     private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.common.ELTools");
     /** Caching */
     private static Map<String, List<String>> propertyLists = new HashMap<String, List<String>>();
@@ -285,6 +288,51 @@ public class ELTools {
         }
         return null;
     }
+    
+    private static Method getGetter(String p_expression) {
+        synchronized (getters) {
+            if (getters.containsKey(p_expression)) {
+                return getters.get(p_expression);
+            }
+        }
+
+        if (p_expression.startsWith("#{") && p_expression.endsWith("}")) {
+            int delimiterPos = p_expression.lastIndexOf('.');
+            if (delimiterPos<0) {
+                LOGGER.log(Level.WARNING, "There's no getter to access: #{"+p_expression+"}");
+            	return null;
+            }
+            String beanExp = p_expression.substring(0, delimiterPos) + "}";
+            String fieldName = p_expression.substring(delimiterPos + 1, p_expression.length() - 1);
+            String getterName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+            Object container = evalAsObject(beanExp);
+            if (null == container) {
+                LOGGER.severe("Can't read the bean '" + beanExp
+                        + "'. Thus JSR 303 annotations can't be read, let alone used by the AngularDart client.");
+                return null;
+            }
+
+            Class<? extends Object> c = container.getClass();
+                Method declaredField;
+                try {
+                    declaredField = c.getMethod(getterName);
+                    synchronized (getters) {
+                    	getters.put(p_expression, declaredField);
+                    }
+                    return declaredField;
+                }
+                catch (NoSuchMethodException e) {
+                    // let\"s try with the super class
+                    c = c.getSuperclass();
+                }
+                catch (SecurityException e) {
+                    LOGGER.log(Level.SEVERE, "Unable to access a getter", e);
+                    e.printStackTrace();
+                    return null;
+                }
+        }
+        return null;
+    }
 
     public static String getNGModel(UIComponent p_component) {
         String id = ELTools.getCoreValueExpression(p_component);
@@ -302,11 +350,10 @@ public class ELTools {
      * @return
      */
     public static Class<?> getType(String p_expression) {
-        Field declaredField = getField(p_expression);
+        Method declaredField = getGetter(p_expression);
         if (null != declaredField) {
-            return declaredField.getType();
+            return declaredField.getReturnType();
         }
-        LOGGER.info("TODO: check the getter type instead of the field type");
         return null;
     }
 

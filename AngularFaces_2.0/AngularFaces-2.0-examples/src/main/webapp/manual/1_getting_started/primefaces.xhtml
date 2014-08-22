@@ -18,8 +18,10 @@
 						label="#{calculatorBean.resultCapture}" />
 					<prime:inputText value="{{calculatorBean.serverSideResult}}" />
 					<prime:inputText value="{{calculatorBean.randomNumberFromServer}}" />
-					<prime:commandButton value="Add on server (via AJAX)"
+					<prime:commandButton value="Add on server (AF AJAX)"
 						action="#{calculatorBean.add}" update="@angular" process="@form" />
+					<prime:commandButton value="Add on server (JSF AJAX)"
+						action="#{calculatorBean.add}" update="@form" process="@form" />
 					<prime:commandButton value="Add on server (without AJAX)"
 						action="#{calculatorBean.add}" ajax="false" />
 				</prime:panelGrid>
