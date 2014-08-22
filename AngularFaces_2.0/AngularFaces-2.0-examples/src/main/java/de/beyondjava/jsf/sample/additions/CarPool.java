@@ -18,8 +18,6 @@ public class CarPool {
 			new Car("Opel", "Corsa", 1999, "red"), new Car("Opel", "Kadett", 1992, "white"), new Car("Scoda", "Octavia", (2001), "silver"),
 			new Car("Renault", "R4", (1972), "red"), new Car("BMW", "E30", (1982), "blue"), new Car("Volvo", "V70", (2007), "red"),
 			new Car("Fiat", "Panda", (2008), "black")
-
-
 	);
 	
 	public List<Car> getCarPool() {
