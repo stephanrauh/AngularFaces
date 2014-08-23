@@ -48,6 +48,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 						+ labelDecorator.duplicateLabels);
 				root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback());
 				root.visitTree(new FullVisitContext(context), new AddMessagesCallback());
+				root.visitTree(new FullVisitContext(context), new TranslationCallback());
 			}
 		}
 	}

@@ -7,13 +7,13 @@
 	<h:head></h:head>
 	<h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
 		<h:form id="myForm">
-			<h2>Welcome to AngularFaces 2.0!</h2>
-    		Based firmly in the future...<br />
+			<h2><h:outputText value="Welcome to AngularFaces 2.0!" /></h2>
+    		<h:outputText value="Based firmly in the future..."/><br />
     		<hr />
     		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
 				style="{{calculatorBean.gridStyle}}">
 				<br />
-				This demo uses the new JSF 2.2 HTML5 style to define the components.
+				<h:outputText value="This demo uses the new JSF 2.2 HTML5 style to define the components." />
 				<h:panelGrid columns="3">
 					<input type="number" jsf:value="{{calculatorBean.number1}}" />
 					<input type="number" jsf:value="{{calculatorBean.number2}}" />

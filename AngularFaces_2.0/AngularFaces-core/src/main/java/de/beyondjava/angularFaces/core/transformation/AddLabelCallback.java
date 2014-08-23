@@ -90,7 +90,7 @@ public class AddLabelCallback implements VisitCallback {
 		return VisitResult.ACCEPT;
 	}
 
-	private Object translate(String caption) {
+	private String translate(String caption) {
 		if (null == i18n) i18n=(I18n) ELTools.evalAsObject("#{i18n}");
 		if (null == i18n) return caption;
 		return i18n.translate(caption);
