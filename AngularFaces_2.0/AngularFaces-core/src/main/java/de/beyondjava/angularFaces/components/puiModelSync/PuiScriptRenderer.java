@@ -10,6 +10,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import de.beyondjava.angularFaces.core.ELTools;
+import de.beyondjava.angularFaces.core.i18n.I18n;
+
 /**
  * Copied from the Mojarra libraries.
  */
@@ -74,5 +77,11 @@ public class PuiScriptRenderer {
         writer.writeURIAttribute("src", resourceSrc, "src");
         writer.endElement("script");
     }
+
+	public void encodeMessageBundle(FacesContext context) {
+        ResponseWriter writer = context.getResponseWriter();
+        I18n i18n = (I18n) ELTools.evalAsObject("#{i18n}");
+		String message = i18n.getMessageBundleAsJSon();
+	}
     
 }

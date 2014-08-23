@@ -70,15 +70,6 @@ public class PuiModelSync extends HtmlBody {
 			}
 			currentMap = (Map<String, Object>) currentMap.get(keys[i]);
 		}
-//		Object v = null;
-//		if (value != null) {
-//			Class<? extends Object> type = value.getClass();
-//			if (type == int.class || type == long.class || type == float.class || type == double.class || type == byte.class
-//					|| type == short.class || Number.class.isAssignableFrom(type)) {
-//				v = value;
-//			} else
-//				v = gson.toJson(value);
-//		}
 		currentMap.put(keys[keys.length - 1], value);
 	}
 
@@ -213,6 +204,7 @@ public class PuiModelSync extends HtmlBody {
 		PuiScriptRenderer r = new PuiScriptRenderer();
 		r.encodeScript(context, this, "components.js", "AngularFaces");
 		r.encodeScript(context, this, "glue.js", "AngularFaces");
+		r.encodeMessageBundle(context);
 	}
 	
 	@Override

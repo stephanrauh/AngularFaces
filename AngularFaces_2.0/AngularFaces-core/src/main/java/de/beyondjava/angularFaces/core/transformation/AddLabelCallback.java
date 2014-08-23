@@ -12,10 +12,13 @@ import javax.faces.component.visit.VisitResult;
 
 import org.primefaces.component.outputlabel.OutputLabel;
 
-import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
+import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.NGWordUtiltites;
+import de.beyondjava.angularFaces.core.i18n.I18n;
 
 public class AddLabelCallback implements VisitCallback {
+	I18n i18n=null;
+	
 	int duplicateLabels = 0;
 
 	@Override
@@ -27,20 +30,20 @@ public class AddLabelCallback implements VisitCallback {
 			UIComponent kid = children.get(index);
 			if (kid instanceof UIInput) {
 
-				String capture = (String) kid.getAttributes().get("label");
-				if (null == capture) {
+				String caption = (String) kid.getAttributes().get("label");
+				if (null == caption) {
 					ValueExpression vex = kid.getValueExpression("value");
 					if (null != vex) {
 						String core = vex.getExpressionString();
-						capture = NGWordUtiltites.labelFromELExpression(core);
+						caption = NGWordUtiltites.labelFromELExpression(core);
 					} else {
 						String angularExpression = (String) kid.getAttributes().get("value");
 						if (angularExpression != null && angularExpression.startsWith("{{") && angularExpression.endsWith("}}")) {
-							capture = NGWordUtiltites.labelFromELExpression(angularExpression.substring(2, angularExpression.length() - 2));
+							caption = NGWordUtiltites.labelFromELExpression(angularExpression.substring(2, angularExpression.length() - 2));
 						}
 					}
 				}
-				if (null != capture) {
+				if (null != caption) {
 					for (int j = 0; j < children.size(); j++) {
 						UIComponent maybe = children.get(j);
 						if (maybe instanceof HtmlOutputLabel) {
@@ -76,8 +79,8 @@ public class AddLabelCallback implements VisitCallback {
 						label = new HtmlOutputLabel();
 					}
 					label.setFor(kid.getId());
-					if (null != capture) {
-						label.setValue(capture);
+					if (null != caption) {
+						label.setValue(translate(caption));
 					}
 					children.add(index, label);
 				}
@@ -85,6 +88,12 @@ public class AddLabelCallback implements VisitCallback {
 		}
 
 		return VisitResult.ACCEPT;
+	}
+
+	private Object translate(String caption) {
+		if (null == i18n) i18n=(I18n) ELTools.evalAsObject("#{i18n}");
+		if (null == i18n) return caption;
+		return i18n.translate(caption);
 	}
 
 }
