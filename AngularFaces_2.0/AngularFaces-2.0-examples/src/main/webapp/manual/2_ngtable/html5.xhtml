@@ -20,7 +20,7 @@
 	    <script data-require="ng-table-export@0.1.0" data-semver="0.1.0" src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js"></script>
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController" id="angular">
-		<form id="myForm" style="width:600px">
+		<form id="myForm" style="width:700px">
 			<h2>Welcome to AngularFaces 2.0!</h2>
 	   		Based firmly in the future...<br />
 
@@ -35,9 +35,8 @@
 				</tr>
 			</table>
 	    	<a class="btn btn-primary" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="fleet_of_cars.csv">Export to CSV</a>
-	
-	
-	<a target="#" href="http://bazalt-cms.com/ng-table/">ngtable</a>
+			<br /><br />
+			<small>The table widget is powered by <a target="#" href="http://bazalt-cms.com/ng-table/">ngtable</a>.</small>
 			<script type="text/javascript" src="main.js"></script>
 			<script type="text/ng-template" id="ng-table/filters/watermark.html">
 				<input type="text" name="{{column.filterName}}" ng-model="params.filter()[name]" ng-if="filter=='watermark'" class="input-filter form-control" placeholder="type to filter {{name}}"/>
