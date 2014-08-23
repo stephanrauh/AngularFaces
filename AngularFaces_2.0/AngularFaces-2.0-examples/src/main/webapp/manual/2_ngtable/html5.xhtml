@@ -11,37 +11,40 @@
 
 		<link rel="stylesheet" href="css/bootstrap.min.css"></link>
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css"></link>
-		<link rel="stylesheet" href="css/ng-table.min.css"></link>
+		<link rel="stylesheet" href="css/ng-table.css"></link>
 		<style type="text/css">
-			.header {
-				background-color: #ccc;
-			}
+			.header { background-color: #ccc; }
+			.ng-table-responsive { border: 1px solid; border-color: #ddd; };
 		</style>
-		<script src="ng-table.min.js"></script>
+		<script src="ng-table.js"></script>
+	    <script data-require="ng-table-export@0.1.0" data-semver="0.1.0" src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js"></script>
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController" id="angular">
-		<h:form id="myForm" style="width:600px">
+		<form id="myForm" style="width:600px">
 			<h2>Welcome to AngularFaces 2.0!</h2>
 	   		Based firmly in the future...<br />
-			<h3>
-				Table with pagination (powered by <a target="#"
-					href="http://bazalt-cms.com/ng-table/">ngtable</a>)
-			</h3>
-	
-			<p> <strong>Page:</strong> {{tableParams.page()}} 
-			    <strong>Count per page:</strong> {{tableParams.count()}}
-			</p>
-	
-			<table ng-table="tableParams" value="{{carPool.carPool}}"
-				class="table ng-table-responsive"
-				style="border: 1px solid; border-color: #ddd;">
+
+			<table ng-table="tableParams" value="{{carPool.carPool}}" export-csv="csv"
+				show-filter="true" class="table ng-table-responsive"
+				>
 				<tr ng-repeat="car in $data">
-					<td data-title="'Brand'" sortable="'brand'">{{car.brand}}</td>
-					<td data-title="'Type'" sortable="'type'">{{car.type}}</td>
+					<td data-title="'Brand'" sortable="'brand'" filter="{ 'brand': 'watermark' }">{{car.brand}}</td>
+					<td data-title="'Type'"  sortable="'type'"  filter="{ 'type': 'watermark' }"> {{car.type}} </td>
+					<td data-title="'Year'"  sortable="'year'"  filter="{ 'year': 'number' }">    {{car.year}} </td>
+					<td data-title="'Color'" sortable="'color'" filter="{ 'color': 'watermark' }">{{car.color}}</td>
 				</tr>
 			</table>
+	    	<a class="btn btn-primary" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="fleet_of_cars.csv">Export to CSV</a>
 	
+	
+	<a target="#" href="http://bazalt-cms.com/ng-table/">ngtable</a>
 			<script type="text/javascript" src="main.js"></script>
-		</h:form>
+			<script type="text/ng-template" id="ng-table/filters/watermark.html">
+				<input type="text" name="{{column.filterName}}" ng-model="params.filter()[name]" ng-if="filter=='watermark'" class="input-filter form-control" placeholder="type to filter {{name}}"/>
+			</script>
+			<script type="text/ng-template" id="ng-table/filters/number.html">
+				<input type="number" name="{{column.filterName}}" ng-model="params.filter()[name]" ng-if="filter=='number'" class="input-filter form-control" placeholder="type to filter {{name}}"/>
+			</script>
+		</form>
 	</h:body>
 </f:view>

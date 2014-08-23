@@ -66,6 +66,7 @@ public class ELTools {
      * Evaluates an EL expression into an object.
      *
      * @param p_expression
+     * @throws PropertyNotFoundException if the attribute doesn't exist at all (as opposed to being null)
      * @return
      */
     public static Object evalAsObject(String p_expression) throws PropertyNotFoundException {

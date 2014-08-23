@@ -1,4 +1,4 @@
-var app = angular.module('CarShop', ["angularfaces", 'ngTable']).
+var app = angular.module('CarShop', ["angularfaces", 'ngTable', 'ngTableExport']).
 controller('CarShopController', function($scope, $filter, ngTableParams) {
 	// This initializes the Angular Model with the values of the JSF bean attributes
 	initJSFScope($scope);
@@ -10,13 +10,17 @@ controller('CarShopController', function($scope, $filter, ngTableParams) {
     }, {
         total: $scope.carPool.carPool.length, // length of data
         getData: function($defer, params) {
+        	params.settings().counts=[5, 10, 'all']; // todo: that's a hack!
         	var rows = $scope.carPool.carPool;
+        	if (params.filter()) rows=$filter('filter')(rows, params.filter());
         	if (params.sorting()) rows = $filter('orderBy')(rows, params.orderBy());
         	var page = params.page();
         	var pageLength = params.count();
-			$defer.resolve(rows.slice((page - 1) * pageLength, page * pageLength));
+        	if (pageLength=='all') 
+    			$defer.resolve(rows);
+        	else
+        		$defer.resolve(rows.slice((page - 1) * pageLength, page * pageLength));
         }
     });
 })
-
 
