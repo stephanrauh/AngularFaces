@@ -28,6 +28,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 	public void processEvent(SystemEvent event) throws AbortProcessingException {
 		Object source = event.getSource();
 		if (source instanceof UIViewRoot) {
+			long timer = System.nanoTime();
 			UIViewRoot root = (UIViewRoot) source;
 			FindNGControllerCallback findNGControllerCallback = new FindNGControllerCallback();
 			FacesContext context = FacesContext.getCurrentInstance();
@@ -39,17 +40,22 @@ public class PuiAngularTransformer implements SystemEventListener {
 			if (true) {
 				// if ((!ajaxRequest) && (!postback)) {
 				addJavascript(root, context, isProduction);
-
-				root.visitTree(new FullVisitContext(context), new ProcessAngularExpressionsCallback());
-				root.visitTree(new FullVisitContext(context), new AddNGModelAndIDCallback());
-				AddLabelCallback labelDecorator = new AddLabelCallback();
-				root.visitTree(new FullVisitContext(context), labelDecorator);
-				System.out.println("AJAX: " + ajaxRequest + " Postback: " + postback + " duplicate Labels: "
-						+ labelDecorator.duplicateLabels);
-				root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback());
-				root.visitTree(new FullVisitContext(context), new AddMessagesCallback());
-				root.visitTree(new FullVisitContext(context), new TranslationCallback());
+				time(() -> root.visitTree(new FullVisitContext(context), new ProcessAngularExpressionsCallback()));
+				time(() -> root.visitTree(new FullVisitContext(context), new AddNGModelAndIDCallback()));
+				if (!ajaxRequest) {
+					AddLabelCallback labelDecorator = new AddLabelCallback();
+					time(() -> root.visitTree(new FullVisitContext(context), labelDecorator));
+					System.out.println("AJAX: " + ajaxRequest + " Postback: " + postback + " duplicate Labels: "
+							+ labelDecorator.duplicateLabels);
+				}
+				time(() -> root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback()));
+				if (!ajaxRequest) {
+					time(() -> root.visitTree(new FullVisitContext(context), new AddMessagesCallback()));
+					time(() -> root.visitTree(new FullVisitContext(context), new TranslationCallback()));
+				}
 			}
+			long time=System.nanoTime()-timer;
+			System.out.println((time/1000)/1000.0d + " ms");
 		}
 	}
 
@@ -79,5 +85,12 @@ public class PuiAngularTransformer implements SystemEventListener {
 			return true;
 		}
 		return false;
+	}
+	
+	private void time(Runnable runnable) {
+		long timer = System.nanoTime();
+		runnable.run();
+		long time=System.nanoTime()-timer;
+//		System.out.println((time/1000)/1000.0d + " ms");
 	}
 }

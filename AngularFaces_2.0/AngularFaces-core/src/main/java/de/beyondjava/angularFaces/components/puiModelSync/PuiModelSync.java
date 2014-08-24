@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import javax.faces.context.ResponseWriter;
 import com.google.gson.Gson;
 
 import de.beyondjava.angularFaces.core.ELTools;
+import de.beyondjava.angularFaces.core.i18n.I18n;
 
 /**
  * PuiBody is an HtmlBody that activates the AngularDart framework.
@@ -202,6 +204,9 @@ public class PuiModelSync extends HtmlBody {
 		writer.append("<script src='" + main + "'></script>");
 
 		PuiScriptRenderer r = new PuiScriptRenderer();
+		Locale locale = context.getViewRoot().getLocale();
+		String language = locale.getLanguage();
+		r.encodeScript(context, this, "messages_" + language +".js", "AngularFaces");
 		r.encodeScript(context, this, "components.js", "AngularFaces");
 		r.encodeScript(context, this, "glue.js", "AngularFaces");
 		r.encodeMessageBundle(context);

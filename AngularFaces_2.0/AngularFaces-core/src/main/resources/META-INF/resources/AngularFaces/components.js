@@ -38,18 +38,28 @@ angular.module('angularfaces', [])
     				$scope.message= function() { 
 						if ($scope.myField.hasClass("ng-invalid-min")) {
 							var min = $scope.myField.attr("min");
-							return "This number must be at least " + min + ".";
+							var msg = angularFacesMessages["This number must be at least {}."];
+							msg=msg.replace("{}", min);
+							return msg;
 						}
 						if ($scope.myField.hasClass("ng-invalid-max")) {
 							var max = $scope.myField.attr("max");
-							return "This number must be less or equal " + max + ".";
+							var msg = angularFacesMessages["This number must be less or equal {}."];
+							msg=msg.replace("{}", max);
+							return msg;
 						}
 						if ($scope.myField.hasClass("ng-invalid-number")) {
-							return "Please enter a valid number.";
+							var msg = angularFacesMessages["Please enter a valid number."];
+							return msg;
+						}
+						if ($scope.myField.hasClass("ng-invalid-required")) {
+							var msg = angularFacesMessages["Please fill out this field."];
+							return msg;
 						}
 						if ($scope.servermessage) return $scope.servermessage;
 						if ($scope.myField.hasClass("ng-invalid")) {
-							return "A validation rule is violated.";
+							var msg = angularFacesMessages["A validation rule is violated."];
+							return msg;
 						}
     					return "";
     				};

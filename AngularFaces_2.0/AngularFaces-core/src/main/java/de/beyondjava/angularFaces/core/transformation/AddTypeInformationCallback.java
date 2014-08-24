@@ -20,6 +20,7 @@ public class AddTypeInformationCallback implements VisitCallback {
 			NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(component);
 			if (infos.isRequired()) {
 				((UIInput) component).setRequired(true);
+				component.getPassThroughAttributes().put("required","");
 			}
 			if (infos.getMax()>0) {
 				((UIInput)component).getPassThroughAttributes().put("max", infos.getMax());
@@ -31,22 +32,29 @@ public class AddTypeInformationCallback implements VisitCallback {
 				((UIInput)component).getPassThroughAttributes().put("maxlength", infos.getMaxSize());
 			}
 			if (infos.isNumeric()) {
-				if (component.getClass().getName().equals("org.primefaces.component.inputtext.InputText")) {
-					Method method;
-					try {
-						method = component.getClass().getMethod("setType", String.class);
-						method.invoke(component, "number");
-					} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-							| InvocationTargetException e) {
-						// catch block required by compiler, can't happen in reality
-					}
-				}
-				else {
-					component.getPassThroughAttributes().put("type", "number");
-				}
+				setType(component, "number");
+			}
+			else if (infos.isDate()) {
+				setType(component, "date");
 			}
 		}
 		return VisitResult.ACCEPT;
+	}
+
+	private void setType(UIComponent component, String type) {
+		if (component.getClass().getName().equals("org.primefaces.component.inputtext.InputText")) {
+			Method method;
+			try {
+				method = component.getClass().getMethod("setType", String.class);
+				method.invoke(component, type);
+			} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException e) {
+				// catch block required by compiler, can't happen in reality
+			}
+		}
+		else {
+			component.getPassThroughAttributes().put("type", type);
+		}
 	}
 
 }
