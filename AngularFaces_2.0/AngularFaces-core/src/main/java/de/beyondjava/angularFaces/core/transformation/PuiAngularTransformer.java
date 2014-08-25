@@ -42,6 +42,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 				addJavascript(root, context, isProduction);
 				time(() -> root.visitTree(new FullVisitContext(context), new ProcessAngularExpressionsCallback()));
 				time(() -> root.visitTree(new FullVisitContext(context), new AddNGModelAndIDCallback()));
+				time(() -> root.visitTree(new FullVisitContext(context), new AddNGPassThroughAttributesCallback()));
 				if (!ajaxRequest) {
 					AddLabelCallback labelDecorator = new AddLabelCallback();
 					time(() -> root.visitTree(new FullVisitContext(context), labelDecorator));

@@ -1,0 +1,65 @@
+tabview.infobox section {
+    position: absolute;
+    display: block;
+    width: 400px;
+    height: 200px;
+    top: 100px;
+    background-color: #ffffff;
+	z-index:199;
+}
+
+tabview.infobox section h2 {
+    position: absolute;
+    left: 0;
+    top: -30px;
+    width: 124px;
+    height: 29px;
+    font-family: Verdana;
+    font-size: 15px;
+    margin: 0;
+    background-color: #ddd;
+    border-radius: 15px 15px 0 0;
+    border: solid #aaa;
+    border-width: 1px 1px 0 0;
+    z-index: 100;
+}
+
+tabview.infobox section:target h2 {
+    background-color: #999;
+    border-radius: 15px 15px 0 0;
+    border: solid #ffffff;
+    border-width: 1px 1px 0 0;
+}
+
+
+tabview.infobox section:nth-child(2) h2 {
+    left: 120px;
+    z-index: 99;
+}
+
+tabview.infobox section:nth-child(3) h2 {
+    left: 240px;
+    z-index: 98;
+}
+
+tabview.infobox section h2 a {
+    display: block;
+    margin: 5px 0 0 0;
+    text-align: center;
+    text-decoration: none;
+    color: #000000;
+}
+
+tabview.infobox section:target, tabview.infobox section:target h2 {
+    color: #000000;
+    border: 1px solid #666;
+    z-index: 200;
+}
+
+tabview.infobox section:target h2 {
+    border-bottom: none;
+}
+
+tabview.infobox section:target h2 a {
+	color: #000000;
+}
