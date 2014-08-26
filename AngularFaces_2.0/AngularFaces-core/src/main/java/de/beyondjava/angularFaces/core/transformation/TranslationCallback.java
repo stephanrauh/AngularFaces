@@ -22,25 +22,34 @@ public class TranslationCallback implements VisitCallback {
 	I18n i18n = null;
 
 	int duplicateLabels = 0;
+	
+	String[] attributesToBeTranslated={"header", "headerText"};
 
 	@Override
 	public VisitResult visit(VisitContext arg0, UIComponent component) {
+		for (String attributeName: attributesToBeTranslated) {
+			translateAttribute(component, attributeName);
+		}
 		if (component instanceof UICommand || component instanceof UIOutput) {
-			Object value = component.getAttributes().get("value");
-			if (null != value && value instanceof String) {
-				String caption = (String) value;
-				if (null != caption) {
-					String translation = translate(caption);
-					if (!caption.equals(translation)) {
-						component.getAttributes().put("value", translation);
-					}
-				}
-			}
+			translateAttribute(component, "value");
 		} else if (component.getClass().getName().endsWith(".UIInstructions")) {
 			// System.out.println("test");
 		}
 
 		return VisitResult.ACCEPT;
+	}
+
+	private void translateAttribute(UIComponent component, String attributeName) {
+		Object value = component.getAttributes().get(attributeName);
+		if (null != value && value instanceof String) {
+			String caption = (String) value;
+			if (null != caption) {
+				String translation = translate(caption);
+				if (!caption.equals(translation)) {
+					component.getAttributes().put(attributeName, translation);
+				}
+			}
+		}
 	}
 
 	private String translate(String caption) {

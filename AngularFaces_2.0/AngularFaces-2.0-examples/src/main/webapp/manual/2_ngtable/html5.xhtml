@@ -24,17 +24,21 @@
 			<h2>Welcome to AngularFaces 2.0!</h2>
 	   		Based firmly in the future...<br />
 
-			<table ng-table="tableParams" value="{{carPool.carPool}}" export-csv="csv"
-				show-filter="true" class="table ng-table-responsive"
-				>
+			<table ng-table="tableParams" value="{{carPool.carPool}}"
+				export-csv="csv" show-filter="true"
+				class="table ng-table-responsive">
 				<tr ng-repeat="car in $data">
-					<td data-title="'Brand'" sortable="'brand'" filter="{ 'brand': 'watermark' }">{{car.brand}}</td>
-					<td data-title="'Type'"  sortable="'type'"  filter="{ 'type': 'watermark' }"> {{car.type}} </td>
-					<td data-title="'Year'"  sortable="'year'"  filter="{ 'year': 'number' }">    {{car.year}} </td>
-					<td data-title="'Color'" sortable="'color'" filter="{ 'color': 'watermark' }">{{car.color}}</td>
+					<td data-title="'Brand'" sortable="'brand'"
+						filter="{ 'brand': 'watermark' }">{{car.brand}}</td>
+					<td data-title="'Type'" sortable="'type'"
+						filter="{ 'type': 'watermark' }">{{car.type}}</td>
+					<td data-title="'Year'" sortable="'year'"
+						filter="{ 'year': 'number' }">{{car.year}}</td>
+					<td data-title="'Color'" sortable="'color'"
+						filter="{ 'color': 'watermark' }">{{car.color}}</td>
 				</tr>
 			</table>
-	    	<a class="btn btn-primary" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="fleet_of_cars.csv">Export to CSV</a>
+			<a class="btn btn-primary" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="fleet_of_cars.csv">Export to CSV</a>
 			<br /><br />
 			<small>The table widget is powered by <a target="#" href="http://bazalt-cms.com/ng-table/">ngtable</a>.</small>
 			<script type="text/javascript" src="main.js"></script>
