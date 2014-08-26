@@ -11,7 +11,6 @@ import javax.faces.component.visit.VisitResult;
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 
 public class ProcessAngularExpressionsCallback implements VisitCallback {
-	static String[] properties = { "label", "header", "style", "styleClass", "title" };
 
 	private final static Pattern angularExpression = Pattern.compile("\\{\\{([A-Z]|[a-z]|\\.)+\\}\\}");
 	
@@ -25,18 +24,22 @@ public class ProcessAngularExpressionsCallback implements VisitCallback {
 			String html = component.toString();
 			addAngularExpressionToJSFAttributeList(html);
 		} else {
-			for (String key : properties) {
-				Object value = component.getAttributes().get(key);
-				if (value != null) {
-					if (value instanceof String) {
-						String vs = (String) value;
-						addAngularExpressionToJSFAttributeList(vs);
-					}
-				}
+			for (String key : JSFAttributes.jsfAttributes) {
+				extractAttribute(component, key);
 			}
 		}
 
 		return VisitResult.ACCEPT;
+	}
+
+	private void extractAttribute(UIComponent component, String key) {
+		Object value = component.getAttributes().get(key);
+		if (value != null) {
+			if (value instanceof String) {
+				String vs = (String) value;
+				addAngularExpressionToJSFAttributeList(vs);
+			}
+		}
 	}
 
 	private static void addAngularExpressionToJSFAttributeList(String html) {

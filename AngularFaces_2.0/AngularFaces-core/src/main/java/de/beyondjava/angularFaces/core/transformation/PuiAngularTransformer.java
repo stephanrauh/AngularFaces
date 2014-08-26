@@ -40,19 +40,19 @@ public class PuiAngularTransformer implements SystemEventListener {
 			if (true) {
 				// if ((!ajaxRequest) && (!postback)) {
 				addJavascript(root, context, isProduction);
-				time(() -> root.visitTree(new FullVisitContext(context), new ProcessAngularExpressionsCallback()));
-				time(() -> root.visitTree(new FullVisitContext(context), new AddNGModelAndIDCallback()));
-				time(() -> root.visitTree(new FullVisitContext(context), new AddNGPassThroughAttributesCallback()));
+				time("extract AngularJS expressions", () -> root.visitTree(new FullVisitContext(context), new ProcessAngularExpressionsCallback()));
+				time("add NGModel", () -> root.visitTree(new FullVisitContext(context), new AddNGModelAndIDCallback()));
+				time("add ng* attributes", () -> root.visitTree(new FullVisitContext(context), new AddNGPassThroughAttributesCallback()));
 				if (!ajaxRequest) {
 					AddLabelCallback labelDecorator = new AddLabelCallback();
-					time(() -> root.visitTree(new FullVisitContext(context), labelDecorator));
+					time("add labels", () -> root.visitTree(new FullVisitContext(context), labelDecorator));
 					System.out.println("AJAX: " + ajaxRequest + " Postback: " + postback + " duplicate Labels: "
 							+ labelDecorator.duplicateLabels);
 				}
-				time(() -> root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback()));
+				time("add type information", () -> root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback()));
 				if (!ajaxRequest) {
-					time(() -> root.visitTree(new FullVisitContext(context), new AddMessagesCallback()));
-					time(() -> root.visitTree(new FullVisitContext(context), new TranslationCallback()));
+					time("add messages", () -> root.visitTree(new FullVisitContext(context), new AddMessagesCallback()));
+					time("internationalization", () -> root.visitTree(new FullVisitContext(context), new TranslationCallback()));
 				}
 			}
 			long time=System.nanoTime()-timer;
@@ -88,10 +88,10 @@ public class PuiAngularTransformer implements SystemEventListener {
 		return false;
 	}
 	
-	private void time(Runnable runnable) {
+	private void time(String description, Runnable runnable) {
 		long timer = System.nanoTime();
 		runnable.run();
 		long time=System.nanoTime()-timer;
-//		System.out.println((time/1000)/1000.0d + " ms");
+		System.out.println((time/1000)/1000.0d + " ms " + description);
 	}
 }
