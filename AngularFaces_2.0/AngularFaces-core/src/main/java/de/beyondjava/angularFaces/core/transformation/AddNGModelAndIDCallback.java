@@ -21,17 +21,19 @@ public class AddNGModelAndIDCallback implements VisitCallback {
 		ValueExpression vex = component.getValueExpression("value");
 		if (null == vex) {
 			String s = (String) component.getAttributes().get("value");
+			if (null == s)
+				s = (String) component.getAttributes().get("ngvalue");
 			if (null != s) {
 				if (s.startsWith("{{") && s.endsWith("}}")) {
 					// This version is a hack! It works, but even so.
-					String jsfExpression = "#{"+s.substring(2, s.length()-2)+"}";
+					String jsfExpression = "#{" + s.substring(2, s.length() - 2) + "}";
 					Class<?> type = ELTools.getType(jsfExpression);
 					vex = ELTools.createValueExpression(jsfExpression, type);
 					component.getAttributes().replace("value", vex.getValue(FacesContext.getCurrentInstance().getELContext()));
 					component.setValueExpression("value", vex);
-//					vex=component.getValueExpression("value");
-//					Set<Entry<String, Object>> entrySet = component.getAttributes().keySet();
-//					component.getAttributes().clear();
+					// vex=component.getValueExpression("value");
+					// Set<Entry<String, Object>> entrySet = component.getAttributes().keySet();
+					// component.getAttributes().clear();
 				}
 			}
 		}
@@ -39,9 +41,9 @@ public class AddNGModelAndIDCallback implements VisitCallback {
 			String vexAsString = vex.getExpressionString();
 			String coreValue = vexAsString.substring(2, vexAsString.length() - 1);
 			component.getPassThroughAttributes().put("ng-model", coreValue);
-//			if (null != component.getId()) {
-//				component.setId(NGWordUtiltites.lastTerm(coreValue));
-//			}
+			// if (null != component.getId()) {
+			// component.setId(NGWordUtiltites.lastTerm(coreValue));
+			// }
 			PuiModelSync.addJSFAttrbitute(coreValue, component);
 		}
 		return VisitResult.ACCEPT;
