@@ -1,5 +1,8 @@
 package de.beyondjava.angularFaces.core.transformation;
 
+import java.util.Map.Entry;
+import java.util.Set;
+
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.visit.VisitCallback;
@@ -26,7 +29,9 @@ public class AddNGModelAndIDCallback implements VisitCallback {
 					vex = ELTools.createValueExpression(jsfExpression, type);
 					component.getAttributes().replace("value", vex.getValue(FacesContext.getCurrentInstance().getELContext()));
 					component.setValueExpression("value", vex);
-					vex=component.getValueExpression("value");
+//					vex=component.getValueExpression("value");
+//					Set<Entry<String, Object>> entrySet = component.getAttributes().keySet();
+//					component.getAttributes().clear();
 				}
 			}
 		}
