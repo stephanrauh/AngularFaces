@@ -40,7 +40,7 @@
 				<div class="side-navigation">
 					<ul class="nav-list naked-list">
 						<li class="nav-index-group"><a
-							href="./AngularJS  Tutorial  Tutorial_files/AngularJS  Tutorial  Tutorial.htm"
+							href="/tutorial/index.html"
 							class="nav-index-group-heading active">Tutorial</a>
 							<ul class="aside-nav">
 								<li class="nav-index-listing active"><a tabindex="2"
@@ -54,7 +54,13 @@
 								<li class="nav-index-listing active">
 									<a href="/tutorial/step_03/index.html" >3 - Angular input fields</a>
 								<li class="nav-index-listing active">
-									<a href="/tutorial/step_04/index.html" >4 - Prime:datatable vs. ngtable</a>
+									<a href="/tutorial/step_04/index.html" >4 - Using mustaches in JSF attributes</a>
+								</li>
+								<li class="nav-index-listing active">
+									<a href="/tutorial/step_05/index.html" >5 - Client side bean validation (JSR 303)</a>
+								</li>
+								<li class="nav-index-listing active">
+									<a href="/tutorial/step_06/index.html" >6 - Prime:datatable vs. ngtable</a>
 								</li>
 							</ul></li>
 					</ul>
@@ -63,7 +69,139 @@
 			<div class="col-md-9">
 				<div>
 					<h1>Getting started</h1>
-					<p>Soon you'll find the documentation here.</p>
+					<p>The most simple way to use AngularFaces is to simply include the jar file in your project.
+					Sometimes this is all you need to do: for instance, the automatic creation of labels and messages
+					works without further configuration. 
+					</p>
+					<p>
+					Maven and Gradle users might want to "git clone" the <a href="https://github.com/stephanrauh/AngularFaces/tree/master/AngularFaces_2.0/AngularFaces-core">AngularFaces 2.0 core project</a> and run "maven install".
+					After that, AngularFaces 2.0 can be used in your pom.xml like this:
+					<pre>
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+
+	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+	&lt;groupId&gt;de.beyondjava.angularFaces&lt;/groupId&gt;
+	&lt;artifactId&gt;angularfaces-examples&lt;/artifactId&gt;
+	&lt;packaging&gt;war&lt;/packaging&gt;
+	&lt;version&gt;2.0.0-RC3&lt;/version&gt;
+	&lt;name&gt;angularfaces-2.0-examples&lt;/name&gt;
+	&lt;properties&gt;
+		&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+		&lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;
+		&lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;
+	&lt;/properties&gt;
+	&lt;repositories&gt;
+		&lt;repository&gt;
+			&lt;id&gt;lib&lt;/id&gt;
+			&lt;url&gt;file://lib&lt;/url&gt;
+		&lt;/repository&gt;
+	&lt;/repositories&gt;
+	&lt;dependencies&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;de.beyondjava&lt;/groupId&gt;
+			&lt;artifactId&gt;angularFaces-core&lt;/artifactId&gt;
+			&lt;version&gt;2.0.0-RC3&lt;/version&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.primefaces&lt;/groupId&gt;
+			&lt;artifactId&gt;primefaces&lt;/artifactId&gt;
+			&lt;version&gt;5.0&lt;/version&gt;
+			&lt;scope&gt;compile&lt;/scope&gt;
+		&lt;/dependency&gt;
+
+		&lt;dependency&gt;
+			&lt;groupId&gt;com.google.code.gson&lt;/groupId&gt;
+			&lt;artifactId&gt;gson&lt;/artifactId&gt;
+			&lt;version&gt;2.2.4&lt;/version&gt;
+			&lt;scope&gt;runtime&lt;/scope&gt;
+		&lt;/dependency&gt;
+
+		&lt;dependency&gt;
+			&lt;groupId&gt;commons-logging&lt;/groupId&gt;
+			&lt;artifactId&gt;commons-logging&lt;/artifactId&gt;
+			&lt;version&gt;1.1.3&lt;/version&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.hibernate&lt;/groupId&gt;
+			&lt;artifactId&gt;hibernate-validator&lt;/artifactId&gt;
+			&lt;version&gt;5.1.0.Final&lt;/version&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;javax.validation&lt;/groupId&gt;
+			&lt;artifactId&gt;validation-api&lt;/artifactId&gt;
+			&lt;version&gt;1.1.0.Final&lt;/version&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.omnifaces&lt;/groupId&gt;
+			&lt;artifactId&gt;omnifaces&lt;/artifactId&gt;
+			&lt;version&gt;1.6&lt;/version&gt;
+		&lt;/dependency&gt;
+
+		&lt;dependency&gt;
+			&lt;groupId&gt;junit&lt;/groupId&gt;
+			&lt;artifactId&gt;junit&lt;/artifactId&gt;
+			&lt;version&gt;4.8.1&lt;/version&gt;
+			&lt;scope&gt;test&lt;/scope&gt;
+		&lt;/dependency&gt;
+	&lt;/dependencies&gt;
+	&lt;profiles&gt;
+		&lt;profile&gt;
+			&lt;id&gt;Mojarra 2.2.7&lt;/id&gt;
+			&lt;activation&gt;
+				&lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+			&lt;/activation&gt;
+			&lt;dependencies&gt;
+				&lt;dependency&gt;
+					&lt;groupId&gt;com.sun.faces&lt;/groupId&gt;
+					&lt;artifactId&gt;jsf-api&lt;/artifactId&gt;
+					&lt;version&gt;2.2.7&lt;/version&gt;
+					&lt;scope&gt;compile&lt;/scope&gt;
+				&lt;/dependency&gt;
+				&lt;dependency&gt;
+					&lt;groupId&gt;com.sun.faces&lt;/groupId&gt;
+					&lt;artifactId&gt;jsf-impl&lt;/artifactId&gt;
+					&lt;version&gt;2.2.7&lt;/version&gt;
+					&lt;scope&gt;compile&lt;/scope&gt;
+				&lt;/dependency&gt;
+			&lt;/dependencies&gt;
+		&lt;/profile&gt;
+		&lt;profile&gt;
+			&lt;id&gt;MyFaces 2.2.4&lt;/id&gt;
+			&lt;activation&gt;
+				&lt;activeByDefault&gt;false&lt;/activeByDefault&gt;
+			&lt;/activation&gt;
+			&lt;dependencies&gt;
+				&lt;dependency&gt;
+					&lt;groupId&gt;org.apache.myfaces.core&lt;/groupId&gt;
+					&lt;artifactId&gt;myfaces-api&lt;/artifactId&gt;
+					&lt;version&gt;2.2.4&lt;/version&gt;
+				&lt;/dependency&gt;
+				&lt;dependency&gt;
+					&lt;groupId&gt;org.apache.myfaces.core&lt;/groupId&gt;
+					&lt;artifactId&gt;myfaces-impl&lt;/artifactId&gt;
+					&lt;version&gt;2.2.4&lt;/version&gt;
+				&lt;/dependency&gt;
+			&lt;/dependencies&gt;
+		&lt;/profile&gt;
+	&lt;/profiles&gt;
+
+	&lt;build&gt;
+		&lt;plugins&gt;
+			&lt;plugin&gt;
+				&lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
+				&lt;version&gt;2.4&lt;/version&gt;
+				&lt;configuration&gt;
+					&lt;outputDirectory&gt;dist&lt;/outputDirectory&gt;
+				&lt;/configuration&gt;
+			&lt;/plugin&gt;
+		&lt;/plugins&gt;
+	&lt;/build&gt;
+&lt;/project&gt;
+					
+					</pre>
+					</p>
 
 
 
