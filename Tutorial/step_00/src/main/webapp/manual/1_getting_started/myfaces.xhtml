@@ -1,0 +1,38 @@
+<f:view
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
+	<h:head>
+	</h:head>
+		<h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
+		<h:form id="myForm">
+			<h2>Welcome to AngularFaces 2.0!</h2>
+    		Based firmly in the future...<br />
+    		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
+				style="{{calculatorBean.gridStyle}}">
+				<br />This demo uses the traditional JSF 2.2 components.
+				<h:panelGrid columns="3">
+						<h:inputText value="#{calculatorBean.number1}" label="number1"/>
+						<h:inputText value="#{calculatorBean.number2}" />
+						<h:inputText value="#{calculatorBean.result}" label="#{calculatorBean.resultCapture}" />
+						<h:inputText value="#{calculatorBean.serverSideResult}"  />
+						<h:inputText value="#{calculatorBean.randomNumberFromServer}" id="random"  />
+					<h:commandButton value="Add on server (via AF-AJAX)"
+						action="#{calculatorBean.add}">
+						<f:ajax render="angular" execute="@form" />
+					</h:commandButton>
+					<h:commandButton value="Add on server (without AJAX)"
+						action="#{calculatorBean.add}" />
+					<h:commandButton value="Add on server (via JSF-AJAX)"
+						action="#{calculatorBean.add}">
+						<f:ajax render="@form" execute="@form" />
+					</h:commandButton>
+				</h:panelGrid>
+				<h:messages globalOnly="false" />
+			</h:panelGroup>
+		</h:form>
+	</h:body>
+</f:view>
