@@ -6,7 +6,7 @@
 <meta name="Description"
 	content="AngularFaces brings AngularJS to the JSF world">
 <title>AngularFaces Tutorial - Installing AngularFaces</title>
-<link rel="stylesheet" href="/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="../../../bootstrap.min.css" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
@@ -73,31 +73,11 @@
 					Sometimes this is all you need to do: for instance, the automatic creation of labels and messages
 					works without further configuration. 
 					</p>
+					<h2>Brief introduction for the experts</h2>
 					<p>
 					Maven and Gradle users might want to "git clone" the <a href="https://github.com/stephanrauh/AngularFaces/tree/master/AngularFaces_2.0/AngularFaces-core">AngularFaces 2.0 core project</a> and run "maven install".
 					After that, AngularFaces 2.0 can be used in your pom.xml like this:
 					<pre>
-&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
-
-	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-	&lt;groupId&gt;de.beyondjava.angularFaces&lt;/groupId&gt;
-	&lt;artifactId&gt;angularfaces-examples&lt;/artifactId&gt;
-	&lt;packaging&gt;war&lt;/packaging&gt;
-	&lt;version&gt;2.0.0-RC3&lt;/version&gt;
-	&lt;name&gt;angularfaces-2.0-examples&lt;/name&gt;
-	&lt;properties&gt;
-		&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-		&lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;
-		&lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;
-	&lt;/properties&gt;
-	&lt;repositories&gt;
-		&lt;repository&gt;
-			&lt;id&gt;lib&lt;/id&gt;
-			&lt;url&gt;file://lib&lt;/url&gt;
-		&lt;/repository&gt;
-	&lt;/repositories&gt;
 	&lt;dependencies&gt;
 		&lt;dependency&gt;
 			&lt;groupId&gt;de.beyondjava&lt;/groupId&gt;
@@ -105,106 +85,69 @@
 			&lt;version&gt;2.0.0-RC3&lt;/version&gt;
 		&lt;/dependency&gt;
 		&lt;dependency&gt;
-			&lt;groupId&gt;org.primefaces&lt;/groupId&gt;
-			&lt;artifactId&gt;primefaces&lt;/artifactId&gt;
-			&lt;version&gt;5.0&lt;/version&gt;
+			&lt;groupId&gt;com.sun.faces&lt;/groupId&gt;
+			&lt;artifactId&gt;jsf-api&lt;/artifactId&gt;
+			&lt;version&gt;2.2.7&lt;/version&gt;
 			&lt;scope&gt;compile&lt;/scope&gt;
 		&lt;/dependency&gt;
-
 		&lt;dependency&gt;
-			&lt;groupId&gt;com.google.code.gson&lt;/groupId&gt;
-			&lt;artifactId&gt;gson&lt;/artifactId&gt;
-			&lt;version&gt;2.2.4&lt;/version&gt;
-			&lt;scope&gt;runtime&lt;/scope&gt;
-		&lt;/dependency&gt;
-
-		&lt;dependency&gt;
-			&lt;groupId&gt;commons-logging&lt;/groupId&gt;
-			&lt;artifactId&gt;commons-logging&lt;/artifactId&gt;
-			&lt;version&gt;1.1.3&lt;/version&gt;
-		&lt;/dependency&gt;
-		&lt;dependency&gt;
-			&lt;groupId&gt;org.hibernate&lt;/groupId&gt;
-			&lt;artifactId&gt;hibernate-validator&lt;/artifactId&gt;
-			&lt;version&gt;5.1.0.Final&lt;/version&gt;
-		&lt;/dependency&gt;
-		&lt;dependency&gt;
-			&lt;groupId&gt;javax.validation&lt;/groupId&gt;
-			&lt;artifactId&gt;validation-api&lt;/artifactId&gt;
-			&lt;version&gt;1.1.0.Final&lt;/version&gt;
-		&lt;/dependency&gt;
-		&lt;dependency&gt;
-			&lt;groupId&gt;org.omnifaces&lt;/groupId&gt;
-			&lt;artifactId&gt;omnifaces&lt;/artifactId&gt;
-			&lt;version&gt;1.6&lt;/version&gt;
-		&lt;/dependency&gt;
-
-		&lt;dependency&gt;
-			&lt;groupId&gt;junit&lt;/groupId&gt;
-			&lt;artifactId&gt;junit&lt;/artifactId&gt;
-			&lt;version&gt;4.8.1&lt;/version&gt;
-			&lt;scope&gt;test&lt;/scope&gt;
+			&lt;groupId&gt;com.sun.faces&lt;/groupId&gt;
+			&lt;artifactId&gt;jsf-impl&lt;/artifactId&gt;
+			&lt;version&gt;2.2.7&lt;/version&gt;
+			&lt;scope&gt;compile&lt;/scope&gt;
 		&lt;/dependency&gt;
 	&lt;/dependencies&gt;
-	&lt;profiles&gt;
-		&lt;profile&gt;
-			&lt;id&gt;Mojarra 2.2.7&lt;/id&gt;
-			&lt;activation&gt;
-				&lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
-			&lt;/activation&gt;
-			&lt;dependencies&gt;
-				&lt;dependency&gt;
-					&lt;groupId&gt;com.sun.faces&lt;/groupId&gt;
-					&lt;artifactId&gt;jsf-api&lt;/artifactId&gt;
-					&lt;version&gt;2.2.7&lt;/version&gt;
-					&lt;scope&gt;compile&lt;/scope&gt;
-				&lt;/dependency&gt;
-				&lt;dependency&gt;
-					&lt;groupId&gt;com.sun.faces&lt;/groupId&gt;
-					&lt;artifactId&gt;jsf-impl&lt;/artifactId&gt;
-					&lt;version&gt;2.2.7&lt;/version&gt;
-					&lt;scope&gt;compile&lt;/scope&gt;
-				&lt;/dependency&gt;
-			&lt;/dependencies&gt;
-		&lt;/profile&gt;
-		&lt;profile&gt;
-			&lt;id&gt;MyFaces 2.2.4&lt;/id&gt;
-			&lt;activation&gt;
-				&lt;activeByDefault&gt;false&lt;/activeByDefault&gt;
-			&lt;/activation&gt;
-			&lt;dependencies&gt;
-				&lt;dependency&gt;
-					&lt;groupId&gt;org.apache.myfaces.core&lt;/groupId&gt;
-					&lt;artifactId&gt;myfaces-api&lt;/artifactId&gt;
-					&lt;version&gt;2.2.4&lt;/version&gt;
-				&lt;/dependency&gt;
-				&lt;dependency&gt;
-					&lt;groupId&gt;org.apache.myfaces.core&lt;/groupId&gt;
-					&lt;artifactId&gt;myfaces-impl&lt;/artifactId&gt;
-					&lt;version&gt;2.2.4&lt;/version&gt;
-				&lt;/dependency&gt;
-			&lt;/dependencies&gt;
-		&lt;/profile&gt;
-	&lt;/profiles&gt;
-
-	&lt;build&gt;
-		&lt;plugins&gt;
-			&lt;plugin&gt;
-				&lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
-				&lt;version&gt;2.4&lt;/version&gt;
-				&lt;configuration&gt;
-					&lt;outputDirectory&gt;dist&lt;/outputDirectory&gt;
-				&lt;/configuration&gt;
-			&lt;/plugin&gt;
-		&lt;/plugins&gt;
-	&lt;/build&gt;
-&lt;/project&gt;
-					
 					</pre>
 					</p>
-
-
-
+					<h2>Verbose explanation for the rest of us</h2>
+					I've prepared a couple of tutorial projects for you. The first tutorial project doesn't do much: it's simply there to lay the ground to build on later.
+					<br /><br />
+					You find the first tutorial project at <a target="#" href="https://github.com/stephanrauh/AngularFaces/tree/master/Tutorial/step_00">my GitHub repository.</a>
+					I suggest you download the entire GitHub repository. Currently, AngularFaces hasn't made it to Maven Central yet. Until it does, building it from source
+					is the best approach. It's a fairly simple approach, by the way.<br /><br />
+					<h3>Downloading AngularFaces with Git</h3>
+					If you're already using Git, clone the repository to your local hard disk. If you want to clone it to C:\AngularFaces, proceed as follows. Open the
+					command shell. In the case of Windows, you do it by hitting the keys "Windows" and "R" simulaniously, typing "CMD" and hitting the "return" key.
+					Now a black window (the "command shell") opens. As for Unix users - well, I suppose everyone of you is more familiar with the shell than I am, so I'll
+					omit the description. Now that the shell is open, enter these commands:
+					<br />
+					<pre>
+C:\
+MD \AngularFaces
+cd \AngularFaces
+git clone git@github.com:stephanrauh/AngularFaces.git
+					</pre>
+					Again, this are slightly different in the UNIX world. You'll have to chose a different path, and of course there's no C: drive. I'll stick with the
+					Windows version for the rest of the tutorial.
+					<h3>Downloading AngularFaces using Subversion</h3>
+					You can also download AngularFaces using Subversion. The corresponding URL is https://github.com/stephanrauh/AngularFaces.
+					<h3>Downloading AngularFaces as a ZIP file</h3>
+					Of course, you can also download the ZIP file from GitHub. The disadvantage is it's more difficult to update your project. If you don't mind,
+					download <a href="https://github.com/stephanrauh/AngularFaces/archive/master.zip">the master zip file</a> from GitHub. There's also a
+					"Download Zip" button at <a href="https://github.com/stephanrauh/AngularFaces">https://github.com/stephanrauh/AngularFaces</a>.
+					<br />
+					<h2>Compile the projects using Maven</h2>
+					The next step is to import the projects into your IDE. Alternatively, you can compile the projects from the command line using Maven.<br>
+					Eclipse users click "Import... --> Existing Maven Projects" and select these two projects:<br>
+					<img src="eclipseMaven.png">
+					<br /><br />
+					The next step is to set up an Apache Tomcat server and to deploy the AngularFaces tutorial project to it. After starting Tomcat you 
+					open the URL http://127.0.0.1:8080/angularfaces-tutorial-step-00/index.jsf. As I mentioned above, the first tutorial page isn't
+					really exciting: just a few texts and an image. I reduced the first example as much as possible because its only purpose is to
+					check the installation. 
+					<h3>Project setup</h3> 
+					This isn't as trivial as it sounds. The default project setup includes AngularFaces to your libraries - and that means AngularFaces
+					starts up and tries to improve your JSF files. The first tutorial is designed in a way that AngularFaces can't improve anything,
+					but you should find a few messages in the console window (or the catalina.out file).<br />
+					<br />
+					The folder angularfaces-tutorial-step-00//WEB-INF/lib of the Tomcat webapps folder should contain these libraries:<br />
+					<img src="libraries.png">
+					<br>
+					AngularFaces doesn't really require PrimeFaces, but it's in the folder because AngularFaces supports PrimeFaces. Gson, classmate,
+					commons-beanutils, commons-logging and the two validation API jars are added by AngularFaces 2.0 core. 
+					 <br />
+					 <br />
+					 <br />
 				</div>
 			</div>
 		</div>
