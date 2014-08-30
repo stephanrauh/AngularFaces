@@ -81,6 +81,19 @@
 					Sometimes this is all you need to do: for instance, the automatic creation of labels and messages
 					works without further configuration. 
 					</p>
+					<h2>Prerequisites</h2>
+					<p>AngularFaces 2.0 currently requires Java 8. As for the client side it supports Javascript and AngularJS.</p>
+					<p> A future version of AngularFaces will support
+					Dart and AngularDart, but I've postponed Dart support because I'm waiting for a couple of announced breaking changes in AngularDart.
+					</p>
+					<p>
+					AngularFaces supports PrimeFaces 5.0. It doesn't really need PrimeFaces, but at the time of writing the code contains an
+					accidential dependency
+					to PrimeFaces that requires PrimeFaces 5.0 in the class path. A future version of AngularFaces will fix this, making PrimeFaces
+					an optional (but highly welcome) library.</p>
+					</p>
+					<p>Most of the examples are based on Maven. Some of the examples are based on Spring Boot and Gradle. Actually AngularFaces doesn't require
+					any of them - Maven and Gradle are just nice tools to compile and package the jar and war files.</p>
 					<h2>Brief introduction for the experts</h2>
 					<p>
 					Maven and Gradle users might want to "git clone" the <a href="https://github.com/stephanrauh/AngularFaces/tree/master/AngularFaces_2.0/AngularFaces-core">AngularFaces 2.0 core project</a> and run "maven install".
@@ -153,6 +166,8 @@ git clone git@github.com:stephanrauh/AngularFaces.git
 					<br>
 					AngularFaces doesn't really require PrimeFaces, but it's in the folder because AngularFaces supports PrimeFaces. Gson, classmate,
 					commons-beanutils, commons-logging and the two validation API jars are added by AngularFaces 2.0 core. 
+					 <br />
+					 <br />
 					 <br />
 					 <br />
 					 <br />
