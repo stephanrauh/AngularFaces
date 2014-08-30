@@ -6,7 +6,14 @@
 <meta name="Description"
 	content="AngularFaces brings AngularJS to the JSF world">
 <title>AngularFaces Tutorial</title>
-<link rel="stylesheet" href="/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="../../bootstrap.min.css" type="text/css">
+	<script type="text/javascript" src="../../syntaxhighlighter/shCore.js"></script>
+	<script type="text/javascript" src="../../syntaxhighlighter/shBrushJScript.js"></script>
+	<script type="text/javascript" src="../../syntaxhighlighter/shBrushXml.js"></script>
+	<script type="text/javascript" src="../../syntaxhighlighter/shBrushJava.js"></script>
+	<script type="text/javascript" src="../../syntaxhighlighter/shBrushBat.js"></script>
+	<link type="text/css" rel="stylesheet" href="../../syntaxhighlighter/shCoreDefault.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -68,14 +75,71 @@
 			</div>
 			<div class="col-md-9">
 				<div>
-					<h1>Labels and messages</h1>
-					<p>AngularFaces is useful even without AngularJS. One of the features is adding "automagically" labels and messages.
-					This simplifies your JSF pages significantly.</p>
-					<p>Soon you'll find the documentation here.</p>
+		<h3>Labels and messages</h3>
+		<p>One the most annoying and tedious tasks of JSF programming is having to deal with labels and messages. AngularFaces takes the scare out of that.</p>
+		<p>Mind you, how often have you written something like this?</p>
+		<img src="traditional.png" />
+		<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+		<prime:panel header="Congrats - you've made it to the high score table!">
+			<prime:panelGrid columns="3">
+				<prime:outputLabel value="Enter your name" for="playersNameID" />
+				<prime:inputText id="playersNameID" value="#{highscoreBean.playersName}" 
+				                 label="Enter your name"/>
+				<prime:message for="playersNameID" />
+			</prime:panelGrid>
+		</prime:panel>
+		]]></script>
+		<p>To make the tabular layout visible, the examples on this page deliberately draw lines around the grid cells.</p>
+		<p>That's one input field, but three JSF components. Before the invention of @next and @previous, you have to add ids to assign the label and the message
+		to the input field. In fact, you still have to do this unless you're using PrimeFaces.</p>
+		<p>AngularFaces automatically adds the label and the error message to input fields. The label attribute of the input field is taken as the label caption:</p>
 
+		<img src="useLabelAttribute.png" />
 
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+		<prime:panel header="AngularTetris settings">
+			<prime:panelGrid columns="3">
+				<prime:inputText value="#{settingsBean.numberOfColumns}" label="How many columns?"/>
+			</prime:panelGrid>
+		</prime:panel>
+		]]></script>
+		<p>In many cases, the label can be derived automatically from the bean attribute name. If you omit the label attribute of the input field, AngularFaces assumes
+		the bean attribute name is a camel case version of the label. That's a useful feature for rapid prototyping - and even beyond if you see to it to chose expressive
+		variable names. For example, the next example is as simple as can be:</p>
 
-				</div>
+		<img src="useCamelCaseValue.png" />
+
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+		<prime:panel header="AngularTetris settings">
+			<prime:panelGrid columns="3">
+				<prime:inputText value="#{settingsBean.numberOfRows}"/>
+			</prime:panelGrid>
+		</prime:panel>
+]]></script>		
+		<h3>Layouting labels and messages</h3>
+		<p>As of AngularFaces 2.0 RC3 labels always preceed their input field. Messages always follow the input field. That's why the example uses a PrimeFaces panel grid
+      	with columns="3": The input field is accomponied by two components that are added automatically to the JSF view.</p>
+      	<p>  In a future version, AngularFaces is going to
+      	have more flexibility (such as putting labels above and messages below the input field).</p> 
+      	<h3>Supressing automatic generation of labels and messages</h3>
+      	<p>There are two ways to influence the creation of labels and messages:</p>
+      	<p>First, you can switch off the automatical creation of labels and messages by adding an attribute to &lt;h:body&gt;.
+      	<ul>
+      	<li>addlabels="false" suppresses the automatical creation of labels for the entire JSF view.</li>
+      	<li>addmessages="false" suppresses the automatical creation of messages for the entire JSF view.</li>
+      	</ul>
+      	</p>
+      	<p>Second, AngularFaces doesn't add a label if it recognizes there's already a label. So all you have to do is to add an outputLabel manually, and to set the for attribute.
+      	The same applies to the message attribute.</p>
+      	<p>As of AngularFaces RC3, @next and @for aren't recognized properly yet. This will be fixed in a future version of AngularFaces.</p>
+
+		<h3>Example project on GitHub</h3>
+		Check out the demo project at <a href="https://github.com/stephanrauh/AngularFaces/tree/master/Tutorial/step_01_labels_and_messages">https://github.com/stephanrauh/AngularFaces/tree/master/Tutorial/step_01_labels_and_messages</a>.
+		<br />
+		<br />
+		<br />
+		<br />
+ 				</div>
 			</div>
 		</div>
 	</section>

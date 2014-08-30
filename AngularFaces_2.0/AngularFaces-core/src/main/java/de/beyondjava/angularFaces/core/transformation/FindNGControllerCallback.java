@@ -12,12 +12,31 @@ import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 public class FindNGControllerCallback implements VisitCallback {
 	
 	private PuiModelSync puiModelSync=null;
+	private boolean addLabels=true;
+	public boolean isAddLabels() {
+		return addLabels;
+	}
+
+	public boolean isAddMessages() {
+		return addMessages;
+	}
+
+	private boolean addMessages=true;
 
 	@Override
 	public VisitResult visit(VisitContext arg0, UIComponent source) {
 		if (!(source instanceof UIComponent))
 			return VisitResult.ACCEPT;
 		UIComponent component = (UIComponent) source;
+
+		String labels = (String) component.getAttributes().get("addlabels");
+		if (null != labels) {
+			addLabels=labels.equalsIgnoreCase("true");
+		}
+		String messages = (String) component.getAttributes().get("addmessages");
+		if (null != messages) {
+			addMessages=messages.equalsIgnoreCase("true");
+		}
 
 		String ngApp = (String) component.getAttributes().get("ng-app");
 		if (null != ngApp) {
@@ -40,7 +59,6 @@ public class FindNGControllerCallback implements VisitCallback {
 				puiModelSync=new PuiModelSync();
 				children.add(puiModelSync);
 			}
-			PuiModelSync.initJSFAttributesTable();
 			return VisitResult.COMPLETE;
 		}
 

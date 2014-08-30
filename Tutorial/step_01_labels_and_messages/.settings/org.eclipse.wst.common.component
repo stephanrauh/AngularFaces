@@ -7,7 +7,7 @@
         <dependent-module archiveName="angularFaces-core-2.0.0-RC3.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/angularFaces-core/angularFaces-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <property name="context-root" value="angularfaces-tutorial-step-00"/>
         <property name="java-output-path" value="/angularfaces-tutorial-step-00/target/classes"/>
+        <property name="context-root" value="angularfaces-tutorial-step-01-labels-and-messages"/>
     </wb-module>
 </project-modules>

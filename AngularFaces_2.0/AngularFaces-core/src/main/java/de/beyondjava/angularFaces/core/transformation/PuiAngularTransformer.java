@@ -29,6 +29,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 		Object source = event.getSource();
 		if (source instanceof UIViewRoot) {
 			long timer = System.nanoTime();
+			PuiModelSync.initJSFAttributesTable();
 			UIViewRoot root = (UIViewRoot) source;
 			FindNGControllerCallback findNGControllerCallback = new FindNGControllerCallback();
 			FacesContext context = FacesContext.getCurrentInstance();

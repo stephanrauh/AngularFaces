@@ -25,6 +25,7 @@ public class AddLabelCallback implements VisitCallback {
 	public VisitResult visit(VisitContext arg0, UIComponent parent) {
 		if (!(parent instanceof UIComponent))
 			return VisitResult.ACCEPT;
+		boolean needsLabel=true;
 		List<UIComponent> children = parent.getChildren();
 		for (int index = children.size() - 1; index >= 0; index--) {
 			UIComponent kid = children.get(index);

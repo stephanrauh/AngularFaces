@@ -2,19 +2,15 @@ package de.beyondjava.angularFaces.core.transformation;
 
 import java.util.List;
 
-import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.component.UIMessage;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
 
-import org.primefaces.component.outputlabel.OutputLabel;
-
 import de.beyondjava.angularFaces.components.puiMessage.PuiMessage;
-import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
-import de.beyondjava.angularFaces.core.NGWordUtiltites;
 
 public class AddMessagesCallback implements VisitCallback {
 	int duplicateLabels=0;
@@ -23,6 +19,7 @@ public class AddMessagesCallback implements VisitCallback {
 	public VisitResult visit(VisitContext arg0, UIComponent parent) {
 		if (!(parent instanceof UIComponent))
 			return VisitResult.ACCEPT;
+		boolean needsMessage=true;
 		List<UIComponent> children = parent.getChildren();
 		for (int index = children.size()-1; index>=0; index--) {
 			UIComponent kid = children.get(index);
@@ -38,6 +35,11 @@ public class AddMessagesCallback implements VisitCallback {
 								if (j<index) index--;
 							}
 							continue;
+						}
+					}
+					else if (maybe instanceof UIMessage) {
+						if (kid.getClientId().equals(((UIMessage) maybe).getFor())){
+							needsMessage=false;
 						}
 					}
 
