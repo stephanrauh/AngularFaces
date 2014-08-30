@@ -6,7 +6,15 @@
 <meta name="Description"
 	content="AngularFaces brings AngularJS to the JSF world">
 <title>AngularFaces Tutorial - Installing AngularFaces</title>
-<link rel="stylesheet" href="../../../bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="../../bootstrap.min.css" type="text/css">
+	<script type="text/javascript" src="../../syntaxhighlighter/shCore.js"></script>
+	<script type="text/javascript" src="../../syntaxhighlighter/shBrushJScript.js"></script>
+	<script type="text/javascript" src="../../syntaxhighlighter/shBrushXml.js"></script>
+	<script type="text/javascript" src="../../syntaxhighlighter/shBrushJava.js"></script>
+	<script type="text/javascript" src="../../syntaxhighlighter/shBrushBat.js"></script>
+	<link type="text/css" rel="stylesheet" href="../../syntaxhighlighter/shCoreDefault.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+
 </head>
 <body>
 	<div id="wrapper">
@@ -77,27 +85,27 @@
 					<p>
 					Maven and Gradle users might want to "git clone" the <a href="https://github.com/stephanrauh/AngularFaces/tree/master/AngularFaces_2.0/AngularFaces-core">AngularFaces 2.0 core project</a> and run "maven install".
 					After that, AngularFaces 2.0 can be used in your pom.xml like this:
-					<pre>
-	&lt;dependencies&gt;
-		&lt;dependency&gt;
-			&lt;groupId&gt;de.beyondjava&lt;/groupId&gt;
-			&lt;artifactId&gt;angularFaces-core&lt;/artifactId&gt;
-			&lt;version&gt;2.0.0-RC3&lt;/version&gt;
-		&lt;/dependency&gt;
-		&lt;dependency&gt;
-			&lt;groupId&gt;com.sun.faces&lt;/groupId&gt;
-			&lt;artifactId&gt;jsf-api&lt;/artifactId&gt;
-			&lt;version&gt;2.2.7&lt;/version&gt;
-			&lt;scope&gt;compile&lt;/scope&gt;
-		&lt;/dependency&gt;
-		&lt;dependency&gt;
-			&lt;groupId&gt;com.sun.faces&lt;/groupId&gt;
-			&lt;artifactId&gt;jsf-impl&lt;/artifactId&gt;
-			&lt;version&gt;2.2.7&lt;/version&gt;
-			&lt;scope&gt;compile&lt;/scope&gt;
-		&lt;/dependency&gt;
-	&lt;/dependencies&gt;
-					</pre>
+					<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+	<dependencies>
+		<dependency>
+			<groupId>de.beyondjava</groupId>
+			<artifactId>angularFaces-core</artifactId>
+			<version>2.0.0-RC3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<version>2.2.7</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<version>2.2.7</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+					]]></script>
 					</p>
 					<h2>Verbose explanation for the rest of us</h2>
 					I've prepared a couple of tutorial projects for you. The first tutorial project doesn't do much: it's simply there to lay the ground to build on later.
@@ -111,12 +119,12 @@
 					Now a black window (the "command shell") opens. As for Unix users - well, I suppose everyone of you is more familiar with the shell than I am, so I'll
 					omit the description. Now that the shell is open, enter these commands:
 					<br />
-					<pre>
+					<script type="syntaxhighlighter" class="brush: bat"><![CDATA[
 C:\
-MD \AngularFaces
+md \AngularFaces
 cd \AngularFaces
 git clone git@github.com:stephanrauh/AngularFaces.git
-					</pre>
+					]]></script>
 					Again, this are slightly different in the UNIX world. You'll have to chose a different path, and of course there's no C: drive. I'll stick with the
 					Windows version for the rest of the tutorial.
 					<h3>Downloading AngularFaces using Subversion</h3>
@@ -131,8 +139,8 @@ git clone git@github.com:stephanrauh/AngularFaces.git
 					Eclipse users click "Import... --> Existing Maven Projects" and select these two projects:<br>
 					<img src="eclipseMaven.png">
 					<br /><br />
-					The next step is to set up an Apache Tomcat server and to deploy the AngularFaces tutorial project to it. After starting Tomcat you 
-					open the URL http://127.0.0.1:8080/angularfaces-tutorial-step-00/index.jsf. As I mentioned above, the first tutorial page isn't
+					The next step is to set up an Apache Tomcat server and to deploy the AngularFaces tutorial project to it. After starting Tomcat  
+					open the URL http://127.0.0.1:8080/angularfaces-tutorial-step-00/index.jsf. As mentioned above, the first tutorial page isn't
 					really exciting: just a few texts and an image. I reduced the first example as much as possible because its only purpose is to
 					check the installation. 
 					<h3>Project setup</h3> 
