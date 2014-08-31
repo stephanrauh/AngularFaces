@@ -8,11 +8,6 @@
 
 	<web>
 		<link target="/">
-			<dir name="C:/AngularFaces/Tutorial/step_01_labels_and_messages/target/m2e-wtp/web-resources">
-				<exclude name="/"/>
-			</dir>
-		</link>
-		<link target="/">
 			<dir name="C:/AngularFaces/Tutorial/step_01_labels_and_messages/src/main/webapp">
 			</dir>
 		</link>

@@ -80,12 +80,14 @@
 		<p>Mind you, how often have you written something like this?</p>
 		<img src="traditional.png" />
 		<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
-		<prime:panel header="Congrats - you've made it to the high score table!">
+		<prime:panel header="Who are you?">
 			<prime:panelGrid columns="3">
-				<prime:outputLabel value="Enter your name" for="playersNameID" />
-				<prime:inputText id="playersNameID" value="#{highscoreBean.playersName}" 
-				                 label="Enter your name"/>
-				<prime:message for="playersNameID" />
+				<prime:outputLabel value="last name" for="lastNameID" />
+				<prime:inputText id="lastNameID" value="&#35;{customer.lastName}" label="last name"/>
+				<prime:message for="lastNameID" />
+				<prime:outputLabel value="first name" for="firstNameID" />
+				<prime:inputText id="firstNameID" value="&#35;{customer.firstName}" label="first name"/>
+				<prime:message for="firstNameID" />
 			</prime:panelGrid>
 		</prime:panel>
 		]]></script>
@@ -97,11 +99,12 @@
 		<img src="useLabelAttribute.png" />
 
 <script type="syntaxhighlighter" class="brush: xml"><![CDATA[
-		<prime:panel header="AngularTetris settings">
-			<prime:panelGrid columns="3">
-				<prime:inputText value="#{settingsBean.numberOfColumns}" label="How many columns?"/>
-			</prime:panelGrid>
-		</prime:panel>
+			<prime:panel header="Who are you?">
+				<prime:panelGrid columns="3">
+					<prime:inputText value="&#35;{customer.lastName}"  label="last name"/>
+					<prime:inputText value="&#35;{customer.firstName}" label="first name"/>
+				</prime:panelGrid>
+			</prime:panel>
 		]]></script>
 		<p>In many cases, the label can be derived automatically from the bean attribute name. If you omit the label attribute of the input field, AngularFaces assumes
 		the bean attribute name is a camel case version of the label. That's a useful feature for rapid prototyping - and even beyond if you see to it to chose expressive
@@ -110,12 +113,35 @@
 		<img src="useCamelCaseValue.png" />
 
 <script type="syntaxhighlighter" class="brush: xml"><![CDATA[
-		<prime:panel header="AngularTetris settings">
-			<prime:panelGrid columns="3">
-				<prime:inputText value="#{settingsBean.numberOfRows}"/>
-			</prime:panelGrid>
-		</prime:panel>
-]]></script>		
+			<prime:panel header="Who are you?">
+				<prime:panelGrid columns="3">
+					<prime:inputText value="#{customer.lastName}"/>
+					<prime:inputText value="#{customer.firstName}"/>
+				</prime:panelGrid>
+			</prime:panel>
+]]></script>
+
+		<h3>How to prepare the project</h3>
+		<p>As of AngularFaces 2.0 RC3, automatic addition of labels and messages require a little preparation:
+		<ul>
+			<li>Add two attributes to &lt;h:body&gt;:
+		<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+			<h:body style="width:1000px" ng-controller="LabelDemoController" ng-app="AngularFacesExamples">]]></script>
+		</li>
+		<li>
+			Add a Javascript file called "main.js" to your project. It activates the client side widgets of AngularFaces - such as the AngularFacesMessage:
+		<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+angular.module("AngularFacesExamples", [ "angularfaces" ]);
+
+function LabelDemoController($scope) {
+	// This initializes the Angular Model with the values of the JSF bean attributes
+	initJSFScope($scope);
+}]]></script>
+			
+		</li>			
+		</ul>
+		</p>
+		
 		<h3>Layouting labels and messages</h3>
 		<p>As of AngularFaces 2.0 RC3 labels always preceed their input field. Messages always follow the input field. That's why the example uses a PrimeFaces panel grid
       	with columns="3": The input field is accomponied by two components that are added automatically to the JSF view.</p>
@@ -131,7 +157,7 @@
       	</p>
       	<p>Second, AngularFaces doesn't add a label if it recognizes there's already a label. So all you have to do is to add an outputLabel manually, and to set the for attribute.
       	The same applies to the message attribute.</p>
-      	<p>As of AngularFaces RC3, @next and @for aren't recognized properly yet. This will be fixed in a future version of AngularFaces.</p>
+     	<p>Note: at the time of writing, the demo on this page doesn't seem to work as intended. I'm going to fix it soon.</p>
 
 		<h3>Example project on GitHub</h3>
 		Check out the demo project at <a href="https://github.com/stephanrauh/AngularFaces/tree/master/Tutorial/step_01_labels_and_messages">https://github.com/stephanrauh/AngularFaces/tree/master/Tutorial/step_01_labels_and_messages</a>.

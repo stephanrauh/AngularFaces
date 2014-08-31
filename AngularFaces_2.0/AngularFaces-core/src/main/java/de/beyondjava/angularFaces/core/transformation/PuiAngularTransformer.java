@@ -51,8 +51,8 @@ public class PuiAngularTransformer implements SystemEventListener {
 							+ labelDecorator.duplicateLabels);
 				}
 				time("add type information", () -> root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback()));
+				time("add messages", () -> root.visitTree(new FullVisitContext(context), new AddMessagesCallback()));
 				if (!ajaxRequest) {
-					time("add messages", () -> root.visitTree(new FullVisitContext(context), new AddMessagesCallback()));
 					time("internationalization", () -> root.visitTree(new FullVisitContext(context), new TranslationCallback()));
 				}
 			}

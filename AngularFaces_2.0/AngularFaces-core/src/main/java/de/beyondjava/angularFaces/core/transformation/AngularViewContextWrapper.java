@@ -193,9 +193,11 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 	}
 
 	public void encodeAngularScript(ResponseWriter writer, FacesContext context, PuiModelSync component) throws IOException {
-		List<String> beansAsJSon = component.getFacesModel();
-		for (String bean : beansAsJSon) {
-			writer.write("injectJSonIntoScope(" + bean + ",window.jsfScope);");
+		if (null != component) {
+			List<String> beansAsJSon = component.getFacesModel();
+			for (String bean : beansAsJSon) {
+				writer.write("injectJSonIntoScope(" + bean + ",window.jsfScope);");
+			}
 		}
 	}
 }

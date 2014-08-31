@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.FacesComponent;
+import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 
 import com.google.gson.Gson;
@@ -20,7 +21,7 @@ import de.beyondjava.angularFaces.core.ELTools;
  */
 
 @FacesComponent("de.beyondjava.Sync")
-public class Sync extends org.primefaces.component.inputtext.InputText {
+public class Sync extends HtmlInputText {
 	public static final String this_FAMILY = "org.primefaces.this";
 
 	@Override

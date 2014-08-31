@@ -15,6 +15,7 @@ public class PuiMessage extends HtmlMessage {
 		ResponseWriter writer = context.getResponseWriter();
 		writer.startElement("angularfacesmessage", this);
 //		writer.writeAttribute("angularfacesmessage", getFor(), "angularfacesmessage");
+//		FacesContext.getCurrentInstance().getMessageList()
 		List<FacesMessage> messageList = FacesContext.getCurrentInstance().getMessageList(getFor());
 		if (!messageList.isEmpty()) {
 			String msg = "";

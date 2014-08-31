@@ -62,7 +62,7 @@
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>5.0</version>
-			<scope>compile</scope>
+			<scope>runtime</scope>
 		</dependency>
 
 	</dependencies>
@@ -78,7 +78,7 @@
 					<groupId>com.sun.faces</groupId>
 					<artifactId>jsf-api</artifactId>
 					<version>2.2.7</version>
-					<scope>runtime</scope>
+					<scope>compile</scope>
 				</dependency>
 			</dependencies>
 		</profile>
