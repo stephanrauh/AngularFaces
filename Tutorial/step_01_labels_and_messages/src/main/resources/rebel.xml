@@ -2,18 +2,18 @@
 <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://www.zeroturnaround.com/alderaan/rebel-2_0.xsd">
 
 	<classpath>
-		<dir name="${rebel.workspace.path}/AngularFaces/Tutorial/step_01_labels_and_messages/target/classes">
+		<dir name="C:/AngularFaces/Tutorial/step_01_labels_and_messages/target/classes">
 		</dir>
 	</classpath>
 
 	<web>
 		<link target="/">
-			<dir name="${rebel.workspace.path}/AngularFaces/Tutorial/step_01_labels_and_messages/target/m2e-wtp/web-resources">
+			<dir name="C:/AngularFaces/Tutorial/step_01_labels_and_messages/target/m2e-wtp/web-resources">
 				<exclude name="/"/>
 			</dir>
 		</link>
 		<link target="/">
-			<dir name="${rebel.workspace.path}/AngularFaces/Tutorial/step_01_labels_and_messages/src/main/webapp">
+			<dir name="C:/AngularFaces/Tutorial/step_01_labels_and_messages/src/main/webapp">
 			</dir>
 		</link>
 	</web>

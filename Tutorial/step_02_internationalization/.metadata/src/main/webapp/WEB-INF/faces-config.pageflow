@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14093404062970" configfile="/angularfaces-tutorial-step-00/src/main/webapp/WEB-INF/faces-config.xml"/>
+<pageflow:Pageflow xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14093404062970" configfile="/angularfaces-tutorial-step-02-internationalization/src/main/webapp/WEB-INF/faces-config.xml"/>

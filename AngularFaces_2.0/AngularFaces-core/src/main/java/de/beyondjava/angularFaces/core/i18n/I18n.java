@@ -51,6 +51,7 @@ public class I18n implements Serializable {
 					if (pos > 0) {
 						String english = line.substring(0, pos).trim();
 						String translation = line.substring(pos+1).trim();
+						if (translation.startsWith("\"") && translation.endsWith("\"")) translation=translation.substring(1, translation.length()-1);
 						this.translations.put(english, translation);
 						json+= ", \"" + english + "\"" + "," + "\"" + translation + "\"";
 					}
@@ -100,7 +101,9 @@ public class I18n implements Serializable {
 	}
 	
 	public String translate(String english) {
-		if (null==translations || translations.isEmpty()) return english;
+		if (null==translations || translations.isEmpty()||english==null) return english;
+		if (translations.containsKey(english)) return translations.get(english);
+		english=english.trim();
 		if (translations.containsKey(english)) return translations.get(english);
 		return english;
 	}
