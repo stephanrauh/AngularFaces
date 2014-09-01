@@ -122,26 +122,51 @@
 ]]></script>
 
 		<h3>How to prepare the project</h3>
-		<p>As of AngularFaces 2.0 RC3, automatic addition of labels and messages require a little preparation:
+		<p>As of AngularFaces 2.0 RC3, automatic addition of labels and messages requires a little preparation:
 		<ul>
 			<li>Add two attributes to &lt;h:body&gt;:
 		<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
 			<h:body style="width:1000px" ng-controller="LabelDemoController" ng-app="AngularFacesExamples">]]></script>
 		</li>
+		<li>Add an id to &lt;h:form&gt; or &lt;h:body&gt;. This id has to be named "angular";
+		<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+			<h:form id="angular">]]></script>
+		</li>
+		<li>Add the "angular" id to the list of ids executed by the command buttons. If you're using PrimeFaces, simple add update="angular":
+		<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+			<prime:commandButton value="save" update="angular" action="..." />]]></script>
+		</li>
 		<li>
 			Add a Javascript file called "main.js" to your project. It activates the client side widgets of AngularFaces - such as the AngularFacesMessage:
-		<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+		<script type="syntaxhighlighter" class="brush: js"><![CDATA[
 angular.module("AngularFacesExamples", [ "angularfaces" ]);
 
-function LabelDemoController($scope) {
-	// This initializes the Angular Model with the values of the JSF bean attributes
-	initJSFScope($scope);
-}]]></script>
-			
-		</li>			
-		</ul>
-		</p>
 		
+		<p>An entire JSF file</p>
+		For the sake of convienience, here's the complete JSF file:
+		<script type="syntaxhighlighter" class="brush: xml"><![CDATA[<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:prime="http://primefaces.org/ui">
+	<h:head>
+		<title>Car shop - customer contact information</title>
+	</h:head>
+	<h:body style="width:1000px" ng-controller="LabelDemoController"
+		ng-app="AngularFacesExamples">
+		<h:form id="angular">
+			<prime:panel header="Contact information">
+				<prime:panelGrid columns="3">
+					<prime:inputText value="&#35;{customer.lastName}" />
+					<prime:inputText value="&#35;{customer.firstName}" />
+					<prime:inputText value="&#35;{customer.dateOfBirth}" />
+					<prime:inputText value="&#35;{customer.emailAdress}" />
+					<prime:inputText value="&#35;{customer.iAgreeToTheTermsAndConditions}" />
+				</prime:panelGrid>
+				<prime:commandButton value="save" update="angular" action="&#35;{customer.save}" />
+			</prime:panel>
+		</h:form>
+	</h:body>
+</f:view>]]></script>
 		<h3>Layouting labels and messages</h3>
 		<p>As of AngularFaces 2.0 RC3 labels always preceed their input field. Messages always follow the input field. That's why the example uses a PrimeFaces panel grid
       	with columns="3": The input field is accomponied by two components that are added automatically to the JSF view.</p>
@@ -157,7 +182,6 @@ function LabelDemoController($scope) {
       	</p>
       	<p>Second, AngularFaces doesn't add a label if it recognizes there's already a label. So all you have to do is to add an outputLabel manually, and to set the for attribute.
       	The same applies to the message attribute.</p>
-     	<p>Note: at the time of writing, the demo on this page doesn't seem to work as intended. I'm going to fix it soon.</p>
 
 		<h3>Example project on GitHub</h3>
 		Check out the demo project at <a href="https://github.com/stephanrauh/AngularFaces/tree/master/Tutorial/step_01_labels_and_messages">https://github.com/stephanrauh/AngularFaces/tree/master/Tutorial/step_01_labels_and_messages</a>.

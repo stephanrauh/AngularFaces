@@ -113,6 +113,8 @@ public class PuiModelSync extends HtmlBody {
 
 	private Object convertToDatatype(String valueToRender, Class targetClass) {	
 		if ("".equals(valueToRender)) return null;
+		if (null==valueToRender) return null;
+		if (valueToRender.getClass()==targetClass) return valueToRender;
 		if (targetClass==int.class) return new Integer((String)valueToRender).intValue();
 		if (targetClass==long.class) return new Long((String)valueToRender).longValue();
 		if (targetClass==short.class) return new Short((String)valueToRender).shortValue();
