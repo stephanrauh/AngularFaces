@@ -1,5 +1,6 @@
-package de.beyondjava.carshop.customers;
+package de.beyondjava.angularTetris.highscore;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.faces.application.FacesMessage;
@@ -13,12 +14,23 @@ import org.hibernate.validator.constraints.Email;
 
 @ManagedBean
 @ViewScoped
-public class Customer3 {
+public class HighScoreBean implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private Date dateOfBirth;
 	
 	@Email
 	private String emailAddress;
 	
+	private int score;
+	
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
+	}
+
 	@NotNull
 	@Size(min=5, max=20)
 	private String firstName;
@@ -34,7 +46,7 @@ public class Customer3 {
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
-	public String getEmailAddress() {
+	public String getemailAddress() {
 		return emailAddress;
 	}
 	public String getFirstName() {
@@ -43,7 +55,7 @@ public class Customer3 {
 	public String getLastName() {
 		return lastName;
 	}
-	public boolean isIAgreeToTheTermsAndConditions() {
+	public boolean isiAgreeToTheTermsAndConditions() {
 		return iAgreeToTheTermsAndConditions;
 	}
 	public boolean isStayAnonymous() {
@@ -52,13 +64,13 @@ public class Customer3 {
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	public void setEmailAddress(String emailAddress) {
+	public void setemailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
 	}
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	public void setIAgreeToTheTermsAndConditions(boolean iAgreeToTheTermsAndConditions) {
+	public void setiAgreeToTheTermsAndConditions(boolean iAgreeToTheTermsAndConditions) {
 		this.iAgreeToTheTermsAndConditions = iAgreeToTheTermsAndConditions;
 	}
 	public void setLastName(String lastName) {

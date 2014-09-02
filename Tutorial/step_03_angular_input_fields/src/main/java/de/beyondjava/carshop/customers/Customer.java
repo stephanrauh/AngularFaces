@@ -4,16 +4,16 @@ import java.util.Date;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 
 @ManagedBean
-@ViewScoped
-public class Customer2 {
+@SessionScoped
+public class Customer {
 	private Date dateOfBirth;
 	
 	@Email
