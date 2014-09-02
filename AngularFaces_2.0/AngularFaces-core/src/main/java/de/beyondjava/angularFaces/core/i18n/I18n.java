@@ -28,7 +28,8 @@ public class I18n implements Serializable {
 	@PostConstruct
 	public void loadMessageBundles() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		locale = context.getViewRoot().getLocale();
+		locale =context.getExternalContext().getRequestLocale();
+//		locale = context.getViewRoot().getLocale();
 		String language = locale.getLanguage();
 		String country = locale.getCountry();
 		InputStream i18n = getClass().getClassLoader().getResourceAsStream("i18n_" + language + "_" + country + ".properties");

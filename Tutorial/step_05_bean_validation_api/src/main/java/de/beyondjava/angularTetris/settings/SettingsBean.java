@@ -7,7 +7,7 @@ import javax.faces.bean.SessionScoped;
 
 @ManagedBean
 @SessionScoped
-public class Settings implements Serializable {
+public class SettingsBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int numberOfRows = 25;
 	private int numberOfColumns = 10;

@@ -76,11 +76,62 @@
 			<div class="col-md-9">
 				<div>
 					<h1>Client Side Bean Validation</h1>
-					<p>AngularFaces reads JSR 303 Bean Validation API annotations and evaluates them on the client.</p>
-					<p>Soon you'll find the documentation here.</p>
-
-
-
+					<p>AngularFaces reads JSR 303 Bean Validation API annotations and evaluates them on the client. You've already seen some of it in the previous examples:</p>
+					<img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_english.png">
+					<p>The validation constraints are checked on the client side by AngularJS. However, they are defined on the server side, using the new JSR 303 Bean Validation API:<p>
+					
+					<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+@ManagedBean
+@SessionScoped
+public class Customer {
+	private Date dateOfBirth;
+	
+	@Email
+	private String emailAddress;
+	
+	@NotNull
+	@Size(min=5, max=20)
+	private String firstName;
+	
+	private boolean iAgreeToTheTermsAndConditions;
+	
+	@NotNull
+	@Size(min=5, max=20)
+	private String lastName;
+	
+	@Min(18)
+	@Max(130)
+	private int age;
+	
+	// plus getters and setters
+}
+					]]></script>
+					<p>The annotations @NotNull, @Size, @Min and @Max are evaluated on the client.</p>
+					<p>Of course, AngularFaces translates the error messages to foreign languages. Currently, English, Spanish, French and German are supported. Please drop me
+					a note if you want to provide another translation or fix an error to an existing translation.<p>
+					<img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_german.png">
+					<p>For the sake of completeness, here's the JSF file:<p>
+					
+					<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+		<h:form id="angular">
+			<prime:panel header="Contact information">
+				<prime:panelGrid columns="3">
+					<prime:inputText value="#{customer.lastName}" />
+					<prime:inputText value="#{customer.firstName}" />
+					<prime:inputText value="{{customer.dateOfBirth}}" />
+					<prime:inputText value="{{customer.age}}" />
+					<prime:inputText value="#{customer.emailAddress}" />
+					<prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
+				</prime:panelGrid>
+				<prime:commandButton value="save" update="angular" action="#{customer.save}" />
+			</prime:panel>
+		</h:form>
+					]]></script>
+					 
+				
+					<br />
+					<br />
+					<br />
 				</div>
 			</div>
 		</div>

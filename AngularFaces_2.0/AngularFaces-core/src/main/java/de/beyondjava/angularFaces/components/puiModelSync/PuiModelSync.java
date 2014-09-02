@@ -206,7 +206,8 @@ public class PuiModelSync extends HtmlBody {
 		writer.append("<script src='" + main + "'></script>");
 
 		PuiScriptRenderer r = new PuiScriptRenderer();
-		Locale locale = context.getViewRoot().getLocale();
+//		Locale locale = context.getViewRoot().getLocale();
+		Locale locale = context.getExternalContext().getRequestLocale();
 		String language = locale.getLanguage();
 		r.encodeScript(context, this, "messages_" + language +".js", "AngularFaces");
 		r.encodeScript(context, this, "components.js", "AngularFaces");
