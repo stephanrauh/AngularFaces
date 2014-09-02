@@ -86,7 +86,7 @@
 					<prime:inputText value="#{customer.firstName}" />
 					<prime:inputText value="#{customer.dateOfBirth}" />
 					<prime:inputText value="#{customer.emailAddress}" />
-					<prime:inputText value="#{customer.IAgreeToTheTermsAndConditions}" />
+					<prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
 				</prime:panelGrid>
 				<prime:commandButton value="save" update="angular" action="#{customer.save}" />
 			</prime:panel>
@@ -144,6 +144,7 @@ save=Speichern]]></script>
 					Now, that's the nice part of AngularFaces: you don't have to do anything to make your JSF files multiligual. Adding the language files and
 					configuring the faces-config.xml is all you have to do to make the contact form look like this:<p>
 					<img src="carshop_german.png" />
+					<img src="carshop_spanish.png" />
 					
 					<p>Which language is rendered depends on the locale setting of the users browsers. Putting it in a nutshell, every customer of yours' will see
 					the JSF page in their language.</p>

@@ -14,7 +14,7 @@
 					<prime:inputText value="#{customer.firstName}" />
 					<prime:inputText value="#{customer.dateOfBirth}" />
 					<prime:inputText value="#{customer.emailAddress}" />
-					<prime:inputText value="#{customer.IAgreeToTheTermsAndConditions}" />
+					<prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
 				</prime:panelGrid>
 				<prime:commandButton value="save" update="angular" action="#{customer.save}" />
 			</prime:panel>
