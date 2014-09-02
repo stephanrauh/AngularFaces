@@ -1,6 +1,6 @@
-angular.module('angularfaces', [])
+var app = angular.module('angularfaces', []);
 
-.directive('angularfacesmessage', function() {
+app.directive('angularfacesmessage', function() {
   return {
     restrict: 'E',
     transclude: true,
@@ -56,6 +56,26 @@ angular.module('angularfaces', [])
 							var msg = angularFacesMessages["Please fill out this field."];
 							return msg;
 						}
+						
+						if ($scope.myField.hasClass("integer")) {
+							var msg = angularFacesMessages["Please enter a valid integer number."];
+							return msg;
+						}
+						if ($scope.myField.hasClass("ng-invalid-minlength")) {
+							var min = $scope.myField.attr("ng-minlength");
+							var msg = angularFacesMessages["At least {} characters required."];
+							msg=msg.replace("{}", min);
+							return msg;
+						}
+						if ($scope.myField.hasClass("ng-invalid-maxlength")) {
+							var max = $scope.myField.attr("ng-maxlength");
+							var msg = angularFacesMessages["{} characters accepted at most."];
+							msg=msg.replace("{}", max);
+							return msg;
+						}
+
+						
+						
 						if ($scope.servermessage) return $scope.servermessage;
 						if ($scope.myField.hasClass("ng-invalid")) {
 							var msg = angularFacesMessages["A validation rule is violated."];
@@ -68,3 +88,27 @@ angular.module('angularfaces', [])
     replace: true
 	};
 });
+
+// Todo: check whether this directive works
+var INTEGER_REGEXP = /^\-?\d*$/;
+app.directive('integer', function() {
+	return {
+		require : 'ngModel',
+		link : function(scope, elm, attrs, ctrl) {
+			ctrl.$parsers.unshift(function(viewValue) {
+				if (INTEGER_REGEXP.test(viewValue)) {
+					// it is valid
+					ctrl.$setValidity('integer', true);
+					return viewValue;
+				} else {
+					// it is invalid, return undefined (no model update)
+					ctrl.$setValidity('integer', false);
+					return undefined;
+				}
+			});
+		}
+	};
+});
+
+
+

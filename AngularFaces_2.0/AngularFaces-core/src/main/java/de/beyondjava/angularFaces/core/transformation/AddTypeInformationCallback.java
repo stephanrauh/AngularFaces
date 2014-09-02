@@ -29,7 +29,10 @@ public class AddTypeInformationCallback implements VisitCallback {
 				((UIInput)component).getPassThroughAttributes().put("min", infos.getMin());
 			}
 			if (infos.getMaxSize()>0) {
-				((UIInput)component).getPassThroughAttributes().put("maxlength", infos.getMaxSize());
+				((UIInput)component).getPassThroughAttributes().put("ng-maxlength", infos.getMaxSize());
+			}
+			if (infos.getMinSize()>0) {
+				((UIInput)component).getPassThroughAttributes().put("ng-minlength", infos.getMinSize());
 			}
 			if (infos.isNumeric()) {
 				setType(component, "number");
