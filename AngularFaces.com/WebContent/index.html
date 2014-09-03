@@ -6,7 +6,15 @@
 <meta name="Description"
 	content="AngularFaces brings AngularJS to the JSF world">
 <title>AngularFaces Tutorial</title>
-<link rel="stylesheet" href="/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="bootstrap.min.css" type="text/css">
+	<script type="text/javascript" src="syntaxhighlighter/shCore.js"></script>
+	<script type="text/javascript" src="syntaxhighlighter/shBrushJScript.js"></script>
+	<script type="text/javascript" src="syntaxhighlighter/shBrushXml.js"></script>
+	<script type="text/javascript" src="syntaxhighlighter/shBrushJava.js"></script>
+	<script type="text/javascript" src="syntaxhighlighter/shBrushBat.js"></script>
+	<link type="text/css" rel="stylesheet" href="syntaxhighlighter/shCoreDefault.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+
 </head>
 <body>
 	<div id="wrapper">
@@ -44,15 +52,15 @@
 							class="nav-index-group-heading active">Tutorial</a>
 							<ul class="aside-nav">
 								<li class="nav-index-listing active"><a tabindex="2"
-									href="tutorial/step_00/index.html">0 - Bootstrapping</a></li>
+									href="/tutorial/step_00/index.html">0 - Bootstrapping</a></li>
 								<li class="nav-index-listing active">
-									<a href="tutorial/step_01/index.html" >1 - Labels and messages</a>
+									<a href="/tutorial/step_01/index.html" >1 - Labels and messages</a>
 								</li>
 								<li class="nav-index-listing active">
-									<a href="tutorial/step_02/index.html" >2 - Foreign language support</a>
+									<a href="/tutorial/step_02/index.html" >2 - Foreign language support</a>
 								</li>
 								<li class="nav-index-listing active">
-									<a href="tutorial/step_03/index.html" >3 - Angular input fields</a>
+									<a href="/tutorial/step_03/index.html" >3 - Angular input fields</a>
 								<li class="nav-index-listing active">
 									<a href="/tutorial/step_04/index.html" >4 - Using mustaches in JSF attributes</a>
 								</li>
@@ -62,6 +70,9 @@
 								<li class="nav-index-listing active">
 									<a href="/tutorial/step_06/index.html" >6 - Prime:datatable vs. ngtable</a>
 								</li>
+								<li class="nav-index-listing active">
+									<a href="/tutorial/step_07/index.html" >7 - The AngularFaces way of AJAX</a>
+								</li>
 							</ul></li>
 					</ul>
 				</div>
@@ -69,8 +80,30 @@
 			<div class="col-md-9">
 				<div>
 					<h1>What is AngularFaces?</h1>
-					<p>See the <a href="http://www.beyondjava.net/blog/angularfaces-2-0-embraces-html5-primefaces/">AngularFaces 2.0 announcement</a> on BeyondJava.net.
-					<p>Soon you'll find mroe documentation here.</p>
+					<p>AngularFaces simplifies many tedious tasks in JSF programming. The core features is adding AngularJS to JSF, but it doesn't stop there.<p>
+					 
+					<p>See the <a href="http://www.beyondjava.net/blog/angularfaces-2-0-embraces-html5-primefaces/">AngularFaces 2.0 announcement</a> on BeyondJava.net. The original
+					announcement <a target="#" href="http://www.beyondjava.net/blog/angularfaces-jsf-beyond-ajax/">AngularJS puts JSF on steroids</a> also covers many key
+					ideas still valid with AngularFaces 2.0.</p>
+					
+					<h1>What is new in AngularFaces 2.0?</h1>
+					<p>AngularFaces 1.0 tried to (and succeeded in) deriving JSF widgets from PrimeFaces widgets. It managed to make many popular PrimeFaces widgets Angular-aware 
+					(to coin a term). However, PrimeFaces widgets aren't really designed for deriving components from. Plus, JSF 2.2 made the HTML5 style popular in the JSF world.
+					Many people stopped using heavy-weight component libraries. If people consider PrimeFaces heavyweight, what's AngularFaces to them?</p>
+					<p>So AngularFaces 2.0 tackles the problem from a different angle. Instead of creating new widgets it integrates into the existing widgets
+					of PrimeFaces, Mojarra, MyFaces, HTML5 and probably most other JSF component libraries.</p>   
+
+					<h1>AngularJS vs. AngularDart</h1>
+					<p>A poll on <a target="#" href="http://www.beyondjava.net">beyondjava.net</a> revealed that a strong minority of you favors AngularDart over AngularJS. 
+					So the first version of AngularFaces 2.0 concentrates on the Javascript community. However, I still consider Dart the superior language (and
+					definitely a lot more fun, at least to me), so a future version of AngularFaces is going to support both AngularJS and AngularDart.</p> 
+				
+					<h1>About the tutorial</h1>
+					<p>The tutorial will introduce you step-by-step to AngularFaces.</p>
+					<p>The first three chapters make you familiar with a couple of feature that help you - without requiring Javascript programming. Chapter 5 covers
+					a similar feature. AngularFaces reads JSR303 annotations from JSF beans and brings them to the client. </p>
+					<p>AngularJS itself is covered in step 3, 4, 6 and 7.</p>
+					
 
 
 
@@ -86,7 +119,7 @@
 		</span> <span class="col-md-4"> Page design inspired by <a target="#"
 			href="https://angularjs.org/">https://angularjs.org/</a>.
 		</span>
-	</footer>
+	<span class="col-md-2">Legal notes:<a target="#" href="http://www.angularfaces.com/tutorial/legal/disclaimer.html">disclaimer</a> and <a target="#" href="http://www.angularfaces.com/tutorial/legal/impressum.html">impressum</a>. </span> </footer>
 	</div>
 
 
