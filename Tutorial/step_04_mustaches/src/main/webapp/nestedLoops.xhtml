@@ -1,0 +1,28 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:prime="http://primefaces.org/ui">
+	<h:head>
+		<title>AngularFaces 2.0 Tetris demo</title>
+		<link type="text/css" rel="stylesheet" href="angulartetris.css" />
+		<style type="text/css">
+</style>
+	</h:head>
+	<h:body style="width:1000px" ng-controller="AngularTetrisController"
+		ng-app="AngularTetris">
+		<h3>AngularTetris</h3>
+
+			<div ng-repeat="day in myData.days">
+				{{day.dow}} - {{day.templateDay}} <b>Jobs:</b><br />
+				<ul>
+					<li ng-repeat="job in day.jobs">{{job.name}}</li>
+				</ul>
+			</div>
+		<!--  {{grid.rows}}  -->
+ 		   <div class="divTable">
+			<div class="divRow" ng-repeat="r in grid.rows">
+				<div class="divCell" ng-repeat="cell in r.cells">{{cell.color}}</div>
+			</div>
+		</div>
+	</h:body>
+</f:view>

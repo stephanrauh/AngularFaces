@@ -82,8 +82,37 @@
 					<p>Basically, you can replace JSF EL expressions by AngularJS mustaches almost everywhere in your code. If you do, 
 					the JSF bean is read and replicated on the client. It's part of the AngularJS model. So you can use the same value in a JSF bean
 					and as a AngularJS model attribute. Even better, you can use both variable in a very similar way.</p> 
+					<p>Let's have a look at the customer contact form we've been developing in the previous steps:</p>
 					
-					<p>Soon you'll find the documentation here.</p>
+					<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+<prime:panel header="Contact information">
+	<prime:panelGrid columns="3">
+		<prime:inputText value="#{customer.lastName}" />
+		<prime:inputText value="#{customer.firstName}" />
+		<prime:inputText value="#{customer.dateOfBirth}" />
+		<prime:inputText value="#{customer.emailAddress}" />
+		<prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
+	</prime:panelGrid>
+	<prime:commandButton value="save" update="angular" action="#{customer.save}" />
+</prime:panel>
+					]]></script>
+					<p>This is a traditional JSF page that doesn't make use of the AngularJS model. There's a small main.js file, but it's only needed to provide
+					the client side widgets of AngularFaces and the client side bean validation (see step 5).</p>
+					<p>Making this form's data available to AngularJS is as simple as can be: just replace the JSF EL terms #{...} by AngularJS style mustaches {{...}}:</p>
+					<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+<prime:panel header="Contact information">
+	<prime:panelGrid columns="3">
+		<prime:inputText value="{{customer.lastName}}" />
+		<prime:inputText value="{{customer.firstName}}" />
+		<prime:inputText value="{{customer.dateOfBirth}}" />
+		<prime:inputText value="{{customer.emailAddress}}" />
+		<prime:selectBooleanCheckbox value="{{customer.IAgreeToTheTermsAndConditions}}" />
+	</prime:panelGrid>
+	<prime:commandButton value="save" update="angular" action="#{customer.save}" />
+</prime:panel>
+					]]></script>
+					
+					<p>Soon you'll find more documentation here.</p>
 
 
 

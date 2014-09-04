@@ -1,0 +1,22 @@
+.divTable {
+	display: table;
+	width: auto;
+	background-color: #fff;
+	border: 1px solid #666666;
+	border-spacing: 0px; /*cellspacing:poor IE support for  this*/
+	/* border-collapse:separate;*/
+}
+
+.divRow {
+	display: table-row;
+	width: auto;
+}
+
+.divCell {
+	float: left; /*fix for  buggy browsers*/
+	display: table-column;
+	width: 30px;
+	height: 25px;
+	border-top: 1px solid #eee;
+	border-left: 1px solid #eee;
+}
