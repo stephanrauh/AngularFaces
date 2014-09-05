@@ -16,13 +16,14 @@
  */
 
 function GameController(grid, scope) {
-	this.rows=25;
-	var columns=10;
+	this.rows = 20;
+	var columns = 10;
 	var timeToDrop;
 	var counter = 0;
 	var gameActive = false;
 	var gravity = false;
 	var preview = false;
+	var nextDrop = 0;
 
 	var tetromino = null;
 
@@ -30,17 +31,19 @@ function GameController(grid, scope) {
 	// color codes
 	var playground = null;
 
-	this.init=function(grid) {
+	this.init = function(grid) {
 		playground = grid;
+		this.rows=grid.rows.length;
+		this.columns = grid.rows[0].cells.length;
 		tetromino = null;
 		timeToDrop = 500;
 	};
 
-	this.showHighscore=function() {
+	this.showHighscore = function() {
 		window.alert("Highscore is yet to be implemented.");
 	};
 
-	this.dropTile=function() {
+	this.dropTile = function() {
 		if (!tetromino.moveTileDown(playground)) {
 			tetromino = null;
 			this.eliminateCompletedRows(playground);
@@ -49,29 +52,30 @@ function GameController(grid, scope) {
 
 	// playground is a two-dimensional array of integers, which in turn are
 	// color codes
-	this.eliminateCompletedRows=function(playground) {
-		var r = rows - 1;
+	this.eliminateCompletedRows = function(playground) {
+		var r = gameController.rows - 1;
 		while (r >= 0) {
 			var hasEmptyCells = false;
 			for (var c = 0; c < columns; c++) {
-				if (playground.rows[c].cells[r].color == 0)
+				if (playground.rows[r].cells[c].color == 0)
 					hasEmptyCells = true;
 			}
 			if (!hasEmptyCells) {
-				this.dropRowsAbove(r);
-				timeToDrop = (timeToDrop * 15) >> 4;
+				gameController.dropRowsAbove(r);
+				gameController.timeToDrop = (this.timeToDrop * 15) >> 4;
 			} else
 				r--;
 		}
 	};
 
-	this.applyGravity=function() {
+	this.applyGravity = function() {
 		var movement = false;
 		if (gravity) {
 			for (var c = 0; c < columns; c++) {
 				var column = playground.rows[c].cells;
 				for (var r = (rows - 1); r > 0; r--)
-					if (column[r].color == 0 && column[r].color != column[r - 1].color) {
+					if (column[r].color == 0
+							&& column[r].color != column[r - 1].color) {
 						movement = true;
 						column[r].color = column[r - 1].color;
 						column[r - 1].color = 0;
@@ -81,7 +85,7 @@ function GameController(grid, scope) {
 		return movement;
 	};
 
-	this.dropRowsAbove=function(bottomRow) {
+	this.dropRowsAbove = function(bottomRow) {
 		for (var r = bottomRow; r > 0; r--)
 			for (var c = 0; c < columns; c++)
 				playground.rows[c].cells[r].color = playground.rows[c].cells[r - 1].color;
@@ -90,34 +94,38 @@ function GameController(grid, scope) {
 		}
 	};
 
-
-	this.update=function(e) {
+	/** This method is also called as a static function! */
+	this.update = function(e) {
 		counter++;
 		if (null == tetromino) {
-			if (!this.applyGravity()) {
-				if (!this.addRandomTetromino()) {
-					this.endOfGame();
+			if (!gameController.applyGravity()) {
+				if (!gameController.addRandomTetromino()) {
+					gameController.endOfGame();
 					return;
 				}
 			}
 		}
-//		if (watch.elapsedMilliseconds > timeToDrop) {
-			this.dropTile();
-//			this.drawBricks();
-//			watch.reset();
-//		}
-//		keyboard.reset();
-//		window.requestAnimationFrame(update);
+		var now = new Date();
+		if (now.getTime() > gameController.nextDrop) {
+			gameController.dropTile();
+			if (this != gameController) {
+				scope.$apply();
+			}
+			gameController.nextDrop = now.getTime() + timeToDrop;
+		}
+		window.requestAnimationFrame(gameController.update);
 	};
 
-	this.startGame=function() {
+	this.startGame = function() {
 		timeToDrop = 500;
+		var now = new Date();
+		this.nextDrop = now.getTime() + timeToDrop;
 		gameActive = true;
 		this.update(null);
 	};
 
 	/** returns false if the next tile cannot be drawn */
-	this.addRandomTetromino=function() {
+	this.addRandomTetromino = function() {
 		tetromino = new Tetromino();
 		tetromino.inittetromino(columns);
 		if (tetromino.canDrawTile(playground)) {
@@ -127,33 +135,34 @@ function GameController(grid, scope) {
 		return false;
 	};
 
-	this.endOfGame=function() {
+	this.endOfGame = function() {
 		gameActive = false;
 	};
-	
-	this.onKey=function(event) {
+
+	/** This method is called as a static function! */
+	this.onKey = function(event) {
 		event = event || window.event;
 		var code = event.keyCode;
 		console.log(code);
 		if (code == 37) {
 			tetromino.moveTile(-1, playground);
-//			drawBricks();
-//			updateGraphicsCallback();
+			// drawBricks();
+			// updateGraphicsCallback();
 		}
 		if (code == 39) {
 			tetromino.moveTile(1, playground);
-//			drawBricks();
-//			updateGraphicsCallback();
+			// drawBricks();
+			// updateGraphicsCallback();
 		}
 		if (code == 40) {
 			tetromino.rotateTile(playground, 90);
-//			drawBricks();
-//			updateGraphicsCallback();
+			// drawBricks();
+			// updateGraphicsCallback();
 		}
 		if (code == 38) {
 			tetromino.rotateTile(playground, 270);
-//			drawBricks();
-//			updateGraphicsCallback();
+			// drawBricks();
+			// updateGraphicsCallback();
 		}
 		if (code == 13) {
 			gameController.dropTile();
@@ -161,13 +170,22 @@ function GameController(grid, scope) {
 		if (code == 32) {
 			while (null != tetromino) {
 				gameController.dropTile();
-//				drawBricks();
-//				updateGraphicsCallback();
+				// drawBricks();
+				// updateGraphicsCallback();
 			}
 		}
 		scope.$apply();
 	};
 	document.onkeydown = this.onKey;
 
+	window.requestAnimFrame = (function() {
+		return window.requestAnimationFrame
+				|| window.webkitRequestAnimationFrame
+				|| window.mozRequestAnimationFrame
+				|| window.oRequestAnimationFrame
+				|| window.msRequestAnimationFrame
+				|| function(/* function */callback, /* DOMElement */element) {
+					window.setTimeout(callback, 1000 / 60);
+				};
+	})();
 }
-
