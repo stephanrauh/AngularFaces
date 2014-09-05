@@ -56,7 +56,7 @@ function GameController(grid, scope) {
 		var r = gameController.rows - 1;
 		while (r >= 0) {
 			var hasEmptyCells = false;
-			for (var c = 0; c < columns; c++) {
+			for (var c = 0; c < gameController.columns; c++) {
 				if (playground.rows[r].cells[c].color == 0)
 					hasEmptyCells = true;
 			}
@@ -88,9 +88,9 @@ function GameController(grid, scope) {
 	this.dropRowsAbove = function(bottomRow) {
 		for (var r = bottomRow; r > 0; r--)
 			for (var c = 0; c < columns; c++)
-				playground.rows[c].cells[r].color = playground.rows[c].cells[r - 1].color;
+				playground.rows[r].cells[c].color = playground.rows[r - 1].cells[c].color;
 		for (var c = 0; c < columns; c++) {
-			playground.rows[c].cells[0].color = 0;
+			playground.rows[0].cells[c].color = 0;
 		}
 	};
 
