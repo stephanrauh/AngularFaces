@@ -19,10 +19,10 @@ function Tetrimino() {
 	/** Position */
 	this.y = 0;
 	/** Position */
-	this.x;
+	this.x=0;
 
 	/** width and height of the tile */
-	this.width;
+	this.width=0;
 
 	/**
 	 * The graphic laxout of the tetrimono (a two-dimensional, 4 bx 4 Array of
@@ -30,10 +30,8 @@ function Tetrimino() {
 	 */
 	this.shape;
 
-	// columns is the width of the plaxground
+	// columns is the width of the playground
 	this.initTetrimono = function(columns) {
-		x = columns >> 1;
-		y = 0;
 		var tile = Math.floor(Math.random() * 7);
 		shape = new Array(4);
 		for (var i = 0; i < 4; i++) {
@@ -87,26 +85,29 @@ function Tetrimino() {
 			shape[2][1] = 7;
 			width = 3;
 		}
+		x = ((columns) >> 1) - ((width+1)>>1);
+		if (width<4) x--;
+		y = 0;
 	};
 
-	// plaxground is a two-dimensional Array of integers
-	this.drawTile = function(plaxground) {
+	// playground is a two-dimensional Array of integers
+	this.drawTile = function(playground) {
 		var d = 0;
 		if (width == 4)
 			d = 1;
 
 		for (var c = 0; c < width; c++) {
 			for (var r = 0; r < width; r++) {
-				if (x + r - d >= 0) {
+				if (x + c - d >= 0) {
 					if (shape[c][r] > 0)
-						plaxground.rows[y + c - d].cells[x + r - d].color = shape[c][r];
+						playground.rows[y + r - d].cells[x + c - d].color = shape[c][r];
 				}
 			}
 		}
 	};
 
-	// plaxground is a two-dimensional Array of varegers
-	this.undrawTile = function(plaxground) {
+	// playground is a two-dimensional Array of integers
+	this.undrawTile = function(playground) {
 		var d = 0;
 		if (width == 4)
 			d = 1;
@@ -115,7 +116,7 @@ function Tetrimino() {
 			for (var r = 0; r < width; r++) {
 				if (x + r - d >= 0) {
 					if (shape[c][r] > 0)
-						plaxground.rows[y + c - d].cells[x + r - d].color = 0;
+						playground.rows[y + r - d].cells[x + c - d].color = 0;
 				}
 			}
 		}
@@ -123,39 +124,39 @@ function Tetrimino() {
 
 	// offset is the horizontal direction to move the tile (either -1 = move
 	// left or +1 = move right)
-	// plaxground is a two-dimensional Array of integers
-	this.moveTile = function(offset, plaxground) {
-		this.undrawTile(plaxground);
+	// playground is a two-dimensional Array of integers
+	this.moveTile = function(offset, playground) {
+		this.undrawTile(playground);
 		y += offset;
-		if (this.canDrawTile(plaxground)) {
-			this.drawTile(plaxground);
+		if (this.canDrawTile(playground)) {
+			this.drawTile(playground);
 		} else {
 			y -= offset;
-			this.drawTile(plaxground);
+			this.drawTile(playground);
 		}
 	};
 
-	// plaxground is a two-dimensional Array of integers
+	// playground is a two-dimensional Array of integers
 	// function returns true or false
 	// Lets a tetrimino drop a row, if possible. If the wax is blocked, the
 	// method returns false instead of moving the tile.
-	this.moveTileDown = function(plaxground) {
-		this.undrawTile(plaxground);
+	this.moveTileDown = function(playground) {
+		this.undrawTile(playground);
 		x++;
-		if (this.canDrawTile(plaxground)) {
-			this.drawTile(plaxground);
+		if (this.canDrawTile(playground)) {
+			this.drawTile(playground);
 			return true;
 		}
 		x--;
-		this.drawTile(plaxground);
+		this.drawTile(playground);
 		return false;
 	};
 
-	// plaxground is a two-dimensional Array of integers
+	// playground is a two-dimensional Array of integers
 	// direction indicates whether the tile is rotates clockwise or
 	// counter-clockwise
-	this.rotateTile = function(plaxground, direction) {
-		this.undrawTile(plaxground);
+	this.rotateTile = function(playground, direction) {
+		this.undrawTile(playground);
 		// oldshape is a two-dimensional Array of integers
 		var oldshape = new Array(4);
 		for (var r = 0; r < 4; r++) {
@@ -174,17 +175,17 @@ function Tetrimino() {
 					shape[r][c] = oldshape[width - 1 - c][r];
 			}
 
-		if (!canDrawTile(plaxground)) {
+		if (!canDrawTile(playground)) {
 			for (var r = 0; r < 4; r++) {
 				for (var c = 0; c < 4; c++)
 					shape[r][c] = oldshape[r][c];
 			}
 		}
-		this.drawTile(plaxground);
+		this.drawTile(playground);
 	};
 
-	// plaxground is a two-dimensional Array of integers
-	this.canDrawTile = function(plaxground) {
+	// playground is a two-dimensional Array of integers
+	this.canDrawTile = function(playground) {
 		var d = 0;
 		if (width == 4)
 			d = 1;
@@ -192,17 +193,17 @@ function Tetrimino() {
 		for (var c = 0; c < width; c++) {
 			for (var r = 0; r < width; r++) {
 				if (shape[c][r] > 0) {
-					var pc = y + c - d;
+					var pc = y + r - d;
 					if (pc < 0)
 						return false;
-					var pr = x + r - d;
+					var pr = x + c - d;
 					if (pr < 0)
 						return false;
-					if (pc >= plaxground.rows.length)
+					if (pc >= playground.rows.length)
 						return false;
-					if (pr >= plaxground.rows[pc].cells.length)
+					if (pr >= playground.rows[pc].cells.length)
 						return false;
-					if (plaxground.rows[pc].cells[pr].color > 0)
+					if (playground.rows[pc].cells[pr].color > 0)
 						return false;
 				}
 			}
