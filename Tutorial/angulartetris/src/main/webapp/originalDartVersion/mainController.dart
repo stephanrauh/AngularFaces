@@ -28,7 +28,7 @@ class MainController {
   bool gravity=false;
   bool preview=false;
 
-  Tetrimino tetrimino = null;
+  Tetromino tetromino = null;
 
   List<List<int>> playground=null;
 
@@ -61,7 +61,7 @@ class MainController {
         column[r]=0;
       }
     }
-    tetrimino=null;
+    tetromino=null;
     timeToDrop=500;
   }
 
@@ -78,8 +78,8 @@ class MainController {
   }
 
   void dropTile() {
-    if (!tetrimino.moveTileDown(playground)) {
-      tetrimino=null;
+    if (!tetromino.moveTileDown(playground)) {
+      tetromino=null;
       eliminateCompletedRows(playground);
     }
   }
@@ -137,20 +137,20 @@ class MainController {
 
   void update(e) {
     counter++;
-    if (null == tetrimino) {
+    if (null == tetromino) {
       if (!applyGravity()) {
-        if (!addRandomTetrimino()) {
+        if (!addRandomTetromino()) {
           endOfGame();
           return;
         }
       }
     }
-    if (keyboard.isPressed(KeyCode.LEFT)) { tetrimino.moveTile(-1, playground);  drawBricks(); updateGraphicsCallback(); }
-    if (keyboard.isPressed(KeyCode.RIGHT)) { tetrimino.moveTile(1, playground); drawBricks(); updateGraphicsCallback(); }
-    if (keyboard.isPressed(KeyCode.DOWN)) { tetrimino.rotateTile(playground, 90); drawBricks(); updateGraphicsCallback(); }
-    if (keyboard.isPressed(KeyCode.UP)) {tetrimino.rotateTile(playground, 270); drawBricks(); updateGraphicsCallback(); }
+    if (keyboard.isPressed(KeyCode.LEFT)) { tetromino.moveTile(-1, playground);  drawBricks(); updateGraphicsCallback(); }
+    if (keyboard.isPressed(KeyCode.RIGHT)) { tetromino.moveTile(1, playground); drawBricks(); updateGraphicsCallback(); }
+    if (keyboard.isPressed(KeyCode.DOWN)) { tetromino.rotateTile(playground, 90); drawBricks(); updateGraphicsCallback(); }
+    if (keyboard.isPressed(KeyCode.UP)) {tetromino.rotateTile(playground, 270); drawBricks(); updateGraphicsCallback(); }
     if (keyboard.isPressed(KeyCode.SPACE)) {
-      while (null != tetrimino) {
+      while (null != tetromino) {
         dropTile();
         drawBricks();
         updateGraphicsCallback();
@@ -168,10 +168,10 @@ class MainController {
   }
 
   /** returns false if the next tile cannot be drawn */
-  bool addRandomTetrimino() {
-    tetrimino=new Tetrimino(columns);
-    if (tetrimino.canDrawTile(playground)) {
-      tetrimino.drawTile(playground);
+  bool addRandomTetromino() {
+    tetromino=new Tetromino(columns);
+    if (tetromino.canDrawTile(playground)) {
+      tetromino.drawTile(playground);
       return true;
     }
     return false;

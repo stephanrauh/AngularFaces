@@ -17,7 +17,7 @@
 
 part of angularTetris;
 
-class Tetrimino {
+class Tetromino {
   /** Position */
   int x;
   /** Position */
@@ -31,7 +31,7 @@ class Tetrimino {
   
   List<List<int>> shape;
   
-  Tetrimino(int columns) {
+  Tetromino(int columns) {
     x = columns>>1;
     y = 0;
     int tile = rnd.nextInt(7);
@@ -128,7 +128,7 @@ class Tetrimino {
     }
   }
   
-  /** Lets a tetrimino drop a row, if possible. If the way is blocked, the method returns false instead of moving the tile. */
+  /** Lets a tetromino drop a row, if possible. If the way is blocked, the method returns false instead of moving the tile. */
   bool moveTileDown(List<List<int>> playground){ 
     undrawTile(playground);
     y++;

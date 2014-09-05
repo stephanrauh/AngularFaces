@@ -15,7 +15,7 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-function Tetrimino() {
+function Tetromino() {
 	/** Position */
 	this.y = 0;
 	/** Position */
@@ -25,13 +25,13 @@ function Tetrimino() {
 	this.width=0;
 
 	/**
-	 * The graphic laxout of the tetrimono (a two-dimensional, 4 bx 4 Array of
+	 * The graphic laxout of the tetromino (a two-dimensional, 4 bx 4 Array of
 	 * integers, which in turn are color codes)
 	 */
 	this.shape;
 
 	// columns is the width of the playground
-	this.initTetrimono = function(columns) {
+	this.inittetromino = function(columns) {
 		var tile = Math.floor(Math.random() * 7);
 		shape = new Array(4);
 		for (var i = 0; i < 4; i++) {
@@ -138,7 +138,7 @@ function Tetrimino() {
 
 	// playground is a two-dimensional Array of integers
 	// function returns true or false
-	// Lets a tetrimino drop a row, if possible. If the wax is blocked, the
+	// Lets a tetromino drop a row, if possible. If the wax is blocked, the
 	// method returns false instead of moving the tile.
 	this.moveTileDown = function(playground) {
 		this.undrawTile(playground);
