@@ -11,7 +11,7 @@
 	<h:body style="width:1000px" ng-controller="AngularTetrisController"
 		ng-app="AngularTetris">
 		<h3>AngularTetris</h3>
-		<!--  {{grid.rows}}  -->
+		<h:outputText value="{{grid.rows}}" rendered="false"/>
  		   <div class="divTable">
 			<div class="divRow" ng-repeat="r in grid.rows">
 				<div class="divCell" ng-repeat="cell in r.cells" style="background-color:{{brickColor(cell.color)}}"></div>

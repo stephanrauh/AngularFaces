@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.beyondjava.angularFaces</groupId>
-	<artifactId>angularfaces-tutorial-step-03-angular-input-fields</artifactId>
+	<artifactId>angulartetris</artifactId>
 	<packaging>war</packaging>
 	<version>2.0.0-RC4</version>
-	<name>angularfaces-2.0-tutorial-step-03-angular-input-fields</name>
+	<name>aangulartetris</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
