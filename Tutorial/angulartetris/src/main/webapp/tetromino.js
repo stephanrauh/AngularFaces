@@ -19,10 +19,10 @@ function Tetromino() {
 	/** Position */
 	this.y = 0;
 	/** Position */
-	this.x=0;
+	this.x = 0;
 
 	/** width and height of the tile */
-	this.width=0;
+	this.width = 0;
 
 	/**
 	 * The graphic laxout of the tetromino (a two-dimensional, 4 bx 4 Array of
@@ -85,22 +85,20 @@ function Tetromino() {
 			shape[2][1] = 7;
 			width = 3;
 		}
-		x = ((columns) >> 1) - ((width+1)>>1);
-		if (width<4) x--;
-		y = 0;
+		x = ((columns) >> 1) - ((width) >> 1);
+		y = -1;
 	};
 
 	// playground is a two-dimensional Array of integers
 	this.drawTile = function(playground) {
-		var d = 0;
-		if (width == 4)
-			d = 1;
-
 		for (var c = 0; c < width; c++) {
 			for (var r = 0; r < width; r++) {
-				if (x + c - d >= 0) {
-					if (shape[c][r] > 0)
-						playground.rows[y + r - d].cells[x + c - d].color = shape[c][r];
+				var pc = y + r;
+				if (pc >= 0) {
+					if (x + c >= 0) {
+						if (shape[c][r] > 0)
+							playground.rows[y + r].cells[x + c].color = shape[c][r];
+					}
 				}
 			}
 		}
@@ -108,15 +106,14 @@ function Tetromino() {
 
 	// playground is a two-dimensional Array of integers
 	this.undrawTile = function(playground) {
-		var d = 0;
-		if (width == 4)
-			d = 1;
-
 		for (var c = 0; c < width; c++) {
 			for (var r = 0; r < width; r++) {
-				if (x + r - d >= 0) {
-					if (shape[c][r] > 0)
-						playground.rows[y + r - d].cells[x + c - d].color = 0;
+				var pc = y + r;
+				if (pc >= 0) {
+					if (x + c >= 0) {
+						if (shape[c][r] > 0)
+							playground.rows[y + r].cells[x + c].color = 0;
+					}
 				}
 			}
 		}
@@ -127,11 +124,11 @@ function Tetromino() {
 	// playground is a two-dimensional Array of integers
 	this.moveTile = function(offset, playground) {
 		this.undrawTile(playground);
-		y += offset;
+		x += offset;
 		if (this.canDrawTile(playground)) {
 			this.drawTile(playground);
 		} else {
-			y -= offset;
+			x -= offset;
 			this.drawTile(playground);
 		}
 	};
@@ -142,12 +139,12 @@ function Tetromino() {
 	// method returns false instead of moving the tile.
 	this.moveTileDown = function(playground) {
 		this.undrawTile(playground);
-		x++;
+		y++;
 		if (this.canDrawTile(playground)) {
 			this.drawTile(playground);
 			return true;
 		}
-		x--;
+		y--;
 		this.drawTile(playground);
 		return false;
 	};
@@ -175,7 +172,7 @@ function Tetromino() {
 					shape[r][c] = oldshape[width - 1 - c][r];
 			}
 
-		if (!canDrawTile(playground)) {
+		if (!this.canDrawTile(playground)) {
 			for (var r = 0; r < 4; r++) {
 				for (var c = 0; c < 4; c++)
 					shape[r][c] = oldshape[r][c];
@@ -186,25 +183,21 @@ function Tetromino() {
 
 	// playground is a two-dimensional Array of integers
 	this.canDrawTile = function(playground) {
-		var d = 0;
-		if (width == 4)
-			d = 1;
-
 		for (var c = 0; c < width; c++) {
 			for (var r = 0; r < width; r++) {
-				if (shape[c][r] > 0) {
-					var pc = y + r - d;
-					if (pc < 0)
-						return false;
-					var pr = x + c - d;
-					if (pr < 0)
-						return false;
-					if (pc >= playground.rows.length)
-						return false;
-					if (pr >= playground.rows[pc].cells.length)
-						return false;
-					if (playground.rows[pc].cells[pr].color > 0)
-						return false;
+				var pc = y + r;
+				if (pc >= 0) {
+					if (shape[c][r] > 0) {
+						var pr = x + c;
+						if (pr < 0)
+							return false;
+						if (pc >= playground.rows.length)
+							return false;
+						if (pr >= playground.rows[pc].cells.length)
+							return false;
+						if (playground.rows[pc].cells[pr].color > 0)
+							return false;
+					}
 				}
 			}
 		}

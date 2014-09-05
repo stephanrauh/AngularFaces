@@ -14,12 +14,12 @@ import de.beyondjava.angularFaces.core.NGWordUtiltites;
 /** See to it that standard AngularJS attributes are written to the HTML code as pass-through attributes */
 public class AddNGPassThroughAttributesCallback implements VisitCallback {
 
-	String[] angularAttributes = { "ngApp", "ngBind", "ngBindHtml", "ngBindTemplate", "ngBlur", "ngChange", "ngChecked", "ngClass",
-			"ngClassEven", "ngClassOdd", "ngClick", "ngCloak", "ngController", "ngCopy", "ngCsp", "ngCut", "ngDblclick", "ngDisabled",
-			"ngFocus", "ngForm", "ngHide", "ngHref", "ngIf", "ngInclude", "ngInit", "ngKeydown", "ngKeypress", "ngKeyup", "ngList",
-			"ngModel", "ngModelOptions", "ngMousedown", "ngMouseenter", "ngMouseleave", "ngMousemove", "ngMouseover", "ngMouseup",
-			"ngNonBindable", "ngOpen", "ngPaste", "ngPluralize", "ngReadonly", "ngRepeat", "ngSelected", "ngShow", "ngSrc", "ngSrcset",
-			"ngStyle", "ngSubmit", "ngSwitch", "ngTransclude", "ngValue" };
+	String[] angularAttributes = { "ng-app", "ng-bind", "ng-bindhtml", "ng-bindtemplate", "ng-blur", "ng-chang-e", "ng-checked", "ng-class",
+			"ng-classeven", "ng-classodd", "ng-click", "ng-cloak", "ng-controller", "ng-copy", "ng-csp", "ng-cut", "ng-dblclick", "ng-disabled",
+			"ng-focus", "ng-form", "ng-hide", "ng-href", "ng-if", "ng-include", "ng-init", "ng-keydown", "ng-keypress", "ng-keyup", "ng-list",
+			"ng-model", "ng-modeloptions", "ng-mousedown", "ng-mouseenter", "ng-mouseleave", "ng-mousemove", "ng-mouseover", "ng-mouseup",
+			"ng-nonbindable", "ng-open", "ng-paste", "ng-pluralize", "ng-readonly", "ng-repeat", "ng-selected", "ng-show", "ng-src", "ng-srcset",
+			"ng-style", "ng-submit", "ng-switch", "ng-transclude", "ng-value" };
 
 	@Override
 	public VisitResult visit(VisitContext arg0, UIComponent component) {

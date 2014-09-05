@@ -15,7 +15,7 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-function GameController(grid) {
+function GameController(grid, scope) {
 	this.rows=25;
 	var columns=10;
 	var timeToDrop;
@@ -43,7 +43,7 @@ function GameController(grid) {
 	this.dropTile=function() {
 		if (!tetromino.moveTileDown(playground)) {
 			tetromino = null;
-			eliminateCompletedRows(playground);
+			this.eliminateCompletedRows(playground);
 		}
 	};
 
@@ -58,7 +58,7 @@ function GameController(grid) {
 					hasEmptyCells = true;
 			}
 			if (!hasEmptyCells) {
-				dropRowsAbove(r);
+				this.dropRowsAbove(r);
 				timeToDrop = (timeToDrop * 15) >> 4;
 			} else
 				r--;
@@ -155,16 +155,19 @@ function GameController(grid) {
 //			drawBricks();
 //			updateGraphicsCallback();
 		}
+		if (code == 13) {
+			gameController.dropTile();
+		}
 		if (code == 32) {
 			while (null != tetromino) {
-				dropTile();
+				gameController.dropTile();
 //				drawBricks();
 //				updateGraphicsCallback();
 			}
 		}
-
-
+		scope.$apply();
 	};
+	document.onkeydown = this.onKey;
 
 }
 
