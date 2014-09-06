@@ -12,7 +12,15 @@ public class SettingsBean implements Serializable {
 	private int numberOfRows = 25;
 	private int numberOfColumns = 10;
 	private boolean preview = false;
-	private boolean ignoreGravitiy = true;
+	private boolean ignoreGravity = true;
+
+	public boolean isIgnoreGravity() {
+		return ignoreGravity;
+	}
+
+	public void setIgnoreGravity(boolean ignoreGravity) {
+		this.ignoreGravity = ignoreGravity;
+	}
 
 	public int getNumberOfRows() {
 		return numberOfRows;
@@ -36,13 +44,5 @@ public class SettingsBean implements Serializable {
 
 	public void setPreview(boolean preview) {
 		this.preview = preview;
-	}
-
-	public boolean isIgnoreGravitiy() {
-		return ignoreGravitiy;
-	}
-
-	public void setIgnoreGravitiy(boolean ignoreGravitiy) {
-		this.ignoreGravitiy = ignoreGravitiy;
 	}
 }

@@ -5,11 +5,11 @@ function AngularTetrisController($scope) {
 	// attributes
 	initJSFScope($scope);
 
-	this.game = new GameController($scope.grid, $scope);
-	window.gameController=this.game;
-	this.game.init($scope.grid);
+	$scope.game = new GameController($scope.grid, $scope);
+	window.gameController=$scope.game;
+	$scope.game.init($scope.grid);
 //	document.onkeydown = game.onKey;
-	this.game.startGame();
+	$scope.game.startGame();
 
 	$scope.brickColor = function(color){
 		if (0==color) return "#FFFFFF";
@@ -24,7 +24,7 @@ function AngularTetrisController($scope) {
 	};
 	
 	$scope.onkey = function(event) {
-		this.game.onKey(event);
+		$scope.game.onKey(event);
 	};
 	
 

@@ -20,13 +20,17 @@ public class AddNGModelAndIDCallback implements VisitCallback {
 	public VisitResult visit(VisitContext arg0, UIComponent component) {
 		ValueExpression vex = component.getValueExpression("value");
 		if (null == vex) {
-			String s = (String) component.getAttributes().get("value");
-			if (null == s)
-				s = (String) component.getAttributes().get("ngvalue");
-			if (null != s) {
-				if (s.startsWith("{{") && s.endsWith("}}")) {
+			String angularExpression = null;
+			Object valueAsObject = component.getAttributes().get("value");
+			if (valueAsObject instanceof String) {
+				angularExpression = (String) valueAsObject;
+			}
+			if (null == angularExpression)
+				angularExpression = (String) component.getAttributes().get("ngvalue");
+			if (null != angularExpression) {
+				if (angularExpression.startsWith("{{") && angularExpression.endsWith("}}")) {
 					// This version is a hack! It works, but even so.
-					String jsfExpression = "#{" + s.substring(2, s.length() - 2) + "}";
+					String jsfExpression = "#{" + angularExpression.substring(2, angularExpression.length() - 2) + "}";
 					Class<?> type = ELTools.getType(jsfExpression);
 					vex = ELTools.createValueExpression(jsfExpression, type);
 					component.getAttributes().replace("value", vex.getValue(FacesContext.getCurrentInstance().getELContext()));

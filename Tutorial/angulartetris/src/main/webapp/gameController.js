@@ -24,6 +24,7 @@ function GameController(grid, scope) {
 	var gravity = false;
 	var preview = false;
 	var nextDrop = 0;
+	var score= 0;
 
 	var tetromino = null;
 
@@ -38,6 +39,17 @@ function GameController(grid, scope) {
 		tetromino = null;
 		timeToDrop = 500;
 	};
+	
+	this.settingsStyle = function() {
+		if (gameActive) return "display:none";
+		return "";
+	}
+	
+	this.scoreStyle = function() {
+		if (!gameActive) return "display:none";
+		return "";
+	}
+
 
 	this.showHighscore = function() {
 		window.alert("Highscore is yet to be implemented.");

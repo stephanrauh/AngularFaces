@@ -17,15 +17,15 @@ import de.beyondjava.angularFaces.core.NGWordUtiltites;
 import de.beyondjava.angularFaces.core.i18n.I18n;
 
 public class AddLabelCallback implements VisitCallback {
-	I18n i18n=null;
-	
+	I18n i18n = null;
+
 	int duplicateLabels = 0;
 
 	@Override
 	public VisitResult visit(VisitContext arg0, UIComponent parent) {
 		if (!(parent instanceof UIComponent))
 			return VisitResult.ACCEPT;
-		boolean needsLabel=true;
+		boolean needsLabel = true;
 		List<UIComponent> children = parent.getChildren();
 		for (int index = children.size() - 1; index >= 0; index--) {
 			UIComponent kid = children.get(index);
@@ -38,7 +38,10 @@ public class AddLabelCallback implements VisitCallback {
 						String core = vex.getExpressionString();
 						caption = NGWordUtiltites.labelFromELExpression(core);
 					} else {
-						String angularExpression = (String) kid.getAttributes().get("value");
+						String angularExpression = null;
+						Object valueAsObject = kid.getAttributes().get("value");
+						if (valueAsObject instanceof String)
+							angularExpression = (String) valueAsObject;
 						if (angularExpression != null && angularExpression.startsWith("{{") && angularExpression.endsWith("}}")) {
 							caption = NGWordUtiltites.labelFromELExpression(angularExpression.substring(2, angularExpression.length() - 2));
 						}
@@ -92,8 +95,10 @@ public class AddLabelCallback implements VisitCallback {
 	}
 
 	private String translate(String caption) {
-		if (null == i18n) i18n=(I18n) ELTools.evalAsObject("#{i18n}");
-		if (null == i18n) return caption;
+		if (null == i18n)
+			i18n = (I18n) ELTools.evalAsObject("#{i18n}");
+		if (null == i18n)
+			return caption;
 		return i18n.translate(caption);
 	}
 
