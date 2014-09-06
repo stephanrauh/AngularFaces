@@ -26,11 +26,6 @@ function AngularTetrisController($scope) {
 	$scope.onkey = function(event) {
 		$scope.game.onKey(event);
 	};
-	
-
-
-
-//	game.startGame();
 }
 
 

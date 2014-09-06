@@ -45,7 +45,7 @@ public class FindNGControllerCallback implements VisitCallback {
 		String ngController = (String) component.getAttributes().get("ng-controller");
 		if (null != ngController) {
 			component.getPassThroughAttributes().put("ng-controller", ngController);
-			List<UIComponent> children = component.getParent().getChildren();
+			List<UIComponent> children = component.getChildren();
 			boolean needsToBeAdded = true;
 //			int index = 0;
 			for (UIComponent maybe : children) {

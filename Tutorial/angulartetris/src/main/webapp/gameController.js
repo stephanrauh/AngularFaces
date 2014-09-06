@@ -106,6 +106,22 @@ function GameController(grid, scope) {
 		}
 	};
 
+	this.updateGraphics = function() {
+		if (isInternetExplorer()) {
+			// IE doesn't evaluate mustaches in css styles, so we have to do this manually here
+			var pg = document.getElementById("playground");
+			for (var r = 0; r < this.rows; r++) {
+				var row = pg.children[r];
+				for (var c=0; c < this.columns; c++) {
+					var cell = row.children[c];
+					var color = playground.rows[r].cells[c].color;
+					cell.style.backgroundColor = scope.brickColor(color);
+				}
+			}
+		}
+		else scope.$apply();
+	};
+
 	/** This method is also called as a static function! */
 	this.update = function(e) {
 		counter++;
@@ -121,7 +137,7 @@ function GameController(grid, scope) {
 		if (now.getTime() > gameController.nextDrop) {
 			gameController.dropTile();
 			if (this != gameController) {
-				scope.$apply();
+				gameController.updateGraphics();
 			}
 			gameController.nextDrop = now.getTime() + timeToDrop;
 		}
@@ -186,9 +202,10 @@ function GameController(grid, scope) {
 				// updateGraphicsCallback();
 			}
 		}
-		scope.$apply();
+		gameController.updateGraphics();
 	};
 	document.onkeydown = this.onKey;
+	
 
 	window.requestAnimFrame = (function() {
 		return window.requestAnimationFrame
@@ -200,4 +217,18 @@ function GameController(grid, scope) {
 					window.setTimeout(callback, 1000 / 60);
 				};
 	})();
+}
+
+// function copied and adapted from http://stackoverflow.com/questions/19999388/jquery-check-if-user-is-using-ie
+function isInternetExplorer() {
+
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
+
+    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer, return version number 
+    {
+        return true;
+    }
+    else             
+        return false;
 }
