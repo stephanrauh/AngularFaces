@@ -49,8 +49,7 @@ function GameController(grid, scope) {
 		if (!gameActive) return "display:none";
 		return "";
 	}
-
-
+	
 	this.showHighscore = function() {
 		window.alert("Highscore is yet to be implemented.");
 	};

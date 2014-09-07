@@ -28,7 +28,7 @@ public class AddNGPassThroughAttributesCallback implements VisitCallback {
 			if (null != value) {
 				component.getPassThroughAttributes().put(ngattribute, value);
 				if (value.startsWith("{{") && value.endsWith("}}")) {
-					PuiModelSync.addJSFAttrbitute(value, component);
+					PuiModelSync.addJSFAttrbitute(value.substring(2, value.length()-2), component);
 					
 				}
 			}

@@ -5,16 +5,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="Description"
 	content="AngularFaces brings AngularJS to the JSF world">
-<title>AngularFaces Tutorial</title>
-	<link rel="stylesheet" href="../bootstrap.min.css" type="text/css">
-	<script type="text/javascript" src="../syntaxhighlighter/shCore.js"></script>
-	<script type="text/javascript" src="../syntaxhighlighter/shBrushJScript.js"></script>
-	<script type="text/javascript" src="../syntaxhighlighter/shBrushXml.js"></script>
-	<script type="text/javascript" src="../syntaxhighlighter/shBrushJava.js"></script>
-	<script type="text/javascript" src="../syntaxhighlighter/shBrushBat.js"></script>
-	<link type="text/css" rel="stylesheet" href="../syntaxhighlighter/shCoreDefault.css"/>
+<title>AngularFaces Tutorial - ng* attributes are pass-through attributes</title>
+	<link rel="stylesheet" href="../../bootstrap.min.css" type="text/css">
+	<script type="text/javascript" src="../../syntaxhighlighter/shCore.js"></script>
+	<script type="text/javascript" src="../../syntaxhighlighter/shBrushJScript.js"></script>
+	<script type="text/javascript" src="../../syntaxhighlighter/shBrushXml.js"></script>
+	<script type="text/javascript" src="../../syntaxhighlighter/shBrushJava.js"></script>
+	<script type="text/javascript" src="../../syntaxhighlighter/shBrushBat.js"></script>
+	<link type="text/css" rel="stylesheet" href="../../syntaxhighlighter/shCoreDefault.css"/>
 	<script type="text/javascript">SyntaxHighlighter.all();</script>
-
 </head>
 <body>
 	<div id="wrapper">
@@ -82,30 +81,22 @@
 			</div>
 			<div class="col-md-9">
 				<div>
-					<h1>What is AngularFaces?</h1>
-					<p>AngularFaces simplifies many tedious tasks in JSF programming. The core features is adding AngularJS to JSF, but it doesn't stop there.<p>
-					 
-					<p>See the <a href="http://www.beyondjava.net/blog/angularfaces-2-0-embraces-html5-primefaces/">AngularFaces 2.0 announcement</a> on BeyondJava.net. The original
-					announcement <a target="#" href="http://www.beyondjava.net/blog/angularfaces-jsf-beyond-ajax/">AngularJS puts JSF on steroids</a> also covers many key
-					ideas still valid with AngularFaces 2.0.</p>
+					<h1>Automatic pass-through attributes</h1>
+					<p>AngularFaces allows you to use native AngularJS directives without having to define them as JSF pass-through attributes.
+					In other words, you write the XHTML code just as if it was an ordinary AngularJS page. You don't have to use
+					the new pass-through attributes of JSF 2.2. For instance, you can use ng-show or ng-hide to hide a panel group:</p>
+					<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+							<h:panelGroup ng-show="false">
+							     ...
+							</h:panelGroup>
+							<h:panelGroup ng-hide="true">
+							     ...
+							</h:panelGroup>
+					]]></script>
 					
-					<h1>What is new in AngularFaces 2.0?</h1>
-					<p>AngularFaces 1.0 tried to (and succeeded in) deriving JSF widgets from PrimeFaces widgets. It managed to make many popular PrimeFaces widgets Angular-aware 
-					(to coin a term). However, PrimeFaces widgets aren't really designed for deriving components from. Plus, JSF 2.2 made the HTML5 style popular in the JSF world.
-					Many people stopped using heavy-weight component libraries. If people consider PrimeFaces heavyweight, what's AngularFaces to them?</p>
-					<p>So AngularFaces 2.0 tackles the problem from a different angle. Instead of creating new widgets it integrates into the existing widgets
-					of PrimeFaces, Mojarra, MyFaces, HTML5 and probably most other JSF component libraries.</p>   
-
-					<h1>AngularJS vs. AngularDart</h1>
-					<p>A poll on <a target="#" href="http://www.beyondjava.net">beyondjava.net</a> revealed that a strong minority of you favors AngularDart over AngularJS. 
-					So the first version of AngularFaces 2.0 concentrates on the Javascript community. However, I still consider Dart the superior language (and
-					definitely a lot more fun, at least to me), so a future version of AngularFaces is going to support both AngularJS and AngularDart.</p> 
-				
-					<h1>About the tutorial</h1>
-					<p>The tutorial will introduce you step-by-step to AngularFaces.</p>
-					<p>The first three chapters make you familiar with a couple of feature that help you - without requiring Javascript programming. Chapter 5 covers
-					a similar feature. AngularFaces reads JSR303 annotations from JSF beans and brings them to the client. </p>
-					<p>AngularJS itself is covered in step 3, 4, 6 and 7.</p>
+					<br />
+					<br />
+					<br />
 					
 
 
@@ -119,10 +110,18 @@
 		style="position: fixed; bottom: 0px; width: 100%; background-color: #000; padding: 10px; color: #777">
 		<span class="col-md-2"></span> <span class="col-md-4"> (C) 2014
 			by Stephan Rauh (<a href="http://www.beyondjava.net">http://www.beyondjava.net</a>).
-		</span> <span class="col-md-4"> Page design inspired by <a target="#"
+		</span> 
+		<span class="col-md-4"> Page design inspired by <a target="#"
 			href="https://angularjs.org/">https://angularjs.org/</a>.
 		</span>
-	<span class="col-md-2">Legal notes:<a target="#" href="http://www.angularfaces.com/tutorial/legal/disclaimer.html">disclaimer</a> and <a target="#" href="http://www.angularfaces.com/tutorial/legal/impressum.html">impressum</a>. </span> </footer>
+		<span class="col-md-2">Legal notes:
+		<a target="#"
+			href="http://www.angularfaces.com/tutorial/legal/disclaimer.html">disclaimer</a> and 
+		<a target="#"
+			href="http://www.angularfaces.com/tutorial/legal/impressum.html">impressum</a>.
+		</span>
+		
+	</footer>
 	</div>
 
 
