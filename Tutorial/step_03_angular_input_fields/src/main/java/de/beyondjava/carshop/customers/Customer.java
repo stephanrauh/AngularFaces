@@ -20,13 +20,13 @@ public class Customer {
 	private String emailAddress;
 	
 	@NotNull
-	@Size(min=5, max=20)
+	@Size(min=1, max=20)
 	private String firstName;
 	
 	private boolean iAgreeToTheTermsAndConditions;
 	
 	@NotNull
-	@Size(min=5, max=20)
+	@Size(min=1, max=20)
 	private String lastName;
 	
 	private boolean stayAnonymous;

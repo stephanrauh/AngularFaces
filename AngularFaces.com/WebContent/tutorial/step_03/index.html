@@ -81,7 +81,7 @@
 					<h1>Making input fields "Angular"</h1>
 					<p>Basically, you can replace JSF EL expressions by AngularJS mustaches almost everywhere in your code. If you do, 
 					the JSF bean is read and replicated on the client. It's part of the AngularJS model. So you can use the same value in a JSF bean
-					and as a AngularJS model attribute. Even better, you can use both variable in a very similar way.</p> 
+					and as a AngularJS model attribute. Even better, you can use both variables in a very similar way.</p> 
 					<p>Let's have a look at the customer contact form we've been developing in the previous steps:</p>
 					
 					<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
@@ -111,8 +111,34 @@
 	<prime:commandButton value="save" update="angular" action="#{customer.save}" />
 </prime:panel>
 					]]></script>
-					
+					<p>On the JSF side, the mustache expressions are converted to ordinary JSF expressions. It doesn't matter wether
+					you write {{customer.lastName}} or #{customer.lastName}, until you look at the Javascript code.</p>
+					<p>On the AngularJS side, the bean attributes are added to the AngularJS scope. Hence there's a customer object,
+					consisting of the first and last name, the date of birth and so on. For instance, you could use two AngularJS watches
+					to suggest an email address:</p>
+					<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+function LabelDemoController($scope) {
+	// This initializes the Angular Model with the values of the JSF bean attributes
+	initJSFScope($scope);
+
+	$scope.$watch('customer.lastName', function(newValue, oldValue) {
+		if ($scope.customer.firstName!="" && $scope.customer.lastName!="") {
+			var name = "".concat($scope.customer.firstName).concat(".").concat($scope.customer.lastName);
+			$scope.customer.emailAddress = name + "@example.com";
+		}
+	});
+	$scope.$watch('customer.firstName', function(newValue, oldValue) {
+		if ($scope.customer.firstName!="" && $scope.customer.lastName!="") {
+			var name = "".concat($scope.customer.firstName).concat(".").concat($scope.customer.lastName);
+			$scope.customer.emailAddress = name + "@example.com";
+		}
+	});
+
+}]]></script>
 					<p>Soon you'll find more documentation here.</p>
+					<br />
+					<br />
+					<br />
 
 
 
