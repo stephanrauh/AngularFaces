@@ -44,12 +44,12 @@ public class PuiAngularTransformer implements SystemEventListener {
 				time("extract AngularJS expressions", () -> root.visitTree(new FullVisitContext(context), new ProcessAngularExpressionsCallback()));
 				time("add NGModel", () -> root.visitTree(new FullVisitContext(context), new AddNGModelAndIDCallback()));
 				time("add ng* attributes", () -> root.visitTree(new FullVisitContext(context), new AddNGPassThroughAttributesCallback()));
-				if (!ajaxRequest) {
+//				if (!ajaxRequest) {
 					AddLabelCallback labelDecorator = new AddLabelCallback();
 					time("add labels", () -> root.visitTree(new FullVisitContext(context), labelDecorator));
 					System.out.println("AJAX: " + ajaxRequest + " Postback: " + postback + " duplicate Labels: "
 							+ labelDecorator.duplicateLabels);
-				}
+//				}
 				time("add type information", () -> root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback()));
 				time("add messages", () -> root.visitTree(new FullVisitContext(context), new AddMessagesCallback()));
 				if (!ajaxRequest) {
