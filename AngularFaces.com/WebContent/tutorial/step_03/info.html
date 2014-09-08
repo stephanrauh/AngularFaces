@@ -1,87 +1,87 @@
-				<div>
-					<h1>Making input fields "Angular"</h1>
-					<p>Basically, you can replace JSF EL expressions by AngularJS mustaches almost everywhere in your code. If you do, 
-					the JSF bean is read and replicated on the client. It's part of the AngularJS model. So you can use the same value in a JSF bean
-					and as a AngularJS model attribute. Even better, you can use both variables in a very similar way.</p> 
-					<p>Let's have a look at the customer contact form we've been developing in the previous steps:</p>
-					
-					<pre class="brush: xml">
+        <div>
+          <h1>Making input fields "Angular"</h1>
+          <p>Basically, you can replace JSF EL expressions by AngularJS mustaches almost everywhere in your code. If you do, 
+          the JSF bean is read and replicated on the client. It's part of the AngularJS model. So you can use the same value in a JSF bean
+          and as a AngularJS model attribute. Even better, you can use both variables in a very similar way.</p> 
+          <p>Let's have a look at the customer contact form we've been developing in the previous steps:</p>
+          
+          <pre class="xml">
 &lt;prime:panel header="Contact information">
-	&lt;prime:panelGrid columns="3">
-		&lt;prime:inputText value="#{customer.lastName}" />
-		&lt;prime:inputText value="#{customer.firstName}" />
-		&lt;prime:inputText value="#{customer.dateOfBirth}" />
-		&lt;prime:inputText value="#{customer.emailAddress}" />
-		&lt;prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
-	&lt;/prime:panelGrid>
-	&lt;prime:commandButton value="save" update="angular" action="#{customer.save}" />
+  &lt;prime:panelGrid columns="3">
+    &lt;prime:inputText value="#{customer.lastName}" />
+    &lt;prime:inputText value="#{customer.firstName}" />
+    &lt;prime:inputText value="#{customer.dateOfBirth}" />
+    &lt;prime:inputText value="#{customer.emailAddress}" />
+    &lt;prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
+  &lt;/prime:panelGrid>
+  &lt;prime:commandButton value="save" update="angular" action="#{customer.save}" />
 &lt;/prime:panel>
-					</pre>
-					<p>This is a traditional JSF page that doesn't make use of the AngularJS model. There's a small main.js file, but it's only needed to provide
-					the client side widgets of AngularFaces and the client side bean validation (see step 5).</p>
-					<p>Making this form's data available to AngularJS is as simple as can be: just replace the JSF EL terms #{...} by AngularJS style mustaches { {...}}:</p>
-					<pre class="brush: xml">
+          </pre>
+          <p>This is a traditional JSF page that doesn't make use of the AngularJS model. There's a small main.js file, but it's only needed to provide
+          the client side widgets of AngularFaces and the client side bean validation (see step 5).</p>
+          <p>Making this form's data available to AngularJS is as simple as can be: just replace the JSF EL terms #{...} by AngularJS style mustaches { {...}}:</p>
+          <pre class="xml">
 &lt;prime:panel header="Contact information">
-	&lt;prime:panelGrid columns="3">
-		&lt;prime:inputText value="{ {customer.lastName}}" />
-		&lt;prime:inputText value="{ {customer.firstName}}" />
-		&lt;prime:inputText value="{ {customer.dateOfBirth}}" />
-		&lt;prime:inputText value="{ {customer.emailAddress}}" />
-		&lt;prime:selectBooleanCheckbox value="{ {customer.IAgreeToTheTermsAndConditions}}" />
-	&lt;/prime:panelGrid>
-	&lt;prime:commandButton value="save" update="angular" action="#{customer.save}" />
+  &lt;prime:panelGrid columns="3">
+    &lt;prime:inputText value="{ {customer.lastName}}" />
+    &lt;prime:inputText value="{ {customer.firstName}}" />
+    &lt;prime:inputText value="{ {customer.dateOfBirth}}" />
+    &lt;prime:inputText value="{ {customer.emailAddress}}" />
+    &lt;prime:selectBooleanCheckbox value="{ {customer.IAgreeToTheTermsAndConditions}}" />
+  &lt;/prime:panelGrid>
+  &lt;prime:commandButton value="save" update="angular" action="#{customer.save}" />
 &lt;/prime:panel>
-					</pre>
-					<p>On the JSF side, the mustache expressions are converted to ordinary JSF expressions. It doesn't matter whether
-					you write { {customer.lastName}} or #{customer.lastName}, until you look at the Javascript code.</p>
-					<p>On the AngularJS side, the bean attributes are added to the AngularJS scope. Hence there's a customer object,
-					consisting of the first and last name, the date of birth and so on. For instance, you could use two AngularJS watches
-					to suggest an email address:</p>
-					<pre class="brush: js">
+          </pre>
+          <p>On the JSF side, the mustache expressions are converted to ordinary JSF expressions. It doesn't matter whether
+          you write { {customer.lastName}} or #{customer.lastName}, until you look at the Javascript code.</p>
+          <p>On the AngularJS side, the bean attributes are added to the AngularJS scope. Hence there's a customer object,
+          consisting of the first and last name, the date of birth and so on. For instance, you could use two AngularJS watches
+          to suggest an email address:</p>
+          <pre class="js">
 function LabelDemoController($scope) {
-	// This initializes the Angular Model with the values of the JSF bean attributes
-	initJSFScope($scope);
+  // This initializes the Angular Model with the values of the JSF bean attributes
+  initJSFScope($scope);
 
-	$scope.$watch('customer.lastName', function(newValue, oldValue) {
-		if ($scope.customer.firstName!="" && $scope.customer.lastName!="") {
-			var name = "".concat($scope.customer.firstName).concat(".").concat($scope.customer.lastName);
-			$scope.customer.emailAddress = name + "@example.com";
-		}
-	});
-	$scope.$watch('customer.firstName', function(newValue, oldValue) {
-		if ($scope.customer.firstName!="" && $scope.customer.lastName!="") {
-			var name = "".concat($scope.customer.firstName).concat(".").concat($scope.customer.lastName);
-			$scope.customer.emailAddress = name + "@example.com";
-		}
-	});
+  $scope.$watch('customer.lastName', function(newValue, oldValue) {
+    if ($scope.customer.firstName!="" && $scope.customer.lastName!="") {
+      var name = "".concat($scope.customer.firstName).concat(".").concat($scope.customer.lastName);
+      $scope.customer.emailAddress = name + "@example.com";
+    }
+  });
+  $scope.$watch('customer.firstName', function(newValue, oldValue) {
+    if ($scope.customer.firstName!="" && $scope.customer.lastName!="") {
+      var name = "".concat($scope.customer.firstName).concat(".").concat($scope.customer.lastName);
+      $scope.customer.emailAddress = name + "@example.com";
+    }
+  });
 
 </pre>
-					<p>Synchronizing values between AngularJS scope and JSF beans works in both ways. The values of the input fields are transmitted back to the
-					server, no matter whether you do a regular HTML request, a JSF AJAX request or the optimized AngularFaces request.</p>
-					<p>AngularFaces provides an advanced way of AJAX requests. Typically, they use a lot less network bandwidth, and they are faster than traditional
-					JSF AJAX request. To activate an AngularFaces AJAX, you have to do two simple preparations:</p>
-					<ul>
-					<li>Add an JSF AJAX button that includes a special update region: "angular". You've already seen this above: 
-										<pre class="brush: xml">
-	&lt;prime:commandButton value="save" update="angular" action="#{customer.save}" />
-	</pre>
-					</li>
-					<li>Add the id "angular" to the &lt;h:body&gt;.
-					<pre class="brush: xml">
-	&lt;h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
-	</pre>
-					</li>
-					</ul>
-					<p>
-					Note that the id "angular" doesn't really mark an ordinary update region. It's a virtual id. If AngularFaces sees the idea, it replaces the default
-					update response generated by JSF by a highly-optimized response that updates only the scope values. However, there are also drawbacks to this approach.
-					For instance, the &lt;h:messages&gt; tag isn't updated. Nor is &lt;prime:growl&gt;. I don't consider this a disadvantage: the idea of AngularFaces
-					is to move such functionality to the client. Validation and presenting error messages in particular is Angular's job.
-					</p>
-					<br />
-					<br />
-					<br />
-					</div>
+          <p>Synchronizing values between AngularJS scope and JSF beans works in both ways. The values of the input fields are transmitted back to the
+          server, no matter whether you do a regular HTML request, a JSF AJAX request or the optimized AngularFaces request.</p>
+          <p>AngularFaces provides an advanced way of AJAX requests. Typically, they use a lot less network bandwidth, and they are faster than traditional
+          JSF AJAX request. To activate an AngularFaces AJAX, you have to do two simple preparations:</p>
+          <ul>
+          <li>Add an JSF AJAX button that includes a special update region: "angular". You've already seen this above: 
+                    <pre class="xml">
+  &lt;prime:commandButton value="save" update="angular" action="#{customer.save}" />
+  </pre>
+          </li>
+          <li>Add the id "angular" to the &lt;h:body&gt;.
+          <pre class="xml">
+  &lt;h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
+  </pre>
+          </li>
+          </ul>
+          <p>
+          Note that the id "angular" doesn't really mark an ordinary update region. It's a virtual id. If AngularFaces sees the idea, it replaces the default
+          update response generated by JSF by a highly-optimized response that updates only the scope values. However, there are also drawbacks to this approach.
+          For instance, the &lt;h:messages&gt; tag isn't updated. Nor is &lt;prime:growl&gt;. I don't consider this a disadvantage: the idea of AngularFaces
+          is to move such functionality to the client. Validation and presenting error messages in particular is Angular's job.
+          </p>
+          <br />
+          <br />
+          <br />
+          </div>
 
 
 
