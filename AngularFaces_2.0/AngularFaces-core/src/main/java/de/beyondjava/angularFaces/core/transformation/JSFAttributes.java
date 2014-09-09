@@ -1,9 +1,5 @@
 package de.beyondjava.angularFaces.core.transformation;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.el.ValueExpression;
 
 public class JSFAttributes {
 	public static final String jsfAttributes[] = { "accept", "accesskey", "action", "actionListener", "activeIndex", "activeStyleClass",

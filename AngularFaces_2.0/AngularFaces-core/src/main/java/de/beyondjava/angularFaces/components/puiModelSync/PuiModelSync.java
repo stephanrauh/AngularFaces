@@ -15,7 +15,6 @@ import javax.faces.component.EditableValueHolder;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.StateHelper;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
 import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlBody;
 import javax.faces.context.FacesContext;
@@ -24,7 +23,6 @@ import javax.faces.context.ResponseWriter;
 import com.google.gson.Gson;
 
 import de.beyondjava.angularFaces.core.ELTools;
-import de.beyondjava.angularFaces.core.i18n.I18n;
 
 /**
  * PuiBody is an HtmlBody that activates the AngularDart framework.

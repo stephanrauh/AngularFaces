@@ -62,10 +62,15 @@ package de.beyondjava.angularFaces.core.tagTransformer;
  * limitations under the License.
  */
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.faces.view.facelets.Tag;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributes;
-import java.util.*;
-import javax.faces.view.facelets.Tag;
 
 /**
  * A set of TagAttributesImpl, usually representing all attributes on a Tag.

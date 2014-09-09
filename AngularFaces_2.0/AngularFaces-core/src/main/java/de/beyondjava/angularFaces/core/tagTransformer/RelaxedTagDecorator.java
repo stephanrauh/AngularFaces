@@ -42,7 +42,6 @@
  */
 package de.beyondjava.angularFaces.core.tagTransformer;
 
-import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,46 +59,11 @@ import javax.faces.view.facelets.TagDecorator;
 public class RelaxedTagDecorator implements TagDecorator {
 
     private static enum Mapper {
-        a(
-                new ElementConverter("h:commandLink", "jsf:action"),
-                new ElementConverter("h:commandLink", "jsf:actionListener"),
-                new ElementConverter("h:outputLink", "jsf:value"),
-                new ElementConverter("h:link", "jsf:outcome")),
-
-        img("h:graphicImage"), body("h:body"), head("h:head"), label("h:outputLabel"), 
-//        script("h:outputScript"),
-//        link("h:outputStylesheet"),
-
-        form("h:form"), textarea("h:inputTextarea"),
-        // TODO if we want the name of the button to become the id, we have to do .id("name")
-        button(new ElementConverter("h:button", "jsf:outcome"), new ElementConverter("h:commandButton")),
-
-        select(new ElementConverter("h:selectManyListbox", "multiple").id("name"),
-                // TODO this is a little bit ugly to handle the name as if it were jsf:id. we should not support this
-                new ElementConverter("h:selectOneListbox").id("name")),
-
-        input(new ElementConverter("h:inputText", "type")
-                // TODO this is a little bit ugly to handle the name as if it were jsf:id. we should not support this
-                .id("name")
-                .map("hidden", "inputHidden")
-                .map("password", "inputSecret")
-                .map("number", "inputText")
-                .map("search", "inputText")
-                .map("email", "inputText")
-                .map("datetime", "inputText")
-                .map("date", "inputText")
-                .map("month", "inputText")
-                .map("week", "inputText")
-                .map("time", "inputText")
-                .map("datetime-local", "inputText")
-                .map("range", "inputText")
-                .map("color", "inputText")
-                .map("url", "inputText")
-                .map("checkbox", "selectBooleanCheckbox")
-                .map("file", "inputFile")
-                .map("submit", "commandButton")
-                .map("reset", "commandButton")
-                .map("button", "button"));
+        body("h:body"), 
+        head("h:head"), 
+        label("h:outputLabel"), 
+        form("h:form"), 
+        button(new ElementConverter("h:button", "jsf:outcome"), new ElementConverter("h:commandButton"));
 
         private ElementConverter elementConverter;
 
