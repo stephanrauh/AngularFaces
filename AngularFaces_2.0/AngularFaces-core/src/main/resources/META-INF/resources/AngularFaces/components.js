@@ -1,6 +1,6 @@
 var app = angular.module('angularfaces', []);
 
-app.directive('angularfacesmessage', function() {
+app.directive('puimessage', function($compile) {
   return {
     restrict: 'E',
     transclude: true,
@@ -10,8 +10,8 @@ app.directive('angularfacesmessage', function() {
     				if (fieldId) {
     					fieldId=fieldId.replace(":", "\\:");
     				}
+    				$scope.primefaces="true" == $element.attr('primefaces');
     				$scope.af_for=fieldId;
-//    				$scope.myField = $("#"+$scope.af_for);
     				$scope.myField = $("[name='"+$scope.af_for+"']");
     				$scope.servermessage=$element.attr("servermessage");
     				
@@ -83,11 +83,25 @@ app.directive('angularfacesmessage', function() {
 						}
     					return "";
     				};
+    				$scope.hasMessage= function() { 
+						return ($scope.myField.hasClass("ng-invalid"));
+    				};
+    				$scope.getTemplate = function() {
+    					var t='<span>{{message()}}</span>';
+    					if ($scope.primefaces) {
+    						t='<div ng-show="hasMessage()" class="ui-messages-error ui-corner-all"><span class="ui-messages-error-icon"></span><span class="ui-messages-error-summary">{{message()}}</span></div>';
+    					}
+    					return t; 
+    				};
     			},
-    template: '<span>{{message()}}</span>',
+	link: function(scope, element, attrs) {
+        var el = $compile(scope.getTemplate())(scope);
+        element.replaceWith(el);
+    },
     replace: true
 	};
 });
+
 
 // Todo: check whether this directive works
 var INTEGER_REGEXP = /^\-?\d*$/;
