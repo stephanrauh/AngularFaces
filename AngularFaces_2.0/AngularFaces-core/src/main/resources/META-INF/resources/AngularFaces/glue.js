@@ -19,15 +19,15 @@ function addSyncPushFunction(f) {
 function injectJSonIntoScope(bean, json, $scope) {
 	try {
 		if ($scope.$$phase) {
-//			console.log("immediate injectIntoJson call #" + counter);
-//			console.log(json);
-//			eval("$scope." + bean + "=null;");
+			// console.log("immediate injectIntoJson call #" + counter);
+			// console.log(json);
+			// eval("$scope." + bean + "=null;");
 			eval("$scope." + bean + "=" + json + ";");
 		} else {
 			$scope.$apply(function() {
-//				console.log("delayed injectIntoJson call #" + counter);
-//				console.log(json);
-//				eval("$scope." + bean + "=null;");
+				// console.log("delayed injectIntoJson call #" + counter);
+				// console.log(json);
+				// eval("$scope." + bean + "=null;");
 				eval("$scope." + bean + "=" + json + ";");
 			});
 		}
@@ -91,11 +91,11 @@ function storeValues() {
 	}
 }
 
-function restoreValues() {
+function restoreValues(ngAppElement) {
 	for (var i = 0; i < syncPushFunctions.length; i++) {
 		syncPushFunctions[i]();
 	}
-	var $scope = angular.element('body').scope();
+	var $scope = ngAppElement.scope();
 	if (!$scope) {
 		alert("AngularJS hasn't been initialized properly.");
 		return;
@@ -161,11 +161,11 @@ function injectVariableIntoScope(model, value) {
 	}
 }
 
-function reinitAngular(app) {
+function reinitAngular(ngAppElement, ngApp) {
 	storeValues();
 	try {
-		angular.bootstrap(document, [ app ]);
-		restoreValues();
+		angular.bootstrap(ngAppElement, [ ngApp ]);
+		restoreValues(ngAppElement);
 	} catch (e) {
 		console.log("Angular probably doesn't need to be initialized again");
 		console.log(e);
@@ -198,14 +198,64 @@ function readVariableFromScope(model) {
 }
 
 function findNGAppAndReinitAngular(element) {
+	var s = element.getAttribute("update");
+
+	var ngAppElement = element;
+	// look for the element bearing the ng-app directive
 	var ngApp = null;
-	while (element != null && ngApp == null) {
-		ngApp = element.getAttribute("ng-app");
-		element = element.parentNode;
+	while (ngAppElement != null && ngApp == null) {
+		ngApp = ngAppElement.getAttribute("ng-app");
+		if (null == ngApp) {
+			ngAppElement = ngAppElement.parentNode;
+		}
+	}
+	// for some reason, the form element doesn't always admit is has a parent.
+	// If so, start searching top-down.
+	if (null == ngApp) {
+		var f = document.forms;
+		if (null != f) {
+			for (var index = 0; index < f.length; index++) {
+				ngAppElement = f[index];
+				while (ngAppElement != null && ngApp == null) {
+					ngApp = ngAppElement.getAttribute("ng-app");
+					if (null == ngApp) {
+						ngAppElement = ngAppElement.parentNode;
+					}
+				}
+				if (null != ngApp) {
+					break;
+				}
+			}
+		}
 	}
 	if (null != ngApp) {
-		console.log("ng-app=" + ngApp);
-		reinitAngular(ngApp);
+		console.log("ng-app=" + ngApp + " ngAppElement = " + ngAppElement);
+		reinitAngular(ngAppElement, ngApp);
+	}
+}
+
+function shutDownAngularJS() {
+	/*
+	 * Iterate through the child scopes and kill 'em all, because Angular 1.2
+	 * won't let us $destroy() the $rootScope
+	 */
+	var scope = $rootScope.$$childHead;
+	while (scope) {
+		var nextScope = scope.$$nextSibling;
+		scope.$destroy();
+		scope = nextScope;
+	}
+
+	/*
+	 * Iterate the properties of the $rootScope and delete any that possibly
+	 * were set by us but leave the Angular-internal properties and functions
+	 * intact so we can re-use the application.
+	 */
+	for ( var prop in $rootScope) {
+		if (($rootScope[prop]) && (prop.indexOf('$$') != 0)
+				&& (typeof ($rootScope[prop]) === 'object')) {
+			$rootScope[prop] = null;
+		}
 	}
 }
 
@@ -219,7 +269,9 @@ function interceptAJAXRequests(data) {
 		break;
 	case "complete":
 		var element = data.source;
-		findNGAppAndReinitAngular(element);
+		setTimeout(function() {
+			findNGAppAndReinitAngular(element);
+		}, 10);
 		break;
 	}
 }
@@ -227,7 +279,7 @@ function interceptAJAXRequests(data) {
 // if (typeof(jsf)!="undefined") {
 // jsf.ajax.addOnEvent(interceptAJAXRequests);
 // }
-//
+
 // if (typeof(PrimeFaces) != "undefined") {
 // if (typeof(PrimeFaces.ajax.AjaxUtils)!= "undefined") {
 // var primeFacesOriginalSendFunction = PrimeFaces.ajax.AjaxUtils.send;
