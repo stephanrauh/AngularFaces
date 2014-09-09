@@ -20,7 +20,7 @@
    <context-param>
      <param-name>javax.faces.FACELETS_DECORATORS</param-name>
      <param-value>
-        de.beyondjava.angularFaces.core.AngularTagDecorator
+        de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator
      </param-value>
   </context-param>
 </web-app>

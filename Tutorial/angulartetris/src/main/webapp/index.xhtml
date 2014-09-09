@@ -4,15 +4,15 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
-	<h:head>
+	<head>
 		<title>AngularFaces 2.0 Tetris demo</title>
 		<link type="text/css" rel="stylesheet" href="angulartetris.css" />
 		<script type="text/javascript" src="tetromino.js" />
 		<script type="text/javascript" src="gameController.js" />
-	</h:head>
-	<h:body style="width:1000px" ng-controller="AngularTetrisController"
+	</head>
+	<body style="width:1000px" ng-controller="AngularTetrisController"
 		ng-app="AngularTetris">
-		<h:form>
+		<form>
 			<h3>AngularTetris</h3>
 			<h:outputText value="{{grid.rows}}" rendered="false" />
 			<h:panelGrid columns="4">
@@ -30,7 +30,7 @@
 				<h:panelGroup style="{{game.settingsStyle()}}">
 					<span style="font-weight:bold">Settings:</span>
 					<h:panelGrid columns="3">
-						<input type="number" jsf:value="{{settingsBean.numberOfColumns}}" />
+						<input jsf:value="{{settingsBean.numberOfColumns}}" />
 						<input type="number" jsf:value="{{settingsBean.numberOfRows}}" />
 						<input type="checkbox" jsf:ngvalue="{{settingsBean.preview}}" />
 						<input type="checkbox" jsf:ngvalue="{{settingsBean.ignoreGravity}}" />
@@ -43,6 +43,6 @@
 					</h:panelGrid>
 				</h:panelGroup>
 			</h:panelGrid>
-		</h:form>
-	</h:body>
+		</form>
+	</body>
 </f:view>
