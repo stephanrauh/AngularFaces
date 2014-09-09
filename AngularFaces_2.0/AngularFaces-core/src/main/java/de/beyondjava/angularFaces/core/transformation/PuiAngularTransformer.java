@@ -30,9 +30,9 @@ public class PuiAngularTransformer implements SystemEventListener {
 		if (source instanceof UIViewRoot) {
 			long timer = System.nanoTime();
 			PuiModelSync.initJSFAttributesTable();
-			UIViewRoot root = (UIViewRoot) source;
+			final UIViewRoot root = (UIViewRoot) source;
 			FindNGControllerCallback findNGControllerCallback = new FindNGControllerCallback();
-			FacesContext context = FacesContext.getCurrentInstance();
+			final FacesContext context = FacesContext.getCurrentInstance();
 			root.visitTree(new FullVisitContext(context), findNGControllerCallback);
 			boolean ajaxRequest = context.getPartialViewContext().isAjaxRequest();
 			boolean postback = context.isPostback();
@@ -41,19 +41,19 @@ public class PuiAngularTransformer implements SystemEventListener {
 			if (true) {
 				// if ((!ajaxRequest) && (!postback)) {
 				addJavascript(root, context, isProduction);
-				time("extract AngularJS expressions", () -> root.visitTree(new FullVisitContext(context), new ProcessAngularExpressionsCallback()));
-				time("add NGModel", () -> root.visitTree(new FullVisitContext(context), new AddNGModelAndIDCallback()));
-				time("add ng* attributes", () -> root.visitTree(new FullVisitContext(context), new AddNGPassThroughAttributesCallback()));
+				time("extract AngularJS expressions", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), new ProcessAngularExpressionsCallback());}});
+				time("add NGModel", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), new AddNGModelAndIDCallback());}});
+				time("add ng* attributes", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), new AddNGPassThroughAttributesCallback());}});
 //				if (!ajaxRequest) {
-					AddLabelCallback labelDecorator = new AddLabelCallback();
-					time("add labels", () -> root.visitTree(new FullVisitContext(context), labelDecorator));
+					final AddLabelCallback labelDecorator = new AddLabelCallback();
+					time("add labels", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), labelDecorator);}});
 					System.out.println("AJAX: " + ajaxRequest + " Postback: " + postback + " duplicate Labels: "
 							+ labelDecorator.duplicateLabels);
 //				}
-				time("add type information", () -> root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback()));
-				time("add messages", () -> root.visitTree(new FullVisitContext(context), new AddMessagesCallback()));
+				time("add type information", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback());}});
+				time("add messages", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), new AddMessagesCallback());}});
 				if (!ajaxRequest) {
-					time("internationalization", () -> root.visitTree(new FullVisitContext(context), new TranslationCallback()));
+					time("internationalization", new Runnable(){public void run(){root.visitTree(new FullVisitContext(context), new TranslationCallback());}});
 				}
 			}
 			long time=System.nanoTime()-timer;

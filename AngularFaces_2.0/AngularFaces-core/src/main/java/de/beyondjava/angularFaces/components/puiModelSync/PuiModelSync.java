@@ -76,7 +76,7 @@ public class PuiModelSync extends HtmlBody {
 	}
 
 	public List<String> getFacesModel() {
-		Map<String, Object> model = new HashMap<>();		
+		Map<String, Object> model = new HashMap<String, Object>();		
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
 		sessionMap.remove(JSF_ATTRIBUTES_SESSION_PARAMETER);
@@ -103,7 +103,7 @@ public class PuiModelSync extends HtmlBody {
 		}
 
 		
-		List<String> beans = new ArrayList<>();
+		List<String> beans = new ArrayList<String>();
 		for (Entry<String, Object> bean: model.entrySet()) {
 			String assignment = "\"" + bean.getKey() + "\",'" + gson.toJson(bean.getValue())+"'";
 			beans.add(assignment);

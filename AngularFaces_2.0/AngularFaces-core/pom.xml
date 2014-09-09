@@ -12,10 +12,10 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.testSource>1.8</maven.compiler.testSource>
-		<maven.compiler.testTarget>1.8</maven.compiler.testTarget>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+		<maven.compiler.testSource>1.6</maven.compiler.testSource>
+		<maven.compiler.testTarget>1.6</maven.compiler.testTarget>
 	</properties>
 
 	<dependencies>
@@ -62,7 +62,7 @@
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>5.0</version>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 
 	</dependencies>

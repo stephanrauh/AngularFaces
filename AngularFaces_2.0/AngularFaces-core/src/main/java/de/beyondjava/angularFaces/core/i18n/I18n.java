@@ -22,7 +22,7 @@ import javax.faces.context.FacesContext;
 public class I18n implements Serializable {
 	private static final long serialVersionUID = 1L;
 	Locale locale;
-	HashMap<String, String> translations = new HashMap<>();
+	HashMap<String, String> translations = new HashMap<String, String>();
 	String json = "";
 	
 	@PostConstruct

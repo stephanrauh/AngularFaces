@@ -50,8 +50,7 @@ public class AddTypeInformationCallback implements VisitCallback {
 			try {
 				method = component.getClass().getMethod("setType", String.class);
 				method.invoke(component, type);
-			} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException e) {
+			} catch (ReflectiveOperationException e) {
 				// catch block required by compiler, can't happen in reality
 			}
 		}
