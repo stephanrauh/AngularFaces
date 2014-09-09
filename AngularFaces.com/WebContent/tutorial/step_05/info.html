@@ -1,100 +1,42 @@
         <div>
-          <h1>Client Side Bean Validation</h1>
-          <p>AngularFaces reads JSR 303 Bean Validation API annotations and evaluates them on the client. You've already seen some of it in the previous examples:</p>
-          <img alt="AngularFaces 2.0 JSF Bean Validation" src="tutorial/step_05/bean_validations_english.png">
-          <p>The validation constraints are checked on the client side by AngularJS. However, they are defined on the server side, using the new JSR 303 Bean Validation API:<p>
+          <h1>Synchronizing arbitrary JSF attributes with the client</h1>
+          <p>In the previous chapters of the tutorial you've seen how to synchronize JSF
+          bean attributes with the AngularJS model. However, you aren't limited
+          to input field and html attributes.</p>
+          <h3>Sending JSF beans to the client</h3>
+          <p>To send an arbitrary JSF bean attribute to the client simply put
+          a mustache in a comment:</p>
+<pre highlight class="xml">
+&lt;!-- { {grid.rows}} --></pre>
+          <p>The disadvantage of this approach is that the comment itself is sent to the client. It doesn't hurt,
+          but it's not needed, either. So maybe it's a better idea to create an output text rendered by JSF:</p>
+<pre highlight class="xml">
+&lt;h:outputText value="{ {grid.rows}}" rendered="false" /></pre>
+          <p>At first glance, this looks a bit weird. If works because JSF evaluates expressions even if the tag isn't rendered.</p>			
+          </p>
+          <h3>Complex beans</h3>
+          <p>AngularFaces uses Gson to convert beans into JSon objects. Sometimes this makes for clumsy data structures.
+          For instance, the playground of the AngularTetris demo is a simple two-dimensional array of integers. However,
+          I had to chose a much more complicated data structure because AngularJS had difficulties to access the
+          cells in two nested ng-repeat directives. I suspect I did something wrong, but I also suppose that what feels
+          a natural data structure in Java doesn't always result in a simple AngularJS model.</p>
+          <p>A particular nasty problem are arrays and hash maps. Because of Java's type erasure, there's no
+          simple way to send a table back to the server. Everything's fine until the table grows at the client side.
+          Gson doesn't know the type of the array, so it can't simply add rows to the table on the server side.
+          That's the reason why I postponed two-way synchronization until AngularFaces 2.1.</p>
           
-          <pre class="java">
-@ManagedBean
-@SessionScoped
-public class Customer {
-  private Date dateOfBirth;
-  
-  @Email
-  private String emailAddress;
-  
-  @NotNull
-  @Size(min=5, max=20)
-  private String firstName;
-  
-  private boolean iAgreeToTheTermsAndConditions;
-  
-  @NotNull
-  @Size(min=5, max=20)
-  private String lastName;
-  
-  @Min(18)
-  @Max(130)
-  private int age;
-  
-  // plus getters and setters
-}
-          </pre>
+          </p>
+
+          <h3>Sending AngularJS model values to the server</h3>
+          <p>
+          That's a feature left for AngularFaces 2.1. Currently, the only way to send values back to the server
+          are input fields. Of course you can add an &lt;h:inputText&gt; rendered invisible by CSS. The next request 
+          automatically sends values stored in the hidden field back to the server.
+          </p>
+          <h3>Two-way synchronizing</h3>
+          <p>
+          That's a feature left for AngularFaces 2.1. In the meantime the only work-around is using a
+          hidden input field.
+          </p>
           
-          <h3>Which annotations are evaluated on the client?</h3>
-          <ul><li>@NotNull (denotes a mandatory field in AngularFaces - slightly different to the JSR 303 specification)</li>
-          <li>@Min and @Max (only for numerical values)</li>
-          <li>@Size to define minimal and/or maximal input lengths</li>
-          </ul>
-          <h3>Type information</h3>
-          <p>AngularFaces recognizes numerical values and enforces numerical input on the client. As a side effect, number fields automatically bear a spinner in many
-          modern browsers.</p>
-          <p>Dates are also recognized and rendered as an HTML5 date field. Hence modern browsers automatically add a date picker to simple input fields. Both standard
-          JSF input fields and the new HTML5-style input fields benefit from this feature. The same applies to &lt;prime:inputText&gt;. AngularFaces converts
-          simple &lt;prime:inputText&gt; automatically to date fields if the corresponding JSF bean attribute is an instance of java.util.Date. However, 
-          &lt;prime:calendar&gt; is not modified by AngularFaces, so you're free to choose an HTML5 layout or a PrimeFaces layout.</p>  
-          
-          <h3>Internationalization</h3>
-          <p>Of course, AngularFaces translates the error messages to foreign languages. Currently, English, Spanish, French and German are supported. Please drop me
-          a note if you want to provide another translation or fix an error to an existing translation.<p>
-          <p>To provide a language that's not supported out of the box, or to modify an existing error message bundle, put a file called "messages_(language shortcode).js"
-          in the folder "resources/AngularFaces". Best you copy the English version of the original files. It's a simple set of key-value-pairs of English messages and your
-          translation:</p>
-          <pre class="java">
-angularFacesMessages={
-    "This number must be at least {}.":"Dieser Wert muß größer oder gleich {} sein.",
-    "This number must be less or equal {}.":"Dieser Wert muß kleiner oder gleich {} sein.",
-    "Please enter a valid number.":"Bitte geben Sie eine gültige Zahl ein.",
-    "Please fill out this field.":"Bitte füllen Sie das Feld aus.",
-    "A validation rule is violated.":"Bitte überprüfen Sie Ihre Eingabe.",
-    "At least {} characters required.": "Bitte geben Sie mindestens {} Zeichen ein.",
-    "{} characters accepted at most.":"Maximal {} Zeichen erlaubt.",
-    "Please enter a valid integer number.":"Bitte geben Sie nur Ziffern ein."
-    };          
-    </pre>
-          <p>The original message bundles are in the folder "META-INF/resources/AngularFaces" of the jar file. As mentioned above, your
-          translation has to be in the standard JSF resource of your application. For instance, put your portuguese translation "messages_pt.js" here:</p>
-          <img src="tutorial/step_05/message_project_layout.png">
-          <br />
-          <br />
-          <p>AngularFaces automatically chooses the target language according to the browsers settings. For instance, in a European browser the JSF view I showed above
-          might look like so:</p>
-          
-          <img alt="AngularFaces 2.0 JSF Bean Validation" src="tutorial/step_05/bean_validations_german.png">
-          <img alt="AngularFaces 2.0 JSF Bean Validation" src="tutorial/step_05/bean_validations_spanish.png">
-          <br />
-          <br />
-          
-          <p>For the sake of completeness, here's the JSF file:<p>
-          
-          <pre class="xml">
-&lt;h:form id="angular">
-  &lt;prime:panel header="Contact information">
-    &lt;prime:panelGrid columns="3">
-      &lt;prime:inputText value="#{customer.lastName}" />
-      &lt;prime:inputText value="#{customer.firstName}" />
-      &lt;prime:inputText value="{ {customer.dateOfBirth}}" />
-      &lt;prime:inputText value="{ {customer.age}}" />
-      &lt;prime:inputText value="#{customer.emailAddress}" />
-      &lt;prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
-    &lt;/prime:panelGrid>
-    &lt;prime:commandButton value="save" update="angular" action="#{customer.save}" />
-  &lt;/prime:panel>
-&lt;/h:form>
-          </pre>
-           
-        
-          <br />
-          <br />
-          <br />
-        </div>
+<br /><br /><br /><br />
