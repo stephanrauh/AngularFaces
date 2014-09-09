@@ -20,7 +20,7 @@ public class Grid {
 	}
 
 	public void init() {
-		rows = new ArrayList<>();
+		rows = new ArrayList<Row>();
 		for (int y = 0; y < 20; y++) {
 			rows.add(new Row(y));
 		}

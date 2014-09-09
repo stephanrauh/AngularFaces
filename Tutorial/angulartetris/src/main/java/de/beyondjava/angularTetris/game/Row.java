@@ -24,7 +24,7 @@ public class Row {
 	}
 
 	public void init(int y) {
-		cells = new ArrayList<>();
+		cells = new ArrayList<Cell>();
 		for (int x = 0; x < 10; x++)
 				cells.add(new Cell(0));
 	}
