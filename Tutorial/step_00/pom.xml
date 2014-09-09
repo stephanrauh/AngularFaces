@@ -6,7 +6,7 @@
 	<groupId>de.beyondjava.angularFaces</groupId>
 	<artifactId>angularfaces-tutorial-step-00</artifactId>
 	<packaging>war</packaging>
-	<version>2.0.0-RC4</version>
+	<version>2.0.0-RC5</version>
 	<name>angularfaces-2.0-tutorial-step-00</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,7 +17,7 @@
 		<dependency>
 			<groupId>de.beyondjava</groupId>
 			<artifactId>angularFaces-core</artifactId>
-			<version>2.0.0-RC4</version>
+			<version>2.0.0-RC5</version>
 		</dependency>
 	</dependencies>
 	<profiles>
