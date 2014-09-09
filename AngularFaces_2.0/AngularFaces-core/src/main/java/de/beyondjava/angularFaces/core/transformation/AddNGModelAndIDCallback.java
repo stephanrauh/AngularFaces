@@ -1,8 +1,5 @@
 package de.beyondjava.angularFaces.core.transformation;
 
-import java.util.Map.Entry;
-import java.util.Set;
-
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.component.visit.VisitCallback;
@@ -12,7 +9,6 @@ import javax.faces.context.FacesContext;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 import de.beyondjava.angularFaces.core.ELTools;
-import de.beyondjava.angularFaces.core.NGWordUtiltites;
 
 public class AddNGModelAndIDCallback implements VisitCallback {
 
@@ -21,12 +17,12 @@ public class AddNGModelAndIDCallback implements VisitCallback {
 		ValueExpression vex = component.getValueExpression("value");
 		if (null == vex) {
 			String angularExpression = null;
-			Object valueAsObject = component.getAttributes().get("value");
+			Object valueAsObject = AttributeUtilities.getAttribute(component,"value");
 			if (valueAsObject instanceof String) {
 				angularExpression = (String) valueAsObject;
 			}
 			if (null == angularExpression)
-				angularExpression = (String) component.getAttributes().get("ngvalue");
+				angularExpression = (String) AttributeUtilities.getAttribute(component,"ngvalue");
 			if (null != angularExpression) {
 				if (angularExpression.startsWith("{{") && angularExpression.endsWith("}}")) {
 					// This version is a hack! It works, but even so.

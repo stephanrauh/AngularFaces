@@ -31,7 +31,7 @@ public class AddLabelCallback implements VisitCallback {
 			UIComponent kid = children.get(index);
 			if (kid instanceof UIInput) {
 
-				String caption = (String) kid.getAttributes().get("label");
+				String caption = (String) AttributeUtilities.getAttribute(kid,"label");
 				if (null == caption) {
 					ValueExpression vex = kid.getValueExpression("value");
 					if (null != vex) {
@@ -39,7 +39,7 @@ public class AddLabelCallback implements VisitCallback {
 						caption = NGWordUtiltites.labelFromELExpression(core);
 					} else {
 						String angularExpression = null;
-						Object valueAsObject = kid.getAttributes().get("value");
+						Object valueAsObject = AttributeUtilities.getAttribute(kid,"value");
 						if (valueAsObject instanceof String)
 							angularExpression = (String) valueAsObject;
 						if (angularExpression != null && angularExpression.startsWith("{{") && angularExpression.endsWith("}}")) {

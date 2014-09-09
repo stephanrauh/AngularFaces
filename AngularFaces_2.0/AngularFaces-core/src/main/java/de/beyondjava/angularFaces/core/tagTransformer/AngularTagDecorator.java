@@ -12,6 +12,21 @@ public class AngularTagDecorator implements TagDecorator {
 
 	@Override
 	public Tag decorate(Tag tag) {
+		// Apache MyFaces converts HTML tag with jsf: namespace, but missing an attribute, into jsf:element tag. We'll fix this
+		// for the special case of input fields.
+		if ("element".equals(tag.getLocalName())) {
+			TagAttribute tagAttribute = tag.getAttributes().get("http://xmlns.jcp.org/jsf/passthrough", "elementName");
+			if ("input".equals(tagAttribute.getValue())) {
+				TagAttribute[] attributes = tag.getAttributes().getAll();
+				TagAttribute[] lessAttributes = Arrays.copyOf(attributes, attributes.length - 1);
+				TagAttributes less = new AFTagAttributes(lessAttributes);
+				Tag t = new Tag(tag.getLocation(), "http://xmlns.jcp.org/jsf/html", "inputText", "h:inputText", less);
+				
+				String localName = tag.getLocalName();
+				System.out.println(localName + (attributes == null ? "0" : attributes.length));
+				return t;
+			}
+		}
         String ns = tag.getNamespace();
         // we only handle html tags!
         if (!("".equals(ns) || "http://www.w3.org/1999/xhtml".equals(ns))) {
@@ -31,7 +46,6 @@ public class AngularTagDecorator implements TagDecorator {
 			Tag t = new Tag(tag.getLocation(), "http://xmlns.jcp.org/jsf/html", "inputText", "h:inputText", more);
 			
 			String localName = tag.getLocalName();
-			System.out.println(localName + (attributes == null ? "0" : attributes.length));
 			return t;
 		}
 		return null;

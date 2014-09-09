@@ -1,21 +1,13 @@
 package de.beyondjava.angularFaces.core.transformation;
 
-import java.util.List;
-
-import javax.el.ValueExpression;
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.component.UIOutput;
-import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
 
-import org.primefaces.component.outputlabel.OutputLabel;
-
 import de.beyondjava.angularFaces.core.ELTools;
-import de.beyondjava.angularFaces.core.NGWordUtiltites;
 import de.beyondjava.angularFaces.core.i18n.I18n;
 
 public class TranslationCallback implements VisitCallback {
@@ -40,7 +32,7 @@ public class TranslationCallback implements VisitCallback {
 	}
 
 	private void translateAttribute(UIComponent component, String attributeName) {
-		Object value = component.getAttributes().get(attributeName);
+		Object value = AttributeUtilities.getAttribute(component,attributeName);
 		if (null != value && value instanceof String) {
 			String caption = (String) value;
 			if (null != caption) {

@@ -139,8 +139,6 @@ public class RelaxedTagDecorator implements TagDecorator {
         }
     }
 
-    private ElementConverter defaultElementConverter = new ElementConverter("jsf:element");
-
     public Tag decorate(Tag tag) {
         String ns = tag.getNamespace();
         // we only handle html tags!

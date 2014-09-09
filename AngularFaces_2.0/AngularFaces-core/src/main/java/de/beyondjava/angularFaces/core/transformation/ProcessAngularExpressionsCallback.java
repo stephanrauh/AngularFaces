@@ -33,7 +33,7 @@ public class ProcessAngularExpressionsCallback implements VisitCallback {
 	}
 
 	private void extractAttribute(UIComponent component, String key) {
-		Object value = component.getAttributes().get(key);
+		Object value = AttributeUtilities.getAttribute(component,key);
 		if (value != null) {
 			if (value instanceof String) {
 				String vs = (String) value;

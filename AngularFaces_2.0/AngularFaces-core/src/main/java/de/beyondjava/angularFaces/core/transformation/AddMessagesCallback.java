@@ -5,7 +5,6 @@ import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.UIMessage;
-import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;

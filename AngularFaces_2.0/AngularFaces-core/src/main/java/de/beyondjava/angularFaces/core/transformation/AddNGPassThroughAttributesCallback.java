@@ -5,11 +5,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
-import javax.faces.context.FacesContext;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
-import de.beyondjava.angularFaces.core.ELTools;
-import de.beyondjava.angularFaces.core.NGWordUtiltites;
 
 /** See to it that standard AngularJS attributes are written to the HTML code as pass-through attributes */
 public class AddNGPassThroughAttributesCallback implements VisitCallback {
