@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.beyondjava.angularFaces</groupId>
-	<artifactId>angularfaces-tutorial-step-07-datatable</artifactId>
+	<artifactId>angularfaces-tutorial-step-06-datatable</artifactId>
 	<packaging>war</packaging>
 	<version>2.0.0-RC5</version>
-	<name>angularfaces-2.0-tutorial-step-07-datatable</name>
+	<name>angularfaces-2.0-tutorial-step-06-datatable</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
@@ -24,7 +24,7 @@
 		<profile>
 			<id>Mojarra 2.2.7</id>
 			<activation>
-				<activeByDefault>false</activeByDefault>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<dependencies>
 				<dependency>
@@ -44,7 +44,7 @@
 		<profile>
 			<id>MyFaces 2.2.4</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 			<dependencies>
 				<dependency>

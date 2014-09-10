@@ -39,17 +39,13 @@ public class PuiAngularTransformer implements SystemEventListener {
 			boolean isProduction = context.isProjectStage(ProjectStage.Production);
 			PuiModelSync c = findNGControllerCallback.getPuiModelSync();
 			if (true) {
-				// if ((!ajaxRequest) && (!postback)) {
 				addJavascript(root, context, isProduction);
-				time("extract AngularJS expressions", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), new ProcessAngularExpressionsCallback());}});
+//				time("extract AngularJS expressions", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), new ProcessAngularExpressionsCallback());}});
 				time("add NGModel", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), new AddNGModelAndIDCallback());}});
-				time("add ng* attributes", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), new AddNGPassThroughAttributesCallback());}});
-//				if (!ajaxRequest) {
-					final AddLabelCallback labelDecorator = new AddLabelCallback();
-					time("add labels", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), labelDecorator);}});
-					System.out.println("AJAX: " + ajaxRequest + " Postback: " + postback + " duplicate Labels: "
-							+ labelDecorator.duplicateLabels);
-//				}
+				final AddLabelCallback labelDecorator = new AddLabelCallback();
+				time("add labels", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), labelDecorator);}});
+				System.out.println("AJAX: " + ajaxRequest + " Postback: " + postback + " duplicate Labels: "
+						+ labelDecorator.duplicateLabels);
 				time("add type information", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback());}});
 				time("add messages", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context), new AddMessagesCallback());}});
 				if (!ajaxRequest) {

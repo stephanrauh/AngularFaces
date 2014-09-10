@@ -38,7 +38,7 @@ public class AddMessagesCallback implements VisitCallback {
 						}
 					} else if (maybe instanceof UIMessage) {
 						UIComponent forComponent = maybe.findComponent(((UIMessage) maybe).getFor());
-						if (kid==forComponent) {
+						if (kid == forComponent) {
 							needsMessage = false;
 						}
 					}
@@ -48,7 +48,7 @@ public class AddMessagesCallback implements VisitCallback {
 					UIComponent maybe = children.get(index + 1);
 					if (maybe instanceof PuiMessage) {
 						UIComponent forComponent = maybe.findComponent(((UIMessage) maybe).getFor());
-						if (kid==forComponent) {
+						if (kid == forComponent) {
 							duplicateLabels++;
 							continue;
 						}
@@ -58,12 +58,7 @@ public class AddMessagesCallback implements VisitCallback {
 
 				if (needsMessage) {
 					PuiMessage message;
-					if (kid.getClass().getName().contains("primefaces")) {
-						// todo: use the PrimeFaces Message
-						message = new PuiMessage(); //
-					} else {
-						message = new PuiMessage();
-					}
+					message = new PuiMessage(); //
 					message.setFor(kid.getClientId());
 					message.getPassThroughAttributes().put("af-for", kid.getClientId());
 					children.add(index + 1, message);
