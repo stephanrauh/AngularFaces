@@ -1,0 +1,26 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:prime="http://primefaces.org/ui">
+  <h:head>
+<title>AngularFaces 2.0 tutorial step 07 - PrimeFaces datatables or AngularJS Datatables?</title>
+  </h:head>
+  <h:body style="width: 720px" ng-controller="TableController" ng-app="TableDemo">
+    <form>
+            <h2><h:outputText value="Welcome to AngularFaces 2.0!" /></h2>
+            <h:outputText value="Based firmly in the future..."/><br />
+            <prime:panel colspan="1" header="AngularJS health check">
+            <h:outputText value="If the timer stops, AngularJS ceased to work" />
+            <span>Seconds since application start: {{seconds}}</span>
+            </prime:panel>
+            <prime:panel colspan="1" header="PrimeFaces data table meets AngularFaces">
+                <prime:dataTable ngvalue="{{carPool.carPool}}" var="car" paginator="true" rows="10"> 
+                    <prime:column headerText="brand">#{car.brand}</prime:column>
+                    <prime:column headerText="type"> #{car.type}</prime:column>
+                    <prime:column headerText="year"> #{car.year}</prime:column>
+                    <prime:column headerText="color">#{car.color}</prime:column>
+                </prime:dataTable>
+                <prime:messages globalOnly="false" />
+            </prime:panel>
+    </form>
+  </h:body>
+</f:view>
