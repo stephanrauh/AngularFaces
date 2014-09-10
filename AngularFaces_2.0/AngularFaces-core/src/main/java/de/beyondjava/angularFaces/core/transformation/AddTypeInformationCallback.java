@@ -19,25 +19,26 @@ public class AddTypeInformationCallback implements VisitCallback {
 			NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(component);
 			if (infos.isRequired()) {
 				((UIInput) component).setRequired(true);
-				component.getPassThroughAttributes().put("required","");
+				component.getPassThroughAttributes().put("required", "");
 			}
-			if (infos.getMax()>0) {
-				((UIInput)component).getPassThroughAttributes().put("max", infos.getMax());
+			if (infos.getMax() > 0) {
+				((UIInput) component).getPassThroughAttributes().put("max", infos.getMax());
 			}
-			if (infos.getMin()>0) {
-				((UIInput)component).getPassThroughAttributes().put("min", infos.getMin());
+			if (infos.getMin() > 0) {
+				((UIInput) component).getPassThroughAttributes().put("min", infos.getMin());
 			}
-			if (infos.getMaxSize()>0) {
-				((UIInput)component).getPassThroughAttributes().put("ng-maxlength", infos.getMaxSize());
+			if (infos.getMaxSize() > 0) {
+				((UIInput) component).getPassThroughAttributes().put("ng-maxlength", infos.getMaxSize());
 			}
-			if (infos.getMinSize()>0) {
-				((UIInput)component).getPassThroughAttributes().put("ng-minlength", infos.getMinSize());
+			if (infos.getMinSize() > 0) {
+				((UIInput) component).getPassThroughAttributes().put("ng-minlength", infos.getMinSize());
 			}
 			if (infos.isNumeric()) {
 				setType(component, "number");
-			}
-			else if (infos.isDate()) {
+			} else if (infos.isDate()) {
 				setType(component, "date");
+			} else if (infos.isBoolean()) {
+				setType(component, "checkbox");
 			}
 		}
 		return VisitResult.ACCEPT;
@@ -47,14 +48,19 @@ public class AddTypeInformationCallback implements VisitCallback {
 		if (component.getClass().getName().equals("org.primefaces.component.inputtext.InputText")) {
 			Method method;
 			try {
-				method = component.getClass().getMethod("setType", String.class);
-				method.invoke(component, type);
+				method = component.getClass().getMethod("getType");
+				Object previousType = method.invoke(component, type);
+				if (previousType == null) {
+					method = component.getClass().getMethod("setType", String.class);
+					method.invoke(component, type);
+				}
 			} catch (ReflectiveOperationException e) {
 				// catch block required by compiler, can't happen in reality
 			}
-		}
-		else {
-			component.getPassThroughAttributes().put("type", type);
+		} else {
+			if (null == component.getAttributes().get("type") && null == component.getPassThroughAttributes().get("type")) {
+				component.getPassThroughAttributes().put("type", type);
+			}
 		}
 	}
 

@@ -40,6 +40,9 @@ public class NGBeanAttributeInfo {
 	/** Is the attribute a date? */
 	private boolean isDate = false;
 
+	/** Is the attribute a boolean? */
+	private boolean isBoolean = false;
+
 	/** Is the attribute a float or a double? */
 	private boolean isFloat = false;
 	/** Is the attribute one of the integer types (int, long, short, byte)? */
@@ -85,6 +88,11 @@ public class NGBeanAttributeInfo {
 
 	public long getMinSize() {
 		return minSize;
+	}
+	
+	/** Is the attribute a boolean? */
+	public boolean isBoolean() {
+		return isBoolean;
 	}
 
 	/** Is the attribute a date? */
@@ -172,6 +180,9 @@ public class NGBeanAttributeInfo {
 			isNumeric = true;
 		} else if ((clazz==Date.class) || (clazz==java.util.Date.class)) {
 			isDate=true;
+		}
+		else if ((clazz==Boolean.class) || (clazz==boolean.class)) {
+			isBoolean=true;
 		}
 	}
 }

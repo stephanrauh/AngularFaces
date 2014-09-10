@@ -20,7 +20,8 @@
 					<div class="divTable" id="playground">
 						<div class="divRow" ng-repeat="r in grid.rows">
 							<div class="divCell" ng-repeat="cell in r.cells" id="cell"
-								style="background-color:{{brickColor(cell.color)}}"></div>
+								style="background-color:{{brickColor(cell.color)}}">
+							</div>
 						</div>
 					</div>
 				</h:panelGroup>
@@ -31,9 +32,9 @@
 					<span style="font-weight:bold">Settings:</span>
 					<h:panelGrid columns="3">
 						<input jsf:value="{{settingsBean.numberOfColumns}}" />
-						<input type="number" jsf:value="{{settingsBean.numberOfRows}}" />
-						<input type="checkbox" jsf:ngvalue="{{settingsBean.preview}}" />
-						<input type="checkbox" jsf:ngvalue="{{settingsBean.ignoreGravity}}" />
+						<input jsf:value="{{settingsBean.numberOfRows}}" />
+						<input jsf:value="{{settingsBean.preview}}" />
+						<input jsf:value="{{settingsBean.ignoreGravity}}" />
 					</h:panelGrid>
 				</h:panelGroup>
 				<h:panelGroup style="{{game.scoreStyle()}}">

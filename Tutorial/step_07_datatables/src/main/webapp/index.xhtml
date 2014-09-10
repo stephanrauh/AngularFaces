@@ -13,7 +13,7 @@
             <span>Seconds since application start: {{seconds}}</span>
             </prime:panel>
             <prime:panel colspan="1" header="PrimeFaces data table meets AngularFaces">
-                <prime:dataTable ngvalue="{{carPool.carPool}}" var="car" paginator="true" rows="10"> 
+                <prime:dataTable value="{{carPool.carPool}}" var="car" paginator="true" rows="10"> 
                     <prime:column headerText="brand">#{car.brand}</prime:column>
                     <prime:column headerText="type"> #{car.type}</prime:column>
                     <prime:column headerText="year"> #{car.year}</prime:column>
