@@ -5,8 +5,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
 	<h:head></h:head>
-	<h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
-		<h:form id="myForm">
+	<h:body id="angular">
+		<h:form id="myForm" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
 			<h2>Welcome to AngularFaces 2.0!</h2>
     		Based firmly in the future...<br />
     		<hr />
@@ -28,12 +28,13 @@
 						<f:ajax render="angular" execute="@form" />
 					</h:commandButton>
 					<h:commandButton value="Add on server (JSF AJAX)"
-						action="#{calculatorBean.add}">
-						<f:ajax render="@form" execute="@form" />
+						action="#{calculatorBean.add}" onclick="reactivateAngularJS=true; return true;">
+						<f:ajax render="myForm" execute="@form" />
 					</h:commandButton>
 					<h:commandButton value="Add on server (without AJAX)"
 						action="#{calculatorBean.add}" />
 				</h:panelGrid>
+				Note that AngularJS doesn't recover after traditional AJAX requests. The PrimeFaces version of this JSF view doesn't have that problem.
 				<h:messages globalOnly="false" />
 			</h:panelGroup>
 		</h:form>

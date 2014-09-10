@@ -1,5 +1,6 @@
 package de.beyondjava.angularFaces.core.transformation;
 
+import java.lang.reflect.Constructor;
 import java.util.List;
 
 import javax.el.ValueExpression;
@@ -36,14 +37,6 @@ public class AddLabelCallback implements VisitCallback {
 					if (null != vex) {
 						String core = vex.getExpressionString();
 						caption = NGWordUtiltites.labelFromELExpression(core);
-					} else {
-						String angularExpression = null;
-						Object valueAsObject = AttributeUtilities.getAttribute(kid,"value");
-						if (valueAsObject instanceof String)
-							angularExpression = (String) valueAsObject;
-						if (angularExpression != null && angularExpression.startsWith("{{") && angularExpression.endsWith("}}")) {
-							caption = NGWordUtiltites.labelFromELExpression(angularExpression.substring(2, angularExpression.length() - 2));
-						}
 					}
 				}
 				if (null != caption) {
@@ -76,8 +69,14 @@ public class AddLabelCallback implements VisitCallback {
 
 					HtmlOutputLabel label;
 					if (kid.getClass().getName().contains("primefaces")) {
-						// todo: do it by reflection
-						label = new OutputLabel();
+						try {
+							Class labelClass=Class.forName("org.primefaces.component.outputlabel.OutputLabel");
+							Constructor c = labelClass.getConstructor();
+							label = (HtmlOutputLabel) c.newInstance();
+						} catch (ReflectiveOperationException error) {
+							System.out.println("Couldn't create PrimeFaces OutputLabel: " + error);
+							label = new HtmlOutputLabel();
+						}
 					} else {
 						label = new HtmlOutputLabel();
 					}

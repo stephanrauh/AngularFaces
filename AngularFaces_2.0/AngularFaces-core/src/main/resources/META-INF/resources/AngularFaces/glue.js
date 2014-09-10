@@ -1,3 +1,5 @@
+/** must be set in order to reactivate AngularJS after a JSF request. */
+reactivateAngularJS=false;
 syncPullFunctions = new Array();
 syncPushFunctions = new Array();
 counter = 1;
@@ -260,6 +262,10 @@ function shutDownAngularJS() {
 }
 
 function interceptAJAXRequests(data) {
+	if (!reactivateAngularJS) {
+		return;
+	}
+
 	if (data.source.type != "submit") {
 		return;
 	}
@@ -269,16 +275,17 @@ function interceptAJAXRequests(data) {
 		break;
 	case "complete":
 		var element = data.source;
+		reactivateAngularJS=false;
 		setTimeout(function() {
 			findNGAppAndReinitAngular(element);
-		}, 10);
+		}, 1000);
 		break;
 	}
 }
 
-// if (typeof(jsf)!="undefined") {
-// jsf.ajax.addOnEvent(interceptAJAXRequests);
-// }
+if (typeof(jsf)!="undefined") {
+  jsf.ajax.addOnEvent(interceptAJAXRequests);
+}
 
 // if (typeof(PrimeFaces) != "undefined") {
 // if (typeof(PrimeFaces.ajax.AjaxUtils)!= "undefined") {

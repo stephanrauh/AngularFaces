@@ -49,8 +49,8 @@ public class AddTypeInformationCallback implements VisitCallback {
 			Method method;
 			try {
 				method = component.getClass().getMethod("getType");
-				Object previousType = method.invoke(component, type);
-				if (previousType == null) {
+				Object previousType = method.invoke(component);
+				if (previousType == null || "text".equals(previousType)) {
 					method = component.getClass().getMethod("setType", String.class);
 					method.invoke(component, type);
 				}
