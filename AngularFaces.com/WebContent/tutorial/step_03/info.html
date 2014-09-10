@@ -19,21 +19,21 @@
           </pre>
           <p>This is a traditional JSF page that doesn't make use of the AngularJS model. There's a small main.js file, but it's only needed to provide
           the client side widgets of AngularFaces and the client side bean validation (see step 5).</p>
-          <p>Making this form's data available to AngularJS is as simple as can be: just replace the JSF EL terms #{...} by AngularJS style mustaches { {...}}:</p>
+          <p>Making this form's data available to AngularJS is as simple as can be: just replace the JSF EL terms #{...} by AngularJS style mustaches &#123;&#123;...}}:</p>
           <pre class="xml">
 &lt;prime:panel header="Contact information">
   &lt;prime:panelGrid columns="3">
-    &lt;prime:inputText value="{ {customer.lastName}}" />
-    &lt;prime:inputText value="{ {customer.firstName}}" />
-    &lt;prime:inputText value="{ {customer.dateOfBirth}}" />
-    &lt;prime:inputText value="{ {customer.emailAddress}}" />
-    &lt;prime:selectBooleanCheckbox value="{ {customer.IAgreeToTheTermsAndConditions}}" />
+    &lt;prime:inputText value="&#123;&#123;customer.lastName}}" />
+    &lt;prime:inputText value="&#123;&#123;customer.firstName}}" />
+    &lt;prime:inputText value="&#123;&#123;customer.dateOfBirth}}" />
+    &lt;prime:inputText value="&#123;&#123;customer.emailAddress}}" />
+    &lt;prime:selectBooleanCheckbox value="&#123;&#123;customer.IAgreeToTheTermsAndConditions}}" />
   &lt;/prime:panelGrid>
   &lt;prime:commandButton value="save" update="angular" action="#{customer.save}" />
 &lt;/prime:panel>
           </pre>
           <p>On the JSF side, the mustache expressions are converted to ordinary JSF expressions. It doesn't matter whether
-          you write { {customer.lastName}} or #{customer.lastName}, until you look at the Javascript code.</p>
+          you write &#123;&#123;customer.lastName}} or #{customer.lastName}, until you look at the Javascript code.</p>
           <p>On the AngularJS side, the bean attributes are added to the AngularJS scope. Hence there's a customer object,
           consisting of the first and last name, the date of birth and so on. For instance, you could use two AngularJS watches
           to suggest an email address:</p>

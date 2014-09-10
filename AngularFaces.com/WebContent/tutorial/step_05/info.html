@@ -7,11 +7,11 @@
           <p>To send an arbitrary JSF bean attribute to the client simply put
           a mustache in a comment:</p>
 <pre highlight class="xml">
-&lt;!-- { {grid.rows}} --></pre>
+&lt;!-- &#123;&#123;grid.rows}} --></pre>
           <p>The disadvantage of this approach is that the comment itself is sent to the client. It doesn't hurt,
           but it's not needed, either. So maybe it's a better idea to create an output text rendered by JSF:</p>
 <pre highlight class="xml">
-&lt;h:outputText value="{ {grid.rows}}" rendered="false" /></pre>
+&lt;h:outputText value="&#123;&#123;grid.rows}}" rendered="false" /></pre>
           <p>At first glance, this looks a bit weird. If works because JSF evaluates expressions even if the tag isn't rendered.</p>			
           </p>
           <h3>Complex beans</h3>
