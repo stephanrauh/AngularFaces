@@ -48,6 +48,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 			} else {
 				final UIViewRoot root = (UIViewRoot) source;
 				FindNGControllerCallback findNGControllerCallback = new FindNGControllerCallback();
+				System.out.println(((System.nanoTime() - timer) / 1000) / 1000.0d + " ms find NGControllerCallback");
 				final FacesContext context = FacesContext.getCurrentInstance();
 				root.visitTree(new FullVisitContext(context), findNGControllerCallback);
 				boolean ajaxRequest = context.getPartialViewContext().isAjaxRequest();
