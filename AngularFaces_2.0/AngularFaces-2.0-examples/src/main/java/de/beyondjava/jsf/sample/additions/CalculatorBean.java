@@ -26,24 +26,26 @@ import javax.validation.constraints.*;
 @ManagedBean
 @SessionScoped
 public class CalculatorBean implements Serializable {
-	String color = "#0F0";
+	private static final long serialVersionUID = 1L;
+
+	private String color = "#0F0";
 
 	@Min(7L)
 	@Max(50L)
 	@NotNull
-	int number1 = 42;
+	private int number1 = 42;
 
 	@Max(100L)
 	@Min(10L)
 	@NotNull
-	int number2 = 65;
+	private int number2 = 65;
 
 	@Max(100L)
 	@Min(10L)
 	@NotNull
-	int number3 = 33;
+	private int number3 = 33;
 
-	int sum = 0;
+	private int sum = 0;
 
 	public String add() {
 		sum = number1 + number2;
@@ -146,7 +148,7 @@ public class CalculatorBean implements Serializable {
 		return "Header text from Angular Model. The last calculation on the server side was " + number1 + " + " + number2 + " = " + sum;
 	}
 
-	public String getResultCapture() {
+	public String getResultCaption() {
 		return "result";
 	}
 

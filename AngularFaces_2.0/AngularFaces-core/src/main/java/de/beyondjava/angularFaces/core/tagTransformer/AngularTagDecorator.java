@@ -120,7 +120,6 @@ public class AngularTagDecorator implements TagDecorator {
 			modified.add(modifiedAttribute);
 		}
 		if (hasChanges) {
-			System.out.println(angularExpressions);
 			if (angularExpressions.length() > 0) {
 				TagAttribute af = TagAttributeUtilities.createTagAttribute(tag.getLocation(), PASS_THROUGH_NAMESPACE,
 						"angularfacesattributes", "p:angularfacesattribute", angularExpressions.substring(1));

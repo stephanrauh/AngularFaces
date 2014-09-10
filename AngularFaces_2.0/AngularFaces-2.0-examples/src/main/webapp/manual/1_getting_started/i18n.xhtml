@@ -18,11 +18,11 @@
 					<input type="number" jsf:value="{{calculatorBean.number1}}" />
 					<input type="number" jsf:value="{{calculatorBean.number2}}" />
 					<input type="number" jsf:value="{{calculatorBean.result}}"
-						label="#{calculatorBean.resultCapture}" />
+						label="#{calculatorBean.resultCaption}" />
 					<input type="number"
 						jsf:value="#{calculatorBean.serverSideResult}" />
 					<input type="number"
-						jsf:value="#{calculatorBean.randomNumberFromServer}" />
+						jsf:value="{{calculatorBean.randomNumberFromServer}}" />
 					<h:commandButton value="Add on server (AF AJAX)" 
 						action="#{calculatorBean.add}">
 						<f:ajax render="angular" execute="@form" />

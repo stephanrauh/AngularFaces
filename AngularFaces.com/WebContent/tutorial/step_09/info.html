@@ -20,7 +20,7 @@
     &lt;prime:inputText value="{ {calculatorBean.number1}}" />
     &lt;prime:inputText value="{ {calculatorBean.number2}}"/>
     &lt;prime:inputText value="{ {calculatorBean.result}}"
-           label="#{calculatorBean.resultCapture}" />
+           label="#{calculatorBean.resultCaption}" />
     &lt;prime:commandButton value="Add on server (JSF AJAX)"
            action="#{calculatorBean.add}" update="@form" process="@form" oncomplete="findNGAppAndReinitAngular(getElementById('myForm'))" />
   &lt;/prime:panelGrid>

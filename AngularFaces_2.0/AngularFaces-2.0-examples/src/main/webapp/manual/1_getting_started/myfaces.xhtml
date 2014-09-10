@@ -15,11 +15,11 @@
 				style="{{calculatorBean.gridStyle}}">
 				<br />This demo uses the traditional JSF 2.2 components.
 				<h:panelGrid columns="3">
-						<h:inputText value="#{calculatorBean.number1}" label="number1"/>
-						<h:inputText value="#{calculatorBean.number2}" />
-						<h:inputText value="#{calculatorBean.result}" label="#{calculatorBean.resultCapture}" />
-						<h:inputText value="#{calculatorBean.serverSideResult}"  />
-						<h:inputText value="#{calculatorBean.randomNumberFromServer}" id="random"  />
+						<h:inputText value="{{calculatorBean.number1}}" label="number1"/>
+						<h:inputText value="{{calculatorBean.number2}}" />
+						<h:inputText value="{{calculatorBean.result}}" />
+						<h:inputText value="{{calculatorBean.serverSideResult}}"  />
+						<h:inputText value="{{calculatorBean.randomNumberFromServer}}" id="random"  />
 					<h:commandButton value="Add on server (via AF-AJAX)"
 						action="#{calculatorBean.add}">
 						<f:ajax render="angular" execute="@form" />
@@ -31,6 +31,7 @@
 						<f:ajax render="@form" execute="@form" />
 					</h:commandButton>
 				</h:panelGrid>
+				Note that AngularJS doesn't recover after traditional AJAX requests. The PrimeFaces version of this JSF view doesn't have that problem.
 				<h:messages globalOnly="false" />
 			</h:panelGroup>
 		</h:form>
