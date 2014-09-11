@@ -21,10 +21,11 @@
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController" id="angular">
 		<form id="myForm" style="width:700px">
-			<h2>Welcome to AngularFaces 2.0!</h2>
-	   		Based firmly in the future...<br />
+			<h2><translate value="Welcome to AngularFaces 2.0!" /></h2>
+	   		<i18n value="Based firmly in the future..." /><br />
+	   		<ngsync value="{{carPool.carPool}}" direction="serverToClient" />
 
-			<table ng-table="tableParams" value="{{carPool.carPool}}"
+			<table ng-table="tableParams" 
 				export-csv="csv" show-filter="true"
 				class="table ng-table-responsive">
 				<tr ng-repeat="car in $data">
@@ -38,7 +39,7 @@
 						filter="{ 'color': 'watermark' }">{{car.color}}</td>
 				</tr>
 			</table>
-			<a class="btn btn-primary" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="fleet_of_cars.csv">Export to CSV</a>
+			<a class="btn btn-primary" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="fleet_of_cars.csv"><i18n value="Export to CSV" /></a>
 			<br /><br />
 			<small>The table widget is powered by <a target="#" href="http://bazalt-cms.com/ng-table/">ngtable</a>.</small>
 			<script type="text/javascript" src="main.js"></script>

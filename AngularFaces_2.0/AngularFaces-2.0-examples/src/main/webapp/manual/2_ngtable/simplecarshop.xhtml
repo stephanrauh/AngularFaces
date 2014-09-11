@@ -21,10 +21,11 @@
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController" id="angular">
 		<form id="myForm" style="width:700px">
-			<h2>Welcome to AngularFaces 2.0!</h2>
-	   		Based firmly in the future...<br />
+			<h2><translate value="Welcome to AngularFaces 2.0!" /></h2>
+	   		<i18n value="Based firmly in the future..." /><br />
+	   		<ngsync value="{{carPool.carPool}}" direction="serverToClient" />
 
-			<table ng-table="tableParams" value="{{carPool.carPool}}" 
+			<table ng-table="tableParams" 
 				class="table ng-table-responsive">
 				<tr ng-repeat="car in $data">
 					<td data-title="'Brand'" sortable="'brand'">{{car.brand}}</td>

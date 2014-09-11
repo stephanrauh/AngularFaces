@@ -45,6 +45,14 @@ public class AngularTagDecorator implements TagDecorator {
 			return newTag;
 		}
 
+		if ("translate".equals(tag.getLocalName()) || "i18n".equals(tag.getLocalName())) {
+			return convertToTranslateTag(tag, modifiedAttributes);
+		}
+
+		if ("ngsync".equals(tag.getLocalName())) {
+			return convertToNGSyncTag(tag, modifiedAttributes);
+		}
+
 		if ("input".equals(tag.getLocalName())) {
 			return convertToInputText(tag, modifiedAttributes);
 		}
@@ -67,12 +75,62 @@ public class AngularTagDecorator implements TagDecorator {
 		return "".equals(ns) || "http://www.w3.org/1999/xhtml".equals(ns);
 	}
 
-	private Tag convertToInputText(Tag tag, TagAttributes modifiedAttributes) {
-		TagAttribute[] attributes = modifiedAttributes.getAll();
-		TagAttribute[] moreAttributes = attributes;
-		TagAttributes more = new AFTagAttributes(moreAttributes);
-		Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "inputText", "h:inputText", more);
+	private Tag convertToInputText(Tag tag, TagAttributes attributeList) {
+		TagAttribute[] attributes = attributeList.getAll();
+		TagAttributes more = new AFTagAttributes(attributes);
+		Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "inputText", "inputText", more);
 		return t;
+	}
+
+	private Tag convertToTranslateTag(Tag tag, TagAttributes modifiedAttributes) {
+		TagAttribute[] attributes = modifiedAttributes.getAll();
+		TagAttributes more = new AFTagAttributes(attributes);
+		Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "outputText", "h:outputText", more);
+		return t;
+	}
+
+	private Tag convertToNGSyncTag(Tag tag, TagAttributes attributeList) {
+
+		TagAttribute[] attributes = attributeList.getAll();
+		TagAttribute[] newAttributes = new TagAttribute[attributes.length];
+		
+		int newLength=0;
+		String direction = "serverToClient";
+		for (int i = 0; i < attributes.length; i++) {
+			if ("value".equals(attributes[i].getLocalName()))
+			{
+				String angularExpression = attributes[i].getValue();
+				if (angularExpression.startsWith("#{")) {
+					angularExpression="{{" + angularExpression.substring(2, angularExpression.length()-1) + "}}";
+				}
+				TagAttribute af = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "angularfacesattributes",
+						"angularfacesattributes", angularExpression);
+				newAttributes[newLength++]=af;
+				
+			}
+			else if ("direction".equals(attributes[i].getLocalName())) {
+				direction = attributes[i].getValue();
+			}
+		}
+
+		if ("serverToClient".equalsIgnoreCase(direction)) {
+			TagAttribute hide = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "rendered", "rendered", "true");
+			newAttributes[newLength++] = hide;
+			newAttributes = Arrays.copyOf(newAttributes, newLength);
+			TagAttributes more = new AFTagAttributes(newAttributes);
+			Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "outputText", "outputText", more);
+			return t;
+		} else {
+			System.out.println("Synchronization of AngularJS scope back to the client has not been implemented yet.");
+
+			TagAttribute value = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "value", "value",
+					"Synchronization of AngularJS scope back to the client has not been implemented yet.");
+			newAttributes[newLength++] = value;
+			newAttributes = Arrays.copyOf(newAttributes, newLength);
+			TagAttributes more = new AFTagAttributes(newAttributes);
+			Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "outputText", "h:outputText", more);
+			return t;
+		}
 	}
 
 	private Tag generateTagIfNecessary(Tag tag, TagAttributes modifiedAttributes) {
@@ -98,7 +156,7 @@ public class AngularTagDecorator implements TagDecorator {
 				modifiedValue = modifiedValue.replace(exp, "#" + exp.substring(1, exp.length() - 1));
 				if ("value".equals(a.getLocalName())) {
 					TagAttribute modifiedAttribute = TagAttributeUtilities.createTagAttribute(a.getLocation(), PASS_THROUGH_NAMESPACE,
-							"ng-model", "p:ng-model", exp.substring(2, exp.length() - 2));
+							"ng-model", "ng-model", exp.substring(2, exp.length() - 2));
 					modified.add(modifiedAttribute);
 					if (!firstMatch) {
 						System.out.println("Tag " + tag.getQName() + " can't have multiple ng-models.");
@@ -121,8 +179,8 @@ public class AngularTagDecorator implements TagDecorator {
 		}
 		if (hasChanges) {
 			if (angularExpressions.length() > 0) {
-				TagAttribute af = TagAttributeUtilities.createTagAttribute(tag.getLocation(), PASS_THROUGH_NAMESPACE,
-						"angularfacesattributes", "p:angularfacesattribute", angularExpressions.substring(1));
+				TagAttribute af = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "angularfacesattributes",
+						"angularfacesattributes", angularExpressions.substring(1));
 				modified.add(0, af);
 			}
 			TagAttribute[] modifiedAttributeList = new TagAttribute[modified.size()];

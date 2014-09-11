@@ -82,7 +82,7 @@ public class PuiModelSync extends HtmlBody {
 			try {
 			String attribute = entry.getKey();
 			UIComponent comp = entry.getValue();
-			if (null != comp) {
+			if (null != comp && comp instanceof EditableValueHolder) {
 				Object value = ELTools.evalAsObject("#{" + attribute + "}");
 				Object valueToRender = getValueToRender(FacesContext.getCurrentInstance(), comp);
 				if (value!=null && valueToRender!=null && valueToRender instanceof String) {
