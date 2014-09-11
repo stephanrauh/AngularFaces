@@ -14,7 +14,7 @@
 		ng-app="AngularTetris">
 		<form>
 			<h3>AngularTetris</h3>
-			<h:outputText value="{{grid.rows}}" rendered="false" />
+            <ngsync value="{{grid.rows}}" direction="serverToClient" />
 			<h:panelGrid columns="4">
 				<h:panelGroup>
 					<div class="divTable" id="playground">

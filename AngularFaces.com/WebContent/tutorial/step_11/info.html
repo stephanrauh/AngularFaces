@@ -1,71 +1,50 @@
 
 <div>
-	<h1>Using native HTML tags</h1>
-	<p>The idea of the JSF 2.2 HTML5 dialect is to start with a native
-		HTML page, and to add a few JSF attributes to make it an JSF view.
-		AngularFaces take this idea to another level.</p>
-	<p>AngularFaces allows you to use these tags without a preceding
-		"h:", even if there's no "jsf:" attribute:</p>
-	<ul>
-		<li>&lt;head /&gt;   becomes &lt;h:head
-				/&gt;</li>
-		<li>&lt;body /&gt;   becomes &lt;h:body
-				/&gt;</li>
-		<li>&lt;form /&gt;   becomes &lt;h:form
-				/&gt;</li>
-		<li>&lt;label /&gt;  becomes &lt;h:outputLabel
-				/&gt;</li>
-		<li>&lt;button /&gt; becomes &lt;h:commandButton (unless it has a jsf:outcome attribute, which converts &lt;button /&gt; into a &lt;h:button&gt;).
-				/&gt;</li>
-		<li>&lt;input /&gt; can become many things, depending on the "type" attribute. AngularFaces 2.0 allows you to drop the "type" attribute. In this case,
-		the type is derived from the JSF beans type. Numeric datatypes become "text='number'", java.util.Date becomes "type='date", boolean turns the input field
-		into a check box and everything else becomes "type='text'".</li> 
-	</ul>
-	
-	<h3>How to activate the HTML-like syntax</h3>
-	<p>Other than the bulk of AngularFaces, you have to activate this feature manually by editing your applications web.xml:<p>
-	<pre class="xml">
-<?xml version="1.0" encoding="UTF-8"?>
-&lt;web-app ...>
-	...
-   &lt;context-param>
-     &lt;param-name>javax.faces.FACELETS_DECORATORS&lt;/param-name>
-     &lt;param-value>
-        de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator
-     &lt;/param-value>
-  &lt;/context-param>
-&lt;/web-app></pre>
-<h3>State of the art</h3>
-<p>This feature is still under development.</p>
-<h3>What it looks like</h3>
-	<p>It's astonishing how much tidier your JSF file looks:</p>
-	<pre class="xml">
-&lt;f:view xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:jsf="http://xmlns.jcp.org/jsf"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
-	&lt;head>
-		&lt;title>AngularFaces 2.0 Tetris demo&lt;/title>
-	&lt;/head>
-	&lt;body style="width:1000px" 
-	    ng-controller="AngularTetrisController"
-		ng-app="AngularTetris">
-		&lt;form>
-			&lt;h3>AngularTetris&lt;/h3>
-			&lt;h:panelGrid columns="3">
-				&lt;input jsf:value="&#123;&#123;settingsBean.numberOfColumns}}" />
-				&lt;input jsf:value="&#123;&#123;settingsBean.numberOfRows}}" />
-				&lt;input jsf:value="&#123;&#123;settingsBean.preview}}" />
-				&lt;input jsf:value="&#123;&#123;settingsBean.ignoreGravity}}" />
-			&lt;/h:panelGrid>
-		&lt;/form>
-	&lt;/body>
-&lt;/f:view>
-          </pre>
+  <h1>Using native HTML tags</h1>
+  <p>The idea of the JSF 2.2 HTML5 dialect is to start with a native HTML page, and to add a few JSF attributes to
+    make it an JSF view. AngularFaces take this idea to another level.</p>
+  <p>AngularFaces allows you to use these tags without a preceding "h:", even if there's no "jsf:" attribute:</p>
+  <ul>
+    <li>&lt;head /&gt; becomes &lt;h:head /&gt;</li>
+    <li>&lt;body /&gt; becomes &lt;h:body /&gt;</li>
+    <li>&lt;form /&gt; becomes &lt;h:form /&gt;</li>
+    <li>&lt;label /&gt; becomes &lt;h:outputLabel /&gt;</li>
+    <li>&lt;button /&gt; becomes &lt;h:commandButton (unless it has a "jsf:outcome" attribute, which converts
+      &lt;button /&gt; into an &lt;h:button&gt;). /&gt;</li>
+    <li>&lt;input /&gt; can become many things, depending on the "type" attribute. AngularFaces 2.0 allows you to
+      drop the "type" attribute. In this case, the type is derived from the JSF beans type. Numeric datatypes become
+      "text='number'", java.util.Date becomes "type='date", boolean turns the input field into a check box and
+      everything else becomes "type='text'".</li>
+  </ul>
 
-	<br /> <br /> <br />
+  <h3>What it looks like</h3>
+  <p>Even if it's only a handful of changes, it's astonishing how much tidier these few changes make your JSF file looks:</p>
+  <pre class="xml">
+&lt;f:view xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:jsf="http://xmlns.jcp.org/jsf"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
+  &lt;head>
+    &lt;title>AngularFaces 2.0 Tetris demo&lt;/title>
+  &lt;/head>
+  &lt;body style="width:1000px" 
+    ng-controller="AngularTetrisController"
+    ng-app="AngularTetris">
+    &lt;form>
+      &lt;h3>AngularTetris&lt;/h3>
+      &lt;h:panelGrid columns="3">
+        &lt;input jsf:value="&#123;&#123;settingsBean.numberOfColumns}}" />
+        &lt;input jsf:value="&#123;&#123;settingsBean.numberOfRows}}" />
+        &lt;input jsf:value="&#123;&#123;settingsBean.preview}}" />
+        &lt;input jsf:value="&#123;&#123;settingsBean.ignoreGravity}}" />
+      &lt;/h:panelGrid>
+    &lt;/form>
+  &lt;/body>
+&lt;/f:view></pre>
+
+  <br /> <br /> <br /> <br /> <br /> <br />
 
 
 
