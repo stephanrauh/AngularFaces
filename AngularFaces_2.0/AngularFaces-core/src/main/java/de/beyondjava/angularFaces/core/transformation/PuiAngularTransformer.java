@@ -47,14 +47,14 @@ public class PuiAngularTransformer implements SystemEventListener {
 						.println("Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters");
 			} else {
 				final UIViewRoot root = (UIViewRoot) source;
-				FindNGControllerCallback findNGControllerCallback = new FindNGControllerCallback();
+				FindNGControllerCallback ngControllerCallback = new FindNGControllerCallback();
 				System.out.println(((System.nanoTime() - timer) / 1000) / 1000.0d + " ms find NGControllerCallback");
 				final FacesContext context = FacesContext.getCurrentInstance();
-				root.visitTree(new FullVisitContext(context), findNGControllerCallback);
+				root.visitTree(new FullVisitContext(context), ngControllerCallback);
 				boolean ajaxRequest = context.getPartialViewContext().isAjaxRequest();
 				boolean postback = context.isPostback();
 				boolean isProduction = context.isProjectStage(ProjectStage.Production);
-				PuiModelSync c = findNGControllerCallback.getPuiModelSync();
+				PuiModelSync c = ngControllerCallback.getPuiModelSync();
 				if (true) {
 					addJavascript(root, context, isProduction);
 					// time("extract AngularJS expressions", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context),
@@ -64,6 +64,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 							root.visitTree(new FullVisitContext(context), new AddNGModelAndIDCallback());
 						}
 					});
+					if (ngControllerCallback.isAddLabels()) {
 					final AddLabelCallback labelDecorator = new AddLabelCallback();
 					time("add labels", new Runnable() {
 						public void run() {
@@ -72,16 +73,19 @@ public class PuiAngularTransformer implements SystemEventListener {
 					});
 					System.out.println("AJAX: " + ajaxRequest + " Postback: " + postback + " duplicate Labels: "
 							+ labelDecorator.duplicateLabels);
+					}
 					time("add type information", new Runnable() {
 						public void run() {
 							root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback());
 						}
 					});
+					if (ngControllerCallback.isAddMessages()) {
 					time("add messages", new Runnable() {
 						public void run() {
 							root.visitTree(new FullVisitContext(context), new AddMessagesCallback());
 						}
 					});
+					}
 					if (!ajaxRequest) {
 						time("internationalization", new Runnable() {
 							public void run() {

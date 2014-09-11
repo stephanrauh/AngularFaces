@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  id="WebApp_ID" version="2.5">
   <display-name>LabelComponent Demo</display-name>
   <welcome-file-list>
     <welcome-file>index.jsf</welcome-file>
@@ -17,4 +19,11 @@
     <param-name>javax.faces.PROJECT_STAGE</param-name>
     <param-value>Development</param-value>
   </context-param>
+  <context-param>
+    <param-name>javax.faces.FACELETS_DECORATORS</param-name>
+    <param-value>
+        de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator
+     </param-value>
+  </context-param>
+
 </web-app>

@@ -16,8 +16,9 @@
 &lt;/prime:panel>
     </pre>
     <p>To make the tabular layout visible, the examples on this page deliberately draw lines around the grid cells.</p>
-    <p>That's one input field, but three JSF components. Before the invention of @next and @previous, you have to add ids to assign the label and the message
-    to the input field. In fact, you still have to do this unless you're using PrimeFaces.</p>
+    <p>That's two input fields, but six JSF components. Before the invention of @next and @previous, you also had to add ids to assign the label and the message
+    to the input field. In fact, you still have to do so unless you're using PrimeFaces. Among other things, the ids make
+    copying and pasting input fields a pain.</p>
     <p>AngularFaces automatically adds the label and the error message to input fields. The label attribute of the input field is taken as the label caption:</p>
 
     <img src="tutorial/step_01/useLabelAttribute.png" />
@@ -46,7 +47,7 @@
 </pre>
 
     <h3>How to prepare the project</h3>
-    <p>As of AngularFaces 2.0 RC3, automatic addition of labels and messages requires a little preparation:
+    <p>As of AngularFaces 2.0, automatic addition of labels and messages requires a little preparation:
     <ul>
       <li>Add two attributes to &lt;h:body&gt;:
     <pre class="xml">
@@ -69,7 +70,7 @@ angular.module("AngularFacesExamples", [ "angularfaces" ]);
 </pre>
 
     
-    <h3>An entire JSF file</h3>
+    <h3>The entire JSF file</h3>
     For the sake of convienience, here's the complete JSF file:
     <pre class="xml">
 &lt;f:view xmlns="http://www.w3.org/1999/xhtml"
@@ -97,13 +98,14 @@ angular.module("AngularFacesExamples", [ "angularfaces" ]);
 &lt;/f:view>
 </pre>
     <h3>Layouting labels and messages</h3>
-    <p>As of AngularFaces 2.0 RC3 labels always preceed their input field. Messages always follow the input field. That's why the example uses a PrimeFaces panel grid
-      with columns="3": The input field is accomponied by two components that are added automatically to the JSF view.</p>
-      <p>  In a future version, AngularFaces is going to
+    <p>AngularFaces 2.0 takes a simplistic approach: labels always precede their input field, and messages always follow the input field. That's why the example uses a PrimeFaces panel grid
+      with columns="3": The input field is accompanied by two components that are added automatically to the JSF view.</p>
+      <p>In a future version, AngularFaces is going to
       have more flexibility (such as putting labels above and messages below the input field).</p> 
       <h3>Supressing automatic generation of labels and messages</h3>
       <p>There are two ways to influence the creation of labels and messages:</p>
-      <p>First, you can switch off the automatical creation of labels and messages by adding an attribute to &lt;h:body&gt;.
+      <p>First, you can switch off the automatical creation of labels and messages by adding an attribute to &lt;h:body&gt;
+      (or &lt;h:body&gt; if you prefer the relaxed syntax of AngularFaces).
       <ul>
       <li>addlabels="false" suppresses the automatical creation of labels for the entire JSF view.</li>
       <li>addmessages="false" suppresses the automatical creation of messages for the entire JSF view.</li>
