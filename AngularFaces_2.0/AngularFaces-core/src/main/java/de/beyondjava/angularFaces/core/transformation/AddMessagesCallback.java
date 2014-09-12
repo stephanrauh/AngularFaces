@@ -27,6 +27,7 @@ import javax.faces.component.visit.VisitResult;
 
 import de.beyondjava.angularFaces.components.puiMessage.PuiMessage;
 
+/** Adds a message to a single component (if needed). */
 public class AddMessagesCallback implements VisitCallback {
 	int duplicateLabels = 0;
 

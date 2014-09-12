@@ -25,6 +25,7 @@ import javax.faces.component.html.HtmlMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+/** This error message is generated mostly on the client. */
 public class PuiMessage extends HtmlMessage {
 	@Override
 	public void encodeBegin(FacesContext context) throws IOException {

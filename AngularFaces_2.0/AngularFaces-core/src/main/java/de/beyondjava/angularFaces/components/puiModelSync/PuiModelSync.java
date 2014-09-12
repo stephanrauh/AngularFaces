@@ -41,7 +41,7 @@ import com.google.gson.Gson;
 import de.beyondjava.angularFaces.core.ELTools;
 
 /**
- * PuiBody is an HtmlBody that activates the AngularDart framework.
+ * PuiBody is an HtmlBody that activates the AngularJS/AngularDart framework.
  */
 @FacesComponent("de.beyondjava.kendoFaces.puiBody.PuiBody")
 public class PuiModelSync extends HtmlBody {

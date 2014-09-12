@@ -30,6 +30,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+/** Translates a text to the user's preferred language. */
 @ManagedBean
 @SessionScoped
 public class I18n implements Serializable {

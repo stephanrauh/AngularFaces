@@ -29,6 +29,10 @@ import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributes;
 import javax.faces.view.facelets.TagDecorator;
 
+/** This is one of the most important classes of AngularFaces. It converts attributes
+ * to pass-through parameters, adds them to the list of JSF bean to be synchronized
+ * with the client and implements a couple of pseudo JSF tags.
+ */
 public class AngularTagDecorator implements TagDecorator {
 	private static boolean active = false;
 	private static final String PASS_THROUGH_NAMESPACE = "http://xmlns.jcp.org/jsf/passthrough";

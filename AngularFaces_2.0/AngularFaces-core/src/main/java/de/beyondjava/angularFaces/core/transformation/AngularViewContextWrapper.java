@@ -36,6 +36,7 @@ import javax.faces.render.ResponseStateManager;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 
+/** This class generate the optimized AngularFaces AJAX response. */
 public class AngularViewContextWrapper extends PartialViewContextWrapper {
 
 	private static final String ORIGINAL_WRITER = "com.sun.faces.ORIGINAL_WRITER";

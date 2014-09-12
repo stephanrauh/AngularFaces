@@ -29,6 +29,7 @@ import javax.faces.component.visit.VisitHint;
 import javax.faces.component.visit.VisitResult;
 import javax.faces.context.FacesContext;
 
+/** Tells JSF to visit every node of the JSF component tree. */
 public class FullVisitContext extends VisitContext {
 
     /**

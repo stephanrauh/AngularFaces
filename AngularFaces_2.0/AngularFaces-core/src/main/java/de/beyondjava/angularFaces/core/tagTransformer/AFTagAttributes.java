@@ -77,6 +77,7 @@ package de.beyondjava.angularFaces.core.tagTransformer;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* Portions Copyright [2014] [Stephan Rauh] */
 
 import java.util.ArrayList;
 import java.util.Arrays;

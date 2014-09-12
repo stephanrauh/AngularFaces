@@ -25,6 +25,7 @@ import javax.faces.component.visit.VisitResult;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 
+/** Looks for the AngularJS application and controller tags. */
 public class FindNGControllerCallback implements VisitCallback {
 	
 	private PuiModelSync puiModelSync=null;

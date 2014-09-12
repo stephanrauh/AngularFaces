@@ -33,6 +33,7 @@ import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.NGWordUtiltites;
 import de.beyondjava.angularFaces.core.i18n.I18n;
 
+/** Adds a label to a single component (if needed). */
 public class AddLabelCallback implements VisitCallback {
 	I18n i18n = null;
 

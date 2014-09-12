@@ -18,6 +18,7 @@ package de.beyondjava.angularFaces.core.transformation;
 
 import javax.faces.component.UIComponent;
 
+/** Finds attributes, no matter whether they are regular or pass-through attributes. */
 public class AttributeUtilities {
 	/** Apache MyFaces make HMTL attributes of HTML elements pass-through-attributes.
 	 * This method finds the attribute, no matter whether it is stored as an

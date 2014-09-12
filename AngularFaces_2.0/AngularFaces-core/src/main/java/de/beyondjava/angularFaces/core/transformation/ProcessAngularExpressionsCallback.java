@@ -26,6 +26,7 @@ import javax.faces.component.visit.VisitResult;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 
+/** Special treatment of ng-repeat statements containing JSF attributes. */
 public class ProcessAngularExpressionsCallback implements VisitCallback {
 
 	private final static Pattern angularExpression = Pattern.compile("\\{\\{([A-Z]|[a-z]|\\.)+\\}\\}");

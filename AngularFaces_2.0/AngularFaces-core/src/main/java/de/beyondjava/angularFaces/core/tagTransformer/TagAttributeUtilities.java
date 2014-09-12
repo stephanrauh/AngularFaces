@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import javax.faces.view.Location;
 import javax.faces.view.facelets.TagAttribute;
 
+/** Create a tag attribute by means of reflection (so that they work with both Mojarra and MyFaces). */
 public class TagAttributeUtilities {
     public static TagAttribute createTagAttribute(Location location, String ns, String myLocalName, String qName, String value) {
     	try {

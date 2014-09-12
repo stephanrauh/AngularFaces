@@ -26,6 +26,7 @@ import javax.faces.component.visit.VisitResult;
 import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.i18n.I18n;
 
+/** Translate texts store in a component. */
 public class TranslationCallback implements VisitCallback {
 	I18n i18n = null;
 

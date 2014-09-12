@@ -27,6 +27,7 @@ import javax.faces.component.visit.VisitResult;
 import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.NGBeanAttributeInfo;
 
+/** Brings JSR 303 annotations to the client. */
 public class AddTypeInformationCallback implements VisitCallback {
 
 	@Override

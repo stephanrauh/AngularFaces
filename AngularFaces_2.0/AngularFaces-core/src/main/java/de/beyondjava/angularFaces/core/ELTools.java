@@ -36,6 +36,7 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.beanutils.BeanUtilsBean2;
 
+/** Collection of helper methods dealing with the JSF Expression language. */
 public class ELTools {
 	private static Map<String, NGBeanAttributeInfo> beanAttributeInfos = new HashMap<String, NGBeanAttributeInfo>();
 

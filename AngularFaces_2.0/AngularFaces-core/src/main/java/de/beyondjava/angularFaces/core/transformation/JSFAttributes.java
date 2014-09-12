@@ -16,7 +16,7 @@
  */
 package de.beyondjava.angularFaces.core.transformation;
 
-
+/** This is a list of every JSF attribute used in PrimeFaces. May be needed for future reference. */
 public class JSFAttributes {
 	public static final String jsfAttributes[] = { "accept", "accesskey", "action", "actionListener", "activeIndex", "activeStyleClass",
 			"addAllLabel", "addLabel", "addLine", "addTo", "ajax", "align", "allDaySlot", "allowTypes", "alt", "animate", "appendTo",

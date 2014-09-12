@@ -22,6 +22,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.expression.SearchExpressionResolver;
 
+/** Adds the pseudo-id @angular. */
 public class AngularExpressionResolver implements SearchExpressionResolver {
 
 	@Override

@@ -22,6 +22,7 @@ import javax.faces.context.PartialViewContextFactory;
 
 import org.primefaces.expression.SearchExpressionResolverFactory;
 
+/** Helper class */
 public class AngularViewContextWrapperFactory extends PartialViewContextFactory {
 	static {
 		SearchExpressionResolverFactory.registerResolver("@angular", new AngularExpressionResolver());
