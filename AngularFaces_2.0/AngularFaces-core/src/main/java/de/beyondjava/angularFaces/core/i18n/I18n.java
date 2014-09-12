@@ -27,23 +27,23 @@ import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 
 /** Translates a text to the user's preferred language. */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class I18n implements Serializable {
 	private static final long serialVersionUID = 1L;
 	Locale locale;
 	HashMap<String, String> translations = new HashMap<String, String>();
 	String json = "";
-	
+
 	@PostConstruct
 	public void loadMessageBundles() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		locale =context.getExternalContext().getRequestLocale();
-//		locale = context.getViewRoot().getLocale();
+		locale = context.getExternalContext().getRequestLocale();
+		// locale = context.getViewRoot().getLocale();
 		String language = locale.getLanguage();
 		String country = locale.getCountry();
 		InputStream i18n = getClass().getClassLoader().getResourceAsStream("i18n_" + language + "_" + country + ".properties");
@@ -57,23 +57,16 @@ public class I18n implements Serializable {
 			i18n = getClass().getClassLoader().getResourceAsStream("i18n_en.properties");
 		}
 		if (null != i18n) {
-			String i18nContents=slurp(i18n, 4096);
-			if (null != i18nContents)
-			{
+			String i18nContents = slurp(i18n, 4096);
+			if (null != i18nContents) {
 				String[] lines = i18nContents.split("\n");
-				for (String line:lines) {
-					int pos = line.indexOf("=");
-					if (pos > 0) {
-						String english = line.substring(0, pos).trim();
-						String translation = line.substring(pos+1).trim();
-						if (translation.startsWith("\"") && translation.endsWith("\"")) translation=translation.substring(1, translation.length()-1);
-						this.translations.put(english, translation);
-						json+= ", \"" + english + "\"" + "," + "\"" + translation + "\"";
-					}
+				for (String line : lines) {
+					json = convertPropertyFileLineToJSon(line, json);
 				}
-				if (json.length()>1)
-				json = "{" + json.substring(1) + "}";
-				else json="{}";
+				if (json.length() > 1)
+					json = "{" + json.substring(1) + "}";
+				else
+					json = "{}";
 			}
 			try {
 				i18n.close();
@@ -82,44 +75,88 @@ public class I18n implements Serializable {
 			}
 		}
 	}
-	
+
+	/** Note this method has a side effect - it also fills the HashMap of translations. */
+	private String convertPropertyFileLineToJSon(String line, String json) {
+		String l = line.trim();
+		boolean inString = l.startsWith("\"");
+		String english;
+		String rest;
+		if (inString) {
+			boolean esc = false;
+			int i = 1;
+			for (; i < l.length(); i++) {
+				if (esc)
+					esc = false;
+				else if (l.charAt(i) == '\\')
+					esc = true;
+				else if (l.charAt(i) == '\"') {
+					i++;
+					break;
+				}
+			}
+			english = l.substring(1, i - 1).replace("\\\"", "\"");
+			rest = l.substring(i).trim();
+		} else {
+			int pos = l.indexOf('=');
+			english = l.substring(0, pos).trim();
+			rest = l.substring(pos);
+		}
+		if (!rest.startsWith("=")) {
+			System.out.println("Illegal line in translation file");
+		} else {
+			String translation;
+			rest = rest.substring(1).trim();
+			if (rest.startsWith("\"")) {
+				int pos = rest.lastIndexOf("\"");
+				if (pos > 1)
+					translation = rest.substring(1, pos).replace("\\\"", "\"").trim();
+				else
+					translation = rest.replace("\\\"", "\""); // treat incorrect string gracefully
+			} else
+				translation = rest;
+			this.translations.put(english, translation);
+			json += ", \"" + english + "\"" + "," + "\"" + translation + "\"";
+		}
+		return json;
+	}
+
 	public String getMessageBundleAsJSon() {
 		return json;
 	}
-	
+
 	/** copied from http://stackoverflow.com/questions/309424/read-convert-an-inputstream-to-a-string */
-	public static String slurp(final InputStream is, final int bufferSize)
-	{
-	  final char[] buffer = new char[bufferSize];
-	  final StringBuilder out = new StringBuilder();
-	  try {
-	    final Reader in = new InputStreamReader(is, "UTF-8");
-	    try {
-	      for (;;) {
-	        int rsz = in.read(buffer, 0, buffer.length);
-	        if (rsz < 0)
-	          break;
-	        out.append(buffer, 0, rsz);
-	      }
-	    }
-	    finally {
-	      in.close();
-	    }
-	  }
-	  catch (UnsupportedEncodingException ex) {
-	    /* ... */
-	  }
-	  catch (IOException ex) {
-	      /* ... */
-	  }
-	  return out.toString();
+	public static String slurp(final InputStream is, final int bufferSize) {
+		final char[] buffer = new char[bufferSize];
+		final StringBuilder out = new StringBuilder();
+		try {
+			final Reader in = new InputStreamReader(is, "UTF-8");
+			try {
+				for (;;) {
+					int rsz = in.read(buffer, 0, buffer.length);
+					if (rsz < 0)
+						break;
+					out.append(buffer, 0, rsz);
+				}
+			} finally {
+				in.close();
+			}
+		} catch (UnsupportedEncodingException ex) {
+			/* ... */
+		} catch (IOException ex) {
+			/* ... */
+		}
+		return out.toString();
 	}
-	
+
 	public String translate(String english) {
-		if (null==translations || translations.isEmpty()||english==null) return english;
-		if (translations.containsKey(english)) return translations.get(english);
-		english=english.trim();
-		if (translations.containsKey(english)) return translations.get(english);
+		if (null == translations || translations.isEmpty() || english == null)
+			return english;
+		if (translations.containsKey(english))
+			return translations.get(english);
+		english = english.trim();
+		if (translations.containsKey(english))
+			return translations.get(english);
 		return english;
 	}
 }
