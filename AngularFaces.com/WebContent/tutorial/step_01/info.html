@@ -135,9 +135,19 @@ angular.module("AngularFacesExamples", [ "angularfaces" ]);
 &lt;/tr></pre>
     <img src="tutorial/step_01/primepuimessage.png">
 
+    <h3>The &lt;puilabel /&gt;</h3>
+    <p>Suppressing the automatic generation of labels doesn't break client side bean validation, but it also has a side effect. AngularFaces doesn't generate standard
+    JSF or PrimeFaces labels, but &lt;puilabel&gt; that are partially created on the client side. They mimick the look and field of the host JSF framework,
+    but they are also colored red if AngularJS considers the input field invalid. Standard JSF or PrimeFaces labels change their color only after an AJAX request
+    (unless you activate the Client Side Validation feature of PrimeFaces 4+).</p>
+    <p> 
+
     <h3>Example project on GitHub</h3>
     Check out the demo project at <a href="https://github.com/stephanrauh/AngularFaces/tree/master/Tutorial/step_01_labels_and_messages">https://github.com/stephanrauh/AngularFaces/tree/master/Tutorial/step_01_labels_and_messages</a>.
     <br />
     <br />
     <br />
     <br />
+    <br />
+    <br />
+    

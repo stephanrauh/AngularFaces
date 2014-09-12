@@ -1,9 +1,11 @@
-        <div>
-          <h1>Automatic translation to foreign languages</h1>
-          <p>AngularFaces 2.0 has been designed with foreign language support in mind. JSF always included support for internationalization,
-          but it requires a lot of boilerplate code.</p>
-          <p>Let's return to the car shop customer form:</p>
-          <pre class="xml">
+
+<div>
+	<h1>Automatic translation to foreign languages</h1>
+	<p>AngularFaces 2.0 has been designed with foreign language support
+		in mind. JSF always included support for internationalization, but it
+		requires a lot of boilerplate code.</p>
+	<p>Let's return to the car shop customer form:</p>
+	<pre class="xml">
 &lt;prime:panel header="Contact information">
   &lt;prime:panelGrid columns="3">
     &lt;prime:inputText value="#{customer.lastName}" />
@@ -15,16 +17,21 @@
   &lt;prime:commandButton value="save" update="angular" action="#{customer.save}" />
 &lt;/prime:panel>
           </pre>
-          <p>This translates to a nice English version. Well, usually there are a few glitches which can be ignored 
-          while your project is in its prototype phase. By the way, you can cure the glitches by providing an
-          English language file. Be that as it may, we chose the bean attribute name with de-camel-casing in mind,
-          so our JSF view renders correct English labels:</p>
-          <img src="tutorial/step_02/carshop_english.png">
-          <p>To expand to international markets, you'll have to provide translations to the texts. AngularFaces makes it very easy to do so.</p>
-          
-          <h3>Preparing your project</h3>
-          <p>First you have to add the list of supported languages to the faces-config.xml. That's just the same procedure as in traditional JSF programming:</p>
-          <pre class="xml">
+	<p>This translates to a nice English version. Well, usually there
+		are a few glitches which can be ignored while your project is in its
+		prototype phase. By the way, you can cure the glitches by providing an
+		English language file. Be that as it may, we chose the bean attribute
+		name with de-camel-casing in mind, so our JSF view renders correct
+		English labels:</p>
+	<img src="tutorial/step_02/carshop_english.png">
+	<p>To expand to international markets, you'll have to provide
+		translations to the texts. AngularFaces makes it very easy to do so.</p>
+
+	<h3>Preparing your project</h3>
+	<p>First you have to add the list of supported languages to the
+		faces-config.xml. That's just the same procedure as in traditional JSF
+		programming:</p>
+	<pre class="xml">
 &lt;?xml version="1.0" encoding="utf-8"?>
 &lt;faces-config xmlns="http://java.sun.com/xml/ns/javaee"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -39,26 +46,43 @@
   &lt;/application>
 &lt;/faces-config>          
 </pre>
-          <p>The next step is to define the language files. It's also the last step :).</p>
-          <p>The language files resemble the standard JSF language files. They are property files that have to be in the root folder
-          of your classpath. AngularFaces uses a fixed name: it's always "i18n.properties". You can configure that differently (which is good,
-          because you don't have to configure it in the first place).</p>
-          <p>More precisely, AngularFaces looks for the property files in the same folders JSF does:</p>
-          <p>
-          <ul><li>First, it looks for a file specific to your language and country, such as "i18n_de_at.properties" for Austrian German.</li>
-          <li>If there's no such file matching your browser's locale settings, it looks for a file specific to your default language, such as
-          "i18n_de.properties" for German (no matter which of the German speaking countries you are from).</li>
-          <li>If there's still no such file, AngularFaces simply uses "i18n.properties". By default, this file is assumed to be the English version,
-          although you are free to use a different language if you insist.</li>
-          <li>If the "i18n.properties" file is also missing, AngularFaces displays the original text. So in most cases, there's no need to provide
-          an "i18n.properties" file containing the English translation. However, you can use this file to fix the glitches caused by the
-          automatic "de-camel-casing" algorithm which guesses labels from JSF bean attribute names.</li>
-          </ul>
-          <h3>The language files</h3>
-          <p>The language files drop several of the constraints give by standard JSF. You can use arbitrary keys. The idea is to simply use the 
-          original texts as keys. In a few cases you have to add extra attributes to get rid of ambiguous translations, but in most cases this
-          approach works surprisingly good. The german translation file of our example looks like so:<p>
-          <pre class="xml">
+	<p>The next step is to define the language files. It's also the
+		last step :).</p>
+	<p>The language files resemble the standard JSF language files.
+		They are property files that have to be in the root folder of your
+		classpath. AngularFaces uses a fixed name: it's always
+		"i18n.properties". You can configure that differently (which is good,
+		because you don't have to configure it in the first place).</p>
+	<p>More precisely, AngularFaces looks for the property files in the
+		same folders JSF does:</p>
+	<p>
+	<ul>
+		<li>First, it looks for a file specific to your language and
+			country, such as "i18n_de_at.properties" for Austrian German.</li>
+		<li>If there's no such file matching your browser's locale
+			settings, it looks for a file specific to your default language, such
+			as "i18n_de.properties" for German (no matter which of the German
+			speaking countries you are from).</li>
+		<li>If there's still no such file, AngularFaces simply uses
+			"i18n.properties". By default, this file is assumed to be the English
+			version, although you are free to use a different language if you
+			insist.</li>
+		<li>If the "i18n.properties" file is also missing, AngularFaces
+			displays the original text. So in most cases, there's no need to
+			provide an "i18n.properties" file containing the English translation.
+			However, you can use this file to fix the glitches caused by the
+			automatic "de-camel-casing" algorithm which guesses labels from JSF
+			bean attribute names.</li>
+	</ul>
+	<h3>The language files</h3>
+	<p>The language files drop several of the constraints give by
+		standard JSF. You can use arbitrary keys. The idea is to simply use
+		the original texts as keys. In a few cases you have to add extra
+		attributes to get rid of ambiguous translations, but in most cases
+		this approach works surprisingly good. The german translation file of
+		our example looks like so:
+	<p>
+	<pre class="xml">
 Car shop - customer contact information=Kontaktinformation
 Contact information=Ihre Anschrift
 last name=Nachname
@@ -68,38 +92,79 @@ email address=E-Mail-Adresse
 i agree to the terms and conditions="Ich habe die AGBs gelesen und akzeptiert."
 save=Speichern
 </pre>
-          <p>You may or may not surround keys and translations with double quotes. Quotes are useful if the texts contain an "equals" sign.</p>
-          <h3>How to modify your JSF file to benefit from the translation files</h3>
-          Now, that's the nice part of AngularFaces: you don't have to do anything to make your JSF files multiligual. Adding the language files and
-          configuring the faces-config.xml is all you have to do to make the contact form look like this:<p>
-          <img src="tutorial/step_02/carshop_german.png" />
-          <img src="tutorial/step_02/carshop_spanish.png" />
-          
-          <p>Which language is rendered depends on the locale setting of the users browsers. Putting it in a nutshell, every customer of yours' will see
-          the JSF page in their language.</p>
-          <h3>Special cases</h3>
-          <p>Currently, there are only three JSF attributes that are translated automatically:
-          <ul>
-          <li>value (unless it contains an JSF EL expression or an AngularJS mustache)</li>
-          <li>header</li>
-          <li>headerText</li>
-          </ul>
-          This list will grow over time, but there's a class of texts AngularFaces can't translate automatically.
-          Simple texts that aren't part of a JSF component are invisible to JSF and to AngularFaces in particular.
-          To solve the problem, there are two tags to force translation:
-          <ul><li>&lt;translate value="Translate me!" /&gt;</li>
-          <li>&lt;i18n value="Me, too!" /&gt;</li>
-          </ul>
-          Both tags are synonyms. AngularFaces supports them both because i18n is shorter and used by
-          many, many developers, but &lt;translate&gt; adds more clarity to the code.
-          </p>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
+	<p>You may or may not surround keys and translations with double
+		quotes. Quotes are useful if the texts contain an "equals" sign.</p>
+	<h3>How to modify your JSF file to benefit from the translation
+		files</h3>
+	Now, that's the nice part of AngularFaces: you don't have to do
+	anything to make your JSF files multiligual. Adding the language files
+	and configuring the faces-config.xml is all you have to do to make the
+	contact form look like this:
+	<p>
+		<img src="tutorial/step_02/carshop_german.png" /> <img
+			src="tutorial/step_02/carshop_spanish.png" />
+	<p>Which language is rendered depends on the locale setting of the
+		users browsers. Putting it in a nutshell, every customer of yours'
+		will see the JSF page in their language.</p>
+	<h3>Special cases</h3>
+	<p>Currently, there are rougly fourty JSF attributes that are
+		translated automatically:
+	<ul>
+		<li>value (unless it contains an JSF EL expression or an
+			AngularJS mustache)</li>
+		<li>header</li>
+		<li>headerText</li>
+		<li>addLabel</li>
+		<li>addAllLabel</li>
+		<li>cancelLabel</li>
+		<li>closeTitle</li>
+		<li>collapseTitle</li>
+		<li>converterMessage</li>
+		<li>empty Label</li>
+		<li>expandTitle</li>
+		<li>fileLimitMessage</li>
+		<li>goodLabel</li>
+		<li>iframeTitle</li>
+		<li>invalidFileMessage</li>
+		<li>invalidSizeMessage</li>
+		<li>itemLabel</li>
+		<li>label</li>
+		<li>menuTitle</li>
+		<li>message</li>
+		<li>moveButtomLabel</li>
+		<li>moveDownLabel</li>
+		<li>moveUpLabel</li>
+		<li>moveTopLabel</li>
+		<li>removeAllLabel</li>
+		<li>removeLabel</li>
+		<li>removeFrom</li>
+		<li>removeLabel</li>
+		<li>requiredMessage</li>
+		<li>resizeTitle</li>
+		<li>saveLabel</li>
+		<li>summary</li>
+		<li>titletip</li>
+		<li>toggleTitle</li>
+		<li>tooltip</li>
+		<li>uploadLabel</li>
+		<li>validatorMessage</li>
+		<li>welcomeMessage</li>
+	</ul>
+	Even that long list may grow over time, but there's a class of texts
+	AngularFaces can't translate automatically. Simple texts that aren't
+	part of a JSF component are invisible to JSF and to AngularFaces in
+	particular. To solve the problem, there are two tags to force
+	translation:
+	<ul>
+		<li>&lt;translate value="Translate me!" /&gt;</li>
+		<li>&lt;i18n value="Me, too!" /&gt;</li>
+	</ul>
+	Both tags are synonyms. AngularFaces supports them both because i18n is
+	shorter and used by many, many developers, but &lt;translate&gt; adds
+	more clarity to the code.
+	</p>
+	<br /> <br /> <br /> <br /> <br /> <br />
 
 
 
-        </div>
+</div>
