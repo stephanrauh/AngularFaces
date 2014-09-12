@@ -29,6 +29,7 @@ import javax.faces.component.visit.VisitResult;
 
 import org.primefaces.component.outputlabel.OutputLabel;
 
+import de.beyondjava.angularFaces.components.puiLabel.PuiLabel;
 import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.NGWordUtiltites;
 import de.beyondjava.angularFaces.core.i18n.I18n;
@@ -85,18 +86,8 @@ public class AddLabelCallback implements VisitCallback {
 					}
 
 					HtmlOutputLabel label;
-					if (kid.getClass().getName().contains("primefaces")) {
-						try {
-							Class labelClass=Class.forName("org.primefaces.component.outputlabel.OutputLabel");
-							Constructor c = labelClass.getConstructor();
-							label = (HtmlOutputLabel) c.newInstance();
-						} catch (ReflectiveOperationException error) {
-							System.out.println("Couldn't create PrimeFaces OutputLabel: " + error);
-							label = new HtmlOutputLabel();
-						}
-					} else {
-						label = new HtmlOutputLabel();
-					}
+					label = new PuiLabel();
+					label.getPassThroughAttributes().put("af-for", kid.getClientId());
 					label.setFor(kid.getId());
 					if (null != caption) {
 						label.setValue(translate(caption));

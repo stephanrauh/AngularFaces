@@ -16,19 +16,18 @@ app.directive('puimessage', function($compile) {
     				$scope.servermessage=$element.attr("servermessage");
     				
     				
-    				var name = $scope.myField.name;
-    				
-    				var p = $scope.myField.parentElement;
-    				var count=1;
-    				while (null != p)
-    				{
-    					var pname = p.name;
-    					if (pname) {
-    						name = pname + "." + name;
-    					}
-    					p=p.parentElement;
-    				}
-    				$scope.prefix=name;
+//    				var name = $scope.myField.name;
+//    				var p = $scope.myField.parentElement;
+//    				var count=1;
+//    				while (null != p)
+//    				{
+//    					var pname = p.name;
+//    					if (pname) {
+//    						name = pname + "." + name;
+//    					}
+//    					p=p.parentElement;
+//    				}
+//    				$scope.prefix=name;
     				$scope.serverMessageVisible = function() {
 						if ($scope.myField.hasClass("pristine")) {
 							return "true";
@@ -87,7 +86,7 @@ app.directive('puimessage', function($compile) {
 						return ($scope.myField.hasClass("ng-invalid"));
     				};
     				$scope.getTemplate = function() {
-    					var t='<span>{{message()}}</span>';
+    					var t='<span class="ui-state-error-text">{{message()}}</span>';
     					if ($scope.primefaces) {
     						t='<div ng-show="hasMessage()" class="ui-messages-error ui-corner-all"><span class="ui-messages-error-icon"></span><span class="ui-messages-error-summary">{{message()}}</span></div>';
     					}
@@ -101,6 +100,44 @@ app.directive('puimessage', function($compile) {
     replace: true
 	};
 });
+
+app.directive('puilabel', function($compile) {
+	  return {
+	    restrict: 'E',
+	    transclude: true,
+	    scope: {},
+	    controller: function($scope, $element) {
+	    				$scope.label=$element.attr('label');
+	    				var fieldId = $element.attr('af-for');
+	    				if (fieldId) {
+	    					fieldId=fieldId.replace(":", "\\:");
+	    				}
+	    				$scope.primefaces="true" == $element.attr('primefaces');
+	    				$scope.af_for=fieldId;
+	    				$scope.myField = $("[name='"+$scope.af_for+"']");
+
+	    				$scope.errorClass= function() { 
+							if ($scope.myField.hasClass("ng-invalid")) {
+								return "ui-state-error";
+							}
+	    					return "";
+	    				};
+	    				$scope.getTemplate = function() {
+	    					var t='<span class="{{errorClass()}}">{{label}}</span>';
+	    					if ($scope.primefaces) {
+	    						t='<span class="{{errorClass()}} ui-outputlabel ui-widget">{{label}}</span>';
+	    					}
+	    					return t; 
+	    				};
+	    			},
+		link: function(scope, element, attrs) {
+	        var el = $compile(scope.getTemplate())(scope);
+	        element.replaceWith(el);
+	    },
+	    replace: true
+		};
+	});
+
 
 
 // Todo: check whether this directive works

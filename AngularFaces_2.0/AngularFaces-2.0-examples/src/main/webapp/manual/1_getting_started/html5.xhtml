@@ -4,7 +4,11 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
-	<h:head></h:head>
+	<h:head>
+		<style>.ui-state-error-text { color: #cd0a0a; } 
+		       .ui-state-error { color: #cd0a0a; }
+		</style>
+	</h:head>
 	<h:body id="angular">
 		<h:form id="myForm" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
 			<h2>Welcome to AngularFaces 2.0!</h2>
