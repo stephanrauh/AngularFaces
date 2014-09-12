@@ -8,6 +8,25 @@
 	<packaging>war</packaging>
 	<version>2.0.0-RC5</version>
 	<name>angularfaces-2.0-tutorial-step-03-angular-input-fields</name>
+ <licenses>
+    <license>
+      <name>GNU General Public License (GPL) version 3.0</name>
+      <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Stephan Rauh</name>
+      <email>webmaster1@beyondjava.de</email>
+      <organization>BeyondJava.net</organization>
+      <organizationUrl>http://www.beyondjava.net</organizationUrl>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git@github.com:stephanrauh/AngularFaces.git</connection>
+    <developerConnection>scm:git:git@github.com:stephanrauh/AngularFaces.git</developerConnection>
+    <url>git@github.com:stephanrauh/AngularFaces.git</url>
+  </scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
@@ -70,6 +89,46 @@
 					<outputDirectory>dist</outputDirectory>
 				</configuration>
 			</plugin>
-		</plugins>
-	</build>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
