@@ -31,12 +31,16 @@ public class TranslationCallback implements VisitCallback {
 	I18n i18n = null;
 
 	int duplicateLabels = 0;
-	
-	String[] attributesToBeTranslated={"header", "headerText"};
+
+	String[] attributesToBeTranslated = { "header", "headerText", "addLabel", "addAllLabel", "cancelLabel", "closeTitle", "collapseTitle",
+			"converterMessage", "emptyLabel", "expandTitle", "fileLimitMessage", "goodLabel", "iframeTitle", "invalidFileMessage",
+			"invalidSizeMessage", "itemLabel", "label", "menuTitle", "message", "moveButtomLabel", "moveDownLabel", "moveUpLabel",
+			"moveTopLabel", "removeAllLabel", "removeLabel", "removeFrom", "removeLabel", "requiredMessage", "resizeTitle", "saveLabel",
+			"summary", "titletip", "toggleTitle", "tooltip", "uploadLabel", "validatorMessage", "welcomeMessage" };
 
 	@Override
 	public VisitResult visit(VisitContext arg0, UIComponent component) {
-		for (String attributeName: attributesToBeTranslated) {
+		for (String attributeName : attributesToBeTranslated) {
 			translateAttribute(component, attributeName);
 		}
 		if (component instanceof UICommand || component instanceof UIOutput) {
@@ -49,7 +53,7 @@ public class TranslationCallback implements VisitCallback {
 	}
 
 	private void translateAttribute(UIComponent component, String attributeName) {
-		Object value = AttributeUtilities.getAttribute(component,attributeName);
+		Object value = AttributeUtilities.getAttribute(component, attributeName);
 		if (null != value && value instanceof String) {
 			String caption = (String) value;
 			if (null != caption) {

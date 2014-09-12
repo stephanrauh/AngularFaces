@@ -396,7 +396,7 @@ public class ELTools {
 	/**
 	 * Which annotations are given to an object described by an EL expression?
 	 *
-	 * @param p_component
+	 * @param p_expression EL expression of the JSF bean attribute
 	 * @return null if there are no annotations, or if they cannot be accessed
 	 */
 	public static Annotation[] readAnnotations(String p_expression) {

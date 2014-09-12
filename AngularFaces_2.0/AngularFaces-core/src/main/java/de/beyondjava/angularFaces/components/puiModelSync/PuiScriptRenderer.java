@@ -30,7 +30,7 @@ import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.i18n.I18n;
 
 /**
- * Generates a script tag that loads a script from the JSF resource folders.<br />
+ * Generates a script tag that loads a script from the JSF resource folders.
  * Originally copied from the Mojarra libraries.
  */
 public class PuiScriptRenderer {
