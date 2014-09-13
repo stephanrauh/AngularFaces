@@ -16,7 +16,6 @@
  */
 package de.beyondjava.angularFaces.core.transformation;
 
-import java.lang.reflect.Constructor;
 import java.util.List;
 
 import javax.el.ValueExpression;
@@ -26,8 +25,6 @@ import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
-
-import org.primefaces.component.outputlabel.OutputLabel;
 
 import de.beyondjava.angularFaces.components.puiLabel.PuiLabel;
 import de.beyondjava.angularFaces.core.ELTools;
@@ -49,8 +46,17 @@ public class AddLabelCallback implements VisitCallback {
 			UIComponent kid = children.get(index);
 			if (kid instanceof UIInput) {
 
-				String caption = (String) AttributeUtilities.getAttribute(kid,"label");
-				if (null == caption) {
+				String caption = null;
+				Object attribute = AttributeUtilities.getAttribute(kid, "label");
+				if (null != attribute) {
+					if (attribute instanceof ValueExpression) {
+						caption = NGWordUtiltites.labelFromELExpression(((ValueExpression) attribute).getExpressionString());
+					} else if (attribute instanceof String) {
+						caption = (String) attribute;
+					} else
+						caption = "unexpected data type of label: " + attribute.getClass().getName();
+				}
+				if (null == attribute) {
 					ValueExpression vex = kid.getValueExpression("value");
 					if (null != vex) {
 						String core = vex.getExpressionString();
