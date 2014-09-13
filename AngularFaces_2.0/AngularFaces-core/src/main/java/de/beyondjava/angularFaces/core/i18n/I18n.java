@@ -78,7 +78,9 @@ public class I18n implements Serializable {
 
 	/** Note this method has a side effect - it also fills the HashMap of translations. */
 	private String convertPropertyFileLineToJSon(String line, String json) {
+ 		if (line==null) return json;
 		String l = line.trim();
+		if (l.length()==0 || l.startsWith("//")) return json;
 		boolean inString = l.startsWith("\"");
 		String english;
 		String rest;
@@ -99,8 +101,13 @@ public class I18n implements Serializable {
 			rest = l.substring(i).trim();
 		} else {
 			int pos = l.indexOf('=');
+			if (pos<0) {
+				System.out.println("Illegal entry in language file");
+				return json;
+			} else {
 			english = l.substring(0, pos).trim();
 			rest = l.substring(pos);
+			}
 		}
 		if (!rest.startsWith("=")) {
 			System.out.println("Illegal line in translation file");

@@ -43,6 +43,7 @@ public class PuiLabel extends HtmlOutputLabel {
 		if (!messageList.isEmpty()) {
 			writer.writeAttribute("servermessage", "true" , "servermessage");
 		}
+		writer.writeText("AngularJS is not initialized",null);
 		writer.endElement("puilabel");
 	}
 	

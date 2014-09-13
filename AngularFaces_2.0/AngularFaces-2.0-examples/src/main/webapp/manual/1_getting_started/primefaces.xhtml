@@ -6,12 +6,12 @@
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:prime="http://primefaces.org/ui">
 	<h:head />
-	<h:body  id="angular">
-		<h:form id="myForm" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+	<h:body>
+		<h:form id="formID" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
 			<h2>Welcome to AngularFaces 2.0!</h2>
     		Based firmly in the future...
 			<prime:panel colspan="2" header="This is a JSF view enriched by an AngularJS bean">
-				<prime:panelGrid columns="3">
+				<prime:panelGrid columns="3" id="angular">
 					<prime:inputText value="{{calculatorBean.number1}}" label="number 1" />
 					<prime:inputText value="{{calculatorBean.number2}}"/>
 					<prime:inputText value="{{calculatorBean.result}}"
@@ -19,9 +19,9 @@
 					<prime:inputText value="{{calculatorBean.serverSideResult}}" />
 					<prime:inputText value="{{calculatorBean.randomNumberFromServer}}" />
 					<prime:commandButton value="Add on server (AF AJAX)"
-						action="#{calculatorBean.add}" update="@angular" process="@form" />
+						action="#{calculatorBean.add}" update="angular" process="@form" />
 					<prime:commandButton value="Add on server (JSF AJAX)"
-						action="#{calculatorBean.add}" update="@form" process="@form" oncomplete="findNGAppAndReinitAngular(getElementById('myForm'))" />
+						action="#{calculatorBean.add}" update="@form" process="@form" oncomplete="findNGAppAndReinitAngular(getElementById('formID'))" />
 					<prime:commandButton value="Add on server (without AJAX)"
 						action="#{calculatorBean.add}" ajax="false" />
 				</prime:panelGrid>

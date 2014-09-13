@@ -16,6 +16,7 @@
  */
 package de.beyondjava.angularFaces.core.transformation;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -25,6 +26,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.context.PartialViewContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
@@ -48,31 +50,35 @@ public class PuiAngularTransformer implements SystemEventListener {
 		Object source = event.getSource();
 		if (source instanceof UIViewRoot) {
 			long timer = System.nanoTime();
-			PuiModelSync.initJSFAttributesTable();
 
-			if (!AngularTagDecorator.isActive()) {
+			final FacesContext context = FacesContext.getCurrentInstance();
+			boolean isProduction = context.isProjectStage(ProjectStage.Production);
+			if ((!isProduction) && (!AngularTagDecorator.isActive())) {
 				FacesContext
 						.getCurrentInstance()
 						.addMessage(
 								null,
-								new FacesMessage(FacesMessage.SEVERITY_FATAL, "Configuration error: " +
-										"Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters",
-										"Configuration error: " +
-												"Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters"));
+								new FacesMessage(
+										FacesMessage.SEVERITY_FATAL,
+										"Configuration error: "
+												+ "Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters",
+										"Configuration error: "
+												+ "Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters"));
 				System.out
 						.println("Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters");
 			} else {
 				final UIViewRoot root = (UIViewRoot) source;
-				FindNGControllerCallback ngControllerCallback = new FindNGControllerCallback();
-				System.out.println(((System.nanoTime() - timer) / 1000) / 1000.0d + " ms find NGControllerCallback");
-				final FacesContext context = FacesContext.getCurrentInstance();
-				root.visitTree(new FullVisitContext(context), ngControllerCallback);
 				boolean ajaxRequest = context.getPartialViewContext().isAjaxRequest();
+				boolean angularFacesRequest = ajaxRequest && isAngularFacesRequest();
 				boolean postback = context.isPostback();
-				boolean isProduction = context.isProjectStage(ProjectStage.Production);
-				PuiModelSync c = ngControllerCallback.getPuiModelSync();
-				if (true) {
-					addJavascript(root, context, isProduction);
+				if (!angularFacesRequest || PuiModelSync.isJSFAttributesTableEmpty()) {
+					PuiModelSync.initJSFAttributesTable();
+					FindNGControllerCallback ngControllerCallback = new FindNGControllerCallback();
+					System.out.println(((System.nanoTime() - timer) / 1000) / 1000.0d + " ms find NGControllerCallback");
+					root.visitTree(new FullVisitContext(context), ngControllerCallback);
+					if (!angularFacesRequest) {
+						addJavascript(root, context, isProduction);
+					}
 					// time("extract AngularJS expressions", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context),
 					// new ProcessAngularExpressionsCallback());}});
 					time("add NGModel", new Runnable() {
@@ -80,27 +86,29 @@ public class PuiAngularTransformer implements SystemEventListener {
 							root.visitTree(new FullVisitContext(context), new AddNGModelAndIDCallback());
 						}
 					});
-					if (ngControllerCallback.isAddLabels()) {
-					final AddLabelCallback labelDecorator = new AddLabelCallback();
-					time("add labels", new Runnable() {
-						public void run() {
-							root.visitTree(new FullVisitContext(context), labelDecorator);
-						}
-					});
-					System.out.println("AJAX: " + ajaxRequest + " Postback: " + postback + " duplicate Labels: "
-							+ labelDecorator.duplicateLabels);
+					if ((!angularFacesRequest) && ngControllerCallback.isAddLabels()) {
+						final AddLabelCallback labelDecorator = new AddLabelCallback();
+						time("add labels", new Runnable() {
+							public void run() {
+								root.visitTree(new FullVisitContext(context), labelDecorator);
+							}
+						});
+						System.out.println("AJAX: " + ajaxRequest + " AngularFacesAJAX: " + angularFacesRequest + " Postback: " + postback
+								+ " duplicate Labels: " + labelDecorator.duplicateLabels);
 					}
 					time("add type information", new Runnable() {
 						public void run() {
 							root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback());
 						}
 					});
-					if (ngControllerCallback.isAddMessages()) {
-					time("add messages", new Runnable() {
-						public void run() {
-							root.visitTree(new FullVisitContext(context), new AddMessagesCallback());
+					if (!angularFacesRequest) {
+						if (ngControllerCallback.isAddMessages()) {
+							time("add messages", new Runnable() {
+								public void run() {
+									root.visitTree(new FullVisitContext(context), new AddMessagesCallback());
+								}
+							});
 						}
-					});
 					}
 					if (!ajaxRequest) {
 						time("internationalization", new Runnable() {
@@ -150,4 +158,28 @@ public class PuiAngularTransformer implements SystemEventListener {
 		long time = System.nanoTime() - timer;
 		System.out.println((time / 1000) / 1000.0d + " ms " + description);
 	}
+
+	private boolean isAngularFacesRequest() {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		PartialViewContext pvc = ctx.getPartialViewContext();
+		Collection<String> myRenderIds = pvc.getRenderIds();
+		boolean isAngularFacesRequest=false;
+		if (null != myRenderIds)  {
+		if (myRenderIds.contains("angular")) {
+			isAngularFacesRequest=true;
+		}
+		else {
+			for (Object id:myRenderIds) {
+				if (id instanceof String) {
+					if (((String)id).endsWith(":angular")) {
+						isAngularFacesRequest=true;
+						break;
+					}
+				}
+			}
+		}
+		}
+		return isAngularFacesRequest;
+	}
+
 }

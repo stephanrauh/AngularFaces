@@ -20,14 +20,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.PartialViewContext;
 import javax.faces.context.PartialViewContextFactory;
 
-import org.primefaces.expression.SearchExpressionResolverFactory;
-
 /** Helper class */
 public class AngularViewContextWrapperFactory extends PartialViewContextFactory {
-	static {
-		SearchExpressionResolverFactory.registerResolver("@angular", new AngularExpressionResolver());
-	}
-
 	private PartialViewContextFactory wrappedPartialViewContextFactory;
 
 	public AngularViewContextWrapperFactory(PartialViewContextFactory partialViewContextFactory) {

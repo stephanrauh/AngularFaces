@@ -1,52 +1,55 @@
-<f:view xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:jsf="http://xmlns.jcp.org/jsf"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
-	<head>
-		<title>AngularFaces 2.0 Tetris demo</title>
-		<link type="text/css" rel="stylesheet" href="angulartetris.css" />
-		<script type="text/javascript" src="tetromino.js" />
-		<script type="text/javascript" src="gameController.js" />
-		<style>.ui-state-error-text { color: #cd0a0a; } 
-		       .ui-state-error { color: #cd0a0a; }
-		</style>
-	</head>
-	<body style="width:1000px" ng-controller="AngularTetrisController"
-		ng-app="AngularTetris">
-		<form>
-			<h3>AngularTetris</h3>
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
+    <head>
+    <title>AngularFaces 2.0 Tetris demo</title>
+    <link type="text/css" rel="stylesheet" href="angulartetris.css" />
+    <script type="text/javascript" src="tetromino.js" />
+    <script type="text/javascript" src="gameController.js" />
+    <style>
+    .ui-state-error-text {
+    	color: #cd0a0a;
+    }
+    
+    .ui-state-error {
+    	color: #cd0a0a;
+    }
+    </style>
+    </head>   
+    <body style="width:1000px" ng-controller="AngularTetrisController"
+        ng-app="AngularTetris">
+        <form>
+            <h3>AngularTetris</h3>
             <ngsync value="{{grid.rows}}" direction="serverToClient" />
-			<h:panelGrid columns="4">
-				<h:panelGroup>
-					<div class="divTable" id="playground">
-						<div class="divRow" ng-repeat="r in grid.rows">
-							<div class="divCell" ng-repeat="cell in r.cells" id="cell"
-								style="background-color:{{brickColor(cell.color)}}">
-							</div>
-						</div>
-					</div>
-				</h:panelGroup>
-				<h:panelGroup>
-					<div style="width: 50px;" />
-				</h:panelGroup>
-				<h:panelGroup style="{{game.settingsStyle()}}">
-					<span style="font-weight:bold">Settings:</span>
-					<h:panelGrid columns="3">
-						<input jsf:value="{{settingsBean.numberOfColumns}}" />
-						<input jsf:value="{{settingsBean.numberOfRows}}" />
-						<input jsf:value="{{settingsBean.preview}}" />
-						<input jsf:value="{{settingsBean.ignoreGravity}}" />
-					</h:panelGrid>
-				</h:panelGroup>
-				<h:panelGroup style="{{game.scoreStyle()}}">
-					<span style="font-weight:bold">Score:</span>
-					<h:panelGrid columns="3">
-						<input type="number" jsf:value="{{scoreBean.score}}" />
-					</h:panelGrid>
-				</h:panelGroup>
-			</h:panelGrid>
-		</form>
-	</body>
+            <h:panelGrid columns="4">
+                <h:panelGroup>
+                    <div class="divTable" id="playground">
+                        <div class="divRow" ng-repeat="r in grid.rows">
+                            <div class="divCell" ng-repeat="cell in r.cells" id="cell"
+                                style="background-color:{{brickColor(cell.color)}}">
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <div style="width: 50px;" />
+                </h:panelGroup>
+                <h:panelGroup style="{{game.settingsStyle()}}">
+                    <span style="font-weight:bold">Settings:</span>
+                    <h:panelGrid columns="3">
+                        <input jsf:value="{{settingsBean.numberOfColumns}}" />
+                        <input jsf:value="{{settingsBean.numberOfRows}}" />
+                        <input jsf:value="{{settingsBean.preview}}" />
+                        <input jsf:value="{{settingsBean.ignoreGravity}}" />
+                    </h:panelGrid>
+                </h:panelGroup>
+                <h:panelGroup style="{{game.scoreStyle()}}">
+                    <span style="font-weight:bold">Score:</span>
+                    <h:panelGrid columns="3">
+                        <input type="number" jsf:value="{{scoreBean.score}}" />
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:panelGrid>
+        </form>
+    </body>
 </f:view>

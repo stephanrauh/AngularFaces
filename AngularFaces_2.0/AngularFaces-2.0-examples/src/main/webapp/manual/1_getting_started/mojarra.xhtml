@@ -9,12 +9,12 @@
 		       .ui-state-error { color: #cd0a0a; }
 		</style>
 	</h:head>
-	<h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
-		<h:form id="myForm">
+	<h:body  id="angular">
+		<h:form id="myForm" >
 			<h2>Welcome to AngularFaces 2.0!</h2>
     		Based firmly in the future...<br />
     		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
-				style="{{calculatorBean.gridStyle}}">
+				style="{{calculatorBean.gridStyle}}" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
 				<br />This demo uses the traditional JSF 2.2 components.
 				
 				<h:panelGrid columns="3">
@@ -31,7 +31,7 @@
 					<h:commandButton value="Add on server (without AJAX)"
 						action="#{calculatorBean.add}" />
 					<h:commandButton value="Add on server (via JSF-AJAX)"
-						action="#{calculatorBean.add}">
+						action="#{calculatorBean.add}" onclick="reactivateAngularJS=true; return true;">
 						<f:ajax render="@form" execute="@form" />
 					</h:commandButton>
 

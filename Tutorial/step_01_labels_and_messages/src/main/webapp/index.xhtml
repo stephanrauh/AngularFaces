@@ -13,7 +13,7 @@
 	<link type="text/css" rel="stylesheet" href="syntaxhighlighter/shCoreDefault.css"/>
 	<script type="text/javascript">SyntaxHighlighter.all();</script>
 	</h:head>
-	<h:body style="width:1000px" ng-controller="LabelDemoController" ng-app="AngularFacesExamples">
+	<h:body style="width:1000px" ng-controller="LabelDemoController" ng-app="AngularFacesExamples" id="angular">
 		<h3>Labels and messages</h3>
 		<p>One the most annoying and tedious tasks of JSF programming is having to deal with labels and messages. AngularFaces take the scare out of that.</p>
 		<p>Mind you, how often have you written something like this?</p>
@@ -56,7 +56,7 @@
 					<prime:inputText value="#{customer2.firstName}" label="first name"/>
 				</prime:panelGrid>
 			</prime:panel>
-			<prime:commandButton value="save" update="@angular" />
+			<prime:commandButton value="save" update=":angular" />
 		</h:form>
 		
 		<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
@@ -79,7 +79,7 @@
 					<prime:inputText value="#{customer3.firstName}"/>
 				</prime:panelGrid>
 			</prime:panel>
-			<prime:commandButton value="save" update="@angular" />
+			<prime:commandButton value="save" update=":angular" />
 		</h:form>
 
 		<script type="syntaxhighlighter" class="brush: xml"><![CDATA[

@@ -94,31 +94,42 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 
 	@Override
 	public void processPartial(PhaseId phaseId) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		PartialViewContext pvc = ctx.getPartialViewContext();
-		Collection<String> myRenderIds = pvc.getRenderIds();
-
 		if (phaseId == PhaseId.RENDER_RESPONSE) {
 			// UIViewRoot viewRoot = ctx.getViewRoot();
 			// PuiELTransformer.eliminateDuplicatePuiModelSyncTags(viewRoot);
 
 			if (isAjaxRequest()) {
-				Object isAngularRequest = FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-						.get("de.beyondjava.angularFaces.angularRequest");
-				ctx.getExternalContext().getRequestParameterMap();
-				if (null != isAngularRequest || myRenderIds.contains("angular")) {
+				if (isAngularFacesRequest()) {
 					renderAngularResponse();
-					FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-							.remove("de.beyondjava.angularFaces.angularRequest");
 					return;
 				}
 			}
 		}
 		getWrapped().processPartial(phaseId);
-		if (phaseId == PhaseId.RENDER_RESPONSE) {
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("de.beyondjava.angularFaces.angularRequest");
-		}
 		return;
+	}
+
+	private boolean isAngularFacesRequest() {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		PartialViewContext pvc = ctx.getPartialViewContext();
+		Collection<String> myRenderIds = pvc.getRenderIds();
+		boolean isAngularFacesRequest=false;
+		if (null != myRenderIds)  {
+		if (myRenderIds.contains("angular")) {
+			isAngularFacesRequest=true;
+		}
+		else {
+			for (Object id:myRenderIds) {
+				if (id instanceof String) {
+					if (((String)id).endsWith(":angular")) {
+						isAngularFacesRequest=true;
+						break;
+					}
+				}
+			}
+		}
+		}
+		return isAngularFacesRequest;
 	}
 
 	private void renderAngularResponse() {

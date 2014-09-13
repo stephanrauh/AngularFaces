@@ -32,8 +32,8 @@
 	<context-param>
 		<param-name>javax.faces.FACELETS_DECORATORS</param-name>
 		<param-value>
-        de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator
-     </param-value>
+            de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator
+        </param-value>
 	</context-param>
 	<error-page>
 		<exception-type>java.lang.Throwable</exception-type>

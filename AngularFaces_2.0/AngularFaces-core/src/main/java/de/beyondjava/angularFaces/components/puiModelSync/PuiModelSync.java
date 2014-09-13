@@ -59,6 +59,12 @@ public class PuiModelSync extends HtmlBody {
 	public StateHelper getStateHelper() {
 		return super.getStateHelper();
 	}
+	
+	public static boolean isJSFAttributesTableEmpty() {
+		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
+		return (null == jsfAttributes || jsfAttributes.isEmpty());
+	}
 
 	public static void initJSFAttributesTable() {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
@@ -93,7 +99,7 @@ public class PuiModelSync extends HtmlBody {
 		Map<String, Object> model = new HashMap<String, Object>();		
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
-		sessionMap.remove(JSF_ATTRIBUTES_SESSION_PARAMETER);
+//		sessionMap.remove(JSF_ATTRIBUTES_SESSION_PARAMETER);
 		for (Entry<String, UIComponent> entry : jsfAttributes.entrySet()) {
 			try {
 			String attribute = entry.getKey();
