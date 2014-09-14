@@ -60,9 +60,7 @@
 								<select id="filterbrand" ng-model="filterBean.brand" ng-options="brand for brand in optionBean.brands track by brand">
       								<option value="">-- choose brand --</option>
 								</select>
-							    <input class="filterHelper hidden" jsf:value="{{filterBean.brand}}" addLabel="false" addMessage="false">
-							    	<f:ajax listener="#{filterBean.doFilter}" render="@none" />
-							    </input>
+							    <input class="filterHelper hidden" jsf:value="{{filterBean.brand}}" addLabel="false" addMessage="false" />
 							</td>
 							<td>
 							    <select ng-model="filterBean.type" ng-options="type for type in optionBean.types track by type">
@@ -109,8 +107,9 @@
     							</select>
 							    <input class="filterHelper hidden" jsf:value="{{filterBean.year}}" addLabel="false" addMessage="false" />
 							</td>
-							<td colspan="1" style="padding-top: 15px">
+							<td colspan="2" style="padding-top: 15px">
 								<button id="listCarsID" class="carFilterButton" jsf:action="#{filterBean.doFilterAction}" >{{filterBean.counter}} cars
+								  	<f:ajax event="click" render="angular" />
 								</button>
 							</td>
 						</tr>

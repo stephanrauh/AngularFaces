@@ -34,20 +34,20 @@ public class FilterBean {
 	
     String brand = "Honda";
     @NotEmpty
-    String color;
+    String color = "silver";
 
-	String type;
+	String type = "Civic";
 
 	@Min(1886)
     @Max(2014)
     @NotEmpty
     int year;
 
-	String mileage;
+	String mileage = "< 200000 km";
 
 	String price;
 
-	String fuel;
+	String fuel = "diesel";
 
 	public String getBrand() {
 		return brand;
