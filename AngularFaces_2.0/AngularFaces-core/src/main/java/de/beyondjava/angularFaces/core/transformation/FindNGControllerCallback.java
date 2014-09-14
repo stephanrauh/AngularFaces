@@ -59,6 +59,7 @@ public class FindNGControllerCallback implements VisitCallback {
 		if (null != ngApp) {
 			component.getPassThroughAttributes().put("ng-app", ngApp);
 		}
+		
 		String ngController = (String) AttributeUtilities.getAttribute(component,"ng-controller");
 		if (null != ngController) {
 			component.getPassThroughAttributes().put("ng-controller", ngController);
@@ -76,6 +77,11 @@ public class FindNGControllerCallback implements VisitCallback {
 				puiModelSync=new PuiModelSync();
 				children.add(puiModelSync);
 			}
+			String angularJSFile= (String) AttributeUtilities.getAttribute(component,"angularJSFile");
+			if (null != angularJSFile) {
+				puiModelSync.getAttributes().put("angularJSFile", angularJSFile);
+			}
+
 			return VisitResult.COMPLETE;
 		}
 

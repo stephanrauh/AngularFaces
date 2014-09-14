@@ -39,6 +39,7 @@ import javax.faces.context.ResponseWriter;
 import com.google.gson.Gson;
 
 import de.beyondjava.angularFaces.core.ELTools;
+import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 /**
  * PuiBody is an HtmlBody that activates the AngularJS/AngularDart framework.
@@ -216,7 +217,7 @@ public class PuiModelSync extends HtmlBody {
 		writer.endElement("script");
 		if (debugMode) {writer.append("\r\n");}
 
-		String main = (String) getAttributes().get("mainclassfile");
+		String main = AttributeUtilities.getAttributeAsString(this, "angularJSFile");
 		if (main == null) {
 			main = "main.js";
 		}

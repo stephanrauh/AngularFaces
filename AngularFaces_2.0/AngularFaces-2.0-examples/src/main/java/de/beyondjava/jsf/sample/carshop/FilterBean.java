@@ -32,22 +32,22 @@ public class FilterBean {
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsf.sample.carshop.FilterBean");
 
 	
-    String brand = "Honda";
+    private String brand;
     @NotEmpty
-    String color = "silver";
+    private String color;
 
-	String type = "Civic";
+    private String type;
 
 	@Min(1886)
     @Max(2014)
     @NotEmpty
-    int year;
+    private int year;
 
-	String mileage = "< 200000 km";
+	private String mileage;
 
-	String price;
+	private String price;
 
-	String fuel = "diesel";
+	private String fuel;
 
 	public String getBrand() {
 		return brand;

@@ -5,6 +5,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
 	<h:head>
+		<h:outputScript library="javax.faces" name="jsf.js" />
 		<meta charset="utf-8"></meta>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"></meta>
 		<meta name="viewport" content="width=device-width"></meta>
@@ -17,7 +18,7 @@
 			.ng-table-responsive { border: 1px solid; border-color: #ddd; }
 			.carFilterBox { border: 5px solid #FF7400;
 			                width: 400px;
-			                height: 200px;
+			                height: 220px;
 			                padding:10px;
 							-webkit-border-bottom-right-radius: 40px;
 							-moz-border-radius-bottomright: 40px;
@@ -28,7 +29,7 @@
 		<script src="ng-table.js"></script>
 	    <script data-require="ng-table-export@0.1.0" data-semver="0.1.0" src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js"></script>
 	</h:head>
-	<h:body ng-app="CarShop" ng-controller="CarShopController" id="angular" style="padding-left:10px">
+	<h:body ng-app="CarShop" ng-controller="CarShopController" id="angular" style="padding-left:10px" angularJSFile="index.js">
 		<form id="myForm" style="width: 700px">
 			<h2>
 				<translate value="Welcome to the AngularFaces 2.0 car shop!" />
@@ -36,7 +37,6 @@
 			<i18n value="Europe's most angular car shop..." />
 			<br />
 			<br />
-			<ngsync value="{{carPool.carPool}}" direction="serverToClient" />
 			<ngsync value="{{optionBean.brands}}" direction="serverToClient" />
 			<ngsync value="{{optionBean.colors}}" direction="serverToClient" />
 			<ngsync value="{{optionBean.types}}" direction="serverToClient" />
@@ -101,16 +101,17 @@
     						</td>
 						</tr>
 						<tr>
+							<td style="padding-top:15px">year</td>
+						</tr>
+						<tr>
 							<td>
 								<select ng-model="filterBean.year" ng-options="year for year in optionBean.years track by year">
       								<option value="">-- choose color --</option>
     							</select>
 							    <input class="filterHelper hidden" jsf:value="{{filterBean.year}}" addLabel="false" addMessage="false" />
 							</td>
-							<td colspan="2" style="padding-top: 15px">
-								<button id="listCarsID" class="carFilterButton" jsf:action="#{filterBean.doFilterAction}" >{{filterBean.counter}} cars
-								  	<f:ajax event="click" render="angular" />
-								</button>
+							<td colspan="2" >
+								<button id="listCarsID" class="carFilterButton" jsf:outcome="table.jsf" >{{filterBean.counter}} cars</button>
 							</td>
 						</tr>
 					</table>
