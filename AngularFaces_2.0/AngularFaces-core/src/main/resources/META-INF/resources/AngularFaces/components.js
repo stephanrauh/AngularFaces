@@ -85,8 +85,15 @@ app.directive('puimessage', function($compile) {
     				$scope.hasMessage= function() { 
 						return ($scope.myField.hasClass("ng-invalid"));
     				};
+    				$scope.visibilityClass= function() { 
+						if ($($scope.myField).is(":visible")) {
+							return "";
+						}
+    					return "hidden";
+    				};
+
     				$scope.getTemplate = function() {
-    					var t='<span class="ui-state-error-text">{{message()}}</span>';
+    					var t='<span class="ui-state-error-text {{visibilityClass()}}">{{message()}}</span>';
     					if ($scope.primefaces) {
     						t='<div ng-show="hasMessage()" class="ui-messages-error ui-corner-all"><span class="ui-messages-error-icon"></span><span class="ui-messages-error-summary">{{message()}}</span></div>';
     					}
@@ -122,8 +129,14 @@ app.directive('puilabel', function($compile) {
 							}
 	    					return "";
 	    				};
+	    				$scope.visibilityClass= function() { 
+							if ($($scope.myField).is(":visible")) {
+								return "";
+							}
+	    					return "hidden";
+	    				};
 	    				$scope.getTemplate = function() {
-	    					var t='<span class="{{errorClass()}}">{{label}}</span>';
+	    					var t='<span class="{{errorClass()}} {{visibilityClass()}}">{{label}}</span>';
 	    					if ($scope.primefaces) {
 	    						t='<span class="{{errorClass()}} ui-outputlabel ui-widget">{{label}}</span>';
 	    					}

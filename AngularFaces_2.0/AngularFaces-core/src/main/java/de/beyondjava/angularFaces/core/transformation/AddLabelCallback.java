@@ -17,6 +17,7 @@
 package de.beyondjava.angularFaces.core.transformation;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
@@ -33,6 +34,8 @@ import de.beyondjava.angularFaces.core.i18n.I18n;
 
 /** Adds a label to a single component (if needed). */
 public class AddLabelCallback implements VisitCallback {
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.transformation.AddLabelCallback");
+
 	I18n i18n = null;
 
 	int duplicateLabels = 0;
@@ -45,18 +48,14 @@ public class AddLabelCallback implements VisitCallback {
 		for (int index = children.size() - 1; index >= 0; index--) {
 			UIComponent kid = children.get(index);
 			if (kid instanceof UIInput) {
-
-				String caption = null;
-				Object attribute = AttributeUtilities.getAttribute(kid, "label");
-				if (null != attribute) {
-					if (attribute instanceof ValueExpression) {
-						caption = NGWordUtiltites.labelFromELExpression(((ValueExpression) attribute).getExpressionString());
-					} else if (attribute instanceof String) {
-						caption = (String) attribute;
-					} else
-						caption = "unexpected data type of label: " + attribute.getClass().getName();
+				String addLabelAttribute = AttributeUtilities.getAttributeAsString(kid, "addLabel");
+				if (null != addLabelAttribute && "false".equalsIgnoreCase(addLabelAttribute)) {
+					continue;
 				}
-				if (null == attribute) {
+
+				String caption =AttributeUtilities.getAttributeAsString(kid, "label");
+
+				if (null==caption) {
 					ValueExpression vex = kid.getValueExpression("value");
 					if (null != vex) {
 						String core = vex.getExpressionString();
@@ -70,7 +69,7 @@ public class AddLabelCallback implements VisitCallback {
 							if (kid.getId().equals(((HtmlOutputLabel) maybe).getFor())) {
 								duplicateLabels++;
 								if (j != index - 1) {
-									System.out.println("Label has been restored at the wrong position");
+									LOGGER.fine("Label has been restored at the wrong position. AngularFaces fixed this.");
 									children.remove(j);
 									if (j < index)
 										index--;

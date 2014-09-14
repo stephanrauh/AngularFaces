@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -34,6 +35,9 @@ import javax.faces.view.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class I18n implements Serializable {
+	
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.i18n.I18n");
+
 	private static final long serialVersionUID = 1L;
 	Locale locale;
 	HashMap<String, String> translations = new HashMap<String, String>();
@@ -102,7 +106,7 @@ public class I18n implements Serializable {
 		} else {
 			int pos = l.indexOf('=');
 			if (pos<0) {
-				System.out.println("Illegal entry in language file");
+				LOGGER.severe("Illegal entry in language file: \"" + line + "\"");
 				return json;
 			} else {
 			english = l.substring(0, pos).trim();
@@ -110,7 +114,7 @@ public class I18n implements Serializable {
 			}
 		}
 		if (!rest.startsWith("=")) {
-			System.out.println("Illegal line in translation file");
+			LOGGER.severe("Illegal entry in language file: \"" + line + "\"");
 		} else {
 			String translation;
 			rest = rest.substring(1).trim();

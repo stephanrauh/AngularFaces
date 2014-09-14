@@ -45,8 +45,6 @@ public class TranslationCallback implements VisitCallback {
 		}
 		if (component instanceof UICommand || component instanceof UIOutput) {
 			translateAttribute(component, "value");
-		} else if (component.getClass().getName().endsWith(".UIInstructions")) {
-			// System.out.println("test");
 		}
 
 		return VisitResult.ACCEPT;

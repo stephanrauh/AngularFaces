@@ -103,15 +103,21 @@ angular.module("AngularFacesExamples", [ "angularfaces" ]);
       <p>In a future version, AngularFaces is going to
       have more flexibility (such as putting labels above and messages below the input field).</p> 
       <h3>Supressing automatic generation of labels and messages</h3>
-      <p>There are two ways to influence the creation of labels and messages:</p>
+      <p>There are three ways to influence the creation of labels and messages:</p>
       <p>First, you can switch off the automatical creation of labels and messages by adding an attribute to &lt;h:body&gt;
-      (or &lt;h:body&gt; if you prefer the relaxed syntax of AngularFaces).
+      (or &lt;h:body&gt; if you prefer the relaxed syntax of AngularFaces).</p>
       <ul>
       <li>addlabels="false" suppresses the automatical creation of labels for the entire JSF view.</li>
       <li>addmessages="false" suppresses the automatical creation of messages for the entire JSF view.</li>
       </ul>
-      </p>
-      <p>Second, AngularFaces doesn't add a label if it recognizes there's already a label. So all you have to do is to add an outputLabel manually, and to set the for attribute.
+		<p>Second, you can add the generation of labels and messages for each individual field:</p>
+		<ul>
+			<li>addlabel="false" suppresses the automatical creation of the	label and</li>
+			<li>addmessage="false" suppresses the automatical creation of the message.</li>
+		</ul>
+
+		<p>The third possibility is to simply provide a label to the field.
+       AngularFaces doesn't add a label if it recognizes there's already a label. So all you have to do is to add an outputLabel manually, and to set the for attribute.
       The same applies to the message attribute.</p>
       <h3>The &lt;puimessage /&gt;</h3>
       <p>Suppressing message generation also disables the client side bean validation. You can fix it by 

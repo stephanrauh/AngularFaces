@@ -38,8 +38,9 @@ import de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator;
  * Converts EL expressions to Angular expressions
  */
 public class PuiAngularTransformer implements SystemEventListener {
+	
 
-	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.puiEL.PuiELTransformer");
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.transformation.PuiAngularTransformer");
 
 	static {
 		LOGGER.info("AngularFaces utility class PuiELTransformer ready for use.");
@@ -74,7 +75,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 				if (!angularFacesRequest || PuiModelSync.isJSFAttributesTableEmpty()) {
 					PuiModelSync.initJSFAttributesTable();
 					FindNGControllerCallback ngControllerCallback = new FindNGControllerCallback();
-					System.out.println(((System.nanoTime() - timer) / 1000) / 1000.0d + " ms find NGControllerCallback");
+					LOGGER.fine(((System.nanoTime() - timer) / 1000) / 1000.0d + " ms find NGControllerCallback");
 					root.visitTree(new FullVisitContext(context), ngControllerCallback);
 					if (!angularFacesRequest) {
 						addJavascript(root, context, isProduction);
@@ -93,7 +94,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 								root.visitTree(new FullVisitContext(context), labelDecorator);
 							}
 						});
-						System.out.println("AJAX: " + ajaxRequest + " AngularFacesAJAX: " + angularFacesRequest + " Postback: " + postback
+						LOGGER.fine("AJAX: " + ajaxRequest + " AngularFacesAJAX: " + angularFacesRequest + " Postback: " + postback
 								+ " duplicate Labels: " + labelDecorator.duplicateLabels);
 					}
 					time("add type information", new Runnable() {
@@ -120,7 +121,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 				}
 			}
 			long time = System.nanoTime() - timer;
-			System.out.println((time / 1000) / 1000.0d + " ms");
+			LOGGER.fine((time / 1000) / 1000.0d + " ms");
 		}
 	}
 
@@ -156,7 +157,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 		long timer = System.nanoTime();
 		runnable.run();
 		long time = System.nanoTime() - timer;
-		System.out.println((time / 1000) / 1000.0d + " ms " + description);
+		LOGGER.fine((time / 1000) / 1000.0d + " ms " + description);
 	}
 
 	private boolean isAngularFacesRequest() {

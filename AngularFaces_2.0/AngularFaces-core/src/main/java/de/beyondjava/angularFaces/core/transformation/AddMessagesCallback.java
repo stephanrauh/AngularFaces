@@ -17,6 +17,7 @@
 package de.beyondjava.angularFaces.core.transformation;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
@@ -29,6 +30,8 @@ import de.beyondjava.angularFaces.components.puiMessage.PuiMessage;
 
 /** Adds a message to a single component (if needed). */
 public class AddMessagesCallback implements VisitCallback {
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.transformation.AddMessagesCallback");
+
 	int duplicateLabels = 0;
 
 	@Override
@@ -40,13 +43,17 @@ public class AddMessagesCallback implements VisitCallback {
 		for (int index = children.size() - 1; index >= 0; index--) {
 			UIComponent kid = children.get(index);
 			if (kid instanceof UIInput) {
+				String addMessageAttribute = AttributeUtilities.getAttributeAsString(kid, "addMessage");
+				if (null != addMessageAttribute && "false".equalsIgnoreCase(addMessageAttribute)) {
+					continue;
+				}
 				for (int j = 0; j < children.size(); j++) {
 					UIComponent maybe = children.get(j);
 					if (maybe instanceof PuiMessage) {
 						if (kid.getClientId().equals(((PuiMessage) maybe).getFor())) {
 							duplicateLabels++;
 							if (j != index + 1) {
-								System.out.println("Message has been restored at the wrong position");
+								LOGGER.fine("Message has been restored at the wrong position. AngularFaces fixed this.");
 								children.remove(j);
 								if (j < index)
 									index--;

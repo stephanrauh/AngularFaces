@@ -46,11 +46,11 @@ public class FindNGControllerCallback implements VisitCallback {
 			return VisitResult.ACCEPT;
 		UIComponent component = (UIComponent) source;
 
-		String labels = (String) AttributeUtilities.getAttribute(component, "addlabels");
+		String labels = (String) AttributeUtilities.getAttribute(component, "addLabels");
 		if (null != labels) {
 			addLabels=labels.equalsIgnoreCase("true");
 		}
-		String messages = (String) AttributeUtilities.getAttribute(component,"addmessages");
+		String messages = (String) AttributeUtilities.getAttribute(component,"addMessages");
 		if (null != messages) {
 			addMessages=messages.equalsIgnoreCase("true");
 		}

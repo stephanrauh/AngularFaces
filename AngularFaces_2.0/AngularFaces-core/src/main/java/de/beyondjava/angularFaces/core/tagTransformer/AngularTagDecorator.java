@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +35,8 @@ import javax.faces.view.facelets.TagDecorator;
  * with the client and implements a couple of pseudo JSF tags.
  */
 public class AngularTagDecorator implements TagDecorator {
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator");
+
 	private static boolean active = false;
 	private static final String PASS_THROUGH_NAMESPACE = "http://xmlns.jcp.org/jsf/passthrough";
 	private static final String MOJARRA_NAMESPACE = "http://xmlns.jcp.org/jsf/html";
@@ -141,7 +144,7 @@ public class AngularTagDecorator implements TagDecorator {
 			Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "outputText", "outputText", more);
 			return t;
 		} else {
-			System.out.println("Synchronization of AngularJS scope back to the client has not been implemented yet.");
+			LOGGER.severe("Synchronization of AngularJS scope back to the client has not been implemented yet.");
 
 			TagAttribute value = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "value", "value",
 					"Synchronization of AngularJS scope back to the client has not been implemented yet.");
@@ -179,7 +182,7 @@ public class AngularTagDecorator implements TagDecorator {
 							"ng-model", "ng-model", exp.substring(2, exp.length() - 2));
 					modified.add(modifiedAttribute);
 					if (!firstMatch) {
-						System.out.println("Tag " + tag.getQName() + " can't have multiple ng-models.");
+						LOGGER.severe("Tag " + tag.getQName() + " can't have multiple ng-models." + tag.getLocation().toString());
 					}
 					firstMatch = false;
 				}
