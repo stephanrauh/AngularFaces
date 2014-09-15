@@ -38,6 +38,7 @@ public class OptionBean {
 
 
 	public OptionBean() {
+		colors.add("");
 		colors.add("red");
 		colors.add("white");
 		colors.add("blue");
@@ -47,6 +48,7 @@ public class OptionBean {
 		colors.add("white");
 		colors.add("silver");
 
+		brands.add("");
 		brands.add("Honda");
 		brands.add("VW");
 		brands.add("BMW");
@@ -57,6 +59,7 @@ public class OptionBean {
 		brands.add("Seat");
 		brands.add("Fiat");
 
+		types.add("");
 		types.add("Civic");
 		types.add("Golf");
 		types.add("320");
@@ -67,6 +70,7 @@ public class OptionBean {
 		types.add("Ibiza");
 		types.add("Punto");
 
+		prices.add("");
 		prices.add("< €500");
 		prices.add("< €1000");
 		prices.add("< €2000");
@@ -81,6 +85,7 @@ public class OptionBean {
 		prices.add("< €40000");
 		prices.add("< €50000");
 
+		mileages.add("");
 		mileages.add("< 100 km");
 		mileages.add("< 2000 km");
 		mileages.add("< 5000 km");
@@ -90,6 +95,7 @@ public class OptionBean {
 		mileages.add("< 100000 km");
 		mileages.add("< 200000 km");
 
+		fuels.add("");
 		fuels.add("gasoline");
 		fuels.add("diesel");
 		fuels.add("hybrid");
@@ -97,7 +103,7 @@ public class OptionBean {
 		
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		for (int i = 0; i < 20; i++) {
-			years.add(new Integer(year-i).toString());
+			years.add(new Integer(year-i).toString() + " or younger");
 		}
 	}
 

@@ -2,7 +2,7 @@ var app = angular.module('CarShop', ["angularfaces", 'ngTable', 'ngTableExport']
 controller('CarShopController', function($scope, $filter, ngTableParams) {
 	// This initializes the Angular Model with the values of the JSF bean attributes
 	initJSFScope($scope);
-	
+	$scope.activeSelections=0;
 	
 	$scope.showIfSet = function(ngmodel) {
 		if (typeof(ngmodel)=='undefined') {
@@ -11,7 +11,13 @@ controller('CarShopController', function($scope, $filter, ngTableParams) {
 		if (ngmodel=="") {
 			return "hidden";
 		}
+		$scope.activeSelections++;
 		return "";
+	}
+	
+	$scope.filterBoxStyle=function(){
+		var width=400+100*$scope.activeSelections;
+		return "" + width + "px";
 	}
 
 //    $scope.tableParams = new ngTableParams({

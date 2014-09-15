@@ -108,7 +108,7 @@
 								<select ng-model="filterBean.year" ng-options="year for year in optionBean.years track by year">
       								<option value="">-- choose color --</option>
     							</select>
-							    <input class="filterHelper hidden" jsf:value="{{filterBean.year}}" addLabel="false" addMessage="false" />
+							    <input type="text" class="filterHelper hidden" jsf:value="{{filterBean.yearText}}" addLabel="false" addMessage="false" />
 							</td>
 							<td colspan="2" >
 								<button id="listCarsID" class="carFilterButton" jsf:outcome="table.jsf" >{{filterBean.counter}} cars</button>

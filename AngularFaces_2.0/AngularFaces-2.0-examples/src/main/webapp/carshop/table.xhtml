@@ -13,64 +13,110 @@
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css"></link>
 		<link rel="stylesheet" href="css/ng-table.css"></link>
 		<style type="text/css">
-			.header { background-color: #ccc; }
-			.ng-table-responsive { border: 1px solid; border-color: #ddd; }
-			.carFilterBox { border: 5px solid #FF7400;
-			                width: 400px;
-			                height: 200px;
-			                padding:10px;
-							-webkit-border-bottom-right-radius: 40px;
-							-moz-border-radius-bottomright: 40px;
-							border-bottom-right-radius: 40px;
-			}
-			.carFilterButton { background-color:#ff7400; float:right; border-color:#ff7400; border-radius:5px}	
-		</style>
+.header {
+	background-color: #ccc;
+}
+
+.ng-table-responsive {
+	border: 1px solid;
+	border-color: #ddd;
+}
+
+.carFilterBox {
+	border: 5px solid #FF7400;
+	height: 200px;
+	padding: 10px;
+	-webkit-border-bottom-right-radius: 40px;
+	-moz-border-radius-bottomright: 40px;
+	border-bottom-right-radius: 40px;
+}
+
+.carFilterCriterium {
+	font-weight: normal;
+	border: 10px;
+	padding-right: 15px;
+}
+
+.carFilterButton {
+	background-color: #ff7400;
+	float: right;
+	border-color: #ff7400;
+	border-radius: 5px
+}
+</style>
 		<script src="ng-table.js"></script>
-	    <script data-require="ng-table-export@0.1.0" data-semver="0.1.0" src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js"></script>
+		<script data-require="ng-table-export@0.1.0" data-semver="0.1.0"
+			src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js"></script>
 	</h:head>
-	<h:body ng-app="CarShop" ng-controller="CarShopController" angularJSFile="table.js" id="angular" style="padding-left:10px">
+	<h:body ng-app="CarShop" ng-controller="CarShopController"
+		angularJSFile="table.js" id="angular" style="padding-left:10px">
 		<form id="myForm" style="width: 700px">
 			<h2>
 				<translate value="Welcome to the AngularFaces 2.0 car shop!" />
 			</h2>
 			<i18n value="Europe's most angular car shop..." />
-			<br />
-			<br />
+			<br /> <br />
 			<ngsync value="{{filterBean.counter}}" direction="serverToClient" />
-			<div class="carFilterBox"> 
-				<div>You selected:
-				</div> 
-				<div>
-					<table style="border-spacing:10px">
-						<tr>
-							<td>
-							    <input class="{{showIfSet(filterBean.brand)}}" jsf:value="{{filterBean.brand}}" addLabel="false" addMessage="false" jsf:disabled="true" />
-							</td>
-							<td>
-							    <input class="{{showIfSet(filterBean.type)}}" jsf:value="{{filterBean.type}}" addLabel="false" addMessage="false" jsf:disabled="true" />
-							</td>
-							<td>
-							    <input class="{{showIfSet(filterBean.price)}}" jsf:value="{{filterBean.price}}" addLabel="false" addMessage="false" jsf:disabled="true"/>
-							</td>
-							<td>
-							    <input class="{{showIfSet(filterBean.mileage)}}" jsf:value="{{filterBean.mileage}}" addLabel="false" addMessage="false" jsf:disabled="true"/>
-							</td>
-							<td>
-							    <input class="{{showIfSet(filterBean.fuel)}}" jsf:value="{{filterBean.fuel}}" addLabel="false" addMessage="false" jsf:disabled="true"/>
-							</td>
-							<td>   
-							    <input class="{{showIfSet(filterBean.color)}}" jsf:value="{{filterBean.color}}" addLabel="false" addMessage="false" jsf:disabled="true"/>
-    						</td>
-							<td>
-							    <input class="{{showIfSet(filterBean.year)}}" jsf:value="{{filterBean.year}}" addLabel="false" addMessage="false" jsf:disabled="true"/>
-							</td>
-						</tr>
-					</table>
+			<div class="carFilterBox" style="">
+				<span style="width: 100%; font-weight: bold">Your selection:</span>
+				<div style="display: table">
+					<div style="display: table-row">
+						<div style="display: table-cell"
+							class="{{showIfSet(filterBean.brand)}}">
+							<label class="carFilterCriterium"
+								jsf:value="{{filterBean.brand}}" addLabel="false"
+								addMessage="false" jsf:disabled="true" /> <a
+								jsf:outcome="index.jsf"><img
+								style="position: relative; left: -13px" src="close2.png" /></a>
+						</div>
+						<div style="display: table-cell"
+							class="{{showIfSet(filterBean.type)}}">
+							<label class="carFilterCriterium" jsf:value="{{filterBean.type}}"
+								addLabel="false" addMessage="false" jsf:disabled="true" /> <a
+								jsf:outcome="index.jsf"><img
+								style="position: relative; left: -13px" src="close2.png" /></a>
+						</div>
+						<div style="display: table-cell"
+							class="{{showIfSet(filterBean.price)}}">
+							<label class="carFilterCriterium"
+								jsf:value="{{filterBean.price}}" addLabel="false"
+								addMessage="false" jsf:disabled="true" /> <a
+								jsf:outcome="index.jsf"><img
+								style="position: relative; left: -13px" src="close2.png" /></a>
+						</div>
+						<div style="display: table-cell"
+							class="{{showIfSet(filterBean.mileage)}}">
+							<label class="carFilterCriterium"
+								jsf:value="{{filterBean.mileage}}" addLabel="false"
+								addMessage="false" jsf:disabled="true" /> <a
+								jsf:outcome="index.jsf"><img
+								style="position: relative; left: -13px" src="close2.png" /></a>
+						</div>
+						<div style="display: table-cell"
+							class="{{showIfSet(filterBean.fuel)}}">
+							<label class="carFilterCriterium" jsf:value="{{filterBean.fuel}}"
+								addLabel="false" addMessage="false" jsf:disabled="true" /> <a
+								jsf:outcome="index.jsf"><img
+								style="position: relative; left: -13px" src="close2.png" /></a>
+						</div>
+						<div style="display: table-cell"
+							class="{{showIfSet(filterBean.color)}}">
+							<label class="carFilterCriterium"
+								jsf:value="{{filterBean.color}}" addLabel="false"
+								addMessage="false" jsf:disabled="true" /> <a
+								jsf:outcome="index.jsf"><img
+								style="position: relative; left: -13px" src="close2.png" /></a>
+						</div>
+						<div style="display: table-cell"
+							class="{{showIfSet(filterBean.year)}}">
+							<label class="carFilterCriterium" jsf:value="{{filterBean.yearText}}"
+								addLabel="false" addMessage="false" jsf:disabled="true" /> <a
+								jsf:outcome="index.jsf"><img
+								style="position: relative; left: -13px" src="close2.png" /></a>
+						</div>
+					</div>
 				</div>
-								<button id="listCarsID" class="carFilterButton" jsf:action="#{filterBean.doFilterAction}" >{{filterBean.counter}} cars
-								</button>
 			</div>
 		</form>
 	</h:body>
 </f:view>
-	   		

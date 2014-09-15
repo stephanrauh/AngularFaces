@@ -16,16 +16,24 @@
  */
 package de.beyondjava.angularFaces.core.transformation;
 
+import java.util.logging.Logger;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
 import javax.faces.context.PartialViewContext;
 import javax.faces.context.PartialViewContextFactory;
 
+import de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator;
+
 /** Helper class */
 public class AngularViewContextWrapperFactory extends PartialViewContextFactory {
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.transformation.AngularViewContextWrapperFactory");
 	private PartialViewContextFactory wrappedPartialViewContextFactory;
 
 	public AngularViewContextWrapperFactory(PartialViewContextFactory partialViewContextFactory) {
 		this.wrappedPartialViewContextFactory = partialViewContextFactory;
+		LOGGER.info("Running on AngularFaces 2.0");
 	}
 
 	@Override

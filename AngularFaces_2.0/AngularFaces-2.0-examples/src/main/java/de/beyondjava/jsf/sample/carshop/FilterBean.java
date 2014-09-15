@@ -31,17 +31,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class FilterBean {
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsf.sample.carshop.FilterBean");
 
-	
-    private String brand;
-    @NotEmpty
+	private String brand;
+
     private String color;
 
     private String type;
 
-	@Min(1886)
-    @Max(2014)
-    @NotEmpty
-    private int year;
+    private String yearText;
 
 	private String mileage;
 
@@ -74,7 +70,14 @@ public class FilterBean {
 	}
 
 	public int getYear() {
-		return year;
+		if (yearText==null || yearText.length()<4) return 0;
+		try {
+			String year = yearText.substring(0, 4);
+			return Integer.parseInt(year);
+		}
+		catch (NumberFormatException e) {
+			return 0;
+		}
 	}
 
 	public void setBrand(String brand) {
@@ -101,8 +104,11 @@ public class FilterBean {
 		this.type = type;
 	}
 	
-	public void setYear(int year) {
-		this.year = year;
+	public void setYearText(String year) {
+	}
+	
+	public String getYearText() {
+		return yearText;
 	}
 	
 	public void doFilter(AjaxBehaviorEvent event) {
