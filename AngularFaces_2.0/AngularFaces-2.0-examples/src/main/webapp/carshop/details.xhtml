@@ -1,0 +1,58 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:prime="http://primefaces.org/ui">
+	<h:head>
+		<meta charset="utf-8"></meta>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"></meta>
+		<meta name="viewport" content="width=device-width"></meta>
+		<title>AngularFaces 2.0 Car Shop</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css"></link>
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css"></link>
+		<link rel="stylesheet" href="css/ng-table.css"></link>
+		<style type="text/css">
+.header {
+	background-color: #ccc;
+}
+
+.ui-panelgrid-cell { border-width: 0px !important;}
+
+.ui-panelgrid tr  { border-width: 0px !important;}
+
+.carFilterButton {
+	background-color: #ff7400;
+	float: right;
+	border-color: #ff7400;
+	border-radius: 5px
+}
+</style>
+		<script src="ng-table.js"></script>
+	</h:head>
+	<h:body ng-app="CarShop" ng-controller="CarShopController"
+		angularJSFile="details.js" id="angular" style="padding-left:10px">
+		<form id="myForm" style="width: 1000px">
+			<h2>
+				<translate value="Welcome to the AngularFaces 2.0 car shop!" />
+			</h2>
+			<i18n value="Europe's most angular car shop..." />
+			<br /> <br /> Details of a single car
+
+			<prime:panel header="Do you want to buy this car?">
+				<prime:panelGrid columns="3" style="border: 0px;">
+					<prime:inputText value="#{carBean.brand}" />
+					<prime:inputText value="#{carBean.type}" />
+					<prime:inputText value="#{carBean.price}" />
+					<prime:inputText value="#{carBean.mileage}" />
+					<prime:inputText value="#{carBean.color}" />
+					<prime:inputText value="#{carBean.year}" />
+					<prime:inputText value="#{carBean.fuel}" />
+				</prime:panelGrid>
+			</prime:panel>
+
+			<prime:messages globalOnly="false" />
+		</form>
+	</h:body>
+</f:view>

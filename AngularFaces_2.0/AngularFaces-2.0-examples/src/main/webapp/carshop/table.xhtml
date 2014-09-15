@@ -12,15 +12,9 @@
 		<title>AngularFaces 2.0 Car Shop</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css"></link>
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css"></link>
-		<link rel="stylesheet" href="css/ng-table.css"></link>
 		<style type="text/css">
 .header {
 	background-color: #ccc;
-}
-
-.ng-table-responsive {
-	border: 1px solid;
-	border-color: #ddd;
 }
 
 .carFilterBox {
@@ -42,9 +36,6 @@
 	border-radius: 5px
 }
 </style>
-		<script src="ng-table.js"></script>
-		<script data-require="ng-table-export@0.1.0" data-semver="0.1.0"
-			src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js"></script>
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController"
 		angularJSFile="table.js" id="angular" style="padding-left:10px">
@@ -107,8 +98,9 @@
 						</div>
 						<div style="display: table-cell"
 							class="{{showIfSet(filterBean.year)}}">
-							<label class="carFilterCriterium" jsf:value="{{filterBean.yearText}}"
-								addLabel="false" addMessage="false" jsf:disabled="true" /> <a
+							<label class="carFilterCriterium"
+								jsf:value="{{filterBean.yearText}}" addLabel="false"
+								addMessage="false" jsf:disabled="true" /> <a
 								jsf:outcome="index.jsf"><img
 								style="position: relative; left: -13px" src="close2.png" /></a>
 						</div>
@@ -124,6 +116,10 @@
 				<prime:column headerText="mileage">#{car.mileage} km</prime:column>
 				<prime:column headerText="price">€#{car.price}</prime:column>
 				<prime:column headerText="fuel">#{car.fuel}</prime:column>
+				<prime:column headerText="">
+					<button class="carFilterButton"
+						jsf:action="#{carBean.showDetails(car)}">show me!</button>
+				</prime:column>
 			</prime:dataTable>
 			<prime:messages globalOnly="false" />
 
