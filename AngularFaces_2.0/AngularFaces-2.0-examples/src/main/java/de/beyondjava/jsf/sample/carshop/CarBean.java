@@ -1,10 +1,10 @@
 package de.beyondjava.jsf.sample.carshop;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.view.ViewScoped;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class CarBean {
 	private Car car;
 

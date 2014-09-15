@@ -40,7 +40,7 @@
 			<i18n value="Europe's most angular car shop..." />
 			<br /> <br /> Details of a single car
 
-			<prime:panel header="Do you want to buy this car?">
+			<prime:panel header="If you want to buy this car...">
 				<prime:panelGrid columns="3" style="border: 0px;">
 					<prime:inputText value="#{carBean.brand}" />
 					<prime:inputText value="#{carBean.type}" />
@@ -51,6 +51,24 @@
 					<prime:inputText value="#{carBean.fuel}" />
 				</prime:panelGrid>
 			</prime:panel>
+			<prime:panel header="... we need some informations about where to deliver it:">
+				<prime:panelGrid columns="3" style="border: 0px;">
+					<prime:inputText value="{{customerBean.lastName}}" />
+					<prime:inputText value="{{customerBean.firstName}}" />
+					<prime:inputText value="{{customerBean.dateOfBirth}}" />
+					<prime:inputText value="{{customerBean.emailAddress}}" />
+					<prime:inputText value="{{customerBean.iAgreeToTheTermsAndConditions}}" />
+			</prime:panelGrid>		
+			</prime:panel>
+			<prime:panel header="Please confirm you are a human by answering this simple question:">
+				<prime:panelGrid columns="3" style="border: 0px;">
+					<prime:outputLabel for="captchaField" value="{{customerBean.captchaQuestion}}" />
+					<prime:inputText id="captchaField" value="{{customerBean.captcha}}" />
+				</prime:panelGrid>
+			</prime:panel>
+					<button class="carFilterButton"
+						jsf:action="#{carBean.showDetails(car)}">Buy this car!</button>
+			
 
 			<prime:messages globalOnly="false" />
 		</form>
