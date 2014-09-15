@@ -45,6 +45,7 @@
 			<ngsync value="{{optionBean.fuels}}" direction="serverToClient" />
 			<ngsync value="{{optionBean.years}}" direction="serverToClient" />
 			<ngsync value="{{filterBean.counter}}" direction="serverToClient" />
+			<ngsync value="{{filterBean.types}}" direction="serverToClient" />
 			<div class="carFilterBox"> 
 				<div>What kind of car are you looking for?
 				</div> 
@@ -63,7 +64,7 @@
 							    <input class="filterHelper hidden" jsf:value="{{filterBean.brand}}" addLabel="false" addMessage="false" />
 							</td>
 							<td>
-							    <select ng-model="filterBean.type" ng-options="type for type in optionBean.types track by type">
+							    <select ng-model="filterBean.type" ng-options="type for type in filterBean.types track by type">
       								<option value="">-- choose type --</option>
 								</select>
 							    <input class="filterHelper hidden" jsf:value="{{filterBean.type}}" addLabel="false" addMessage="false" />
@@ -105,13 +106,13 @@
 						</tr>
 						<tr>
 							<td>
-								<select ng-model="filterBean.year" ng-options="year for year in optionBean.years track by year">
+								<select ng-model="filterBean.yearText" ng-options="year for year in optionBean.years track by year">
       								<option value="">-- choose color --</option>
     							</select>
 							    <input type="text" class="filterHelper hidden" jsf:value="{{filterBean.yearText}}" addLabel="false" addMessage="false" />
 							</td>
 							<td colspan="2" >
-								<button id="listCarsID" class="carFilterButton" jsf:outcome="table.jsf" >{{filterBean.counter}} cars</button>
+								<button id="listCarsID" class="carFilterButton" jsf:outcome="table.jsf" >show me the {{filterBean.counter}} cars!</button>
 							</td>
 						</tr>
 					</table>

@@ -16,20 +16,32 @@
  */
 package de.beyondjava.jsf.sample.carshop;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 @ManagedBean
 @SessionScoped
 public class FilterBean {
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsf.sample.carshop.FilterBean");
+	
+	@ManagedProperty("#{optionBean}")
+	private OptionBean options;
+
+	@ManagedProperty("#{carPool}")
+	private CarPool carPool;
+
+	public void setCarPool(CarPool carPool) {
+		this.carPool = carPool;
+	}
+
+	public void setOptions(OptionBean options) {
+		this.options = options;
+	}
 
 	private String brand;
 
@@ -64,6 +76,11 @@ public class FilterBean {
 	public String getPrice() {
 		return price;
 	}
+	
+	public List<String> getTypes() {
+		return options.getTypesToBrand(brand);
+	}
+
 
 	public String getType() {
 		return type;
@@ -82,6 +99,10 @@ public class FilterBean {
 
 	public void setBrand(String brand) {
 		this.brand = brand;
+		if (type!=null && type.length()>0) {
+			if (!brand.equals(options.getBrandToType(type)))
+				type=null;
+		}
 	}
 
 	public void setColor(String color) {
@@ -102,9 +123,14 @@ public class FilterBean {
 	
 	public void setType(String type) {
 		this.type = type;
+		String b = options.getBrandToType(type);
+		if (null != b) {
+			brand=b;
+		}
 	}
 	
 	public void setYearText(String year) {
+		yearText=year;
 	}
 	
 	public String getYearText() {
@@ -120,9 +146,9 @@ public class FilterBean {
 	}
 	
 	public String getCounter() {
-		double d = Math.random()*1000000;
-		long l = (long)Math.floor(d + 0.5d);
-		if (null != brand) return String.valueOf(l) + " " + brand; 
+		carPool.applyFilter(this);
+		long l=carPool.getSelectedCars().size();
+//		if (null != brand) return String.valueOf(l) + " " + brand; 
 		return String.valueOf(l);
 	}
 

@@ -16,31 +16,119 @@
  */
 package de.beyondjava.jsf.sample.carshop;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class CarPool {
-	private List<Car> carPool = Arrays.asList(
-	new Car("Honda", "Civic", 2008, "silver"), new Car("Carriage", "Stanhope", 332, "black"), new Car("Volvo", "V40", 2002, "green"),
-			new Car("Opel", "Corsa", 1997, "red"), new Car("Opel", "Kadett", 1990, "white"), new Car("Scoda", "Octavia", (2000), "silver"),
-			new Car("Renault", "R4", (1970), "red"), new Car("BMW", "E30", (1980), "blue"), new Car("Volvo", "V70", (2006), "red"),
-			new Car("Fiat", "Panda", (2003), "black"),
-			new Car("Honda", "Civic", 2009, "red"), new Car("Carriage", "Stanhope", 333, "black"), new Car("Volvo", "V40", 2001, "green"),
-			new Car("Opel", "Corsa", 2000, "blue"), new Car("Opel", "Kadett", 1992, "white"), new Car("Scoda", "Octavia", (2001), "silver"),
-			new Car("Renault", "R4", (1972), "red"), new Car("BMW", "E30", (1982), "blue"), new Car("Volvo", "V70", (2007), "red"),
-			new Car("Fiat", "Panda", (2008), "black"),new Car("Opel", "Astra", 2014, "black")
-	);
-	
+
+	private final static int SIZE_OF_INITIAL_CAR_POOL = 10000;
+
+	@ManagedProperty("#{optionBean}")
+	private OptionBean options;
+
+	private List<String> types;
+
+	private int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+
+	public void setOptions(OptionBean options) {
+		this.options = options;
+	}
+
+	private List<Car> carPool;
+
 	public List<Car> getCarPool() {
 		return carPool;
+	}
+
+	private List<Car> selectedCars;
+
+	public List<Car> getSelectedCars() {
+		return selectedCars;
+	}
+
+	@PostConstruct
+	private void initRandomCarPool() {
+		types = options.getTypesToBrand(null);
+		carPool = new ArrayList<Car>();
+		for (int i = 0; i < SIZE_OF_INITIAL_CAR_POOL; i++) {
+			carPool.add(getRandomCar());
+		}
+		selectedCars = carPool;
 	}
 
 	public void setCarPool(List<Car> carpool) {
 		this.carPool = carpool;
 	}
+
+	private Car getRandomCar() {
+		int typeIndex = (int) Math.floor(Math.random() * (types.size() - 1));
+		String type = types.get(typeIndex + 1);
+		String brand = options.getBrandToType(type);
+		int year = (int) (Math.floor((currentYear - 1980) * Math.random())) + 1980;
+		int age = currentYear - year;
+
+		int price = 60000 / (1 + age) + (int) Math.floor(Math.random() * 10000);
+
+		int mileage = (int) (Math.floor((age + 1) * 20000 * Math.random()));
+
+		int colorIndex = (int) Math.floor(Math.random() * (options.getColors().size() - 1));
+		String color = options.getColors().get(colorIndex + 1);
+
+		int fuelIndex = (int) Math.floor(Math.random() * (options.getFuels().size() - 1));
+		String fuel = options.getFuels().get(fuelIndex + 1);
+
+		Car c = new Car(brand, type, year, color, mileage, fuel, price);
+		return c;
+	}
+
+	public void applyFilter(FilterBean b) {
+		selectedCars = new ArrayList<Car>();
+		for (Car c : carPool) {
+			String criterium = b.getBrand();
+			if (criterium != null && criterium.length() > 0) {
+				if (!c.getBrand().equals(criterium))
+					continue;
+			}
+			criterium = b.getType();
+			if (criterium != null && criterium.length() > 0) {
+				if (!c.getType().equals(criterium))
+					continue;
+			}
+			criterium = b.getColor();
+			if (criterium != null && criterium.length() > 0) {
+				if (!c.getColor().equals(criterium))
+					continue;
+			}
+			criterium = b.getFuel();
+			if (criterium != null && criterium.length() > 0) {
+				if (!c.getFuel().equals(criterium))
+					continue;
+			}
+			int year = b.getYear();
+			if (c.getYear() < year)
+				continue;
+			criterium= b.getMileage();
+			if (criterium != null && criterium.length() > 0) {
+				int km = Integer.parseInt(criterium.substring(2, criterium.length()-3));
+				if (c.getMileage() > km)
+					continue;
+			}
+			criterium= b.getPrice();
+			if (criterium != null && criterium.length() > 0) {
+				int euro = Integer.parseInt(criterium.substring(3, criterium.length()));
+				if (c.getPrice() > euro)
+					continue;
+			}
+			selectedCars.add(c);
+		}
+	}
+
 }

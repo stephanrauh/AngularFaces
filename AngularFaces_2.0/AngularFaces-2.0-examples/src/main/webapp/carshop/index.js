@@ -9,7 +9,7 @@ controller('CarShopController', function($scope, $filter, ngTableParams) {
 	$scope.$watch('filterBean.mileage', sendFilterToServer);
 	$scope.$watch('filterBean.fuel', sendFilterToServer);
 	$scope.$watch('filterBean.color', sendFilterToServer);
-	$scope.$watch('filterBean.year', sendFilterToServer);
+	$scope.$watch('filterBean.yearText', sendFilterToServer);
 })
 
 function sendFilterToServer(newValue, oldValue) {

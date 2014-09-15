@@ -16,14 +16,38 @@
  */
 package de.beyondjava.jsf.sample.carshop;
 
-import javax.faces.bean.ManagedBean;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class Car {
     String brand;
-    @NotEmpty
+    public int getMileage() {
+		return mileage;
+	}
+
+	public void setMileage(int mileage) {
+		this.mileage = mileage;
+	}
+
+	public String getFuel() {
+		return fuel;
+	}
+
+	public void setFuel(String fuel) {
+		this.fuel = fuel;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	@NotEmpty
     String color;
 
 	String type;
@@ -33,11 +57,26 @@ public class Car {
     @NotEmpty
     int year;
 	
-	public Car(String brand, String type, int year, String color) {
+	@Min(0)
+	@Max(1000000)
+	@NotEmpty
+	int mileage;
+	
+	@NotEmpty
+	String fuel;
+	
+	@Min(1)
+	@Max(5000000)
+	int price;
+	
+	public Car(String brand, String type, int year, String color, int mileage, String fuel, int price) {
     	this.brand=brand;
     	this.type=type;
     	this.year=year;
     	this.color=color;
+    	this.mileage=mileage;
+    	this.fuel=fuel;
+    	this.price=price;
     }
 
 	public String getBrand() {
