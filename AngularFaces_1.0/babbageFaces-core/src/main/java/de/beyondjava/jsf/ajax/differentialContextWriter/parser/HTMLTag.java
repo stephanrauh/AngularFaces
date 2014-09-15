@@ -16,17 +16,27 @@
  */
 package de.beyondjava.jsf.ajax.differentialContextWriter.parser;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
-import javax.xml.parsers.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.*;
-import org.xml.sax.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * @author Stephan Rauh http://www.beyondjava.net
@@ -152,9 +162,9 @@ public class HTMLTag implements Serializable {
         return html.replace("AmPeRsAnD", "&");
     }
 
-    private List<HTMLAttribute> attributes = new ArrayList<>();
+    private List<HTMLAttribute> attributes = new ArrayList<HTMLAttribute>();
 
-    private List<HTMLTag> children = new ArrayList<>();
+    private List<HTMLTag> children = new ArrayList<HTMLTag>();
 
     /** convenience attribute (with the side effect of better performance) */
     private String id = "";
@@ -305,7 +315,7 @@ public class HTMLTag implements Serializable {
      *         the HTML tags containing the scripts.
      */
     public Map<String, HTMLTag> collectScripts() {
-        Map<String, HTMLTag> scripts = new HashMap<>();
+        Map<String, HTMLTag> scripts = new HashMap<String, HTMLTag>();
         for (HTMLTag candidate : children) {
             if ("script".equals(candidate.getNodeName())) {
                 String scriptID = candidate.getId();
@@ -335,11 +345,10 @@ public class HTMLTag implements Serializable {
     /**
      * Returns a list of scripts that have to be executed again to re-initialize the components in this HTML tag.
      *
-     * @param idOfCurrentChange
      * @return null or the Java script node
      */
     public Collection<HTMLTag> extractPrimeFacesJavascript(Map<String, HTMLTag> availableScripts) {
-        Map<String, HTMLTag> requiredScripts = new HashMap<>();
+        Map<String, HTMLTag> requiredScripts = new HashMap<String, HTMLTag>();
         if ((id != null) && (id.length() > 0)) {
             for (Entry<String, HTMLTag> script : availableScripts.entrySet()) {
                 if (id.startsWith(script.getKey())) {

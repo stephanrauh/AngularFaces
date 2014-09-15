@@ -37,13 +37,13 @@ public class XmlDiffTest {
             HTMLTag oldHTMLTag = new HTMLTag(oldHTMLString);
             HTMLTag newHTMLTag = new HTMLTag(newHTMLString);
 
-            List<String> deletions = new ArrayList<>();
-            List<String> changes = new ArrayList<>();
-            List<String> insertions = new ArrayList<>();
+            List<String> deletions = new ArrayList<String>();
+            List<String> changes = new ArrayList<String>();
+            List<String> insertions = new ArrayList<String>();
 
-            List<HTMLTag> updates = new ArrayList<>();
+            List<HTMLTag> updates = new ArrayList<HTMLTag>();
             XmlDiff.tagsAreEqualOrCanBeChangedLocally(oldHTMLTag, newHTMLTag, updates, deletions, changes, insertions);
-            List<String> result = new ArrayList<>();
+            List<String> result = new ArrayList<String>();
             result.addAll(deletions);
             result.addAll(changes);
             result.addAll(insertions);

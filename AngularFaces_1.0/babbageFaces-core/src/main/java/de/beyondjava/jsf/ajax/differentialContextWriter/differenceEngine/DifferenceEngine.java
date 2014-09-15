@@ -208,13 +208,13 @@ public class DifferenceEngine {
      * @return
      */
     private List<HTMLTag> determineNecessaryChanges(HTMLTag changingHTML, HTMLTag lastKnownCorrespondingHTMLTag) {
-        List<String> deletions = new ArrayList<>();
-        List<String> attributeChanges = new ArrayList<>();
-        List<String> inserts = new ArrayList<>();
-        List<HTMLTag> updates = new ArrayList<>();
+        List<String> deletions = new ArrayList<String>();
+        List<String> attributeChanges = new ArrayList<String>();
+        List<String> inserts = new ArrayList<String>();
+        List<HTMLTag> updates = new ArrayList<HTMLTag>();
         determineNecessaryChanges(changingHTML, lastKnownCorrespondingHTMLTag, updates, deletions, attributeChanges,
                 inserts);
-        List<HTMLTag> partialChanges = new ArrayList<>();
+        List<HTMLTag> partialChanges = new ArrayList<HTMLTag>();
         if ((null != inserts) && (inserts.size() > 0)) {
             for (String insert : inserts) {
                 partialChanges.add(new HTMLTag(insert));
@@ -247,13 +247,7 @@ public class DifferenceEngine {
         return partialChanges;
     }
 
-    /**
-     * @param changingHTML
-     * @param lastKnownCorrespondingHTMLTag
-     * @param deletions2
-     * @param changes2
-     */
-    protected List<HTMLTag> determineNecessaryChanges(HTMLTag newDOM, HTMLTag lastKnownCorrespondingHTMLTag,
+     protected List<HTMLTag> determineNecessaryChanges(HTMLTag newDOM, HTMLTag lastKnownCorrespondingHTMLTag,
             List<HTMLTag> updates, List<String> deletions, List<String> attributeChanges, List<String> inserts) {
         XmlDiff.tagsAreEqualOrCanBeChangedLocally(lastKnownCorrespondingHTMLTag, newDOM, updates, deletions,
                 attributeChanges, inserts);
@@ -324,10 +318,11 @@ public class DifferenceEngine {
     /**
      * @param partialResponseAsDOMTree
      * @return
+     * @throws Exception 
      */
-    private List<HTMLTag> extractChangesFromPartialResponse(String partialResponse) {
+    private List<HTMLTag> extractChangesFromPartialResponse(String partialResponse) throws Exception {
 
-        List<HTMLTag> partialResponses = new ArrayList<>();
+        List<HTMLTag> partialResponses = new ArrayList<HTMLTag>();
         partialResponse = partialResponse.replace("\n", "").replace("\r", "");
         Pattern pattern = Pattern
                 .compile("(<update id=\".*?\">.*?</update>)|(<attributes id=\".*?\">.*?</attributes>)|(<delete id=\".*?\">.*?</update>)|(<eval>.*</eval>)|(<insert id=\".*?\\\">.*?</insert>)|(<extension ?.>.*?</extension>)|(<error>.*</error>)|(<redirect url=\".*?\">.*?</redirect>)");
@@ -454,7 +449,7 @@ public class DifferenceEngine {
     private String optimizeResponse(String currentResponse, HTMLTag domTreeToBeUpdated,
             List<HTMLTag> newPartialChanges, String id) {
         if (!id.contains("javax.faces.ViewState")) {
-            Map<String, String> scriptsToBeAdded = new HashMap<>();
+            Map<String, String> scriptsToBeAdded = new HashMap<String, String>();
             Map<String, HTMLTag> scriptsInOriginalDomTree = domTreeToBeUpdated.collectScripts();
             int start = currentResponse.indexOf("<update id=\"" + id + "\">");
             int end = currentResponse.indexOf("</update>", start);
@@ -571,13 +566,8 @@ public class DifferenceEngine {
      * Compares the current HTML response with the last known HTML code. If it's a regular HTML response, the HTML code
      * is simply stored in the session. If it's an JSF AJAX response, the method looks at the differences and tries to
      * remove unchanged HTML from the response.
-     *
-     * @param rawBuffer
-     * @param sessionMap
-     * @param isAJAX
-     * @return
      */
-    public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) {
+    public String yieldDifferences(String currentResponse, Map<String, Object> sessionMap, boolean isAJAX) throws Exception {
         int originalUpdates = 0;
         int originalOtherTags = 0;
         int originalErrorTags = 0;

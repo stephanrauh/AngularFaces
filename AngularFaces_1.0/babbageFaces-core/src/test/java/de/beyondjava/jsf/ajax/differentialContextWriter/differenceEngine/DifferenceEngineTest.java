@@ -47,10 +47,10 @@ public class DifferenceEngineTest {
             String newHTML = FileUtils.readFileToString(partialChange);
             String lastKnownHTML = FileUtils.readFileToString(new File(dir, "html1.xml"));
             HTMLTag lastKnownCorrespondingNode = new HTMLTag(lastKnownHTML);
-            List<String> deletions = new ArrayList<>();
-            List<String> attributeChanges = new ArrayList<>();
-            List<String> insertions = new ArrayList<>();
-            List<HTMLTag> updates = new ArrayList<>();
+            List<String> deletions = new ArrayList<String>();
+            List<String> attributeChanges = new ArrayList<String>();
+            List<String> insertions = new ArrayList<String>();
+            List<HTMLTag> updates = new ArrayList<HTMLTag>();
             diffenceEngine.determineNecessaryChanges(new HTMLTag(newHTML), lastKnownCorrespondingNode, updates,
                     deletions, attributeChanges, insertions);
             assertNotNull(updates);
@@ -79,10 +79,10 @@ public class DifferenceEngineTest {
             String newHTML = FileUtils.readFileToString(partialChange);
             String lastKnownHTML = FileUtils.readFileToString(new File(dir, "html2.xml"));
             HTMLTag lastKnownCorrespondingNode = new HTMLTag(lastKnownHTML);
-            List<String> deletions = new ArrayList<>();
-            List<String> attributeChanges = new ArrayList<>();
-            List<String> insertions = new ArrayList<>();
-            List<HTMLTag> updates = new ArrayList<>();
+            List<String> deletions = new ArrayList<String>();
+            List<String> attributeChanges = new ArrayList<String>();
+            List<String> insertions = new ArrayList<String>();
+            List<HTMLTag> updates = new ArrayList<HTMLTag>();
             diffenceEngine.determineNecessaryChanges(new HTMLTag(newHTML), lastKnownCorrespondingNode, updates,
                     deletions, attributeChanges, insertions);
             assertNotNull(updates);
@@ -117,10 +117,10 @@ public class DifferenceEngineTest {
             String newHTML = FileUtils.readFileToString(partialChange);
             String lastKnownHTML = FileUtils.readFileToString(new File(dir, "html8.xml"));
             HTMLTag lastKnownCorrespondingNode = new HTMLTag(lastKnownHTML);
-            List<String> deletions = new ArrayList<>();
-            List<String> changes = new ArrayList<>();
-            List<String> insertions = new ArrayList<>();
-            List<HTMLTag> updates = new ArrayList<>();
+            List<String> deletions = new ArrayList<String>();
+            List<String> changes = new ArrayList<String>();
+            List<String> insertions = new ArrayList<String>();
+            List<HTMLTag> updates = new ArrayList<HTMLTag>();
             diffenceEngine.determineNecessaryChanges(new HTMLTag(newHTML), lastKnownCorrespondingNode, updates,
                     deletions, changes, insertions);
             assertNotNull(updates);

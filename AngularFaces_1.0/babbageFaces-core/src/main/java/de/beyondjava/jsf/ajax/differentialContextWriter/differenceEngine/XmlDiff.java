@@ -183,13 +183,13 @@ public class XmlDiff {
 			List<HTMLTag> updates, List<String> deletions,
 			List<String> attributeChanges, List<String> inserts) {
 		boolean needsUpdate = false;
-		List<String> localDeletions = new ArrayList<>();
-		List<String> localInserts = new ArrayList<>();
-		List<HTMLTag> localUpdates = new ArrayList<>();
-		List<String> localAttributeChanges = new ArrayList<>();
-		oldHTMLTags = new ArrayList<>(oldHTMLTags); // defensive copying avoids
+		List<String> localDeletions = new ArrayList<String>();
+		List<String> localInserts = new ArrayList<String>();
+		List<HTMLTag> localUpdates = new ArrayList<HTMLTag>();
+		List<String> localAttributeChanges = new ArrayList<String>();
+		oldHTMLTags = new ArrayList<HTMLTag>(oldHTMLTags); // defensive copying avoids
 		// side effects
-		newHTMLTags = new ArrayList<>(newHTMLTags); // defensive copying avoids
+		newHTMLTags = new ArrayList<HTMLTag>(newHTMLTags); // defensive copying avoids
 		// side effects
 		List<HTMLTag> insertList = getRecentlyAddedHTMLTags(oldHTMLTags,
 				newHTMLTags);
@@ -361,7 +361,7 @@ public class XmlDiff {
 	 * @return
 	 */
 	private static List<HTMLTag> getNonEmptyHTMLTags(List<HTMLTag> tags) {
-		List<HTMLTag> nonEmpty = new ArrayList<>();
+		List<HTMLTag> nonEmpty = new ArrayList<HTMLTag>();
 		for (int i = 0; i < tags.size(); i++) {
 			HTMLTag n = tags.get(i);
 			if (n.hasAttributes()
@@ -394,7 +394,7 @@ public class XmlDiff {
 	 */
 	public static List<HTMLTag> getRecentlyAddedHTMLTags(
 			List<HTMLTag> oldHTMLTags, List<HTMLTag> newHTMLTags) {
-		List<HTMLTag> result = new ArrayList<>();
+		List<HTMLTag> result = new ArrayList<HTMLTag>();
 		Map<String, HTMLTag> alreadyThere = new HashMap<String, HTMLTag>();
 		for (int i = 0; i < oldHTMLTags.size(); i++) {
 			HTMLTag n = oldHTMLTags.get(i);
@@ -508,10 +508,10 @@ public class XmlDiff {
 				.toString(), newHTMLTag.getInnerHTML().toString())) {
 			return GLOBAL_CHANGE_REQUIRED;
 		}
-		List<String> localDeletions = new ArrayList<>();
-		List<String> localInserts = new ArrayList<>();
-		List<HTMLTag> localUpdates = new ArrayList<>();
-		List<String> localAttributeChanges = new ArrayList<>();
+		List<String> localDeletions = new ArrayList<String>();
+		List<String> localInserts = new ArrayList<String>();
+		List<HTMLTag> localUpdates = new ArrayList<HTMLTag>();
+		List<String> localAttributeChanges = new ArrayList<String>();
 		if (GLOBAL_CHANGE_REQUIRED == attributesAreEqualOrCanBeChangedLocally(
 				oldHTMLTag, newHTMLTag, localAttributeChanges)) {
 			LOGGER.fine("Attributes are so different that they require update of parent. Old HTMLTag:"
