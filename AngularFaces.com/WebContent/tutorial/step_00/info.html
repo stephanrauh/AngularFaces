@@ -23,20 +23,14 @@
           Dart and AngularDart, but I've postponed Dart support because I'm waiting for a couple of announced breaking changes in AngularDart.
           </p>
           <p>
-          AngularFaces supports PrimeFaces 5.0 and above (and probably earlier version, too). 
-          It doesn't really need PrimeFaces, but at the time of writing the code contains an
-          accidential dependency
-          to PrimeFaces that requires PrimeFaces 5.0 in the class path. A future version of AngularFaces will fix this, making PrimeFaces
-          an optional (but highly welcome) library.</p>
+          AngularFaces supports PrimeFaces 5.0 and above (and probably earlier versions, too). 
+          That doesn't mean PrimeFaces is required: PrimeFaces is an optional (but highly welcome) library.</p>
           <p>Most of the examples are based on Maven. Some of the examples are based on Spring Boot and Gradle. Actually AngularFaces doesn't require
           any of them - Maven and Gradle are just nice tools to compile and package the jar and war files.</p>
           <h2>Brief introduction for the experts</h2>
-          <p>There are two ways to use AngularFaces: use one of the precompiled distribution jars, or build it from source.<p>
-          <strong>Use the precompiled jar</strong>
-          <p>Currently, AngularFaces is not hosted at Maven central, so you have to use <a target="#"
-           href="http://devblog.virtage.com/2013/04/my-maven-project-needs-not-yet-mavenized-jars-dos-and-donts/">this recipe</a>
-           to install the pre-packaged jar to your maven repository. The jar file is hosted in the 
-           <a target="#" href="https://github.com/stephanrauh/AngularFaces/tree/master/dist">distribution folder</a> of the AngularFaces project.</p>
+          <p>There are two ways to use AngularFaces: download it from Maven Central, or build it from source.<p>
+          <strong>Download AngularFaces from Maven Central</strong>
+          <p>Maven users simply add the dependency to your pom.xml file (see below).</p>
            <strong>Build AngularFaces from source</strong>
           <p>
           Maven and Gradle users might want to "git clone" the <a href="https://github.com/stephanrauh/AngularFaces/tree/master/AngularFaces_2.0/AngularFaces-core">AngularFaces 2.0 core project</a> and run "maven install".</p>
@@ -65,14 +59,14 @@
   &lt;/dependency>
 &lt;/dependencies>
           </pre>
-          <p>Of course you'll probably have to adjust the version number of AngularFaces. It won't remain version 2.0.0 forever :).</p>
+          <p>Of course you'll may have to adjust the version number of AngularFaces. It won't remain version 2.0.0 forever :).</p>
           </p>
           <h2>Verbose explanation for the rest of us</h2>
           I've prepared a couple of tutorial projects for you. The first tutorial project doesn't do much: it's simply there to lay the ground to build on later.
           <br /><br />
           You find the first tutorial project at <a target="#" href="https://github.com/stephanrauh/AngularFaces/tree/master/Tutorial/step_00">my GitHub repository.</a>
-          I suggest you download the entire GitHub repository. Currently, AngularFaces hasn't made it to Maven Central yet. Until it does, building it from source
-          is the best approach. It's a fairly simple approach, by the way.<br /><br />
+          The following steps describe how to download the entire repository. That's more than you really need (among other things, it includes the source code of AngularFaces itself), 
+          it it doesn't hurt, either. Quite the contrary, having the source code of AngularFaces at hand may help you to understand things more quickly.<br /><br />
           <h3>Downloading AngularFaces with Git</h3>
           GitHub is build around Git, so probably the easiest way to get started is to clone the AngularFaces repository to your local hard disk.
           In order to clone it to - say - C:\AngularFaces, proceed as follows. Open the
@@ -127,7 +121,7 @@ git clone git@github.com:stephanrauh/AngularFaces.git
           <p>The folder angularfaces-tutorial-step-00//WEB-INF/lib of the Tomcat webapps folder should contain these libraries:</p>
           <img src="tutorial/step_00/libraries.png">
           <p>
-          AngularFaces doesn't really require PrimeFaces, but it's in the folder because AngularFaces supports PrimeFaces. Gson, classmate,
+          Gson, classmate,
           commons-beanutils, commons-logging and the two validation API jars are added by AngularFaces 2.0 core.</p> 
            <br />
            <br />
