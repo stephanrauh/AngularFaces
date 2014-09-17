@@ -6,7 +6,7 @@
 	<groupId>de.beyondjava.angularFaces</groupId>
 	<artifactId>angularfaces-tutorial-step-02-internationalization</artifactId>
 	<packaging>war</packaging>
-	<version>2.0.0</version>
+	<version>2.1.0-SNAPSHOT</version>
 	<name>angularfaces-2.0-tutorial-step-02-internationalization</name>
    <description>AngularFaces make JSF programming simpler. In particular, it adds AngularJS to JSF.</description>
   <url>http://www.beyondjava.net</url>
@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>de.beyondjava</groupId>
 			<artifactId>angularFaces-core</artifactId>
-			<version>2.0.0</version>
+			<version>2.1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<profiles>

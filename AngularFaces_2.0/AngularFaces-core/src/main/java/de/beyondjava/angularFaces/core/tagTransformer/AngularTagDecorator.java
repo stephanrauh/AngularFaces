@@ -35,52 +35,18 @@ import javax.faces.view.facelets.TagDecorator;
  * with the client and implements a couple of pseudo JSF tags.
  */
 public class AngularTagDecorator implements TagDecorator {
-	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator");
-
 	private static boolean active = false;
-	private static final String PASS_THROUGH_NAMESPACE = "http://xmlns.jcp.org/jsf/passthrough";
-	private static final String MOJARRA_NAMESPACE = "http://xmlns.jcp.org/jsf/html";
+
 	private final static Pattern angularExpressionPattern = Pattern.compile("\\{\\{(\\w+\\.)+(\\w+)\\}\\}");
-	private final RelaxedTagDecorator relaxedDecorator = new RelaxedTagDecorator();
-
-	@Override
-	public Tag decorate(Tag tag) {
-		TagAttributes modifiedAttributes = extractAngularAttributes(tag);
-		// Apache MyFaces converts HTML tag with jsf: namespace, but missing an attribute, into jsf:element tag. We'll fix this
-		// for the special case of input fields.
-
-		if ("view".equals(tag.getLocalName())) {
-			active = true;
-		}
-
-		if ("element".equals(tag.getLocalName())) {
-			TagAttribute tagAttribute = modifiedAttributes.get(PASS_THROUGH_NAMESPACE, "elementName");
-			if ("input".equals(tagAttribute.getValue())) {
-				return convertElementToInputText(tag, modifiedAttributes);
-			}
-		}
-
-		if (!isHTMLNamespace(tag.getNamespace())) {
-			return generateTagIfNecessary(tag, modifiedAttributes);
-		}
-		Tag newTag = relaxedDecorator.decorate(tag);
-		if (newTag != null && newTag != tag) {
-			return newTag;
-		}
-
-		if ("translate".equals(tag.getLocalName()) || "i18n".equals(tag.getLocalName())) {
-			return convertToTranslateTag(tag, modifiedAttributes);
-		}
-
-		if ("ngsync".equals(tag.getLocalName())) {
-			return convertToNGSyncTag(tag, modifiedAttributes);
-		}
-
-		if ("input".equals(tag.getLocalName())) {
-			return convertToInputText(tag, modifiedAttributes);
-		}
-		return generateTagIfNecessary(tag, modifiedAttributes);
+	private static final String HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator");
+	private static final String MOJARRA_NAMESPACE = "http://xmlns.jcp.org/jsf/html";
+	private static final String PASS_THROUGH_NAMESPACE = "http://xmlns.jcp.org/jsf/passthrough";
+	public static boolean isActive() {
+		return active;
 	}
+
+	private final RelaxedTagDecorator relaxedDecorator = new RelaxedTagDecorator();
 
 	private Tag convertElementToInputText(Tag tag, TagAttributes modifiedAttributes) {
 		TagAttribute[] attributes = modifiedAttributes.getAll();
@@ -90,25 +56,10 @@ public class AngularTagDecorator implements TagDecorator {
 		return t;
 	}
 
-	public static boolean isActive() {
-		return active;
-	}
-
-	private boolean isHTMLNamespace(String ns) {
-		return "".equals(ns) || "http://www.w3.org/1999/xhtml".equals(ns);
-	}
-
 	private Tag convertToInputText(Tag tag, TagAttributes attributeList) {
 		TagAttribute[] attributes = attributeList.getAll();
 		TagAttributes more = new AFTagAttributes(attributes);
 		Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "inputText", "inputText", more);
-		return t;
-	}
-
-	private Tag convertToTranslateTag(Tag tag, TagAttributes modifiedAttributes) {
-		TagAttribute[] attributes = modifiedAttributes.getAll();
-		TagAttributes more = new AFTagAttributes(attributes);
-		Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "outputText", "h:outputText", more);
 		return t;
 	}
 
@@ -151,17 +102,55 @@ public class AngularTagDecorator implements TagDecorator {
 			newAttributes[newLength++] = value;
 			newAttributes = Arrays.copyOf(newAttributes, newLength);
 			TagAttributes more = new AFTagAttributes(newAttributes);
-			Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "outputText", "h:outputText", more);
+			Tag t = new Tag(tag.getLocation(),  HTML_NAMESPACE, "input", "input", more);
 			return t;
 		}
 	}
 
-	private Tag generateTagIfNecessary(Tag tag, TagAttributes modifiedAttributes) {
-		if (modifiedAttributes != tag.getAttributes()) {
-			Tag t = new Tag(tag.getLocation(), tag.getNamespace(), tag.getLocalName(), tag.getQName(), modifiedAttributes);
-			return t;
+	private Tag convertToTranslateTag(Tag tag, TagAttributes modifiedAttributes) {
+		TagAttribute[] attributes = modifiedAttributes.getAll();
+		TagAttributes more = new AFTagAttributes(attributes);
+		Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "outputText", "h:outputText", more);
+		return t;
+	}
+
+	@Override
+	public Tag decorate(Tag tag) {
+		TagAttributes modifiedAttributes = extractAngularAttributes(tag);
+		// Apache MyFaces converts HTML tag with jsf: namespace, but missing an attribute, into jsf:element tag. We'll fix this
+		// for the special case of input fields.
+
+		if ("view".equals(tag.getLocalName())) {
+			active = true;
 		}
-		return null;
+
+		if ("element".equals(tag.getLocalName())) {
+			TagAttribute tagAttribute = modifiedAttributes.get(PASS_THROUGH_NAMESPACE, "elementName");
+			if ("input".equals(tagAttribute.getValue())) {
+				return convertElementToInputText(tag, modifiedAttributes);
+			}
+		}
+
+		if (!isHTMLNamespace(tag.getNamespace())) {
+			return generateTagIfNecessary(tag, modifiedAttributes);
+		}
+		Tag newTag = relaxedDecorator.decorate(tag);
+		if (newTag != null && newTag != tag) {
+			return newTag;
+		}
+
+		if ("translate".equals(tag.getLocalName()) || "i18n".equals(tag.getLocalName())) {
+			return convertToTranslateTag(tag, modifiedAttributes);
+		}
+
+		if ("ngsync".equals(tag.getLocalName())) {
+			return convertToNGSyncTag(tag, modifiedAttributes);
+		}
+
+		if ("input".equals(tag.getLocalName())) {
+			return convertToInputText(tag, modifiedAttributes);
+		}
+		return generateTagIfNecessary(tag, modifiedAttributes);
 	}
 
 	private TagAttributes extractAngularAttributes(Tag tag) {
@@ -213,5 +202,17 @@ public class AngularTagDecorator implements TagDecorator {
 			return new AFTagAttributes((TagAttribute[]) modifiedAttributeList);
 		}
 		return tag.getAttributes();
+	}
+
+	private Tag generateTagIfNecessary(Tag tag, TagAttributes modifiedAttributes) {
+		if (modifiedAttributes != tag.getAttributes()) {
+			Tag t = new Tag(tag.getLocation(), tag.getNamespace(), tag.getLocalName(), tag.getQName(), modifiedAttributes);
+			return t;
+		}
+		return null;
+	}
+
+	private boolean isHTMLNamespace(String ns) {
+		return "".equals(ns) || HTML_NAMESPACE.equals(ns);
 	}
 }
