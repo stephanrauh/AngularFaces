@@ -92,6 +92,9 @@ public class AngularTagDecorator implements TagDecorator {
 			else if ("id".equals(attributes[i].getLocalName())) {
 				newAttributes[newLength++]=attributes[i];
 			}
+			else if ("styleClass".equals(attributes[i].getLocalName())) {
+				newAttributes[newLength++]=attributes[i];
+			}
 		}
 		
 		if (null==angularExpression) {
@@ -117,7 +120,7 @@ public class AngularTagDecorator implements TagDecorator {
 //			newAttributes[newLength++] = hide;
 			String coreExpression=angularExpression.substring(2, angularExpression.length()-2);
 			TagAttribute value = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "value", "value",
-					"{{toJson("+coreExpression+")}}");
+					coreExpression);
 			newAttributes[indexOfValueAttribute] = value;
 			newAttributes = Arrays.copyOf(newAttributes, newLength);
 			TagAttributes more = new AFTagAttributes(newAttributes);

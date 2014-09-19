@@ -23,7 +23,7 @@
 		</style>
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController" id="angular" style="padding-left:10px" angularJSFile="filter.js">
-		<form id="myForm" style="width: 700px">
+		<form id="theForm" style="width: 700px">
 			<h2>
 				<translate value="Welcome to the AngularFaces 2.0 car dealer!" />
 			</h2>
@@ -109,7 +109,7 @@
 							</td>
 						</tr>
 					</table>
-	    			<ngsync value="{{filterBean}}" direction="clientToServer" id="filterSyncID"/>
+	    			<ngsync value="{{filterBean}}" direction="clientToServer" id="filterSyncID" styleClass="filterSyncClass"/>
 				</div>
 			</div>
 		</form>

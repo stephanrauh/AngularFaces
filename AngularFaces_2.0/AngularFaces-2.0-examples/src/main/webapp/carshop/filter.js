@@ -20,11 +20,16 @@ var app = angular.module('CarShop', [ "angularfaces" ]).controller(
 function sendFilterToServer(newValue, oldValue) {
 	if (newValue != oldValue) {
 		try {
+			
+			var ngsync = document.getElementsByClassName('filterSyncClass')[0];
+			
 			if (event.target.nextElementSibling) {
 				var helperID = event.target.nextElementSibling.id;
 				window.setTimeout(function() {
-					jsf.ajax.request(helperID, event, {
-						'javax.faces.behavior.event' : 'valueChange', render : 'angular'
+					jsf.ajax.request(ngsync.id, null, {
+						'javax.faces.behavior.event':'valueChange', 
+						execute:'@form', 
+						render:'angular'
 					});
 				}, 10);
 			}

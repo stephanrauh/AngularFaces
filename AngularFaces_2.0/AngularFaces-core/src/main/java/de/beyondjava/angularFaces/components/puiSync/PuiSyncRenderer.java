@@ -50,69 +50,71 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 		writer.writeAttribute("id", clientId, null);
 		writer.writeAttribute("name", clientId, null);
 		writer.writeAttribute("type", "hidden", null);
-		String value=AttributeUtilities.getAttributeAsString(component, "value");
-		writer.writeAttribute("value", value, null);
+		String value = AttributeUtilities.getAttributeAsString(component, "value");
+		writer.writeAttribute("value", "{{toJson(" + value + ")}}", null);
+		String styleClass = AttributeUtilities.getAttributeAsString(component, "styleClass");
+		writer.writeAttribute("class", styleClass, null);
 		writer.endElement("input");
-		component.pushComponentToEL(context, component);
 	}
-	
+
 	@Override
 	public void decode(FacesContext context, UIComponent component) {
-			String rootProperty = ELTools.getCoreValueExpression(component);
+		String rootProperty = AttributeUtilities.getAttributeAsString(component, "value");
 
-			Map<String, String> parameterMap = context.getExternalContext().getRequestParameterMap();
-			String json = parameterMap.get(component.getClientId());
-			Object bean = ELTools.evalAsObject("#{" + rootProperty + "}");
+		Map<String, String> parameterMap = context.getExternalContext().getRequestParameterMap();
+		String json = parameterMap.get(component.getClientId());
+		Object bean = ELTools.evalAsObject("#{" + rootProperty + "}");
+		try {
+			Object fromJson = new Gson().fromJson(json, bean.getClass());
+			// todo work with root objects
 			if (rootProperty.contains(".")) {
+				String rootBean = rootProperty.substring(0, rootProperty.lastIndexOf("."));
+				Object root = ELTools.evalAsObject("#{" + rootBean + "}");
+				String nestedBeanName = rootProperty.substring(rootProperty.lastIndexOf('.') + 1);
+				String setterName = "set" + nestedBeanName.substring(0, 1).toUpperCase() + nestedBeanName.substring(1);
+
 				try {
-					Object fromJson = new Gson().fromJson(json, bean.getClass());
-					String rootBean = rootProperty.substring(0, rootProperty.lastIndexOf("."));
-					Object root = ELTools.evalAsObject("#{" + rootBean + "}");
-					String nestedBeanName = rootProperty.substring(rootProperty.lastIndexOf('.') + 1);
-					String setterName = "set" + nestedBeanName.substring(0, 1).toUpperCase() + nestedBeanName.substring(1);
-
-					try {
-						if (root != null) {
-							Method setter = root.getClass().getDeclaredMethod(setterName, bean.getClass());
-							setter.invoke(root, fromJson);
-						}
-
-					} catch (NoSuchMethodException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SecurityException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					if (root != null) {
+						Method setter = root.getClass().getDeclaredMethod(setterName, bean.getClass());
+						setter.invoke(root, fromJson);
 					}
-				} catch (NumberFormatException error) {
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_FATAL, "A number was expected, but something else was sent (" + rootProperty
-									+ ")", "A number was expected, but something else was sent (" + rootProperty + ")"));
 
-				} catch (IllegalArgumentException error) {
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_FATAL, "Can't parse the data sent from the client (" + rootProperty + ")",
-									"Can't parse the data sent from the client (" + rootProperty + ")"));
-
-				} catch (Exception anyError) {
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_FATAL,
-									"A technical error occured when trying to read the data sent from the client (" + rootProperty + ")",
-									"A technical error occured when trying to read the data sent from the client (" + rootProperty + ")"));
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
+		} catch (NumberFormatException error) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_FATAL, "A number was expected, but something else was sent (" + rootProperty
+							+ ")", "A number was expected, but something else was sent (" + rootProperty + ")"));
+
+		} catch (IllegalArgumentException error) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_FATAL, "Can't parse the data sent from the client (" + rootProperty + ")",
+							"Can't parse the data sent from the client (" + rootProperty + ")"));
+
+		} catch (Exception anyError) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_FATAL,
+							"A technical error occured when trying to read the data sent from the client (" + rootProperty + ")",
+							"A technical error occured when trying to read the data sent from the client (" + rootProperty + ")"));
 		}
+	}
 
 }
