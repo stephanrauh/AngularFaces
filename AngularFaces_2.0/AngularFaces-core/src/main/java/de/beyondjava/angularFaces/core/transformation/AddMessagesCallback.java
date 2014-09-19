@@ -27,6 +27,7 @@ import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
 
 import de.beyondjava.angularFaces.components.puiMessage.PuiMessage;
+import de.beyondjava.angularFaces.components.puiSync.PuiSync;
 
 /** Adds a message to a single component (if needed). */
 public class AddMessagesCallback implements VisitCallback {
@@ -42,7 +43,7 @@ public class AddMessagesCallback implements VisitCallback {
 		List<UIComponent> children = parent.getChildren();
 		for (int index = children.size() - 1; index >= 0; index--) {
 			UIComponent kid = children.get(index);
-			if (kid instanceof UIInput) {
+			if (kid instanceof UIInput && (!(kid instanceof PuiSync))) {
 				String addMessageAttribute = AttributeUtilities.getAttributeAsString(kid, "addMessage");
 				if (null != addMessageAttribute && "false".equalsIgnoreCase(addMessageAttribute)) {
 					continue;

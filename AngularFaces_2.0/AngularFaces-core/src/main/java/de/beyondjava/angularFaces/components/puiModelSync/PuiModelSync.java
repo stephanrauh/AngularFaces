@@ -111,7 +111,11 @@ public class PuiModelSync extends HtmlBody {
 				if (value!=null && valueToRender!=null && valueToRender instanceof String) {
 					valueToRender=convertToDatatype((String) valueToRender, value.getClass());
 				}
+				if (null != valueToRender) {
 				addJSFAttrbituteToAngularModel(model, attribute, valueToRender);
+				} else {
+					addJSFAttrbituteToAngularModel(model, attribute, value);
+				}
 			} else {
 				Object value = ELTools.evalAsObject("#{" + attribute + "}");
 				// vex.getValue(FacesContext.getCurrentInstance().getELContext())

@@ -16,13 +16,15 @@
  */
 package de.beyondjava.angularFaces.components.puiSync;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.FacesComponent;
-import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 
 import com.google.gson.Gson;
@@ -36,22 +38,27 @@ import de.beyondjava.angularFaces.core.ELTools;
  * 
  */
 
-@FacesComponent("de.beyondjava.Sync")
-public class Sync extends HtmlInputText {
-	public static final String this_FAMILY = "org.primefaces.this";
+@FacesComponent("de.beyondjava.sync")
+public class PuiSync extends UIInput implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	public static final String COMPONENT_FAMILY = "de.beyondjava.sync";
 
 	@Override
 	public String getFamily() {
-		return this_FAMILY;
-	}
-
-	@Override
-	public String getStyle() {
-		return "display:none";
+		return COMPONENT_FAMILY;
 	}
 
 	@Override
 	public void updateModel(FacesContext context) {
+	}
+
+	@Override
+	public void encodeBegin(FacesContext context) throws IOException {
+		String direction = (String) getAttributes().get("direction");
+		if (!"serverToClient".equals(direction)) {
+			super.encodeBegin(context);
+		}
 	}
 
 	@Override
@@ -112,5 +119,4 @@ public class Sync extends HtmlInputText {
 			}
 		}
 	}
-
 }

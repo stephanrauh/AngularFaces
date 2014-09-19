@@ -1,0 +1,22 @@
+<facelet-taglib version="2.0"
+  xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd"
+>
+
+  <namespace>http://beyondjava.net/angularFacesCore</namespace>
+
+  <tag>
+    <description><![CDATA[ngsync (aka ai:sync) synchronizes a JSF bean with an AngularJS model and vice versa.]]></description>
+    <tag-name>sync</tag-name>
+    <component>
+      <component-type>de.beyondjava.sync</component-type>
+      <renderer-type>de.beyondjava.sync</renderer-type>
+    </component>
+    <attribute>
+      <description><![CDATA["ClientToServer", "ServerToClient" or "both"]]></description>
+      <name>direction</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+    </attribute>
+  </tag>
+</facelet-taglib>

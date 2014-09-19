@@ -70,10 +70,13 @@ public class AngularTagDecorator implements TagDecorator {
 		
 		int newLength=0;
 		String direction = "serverToClient";
+		String angularExpression=null;
+		int indexOfValueAttribute=-1;
 		for (int i = 0; i < attributes.length; i++) {
 			if ("value".equals(attributes[i].getLocalName()))
 			{
-				String angularExpression = attributes[i].getValue();
+				indexOfValueAttribute=i;
+				angularExpression = attributes[i].getValue();
 				if (angularExpression.startsWith("#{")) {
 					angularExpression="{{" + angularExpression.substring(2, angularExpression.length()-1) + "}}";
 				}
@@ -84,25 +87,41 @@ public class AngularTagDecorator implements TagDecorator {
 			}
 			else if ("direction".equals(attributes[i].getLocalName())) {
 				direction = attributes[i].getValue();
+				newAttributes[newLength++]=attributes[i];
+			}
+			else if ("id".equals(attributes[i].getLocalName())) {
+				newAttributes[newLength++]=attributes[i];
 			}
 		}
-
-		if ("serverToClient".equalsIgnoreCase(direction)) {
-			TagAttribute hide = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "rendered", "rendered", "true");
-			newAttributes[newLength++] = hide;
+		
+		if (null==angularExpression) {
+			LOGGER.severe("ngsync: Please provide the value attribute containing the bean that is to be synchronized.");
+			TagAttribute value = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "value", "value",
+					"ngsync: Please provide the value attribute containing the bean that is to be synchronized.");
+			newAttributes[newLength++] = value;
 			newAttributes = Arrays.copyOf(newAttributes, newLength);
 			TagAttributes more = new AFTagAttributes(newAttributes);
 			Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "outputText", "outputText", more);
 			return t;
-		} else {
-			LOGGER.severe("Synchronization of AngularJS scope back to the client has not been implemented yet.");
-
-			TagAttribute value = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "value", "value",
-					"Synchronization of AngularJS scope back to the client has not been implemented yet.");
-			newAttributes[newLength++] = value;
+		}
+		else if ("serverToClient".equalsIgnoreCase(direction)) {
+			TagAttribute hide = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "rendered", "rendered", "true");
+			newAttributes[newLength++] = hide;
 			newAttributes = Arrays.copyOf(newAttributes, newLength);
 			TagAttributes more = new AFTagAttributes(newAttributes);
-			Tag t = new Tag(tag.getLocation(),  HTML_NAMESPACE, "input", "input", more);
+			Tag t = new Tag(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "sync", "sync", more);
+			return t;
+		} else {
+			LOGGER.severe("Synchronization of AngularJS scope back to the client has not been implemented yet.");
+//			TagAttribute hide = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "rendered", "rendered", "true");
+//			newAttributes[newLength++] = hide;
+			String coreExpression=angularExpression.substring(2, angularExpression.length()-2);
+			TagAttribute value = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "value", "value",
+					"{{toJson("+coreExpression+")}}");
+			newAttributes[indexOfValueAttribute] = value;
+			newAttributes = Arrays.copyOf(newAttributes, newLength);
+			TagAttributes more = new AFTagAttributes(newAttributes);
+			Tag t = new Tag(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "sync", "sync", more);
 			return t;
 		}
 	}

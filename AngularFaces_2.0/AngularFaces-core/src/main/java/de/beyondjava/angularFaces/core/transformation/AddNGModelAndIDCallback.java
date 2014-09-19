@@ -22,6 +22,7 @@ import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
+import de.beyondjava.angularFaces.components.puiSync.PuiSync;
 
 /** Collects the attributes that have to be synchronized with the client. */
 public class AddNGModelAndIDCallback implements VisitCallback {
