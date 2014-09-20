@@ -12,6 +12,7 @@
 		<title>AngularFaces 2.0 car dealer</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css"></link>
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css"></link>
+		
 		<style type="text/css">
 .header {
 	background-color: #ccc;
@@ -35,94 +36,134 @@
 	border-color: #ff7400;
 	border-radius: 5px
 }
+
+.header-branding {
+	color: #FEE;
+}
 </style>
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController"
 		angularJSFile="table.js" id="angular" style="padding-left:10px">
-		<form id="myForm" style="width: 1000px">
-			<h2>
-				<translate value="Welcome to the AngularFaces 2.0 car dealer!" />
-			</h2>
-			<i18n value="Europe's most angular car dealer..." />
-			<br /> <br />
-			<ngsync value="{{filterBean.counter}}" direction="serverToClient" />
-			<div class="carFilterBox" style="">
-				<span style="width: 100%; font-weight: bold">Your selection:</span>
-				<div style="display: table">
-					<div style="display: table-row">
-						<div style="display: table-cell"
-							class="{{showIfSet(filterBean.brand)}}">
-							<label class="carFilterCriterium"
-								jsf:value="{{filterBean.brand}}" addLabel="false"
-								addMessage="false" jsf:disabled="true" /> <a
-								jsf:outcome="index.jsf"><img
-								style="position: relative; left: -13px" src="close2.png" /></a>
-						</div>
-						<div style="display: table-cell"
-							class="{{showIfSet(filterBean.type)}}">
-							<label class="carFilterCriterium" jsf:value="{{filterBean.type}}"
-								addLabel="false" addMessage="false" jsf:disabled="true" /> <a
-								jsf:outcome="index.jsf"><img
-								style="position: relative; left: -13px" src="close2.png" /></a>
-						</div>
-						<div style="display: table-cell"
-							class="{{showIfSet(filterBean.price)}}">
-							<label class="carFilterCriterium"
-								jsf:value="{{filterBean.price}}" addLabel="false"
-								addMessage="false" jsf:disabled="true" /> <a
-								jsf:outcome="index.jsf"><img
-								style="position: relative; left: -13px" src="close2.png" /></a>
-						</div>
-						<div style="display: table-cell"
-							class="{{showIfSet(filterBean.mileage)}}">
-							<label class="carFilterCriterium"
-								jsf:value="{{filterBean.mileage}}" addLabel="false"
-								addMessage="false" jsf:disabled="true" /> <a
-								jsf:outcome="index.jsf"><img
-								style="position: relative; left: -13px" src="close2.png" /></a>
-						</div>
-						<div style="display: table-cell"
-							class="{{showIfSet(filterBean.fuel)}}">
-							<label class="carFilterCriterium" jsf:value="{{filterBean.fuel}}"
-								addLabel="false" addMessage="false" jsf:disabled="true" /> <a
-								jsf:outcome="index.jsf"><img
-								style="position: relative; left: -13px" src="close2.png" /></a>
-						</div>
-						<div style="display: table-cell"
-							class="{{showIfSet(filterBean.color)}}">
-							<label class="carFilterCriterium"
-								jsf:value="{{filterBean.color}}" addLabel="false"
-								addMessage="false" jsf:disabled="true" /> <a
-								jsf:outcome="index.jsf"><img
-								style="position: relative; left: -13px" src="close2.png" /></a>
-						</div>
-						<div style="display: table-cell"
-							class="{{showIfSet(filterBean.year)}}">
-							<label class="carFilterCriterium"
-								jsf:value="{{filterBean.yearText}}" addLabel="false"
-								addMessage="false" jsf:disabled="true" /> <a
-								jsf:outcome="index.jsf"><img
-								style="position: relative; left: -13px" src="close2.png" /></a>
+		<div id="wrapper">
+			<header class="header header-fixed">
+				<section class="navbar navbar-inverse docs-navbar-primary">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-2"></div>
+							<div class="col-md-8 header-branding">
+								<h2>
+									<translate value="Welcome to the AngularFaces 2.0 car dealer!" />
+								</h2>
+								<i18n value="Europe's most angular car dealer..." />
+							</div>
+							<div class="col-md-2"></div>
+							
 						</div>
 					</div>
+				</section>
+			</header>
+		</div>
+		<section role="main" class="container main-body">
+			<div class="main-grid main-body-grid">
+				<div class="col-md-8">
+					<form id="myForm" style="width: 1000px">
+
+						<div class="carFilterBox" style="">
+							<span style="width: 100%; font-weight: bold">Your
+								selection:</span>
+							<div style="display: table">
+								<div style="display: table-row">
+									<div style="display: table-cell"
+										class="{{showIfSet(filterBean.brand)}}">
+										<label class="carFilterCriterium"
+											jsf:value="{{filterBean.brand}}" addLabel="false"
+											addMessage="false" jsf:disabled="true" /> <a
+											jsf:outcome="index.jsf"><img
+											style="position: relative; left: -13px" src="close2.png" /></a>
+									</div>
+									<div style="display: table-cell"
+										class="{{showIfSet(filterBean.type)}}">
+										<label class="carFilterCriterium"
+											jsf:value="{{filterBean.type}}" addLabel="false"
+											addMessage="false" jsf:disabled="true" /> <a
+											jsf:outcome="index.jsf"><img
+											style="position: relative; left: -13px" src="close2.png" /></a>
+									</div>
+									<div style="display: table-cell"
+										class="{{showIfSet(filterBean.price)}}">
+										<label class="carFilterCriterium"
+											jsf:value="{{filterBean.price}}" addLabel="false"
+											addMessage="false" jsf:disabled="true" /> <a
+											jsf:outcome="index.jsf"><img
+											style="position: relative; left: -13px" src="close2.png" /></a>
+									</div>
+									<div style="display: table-cell"
+										class="{{showIfSet(filterBean.mileage)}}">
+										<label class="carFilterCriterium"
+											jsf:value="{{filterBean.mileage}}" addLabel="false"
+											addMessage="false" jsf:disabled="true" /> <a
+											jsf:outcome="index.jsf"><img
+											style="position: relative; left: -13px" src="close2.png" /></a>
+									</div>
+									<div style="display: table-cell"
+										class="{{showIfSet(filterBean.fuel)}}">
+										<label class="carFilterCriterium"
+											jsf:value="{{filterBean.fuel}}" addLabel="false"
+											addMessage="false" jsf:disabled="true" /> <a
+											jsf:outcome="index.jsf"><img
+											style="position: relative; left: -13px" src="close2.png" /></a>
+									</div>
+									<div style="display: table-cell"
+										class="{{showIfSet(filterBean.color)}}">
+										<label class="carFilterCriterium"
+											jsf:value="{{filterBean.color}}" addLabel="false"
+											addMessage="false" jsf:disabled="true" /> <a
+											jsf:outcome="index.jsf"><img
+											style="position: relative; left: -13px" src="close2.png" /></a>
+									</div>
+									<div style="display: table-cell"
+										class="{{showIfSet(filterBean.year)}}">
+										<label class="carFilterCriterium"
+											jsf:value="{{filterBean.yearText}}" addLabel="false"
+											addMessage="false" jsf:disabled="true" /> <a
+											jsf:outcome="index.jsf"><img
+											style="position: relative; left: -13px" src="close2.png" /></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<prime:dataTable value="{{carPool.selectedCars}}" var="car"
+							paginator="true" rows="10">
+							<prime:column headerText="brand">#{car.brand}</prime:column>
+							<prime:column headerText="type">#{car.type}</prime:column>
+							<prime:column headerText="year">#{car.year}</prime:column>
+							<prime:column headerText="color">#{car.color}</prime:column>
+							<prime:column headerText="mileage">#{car.mileage} km</prime:column>
+							<prime:column headerText="price">€#{car.price}</prime:column>
+							<prime:column headerText="fuel">#{car.fuel}</prime:column>
+							<prime:column headerText="">
+								<button class="carFilterButton"
+									jsf:action="#{carBean.showDetails(car)}">show me!</button>
+							</prime:column>
+						</prime:dataTable>
+						<prime:messages globalOnly="false" />
+
+					</form>
 				</div>
 			</div>
-			<prime:dataTable value="{{carPool.selectedCars}}" var="car"
-				paginator="true" rows="10">
-				<prime:column headerText="brand">#{car.brand}</prime:column>
-				<prime:column headerText="type">#{car.type}</prime:column>
-				<prime:column headerText="year">#{car.year}</prime:column>
-				<prime:column headerText="color">#{car.color}</prime:column>
-				<prime:column headerText="mileage">#{car.mileage} km</prime:column>
-				<prime:column headerText="price">€#{car.price}</prime:column>
-				<prime:column headerText="fuel">#{car.fuel}</prime:column>
-				<prime:column headerText="">
-					<button class="carFilterButton"
-						jsf:action="#{carBean.showDetails(car)}">show me!</button>
-				</prime:column>
-			</prime:dataTable>
-			<prime:messages globalOnly="false" />
+		</section>
 
-		</form>
+		<footer class="footer"
+			style="position: fixed; bottom: 0px; width: 100%; background-color: #000; padding: 10px; color: #777">
+			<span class="col-md-2"></span>
+			<span class="col-md-8"><br><translate value="Legal notes:" /> 
+			</br>
+			<br><translate value="(C) Stephan Rauh 2014, http://www.beyondjava.net" /></br>
+			<br><translate value="The page runs on AngularFaces 2.1." /> 
+			</br><br><translate value="The tab element is an adapted version of the one described
+					at http://blog.hfarazm.com/tabs-in-angularjs/" />
+			</br></span>
+			<span class="col-md-2"></span>
+		</footer>
 	</h:body>
 </f:view>
