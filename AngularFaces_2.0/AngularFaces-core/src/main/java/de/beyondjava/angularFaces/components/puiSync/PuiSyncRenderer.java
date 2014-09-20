@@ -18,13 +18,15 @@ package de.beyondjava.angularFaces.components.puiSync;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
@@ -39,7 +41,7 @@ import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 public class PuiSyncRenderer extends Renderer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	// private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.PuiSync.PuiSyncRenderer");
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.PuiSync.PuiSyncRenderer");
 
 	@Override
 	public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -69,31 +71,22 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 			// todo work with root objects
 			if (rootProperty.contains(".")) {
 				String rootBean = rootProperty.substring(0, rootProperty.lastIndexOf("."));
-				Object root = ELTools.evalAsObject("#{" + rootBean + "}");
-				String nestedBeanName = rootProperty.substring(rootProperty.lastIndexOf('.') + 1);
-				String setterName = "set" + nestedBeanName.substring(0, 1).toUpperCase() + nestedBeanName.substring(1);
+				injectJsonIntoBean(rootBean, rootProperty, bean, fromJson);
+			} else {
+				Method[] methods = fromJson.getClass().getMethods();
+				for (Method m : methods) {
+					if (m.getName().startsWith("get") && (m.getParameterTypes() != null || m.getParameterTypes().length == 0)) {
+						try {
+							Method setter = bean.getClass().getMethod("s" + m.getName().substring(1), m.getReturnType());
+							Object attr = m.invoke(fromJson);
+							setter.invoke(bean, attr);
+							LOGGER.info("Successfully set " + setter.getName() + " = " + attr);
 
-				try {
-					if (root != null) {
-						Method setter = root.getClass().getDeclaredMethod(setterName, bean.getClass());
-						setter.invoke(root, fromJson);
+						} catch (NoSuchMethodException noError) {
+							// most likely this is not an error
+//							LOGGER.log(Level.INFO, "An error occured when trying to inject the JSON object into the JSF bean", noError);
+						}
 					}
-
-				} catch (NoSuchMethodException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 			}
 		} catch (NumberFormatException error) {
@@ -114,6 +107,23 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_FATAL,
 							"A technical error occured when trying to read the data sent from the client (" + rootProperty + ")",
 							"A technical error occured when trying to read the data sent from the client (" + rootProperty + ")"));
+		}
+	}
+
+	private void injectJsonIntoBean(String rootBean, String rootProperty, Object bean, Object fromJson) {
+		Object root = ELTools.evalAsObject("#{" + rootBean + "}");
+		String nestedBeanName = rootProperty.substring(rootProperty.lastIndexOf('.') + 1);
+		String setterName = "set" + nestedBeanName.substring(0, 1).toUpperCase() + nestedBeanName.substring(1);
+
+		try {
+			if (root != null) {
+				Method setter = root.getClass().getDeclaredMethod(setterName, bean.getClass());
+				setter.invoke(root, fromJson);
+			}
+
+		} catch (ReflectiveOperationException e) {
+			LOGGER.severe("Couln't find setter method: " + setterName);
+			e.printStackTrace();
 		}
 	}
 
