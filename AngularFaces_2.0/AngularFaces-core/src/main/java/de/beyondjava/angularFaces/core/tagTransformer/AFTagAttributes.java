@@ -77,7 +77,7 @@ package de.beyondjava.angularFaces.core.tagTransformer;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* Portions Copyright [2014] [Stephan Rauh] */
+/* Parts of this file are subject to Copyright [2014] [Stephan Rauh] */
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,6 +85,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.view.Location;
 import javax.faces.view.facelets.Tag;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributes;
@@ -99,11 +100,11 @@ import javax.faces.view.facelets.TagAttributes;
 public final class AFTagAttributes extends TagAttributes {
     private final static TagAttribute[] EMPTY = new TagAttribute[0];
 
-    private final TagAttribute[] attrs;
+    private TagAttribute[] attrs;
 
-    private final String[] ns;
+    private String[] ns;
 
-    private final List nsattrs;
+    private List nsattrs;
     
     private Tag tag;
 
@@ -111,19 +112,23 @@ public final class AFTagAttributes extends TagAttributes {
      * 
      */
     public AFTagAttributes(TagAttribute[] attrs) {
-        this.attrs = attrs;
+        init(attrs);
+    }
+
+	private void init(TagAttribute[] attrs) {
+		this.attrs = attrs;
 
         // grab namespaces
         int i = 0;
-        Set set = new HashSet();
+        Set<String> set = new HashSet<String>();
         for (i = 0; i < this.attrs.length; i++) {
             set.add(this.attrs[i].getNamespace());
         }
-        this.ns = (String[]) set.toArray(new String[set.size()]);
+        this.ns = set.toArray(new String[set.size()]);
         Arrays.sort(ns);
 
         // assign attrs
-        this.nsattrs = new ArrayList();
+        this.nsattrs = new ArrayList<Object[]>();
         for (i = 0; i < ns.length; i++) {
             nsattrs.add(i, new ArrayList());
         }
@@ -136,7 +141,13 @@ public final class AFTagAttributes extends TagAttributes {
             List r = (List) nsattrs.get(i);
             nsattrs.set(i, r.toArray(new TagAttribute[r.size()]));
         }
-    }
+	}
+	
+	public void addAttribute(Location location, String ns, String myLocalName, String qName, String value) {
+		TagAttribute[] newAttrs = Arrays.copyOf(attrs, attrs.length+1);
+		newAttrs[attrs.length] = TagAttributeUtilities.createTagAttribute(location, ns, myLocalName, qName, value);
+		init(newAttrs);
+	}
 
     /**
      * Return an array of all TagAttributesImpl in this set
@@ -187,6 +198,8 @@ public final class AFTagAttributes extends TagAttributes {
     }
 
     /**
+     * This method is used exclusively to get the pass through attributes!
+     * Namespaces http://xmlns.jcp.org/jsf/passthrough and http://xmlns.jcp.org/jsf/passthrough
      * Get all TagAttributesImpl for the passed namespace
      * 
      * @param namespace

@@ -35,7 +35,7 @@ import com.google.gson.Gson;
 import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
-@FacesRenderer(componentFamily = "de.beyondjava.sync", rendererType = "de.beyondjava.sync")
+@FacesRenderer(componentFamily = "de.beyondjava", rendererType = "de.beyondjava.sync")
 public class PuiSyncRenderer extends Renderer implements Serializable {
 	private static final long serialVersionUID = 1L;
 

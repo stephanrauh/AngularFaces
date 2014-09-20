@@ -1,0 +1,19 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
+	<h:head>
+		<h:outputScript library="javax.faces" name="jsf.js" />
+	</h:head>
+	<h:body id="angular">
+		<div ng-app="CarShop" ng-controller="CarShopController"
+			angularJSFile="simple.js">
+			<form id="theForm" style="width: 700px">
+				<ngsync value="{{filterBean}}" direction="clientToServer"
+					id="filterSyncID" styleClass="filterSyncClass" />
+			</form>
+		</div>
+	</h:body>
+</f:view>

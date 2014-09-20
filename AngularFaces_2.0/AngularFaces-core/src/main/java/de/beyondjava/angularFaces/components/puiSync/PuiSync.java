@@ -42,7 +42,7 @@ import de.beyondjava.angularFaces.core.ELTools;
 public class PuiSync extends UIInput implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public static final String COMPONENT_FAMILY = "de.beyondjava.sync";
+	public static final String COMPONENT_FAMILY = "de.beyondjava";
 
 	@Override
 	public String getFamily() {

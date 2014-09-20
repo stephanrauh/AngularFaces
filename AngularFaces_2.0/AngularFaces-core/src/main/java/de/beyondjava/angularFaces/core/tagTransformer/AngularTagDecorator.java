@@ -30,6 +30,8 @@ import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributes;
 import javax.faces.view.facelets.TagDecorator;
 
+import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
+
 /** This is one of the most important classes of AngularFaces. It converts attributes
  * to pass-through parameters, adds them to the list of JSF bean to be synchronized
  * with the client and implements a couple of pseudo JSF tags.
@@ -228,10 +230,27 @@ public class AngularTagDecorator implements TagDecorator {
 
 	private Tag generateTagIfNecessary(Tag tag, TagAttributes modifiedAttributes) {
 		if (modifiedAttributes != tag.getAttributes()) {
-			Tag t = new Tag(tag.getLocation(), tag.getNamespace(), tag.getLocalName(), tag.getQName(), modifiedAttributes);
-			return t;
+			if (tag.getLocalName().equals("div") && modifiedAttributes instanceof AFTagAttributes) {
+				return generatePuiHtmlTag(tag, modifiedAttributes, "puiDiv");
+			}
+			else if (tag.getLocalName().equals("span") && modifiedAttributes instanceof AFTagAttributes) {
+				return generatePuiHtmlTag(tag, modifiedAttributes, "puiSpan");
+			}
+			else
+			return new Tag(tag.getLocation(), tag.getNamespace(), tag.getLocalName(), tag.getQName(), modifiedAttributes);
 		}
 		return null;
+	}
+
+	private Tag generatePuiHtmlTag(Tag tag, TagAttributes modifiedAttributes, final String htmlTag) {
+		String keys = "";
+		TagAttribute[] all = modifiedAttributes.getAll();
+		for (TagAttribute attr:all) {
+			keys += attr.getLocalName() + ",";
+		}
+		if (keys.endsWith(",")) keys=keys.substring(0, keys.length()-1);
+		((AFTagAttributes)modifiedAttributes).addAttribute(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "attributeNames", "attributeNames", keys);
+		return new Tag(tag.getLocation(), "http://beyondjava.net/angularFacesCore", htmlTag, htmlTag, modifiedAttributes);
 	}
 
 	private boolean isHTMLNamespace(String ns) {

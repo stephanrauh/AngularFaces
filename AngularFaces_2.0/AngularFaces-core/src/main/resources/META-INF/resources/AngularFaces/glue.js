@@ -34,7 +34,8 @@ function injectJSonIntoScope(bean, json, $scope) {
 			});
 		}
 	} catch (e) {
-		alert("Couldn't inject variable angularFaces into scope.\n" + "value ="
+		console.log(e);
+		alert("injectJSonIntoScope(bean, json, $scope): Couldn't inject variable angularFaces into scope.\n" + "value ="
 				+ json + "\n" + e);
 	}
 }
@@ -158,7 +159,8 @@ function injectVariableIntoScope(model, value) {
 			}
 		});
 	} catch (e) {
-		alert("Couldn't inject variable " + model + " into scope.\n" + value
+		console.log(e);
+		alert("injectVariableIntoScope(model, value): Couldn't inject variable " + model + " into scope.\n" + value
 				+ "=" + value + "\n" + e);
 	}
 }
@@ -176,27 +178,6 @@ function reinitAngular(ngAppElement, ngApp) {
 
 function updateAngularModel(model, value) {
 	injectVariableIntoScope(model, value);
-}
-
-function readVariableFromScope(model) {
-	var value;
-	try {
-		var $scope = angular.element('body').scope();
-
-		$scope.$apply(function() {
-			var assignment = "value = $scope." + model;
-			try {
-				eval(assignment);
-			} catch (e) {
-				console.log("AngularFaces apply Exception " + e + " "
-						+ assignment);
-			}
-		});
-	} catch (e) {
-		alert("Couldn't inject variable " + model + " into scope.\n" + value
-				+ "=" + value + "\n" + e);
-	}
-	return value;
 }
 
 function findNGAppAndReinitAngular(element) {

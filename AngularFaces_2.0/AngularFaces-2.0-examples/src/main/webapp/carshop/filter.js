@@ -24,11 +24,11 @@ function sendFilterToServer(newValue, oldValue) {
 			var ngsync = document.getElementsByClassName('filterSyncClass')[0];
 			
 			if (event.target.nextElementSibling) {
-				var helperID = event.target.nextElementSibling.id;
+				var helperID = ngsync.id;
 				window.setTimeout(function() {
 					jsf.ajax.request(ngsync.id, null, {
 						'javax.faces.behavior.event':'valueChange', 
-						execute:'@form', 
+						execute:helperID,
 						render:'angular'
 					});
 				}, 10);

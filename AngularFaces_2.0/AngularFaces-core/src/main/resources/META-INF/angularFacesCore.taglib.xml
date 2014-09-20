@@ -19,4 +19,19 @@
       <type>java.lang.String</type>
     </attribute>
   </tag>
+  <tag>
+    <description><![CDATA[A simple HTML div wrapped as a JSF component.]]></description>
+    <tag-name>puiDiv</tag-name>
+    <component>
+      <component-type>de.beyondjava.puiDiv</component-type>
+    </component>
+  </tag>
+  <tag>
+    <description><![CDATA[A simple HTML span wrapped as a JSF component.]]></description>
+    <tag-name>puiSpan</tag-name>
+    <component>
+      <component-type>de.beyondjava.puiSpan</component-type>
+    </component>
+  </tag>
+  
 </facelet-taglib>
