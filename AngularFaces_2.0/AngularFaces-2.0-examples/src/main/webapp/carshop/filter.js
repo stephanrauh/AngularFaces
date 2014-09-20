@@ -12,9 +12,6 @@ var app = angular.module('CarShop', [ "angularfaces" ]).controller(
 			$scope.$watch('filterBean.color', sendFilterToServer);
 			$scope.$watch('filterBean.yearText', sendFilterToServer);
 
-			$scope.toJson = function(variable) {
-				return JSON.stringify(variable);
-			};
 		})
 
 function sendFilterToServer(newValue, oldValue) {

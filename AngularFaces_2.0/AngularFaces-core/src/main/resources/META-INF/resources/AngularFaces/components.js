@@ -1,5 +1,11 @@
 var app = angular.module('angularfaces', []);
 
+app.run(function($rootScope) {
+    $rootScope.afToJson = function(variable) {
+		return JSON.stringify(variable);
+	};
+});
+
 app.directive('puimessage', function($compile) {
   return {
     restrict: 'E',
@@ -15,19 +21,6 @@ app.directive('puimessage', function($compile) {
     				$scope.myField = $("[name='"+$scope.af_for+"']");
     				$scope.servermessage=$element.attr("servermessage");
     				
-    				
-//    				var name = $scope.myField.name;
-//    				var p = $scope.myField.parentElement;
-//    				var count=1;
-//    				while (null != p)
-//    				{
-//    					var pname = p.name;
-//    					if (pname) {
-//    						name = pname + "." + name;
-//    					}
-//    					p=p.parentElement;
-//    				}
-//    				$scope.prefix=name;
     				$scope.serverMessageVisible = function() {
 						if ($scope.myField.hasClass("pristine")) {
 							return "true";

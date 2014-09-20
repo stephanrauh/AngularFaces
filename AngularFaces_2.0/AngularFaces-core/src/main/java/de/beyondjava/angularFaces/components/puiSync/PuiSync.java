@@ -16,20 +16,10 @@
  */
 package de.beyondjava.angularFaces.components.puiSync;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Map;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
-
-import com.google.gson.Gson;
-
-import de.beyondjava.angularFaces.core.ELTools;
 
 /**
  * Sends AngularJS model attributes back to the JSF model.

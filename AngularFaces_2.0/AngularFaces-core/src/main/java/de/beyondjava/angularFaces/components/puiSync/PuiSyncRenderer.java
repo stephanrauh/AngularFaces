@@ -18,13 +18,11 @@ package de.beyondjava.angularFaces.components.puiSync;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -45,6 +43,10 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 
 	@Override
 	public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+		String direction = AttributeUtilities.getAttributeAsString(component, "direction");
+		if ("serverToClient".equalsIgnoreCase(direction)) 
+			return;
+		
 		ResponseWriter writer = context.getResponseWriter();
 
 		String clientId = component.getClientId(context);
@@ -53,7 +55,11 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 		writer.writeAttribute("name", clientId, null);
 		writer.writeAttribute("type", "hidden", null);
 		String value = AttributeUtilities.getAttributeAsString(component, "value");
-		writer.writeAttribute("value", "{{toJson(" + value + ")}}", null);
+		if (null==value) {
+			LOGGER.severe("Which value do you want to synchronize?");
+			throw new FacesException("ngSync: Which value do you want to synchronize?");
+		}
+		writer.writeAttribute("value", "{{afToJson(" + value + ")}}", null);
 		String styleClass = AttributeUtilities.getAttributeAsString(component, "styleClass");
 		writer.writeAttribute("class", styleClass, null);
 		writer.endElement("input");
@@ -80,8 +86,6 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 							Method setter = bean.getClass().getMethod("s" + m.getName().substring(1), m.getReturnType());
 							Object attr = m.invoke(fromJson);
 							setter.invoke(bean, attr);
-							LOGGER.info("Successfully set " + setter.getName() + " = " + attr);
-
 						} catch (NoSuchMethodException noError) {
 							// most likely this is not an error
 //							LOGGER.log(Level.INFO, "An error occured when trying to inject the JSON object into the JSF bean", noError);

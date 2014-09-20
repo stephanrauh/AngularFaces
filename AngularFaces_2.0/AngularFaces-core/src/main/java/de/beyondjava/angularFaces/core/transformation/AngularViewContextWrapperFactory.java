@@ -18,13 +18,9 @@ package de.beyondjava.angularFaces.core.transformation;
 
 import java.util.logging.Logger;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
 import javax.faces.context.PartialViewContext;
 import javax.faces.context.PartialViewContextFactory;
-
-import de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator;
 
 /** Helper class */
 public class AngularViewContextWrapperFactory extends PartialViewContextFactory {

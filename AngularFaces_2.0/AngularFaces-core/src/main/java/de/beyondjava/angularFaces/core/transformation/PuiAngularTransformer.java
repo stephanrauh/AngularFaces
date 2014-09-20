@@ -17,7 +17,6 @@
 package de.beyondjava.angularFaces.core.transformation;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;

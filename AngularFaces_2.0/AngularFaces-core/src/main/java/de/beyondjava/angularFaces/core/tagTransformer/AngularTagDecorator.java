@@ -19,18 +19,14 @@ package de.beyondjava.angularFaces.core.tagTransformer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.faces.context.FacesContext;
 import javax.faces.view.facelets.Tag;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributes;
 import javax.faces.view.facelets.TagDecorator;
-
-import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 /** This is one of the most important classes of AngularFaces. It converts attributes
  * to pass-through parameters, adds them to the list of JSF bean to be synchronized
@@ -117,9 +113,6 @@ public class AngularTagDecorator implements TagDecorator {
 			Tag t = new Tag(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "sync", "sync", more);
 			return t;
 		} else {
-			LOGGER.severe("Synchronization of AngularJS scope back to the client has not been implemented yet.");
-//			TagAttribute hide = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "rendered", "rendered", "true");
-//			newAttributes[newLength++] = hide;
 			String coreExpression=angularExpression.substring(2, angularExpression.length()-2);
 			TagAttribute value = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "value", "value",
 					coreExpression);
