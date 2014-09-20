@@ -49,6 +49,12 @@ phonecatApp.config([ '$routeProvider', function($routeProvider) {
 	}).when('/step-12.html', {
 		templateUrl : 'tutorial/step_12/info.html',
 		controller : 'EmptyController'
+	}).when('/step-13.html', {
+		templateUrl : 'tutorial/step_13/info.html',
+		controller : 'EmptyController'
+	}).when('/step-99.html', {
+		templateUrl : 'tutorial/step_99/info.html',
+		controller : 'EmptyController'
 	}).otherwise({
 		redirectTo : '/tutorial.html'
 	});
