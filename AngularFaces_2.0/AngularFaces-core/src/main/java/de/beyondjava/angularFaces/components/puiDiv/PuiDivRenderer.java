@@ -18,21 +18,14 @@ package de.beyondjava.angularFaces.components.puiDiv;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.faces.FacesException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
 
-import com.google.gson.Gson;
-
-import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 @FacesRenderer(componentFamily = "de.beyondjava", rendererType = "de.beyondjava.puiDiv")

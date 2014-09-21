@@ -36,8 +36,6 @@ import javax.faces.component.html.HtmlBody;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import com.google.gson.Gson;
-
 import de.beyondjava.angularFaces.components.puiSync.JSONUtilities;
 import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;

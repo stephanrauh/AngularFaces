@@ -12,39 +12,20 @@
 		<title>AngularFaces 2.0 car dealer</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css"></link>
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css"></link>
-		
-		<style type="text/css">
-.header {
-	background-color: #ccc;
-}
-
-.carFilterBox {
-	border: 5px solid #c4c4c4;
-	height: 70px;
-	padding: 10px;
-}
-
-.carFilterCriterium {
-	font-weight: normal;
-	border: 10px;
-	padding-right: 15px;
-}
-
-.carFilterButton {
-	background-color: #ff7400;
-	float: right;
-	border-color: #ff7400;
-	border-radius: 5px
-}
-
-.header-branding {
-	color: #FEE;
-}
-</style>
+	    <link rel="stylesheet" href="css/table.css"></link>
+        <link rel="stylesheet" href="css/ng-table.css"></link>
+        <style type="text/css">
+            .header { background-color: #ccc; }
+            .ng-table-responsive { border: 1px solid; border-color: #ddd; };
+        </style>
+        <script src="js/ng-table.js"></script>
+        <script data-require="js/ng-table-export@0.1.0" data-semver="0.1.0" src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js"></script>
+      
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController"
-		angularJSFile="table.js" id="angular" style="padding-left:10px">
-		<ngsync value="{{filterBean}}" direction="serverToClient" />
+		angularJSFile="ngtable.js" id="angular" style="padding-left:10px">
+        <ngsync value="{{filterBean}}" direction="serverToClient" />
+        <ngsync value="{{carPool.selectedCars}}" direction="serverToClient" />
 		
 		<div id="wrapper">
 			<header class="header header-fixed">
@@ -75,7 +56,8 @@
                             ng-click="tab = 2">ng-table</a></li>
                         <br />
                         <br />
-                        <div ng-show="tab === 1" style="height:500px;width:700px">
+                        <br />
+                        <div ng-show="tab === 2" style="height:500px;width:700px">
     					<form id="myForm" style="width: 1000px">
     						<div class="carFilterBox" style="">
     							<span style="width: 100%; font-weight: bold">Your
@@ -131,23 +113,32 @@
     											jsf:outcome="index.jsf"><img
     											style="position: relative; left: -13px" src="close2.png" /></a>
     									</div>
+                                        <div style="display: table-cell"
+                                            ng-show="0===activeSelections">
+                                            <span class="carFilterCriterium">none</span>
+                                                <a
+                                                jsf:outcome="index.jsf"><img
+                                                style="position: relative; left: -13px" src="close2.png" /></a>
+                                        </div>
     								</div>
     							</div>
     						</div>
-    						<prime:dataTable value="#{carPool.selectedCars}" var="car"
-    							paginator="true" rows="10">
-    							<prime:column headerText="brand">#{car.brand}</prime:column>
-    							<prime:column headerText="type">#{car.type}</prime:column>
-    							<prime:column headerText="year">#{car.year}</prime:column>
-    							<prime:column headerText="color">#{car.color}</prime:column>
-    							<prime:column headerText="mileage">#{car.mileage} km</prime:column>
-    							<prime:column headerText="price">€#{car.price}</prime:column>
-    							<prime:column headerText="fuel">#{car.fuel}</prime:column>
-    							<prime:column headerText="">
-    								<button class="carFilterButton"
-    									jsf:action="#{carBean.showDetails(car)}">show me!</button>
-    							</prime:column>
-    						</prime:dataTable>
+                {{activeSelections}}
+                
+                            <table ng-table="tableParams" class="table ng-table-responsive">
+                                <tr ng-repeat="car in $data">
+                                    <td data-title="'Brand'"   sortable="'brand'">  {{car.brand}}</td>
+                                    <td data-title="'Type'"    sortable="'type'" >  {{car.type}} </td>
+                                    <td data-title="'Year'"    sortable="'year'">   {{car.year}}</td>
+                                    <td data-title="'Color'"   sortable="'color'" > {{car.color}} </td>
+                                    <td data-title="'Mileage'" sortable="'mileage'">{{car.mileage}}</td>
+                                    <td data-title="'Price'"   sortable="'price'" > {{car.price}} </td>
+                                    <td data-title="'Fuel'"    sortable="'fuel'" >  {{car.fuel}} </td>
+                                    <td data-title="'Select'"> 
+                                        <button class="carFilterButton" jsf:action="#{carBean.showDetails(car)}">show me!</button>
+                                    </td>
+                                </tr>
+                            </table>
     						<prime:messages globalOnly="false" />
     
     					</form>

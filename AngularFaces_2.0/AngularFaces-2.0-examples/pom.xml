@@ -59,6 +59,13 @@
       <version>2.2.4</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- 
+    <dependency>
+        <groupId>org.codehaus.jackson</groupId>
+        <artifactId>jackson-mapper-asl</artifactId>
+        <version>1.9.13</version>
+    </dependency>
+     -->
 
     <dependency>
       <groupId>commons-logging</groupId>

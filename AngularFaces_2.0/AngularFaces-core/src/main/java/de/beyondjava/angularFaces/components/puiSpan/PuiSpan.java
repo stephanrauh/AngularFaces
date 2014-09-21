@@ -16,15 +16,10 @@
  */
 package de.beyondjava.angularFaces.components.puiSpan;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.component.FacesComponent;
 import javax.faces.component.html.HtmlOutputText;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-
-import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 /** This generates a simple HTML span. */
 @FacesComponent("de.beyondjava.puiSpan")

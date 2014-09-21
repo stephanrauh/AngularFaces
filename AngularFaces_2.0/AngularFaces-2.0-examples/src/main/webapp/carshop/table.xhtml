@@ -12,35 +12,7 @@
 		<title>AngularFaces 2.0 car dealer</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css"></link>
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css"></link>
-		
-		<style type="text/css">
-.header {
-	background-color: #ccc;
-}
-
-.carFilterBox {
-	border: 5px solid #c4c4c4;
-	height: 70px;
-	padding: 10px;
-}
-
-.carFilterCriterium {
-	font-weight: normal;
-	border: 10px;
-	padding-right: 15px;
-}
-
-.carFilterButton {
-	background-color: #ff7400;
-	float: right;
-	border-color: #ff7400;
-	border-radius: 5px
-}
-
-.header-branding {
-	color: #FEE;
-}
-</style>
+        <link rel="stylesheet" href="css/table.css"></link>
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController"
 		angularJSFile="table.js" id="angular" style="padding-left:10px">
@@ -73,6 +45,7 @@
                             ng-click="tab = 1">PrimeFaces table</a></li>
                         <li class="tab" ng-class="{active:tab===2}"><a class="tab"
                             ng-click="tab = 2" href="ngtable.jsf">ng-table</a></li>
+                        <br />
                         <br />
                         <br />
                         <div ng-show="tab === 1" style="height:500px;width:700px">
@@ -132,6 +105,13 @@
     											jsf:outcome="index.jsf"><img
     											style="position: relative; left: -13px" src="close2.png" /></a>
     									</div>
+                                        <div style="display: table-cell"
+                                            ng-show="0==activeSelections">
+                                            <span class="carFilterCriterium">none</span>
+                                                <a
+                                                jsf:outcome="index.jsf"><img
+                                                style="position: relative; left: -13px" src="close2.png" /></a>
+                                        </div>
     								</div>
     							</div>
     						</div>

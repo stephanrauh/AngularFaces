@@ -1,0 +1,78 @@
+.header {
+    background-color: #ccc;
+}
+
+.carFilterCriterium {
+    font-weight: normal;
+    border: 10px;
+    padding-right: 15px;
+}
+
+# different from index.css
+.carFilterBox {
+    border: 5px solid #c4c4c4;
+    height: 70px;
+    padding: 10px;
+}
+
+.carFilterButton {
+	background-color: #ff7400;
+	float: right;
+	border-color: #ff7400;
+	border-radius: 5px
+}
+
+ul.tab  {
+	float: left;
+	border-radius: 5px;
+	border: solid 1px rgb(198, 198, 198);
+	padding: 7px 11px;
+	background-color: rgb(248, 248, 248);
+}
+
+li.tab {
+	float: left;
+	background-color: rgb(200, 200, 200);
+	padding: 5px 19px;
+	margin: 5px 2px 5px 0px;
+	color: black;
+	list-style: none;
+}
+
+li.tab:hover, li.tab:hover a {
+	background-color: rgb(6, 179, 6);
+	color: white;
+}
+
+li.tab a {
+	text-decoration: none;
+	color: white;
+	font-size: 21px;
+	font-style: italic;
+	text-shadow: 1px 0px 3px rgb(157, 157, 157);
+}
+
+li.tab:nth-child(1) {
+	border-radius: 4px 0px 0px 4px;
+	margin-left: 1px;
+}
+
+li.tab:nth-child(3) {
+	border-radius: 0px 4px 4px 0px;
+}
+
+.active.tab {
+	background-color: rgb(6, 179, 6);
+}
+
+.header-branding {
+	color: #FEE;
+}
+
+.af-messages { padding-top:0px; padding-bottom:0px;
+                     margin-top:0px;margin-bottom:0px;
+                     background-color: #ffffff;
+                     border: 0px;
+                     }
+                     
+.af-label {width:170px; border:0px;}                     
