@@ -53,9 +53,9 @@ public class AddLabelCallback implements VisitCallback {
 					continue;
 				}
 
-				String caption =AttributeUtilities.getAttributeAsString(kid, "label");
+				String caption = AttributeUtilities.getAttributeAsString(kid, "label");
 
-				if (null==caption) {
+				if (null == caption) {
 					ValueExpression vex = kid.getValueExpression("value");
 					if (null != vex) {
 						String core = vex.getExpressionString();
@@ -63,24 +63,31 @@ public class AddLabelCallback implements VisitCallback {
 					}
 				}
 				if (null != caption) {
+					int labelIndex = index - 1;
 					for (int j = 0; j < children.size(); j++) {
 						UIComponent maybe = children.get(j);
 						if (maybe instanceof HtmlOutputLabel) {
 							if (kid.getId().equals(((HtmlOutputLabel) maybe).getFor())) {
-								duplicateLabels++;
-								if (j != index - 1) {
-									LOGGER.fine("Label has been restored at the wrong position. AngularFaces fixed this.");
-									children.remove(j);
-									if (j < index)
-										index--;
+								String oldLabel = AttributeUtilities.getAttributeAsString(maybe, "value");
+								if (caption.equals(oldLabel)) {
+									duplicateLabels++;
+									if (j != index - 1) {
+										LOGGER.fine("Label has been restored at the wrong position. AngularFaces fixed this.");
+										children.remove(j);
+										if (j < index)
+											index--;
+									}
+									break;
+								} else {
+									labelIndex = j;
+									break;
 								}
-								continue;
 							}
 						}
 
 					}
 					if (index > 0) {
-						UIComponent maybe = children.get(index - 1);
+						UIComponent maybe = children.get(labelIndex);
 						if (maybe instanceof HtmlOutputLabel) {
 							if (kid.getId().equals(((HtmlOutputLabel) maybe).getFor())) {
 								duplicateLabels++;

@@ -23,10 +23,14 @@
 	</div>
 	<h:panelGrid columns="3" style="border: 0px;">
 		<input value="{{customerBean.lastName}}" />
-		<input value="{{customerBean.firstName}}" />
+     	<input value="{{customerBean.firstName}}" />  
 		<input value="{{customerBean.dateOfBirth}}" />
-		<input value="{{customerBean.emailAddress}}" />
-		<input value="{{customerBean.iAgreeToTheTermsAndConditions}}" />
+		<h:outputLabel class="af-label" for="mailID" value="mail address" />
+		<input id="mailID" value="{{customerBean.emailAddress}}" />
+		<label jsf:for="termsID" class="af-label">I've read the small print</label>
+		<input id="termsID" value="{{customerBean.iAgreeToTheTermsAndConditions}}" />
+		<h:message id="m4" for="addFirstName" style="color:red"/>
+		
 	</h:panelGrid>
 	<div style="font-weight:bold;font-size:125%;padding-top:10px;">
 		<translate

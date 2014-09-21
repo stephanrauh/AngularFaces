@@ -65,4 +65,4 @@ li.tab:nth-child(3) {
                      border: 0px;
                      }
                      
-.af-label {width:170px; border:0px;}                     
+.af-label {width:170px; border:0px; font-weight:normal}                     

@@ -46,6 +46,7 @@ public class AddTypeInformationCallback implements VisitCallback {
 			}
 			if (infos.getMaxSize() > 0) {
 				((UIInput) component).getPassThroughAttributes().put("ng-maxlength", infos.getMaxSize());
+				((UIInput) component).getPassThroughAttributes().put("maxlength", infos.getMaxSize());
 			}
 			if (infos.getMinSize() > 0) {
 				((UIInput) component).getPassThroughAttributes().put("ng-minlength", infos.getMinSize());

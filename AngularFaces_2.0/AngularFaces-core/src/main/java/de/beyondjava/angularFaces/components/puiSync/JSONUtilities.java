@@ -27,7 +27,7 @@ public class JSONUtilities {
 	public static Object readObjectFromJSONString(String json, Class beanType) {
 		if (null != jackson) {
 			try {
-				Method method = gson.getClass().getMethod("readValue", String.class, Class.class);
+				Method method = jackson.getClass().getMethod("readValue", String.class, Class.class);
 				if (null != method) {
 					return method.invoke(jackson, json, beanType);
 				}
@@ -50,7 +50,7 @@ public class JSONUtilities {
 	public static String writeObjectToJSONString(Object bean) {
 		if (null != jackson) {
 			try {
-				Method method = gson.getClass().getMethod("writeValueAsString", Object.class);
+				Method method = jackson.getClass().getMethod("writeValueAsString", Object.class);
 				if (null != method) {
 					return (String) method.invoke(jackson, bean);
 				}
