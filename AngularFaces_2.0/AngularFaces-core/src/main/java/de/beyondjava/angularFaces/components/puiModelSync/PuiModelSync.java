@@ -38,6 +38,7 @@ import javax.faces.context.ResponseWriter;
 
 import com.google.gson.Gson;
 
+import de.beyondjava.angularFaces.components.puiSync.JSONUtilities;
 import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
@@ -50,8 +51,6 @@ public class PuiModelSync extends HtmlBody {
 	private static final String JSF_ATTRIBUTES_SESSION_PARAMETER = "de.beyondjava.angularFaces.jsfAttributes";
 
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
-
-	private final Gson gson = new Gson();
 
 	/**
 	 * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender methods.
@@ -133,7 +132,7 @@ public class PuiModelSync extends HtmlBody {
 
 		List<String> beans = new ArrayList<String>();
 		for (Entry<String, Object> bean : model.entrySet()) {
-			String assignment = "\"" + bean.getKey() + "\",'" + gson.toJson(bean.getValue()) + "'";
+			String assignment = "\"" + bean.getKey() + "\",'" + JSONUtilities.writeObjectToJSONString(bean.getValue()) + "'";
 			beans.add(assignment);
 		}
 		return beans;

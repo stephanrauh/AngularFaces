@@ -68,16 +68,15 @@
 		<section role="main" class="container main-body">
 			<div class="main-grid main-body-grid">
 				<div class="col-md-8">
-                    <ul class="tab" ng-init="tab = 1">
+                    <ul class="tab" ng-init="tab = 2">
                         <li class="tab" ng-class="{active:tab===1}"><a class="tab"
-                            ng-click="tab = 1">PrimeFaces table</a></li>
+                            ng-click="tab = 1" href="table.jsf">PrimeFaces table</a></li>
                         <li class="tab" ng-class="{active:tab===2}"><a class="tab"
-                            ng-click="tab = 2" href="ngtable.jsf">ng-table</a></li>
+                            ng-click="tab = 2">ng-table</a></li>
                         <br />
                         <br />
                         <div ng-show="tab === 1" style="height:500px;width:700px">
     					<form id="myForm" style="width: 1000px">
-    
     						<div class="carFilterBox" style="">
     							<span style="width: 100%; font-weight: bold">Your
     								selection:</span>

@@ -30,8 +30,6 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
 
-import com.google.gson.Gson;
-
 import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
@@ -73,8 +71,7 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 		String json = parameterMap.get(component.getClientId());
 		Object bean = ELTools.evalAsObject("#{" + rootProperty + "}");
 		try {
-			Object fromJson = new Gson().fromJson(json, bean.getClass());
-			// todo work with root objects
+			Object fromJson = JSONUtilities.readObjectFromJSONString(json, bean.getClass());
 			if (rootProperty.contains(".")) {
 				String rootBean = rootProperty.substring(0, rootProperty.lastIndexOf("."));
 				injectJsonIntoBean(rootBean, rootProperty, bean, fromJson);
@@ -113,6 +110,7 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 							"A technical error occured when trying to read the data sent from the client (" + rootProperty + ")"));
 		}
 	}
+
 
 	private void injectJsonIntoBean(String rootBean, String rootProperty, Object bean, Object fromJson) {
 		Object root = ELTools.evalAsObject("#{" + rootBean + "}");
