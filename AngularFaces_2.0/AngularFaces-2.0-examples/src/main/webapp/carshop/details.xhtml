@@ -12,7 +12,6 @@
 		<title>AngularFaces 2.0 car dealer</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css"></link>
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css"></link>
-		<link rel="stylesheet" href="css/ng-table.css"></link>
 		<style type="text/css">
 .header {
 	background-color: #ccc;
@@ -28,49 +27,93 @@
 	border-color: #ff7400;
 	border-radius: 5px
 }
+.header-branding {
+	color: #FEE;
+}
+
+.ui-messages-error { padding-top:0px; padding-bottom:0px;
+                     margin-top:0px;margin-bottom:0px;
+                     background-color: #ffffff;
+                     border: 0px;
+                     }
+                     
+.ui-panelgrid-cell:nth-child(1) {width:170px}                     
 </style>
-		<script src="ng-table.js"></script>
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController"
 		angularJSFile="details.js" id="angular" style="padding-left:10px">
-		<form id="myForm" style="width: 1000px">
-			<h2>
-				<translate value="Welcome to the AngularFaces 2.0 car dealer!" />
-			</h2>
-			<i18n value="Europe's most angular car dealer..." />
-			<br /> <br /> Details of a single car
-
-			<prime:panel header="If you want to buy this car...">
-				<prime:panelGrid columns="3" style="border: 0px;">
-					<prime:inputText value="#{carBean.brand}" />
-					<prime:inputText value="#{carBean.type}" />
-					<prime:inputText value="#{carBean.price}" />
-					<prime:inputText value="#{carBean.mileage}" />
-					<prime:inputText value="#{carBean.color}" />
-					<prime:inputText value="#{carBean.year}" />
-					<prime:inputText value="#{carBean.fuel}" />
-				</prime:panelGrid>
-			</prime:panel>
-			<prime:panel header="... we need some informations about where to deliver it:">
-				<prime:panelGrid columns="3" style="border: 0px;">
-					<prime:inputText value="{{customerBean.lastName}}" />
-					<prime:inputText value="{{customerBean.firstName}}" />
-					<prime:inputText value="{{customerBean.dateOfBirth}}" />
-					<prime:inputText value="{{customerBean.emailAddress}}" />
-					<prime:inputText value="{{customerBean.iAgreeToTheTermsAndConditions}}" />
-			</prime:panelGrid>		
-			</prime:panel>
-			<prime:panel header="Please confirm you are a human by answering this simple question:">
-				<prime:panelGrid columns="3" style="border: 0px;">
-					<prime:outputLabel for="captchaField" value="{{customerBean.captchaQuestion}}" />
-					<prime:inputText id="captchaField" value="{{customerBean.captcha}}" />
-				</prime:panelGrid>
-			</prime:panel>
-					<button class="carFilterButton"
-						jsf:action="#{carBean.showDetails(car)}">Buy this car!</button>
+		<div id="wrapper">
+			<header class="header header-fixed">
+				<section class="navbar navbar-inverse docs-navbar-primary">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-2"></div>
+							<div class="col-md-8 header-branding">
+								<h2>
+									<translate value="Welcome to the AngularFaces 2.0 car dealer!" />
+								</h2>
+								<i18n value="Europe's most angular car dealer..." />
+							</div>
+							<div class="col-md-2"></div>
+							
+						</div>
+					</div>
+				</section>
+			</header>
+		</div>
+		<section role="main" class="container main-body">
+			<div class="main-grid main-body-grid">
+				<div class="col-md-8">
+					<form id="myForm" style="width: 1000px">
+		
+						<prime:panel header="If you want to buy this car...">
+							<prime:panelGrid columns="3" style="border: 0px;">
+								<prime:inputText value="#{carBean.brand}" />
+								<prime:inputText value="#{carBean.type}" />
+								<prime:inputText value="#{carBean.price}" />
+								<prime:inputText value="#{carBean.mileage}" />
+								<prime:inputText value="#{carBean.color}" />
+								<prime:inputText value="#{carBean.year}" />
+								<prime:inputText value="#{carBean.fuel}" />
+							</prime:panelGrid>
+						</prime:panel>
+						<prime:panel header="... we need some informations about where to deliver it:">
+							<prime:panelGrid columns="3" style="border: 0px;">
+								<prime:inputText value="{{customerBean.lastName}}" />
+								<prime:inputText value="{{customerBean.firstName}}" />
+								<prime:inputText value="{{customerBean.dateOfBirth}}" />
+								<prime:inputText value="{{customerBean.emailAddress}}" />
+								<prime:inputText value="{{customerBean.iAgreeToTheTermsAndConditions}}" />
+						</prime:panelGrid>		
+						</prime:panel>
+						<prime:panel header="Please confirm you are a human by answering this simple question:">
+							<prime:panelGrid columns="3" style="border: 0px;">
+								<prime:outputLabel for="captchaField" value="{{customerBean.captchaQuestion}}" />
+								<prime:inputText id="captchaField" value="{{customerBean.captcha}}" />
+							</prime:panelGrid>
+						</prime:panel>
+								<button class="carFilterButton"
+									jsf:action="#{carBean.showDetails(car)}">Buy this car!</button>
+						
 			
+						<prime:messages globalOnly="false" />
+						<prime:spacer height="200px"></prime:spacer>
+					</form>
+				</div>
+			</div>
+		</section>
 
-			<prime:messages globalOnly="false" />
-		</form>
+		<footer class="footer"
+			style="position: fixed; bottom: 0px; width: 100%; background-color: #000; padding: 10px; color: #777">
+			<span class="col-md-2"></span>
+			<span class="col-md-8"><br><translate value="Legal notes:" /> 
+			</br>
+			<br><translate value="(C) Stephan Rauh 2014, http://www.beyondjava.net" /></br>
+			<br><translate value="The page runs on AngularFaces 2.1." /> 
+			</br><br><translate value="The tab element is an adapted version of the one described
+					at http://blog.hfarazm.com/tabs-in-angularjs/" />
+			</br></span>
+			<span class="col-md-2"></span>
+		</footer>
 	</h:body>
 </f:view>

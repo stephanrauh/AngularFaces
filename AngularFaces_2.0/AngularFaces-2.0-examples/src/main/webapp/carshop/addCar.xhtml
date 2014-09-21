@@ -6,19 +6,19 @@
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
 
 <br />
-	<div style="font-weight:bold;font-size:125%">
+	<div style="font-weight:bold;font-size:125%;padding-top:10px;">
 		<translate value="Tell us which car you want to sell:" />
 	</div>
-	<h:panelGrid columns="3" style="border: 0px;">
-		<input value="#{newCarBean.brand}" />
-		<input value="#{newCarBean.type}" />
-		<input value="#{newCarBean.price}" />
-		<input value="#{newCarBean.mileage}" />
-		<input value="#{newCarBean.color}" />
-		<input value="#{newCarBean.year}" />
-		<input value="#{newCarBean.fuel}" />
+	<h:panelGrid columns="3" style="border: 0px" >
+		<input value="{{newCarBean.brand}}" />
+		<input value="{{newCarBean.type}}" />
+		<input value="{{newCarBean.price}}" />
+		<input value="{{newCarBean.mileage}}" />
+		<input value="{{newCarBean.color}}" />
+		<input value="{{newCarBean.year}}" />
+		<input value="{{newCarBean.fuel}}" />
 	</h:panelGrid>
-	<div style="font-weight:bold;font-size:125%">
+	<div style="font-weight:bold;font-size:125%;padding-top:10px;">
 		<translate value="Who are you?" />
 	</div>
 	<h:panelGrid columns="3" style="border: 0px;">
@@ -28,7 +28,7 @@
 		<input value="{{customerBean.emailAddress}}" />
 		<input value="{{customerBean.iAgreeToTheTermsAndConditions}}" />
 	</h:panelGrid>
-	<div style="font-weight:bold;font-size:125%">
+	<div style="font-weight:bold;font-size:125%;padding-top:10px;">
 		<translate
 			value="Please confirm you are a human by answering this simple question:" />
 	</div>
@@ -38,6 +38,6 @@
 		<input id="captchaField" value="{{customerBean.captcha}}" />
 	</h:panelGrid>
 	<button class="carFilterButton"
-		jsf:action="#{newCarBean.showDetails(car)}">Sell this car!</button>
+		jsf:action="#{newCarBean.addCar(car)}">Sell this car!</button>
 
 </ui:composition>

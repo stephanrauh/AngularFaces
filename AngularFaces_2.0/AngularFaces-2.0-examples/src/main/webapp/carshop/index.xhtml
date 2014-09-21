@@ -37,7 +37,7 @@
 			</header>
 		</div>
 		<section role="main" class="container main-body">
-			<div class="main-grid main-body-grid">
+			<div class="main-grid main-body-grid" >
 				<div class="col-md-8">
 					<ul class="tab" ng-init="tab = 1">
 						<li class="tab" ng-class="{active:tab===1}"><a class="tab"
@@ -46,10 +46,10 @@
 							ng-click="tab = 2">Want to sell your car?</a></li>
 						<br />
 						<br />
-						<div ng-show="tab === 1">
+						<div ng-show="tab === 1" style="height:500px;width:700px">
 							<ui:include src="filter.xhtml"></ui:include>
 						</div>
-						<div ng-show="tab === 2">
+						<div ng-show="tab === 2" style="height:500px;width:700px">
 							<ui:include src="addCar.xhtml"></ui:include>
 						</div>
 					</ul>

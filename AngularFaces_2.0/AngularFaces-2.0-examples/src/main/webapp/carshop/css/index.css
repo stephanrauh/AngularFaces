@@ -58,3 +58,11 @@ li.tab:nth-child(3) {
 .header-branding {
 	color: #FEE;
 }
+
+.af-messages { padding-top:0px; padding-bottom:0px;
+                     margin-top:0px;margin-bottom:0px;
+                     background-color: #ffffff;
+                     border: 0px;
+                     }
+                     
+.af-label {width:170px; border:0px;}                     

@@ -310,7 +310,7 @@ public class ELTools {
 			}
 			Method declaredMethod = findMethod(container, getterName);
 			if (null == declaredMethod)
-				declaredMethod =findMethod(container, booleanGetterName);
+				declaredMethod = findMethod(container, booleanGetterName);
 			synchronized (getters) {
 				getters.put(p_expression, declaredMethod);
 			}
@@ -396,13 +396,19 @@ public class ELTools {
 	/**
 	 * Which annotations are given to an object described by an EL expression?
 	 *
-	 * @param p_expression EL expression of the JSF bean attribute
+	 * @param p_expression
+	 *            EL expression of the JSF bean attribute
 	 * @return null if there are no annotations, or if they cannot be accessed
 	 */
 	public static Annotation[] readAnnotations(String p_expression) {
 		Field declaredField = getField(p_expression);
 		if (null != declaredField) {
-			return declaredField.getAnnotations();
+			if (declaredField.getAnnotations() != null)
+				return declaredField.getAnnotations();
+		}
+		Method getter = getGetter(p_expression);
+		if (null != getter) {
+			return getter.getAnnotations();
 		}
 		return null;
 	}
