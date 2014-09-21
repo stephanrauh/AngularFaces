@@ -20,12 +20,14 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 /** This generates a label that colors itself red if AngularJS says the input is wrong. */
+@FacesComponent("de.beyondjava.puiLabel")
 public class PuiLabel extends HtmlOutputLabel {
 	@Override
 	public void encodeBegin(FacesContext context) throws IOException {

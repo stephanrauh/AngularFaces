@@ -38,22 +38,4 @@ public class PuiDiv extends HtmlOutputText implements Serializable {
 	public String getFamily() {
 		return COMPONENT_FAMILY;
 	}
-	@Override
-	public void encodeBegin(FacesContext context) throws IOException {
-		ResponseWriter writer = context.getResponseWriter();
-		writer.startElement("div", this);
-		String keys = (String) getAttributes().get("attributeNames");
-		if (null != keys) {
-			String[] keyArray = keys.split(",");
-			for (String key:keyArray) {
-				writer.writeAttribute(key, AttributeUtilities.getAttributeAsString(this, key), key);				
-			}
-		}
-	}
-	
-	@Override
-	public void encodeEnd(FacesContext context) throws IOException {
-		ResponseWriter writer = context.getResponseWriter();
-		writer.endElement("div");
-	}
 }

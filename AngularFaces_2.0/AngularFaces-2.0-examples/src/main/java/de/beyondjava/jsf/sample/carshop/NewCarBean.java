@@ -48,6 +48,7 @@ public class NewCarBean {
 		return car.getType();
 	}
 
+	@NotNull
 	@Min(1886)
     @Max(2014)
 	public int getYear() {

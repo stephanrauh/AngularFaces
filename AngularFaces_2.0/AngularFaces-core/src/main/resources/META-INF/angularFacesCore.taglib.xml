@@ -24,6 +24,7 @@
     <tag-name>puiDiv</tag-name>
     <component>
       <component-type>de.beyondjava.puiDiv</component-type>
+      <renderer-type>de.beyondjava.puiDiv</renderer-type>
     </component>
   </tag>
   <tag>
@@ -31,6 +32,7 @@
     <tag-name>puiSpan</tag-name>
     <component>
       <component-type>de.beyondjava.puiSpan</component-type>
+      <renderer-type>de.beyondjava.puiSpan</renderer-type>
     </component>
   </tag>
   

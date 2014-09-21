@@ -64,7 +64,7 @@ public class AngularTagDecorator implements TagDecorator {
 	private Tag convertToNGSyncTag(Tag tag, TagAttributes attributeList) {
 
 		TagAttribute[] attributes = attributeList.getAll();
-		TagAttribute[] newAttributes = new TagAttribute[attributes.length];
+		TagAttribute[] newAttributes = new TagAttribute[attributes.length+1];
 		
 		int newLength=0;
 		String direction = "serverToClient";

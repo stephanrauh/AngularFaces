@@ -33,7 +33,7 @@ public class FilterBean {
 	private OptionBean options;
 
 	@ManagedProperty("#{carPool}")
-	private CarPool carPool;
+	private transient CarPool carPool;
 
 	public void setCarPool(CarPool carPool) {
 		this.carPool = carPool;

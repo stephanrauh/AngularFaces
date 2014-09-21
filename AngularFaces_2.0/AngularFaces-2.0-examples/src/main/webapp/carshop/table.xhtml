@@ -44,6 +44,8 @@
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController"
 		angularJSFile="table.js" id="angular" style="padding-left:10px">
+		<ngsync value="{{filterBean}}" direction="serverToClient" />
+		
 		<div id="wrapper">
 			<header class="header header-fixed">
 				<section class="navbar navbar-inverse docs-navbar-primary">
@@ -75,64 +77,57 @@
 								<div style="display: table-row">
 									<div style="display: table-cell"
 										class="{{showIfSet(filterBean.brand)}}">
-										<label class="carFilterCriterium"
-											jsf:value="{{filterBean.brand}}" addLabel="false"
-											addMessage="false" jsf:disabled="true" /> <a
+										<span class="carFilterCriterium">{{filterBean.brand}}</span> <a
 											jsf:outcome="index.jsf"><img
 											style="position: relative; left: -13px" src="close2.png" /></a>
 									</div>
 									<div style="display: table-cell"
 										class="{{showIfSet(filterBean.type)}}">
-										<label class="carFilterCriterium"
-											jsf:value="{{filterBean.type}}" addLabel="false"
-											addMessage="false" jsf:disabled="true" /> <a
+										<span class="carFilterCriterium">{{filterBean.type}}</span>
+											<a
 											jsf:outcome="index.jsf"><img
 											style="position: relative; left: -13px" src="close2.png" /></a>
 									</div>
 									<div style="display: table-cell"
 										class="{{showIfSet(filterBean.price)}}">
-										<label class="carFilterCriterium"
-											jsf:value="{{filterBean.price}}" addLabel="false"
-											addMessage="false" jsf:disabled="true" /> <a
+										<span class="carFilterCriterium">{{filterBean.price}}</span>
+										<a
 											jsf:outcome="index.jsf"><img
 											style="position: relative; left: -13px" src="close2.png" /></a>
 									</div>
 									<div style="display: table-cell"
 										class="{{showIfSet(filterBean.mileage)}}">
-										<label class="carFilterCriterium"
-											jsf:value="{{filterBean.mileage}}" addLabel="false"
-											addMessage="false" jsf:disabled="true" /> <a
+										<span class="carFilterCriterium">{{filterBean.mileage}}</span>
+										
+											<a
 											jsf:outcome="index.jsf"><img
 											style="position: relative; left: -13px" src="close2.png" /></a>
 									</div>
 									<div style="display: table-cell"
 										class="{{showIfSet(filterBean.fuel)}}">
-										<label class="carFilterCriterium"
-											jsf:value="{{filterBean.fuel}}" addLabel="false"
-											addMessage="false" jsf:disabled="true" /> <a
+										<span class="carFilterCriterium">{{filterBean.fuel}}</span>
+										<a
 											jsf:outcome="index.jsf"><img
 											style="position: relative; left: -13px" src="close2.png" /></a>
 									</div>
 									<div style="display: table-cell"
 										class="{{showIfSet(filterBean.color)}}">
-										<label class="carFilterCriterium"
-											jsf:value="{{filterBean.color}}" addLabel="false"
-											addMessage="false" jsf:disabled="true" /> <a
+										<span class="carFilterCriterium">{{filterBean.color}}</span>
+											<a
 											jsf:outcome="index.jsf"><img
 											style="position: relative; left: -13px" src="close2.png" /></a>
 									</div>
 									<div style="display: table-cell"
 										class="{{showIfSet(filterBean.year)}}">
-										<label class="carFilterCriterium"
-											jsf:value="{{filterBean.yearText}}" addLabel="false"
-											addMessage="false" jsf:disabled="true" /> <a
+										<span class="carFilterCriterium">{{filterBean.yearText}}</span>
+											<a
 											jsf:outcome="index.jsf"><img
 											style="position: relative; left: -13px" src="close2.png" /></a>
 									</div>
 								</div>
 							</div>
 						</div>
-						<prime:dataTable value="{{carPool.selectedCars}}" var="car"
+						<prime:dataTable value="#{carPool.selectedCars}" var="car"
 							paginator="true" rows="10">
 							<prime:column headerText="brand">#{car.brand}</prime:column>
 							<prime:column headerText="type">#{car.type}</prime:column>
