@@ -3,7 +3,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ac="http://beyondjava.net/angularFacesCore">
 
 <br />
 	<div style="font-weight:bold;font-size:125%;padding-top:10px;">
@@ -15,7 +16,7 @@
 		<input value="{{newCarBean.price}}" />
 		<input value="{{newCarBean.mileage}}" />
 		<input value="{{newCarBean.color}}" />
-		<input value="{{newCarBean.year}}" />
+		<input value="{{newCarBean.year}}" /> 
 		<input value="{{newCarBean.fuel}}" />
 	</h:panelGrid>
 	<div style="font-weight:bold;font-size:125%;padding-top:10px;">
@@ -29,8 +30,6 @@
 		<input id="mailID" value="{{customerBean.emailAddress}}" />
 		<label jsf:for="termsID" class="af-label">I've read the small print</label>
 		<input id="termsID" value="{{customerBean.iAgreeToTheTermsAndConditions}}" />
-		<h:message id="m4" for="addFirstName" style="color:red"/>
-		
 	</h:panelGrid>
 	<div style="font-weight:bold;font-size:125%;padding-top:10px;">
 		<translate
@@ -44,4 +43,4 @@
 	<button class="carFilterButton"
 		jsf:action="#{newCarBean.addCar(car)}">Sell this car!</button>
 
-</ui:composition>
+</ui:composition> 

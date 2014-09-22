@@ -1,7 +1,8 @@
 <f:view xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:prime="http://primefaces.org/ui">
+	xmlns:prime="http://primefaces.org/ui"
+	xmlns:ac="http://beyondjava.net/angularFacesCore">
 	<h:head>
 		<title>car dealer - customer contact information</title>
 	</h:head>
@@ -19,5 +20,6 @@
 				<prime:commandButton value="save" update="angular" action="#{customer.save}" />
 			</prime:panel>
 		</h:form>
+		<ac:addLabelsAndMessages />
 	</h:body>
 </f:view>

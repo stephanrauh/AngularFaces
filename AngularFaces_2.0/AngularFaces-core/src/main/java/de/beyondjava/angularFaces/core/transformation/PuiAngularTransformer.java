@@ -69,7 +69,6 @@ public class PuiAngularTransformer implements SystemEventListener {
 				final UIViewRoot root = (UIViewRoot) source;
 				boolean ajaxRequest = context.getPartialViewContext().isAjaxRequest();
 				boolean angularFacesRequest = ajaxRequest && isAngularFacesRequest();
-				boolean postback = context.isPostback();
 				if (!angularFacesRequest || PuiModelSync.isJSFAttributesTableEmpty()) {
 					PuiModelSync.initJSFAttributesTable();
 					FindNGControllerCallback ngControllerCallback = new FindNGControllerCallback();
@@ -78,37 +77,16 @@ public class PuiAngularTransformer implements SystemEventListener {
 					if (!angularFacesRequest) {
 						addJavascript(root, context, isProduction);
 					}
-					// time("extract AngularJS expressions", new Runnable(){public void run(){ root.visitTree(new FullVisitContext(context),
-					// new ProcessAngularExpressionsCallback());}});
 					time("add NGModel", new Runnable() {
 						public void run() {
 							root.visitTree(new FullVisitContext(context), new AddNGModelAndIDCallback());
 						}
 					});
-					if ((!angularFacesRequest) && ngControllerCallback.isAddLabels()) {
-						final AddLabelCallback labelDecorator = new AddLabelCallback();
-						time("add labels", new Runnable() {
-							public void run() {
-								root.visitTree(new FullVisitContext(context), labelDecorator);
-							}
-						});
-						LOGGER.fine("AJAX: " + ajaxRequest + " AngularFacesAJAX: " + angularFacesRequest + " Postback: " + postback
-								+ " duplicate Labels: " + labelDecorator.duplicateLabels);
-					}
 					time("add type information", new Runnable() {
 						public void run() {
 							root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback());
 						}
 					});
-					if (!angularFacesRequest) {
-						if (ngControllerCallback.isAddMessages()) {
-							time("add messages", new Runnable() {
-								public void run() {
-									root.visitTree(new FullVisitContext(context), new AddMessagesCallback());
-								}
-							});
-						}
-					}
 					if (!ajaxRequest) {
 						time("internationalization", new Runnable() {
 							public void run() {

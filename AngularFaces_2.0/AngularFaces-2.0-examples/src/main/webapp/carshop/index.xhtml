@@ -3,7 +3,9 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ac="http://beyondjava.net/angularFacesCore"
+	>
 	<h:head>
 	<!-- tab element found at http://blog.hfarazm.com/tabs-in-angularjs/ -->
 		<h:outputScript library="javax.faces" name="jsf.js" />
@@ -71,6 +73,7 @@
 			<span class="col-md-2"></span>
 		</footer>
 
+		<ac:addLabelsAndMessages />
 
 	</h:body>
 </f:view>

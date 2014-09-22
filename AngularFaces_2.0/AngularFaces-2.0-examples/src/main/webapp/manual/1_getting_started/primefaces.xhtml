@@ -4,7 +4,9 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:prime="http://primefaces.org/ui">
+	xmlns:prime="http://primefaces.org/ui"
+	xmlns:ac="http://beyondjava.net/angularFacesCore"
+	>
 	<h:head />
 	<h:body>
 		<h:form id="formID" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
@@ -36,7 +38,8 @@
 				<h:outputText style="{{angularModelStyle}}"
 					value="This text has a css style that stems from the Angular model, but not from any JSF bean." />
 			</prime:panel>
-
+			<ac:addLabelsAndMessages />
 		</h:form>
+		<ac:addLabelsAndMessages />
 	</h:body>
 </f:view>

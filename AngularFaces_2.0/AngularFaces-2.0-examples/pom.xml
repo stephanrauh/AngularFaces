@@ -61,11 +61,11 @@
       <scope>runtime</scope>
     </dependency>
      -->
-    <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-mapper-asl</artifactId>
-        <version>1.9.13</version>
-    </dependency>
+	<dependency>
+	    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+	    <artifactId>jackson-jaxrs-json-provider</artifactId>
+	    <version>2.4.2</version>
+	</dependency>
 
     <dependency>
       <groupId>commons-logging</groupId>

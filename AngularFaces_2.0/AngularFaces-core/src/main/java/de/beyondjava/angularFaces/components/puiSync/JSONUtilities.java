@@ -1,17 +1,25 @@
 package de.beyondjava.angularFaces.components.puiSync;
 
 import java.lang.reflect.Method;
+import java.util.logging.Logger;
 
 public class JSONUtilities {
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.components.puiSync.JSONUtilities");
+
 	private static Object gson;
 	private static Object jackson;
 
 	static {
 		try {
-			Class<?> jacksonClass = Class.forName("org.codehaus.jackson.map.ObjectMapper");
+			Class<?> jacksonClass = Class.forName("com.fasterxml.jackson.databind.ObjectMapper");
 			jackson = jacksonClass.newInstance();
 		} catch (Exception e) {
-			jackson = null;
+			try {
+				Class<?> jacksonClass = Class.forName("org.codehaus.jackson.map.ObjectMapper");
+				jackson = jacksonClass.newInstance();
+			} catch (Exception e2) {
+				jackson = null;
+			}
 		}
 		try {
 			Class<?> gsonClass = Class.forName("com.google.gson.Gson");
@@ -19,7 +27,16 @@ public class JSONUtilities {
 		} catch (Exception e) {
 			gson = null;
 		}
-		
+		if (jackson == null && gson == null) {
+			LOGGER.severe("Please specify a JSON serializer! Current Gson and Jackson 1 and Jackson 2 are supported.");
+			LOGGER.severe("To add Jackson, simply add these lines to your pom.xml:");
+			LOGGER.severe("<dependency>");
+			LOGGER.severe("  <groupId>com.fasterxml.jackson.jaxrs</groupId>");
+			LOGGER.severe("  <artifactId>jackson-jaxrs-json-provider</artifactId>");
+			LOGGER.severe("  <version>2.4.2</version>");
+			LOGGER.severe("</dependency>");
+
+		}
 
 	}
 
@@ -33,8 +50,8 @@ public class JSONUtilities {
 				}
 			} catch (ReflectiveOperationException e) {
 			}
-			
-		} 
+
+		}
 		if (null != gson) {
 			try {
 				Method method = gson.getClass().getMethod("fromJson", String.class, Class.class);
@@ -56,8 +73,8 @@ public class JSONUtilities {
 				}
 			} catch (ReflectiveOperationException e) {
 			}
-			
-		} 
+
+		}
 		if (null != gson) {
 			try {
 				Method method = gson.getClass().getMethod("toJson", Object.class);

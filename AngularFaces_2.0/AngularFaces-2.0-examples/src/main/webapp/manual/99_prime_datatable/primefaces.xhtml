@@ -4,7 +4,8 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:prime="http://primefaces.org/ui">
+	xmlns:prime="http://primefaces.org/ui"
+	xmlns:ac="http://beyondjava.net/angularFacesCore">
 	<h:head />
 	<h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
 		<h:form id="myForm">
@@ -20,5 +21,6 @@
 				<prime:messages globalOnly="false" />
 			</prime:panel>
 		</h:form>
+		<ac:addLabelsAndMessages />
 	</h:body>
 </f:view>

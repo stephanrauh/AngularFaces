@@ -133,6 +133,11 @@ public class AngularTagDecorator implements TagDecorator {
 
 	@Override
 	public Tag decorate(Tag tag) {
+		Tag newTag = createTags(tag);
+		return newTag;
+	}
+
+	private Tag createTags(Tag tag) {
 		TagAttributes modifiedAttributes = extractAngularAttributes(tag);
 		// Apache MyFaces converts HTML tag with jsf: namespace, but missing an attribute, into jsf:element tag. We'll fix this
 		// for the special case of input fields.
@@ -238,8 +243,10 @@ public class AngularTagDecorator implements TagDecorator {
 	private Tag generatePuiHtmlTag(Tag tag, TagAttributes modifiedAttributes, final String htmlTag) {
 		String keys = "";
 		TagAttribute[] all = modifiedAttributes.getAll();
-		for (TagAttribute attr:all) {
+		for (int i = 0; i < all.length; i++) {
+			TagAttribute attr = all[i];
 			keys += attr.getLocalName() + ",";
+			all[i]=TagAttributeUtilities.createTagAttribute(attr.getLocation(), PASS_THROUGH_NAMESPACE, attr.getLocalName(), attr.getQName(), attr.getValue());
 		}
 		if (keys.endsWith(",")) keys=keys.substring(0, keys.length()-1);
 		((AFTagAttributes)modifiedAttributes).addAttribute(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "attributeNames", "attributeNames", keys);
@@ -249,4 +256,19 @@ public class AngularTagDecorator implements TagDecorator {
 	private boolean isHTMLNamespace(String ns) {
 		return "".equals(ns) || HTML_NAMESPACE.equals(ns);
 	}
+	
+// May become useful in future
+//	private Tag addLabelsTag(Tag tag) {
+//		if (null==tag) return null;
+//		if ("inputText".equals(tag.getLocalName())) {
+//			TagAttribute originalTagAttribute = TagAttributeUtilities.createTagAttribute(tag.getLocation(), tag.getNamespace(), "originalTagName", tag.getQName(), tag.getLocalName());
+//			final TagAttribute[] origininalAttributes = tag.getAttributes().getAll();
+//			TagAttribute[] attrs = Arrays.copyOf(origininalAttributes, origininalAttributes.length+1);
+//			attrs[origininalAttributes.length]=originalTagAttribute;
+//			AFTagAttributes afta = new AFTagAttributes(attrs);
+//			return new Tag(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "addLabelAndMessage", "addLabelAndMessage", afta);
+//		}
+//		return tag;
+//	}
+
 }

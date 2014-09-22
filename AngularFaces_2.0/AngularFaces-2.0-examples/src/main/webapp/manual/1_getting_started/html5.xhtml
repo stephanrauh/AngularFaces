@@ -3,7 +3,9 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ac="http://beyondjava.net/angularFacesCore"
+	xmlns:ac="http://beyondjava.net/angularFacesCore">
 	<h:head>
 		<style>.ui-state-error-text { color: #cd0a0a; } 
 		       .ui-state-error { color: #cd0a0a; }
@@ -37,10 +39,12 @@
 					</h:commandButton>
 					<h:commandButton value="Add on server (without AJAX)"
 						action="#{calculatorBean.add}" />
+					<ac:addLabelsAndMessages />
 				</h:panelGrid>
 				Note that AngularJS doesn't recover after traditional AJAX requests. The PrimeFaces version of this JSF view doesn't have that problem.
 				<h:messages globalOnly="false" />
 			</h:panelGroup>
 		</h:form>
+		<ac:addLabelsAndMessages />
 	</h:body>
 </f:view>
