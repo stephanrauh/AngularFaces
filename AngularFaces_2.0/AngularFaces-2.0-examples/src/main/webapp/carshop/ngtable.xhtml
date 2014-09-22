@@ -136,10 +136,13 @@
                                     <td data-title="'Price'"   sortable="'price'" > {{car.price}} </td>
                                     <td data-title="'Fuel'"    sortable="'fuel'" >  {{car.fuel}} </td>
                                     <td data-title="'Select'"> 
-                                        <button class="carFilterButton" jsf:action="#{carBean.showDetails(car)}">show me!</button>
+                                       <button class="carFilterButton" jsf:action="#{selectionBean.showDetails()}" ng-click="selectionBean.carAsJSon=afToJson(car);">show me!
+                                       	 
+                                       </button>
                                     </td>
                                 </tr>
                             </table>
+                            <input jsf:value="{{selectionBean.carAsJSon}}" />
     						<prime:messages globalOnly="false" />
     
     					</form>

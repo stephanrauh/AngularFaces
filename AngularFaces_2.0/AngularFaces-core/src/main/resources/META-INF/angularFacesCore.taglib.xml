@@ -7,7 +7,7 @@
 
 	<tag>
 		<tag-name>addLabelsAndMessages</tag-name>
-		<handler-class>de.beyondjava.angularFaces.components.puiLabel.addLabelsAndMessagesHandler</handler-class>
+		<handler-class>de.beyondjava.angularFaces.components.puiLabel.AddLabelsAndMessagesHandler</handler-class>
 	</tag>
   <tag>
     <description><![CDATA[ngsync (aka ai:sync) synchronizes a JSF bean with an AngularJS model and vice versa.]]></description>

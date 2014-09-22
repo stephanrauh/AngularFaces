@@ -4,6 +4,12 @@ controller('CarShopController', function($scope, $filter, ngTableParams) {
 	initJSFScope($scope);
 	$scope.activeSelections=0;
 	
+	$scope.select = function(car) {
+		console.log(car);
+		$scope.selectionBean.carAsJSon=car;
+		return true;
+	}
+	
 	$scope.showIfSet = function(ngmodel) {
 		if (typeof(ngmodel)=='undefined') {
 			return "hidden";

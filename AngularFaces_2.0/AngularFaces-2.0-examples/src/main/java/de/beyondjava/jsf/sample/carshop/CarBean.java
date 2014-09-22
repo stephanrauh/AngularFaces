@@ -1,6 +1,9 @@
 package de.beyondjava.jsf.sample.carshop;
 
+import java.util.Map;
+
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
 @ManagedBean
@@ -10,6 +13,13 @@ public class CarBean {
 
 	public String showDetails(Car car) {
 		this.car = car;
+		return "details.jsf";
+	}
+	public String showDetails2() {
+		this.car = null;
+		Map<String,String> params = 
+                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+	  String selection = params.get("selectedCar");
 		return "details.jsf";
 	}
 

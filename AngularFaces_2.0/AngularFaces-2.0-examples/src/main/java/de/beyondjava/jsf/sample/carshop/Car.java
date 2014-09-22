@@ -22,8 +22,9 @@ import javax.validation.constraints.Min;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class Car {
-    String brand;
-    public int getMileage() {
+	String brand;
+
+	public int getMileage() {
 		return mileage;
 	}
 
@@ -48,36 +49,39 @@ public class Car {
 	}
 
 	@NotEmpty
-    String color;
+	String color;
 
 	String type;
 
 	@Min(1886)
-    @Max(2014)
-    @NotEmpty
-    int year;
-	
+	@Max(2014)
+	@NotEmpty
+	int year;
+
 	@Min(0)
 	@Max(1000000)
 	@NotEmpty
 	int mileage;
-	
+
 	@NotEmpty
 	String fuel;
-	
+
 	@Min(1)
 	@Max(5000000)
 	int price;
-	
+
+	public Car() {
+	}
+
 	public Car(String brand, String type, int year, String color, int mileage, String fuel, int price) {
-    	this.brand=brand;
-    	this.type=type;
-    	this.year=year;
-    	this.color=color;
-    	this.mileage=mileage;
-    	this.fuel=fuel;
-    	this.price=price;
-    }
+		this.brand = brand;
+		this.type = type;
+		this.year = year;
+		this.color = color;
+		this.mileage = mileage;
+		this.fuel = fuel;
+		this.price = price;
+	}
 
 	public String getBrand() {
 		return brand;
@@ -98,15 +102,16 @@ public class Car {
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
-    public void setColor(String color) {
+
+	public void setColor(String color) {
 		this.color = color;
 	}
 
-    public void setType(String type) {
+	public void setType(String type) {
 		this.type = type;
 	}
-    
-    public void setYear(int year) {
+
+	public void setYear(int year) {
 		this.year = year;
 	}
 }

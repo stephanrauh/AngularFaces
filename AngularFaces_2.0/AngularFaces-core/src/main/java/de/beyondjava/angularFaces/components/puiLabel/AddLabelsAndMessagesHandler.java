@@ -21,14 +21,14 @@ import de.beyondjava.angularFaces.core.NGWordUtiltites;
 import de.beyondjava.angularFaces.core.i18n.I18n;
 import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
-public class AddLabelAndMessageHandler extends TagHandler {
+public class AddLabelsAndMessagesHandler extends TagHandler {
 	private I18n i18n = null;
 
 	boolean addLabels = true;
 	boolean addMessages = true;
 	boolean recursive = true;
 
-	public AddLabelAndMessageHandler(TagConfig config) {
+	public AddLabelsAndMessagesHandler(TagConfig config) {
 		super(config);
 		TagAttribute recursiveTag = config.getTag().getAttributes().get("recursive");
 		if (null != recursiveTag) {
