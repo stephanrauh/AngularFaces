@@ -40,6 +40,7 @@ public class AngularTagDecorator implements TagDecorator {
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator");
 	private static final String MOJARRA_NAMESPACE = "http://xmlns.jcp.org/jsf/html";
 	private static final String PASS_THROUGH_NAMESPACE = "http://xmlns.jcp.org/jsf/passthrough";
+	private static final String ANGULAR_FACES_CORE_NAMESPACE = "http://beyondjava.net/angularFacesCore";
 	public static boolean isActive() {
 		return active;
 	}
@@ -58,6 +59,11 @@ public class AngularTagDecorator implements TagDecorator {
 		TagAttribute[] attributes = attributeList.getAll();
 		TagAttributes more = new AFTagAttributes(attributes);
 		Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "inputText", "inputText", more);
+		return t;
+	}
+
+	private Tag convertToACBodyTag(Tag tag, TagAttributes attributeList) {
+		Tag t = new Tag(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE, tag.getLocalName(), tag.getQName(), attributeList);
 		return t;
 	}
 
@@ -153,6 +159,9 @@ public class AngularTagDecorator implements TagDecorator {
 			}
 		}
 
+		if ("body".equals(tag.getLocalName())) {
+			return convertToACBodyTag(tag, modifiedAttributes);
+		}
 		if (!isHTMLNamespace(tag.getNamespace())) {
 			return generateTagIfNecessary(tag, modifiedAttributes);
 		}
@@ -249,8 +258,8 @@ public class AngularTagDecorator implements TagDecorator {
 			all[i]=TagAttributeUtilities.createTagAttribute(attr.getLocation(), PASS_THROUGH_NAMESPACE, attr.getLocalName(), attr.getQName(), attr.getValue());
 		}
 		if (keys.endsWith(",")) keys=keys.substring(0, keys.length()-1);
-		((AFTagAttributes)modifiedAttributes).addAttribute(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "attributeNames", "attributeNames", keys);
-		return new Tag(tag.getLocation(), "http://beyondjava.net/angularFacesCore", htmlTag, htmlTag, modifiedAttributes);
+		((AFTagAttributes)modifiedAttributes).addAttribute(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE, "attributeNames", "attributeNames", keys);
+		return new Tag(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE, htmlTag, htmlTag, modifiedAttributes);
 	}
 
 	private boolean isHTMLNamespace(String ns) {

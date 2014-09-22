@@ -50,11 +50,9 @@ public class AddLabelsAndMessagesHandler extends TagHandler {
 	@Override
 	public void apply(FaceletContext ctx, UIComponent parent) throws IOException {
 		if (addLabels || addMessages) {
-			if (ComponentHandler.isNew(parent)) {
 				populateTree(parent);
-			}
 		}
-		nextHandler.apply(ctx, parent); // Delegate job further to first next tag in tree hierarchy.
+//		nextHandler.apply(ctx, parent); // Delegate job further to first next tag in tree hierarchy.
 	}
 
 	private void populateTree(UIComponent parent) {
