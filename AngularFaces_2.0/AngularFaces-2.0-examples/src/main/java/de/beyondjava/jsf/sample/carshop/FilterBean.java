@@ -25,6 +25,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import de.beyondjava.angularFaces.core.ELTools;
+
 @ManagedBean
 @SessionScoped
 public class FilterBean implements Serializable {
@@ -42,6 +47,18 @@ public class FilterBean implements Serializable {
 
 	public void setOptions(OptionBean options) {
 		this.options = options;
+	}
+	
+	/**
+	 * This bean is created both by JSF and by the JSON deserializer (Jackson). In the latter case there's not JSF initialization, so we may have to catch up on it.
+	 */
+	private void initIfNecessary() {
+		if (null==options) {
+			options=(OptionBean) ELTools.evalAsObject("#{optionBean}");
+		}
+		if (null==carPool) {
+			carPool=(CarPool) ELTools.evalAsObject("#{carPool}");
+		}
 	}
 
 	private String brand;
@@ -78,7 +95,9 @@ public class FilterBean implements Serializable {
 		return price;
 	}
 	
+	@JsonIgnore
 	public List<String> getTypes() {
+		initIfNecessary();
 		return options.getTypesToBrand(brand);
 	}
 
@@ -101,6 +120,7 @@ public class FilterBean implements Serializable {
 	public void setBrand(String brand) {
 		this.brand = brand;
 		if (type!=null && type.length()>0) {
+			initIfNecessary();
 			if (!brand.equals(options.getBrandToType(type)))
 				type=null;
 		}
@@ -124,6 +144,7 @@ public class FilterBean implements Serializable {
 	
 	public void setType(String type) {
 		this.type = type;
+		initIfNecessary();
 		String b = options.getBrandToType(type);
 		if (null != b) {
 			brand=b;
@@ -146,11 +167,12 @@ public class FilterBean implements Serializable {
 		return null;
 	}
 	
+	@JsonIgnore
 	public String getCounter() {
+		initIfNecessary();
 		carPool.applyFilter(this);
 		long l=carPool.getSelectedCars().size();
 //		if (null != brand) return String.valueOf(l) + " " + brand; 
 		return String.valueOf(l);
 	}
-
 }

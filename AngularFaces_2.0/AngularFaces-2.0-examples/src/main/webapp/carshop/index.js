@@ -24,7 +24,7 @@ function sendFilterToServer(newValue, oldValue) {
 				var helperID = ngsync.id;
 				window.setTimeout(function() {
 					jsf.ajax.request(ngsync.id, null, {
-						'javax.faces.behavior.event':'valueChange', 
+						'de.beyondjava.angularfaces.behavior.event':'ngsync', 
 						execute:helperID,
 						render:'angular'
 					});

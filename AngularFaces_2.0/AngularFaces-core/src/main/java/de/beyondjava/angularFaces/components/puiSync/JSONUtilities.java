@@ -1,5 +1,6 @@
 package de.beyondjava.angularFaces.components.puiSync;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
@@ -48,9 +49,13 @@ public class JSONUtilities {
 				if (null != method) {
 					return method.invoke(jackson, json, beanType);
 				}
-			} catch (ReflectiveOperationException e) {
-			}
+			} catch (InvocationTargetException e) {
+				Throwable rootException = e.getTargetException();
+				System.out.println("Jackson couldn't read the value: " + rootException);
 
+			} catch (ReflectiveOperationException e) {
+				System.out.println("Jackson couldn't read the value: " + e);
+			}
 		}
 		if (null != gson) {
 			try {

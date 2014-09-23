@@ -35,6 +35,7 @@ import javax.faces.lifecycle.ClientWindow;
 import javax.faces.render.ResponseStateManager;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
+import de.beyondjava.angularFaces.components.puiSync.PuiSync;
 
 /** This class generate the optimized AngularFaces AJAX response. */
 public class AngularViewContextWrapper extends PartialViewContextWrapper {
@@ -94,6 +95,12 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 
 	@Override
 	public void processPartial(PhaseId phaseId) {
+		if (phaseId == PhaseId.APPLY_REQUEST_VALUES) {
+			if (isNGSyncRequest()) {
+				applyNGSyncModelValues();
+				return;
+			}
+		}
 		if (phaseId == PhaseId.RENDER_RESPONSE) {
 			// UIViewRoot viewRoot = ctx.getViewRoot();
 			// PuiELTransformer.eliminateDuplicatePuiModelSyncTags(viewRoot);
@@ -113,21 +120,48 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		PartialViewContext pvc = ctx.getPartialViewContext();
 		Collection<String> myRenderIds = pvc.getRenderIds();
-		boolean isAngularFacesRequest=false;
-		if (null != myRenderIds)  {
-		if (myRenderIds.contains("angular")) {
-			isAngularFacesRequest=true;
-		}
-		else {
-			for (Object id:myRenderIds) {
-				if (id instanceof String) {
-					if (((String)id).endsWith(":angular")) {
-						isAngularFacesRequest=true;
-						break;
+		boolean isAngularFacesRequest = false;
+		if (null != myRenderIds) {
+			if (myRenderIds.contains("angular")) {
+				isAngularFacesRequest = true;
+			} else {
+				for (Object id : myRenderIds) {
+					if (id instanceof String) {
+						if (((String) id).endsWith(":angular")) {
+							isAngularFacesRequest = true;
+							break;
+						}
 					}
 				}
 			}
 		}
+		return isAngularFacesRequest;
+	}
+	
+	private void applyNGSyncModelValues() {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		PartialViewContext pvc = ctx.getPartialViewContext();
+		Collection<String> executeIDs = pvc.getExecuteIds();
+		if (null != executeIDs) {
+			for (String clientID:executeIDs) {
+				UIViewRoot viewRoot = ctx.getViewRoot();
+				UIComponent c = viewRoot.findComponent(clientID);
+				if (c instanceof PuiSync) {
+					if (c.isInView()) {
+//						PuiSync syncElement = (PuiSync) c;
+						c.decode(ctx);
+					}
+				}
+			}
+		}
+	}
+
+	private boolean isNGSyncRequest() {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		boolean isAngularFacesRequest = false;
+		String action = ctx.getExternalContext().getRequestParameterMap().get("de.beyondjava.angularfaces.behavior.event");
+		if ("ngsync".equals(action)) {
+			isAngularFacesRequest = true;
 		}
 		return isAngularFacesRequest;
 	}
