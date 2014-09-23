@@ -16,6 +16,7 @@
  */
 package de.beyondjava.jsf.sample.carshop;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
@@ -32,7 +33,10 @@ import org.hibernate.validator.constraints.Email;
 
 @ManagedBean
 @SessionScoped
-public class CustomerBean {
+public class CustomerBean implements Serializable {
+
+	private static final long serialVersionUID = -5843419440559883471L;
+
 	private Date dateOfBirth;
 	
 	@Email

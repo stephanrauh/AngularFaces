@@ -16,6 +16,7 @@
  */
 package de.beyondjava.jsf.sample.carshop;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -26,7 +27,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 
 @ManagedBean
 @SessionScoped
-public class FilterBean {
+public class FilterBean implements Serializable {
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsf.sample.carshop.FilterBean");
 	
 	@ManagedProperty("#{optionBean}")

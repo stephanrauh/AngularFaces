@@ -16,6 +16,7 @@
  */
 package de.beyondjava.jsf.sample.carshop;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -30,7 +31,9 @@ import javax.faces.bean.SessionScoped;
 
 @ManagedBean
 @SessionScoped
-public class OptionBean {
+public class OptionBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private List<String> brands = new ArrayList<String>();
 	private List<String> colors = new ArrayList<String>();
 

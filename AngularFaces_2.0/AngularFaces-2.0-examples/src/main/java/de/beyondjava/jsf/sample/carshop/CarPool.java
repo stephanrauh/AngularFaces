@@ -16,6 +16,7 @@
  */
 package de.beyondjava.jsf.sample.carshop;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,7 +28,8 @@ import javax.faces.bean.SessionScoped;
 
 @ManagedBean
 @SessionScoped
-public class CarPool {
+public class CarPool implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private final static int SIZE_OF_INITIAL_CAR_POOL = 10000;
 

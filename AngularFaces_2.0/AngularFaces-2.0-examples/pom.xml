@@ -99,7 +99,7 @@
     <profile>
       <id>Mojarra 2.2.7</id>
       <activation>
-        <activeByDefault>false</activeByDefault>
+        <activeByDefault>true</activeByDefault>
       </activation>
       <dependencies>
         <dependency>
@@ -119,7 +119,7 @@
     <profile>
       <id>MyFaces 2.2.4</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <activeByDefault>false</activeByDefault>
       </activation>
       <dependencies>
         <dependency>

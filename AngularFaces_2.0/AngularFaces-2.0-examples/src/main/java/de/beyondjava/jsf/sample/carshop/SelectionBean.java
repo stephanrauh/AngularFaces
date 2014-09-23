@@ -1,14 +1,10 @@
 package de.beyondjava.jsf.sample.carshop;
 
 import java.util.List;
-import java.util.Map;
 
-import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ReferencedBean;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.RequestScoped;
 
 import de.beyondjava.angularFaces.components.puiSync.JSONUtilities;
 
