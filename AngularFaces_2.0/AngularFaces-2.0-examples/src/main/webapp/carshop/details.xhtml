@@ -65,9 +65,9 @@
 		<section role="main" class="container main-body">
 			<div class="main-grid main-body-grid">
 				<div class="col-md-8">
-					<form id="myForm" style="width: 1000px">
-		
-						<prime:panel header="If you want to buy this car...">
+					<form id="myForm">
+						<ngsync direction="serverToClient" value="{{customerBean.showDetails}}" />
+						<prime:panel header="If you want to buy this car..." ng-show="{{doShowDetails()}}" styleClass="{{showDetailsClass()}}">
 							<prime:panelGrid columns="3" style="border: 0px;">
 								<prime:inputText value="#{carBean.brand}" />
 								<prime:inputText value="#{carBean.type}" />
@@ -78,7 +78,7 @@
 								<prime:inputText value="#{carBean.fuel}" />
 							</prime:panelGrid>
 						</prime:panel>
-						<prime:panel header="... we need some informations about where to deliver it:">
+						<prime:panel header="... we need some informations about where to deliver it:" ng-show="{{doShowDetails()}}" styleClass="{{showDetailsClass()}}">
 							<prime:panelGrid columns="3" style="border: 0px;">
 								<prime:inputText value="{{customerBean.lastName}}" />
 								<prime:inputText value="{{customerBean.firstName}}" />
@@ -87,33 +87,47 @@
 								<prime:inputText value="{{customerBean.iAgreeToTheTermsAndConditions}}" />
 						</prime:panelGrid>		
 						</prime:panel>
-						<prime:panel header="Please confirm you are a human by answering this simple question:">
+						<prime:panel header="Please confirm you are a human by answering this simple question:" ng-show="{{doShowDetails()}}" styleClass="{{showDetailsClass()}}">
 							<prime:panelGrid columns="3" style="border: 0px;">
 								<prime:outputLabel for="captchaField" value="{{customerBean.captchaQuestion}}" />
 								<prime:inputText id="captchaField" value="{{customerBean.captcha}}" />
 							</prime:panelGrid>
 						</prime:panel>
-								<button class="carFilterButton"
-									jsf:action="#{carBean.showDetails(car)}">Buy this car!</button>
+						<prime:commandButton class="carFilterButton" action="#{customerBean.buy(carBean)}" value="Buy this car! (Non-AJAX)" ajax="false" styleClass="{{showDetailsClass()}}" />
+						<prime:commandButton class="carFilterButton" action="#{customerBean.buy(carBean)}" value="Buy this car! (JSF AJAX)" update="@form" styleClass="{{showDetailsClass()}}" />
+						<prime:commandButton class="carFilterButton" action="#{customerBean.buy(carBean)}" value="Buy this car! (AF AJAX)" update=":angular" styleClass="{{showDetailsClass()}}" />
 						
 			
 						<prime:messages globalOnly="false" />
 						<prime:spacer height="200px"></prime:spacer>
 					</form>
 				</div>
+				<div class="col-md-4">
+				<h3>What do you see here?</h3>
+				<p>This page integrates a PrimeFaces form with AngularFaces.</p>
+				<p>The car data are traditional PrimeFaces input fields with JSF EL expressions.</p>
+				<p>The customer data fields are PrimeFaces input fields with AngularJS mustaches.</p>
+				<p>The CAPTCHA - which is generated on the server - is used to lock or unlock the button with a little AngularJS code.</p>
+				<p>The button is a PrimeFaces AJAX CommandButton.</p>
+				<p>After hidden one of the buttons the input fields are hidden by means of AngularJS. For some reason ng-show does not work.
+				By forcing it to call a Javascript function the value of ng-show is updated to false, but the displayed panel
+				doesn't vanish. However, style="{ {showDetailsClass()} }" is more reliable.
+				</p>
+				  
+				</div>
 			</div>
 		</section>
 
 		<footer class="footer"
-			style="position: fixed; bottom: 0px; width: 100%; background-color: #000; padding: 10px; color: #777">
+			style="position: fixed; bottom: 0px; width: 100%; background-color: #000; padding: 10px; color: #aaa">
 			<span class="col-md-2"></span>
-			<span class="col-md-8"><br><translate value="Legal notes:" /> 
-			</br>
-			<br><translate value="(C) Stephan Rauh 2014, http://www.beyondjava.net" /></br>
-			<br><translate value="The page runs on AngularFaces 2.1." /> 
-			</br><br><translate value="The tab element is an adapted version of the one described
+			<span class="col-md-8"><p style="margin-bottom:5px"><translate value="Legal notes:" /> 
+			</p>
+			<p style="margin-bottom:0px"><translate value="(C) Stephan Rauh 2014, http://www.beyondjava.net" /></p>
+			<p style="margin-bottom:0px"><translate value="The page runs on AngularFaces 2.1." /></p> 
+			<p><translate value="The tab element is an adapted version of the one described
 					at http://blog.hfarazm.com/tabs-in-angularjs/" />
-			</br></span>
+			</p></span>
 			<span class="col-md-2"></span>
 		</footer>
 		

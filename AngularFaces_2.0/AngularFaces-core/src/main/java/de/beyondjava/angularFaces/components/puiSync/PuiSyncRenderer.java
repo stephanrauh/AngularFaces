@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.FacesException;
@@ -65,6 +66,9 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 
 	@Override
 	public void decode(FacesContext context, UIComponent component) {
+		String direction = AttributeUtilities.getAttributeAsString(component, "direction");
+		if ("serverToClient".equalsIgnoreCase(direction)) 
+			return;
 		String rootProperty = AttributeUtilities.getAttributeAsString(component, "value");
 
 		Map<String, String> parameterMap = context.getExternalContext().getRequestParameterMap();
@@ -91,18 +95,21 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 				}
 			}
 		} catch (NumberFormatException error) {
+			LOGGER.log(Level.SEVERE, "A number was expected, but something else was sent (" + rootProperty + ")", error);
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_FATAL, "A number was expected, but something else was sent (" + rootProperty
 							+ ")", "A number was expected, but something else was sent (" + rootProperty + ")"));
 
 		} catch (IllegalArgumentException error) {
+			LOGGER.log(Level.SEVERE, "Can't parse the data sent from the client (" + rootProperty + ")", error);
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_FATAL, "Can't parse the data sent from the client (" + rootProperty + ")",
 							"Can't parse the data sent from the client (" + rootProperty + ")"));
 
 		} catch (Exception anyError) {
+			LOGGER.log(Level.SEVERE, "A technical error occured when trying to read the data sent from the client (" + rootProperty + ")", anyError);
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_FATAL,
