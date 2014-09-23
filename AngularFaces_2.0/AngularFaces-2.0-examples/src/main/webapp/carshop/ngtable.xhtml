@@ -25,8 +25,6 @@
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController"
 		angularJSFile="ngtable.js" id="angular" style="padding-left:10px">
-        <ngsync value="{{filterBean}}" direction="serverToClient" />
-        <ngsync value="{{carPool.selectedCars}}" direction="serverToClient" />
 		
 		<div id="wrapper">
 			<header class="header header-fixed">
@@ -58,13 +56,17 @@
                         <br />
                         <br />
                         <br />
-                        <div ng-show="tab === 2" style="height:500px;width:700px">
+                        <div ng-show="tab === 2" style="height:510px;width:700px">
     					<form id="myForm" style="width: 1000px">
+    					    <ngsync value="{{filterBean}}" direction="serverToClient" />
+        					<ngsync value="{{carPool.selectedCars}}" direction="serverToClient" />
+    					
     						<div class="carFilterBox" style="">
-    							<span style="width: 100%; font-weight: bold">Your
-    								selection:</span>
     							<div style="display: table">
     								<div style="display: table-row">
+    									<div style="display: table-cell;font-weight:bold;padding-right:10px;">
+    										Your selection:
+    									</div>
     									<div style="display: table-cell"
     										class="{{showIfSet(filterBean.brand)}}">
     										<span class="carFilterCriterium">{{filterBean.brand}}</span> <a
@@ -124,7 +126,6 @@
     								</div>
     							</div>
     						</div>
-                {{activeSelections}}
                 
                             <table ng-table="tableParams" class="table ng-table-responsive">
                                 <tr ng-repeat="car in $data">

@@ -17,21 +17,20 @@
 	</h:head>
 	<h:body ng-app="CarShop" ng-controller="CarShopController"
 		angularJSFile="table.js" id="angular" style="padding-left:10px">
-		<ngsync value="{{filterBean}}" direction="serverToClient" />
 		
 		<div id="wrapper">
 			<header class="header header-fixed">
 				<section class="navbar navbar-inverse docs-navbar-primary">
 					<div class="container">
 						<div class="row">
-							<div class="col-md-2"></div>
-							<div class="col-md-8 header-branding">
+							<div class="col-xd-2"></div>
+							<div class="col-xd-8 header-branding">
 								<h2>
 									<translate value="Welcome to the AngularFaces 2.0 car dealer!" />
 								</h2>
 								<i18n value="Europe's most angular car dealer..." />
 							</div>
-							<div class="col-md-2"></div>
+							<div class="col-xd-2"></div>
 							
 						</div>
 					</div>
@@ -40,7 +39,8 @@
 		</div>
 		<section role="main" class="container main-body">
 			<div class="main-grid main-body-grid">
-				<div class="col-md-10">
+				<div class="col-xd-10">
+    			 
                     <ul class="tab" ng-init="tab = 1">
                         <li class="tab" ng-class="{active:tab===1}"><a class="tab"
                             ng-click="tab = 1">PrimeFaces table</a></li>
@@ -49,14 +49,16 @@
                         <br />
                         <br />
                         <br />
-                        <div ng-show="tab === 1" style="height:500px;width:700px">
-    					<form id="myForm" style="width: 1000px">
-    
+                        <div ng-show="tab === 1" style="height:510px;width:1000px">
+                         <form id="myForm" >
+                        		<ngsync value="{{filterBean}}" direction="serverToClient" />
+                        
     						<div class="carFilterBox" style="">
-    							<span style="width: 100%; font-weight: bold">Your
-    								selection:</span>
     							<div style="display: table">
     								<div style="display: table-row">
+	   									<div style="display: table-cell;font-weight:bold;padding-right:10px;">
+	   										Your selection:
+	   									</div>
     									<div style="display: table-cell"
     										class="{{showIfSet(filterBean.brand)}}">
     										<span class="carFilterCriterium">{{filterBean.brand}}</span> <a
@@ -131,25 +133,25 @@
     							</prime:column>
     						</prime:dataTable>
     						<prime:messages globalOnly="false" />
-    
-    					</form>
+		                  </form>
                       </div>
                   </ul>
 				</div>
 			</div>
+			
 		</section>
 
 		<footer class="footer"
 			style="position: fixed; bottom: 0px; width: 100%; background-color: #000; padding: 10px; color: #777">
-			<span class="col-md-2"></span>
-			<span class="col-md-8"><br><translate value="Legal notes:" /> 
+			<span class="col-xd-2"></span>
+			<span class="col-xd-8"><br><translate value="Legal notes:" /> 
 			</br>
 			<br><translate value="(C) Stephan Rauh 2014, http://www.beyondjava.net" /></br>
 			<br><translate value="The page runs on AngularFaces 2.1." /> 
 			</br><br><translate value="The tab element is an adapted version of the one described
 					at http://blog.hfarazm.com/tabs-in-angularjs/" />
 			</br></span>
-			<span class="col-md-2"></span>
+			<span class="col-xd-2"></span>
 		</footer>
 		
 	</h:body>

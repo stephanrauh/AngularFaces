@@ -14,11 +14,10 @@ controller('CarShopController', function($scope, $filter, ngTableParams) {
 		if (typeof(ngmodel)=='undefined') {
 			return "hidden";
 		}
-		if (ngmodel=="") {
+		if (null==ngmodel || ngmodel=="") {
 			return "hidden";
 		}
 		$scope.activeSelections++;
-		console.log("Aktiv: " + ngmodel);
 		return "";
 	}
 	

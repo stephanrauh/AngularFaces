@@ -3,12 +3,12 @@ controller('CarShopController', function($scope, $filter) {
 	// This initializes the Angular Model with the values of the JSF bean attributes
 	initJSFScope($scope);
 	$scope.activeSelections=0;
-	
+
 	$scope.showIfSet = function(ngmodel) {
 		if (typeof(ngmodel)=='undefined') {
 			return "hidden";
 		}
-		if (ngmodel=="") {
+		if (null==ngmodel || ngmodel=="") {
 			return "hidden";
 		}
 		$scope.activeSelections++;
