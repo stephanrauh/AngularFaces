@@ -73,7 +73,7 @@
         ng-show="{{doShowDetails()}}" styleClass="{{showDetailsClass()}}">
         <prime:panelGrid columns="3" style="border: 0px;">
           <prime:outputLabel for="captchaField" value="{{customerBean.captchaQuestion}}" />
-          <prime:inputText id="captchaField" value="{{customerBean.captcha}}" />
+          <prime:inputText required="false" id="captchaField" value="{{customerBean.captcha}}" ng:captcha="{{customerBean.expectedCaptcha}}" />
         </prime:panelGrid>
       </prime:panel>
       <prime:commandButton class="carFilterButton" action="#{customerBean.buy(carBean)}"

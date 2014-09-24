@@ -43,13 +43,13 @@ public class CustomerBean implements Serializable {
 	private String emailAddress;
 	
 	@NotNull
-	@Size(min=1, max=20)
+	@Size(min=2, max=20)
 	private String firstName;
 	
 	private boolean iAgreeToTheTermsAndConditions;
 	
 	@NotNull
-	@Size(min=1, max=20)
+	@Size(min=2, max=20)
 	private String lastName;
 	
 	@NotNull
@@ -59,16 +59,20 @@ public class CustomerBean implements Serializable {
 	
 	private int expectedCaptcha;
 	
+	public int getExpectedCaptcha() {
+		return expectedCaptcha;
+	}
+
 	private String captchaQuestion;
 
 	private boolean showDetails=true;
 	
 	@PostConstruct
 	private void createCaptchaQuestion() {
-		int sum = 100 + (int)Math.floor(900*Math.random());
-		int summand = (int)Math.floor(sum*Math.random());
-		expectedCaptcha=sum-summand;
-		captchaQuestion = "What is " + summand + " + " + expectedCaptcha + "?";
+		expectedCaptcha = 100 + (int)Math.floor(900*Math.random());
+		int summand = (int)Math.floor(expectedCaptcha*Math.random());
+		int summand2 =expectedCaptcha-summand;
+		captchaQuestion = "What is " + summand + " + " + summand2 + "?";
 	}
 	
 	public boolean isiAgreeToTheTermsAndConditions() {

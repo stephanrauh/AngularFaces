@@ -18,68 +18,79 @@ app.directive('puimessage', function($compile) {
     				}
     				$scope.primefaces="true" == $element.attr('primefaces');
     				$scope.af_for=fieldId;
-    				$scope.myField = $("[name='"+$scope.af_for+"']");
+    				$scope.jqueryField = $("[name='"+$scope.af_for+"']");
     				$scope.servermessage=$element.attr("servermessage");
     				
     				$scope.serverMessageVisible = function() {
-						if ($scope.myField.hasClass("pristine")) {
+						if ($scope.jqueryField.hasClass("pristine")) {
 							return "true";
 						}
     					return "false"; 
     				};
     				$scope.message= function() { 
-						if ($scope.myField.hasClass("ng-invalid-min")) {
-							var min = $scope.myField.attr("min");
+						if ($scope.jqueryField.hasClass("ng-invalid-min")) {
+							var min = $scope.jqueryField.attr("min");
 							var msg = angularFacesMessages["This number must be at least {}."];
 							msg=msg.replace("{}", min);
 							return msg;
 						}
-						if ($scope.myField.hasClass("ng-invalid-max")) {
-							var max = $scope.myField.attr("max");
+						if ($scope.jqueryField.hasClass("ng-invalid-max")) {
+							var max = $scope.jqueryField.attr("max");
 							var msg = angularFacesMessages["This number must be less or equal {}."];
 							msg=msg.replace("{}", max);
 							return msg;
 						}
-						if ($scope.myField.hasClass("ng-invalid-number")) {
+						if ($scope.jqueryField.hasClass("ng-invalid-number")) {
 							var msg = angularFacesMessages["Please enter a valid number."];
 							return msg;
 						}
-						if ($scope.myField.hasClass("ng-invalid-required")) {
+						if ($scope.jqueryField.hasClass("ng-invalid-required")) {
 							var msg = angularFacesMessages["Please fill out this field."];
 							return msg;
 						}
 						
-						if ($scope.myField.hasClass("integer")) {
+						if ($scope.jqueryField.hasClass("integer")) {
 							var msg = angularFacesMessages["Please enter a valid integer number."];
 							return msg;
 						}
-						if ($scope.myField.hasClass("ng-invalid-minlength")) {
-							var min = $scope.myField.attr("ng-minlength");
+						if ($scope.jqueryField.hasClass("ng-invalid-minlength")) {
+							var min = $scope.jqueryField.attr("ng-minlength");
 							var msg = angularFacesMessages["At least {} characters required."];
 							msg=msg.replace("{}", min);
 							return msg;
 						}
-						if ($scope.myField.hasClass("ng-invalid-maxlength")) {
-							var max = $scope.myField.attr("ng-maxlength");
+						if ($scope.jqueryField.hasClass("ng-invalid-maxlength")) {
+							var max = $scope.jqueryField.attr("ng-maxlength");
 							var msg = angularFacesMessages["{} characters accepted at most."];
 							msg=msg.replace("{}", max);
 							return msg;
 						}
 
-						
-						
-						if ($scope.servermessage) return $scope.servermessage;
-						if ($scope.myField.hasClass("ng-invalid")) {
+						if ($scope.jqueryField.hasClass("ng-invalid")) {
+							var f = $scope.jqueryField.attr("class");
+							if (typeof(f)!=undefined && f != null) {
+								var classes = f.split(" ");
+								for (var key in classes ) {
+									var c = classes[key];
+									if (c.indexOf("ng-invalid-") === 0) {
+										var msg = angularFacesMessages[c];
+										if (typeof(msg)!="undefined" && msg!=null) {
+											return msg;
+										}
+									}
+								}
+							}
 							var msg = angularFacesMessages["A validation rule is violated."];
 							return msg;
 						}
+						if ($scope.servermessage) return $scope.servermessage;
     					return "";
     				};
     				$scope.hasMessage= function() { 
-						return ($scope.myField.hasClass("ng-invalid"));
+						return ($scope.jqueryField.hasClass("ng-invalid"));
     				};
     				$scope.visibilityClass= function() { 
-						if ($($scope.myField).is(":visible")) {
+						if ($($scope.jqueryField).is(":visible")) {
 							return "";
 						}
     					return "hidden";
@@ -114,16 +125,16 @@ app.directive('puilabel', function($compile) {
 	    				}
 	    				$scope.primefaces="true" == $element.attr('primefaces');
 	    				$scope.af_for=fieldId;
-	    				$scope.myField = $("[name='"+$scope.af_for+"']");
+	    				$scope.jqueryField = $("[name='"+$scope.af_for+"']");
 
 	    				$scope.errorClass= function() { 
-							if ($scope.myField.hasClass("ng-invalid")) {
+							if ($scope.jqueryField.hasClass("ng-invalid")) {
 								return "ui-state-error";
 							}
 	    					return "";
 	    				};
 	    				$scope.visibilityClass= function() { 
-							if ($($scope.myField).is(":visible")) {
+							if ($($scope.jqueryField).is(":visible")) {
 								return "";
 							}
 	    					return "hidden";

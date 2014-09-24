@@ -7,7 +7,6 @@ controller('CarShopController', function($scope, $filter) {
 			typeof($scope.customerBean.showDetails)=="undefined") {
 			return false;
 		}
-		console.log("show: " + $scope.customerBean.showDetails);
 		return $scope.customerBean.showDetails;
 	}
 	$scope.showDetailsClass = function() {
@@ -34,6 +33,25 @@ controller('CarShopController', function($scope, $filter) {
 			return "";
 	}
 
-})
+});
 
-
+app.directive('captcha', function() {
+	return {
+		require : 'ngModel',
+		link : function(scope, elm, attrs, ctrl) {
+			ctrl.$parsers.unshift(function(viewValue) {
+				if (typeof(viewValue)=="undefined" || viewValue==null) {
+					ctrl.$setValidity('captcha', false);
+					return viewValue;
+				}
+				if (viewValue!=attrs["captcha"]) {
+					ctrl.$setValidity('captcha', false);
+					return viewValue;
+				} else {
+					ctrl.$setValidity('captcha', true);
+					return viewValue;
+				}
+			});
+		}
+	};
+});

@@ -35,21 +35,31 @@ public class AddTypeInformationCallback implements VisitCallback {
 		if (component instanceof UIInput) {
 			NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(component);
 			if (infos.isRequired()) {
-				((UIInput) component).setRequired(true);
-				component.getPassThroughAttributes().put("required", "");
+				if (false == (Boolean)AttributeUtilities.getAttribute(component, "required")) {
+					((UIInput) component).setRequired(true);
+					component.getPassThroughAttributes().put("required", "");
+				}
 			}
 			if (infos.getMax() > 0) {
-				((UIInput) component).getPassThroughAttributes().put("max", infos.getMax());
+				if (null == AttributeUtilities.getAttribute(component, "max"))
+					component.getPassThroughAttributes().put("max", infos.getMax());
 			}
 			if (infos.getMin() > 0) {
-				((UIInput) component).getPassThroughAttributes().put("min", infos.getMin());
+				if (null == AttributeUtilities.getAttribute(component, "min"))
+					component.getPassThroughAttributes().put("min", infos.getMin());
 			}
 			if (infos.getMaxSize() > 0) {
-				((UIInput) component).getPassThroughAttributes().put("ng-maxlength", infos.getMaxSize());
-				((UIInput) component).getPassThroughAttributes().put("maxlength", infos.getMaxSize());
+				component.getPassThroughAttributes().put("ng-maxlength", infos.getMaxSize());
+				int maxlength=(Integer) AttributeUtilities.getAttribute(component, "maxlength");
+				if (maxlength<0) {
+					component.getPassThroughAttributes().put("maxlength", infos.getMaxSize());
+				} else 
+					component.getPassThroughAttributes().put("ng-maxlength", maxlength);
+				
+
 			}
 			if (infos.getMinSize() > 0) {
-				((UIInput) component).getPassThroughAttributes().put("ng-minlength", infos.getMinSize());
+				component.getPassThroughAttributes().put("ng-minlength", infos.getMinSize());
 			}
 			if (infos.isNumeric()) {
 				setType(component, "number");
