@@ -1,3 +1,15 @@
+.carFilterCriterium {
+    font-weight: normal;
+    border: 10px;
+    padding-right: 15px;
+}
+.carSelectedFilterBox {
+    border: 5px solid #c4c4c4;
+    height: 70px;
+    padding: 10px;
+}
+
+
 .carFilterBox {
 	border: 5px solid #FF7400;
 	width: 500px;

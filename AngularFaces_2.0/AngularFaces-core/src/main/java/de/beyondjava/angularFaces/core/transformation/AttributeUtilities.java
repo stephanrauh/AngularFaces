@@ -31,9 +31,9 @@ public class AttributeUtilities {
 	 * is stored as an ordinary or as an pass-through-attribute.
 	 */
 	public static Object getAttribute(UIComponent component, String attributeName) {
-		Object value = component.getAttributes().get(attributeName);
+		Object value = component.getPassThroughAttributes().get(attributeName);
 		if (null == value) {
-			value = component.getPassThroughAttributes().get(attributeName);
+			value = component.getAttributes().get(attributeName);
 		}
 		if (null==value) {
 			if (!attributeName.equals(attributeName.toLowerCase())) {
@@ -57,8 +57,8 @@ public class AttributeUtilities {
 			} else if (attribute instanceof String) {
 				return (String) attribute;
 			} else {
-				LOGGER.severe("unexpected data type of label: " + attribute.getClass().getName());
-				return "unexpected data type of label: " + attribute.getClass().getName();
+				LOGGER.severe("unexpected data type of label: " + attributeName + " type:" + attribute.getClass().getName());
+				return "unexpected data type of label: " + attributeName + " type:" + attribute.getClass().getName();
 			}
 		}
 		if (null == attribute) {

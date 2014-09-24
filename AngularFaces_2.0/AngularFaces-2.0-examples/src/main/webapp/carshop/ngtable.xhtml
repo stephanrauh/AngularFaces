@@ -1,170 +1,112 @@
-<f:view xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:jsf="http://xmlns.jcp.org/jsf"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:prime="http://primefaces.org/ui"
-	xmlns:ac="http://beyondjava.net/angularFacesCore">
-	<h:head>
-		<meta charset="utf-8"></meta>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"></meta>
-		<meta name="viewport" content="width=device-width"></meta>
-		<title>AngularFaces 2.0 car dealer</title>
-		<link rel="stylesheet" href="css/bootstrap.min.css"></link>
-		<link rel="stylesheet" href="css/bootstrap-theme.min.css"></link>
-	    <link rel="stylesheet" href="css/table.css"></link>
-        <link rel="stylesheet" href="css/ng-table.css"></link>
-        <style type="text/css">
-            .header { background-color: #ccc; }
-            .ng-table-responsive { border: 1px solid; border-color: #ddd; };
-        </style>
-        <script src="js/ng-table.js"></script>
-        <script data-require="js/ng-table-export@0.1.0" data-semver="0.1.0" src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js"></script>
-      
-	</h:head>
-	<h:body ng-app="CarShop" ng-controller="CarShopController"
-		angularJSFile="ngtable.js" id="angular" style="padding-left:10px">
-		
-		<div id="wrapper">
-			<header class="header header-fixed">
-				<section class="navbar navbar-inverse docs-navbar-primary">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-2"></div>
-							<div class="col-md-8 header-branding">
-								<h2>
-									<translate value="Welcome to the AngularFaces 2.0 car dealer!" />
-								</h2>
-								<i18n value="Europe's most angular car dealer..." />
-							</div>
-							<div class="col-md-2"></div>
-							
-						</div>
-					</div>
-				</section>
-			</header>
-		</div>
-		<section role="main" class="container main-body">
-			<div class="main-grid main-body-grid">
-				<div class="col-md-12">
-                    <ul class="tab" ng-init="tab = 2">
-                        <li class="tab" ng-class="{active:tab===1}"><a class="tab"
-                            ng-click="tab = 1" href="table.jsf">PrimeFaces table</a></li>
-                        <li class="tab" ng-class="{active:tab===2}"><a class="tab"
-                            ng-click="tab = 2">ng-table</a></li>
-                        <br />
-                        <br />
-                        <br />
-                        <div ng-show="tab === 2" style="height:510px;width:700px">
-    					<form id="myForm" style="width: 1000px">
-    					    <ngsync value="{{filterBean}}" direction="serverToClient" />
-        					<ngsync value="{{carPool.selectedCars}}" direction="serverToClient" />
-    					
-    						<div class="carFilterBox" style="">
-    							<div style="display: table">
-    								<div style="display: table-row">
-    									<div style="display: table-cell;font-weight:bold;padding-right:10px;">
-    										Your selection:
-    									</div>
-    									<div style="display: table-cell"
-    										class="{{showIfSet(filterBean.brand)}}">
-    										<span class="carFilterCriterium">{{filterBean.brand}}</span> <a
-    											jsf:outcome="index.jsf"><img
-    											style="position: relative; left: -13px" src="close2.png" /></a>
-    									</div>
-    									<div style="display: table-cell"
-    										class="{{showIfSet(filterBean.type)}}">
-    										<span class="carFilterCriterium">{{filterBean.type}}</span>
-    											<a
-    											jsf:outcome="index.jsf"><img
-    											style="position: relative; left: -13px" src="close2.png" /></a>
-    									</div>
-    									<div style="display: table-cell"
-    										class="{{showIfSet(filterBean.price)}}">
-    										<span class="carFilterCriterium">{{filterBean.price}}</span>
-    										<a
-    											jsf:outcome="index.jsf"><img
-    											style="position: relative; left: -13px" src="close2.png" /></a>
-    									</div>
-    									<div style="display: table-cell"
-    										class="{{showIfSet(filterBean.mileage)}}">
-    										<span class="carFilterCriterium">{{filterBean.mileage}}</span>
-    										
-    											<a
-    											jsf:outcome="index.jsf"><img
-    											style="position: relative; left: -13px" src="close2.png" /></a>
-    									</div>
-    									<div style="display: table-cell"
-    										class="{{showIfSet(filterBean.fuel)}}">
-    										<span class="carFilterCriterium">{{filterBean.fuel}}</span>
-    										<a
-    											jsf:outcome="index.jsf"><img
-    											style="position: relative; left: -13px" src="close2.png" /></a>
-    									</div>
-    									<div style="display: table-cell"
-    										class="{{showIfSet(filterBean.color)}}">
-    										<span class="carFilterCriterium">{{filterBean.color}}</span>
-    											<a
-    											jsf:outcome="index.jsf"><img
-    											style="position: relative; left: -13px" src="close2.png" /></a>
-    									</div>
-    									<div style="display: table-cell"
-    										class="{{showIfSet(filterBean.year)}}">
-    										<span class="carFilterCriterium">{{filterBean.yearText}}</span>
-    											<a
-    											jsf:outcome="index.jsf"><img
-    											style="position: relative; left: -13px" src="close2.png" /></a>
-    									</div>
-                                        <div style="display: table-cell"
-                                            ng-show="0===activeSelections">
-                                            <span class="carFilterCriterium">none</span>
-                                                <a
-                                                jsf:outcome="index.jsf"><img
-                                                style="position: relative; left: -13px" src="close2.png" /></a>
-                                        </div>
-    								</div>
-    							</div>
-    						</div>
-                
-                            <table ng-table="tableParams" class="table ng-table-responsive">
-                                <tr ng-repeat="car in $data">
-                                    <td data-title="'Brand'"   sortable="'brand'">  {{car.brand}}</td>
-                                    <td data-title="'Type'"    sortable="'type'" >  {{car.type}} </td>
-                                    <td data-title="'Year'"    sortable="'year'">   {{car.year}}</td>
-                                    <td data-title="'Color'"   sortable="'color'" > {{car.color}} </td>
-                                    <td data-title="'Mileage'" sortable="'mileage'">{{car.mileage}}</td>
-                                    <td data-title="'Price'"   sortable="'price'" > {{car.price}} </td>
-                                    <td data-title="'Fuel'"    sortable="'fuel'" >  {{car.fuel}} </td>
-                                    <td data-title="'Select'"> 
-                                       <button class="carFilterButton" jsf:action="#{selectionBean.showDetails()}" ng-click="selectionBean.carAsJSon=afToJson(car);">show me!
-                                       	 
-                                       </button>
-                                    </td>
-                                </tr>
-                            </table>
-                            <input jsf:value="{{selectionBean.carAsJSon}}" />
-    						<prime:messages globalOnly="false" />
-    
-    					</form>
-                      </div>
-                  </ul>
-				</div>
-			</div>
-		</section>
+<ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:jsf="http://xmlns.jcp.org/jsf"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:prime="http://primefaces.org/ui">
+  <h:head />
+  <ui:param name="title" value="AngularJS ng-table demo" />
+  <ui:param name="controllerFile" value="ngtable.js" />
+  <ui:define name="scripts">
+    <link rel="stylesheet" href="css/ng-table.css"></link>
+    <style type="text/css">
+.header {
+	background-color: #ccc;
+}
 
-		<footer class="footer"
-			style="position: fixed; bottom: 0px; width: 100%; background-color: #000; padding: 10px; color: #777">
-			<span class="col-md-2"></span>
-			<span class="col-md-8"><br><translate value="Legal notes:" /> 
-			</br>
-			<br><translate value="(C) Stephan Rauh 2014, http://www.beyondjava.net" /></br>
-			<br><translate value="The page runs on AngularFaces 2.1." /> 
-			</br><br><translate value="The tab element is an adapted version of the one described
-					at http://blog.hfarazm.com/tabs-in-angularjs/" />
-			</br></span>
-			<span class="col-md-2"></span>
-		</footer>
-		
-	</h:body>
-</f:view>
+.ng-table-responsive {
+	border: 1px solid;
+	border-color: #ddd;
+}
+;
+</style>
+    <script src="js/ng-table.js"></script>
+    <script data-require="js/ng-table-export@0.1.0" data-semver="0.1.0"
+      src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js"></script>
+  </ui:define>
+  <ui:define name="content">
+
+    <ul class="tab" ng-init="tab = 2">
+      <li class="tab" ng-class="{active:tab===1}"><a class="tab" ng-click="tab = 1" href="table.jsf">PrimeFaces
+          table</a></li>
+      <li class="tab" ng-class="{active:tab===2}"><a class="tab" ng-click="tab = 2">ng-table</a></li>
+      <br />
+      <br />
+      <br />
+      <div ng-show="tab === 2" style="height: 510px; width: 700px">
+        <form id="myForm">
+          <ngsync value="{{filterBean}}" direction="serverToClient" />
+          <ngsync value="{{carPool.selectedCars}}" direction="serverToClient" />
+
+          <div class="carSelectedFilterBox" style="">
+            <div style="display: table">
+              <div style="display: table-row">
+                <div style="display: table-cell; font-weight: bold; padding-right: 10px;">Your selection:</div>
+                <div style="display: table-cell" class="{{showIfSet(filterBean.brand)}}">
+                  <span class="carFilterCriterium">{{filterBean.brand}}</span> <a jsf:outcome="index.jsf"><img
+                    style="position: relative; left: -13px" src="close2.png" /></a>
+                </div>
+                <div style="display: table-cell" class="{{showIfSet(filterBean.type)}}">
+                  <span class="carFilterCriterium">{{filterBean.type}}</span> <a jsf:outcome="index.jsf"><img
+                    style="position: relative; left: -13px" src="close2.png" /></a>
+                </div>
+                <div style="display: table-cell" class="{{showIfSet(filterBean.price)}}">
+                  <span class="carFilterCriterium">{{filterBean.price}}</span> <a jsf:outcome="index.jsf"><img
+                    style="position: relative; left: -13px" src="close2.png" /></a>
+                </div>
+                <div style="display: table-cell" class="{{showIfSet(filterBean.mileage)}}">
+                  <span class="carFilterCriterium">{{filterBean.mileage}}</span> <a jsf:outcome="index.jsf"><img
+                    style="position: relative; left: -13px" src="close2.png" /></a>
+                </div>
+                <div style="display: table-cell" class="{{showIfSet(filterBean.fuel)}}">
+                  <span class="carFilterCriterium">{{filterBean.fuel}}</span> <a jsf:outcome="index.jsf"><img
+                    style="position: relative; left: -13px" src="close2.png" /></a>
+                </div>
+                <div style="display: table-cell" class="{{showIfSet(filterBean.color)}}">
+                  <span class="carFilterCriterium">{{filterBean.color}}</span> <a jsf:outcome="index.jsf"><img
+                    style="position: relative; left: -13px" src="close2.png" /></a>
+                </div>
+                <div style="display: table-cell" class="{{showIfSet(filterBean.year)}}">
+                  <span class="carFilterCriterium">{{filterBean.yearText}}</span> <a jsf:outcome="index.jsf"><img
+                    style="position: relative; left: -13px" src="close2.png" /></a>
+                </div>
+                <div style="display: table-cell" ng-show="0===activeSelections">
+                  <span class="carFilterCriterium">none</span> <a jsf:outcome="index.jsf"><img
+                    style="position: relative; left: -13px" src="close2.png" /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <table ng-table="tableParams" class="table ng-table-responsive">
+            <tr ng-repeat="car in $data">
+              <td data-title="'Brand'" sortable="'brand'">{{car.brand}}</td>
+              <td data-title="'Type'" sortable="'type'">{{car.type}}</td>
+              <td data-title="'Year'" sortable="'year'">{{car.year}}</td>
+              <td data-title="'Color'" sortable="'color'">{{car.color}}</td>
+              <td data-title="'Mileage'" sortable="'mileage'">{{car.mileage}}</td>
+              <td data-title="'Price'" sortable="'price'">{{car.price}}</td>
+              <td data-title="'Fuel'" sortable="'fuel'">{{car.fuel}}</td>
+              <td data-title="'Select'">
+                <button class="carFilterButton" jsf:action="#{selectionBean.showDetails()}"
+                  ng-click="selectionBean.carAsJSon=afToJson(car);">show me!</button>
+              </td>
+            </tr>
+          </table>
+          <input jsf:value="{{selectionBean.carAsJSon}}" />
+          <prime:messages globalOnly="false" />
+
+        </form>
+      </div>
+    </ul>
+
+  </ui:define>
+
+  <ui:define name="explanation">
+    <h3>What do you see here?</h3>
+      <p>This example is an almost pure HTML5 and AngularJS view.</p>
+      <p>The tab element is a simple AngularJS component.</p>
+      <p>The list of selected filter criteria is sent to the client by &lt;ngsync&gt;.</p>
+      <p>The data table is a third-party AngularJS client-side widgets (ng-table).</p>
+      <p>The command buttons and the links (the close icons) are JSF CommandButtons and CommandLinks. They open the new page by a non-AJAX navigation.</p>
+  </ui:define>
+
+</ui:composition>

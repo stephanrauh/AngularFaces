@@ -33,7 +33,8 @@
 					</tr>
 					<tr>
 						<td>
-							<select id="filterbrand" ng-model="filterBean.brand" ng-options="brand for brand in optionBean.brands track by brand">
+							<select id="filterbrand" ng-model="filterBean.brand" ng-options="brand for brand in optionBean.brands track by brand"
+                                    ng-change="filterBean.type=''">
      								<option value="">-- choose brand --</option>
 							</select>
 						    <input class="filterHelper hidden" jsf:value="{{filterBean.brand}}" addLabel="false" addMessage="false" />

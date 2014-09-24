@@ -146,7 +146,7 @@ public class FilterBean implements Serializable {
 		this.type = type;
 		initIfNecessary();
 		String b = options.getBrandToType(type);
-		if (null != b) {
+		if (null != b && b.length()>0) {
 			brand=b;
 		}
 	}

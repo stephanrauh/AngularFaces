@@ -77,7 +77,7 @@ public class FindNGControllerCallback implements VisitCallback {
 				puiModelSync=new PuiModelSync();
 				children.add(puiModelSync);
 			}
-			String angularJSFile= (String) AttributeUtilities.getAttribute(component,"angularJSFile");
+			String angularJSFile= (String) AttributeUtilities.getAttributeAsString(component,"angularJSFile");
 			if (null != angularJSFile) {
 				puiModelSync.getAttributes().put("angularJSFile", angularJSFile);
 			}
