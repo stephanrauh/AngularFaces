@@ -16,6 +16,24 @@ controller('CarShopController', function($scope, $filter) {
 		else
 			return "hidden";
 	}
+	
+	$scope.isFormInvalid = function() {
+		var f = document.getElementById('myForm').className;
+		if (typeof(f)=='undefined' || f==null) 
+			return false;
+		if (f.indexOf("ng-invalid")>=0)
+			return true;
+		else
+			return false;
+	}
+
+	$scope.buttonEnabledStyle = function() {
+		if ($scope.isFormInvalid()) 
+			return "color:#888";
+		else
+			return "";
+	}
+
 })
 
 

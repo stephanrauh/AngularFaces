@@ -76,7 +76,12 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 		Object bean = ELTools.evalAsObject("#{" + rootProperty + "}");
 		try {
 			Object fromJson = JSONUtilities.readObjectFromJSONString(json, bean.getClass());
-			if (rootProperty.contains(".")) {
+			if (null == fromJson) {
+				LOGGER.severe("Couldn't convert the JSON object sent from the client to a JSF bean:");
+				LOGGER.severe("Class of the bean: " + bean.getClass().getName());
+				LOGGER.severe("JSON: " + json);
+			}
+			else if (rootProperty.contains(".")) {
 				String rootBean = rootProperty.substring(0, rootProperty.lastIndexOf("."));
 				injectJsonIntoBean(rootBean, rootProperty, bean, fromJson);
 			} else {

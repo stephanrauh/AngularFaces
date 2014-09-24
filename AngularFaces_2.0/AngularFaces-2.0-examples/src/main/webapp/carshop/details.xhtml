@@ -77,10 +77,10 @@
         </prime:panelGrid>
       </prime:panel>
       <prime:commandButton class="carFilterButton" action="#{customerBean.buy(carBean)}"
-        value="Buy this car! (Non-AJAX)" ajax="false" styleClass="{{showDetailsClass()}}" />
+        value="Buy this car! (Non-AJAX)" ajax="false" styleClass="{{showDetailsClass()}}" ng-disabled="isFormInvalid()" style="{{isFormInvalid()?'color:#888':''}}" />
       <prime:commandButton class="carFilterButton" action="#{customerBean.buy(carBean)}"
-        value="Buy this car! (JSF AJAX)" update="@form" styleClass="{{showDetailsClass()}}" />
-      <prime:commandButton class="carFilterButton" action="#{customerBean.buy(carBean)}" value="Buy this car! (AF AJAX)"
+        value="Buy this car! (JSF AJAX)" update="@form" styleClass="{{showDetailsClass()}}" ng-disabled="isFormInvalid()" style="{{isFormInvalid()?'color:#888':''}}" />
+      <prime:commandButton class="carFilterButton" action="#{customerBean.buy(carBean)}" value="Buy this car! (AF AJAX)" ng-disabled="isFormInvalid()" style="{{isFormInvalid()?'color:#888':''}}"
         update=":angular" styleClass="{{showDetailsClass()}}" />
 
 
