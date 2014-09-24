@@ -17,6 +17,7 @@
       <div ng-show="tab === 2" style="height: 500px; width: 700px">
         <ui:include src="addCar.xhtml"></ui:include>
       </div>
+      <h:messages id="messageID" />
     </ul>
   </ui:define>
   
@@ -37,6 +38,11 @@
     <span ng-show="tab === 2">
                 <p>The second tab is a pure Mojarra or MyFaces view that doesn't
                 use &lt;ngsync&gt;. Instead, it uses several AngularJS mustaches.
+                </p>
+                <p>It's the classical approach of a JSF programmer. The JSF page
+                doesn't use fancy stuff like ngsync. It only uses &lt;translate&gt;
+                to support forein languages and brings the JSR303 bean validation
+                to the client.
                 </p>
                 </span>
   

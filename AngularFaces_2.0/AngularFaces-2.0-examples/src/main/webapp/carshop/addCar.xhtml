@@ -6,41 +6,46 @@
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:ac="http://beyondjava.net/angularFacesCore">
 
-<br />
-	<div style="font-weight:bold;font-size:125%;padding-top:10px;">
+	<br />
+	<div style="font-weight: bold; font-size: 125%; padding-top: 10px;">
 		<translate value="Tell us which car you want to sell:" />
 	</div>
-	<h:panelGrid columns="3" style="border: 0px" >
-		<input value="{{newCarBean.brand}}" />
-		<input value="{{newCarBean.type}}" />
-		<input value="{{newCarBean.price}}" />
-		<input value="{{newCarBean.mileage}}" />
-		<input value="{{newCarBean.color}}" />
-		<input value="{{newCarBean.year}}" /> 
-		<input value="{{newCarBean.fuel}}" />
-	</h:panelGrid>
-	<div style="font-weight:bold;font-size:125%;padding-top:10px;">
-		<translate value="Who are you?" />
-	</div>
-	<h:panelGrid columns="3" style="border: 0px;">
-		<input value="{{customerBean.lastName}}" />
-     	<input value="{{customerBean.firstName}}" />  
-		<input value="{{customerBean.dateOfBirth}}" />
-		<h:outputLabel class="af-label" for="mailID" value="mail address" />
-		<input id="mailID" value="{{customerBean.emailAddress}}" />
-		<label jsf:for="termsID" class="af-label">I've read the small print</label>
-		<input id="termsID" value="{{customerBean.iAgreeToTheTermsAndConditions}}" />
-	</h:panelGrid>
-	<div style="font-weight:bold;font-size:125%;padding-top:10px;">
-		<translate
-			value="Please confirm you are a human by answering this simple question:" />
-	</div>
-	<h:panelGrid columns="3" style="border: 0px;">
-		<h:outputLabel for="captchaField"
-			value="{{customerBean.captchaQuestion}}" />
-		<input id="captchaField" value="{{customerBean.captcha}}" />
-	</h:panelGrid>
-	<button class="carFilterButton"
-		jsf:action="#{newCarBean.addCar(car)}">Sell this car!</button>
-
-</ui:composition> 
+	<h:form>
+		<h:panelGrid columns="3" style="border: 0px">
+			<input value="{{newCarBean.brand}}" />
+			<input value="{{newCarBean.type}}" />
+			<input value="{{newCarBean.price}}" />
+			<input value="{{newCarBean.mileage}}" />
+			<input value="{{newCarBean.color}}" />
+			<input value="{{newCarBean.year}}" />
+			<input value="{{newCarBean.fuel}}" />
+		</h:panelGrid>
+		<div style="font-weight: bold; font-size: 125%; padding-top: 10px;">
+			<translate value="Who are you?" />
+		</div>
+		<h:panelGrid columns="3" style="border: 0px;">
+			<input value="{{customerBean.lastName}}" />
+			<input value="{{customerBean.firstName}}" />
+			<ui:remove>
+				<input value="{{customerBean.dateOfBirth}}" />
+			</ui:remove>
+			<h:outputLabel class="af-label" for="mailID" value="mail address" />
+			<input id="mailID" value="{{customerBean.emailAddress}}" />
+			<label jsf:for="termsID" class="af-label">I've read the small
+				print</label>
+			<input id="termsID"
+				value="{{customerBean.iAgreeToTheTermsAndConditions}}" />
+		</h:panelGrid>
+		<div style="font-weight: bold; font-size: 125%; padding-top: 10px;">
+			<translate
+				value="Please confirm you are a human by answering this simple question:" />
+		</div>
+		<h:panelGrid columns="3" style="border: 0px;">
+			<h:outputLabel for="captchaField"
+				value="{{customerBean.captchaQuestion}}" />
+			<input id="captchaField" value="{{customerBean.captcha}}" />
+		</h:panelGrid>
+		<h:commandButton class="carFilterButton" action="#{newCarBean.sell}"
+			value="Sell this car!" />
+	</h:form>
+</ui:composition>

@@ -22,8 +22,8 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -32,7 +32,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class CustomerBean implements Serializable {
 
 	private static final long serialVersionUID = -5843419440559883471L;
@@ -130,4 +130,5 @@ public class CustomerBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Thanks for buying this car!","Thanks for buying this car!"));
 		showDetails=false;
 	}
+	
 }
