@@ -4,7 +4,8 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:ac="http://beyondjava.net/angularFacesCore">
+	xmlns:prime="http://primefaces.org/ui"
+	>
 
 	<br />
 	<div style="font-weight: bold; font-size: 125%; padding-top: 10px;">
@@ -18,7 +19,7 @@
 			<input value="{{newCarBean.mileage}}" />
 			<input value="{{newCarBean.color}}" />
 			<input value="{{newCarBean.year}}" />
-			<input value="{{newCarBean.fuel}}" />
+	 		<input value="{{newCarBean.fuel}}" />
 		</h:panelGrid>
 		<div style="font-weight: bold; font-size: 125%; padding-top: 10px;">
 			<translate value="Who are you?" />
@@ -54,5 +55,8 @@
 				<f:ajax render="@form messageID" />
 			</h:commandButton>
 		</ui:remove>
+
+
+		
 	</h:form>
 </ui:composition>

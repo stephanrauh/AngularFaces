@@ -28,9 +28,9 @@ import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributes;
 import javax.faces.view.facelets.TagDecorator;
 
-/** This is one of the most important classes of AngularFaces. It converts attributes
- * to pass-through parameters, adds them to the list of JSF bean to be synchronized
- * with the client and implements a couple of pseudo JSF tags.
+/**
+ * This is one of the most important classes of AngularFaces. It converts attributes to pass-through parameters, adds them to the list of
+ * JSF bean to be synchronized with the client and implements a couple of pseudo JSF tags.
  */
 public class AngularTagDecorator implements TagDecorator {
 	private static boolean active = false;
@@ -41,6 +41,8 @@ public class AngularTagDecorator implements TagDecorator {
 	private static final String MOJARRA_NAMESPACE = "http://xmlns.jcp.org/jsf/html";
 	private static final String PASS_THROUGH_NAMESPACE = "http://xmlns.jcp.org/jsf/passthrough";
 	private static final String ANGULAR_FACES_CORE_NAMESPACE = "http://beyondjava.net/angularFacesCore";
+	private static final String PRIMEFACES_NAMESPACE="http://primefaces.org/ui";
+
 	public static boolean isActive() {
 		return active;
 	}
@@ -70,38 +72,34 @@ public class AngularTagDecorator implements TagDecorator {
 	private Tag convertToNGSyncTag(Tag tag, TagAttributes attributeList) {
 
 		TagAttribute[] attributes = attributeList.getAll();
-		TagAttribute[] newAttributes = new TagAttribute[attributes.length+1];
-		
-		int newLength=0;
+		TagAttribute[] newAttributes = new TagAttribute[attributes.length + 1];
+
+		int newLength = 0;
 		String direction = "serverToClient";
-		String angularExpression=null;
-		int indexOfValueAttribute=-1;
+		String angularExpression = null;
+		int indexOfValueAttribute = -1;
 		for (int i = 0; i < attributes.length; i++) {
-			if ("value".equals(attributes[i].getLocalName()))
-			{
-				indexOfValueAttribute=i;
+			if ("value".equals(attributes[i].getLocalName())) {
+				indexOfValueAttribute = i;
 				angularExpression = attributes[i].getValue();
 				if (angularExpression.startsWith("#{")) {
-					angularExpression="{{" + angularExpression.substring(2, angularExpression.length()-1) + "}}";
+					angularExpression = "{{" + angularExpression.substring(2, angularExpression.length() - 1) + "}}";
 				}
 				TagAttribute af = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "angularfacesattributes",
 						"angularfacesattributes", angularExpression);
-				newAttributes[newLength++]=af;
-				
-			}
-			else if ("direction".equals(attributes[i].getLocalName())) {
+				newAttributes[newLength++] = af;
+
+			} else if ("direction".equals(attributes[i].getLocalName())) {
 				direction = attributes[i].getValue();
-				newAttributes[newLength++]=attributes[i];
-			}
-			else if ("id".equals(attributes[i].getLocalName())) {
-				newAttributes[newLength++]=attributes[i];
-			}
-			else if ("styleClass".equals(attributes[i].getLocalName())) {
-				newAttributes[newLength++]=attributes[i];
+				newAttributes[newLength++] = attributes[i];
+			} else if ("id".equals(attributes[i].getLocalName())) {
+				newAttributes[newLength++] = attributes[i];
+			} else if ("styleClass".equals(attributes[i].getLocalName())) {
+				newAttributes[newLength++] = attributes[i];
 			}
 		}
-		
-		if (null==angularExpression) {
+
+		if (null == angularExpression) {
 			LOGGER.severe("ngsync: Please provide the value attribute containing the bean that is to be synchronized.");
 			TagAttribute value = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "value", "value",
 					"ngsync: Please provide the value attribute containing the bean that is to be synchronized.");
@@ -110,8 +108,7 @@ public class AngularTagDecorator implements TagDecorator {
 			TagAttributes more = new AFTagAttributes(newAttributes);
 			Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "outputText", "outputText", more);
 			return t;
-		}
-		else if ("serverToClient".equalsIgnoreCase(direction)) {
+		} else if ("serverToClient".equalsIgnoreCase(direction)) {
 			TagAttribute hide = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "rendered", "rendered", "true");
 			newAttributes[newLength++] = hide;
 			newAttributes = Arrays.copyOf(newAttributes, newLength);
@@ -119,9 +116,8 @@ public class AngularTagDecorator implements TagDecorator {
 			Tag t = new Tag(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "sync", "sync", more);
 			return t;
 		} else {
-			String coreExpression=angularExpression.substring(2, angularExpression.length()-2);
-			TagAttribute value = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "value", "value",
-					coreExpression);
+			String coreExpression = angularExpression.substring(2, angularExpression.length() - 2);
+			TagAttribute value = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "value", "value", coreExpression);
 			newAttributes[indexOfValueAttribute] = value;
 			newAttributes = Arrays.copyOf(newAttributes, newLength);
 			TagAttributes more = new AFTagAttributes(newAttributes);
@@ -162,6 +158,9 @@ public class AngularTagDecorator implements TagDecorator {
 		if ("body".equals(tag.getLocalName())) {
 			return convertToACBodyTag(tag, modifiedAttributes);
 		}
+		if ("messages".equals(tag.getLocalName())) {
+			return convertToPuiMessagesTag(tag, modifiedAttributes);
+		}
 		if (!isHTMLNamespace(tag.getNamespace())) {
 			return generateTagIfNecessary(tag, modifiedAttributes);
 		}
@@ -182,6 +181,19 @@ public class AngularTagDecorator implements TagDecorator {
 			return convertToInputText(tag, modifiedAttributes);
 		}
 		return generateTagIfNecessary(tag, modifiedAttributes);
+	}
+
+	private Tag convertToPuiMessagesTag(Tag tag, TagAttributes attributeList) {
+		if (tag.getNamespace().equals(PRIMEFACES_NAMESPACE)) {
+			AFTagAttributes modifiedAttributes = new AFTagAttributes(attributeList.getAll());
+			modifiedAttributes.addAttribute(tag.getLocation(), PASS_THROUGH_NAMESPACE, "primefaces", "primefaces", "true");
+			Tag t = new Tag(tag.getLocation(), HTML_NAMESPACE, "puimessages", "puimessages", modifiedAttributes);
+			return t;
+		}
+		else {
+			Tag t = new Tag(tag.getLocation(), HTML_NAMESPACE, "puimessages", "puimessages", attributeList);
+			return t;
+		}
 	}
 
 	private TagAttributes extractAngularAttributes(Tag tag) {
@@ -239,12 +251,10 @@ public class AngularTagDecorator implements TagDecorator {
 		if (modifiedAttributes != tag.getAttributes()) {
 			if (tag.getLocalName().equals("div") && modifiedAttributes instanceof AFTagAttributes) {
 				return generatePuiHtmlTag(tag, modifiedAttributes, "puiDiv");
-			}
-			else if (tag.getLocalName().equals("span") && modifiedAttributes instanceof AFTagAttributes) {
+			} else if (tag.getLocalName().equals("span") && modifiedAttributes instanceof AFTagAttributes) {
 				return generatePuiHtmlTag(tag, modifiedAttributes, "puiSpan");
-			}
-			else
-			return new Tag(tag.getLocation(), tag.getNamespace(), tag.getLocalName(), tag.getQName(), modifiedAttributes);
+			} else
+				return new Tag(tag.getLocation(), tag.getNamespace(), tag.getLocalName(), tag.getQName(), modifiedAttributes);
 		}
 		return null;
 	}
@@ -255,29 +265,33 @@ public class AngularTagDecorator implements TagDecorator {
 		for (int i = 0; i < all.length; i++) {
 			TagAttribute attr = all[i];
 			keys += attr.getLocalName() + ",";
-			all[i]=TagAttributeUtilities.createTagAttribute(attr.getLocation(), PASS_THROUGH_NAMESPACE, attr.getLocalName(), attr.getQName(), attr.getValue());
+			all[i] = TagAttributeUtilities.createTagAttribute(attr.getLocation(), PASS_THROUGH_NAMESPACE, attr.getLocalName(),
+					attr.getQName(), attr.getValue());
 		}
-		if (keys.endsWith(",")) keys=keys.substring(0, keys.length()-1);
-		((AFTagAttributes)modifiedAttributes).addAttribute(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE, "attributeNames", "attributeNames", keys);
+		if (keys.endsWith(","))
+			keys = keys.substring(0, keys.length() - 1);
+		((AFTagAttributes) modifiedAttributes).addAttribute(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE, "attributeNames",
+				"attributeNames", keys);
 		return new Tag(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE, htmlTag, htmlTag, modifiedAttributes);
 	}
 
 	private boolean isHTMLNamespace(String ns) {
 		return "".equals(ns) || HTML_NAMESPACE.equals(ns);
 	}
-	
-// May become useful in future
-//	private Tag addLabelsTag(Tag tag) {
-//		if (null==tag) return null;
-//		if ("inputText".equals(tag.getLocalName())) {
-//			TagAttribute originalTagAttribute = TagAttributeUtilities.createTagAttribute(tag.getLocation(), tag.getNamespace(), "originalTagName", tag.getQName(), tag.getLocalName());
-//			final TagAttribute[] origininalAttributes = tag.getAttributes().getAll();
-//			TagAttribute[] attrs = Arrays.copyOf(origininalAttributes, origininalAttributes.length+1);
-//			attrs[origininalAttributes.length]=originalTagAttribute;
-//			AFTagAttributes afta = new AFTagAttributes(attrs);
-//			return new Tag(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "addLabelAndMessage", "addLabelAndMessage", afta);
-//		}
-//		return tag;
-//	}
+
+	// May become useful in future
+	// private Tag addLabelsTag(Tag tag) {
+	// if (null==tag) return null;
+	// if ("inputText".equals(tag.getLocalName())) {
+	// TagAttribute originalTagAttribute = TagAttributeUtilities.createTagAttribute(tag.getLocation(), tag.getNamespace(),
+	// "originalTagName", tag.getQName(), tag.getLocalName());
+	// final TagAttribute[] origininalAttributes = tag.getAttributes().getAll();
+	// TagAttribute[] attrs = Arrays.copyOf(origininalAttributes, origininalAttributes.length+1);
+	// attrs[origininalAttributes.length]=originalTagAttribute;
+	// AFTagAttributes afta = new AFTagAttributes(attrs);
+	// return new Tag(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "addLabelAndMessage", "addLabelAndMessage", afta);
+	// }
+	// return tag;
+	// }
 
 }

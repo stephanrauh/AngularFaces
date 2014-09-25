@@ -6,6 +6,7 @@
   <ui:param name="title" value="Car dealer demo"/>
   <ui:param name="controllerFile" value="index.js" />
   <ui:define name="content">
+      <h:messages />
     <ul class="tab" ng-init="tab = 1">
       <li class="tab" ng-class="{active:tab===1}"><a class="tab" ng-click="tab = 1">Looking for a car?</a></li>
       <li class="tab" ng-class="{active:tab===2}"><a class="tab" ng-click="tab = 2">Want to sell your car?</a></li>
@@ -17,7 +18,6 @@
       <div ng-show="tab === 2" style="height: 500px; width: 700px">
         <ui:include src="addCar.xhtml"></ui:include>
       </div>
-      <puimessages />
     </ul>
   </ui:define>
   

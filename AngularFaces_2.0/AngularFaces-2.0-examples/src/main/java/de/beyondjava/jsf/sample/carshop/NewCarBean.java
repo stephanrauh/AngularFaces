@@ -101,10 +101,10 @@ public class NewCarBean {
 	 
 	public String sell() {
 		if (customerBean.getCaptcha()!=customerBean.getExpectedCaptcha()) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please solve the equation!","Please solve the equation!"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "CAPTCHA","Please solve the equation!"));
 			return "index.jsf?tab=2";
 		}
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Thanks for selling this car!","Thanks for selling this car!"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "CAPTCHA","Thanks for selling this car!"));
 		return "index.jsf";
 	}
 }

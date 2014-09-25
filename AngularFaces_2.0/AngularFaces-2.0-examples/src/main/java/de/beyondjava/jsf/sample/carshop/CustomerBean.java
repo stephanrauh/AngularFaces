@@ -127,7 +127,7 @@ public class CustomerBean implements Serializable {
 	}
 	
 	public void buy(CarBean car) {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Thanks for buying this car!","Thanks for buying this car!"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Congrats!","Thanks for buying this car!"));
 		showDetails=false;
 	}
 	

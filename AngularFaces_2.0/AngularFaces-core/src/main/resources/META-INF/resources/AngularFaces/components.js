@@ -163,7 +163,7 @@ app.directive('puimessages', function($compile) {
 	    controller: function($scope, $element) {
 	    				$scope.primefaces="true" == $element.attr('primefaces');
 	    				if (typeof($scope.$parent.facesmessages)!="undefined") {
-	    					$scope.messages=$scope.$parent.facesmessages[0];
+	    					$scope.messages=$scope.$parent.facesmessages;
 	    				}
 	    				$scope.message= function() { 
 	    					if (typeof($scope.messages)=="undefined" || $scope.messages==null) {
@@ -186,9 +186,12 @@ app.directive('puimessages', function($compile) {
 	    				};
 
 	    				$scope.getTemplate = function() {
-	    					var t='<span class="af-message ui-state-error-text {{visibilityClass()}}">{{message()}}</span>';
+	    					var t='<span class="af-message ui-state-error-text {{visibilityClass()}}"><ul><li ng-repeat="msg in messages"><span style="padding-right:10px">{{msg.severity}}</span><span style="padding-right:10px">{{msg.summary}}</span><span>{{msg.detail}}</span></li></ul></span>';
+	    					
+	    					
+	    					
 	    					if ($scope.primefaces) {
-	    						t='<div ng-show="hasMessage()" class="af-message ui-messages-error ui-corner-all"><span class="ui-messages-error-icon"></span><span class="ui-messages-error-summary">{{message()}}</span></div>';
+	    						t='<div ng-show="hasMessage()" class="af-message ui-messages-error ui-corner-all"><div class="ui-messages ui-widget" aria-live="polite"><div class="ui-messages-info ui-corner-all"><ul><li ng-repeat="msg in messages"><span class="ui-messages-info-icon"></span><span class="ui-messages-info-summary">{{msg.summary}}</span><span class="ui-messages-info-detail">{{msg.detail}}</span></li></ul></div></div></div>';
 	    					}
 	    					return t; 
 	    				};
