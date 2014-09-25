@@ -46,8 +46,13 @@
 			<input id="captchaField" value="{{customerBean.captcha}}" />
 		</h:panelGrid>
 		<h:commandButton class="carFilterButton" action="#{newCarBean.sell}"
-			value="Sell this car!">
-			<f:ajax render="@form messageID" />
-		</h:commandButton>
+			value="Sell this car!" />
+		<ui:remove>
+			<!-- AJAX doesn't work -->
+			<h:commandButton class="carFilterButton" action="#{newCarBean.sell}"
+				value="Sell this car!">
+				<f:ajax render="@form messageID" />
+			</h:commandButton>
+		</ui:remove>
 	</h:form>
 </ui:composition>

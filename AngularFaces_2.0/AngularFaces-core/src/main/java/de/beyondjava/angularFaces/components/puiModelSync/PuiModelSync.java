@@ -26,6 +26,7 @@ import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import javax.el.PropertyNotFoundException;
+import javax.faces.application.FacesMessage;
 import javax.faces.application.ProjectStage;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.FacesComponent;
@@ -47,6 +48,7 @@ import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 public class PuiModelSync extends HtmlBody {
 
 	private static final String JSF_ATTRIBUTES_SESSION_PARAMETER = "de.beyondjava.angularFaces.jsfAttributes";
+//	private static final String JSF_ATTRIBUTES_SESSION_CACHE = "de.beyondjava.angularFaces.cache";
 
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
 
@@ -82,6 +84,18 @@ public class PuiModelSync extends HtmlBody {
 
 	/** Builds basically a JSON structure from the JSF model. */
 	public void addJSFAttrbituteToAngularModel(Map<String, Object> model, String key, Object value) {
+		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+//		if (sessionMap.containsKey(JSF_ATTRIBUTES_SESSION_CACHE + key)) {
+//			Object previousValue = sessionMap.get(JSF_ATTRIBUTES_SESSION_CACHE + key);
+//			if (null == value && previousValue == null) {
+//				return;
+//			}
+//			if (null != value && value.equals(previousValue)) {
+//				return;
+//			}
+//			sessionMap.remove(JSF_ATTRIBUTES_SESSION_CACHE + key);
+//		}
+
 		String[] keys = key.split("\\.");
 		Map<String, Object> currentMap = model;
 		for (int i = 0; i < keys.length - 1; i++) {
@@ -96,6 +110,7 @@ public class PuiModelSync extends HtmlBody {
 			currentMap = (Map<String, Object>) object;
 		}
 		currentMap.put(keys[keys.length - 1], value);
+//		sessionMap.put(JSF_ATTRIBUTES_SESSION_CACHE + key, value);
 	}
 
 	public List<String> getFacesModel() {
@@ -127,8 +142,23 @@ public class PuiModelSync extends HtmlBody {
 				// probably it's an AngularJS attribute that doesn't have a JSF counterpart, so we don't consider this an error
 			}
 		}
-
+		
 		List<String> beans = new ArrayList<String>();
+		String messages="";
+		List<FacesMessage> messageList = FacesContext.getCurrentInstance().getMessageList();
+		for (FacesMessage message:messageList) {
+			if (!message.isRendered()) {
+				String severity= message.getSeverity().toString();
+				String summary=message.getSummary();
+				String detail=message.getDetail();
+				messages += ",{\"severity\":\"" + severity + "\", \"summary\":\"" + summary + "\", \"detail\":\"" + detail + "\"}"; 
+			}
+		}
+		if (messages.length()>0) {
+			String assignment = "\"" + "facesmessages \", '["+messages.substring(1) + "]'";
+			beans.add(assignment);
+		}
+
 		for (Entry<String, Object> bean : model.entrySet()) {
 			String assignment = "\"" + bean.getKey() + "\",'" + JSONUtilities.writeObjectToJSONString(bean.getValue()) + "'";
 			beans.add(assignment);

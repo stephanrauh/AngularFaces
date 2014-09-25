@@ -155,6 +155,53 @@ app.directive('puilabel', function($compile) {
 		};
 	});
 
+app.directive('puimessages', function($compile) {
+	  return {
+	    restrict: 'E',
+	    transclude: true,
+	    scope: {},
+	    controller: function($scope, $element) {
+	    				$scope.primefaces="true" == $element.attr('primefaces');
+	    				if (typeof($scope.$parent.facesmessages)!="undefined") {
+	    					$scope.messages=$scope.$parent.facesmessages[0];
+	    				}
+	    				$scope.message= function() { 
+	    					if (typeof($scope.messages)=="undefined" || $scope.messages==null) {
+	    						return "";
+	    					}
+	    					return $scope.messages.detail;
+	    				};
+	    				$scope.hasMessage= function() {
+	    					if (typeof($scope.messages)=="undefined" || $scope.messages==null) {
+	    						return false;
+	    					}
+	    					return true;
+	    				};
+	    				$scope.visibilityClass= function() {
+	    					if (typeof($scope.messages)=="undefined" || $scope.messages==null) {
+	    						return "hidden";
+	    					}
+
+	    					return "";
+	    				};
+
+	    				$scope.getTemplate = function() {
+	    					var t='<span class="af-message ui-state-error-text {{visibilityClass()}}">{{message()}}</span>';
+	    					if ($scope.primefaces) {
+	    						t='<div ng-show="hasMessage()" class="af-message ui-messages-error ui-corner-all"><span class="ui-messages-error-icon"></span><span class="ui-messages-error-summary">{{message()}}</span></div>';
+	    					}
+	    					return t; 
+	    				};
+	    			},
+		link: function(scope, element, attrs) {
+	        var el = $compile(scope.getTemplate())(scope);
+	        element.replaceWith(el);
+	    },
+	    replace: true
+		};
+	});
+
+
 
 
 // Todo: check whether this directive works
