@@ -26,9 +26,9 @@
 		<h:panelGrid columns="3" style="border: 0px;">
 			<input value="{{customerBean.lastName}}" />
 			<input value="{{customerBean.firstName}}" />
-			<ui:remove>
-				<input value="{{customerBean.dateOfBirth}}" />
-			</ui:remove>
+			<input value="{{customerBean.dateOfBirth}}">
+				<f:convertDateTime locale="#{request.locale}" />
+			</input>
 			<h:outputLabel class="af-label" for="mailID" value="mail address" />
 			<input id="mailID" value="{{customerBean.emailAddress}}" />
 			<label jsf:for="termsID" class="af-label">I've read the small
@@ -46,6 +46,8 @@
 			<input id="captchaField" value="{{customerBean.captcha}}" />
 		</h:panelGrid>
 		<h:commandButton class="carFilterButton" action="#{newCarBean.sell}"
-			value="Sell this car!" />
+			value="Sell this car!">
+			<f:ajax render="@form messageID" />
+		</h:commandButton>
 	</h:form>
 </ui:composition>

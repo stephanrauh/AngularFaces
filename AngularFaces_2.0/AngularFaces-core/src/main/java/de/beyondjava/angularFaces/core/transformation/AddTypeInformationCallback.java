@@ -17,12 +17,17 @@
 package de.beyondjava.angularFaces.core.transformation;
 
 import java.lang.reflect.Method;
+import java.util.Iterator;
+import java.util.Locale;
 
+import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewDeclarationLanguage;
 
 import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.NGBeanAttributeInfo;
@@ -65,6 +70,19 @@ public class AddTypeInformationCallback implements VisitCallback {
 				setType(component, "number");
 			} else if (infos.isDate()) {
 				setType(component, "date");
+//				Iterator<UIComponent> facetsAndChildren = component.getFacetsAndChildren();
+//				while (facetsAndChildren.hasNext()) {
+//					UIComponent c = facetsAndChildren.next();
+//				}
+//				FacesContext context = FacesContext.getCurrentInstance();
+//				Application application = context.getApplication();
+//				final ViewDeclarationLanguage viewDeclarationLanguage = application.getViewHandler()
+//				        .getViewDeclarationLanguage(context, context.getViewRoot().getViewId());
+//				UIComponent converter = viewDeclarationLanguage
+//				        .createComponent(context, "http://java.sun.com/jsf/core", "convertDateTime", null);
+//				Locale locale = context.getExternalContext().getRequestLocale();
+////				converter.setLocal(locale);
+//				component.getChildren().add(converter);
 			} else if (infos.isBoolean()) {
 				setType(component, "checkbox");
 			}
