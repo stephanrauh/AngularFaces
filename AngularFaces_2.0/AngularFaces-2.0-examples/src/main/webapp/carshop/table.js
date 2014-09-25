@@ -19,6 +19,18 @@ controller('CarShopController', function($scope, $filter) {
 		var width=400+100*$scope.activeSelections;
 		return "" + width + "px";
 	}
+	
+	$scope.getTime = function() {
+		 var temp = new Date();
+		    var time = padStr(temp.getHours()) + ":" +
+		                  padStr(temp.getMinutes()) + ":" +
+		                  padStr(temp.getSeconds());
+		    return time;
+	}
 })
 
+
+function padStr(i) {
+    return (i < 10) ? "0" + i : "" + i;
+}
 

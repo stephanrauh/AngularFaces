@@ -1,84 +1,119 @@
-<ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:jsf="http://xmlns.jcp.org/jsf"
-  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-  xmlns:prime="http://primefaces.org/ui" xmlns:ac="http://beyondjava.net/angularFacesCore">
+<ui:composition template="template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:prime="http://primefaces.org/ui"
+	xmlns:ac="http://beyondjava.net/angularFacesCore">
 
-  <ui:param name="title" value="PrimeFaces table"/>
-  <ui:param name="controllerFile" value="table.js" />
-  <ui:define name="content">
-    <ul class="tab" ng-init="tab = 1">
-      <li class="tab" ng-class="{active:tab===1}"><a class="tab" ng-click="tab = 1">PrimeFaces table</a></li>
-      <li class="tab" ng-class="{active:tab===2}"><a class="tab" ng-click="tab = 2" href="ngtable.jsf">ng-table</a></li>
-      <br />
-      <br />
-      <br />
-      <div ng-show="tab === 1" style="height: 510px; width: 700px">
-        <form id="myForm">
-          <ngsync value="{{filterBean}}" direction="serverToClient" />
+	<ui:param name="title" value="PrimeFaces table" />
+	<ui:param name="controllerFile" value="table.js" />
+	<ui:define name="content">
+		<ul class="tab" ng-init="tab = 1">
+			<li class="tab" ng-class="{active:tab===1}"><a class="tab"
+				ng-click="tab = 1">PrimeFaces table</a></li>
+			<li class="tab" ng-class="{active:tab===2}"><a class="tab"
+				ng-click="tab = 2" href="ngtable.jsf">ng-table</a></li>
+			<br />
+			<br />
+			<br />
+			<div ng-show="tab === 1" style="height: 510px; width: 700px">
+				<form id="myForm">
+					<ngsync value="{{filterBean}}" direction="serverToClient" />
 
-          <div class="carSelectedFilterBox" style="">
-            <div style="display: table">
-              <div style="display: table-row">
-                <div style="display: table-cell; font-weight: bold; padding-right: 10px;">Your selection:</div>
-                <div style="display: table-cell" class="{{showIfSet(filterBean.brand)}}">
-                  <span class="carFilterCriterium">{{filterBean.brand}}</span> <a jsf:outcome="index.jsf"><img
-                    style="position: relative; left: -13px" src="close2.png" /></a>
-                </div>
-                <div style="display: table-cell" class="{{showIfSet(filterBean.type)}}">
-                  <span class="carFilterCriterium">{{filterBean.type}}</span> <a jsf:outcome="index.jsf"><img
-                    style="position: relative; left: -13px" src="close2.png" /></a>
-                </div>
-                <div style="display: table-cell" class="{{showIfSet(filterBean.price)}}">
-                  <span class="carFilterCriterium">{{filterBean.price}}</span> <a jsf:outcome="index.jsf"><img
-                    style="position: relative; left: -13px" src="close2.png" /></a>
-                </div>
-                <div style="display: table-cell" class="{{showIfSet(filterBean.mileage)}}">
-                  <span class="carFilterCriterium">{{filterBean.mileage}}</span> <a jsf:outcome="index.jsf"><img
-                    style="position: relative; left: -13px" src="close2.png" /></a>
-                </div>
-                <div style="display: table-cell" class="{{showIfSet(filterBean.fuel)}}">
-                  <span class="carFilterCriterium">{{filterBean.fuel}}</span> <a jsf:outcome="index.jsf"><img
-                    style="position: relative; left: -13px" src="close2.png" /></a>
-                </div>
-                <div style="display: table-cell" class="{{showIfSet(filterBean.color)}}">
-                  <span class="carFilterCriterium">{{filterBean.color}}</span> <a jsf:outcome="index.jsf"><img
-                    style="position: relative; left: -13px" src="close2.png" /></a>
-                </div>
-                <div style="display: table-cell" class="{{showIfSet(filterBean.year)}}">
-                  <span class="carFilterCriterium">{{filterBean.yearText}}</span> <a jsf:outcome="index.jsf"><img
-                    style="position: relative; left: -13px" src="close2.png" /></a>
-                </div>
-                <div style="display: table-cell" ng-show="0==activeSelections">
-                  <span class="carFilterCriterium">none</span> <a jsf:outcome="index.jsf"><img
-                    style="position: relative; left: -13px" src="close2.png" /></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <prime:dataTable value="#{carPool.selectedCars}" var="car" paginator="true" rows="10">
-            <prime:column headerText="brand">#{car.brand}</prime:column>
-            <prime:column headerText="type">#{car.type}</prime:column>
-            <prime:column headerText="year">#{car.year}</prime:column>
-            <prime:column headerText="color">#{car.color}</prime:column>
-            <prime:column headerText="mileage">#{car.mileage} km</prime:column>
-            <prime:column headerText="price">€#{car.price}</prime:column>
-            <prime:column headerText="fuel">#{car.fuel}</prime:column>
-            <prime:column headerText="">
-              <button class="carFilterButton" jsf:action="#{carBean.showDetails(car)}">show me!</button>
-            </prime:column>
-          </prime:dataTable>
-          <prime:messages globalOnly="false" />
-        </form>
-      </div>
-    </ul>
-  </ui:define>
-  <ui:define name="explanation">
-    <h3>What do you see here?</h3>
-      <p>This example shows how a PrimeFaces data table can peacefully coexist with AngularJS components.</p>
-      <p>The tab element is a simple AngularJS component.</p>
-      <p>The list of selected filter criteria is sent to the client by &lt;ngsync&gt;.</p>
-      <p>The data table itself is classicle PrimeFaces programming.</p>
-      <p>The command buttons open the new page by a non-AJAX navigation.</p>
-  </ui:define>
-  
+					<div class="carSelectedFilterBox" style="">
+						<div style="display: table">
+							<div style="display: table-row">
+								<div
+									style="display: table-cell; font-weight: bold; padding-right: 10px;">Your
+									selection:</div>
+								<div style="display: table-cell"
+									class="{{showIfSet(filterBean.brand)}}">
+									<span class="carFilterCriterium">{{filterBean.brand}}</span> <a
+										jsf:outcome="index.jsf"><img
+										style="position: relative; left: -13px" src="close2.png" /></a>
+								</div>
+								<div style="display: table-cell"
+									class="{{showIfSet(filterBean.type)}}">
+									<span class="carFilterCriterium">{{filterBean.type}}</span> <a
+										jsf:outcome="index.jsf"><img
+										style="position: relative; left: -13px" src="close2.png" /></a>
+								</div>
+								<div style="display: table-cell"
+									class="{{showIfSet(filterBean.price)}}">
+									<span class="carFilterCriterium">{{filterBean.price}}</span> <a
+										jsf:outcome="index.jsf"><img
+										style="position: relative; left: -13px" src="close2.png" /></a>
+								</div>
+								<div style="display: table-cell"
+									class="{{showIfSet(filterBean.mileage)}}">
+									<span class="carFilterCriterium">{{filterBean.mileage}}</span>
+									<a jsf:outcome="index.jsf"><img
+										style="position: relative; left: -13px" src="close2.png" /></a>
+								</div>
+								<div style="display: table-cell"
+									class="{{showIfSet(filterBean.fuel)}}">
+									<span class="carFilterCriterium">{{filterBean.fuel}}</span> <a
+										jsf:outcome="index.jsf"><img
+										style="position: relative; left: -13px" src="close2.png" /></a>
+								</div>
+								<div style="display: table-cell"
+									class="{{showIfSet(filterBean.color)}}">
+									<span class="carFilterCriterium">{{filterBean.color}}</span> <a
+										jsf:outcome="index.jsf"><img
+										style="position: relative; left: -13px" src="close2.png" /></a>
+								</div>
+								<div style="display: table-cell"
+									class="{{showIfSet(filterBean.year)}}">
+									<span class="carFilterCriterium">{{filterBean.yearText}}</span>
+									<a jsf:outcome="index.jsf"><img
+										style="position: relative; left: -13px" src="close2.png" /></a>
+								</div>
+								<div style="display: table-cell" ng-show="0==activeSelections">
+									<span class="carFilterCriterium">none</span> <a
+										jsf:outcome="index.jsf"><img
+										style="position: relative; left: -13px" src="close2.png" /></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<prime:dataTable value="#{carPool.selectedCars}" var="car" id="tbl"
+						paginator="true" rows="10"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  AngularJS time: {{getTime()}}  {Exporters}">
+						<f:facet name="{Exporters}">
+							<h:commandLink  style="float:right">
+								<img src="csv.png" width="24" />
+								<prime:dataExporter type="csv" target="tbl" fileName="cars" />
+							</h:commandLink>
+						</f:facet>
+						<prime:column headerText="brand">#{car.brand}</prime:column>
+						<prime:column headerText="type">#{car.type}</prime:column>
+						<prime:column headerText="year">#{car.year}</prime:column>
+						<prime:column headerText="color">#{car.color}</prime:column>
+						<prime:column headerText="mileage">#{car.mileage} km</prime:column>
+						<prime:column headerText="price">€#{car.price}</prime:column>
+						<prime:column headerText="fuel">#{car.fuel}</prime:column>
+						<prime:column headerText="">
+							<button class="carFilterButton"
+								jsf:action="#{carBean.showDetails(car)}">show me!</button>
+						</prime:column>
+					</prime:dataTable>
+					<prime:messages globalOnly="false" />
+				</form>
+			</div>
+		</ul>
+	</ui:define>
+	<ui:define name="explanation">
+		<h3>What do you see here?</h3>
+		<p>This example shows how a PrimeFaces data table can peacefully
+			coexist with AngularJS components.</p>
+		<p>The tab element is a simple AngularJS component.</p>
+		<p>The list of selected filter criteria is sent to the client by
+			&lt;ngsync&gt;.</p>
+		<p>The data table itself is classicle PrimeFaces programming.</p>
+		<p>The command buttons open the new page by a non-AJAX navigation.</p>
+	</ui:define>
+
 </ui:composition>
