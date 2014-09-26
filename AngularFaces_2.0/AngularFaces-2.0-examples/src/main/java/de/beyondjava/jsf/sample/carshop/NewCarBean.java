@@ -1,5 +1,7 @@
 package de.beyondjava.jsf.sample.carshop;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -12,7 +14,9 @@ import javax.validation.constraints.Size;
 
 @ManagedBean
 @SessionScoped
-public class NewCarBean {
+public class NewCarBean implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private Car car = new Car(null, null, 0, null, 0, null, 0);
 	
 	@ManagedProperty("#{customerBean}")

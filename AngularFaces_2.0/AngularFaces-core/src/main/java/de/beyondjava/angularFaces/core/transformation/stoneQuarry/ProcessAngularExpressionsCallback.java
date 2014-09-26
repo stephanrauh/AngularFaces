@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.beyondjava.angularFaces.core.transformation;
+package de.beyondjava.angularFaces.core.transformation.stoneQuarry;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,6 +25,7 @@ import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
+import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 /** Special treatment of ng-repeat statements containing JSF attributes. */
 public class ProcessAngularExpressionsCallback implements VisitCallback {
@@ -39,31 +40,33 @@ public class ProcessAngularExpressionsCallback implements VisitCallback {
 	public VisitResult visit(VisitContext arg0, UIComponent component) {
 		if (component.getClass().getName().endsWith(".UIInstructions")) {
 			String html = component.toString();
-			addAngularExpressionToJSFAttributeList(html);
+			addAngularExpressionToJSFAttributeList(html, false);
 		} else {
+			String cacheable = AttributeUtilities.getAttributeAsString(component, "cacheable");
+			boolean isCacheable= ("true".equalsIgnoreCase(cacheable));
 			for (String key : JSFAttributes.jsfAttributes) {
-				extractAttribute(component, key);
+				extractAttribute(component, key, isCacheable);
 			}
 		}
 
 		return VisitResult.ACCEPT;
 	}
 
-	private void extractAttribute(UIComponent component, String key) {
+	private void extractAttribute(UIComponent component, String key, boolean isCacheable) {
 		Object value = AttributeUtilities.getAttribute(component,key);
 		if (value != null) {
 			if (value instanceof String) {
 				String vs = (String) value;
-				addAngularExpressionToJSFAttributeList(vs);
+				addAngularExpressionToJSFAttributeList(vs, isCacheable);
 			}
 		}
 	}
 
-	private static void addAngularExpressionToJSFAttributeList(String html) {
+	private static void addAngularExpressionToJSFAttributeList(String html, boolean cacheable) {
 		Matcher matcher = angularExpression.matcher(html);
 		while (matcher.find()) {
 			String exp = matcher.group();
-			PuiModelSync.addJSFAttrbitute(exp.substring(2, exp.length() - 2), null);
+			PuiModelSync.addJSFAttrbitute(exp.substring(2, exp.length() - 2), null, cacheable);
 		}
 		
 		matcher = ngRepeat.matcher(html);
@@ -74,7 +77,7 @@ public class ProcessAngularExpressionsCallback implements VisitCallback {
 			{
 				String var = exp.substring(index + 4).trim();
 				if (var.startsWith("$")) var=var.substring(1);
-				PuiModelSync.addJSFAttrbitute(var, null);
+				PuiModelSync.addJSFAttrbitute(var, null, cacheable);
 			}
 		}
 	}

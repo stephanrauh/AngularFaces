@@ -30,9 +30,11 @@ public class AddNGModelAndIDCallback implements VisitCallback {
 	public VisitResult visit(VisitContext arg0, UIComponent component) {
 		String attributeList = (String) component.getAttributes().get("angularfacesattributes");
 		if (null != attributeList && attributeList.length() > 0) {
+			String cacheable = AttributeUtilities.getAttributeAsString(component, "cacheable");
+			boolean isCacheable= ("true".equalsIgnoreCase(cacheable));
 			String[] attributes = attributeList.split(",");
 			for (String angularExpression : attributes) {
-				PuiModelSync.addJSFAttrbitute(angularExpression.substring(2, angularExpression.length() - 2), component);
+				PuiModelSync.addJSFAttrbitute(angularExpression.substring(2, angularExpression.length() - 2), component, isCacheable);
 			}
 		}
 		return VisitResult.ACCEPT;

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.beyondjava.angularFaces.core.transformation;
+package de.beyondjava.angularFaces.core.transformation.stoneQuarry;
 
 /** This is a list of every JSF attribute used in PrimeFaces. May be needed for future reference. */
 public class JSFAttributes {

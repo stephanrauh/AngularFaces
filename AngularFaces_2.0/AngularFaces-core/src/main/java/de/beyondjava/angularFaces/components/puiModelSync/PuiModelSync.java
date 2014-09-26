@@ -62,24 +62,24 @@ public class PuiModelSync extends HtmlBody {
 
 	public static boolean isJSFAttributesTableEmpty() {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
+		Map<String, String> jsfAttributes = (Map<String, String>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
 		return (null == jsfAttributes || jsfAttributes.isEmpty());
 	}
 
 	public static void initJSFAttributesTable() {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		if (!sessionMap.containsKey(JSF_ATTRIBUTES_SESSION_PARAMETER)) {
-			sessionMap.put(JSF_ATTRIBUTES_SESSION_PARAMETER, new HashMap<String, UIComponent>());
+			sessionMap.put(JSF_ATTRIBUTES_SESSION_PARAMETER, new HashMap<String, String>());
 		} else {
-			Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
+			Map<String, String> jsfAttributes = (Map<String, String>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
 			jsfAttributes.clear();
 		}
 	}
 
-	public static void addJSFAttrbitute(String key, UIComponent component) {
+	public static void addJSFAttrbitute(String key, UIComponent component, boolean cacheable) {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
-		jsfAttributes.put(key, component);
+		Map<String, String> jsfAttributes = (Map<String, String>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
+		jsfAttributes.put(key, component.getClientId());
 	}
 
 	/** Builds basically a JSON structure from the JSF model. */
@@ -116,12 +116,13 @@ public class PuiModelSync extends HtmlBody {
 	public List<String> getFacesModel() {
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		Map<String, UIComponent> jsfAttributes = (Map<String, UIComponent>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
+		Map<String, String> jsfAttributes = (Map<String, String>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
 		// sessionMap.remove(JSF_ATTRIBUTES_SESSION_PARAMETER);
-		for (Entry<String, UIComponent> entry : jsfAttributes.entrySet()) {
+		for (Entry<String, String> entry : jsfAttributes.entrySet()) {
 			try {
 				String attribute = entry.getKey();
-				UIComponent comp = entry.getValue();
+				String id = entry.getValue();
+				UIComponent comp = findComponent(id);
 				if (null != comp && comp instanceof EditableValueHolder) {
 					Object value = ELTools.evalAsObject("#{" + attribute + "}");
 					Object valueToRender = getValueToRender(FacesContext.getCurrentInstance(), comp);
