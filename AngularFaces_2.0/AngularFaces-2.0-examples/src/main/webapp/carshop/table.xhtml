@@ -81,13 +81,7 @@
 					</div>
 					<prime:dataTable value="#{carPool.selectedCars}" var="car" id="tbl"
 						paginator="true" rows="10"
-						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  AngularJS time: {{getTime()}}  {Exporters}">
-						<f:facet name="{Exporters}">
-							<h:commandLink  style="float:right">
-								<img src="csv.png" width="24" />
-								<prime:dataExporter type="csv" target="tbl" fileName="cars" />
-							</h:commandLink>
-						</f:facet>
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
 						<prime:column headerText="brand">#{car.brand}</prime:column>
 						<prime:column headerText="type">#{car.type}</prime:column>
 						<prime:column headerText="year">#{car.year}</prime:column>

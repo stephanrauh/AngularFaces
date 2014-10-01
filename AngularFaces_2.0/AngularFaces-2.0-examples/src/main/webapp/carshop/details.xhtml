@@ -1,12 +1,16 @@
-<ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:jsf="http://xmlns.jcp.org/jsf"
-  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-  xmlns:prime="http://primefaces.org/ui">
-  <h:head />
-  <ui:param name="title" value="PrimeFaces + AngularJS enhancements" />
-  <ui:param name="controllerFile" value="details.js" />
-  <ui:define name="scripts">
-    <style type="text/css">
+<ui:composition template="template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:prime="http://primefaces.org/ui">
+	<h:head />
+	<ui:param name="title" value="PrimeFaces + AngularJS enhancements" />
+	<ui:param name="controllerFile" value="details.js" />
+	<ui:define name="scripts">
+		<style type="text/css">
 .header {
 	background-color: #ccc;
 }
@@ -43,61 +47,87 @@
 	width: 170px
 }
 </style>
-  </ui:define>
-  <ui:define name="content">
-    <form id="myForm">
-      <ngsync direction="serverToClient" value="{{customerBean.showDetails}}" />
-      <prime:panel header="If you want to buy this car..." ng-show="{{doShowDetails()}}"
-        styleClass="{{showDetailsClass()}}">
-        <prime:panelGrid columns="3" style="border: 0px;">
-          <prime:inputText value="#{carBean.brand}" />
-          <prime:inputText value="#{carBean.type}" />
-          <prime:inputText value="#{carBean.price}" />
-          <prime:inputText value="#{carBean.mileage}" />
-          <prime:inputText value="#{carBean.color}" />
-          <prime:inputText value="#{carBean.year}" />
-          <prime:inputText value="#{carBean.fuel}" />
-        </prime:panelGrid>
-      </prime:panel>
-      <prime:panel header="... we need some informations about where to deliver it:" ng-show="{{doShowDetails()}}"
-        styleClass="{{showDetailsClass()}}">
-        <prime:panelGrid columns="3" style="border: 0px;">
-          <prime:inputText value="{{customerBean.lastName}}" />
-          <prime:inputText value="{{customerBean.firstName}}" />
-          <prime:inputText value="{{customerBean.dateOfBirth}}" />
-          <prime:inputText value="{{customerBean.emailAddress}}" />
-          <prime:inputText value="{{customerBean.iAgreeToTheTermsAndConditions}}" />
-        </prime:panelGrid>
-      </prime:panel>
-      <prime:panel header="Please confirm you are a human by answering this simple question:"
-        ng-show="{{doShowDetails()}}" styleClass="{{showDetailsClass()}}">
-        <prime:panelGrid columns="3" style="border: 0px;">
-          <prime:outputLabel for="captchaField" value="{{customerBean.captchaQuestion}}" />
-          <prime:inputText required="false" id="captchaField" value="{{customerBean.captcha}}" ng:captcha="{{customerBean.expectedCaptcha}}" />
-        </prime:panelGrid>
-      </prime:panel>
-      <prime:commandButton class="carFilterButton" action="#{customerBean.buy(carBean)}"
-        value="Buy this car! (Non-AJAX)" ajax="false" styleClass="{{showDetailsClass()}}" ng-disabled="isFormInvalid()" style="{{isFormInvalid()?'color:#888':''}}" />
-      <prime:commandButton class="carFilterButton" action="#{customerBean.buy(carBean)}"
-        value="Buy this car! (JSF AJAX)" update="@form" styleClass="{{showDetailsClass()}}" ng-disabled="isFormInvalid()" style="{{isFormInvalid()?'color:#888':''}}" />
-      <prime:commandButton class="carFilterButton" action="#{customerBean.buy(carBean)}" value="Buy this car! (AF AJAX)" ng-disabled="isFormInvalid()" style="{{isFormInvalid()?'color:#888':''}}"
-        update=":angular" styleClass="{{showDetailsClass()}}" />
+	</ui:define>
+	<ui:define name="content">
+		<form id="myForm">
+			<ngsync direction="serverToClient"
+				value="{{customerBean.showDetails}}" />
+			<prime:panel header="If you want to buy this car..."
+				ng-show="{{doShowDetails()}}" styleClass="{{showDetailsClass()}}">
+				<prime:panelGrid columns="3" style="border: 0px;">
+					<prime:inputText value="#{carBean.brand}" />
+					<prime:inputText value="#{carBean.type}" />
+					<prime:inputText value="#{carBean.price}" />
+					<prime:inputText value="#{carBean.mileage}" />
+					<prime:inputText value="#{carBean.color}" />
+					<prime:inputText value="#{carBean.year}" />
+					<prime:inputText value="#{carBean.fuel}" />
+				</prime:panelGrid>
+			</prime:panel>
+			<prime:panel
+				header="... we need some informations about where to deliver it:"
+				ng-show="{{doShowDetails()}}" styleClass="{{showDetailsClass()}}">
+				<prime:panelGrid columns="3" style="border: 0px;">
+					<prime:inputText value="{{customerBean.lastName}}" />
+					<prime:inputText value="{{customerBean.firstName}}" />
+					<prime:inputText value="{{customerBean.dateOfBirth}}" />
+					<prime:inputText value="{{customerBean.emailAddress}}" />
+					<prime:inputText
+						value="{{customerBean.iAgreeToTheTermsAndConditions}}" />
+				</prime:panelGrid>
+			</prime:panel>
+			<prime:panel
+				header="Please confirm you are a human by answering this simple question:"
+				ng-show="{{doShowDetails()}}" styleClass="{{showDetailsClass()}}">
+				<prime:panelGrid columns="3" style="border: 0px;">
+					<prime:outputLabel for="captchaField"
+						value="{{customerBean.captchaQuestion}}" />
+					<prime:inputText required="false" id="captchaField"
+						value="{{customerBean.captcha}}"
+						ng:captcha="{{customerBean.expectedCaptcha}}" />
+				</prime:panelGrid>
+			</prime:panel>
+			<prime:commandButton class="carFilterButton"
+				action="#{customerBean.buy(carBean)}"
+				value="Buy this car! (Non-AJAX)" ajax="false"
+				styleClass="{{showDetailsClass()}}" ng-disabled="isFormInvalid()"
+				style="{{isFormInvalid()?'color:#888':''}}" />
+			<prime:commandButton class="carFilterButton"
+				action="#{customerBean.buy(carBean)}"
+				value="Buy this car! (JSF AJAX)" update="@form"
+				styleClass="{{showDetailsClass()}}" ng-disabled="isFormInvalid()"
+				style="{{isFormInvalid()?'color:#888':''}}" />
+			<prime:commandButton class="carFilterButton"
+				action="#{customerBean.buy(carBean)}"
+				value="Buy this car! (AF AJAX)" ng-disabled="isFormInvalid()"
+				style="{{isFormInvalid()?'color:#888':''}}" update=":angular"
+				styleClass="{{showDetailsClass()}}" />
 
+			<prime:panel header="QR-Code">
+				<prime:panelGrid columns="1" style="border: 0px;">
+					<prime:barcode value="http://www.beyondjava.net" type="qr" />
+					<h:outputText value="http://www.beyondjava.net" />
+				</prime:panelGrid>
+			</prime:panel>
 
-      <prime:messages globalOnly="false" />
-      <prime:spacer height="200px"></prime:spacer>
-    </form>
-  </ui:define>
-  <ui:define name="explanation">
-    <h3>What do you see here?</h3>
-    <p>This page integrates a PrimeFaces form with AngularFaces.</p>
-    <p>The car data are traditional PrimeFaces input fields with JSF EL expressions.</p>
-    <p>The customer data fields are PrimeFaces input fields with AngularJS mustaches.</p>
-    <p>The CAPTCHA - which is generated on the server - is used to lock or unlock the button with a little AngularJS
-      code.</p>
-    <p>The button is a PrimeFaces AJAX CommandButton.</p>
-    <p>After hidden one of the buttons the input fields are hidden by means of AngularJS. For some reason ng-show
-      does not work. By forcing it to call a Javascript function the value of ng-show is updated to false, but the
-      displayed panel doesn't vanish. However, style="{ {showDetailsClass()} }" is more reliable.</p>
-  </ui:define>
+			<prime:messages globalOnly="false" />
+			<prime:spacer height="200px"></prime:spacer>
+		</form>
+	</ui:define>
+	<ui:define name="explanation">
+		<h3>What do you see here?</h3>
+		<p>This page integrates a PrimeFaces form with AngularFaces.</p>
+		<p>The car data are traditional PrimeFaces input fields with JSF
+			EL expressions.</p>
+		<p>The customer data fields are PrimeFaces input fields with
+			AngularJS mustaches.</p>
+		<p>The CAPTCHA - which is generated on the server - is used to
+			lock or unlock the button with a little AngularJS code.</p>
+		<p>The button is a PrimeFaces AJAX CommandButton.</p>
+		<p>After hidden one of the buttons the input fields are hidden by
+			means of AngularJS. For some reason ng-show does not work. By forcing
+			it to call a Javascript function the value of ng-show is updated to
+			false, but the displayed panel doesn't vanish. However, style="{
+			{showDetailsClass()} }" is more reliable.</p>
+	</ui:define>
 </ui:composition>

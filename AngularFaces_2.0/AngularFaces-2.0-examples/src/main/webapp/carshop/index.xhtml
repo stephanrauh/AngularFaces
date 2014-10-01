@@ -3,8 +3,12 @@
   xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
   xmlns:ac="http://beyondjava.net/angularFacesCore">
   <h:head />
-  <ui:param name="title" value="Car dealer demo"/>
+    <ui:param name="title" value="Car dealer demo"/>
   <ui:param name="controllerFile" value="index.js" />
+  <ui:define name="scripts">
+  	<!-- The first tab doesn't contain native JSF code, but we need the library, so we have to load it explicitely  -->
+  	<h:outputScript library="javax.faces" name="jsf.js" />
+  </ui:define>
   <ui:define name="content">
       <h:messages />
     <ul class="tab" ng-init="tab = 1">

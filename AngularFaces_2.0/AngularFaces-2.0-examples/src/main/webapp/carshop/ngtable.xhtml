@@ -6,7 +6,7 @@
   <ui:param name="title" value="AngularJS ng-table demo" />
   <ui:param name="controllerFile" value="ngtable.js" />
   <ui:define name="scripts">
-    <link rel="stylesheet" href="css/ng-table.css"></link>
+    <h:outputStylesheet library="cardealer" name="ng-table.css" target="head" />
     <style type="text/css">
 .header {
 	background-color: #ccc;
@@ -18,7 +18,7 @@
 }
 ;
 </style>
-    <script src="js/ng-table.js"></script>
+    <h:outputScript  library="cardealer" name="ng-table.js" />
     <script data-require="js/ng-table-export@0.1.0" data-semver="0.1.0"
       src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js"></script>
   </ui:define>
@@ -49,11 +49,11 @@
                     style="position: relative; left: -13px" src="close2.png" /></a>
                 </div>
                 <div style="display: table-cell" class="{{showIfSet(filterBean.price)}}">
-                  <span class="carFilterCriterium">{{filterBean.price}}</span> <a jsf:outcome="index.jsf"><img
+                  <span class="carFilterCriterium">€{{filterBean.price}}</span> <a jsf:outcome="index.jsf"><img
                     style="position: relative; left: -13px" src="close2.png" /></a>
                 </div>
                 <div style="display: table-cell" class="{{showIfSet(filterBean.mileage)}}">
-                  <span class="carFilterCriterium">{{filterBean.mileage}}</span> <a jsf:outcome="index.jsf"><img
+                  <span class="carFilterCriterium">{{filterBean.mileage}} km</span> <a jsf:outcome="index.jsf"><img
                     style="position: relative; left: -13px" src="close2.png" /></a>
                 </div>
                 <div style="display: table-cell" class="{{showIfSet(filterBean.fuel)}}">
