@@ -32,14 +32,4 @@
     <exception-type>java.lang.Throwable</exception-type>
     <location>/error.jsf</location>
   </error-page>
-  <servlet>
-    <description></description>
-    <display-name>DemoServlet</display-name>
-    <servlet-name>DemoServlet</servlet-name>
-    <servlet-class>DemoServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>DemoServlet</servlet-name>
-    <url-pattern>/DemoServlet</url-pattern>
-  </servlet-mapping>
 </web-app>

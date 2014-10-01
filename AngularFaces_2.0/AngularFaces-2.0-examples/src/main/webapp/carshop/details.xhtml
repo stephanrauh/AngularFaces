@@ -103,8 +103,12 @@
 				style="{{isFormInvalid()?'color:#888':''}}" update=":angular"
 				styleClass="{{showDetailsClass()}}" />
 
-			<prime:panel header="QR-Code">
-				<prime:panelGrid columns="1" style="border: 0px;">
+			<prime:panel header="Congratulation for buying this car!" styleClass="{{showFinishedTransactionClass()}}">
+				<p>You're almost finished. We only need a final step before you own the car.</p>
+				<p>
+				Please scan the QR code with your smartphone and follow the link to confirm the transaction.
+				</p>
+				<prime:panelGrid columns="2" style="border: 0px;">
 					<prime:barcode value="http://www.beyondjava.net" type="qr" />
 					<h:outputText value="http://www.beyondjava.net" />
 				</prime:panelGrid>

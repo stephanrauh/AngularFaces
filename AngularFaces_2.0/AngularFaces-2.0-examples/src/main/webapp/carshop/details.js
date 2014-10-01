@@ -15,6 +15,12 @@ controller('CarShopController', function($scope, $filter) {
 		else
 			return "hidden";
 	}
+	$scope.showFinishedTransactionClass = function() {
+		if ($scope.doShowDetails()) 
+			return "hidden";
+		else
+			return "";
+	}
 	
 	$scope.isFormInvalid = function() {
 		var f = document.getElementById('myForm').className;

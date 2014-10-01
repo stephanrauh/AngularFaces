@@ -8,7 +8,7 @@ var app = angular.module('CarShop', [ "angularfaces" ]).controller(
 				if (newValue != oldValue) {
 					try {
 						var ngsync = document.getElementsByClassName('filterSyncClass')[0];
-						sendNGSyncToServer(ngsync.id);
+						$scope.afSendNGSyncToServer(ngsync.id);
 					} catch (e) {
 						console.log("Ein Fehler ist aufgetreten: " + e);
 					}
@@ -24,12 +24,4 @@ var app = angular.module('CarShop', [ "angularfaces" ]).controller(
 			$scope.$watch('filterBean.yearText', $scope.sendFilterToServer);
 		})
 
-function sendNGSyncToServer(ngsyncID) {
-	window.setTimeout(function() {
-		jsf.ajax.request(ngsyncID, null, {
-			'de.beyondjava.angularfaces.behavior.event':'ngsync', 
-			execute:ngsyncID,
-			render:'angular'
-		});
-	}, 10);
-}
+

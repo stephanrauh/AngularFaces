@@ -4,6 +4,16 @@ app.run(function($rootScope) {
     $rootScope.afToJson = function(variable) {
 		return JSON.stringify(variable);
 	};
+	
+	$rootScope.afSendNGSyncToServer = function(ngsyncID) {
+		window.setTimeout(function() {
+			jsf.ajax.request(ngsyncID, null, {
+				'de.beyondjava.angularfaces.behavior.event':'ngsync', 
+				execute:ngsyncID,
+				render:'angular'
+			});
+		}, 10);
+	};
 });
 
 app.directive('puimessage', function($compile) {
