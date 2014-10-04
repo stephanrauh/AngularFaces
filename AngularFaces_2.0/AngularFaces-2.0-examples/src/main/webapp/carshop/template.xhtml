@@ -1,7 +1,8 @@
 <f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:jsf="http://xmlns.jcp.org/jsf"
   xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-  xmlns:ac="http://beyondjava.net/angularFacesCore">
+  xmlns:ac="http://beyondjava.net/angularFacesCore"
+  xmlns:prime="http://primefaces.org/ui">
   <h:head>
     <!-- tab element found at http://blog.hfarazm.com/tabs-in-angularjs/ -->
     <meta charset="utf-8"></meta>
@@ -13,9 +14,39 @@
     <h:outputStylesheet library="cardealer" name="index.css" target="head"/>
     <ui:insert name="scripts" />
   </h:head>
-  <h:body  id="angular" style="padding-left:10px">
+  <h:body  id="angular" style="padding-left:10px" ng-app="CarShop" ng-controller="CarShopController" angularJSFile="#{controllerFile}">
+    <h:form>
+<prime:ribbon>
+  <prime:tab title="AJAX Response Statistics">
+    <prime:ribbonGroup label="Options" style="width:90px">
+      <prime:commandButton value="New" icon="ui-icon-pencil"
+        type="button" />
+      <prime:commandButton value="Save" icon="ui-icon-disk"
+        type="button" />
+    </prime:ribbonGroup>
+    <prime:ribbonGroup label="Memory" style="width:245px">
+      <h:panelGrid columns="2" styleClass="ui-widget"
+        style="text-align:right">
+        <prime:inputText value="764 Bytes" label="request size:" disabled="true"
+          addmessage="false" />
+        <prime:inputText value="384 Bytes" label="response size:"  disabled="true"
+          addmessage="false" />
+      </h:panelGrid>
+    </prime:ribbonGroup>
+    <prime:ribbonGroup label="Performance" style="width:280px">
+      <h:panelGrid columns="2" styleClass="ui-widget"
+        style="text-align:right">
+        <prime:inputText value="23 ms" label="time spent on server:"  disabled="true"
+          addmessage="false" />
+        <prime:inputText value="75 ms" label="time spent on client:"  disabled="true"
+          addmessage="false" />
+      </h:panelGrid>
+    </prime:ribbonGroup>
+  </prime:tab>
+</prime:ribbon>
+		</h:form>
     <div id="wrapper">
-      <header class="header header-fixed">
+	<header class="header header-fixed">
         <section class="navbar navbar-inverse docs-navbar-primary">
           <div class="container">
             <div class="row">
@@ -34,7 +65,7 @@
       </header>
     </div>
     <section role="main" class="container main-body">
-      <div class="main-grid main-body-grid" ng-app="CarShop" ng-controller="CarShopController" angularJSFile="#{controllerFile}">
+      <div class="main-grid main-body-grid" >
         <div class="col-md-8">
           <ui:insert name="content" />
         </div>

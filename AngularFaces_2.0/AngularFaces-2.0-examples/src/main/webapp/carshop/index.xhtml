@@ -32,12 +32,12 @@
     <span ng-show="tab === 1">
                 <p>Actually, it depends. This AngularFaces demo comes in a variety of flavors, depending on the switches below:</p>
                 <h:form>
-                  <h:panelGrid columns="3">
-                      <prime:inputSwitch offLabel="JSF" onLabel="AF" value="{settingsBean.useAngularFacesAJAX" label="AJAX engine" />
-                      <prime:inputSwitch value="#{settingsBean.useHTML5Style}" label="Use HTML5-friendly markup"/>
-                      <prime:inputSwitch value="#{settingsBean.usePrimeFaces}" label="Use PrimeFaces" />
-                    </h:panelGrid>
-                </h:form>
+					<prime:panelGrid columns="2" layout="grid">
+					  <prime:inputSwitch offLabel="JSF" onLabel="AF" value="{settingsBean.useAngularFacesAJAX" label="AJAX engine" addMessage="false"/>
+					  <prime:inputSwitch value="#{settingsBean.useHTML5Style}" label="Use HTML5-friendly markup" addMessage="false"/>
+					  <prime:inputSwitch value="#{settingsBean.usePrimeFaces}" label="Use PrimeFaces" addMessage="false" />
+					</prime:panelGrid>
+				</h:form>
                 
                 <p>The first tab is a pure AngularJS view that communicates with
                 the back-end via &lt;ngsync&gt;.</p>

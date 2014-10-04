@@ -108,10 +108,14 @@
 				<p>
 				Please scan the QR code with your smartphone and follow the link to confirm the transaction.
 				</p>
-				<prime:panelGrid columns="2" style="border: 0px;">
-					<prime:barcode value="http://www.beyondjava.net" type="qr" />
-					<h:outputText value="http://www.beyondjava.net" />
-				</prime:panelGrid>
+<prime:panelGrid columns="2" style="border: 0px;">
+	<prime:barcode value="5675354567230" type="ean13" />
+	<h:outputText value="5675354567230" />
+	<prime:barcode value="5675354567230" type="postnet" />
+	<h:outputText value="5675354567230" />
+	<prime:barcode value="http://www.angularfaces.com" type="qr" />
+	<h:outputText value="http://www.angularfaces.com" />
+</prime:panelGrid>
 			</prime:panel>
 
 			<prime:messages globalOnly="false" />
