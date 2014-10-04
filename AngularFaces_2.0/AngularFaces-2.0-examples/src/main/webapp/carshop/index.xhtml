@@ -1,14 +1,16 @@
 <ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
   xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:jsf="http://xmlns.jcp.org/jsf"
   xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-  xmlns:ac="http://beyondjava.net/angularFacesCore">
+  xmlns:ac="http://beyondjava.net/angularFacesCore"
+  xmlns:prime="http://primefaces.org/ui">
   <h:head />
+    <ui:define name="scripts">
+    <!-- The first tab doesn't contain native JSF code, but we need the library, so we have to load it explicitely  -->
+    <h:outputScript library="javax.faces" name="jsf.js" />
+  </ui:define>
+  
     <ui:param name="title" value="Car dealer demo"/>
   <ui:param name="controllerFile" value="index.js" />
-  <ui:define name="scripts">
-  	<!-- The first tab doesn't contain native JSF code, but we need the library, so we have to load it explicitely  -->
-  	<h:outputScript library="javax.faces" name="jsf.js" />
-  </ui:define>
   <ui:define name="content">
       <h:messages />
     <ul class="tab" ng-init="tab = 1">
@@ -28,6 +30,15 @@
   <ui:define name="explanation">
     <h3>What do you see here?</h3>
     <span ng-show="tab === 1">
+                <p>Actually, it depends. This AngularFaces demo comes in a variety of flavors, depending on the switches below:</p>
+                <h:form>
+                  <h:panelGrid columns="3">
+                      <prime:inputSwitch offLabel="JSF" onLabel="AF" value="{settingsBean.useAngularFacesAJAX" label="AJAX engine" />
+                      <prime:inputSwitch value="#{settingsBean.useHTML5Style}" label="Use HTML5-friendly markup"/>
+                      <prime:inputSwitch value="#{settingsBean.usePrimeFaces}" label="Use PrimeFaces" />
+                    </h:panelGrid>
+                </h:form>
+                
                 <p>The first tab is a pure AngularJS view that communicates with
                 the back-end via &lt;ngsync&gt;.</p>
                 <p>Brand and type aren't independent fields. Choosing a brand

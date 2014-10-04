@@ -80,3 +80,5 @@ li.tab:nth-child(3) {
 .af-label {width:170px; border:0px; font-weight:normal}                     
 
 .ui-datatable tbody td {font-size:15px; padding-right: 3px; padding-left:3px; text-align:right}
+
+.ui-widget { font-size:15px}
