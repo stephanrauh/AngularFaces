@@ -31,21 +31,18 @@ import javax.faces.bean.SessionScoped;
 
 @ManagedBean
 @SessionScoped
-public class OptionBean implements Serializable {
+public class StaticOptionBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private List<String> brands = new ArrayList<String>();
 	private List<String> colors = new ArrayList<String>();
 
 	private List<String> fuels = new ArrayList<String>();
 
 	private List<String> mileages = new ArrayList<String>();
 	private List<String> prices = new ArrayList<String>();
-	private List<String> types = new ArrayList<String>();
 	private List<String> years = new ArrayList<String>();
 
-	public OptionBean() {
-		initBrandsAndTypes();
+	public StaticOptionBean() {
 		colors.add("");
 		colors.add("red");
 		colors.add("white");
@@ -55,28 +52,6 @@ public class OptionBean implements Serializable {
 		colors.add("black");
 		colors.add("white");
 		colors.add("silver");
-
-		brands.add("");
-		brands.add("Honda");
-		brands.add("VW");
-		brands.add("BMW");
-		brands.add("Volvo");
-		brands.add("Opel");
-		brands.add("Renault");
-		brands.add("Citroen");
-		brands.add("Seat");
-		brands.add("Fiat");
-
-		types.add("");
-		types.add("Civic");
-		types.add("Golf");
-		types.add("320");
-		types.add("V50");
-		types.add("Astra");
-		types.add("Megane");
-		types.add("Picasso");
-		types.add("Ibiza");
-		types.add("Punto");
 
 		prices.add("");
 		prices.add("< €500");
@@ -122,10 +97,6 @@ public class OptionBean implements Serializable {
 		}
 	}
 
-	public List<String> getBrands() {
-		return brands;
-	}
-
 	public List<String> getColors() {
 		return colors;
 	}
@@ -142,61 +113,7 @@ public class OptionBean implements Serializable {
 		return prices;
 	}
 
-	public List<String> getTypes() {
-		return types;
-	}
-
 	public List<String> getYears() {
 		return years;
-	}
-
-	private Map<String, String> brand2Type = new HashMap<String, String>();
-
-	public void initBrandsAndTypes() {
-		brand2Type.put("Civic", "Honda");
-		brand2Type.put("Jazz", "Honda");
-		brand2Type.put("Golf", "VW");
-		brand2Type.put("Passat", "VW");
-		brand2Type.put("Polo", "VW");
-		brand2Type.put("320", "BMW");
-		brand2Type.put("C40", "Volvo");
-		brand2Type.put("V50", "Volvo");
-		brand2Type.put("C60", "Volvo");
-		brand2Type.put("V70", "Volvo");
-		brand2Type.put("Corsa", "Opel");
-		brand2Type.put("Astra", "Opel");
-		brand2Type.put("Vectra", "Opel");
-		brand2Type.put("Picasso", "Citroen");
-		brand2Type.put("León", "Seat");
-		brand2Type.put("Ibiza", "Seat");
-		brand2Type.put("Exeo", "Seat");
-		brand2Type.put("Punto", "Fiat");
-		brand2Type.put("500", "Fiat");
-		brand2Type.put("Panda", "Fiat");
-		brand2Type.put("Megane", "Renault");
-	}
-
-	public List<String> getTypesToBrand(String brand) {
-		if (brand == null || brand.length() == 0)
-			return types;
-		List<String> l = new ArrayList<String>();
-
-		Set<Entry<String, String>> entrySet = brand2Type.entrySet();
-		Iterator<Entry<String, String>> iter = entrySet.iterator();
-		while (iter.hasNext()) {
-			Entry<String, String> entry = iter.next();
-			if (entry.getValue().equals(brand)) {
-				l.add(entry.getKey());
-			}
-		}
-		if (l.size() > 0)
-			l.add(0, "");
-		return l;
-	}
-
-	public String getBrandToType(String type) {
-		if (type == null)
-			return "";
-		return brand2Type.get(type);
 	}
 }

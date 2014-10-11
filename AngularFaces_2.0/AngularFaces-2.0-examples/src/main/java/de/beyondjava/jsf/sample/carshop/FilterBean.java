@@ -35,45 +35,34 @@ import de.beyondjava.angularFaces.core.ELTools;
 public class FilterBean implements Serializable {
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsf.sample.carshop.FilterBean");
 	
-	@ManagedProperty("#{optionBean}")
-	private OptionBean options;
+	private String brand;
 
 	@ManagedProperty("#{carPool}")
 	private transient CarPool carPool;
 
-	public void setCarPool(CarPool carPool) {
-		this.carPool = carPool;
-	}
+	private String color;
 
-	public void setOptions(OptionBean options) {
-		this.options = options;
-	}
+	@ManagedProperty("#{dynamicOptionBean}")
+	private DynamicOptionBean dynamicOptions;
+
+	private String fuel;
+
+	private String mileage;
 	
-	/**
-	 * This bean is created both by JSF and by the JSON deserializer (Jackson). In the latter case there's not JSF initialization, so we may have to catch up on it.
-	 */
-	private void initIfNecessary() {
-		if (null==options) {
-			options=(OptionBean) ELTools.evalAsObject("#{optionBean}");
-		}
-		if (null==carPool) {
-			carPool=(CarPool) ELTools.evalAsObject("#{carPool}");
-		}
-	}
+	private String price;
 
-	private String brand;
-
-    private String color;
-
-    private String type;
+	private String type;
 
     private String yearText;
 
-	private String mileage;
+    public void doFilter(AjaxBehaviorEvent event) {
+		LOGGER.info("doFilter called");
+	}
 
-	private String price;
-
-	private String fuel;
+    public String doFilterAction() {
+		LOGGER.info("doFilterAction called");
+		return null;
+	}
 
 	public String getBrand() {
 		return brand;
@@ -81,6 +70,19 @@ public class FilterBean implements Serializable {
 
 	public String getColor() {
 		return color;
+	}
+
+	@JsonIgnore
+	public String getCounter() {
+		initIfNecessary();
+		carPool.applyFilter(this);
+		long l=carPool.getSelectedCars().size();
+//		if (null != brand) return String.valueOf(l) + " " + brand; 
+		return String.valueOf(l);
+	}
+
+	public DynamicOptionBean getDynamicOptions() {
+		return dynamicOptions;
 	}
 
 	public String getFuel() {
@@ -94,17 +96,17 @@ public class FilterBean implements Serializable {
 	public String getPrice() {
 		return price;
 	}
-	
-	@JsonIgnore
-	public List<String> getTypes() {
-		initIfNecessary();
-		return options.getTypesToBrand(brand);
-	}
-
 
 	public String getType() {
 		return type;
 	}
+	
+	@JsonIgnore
+	public List<String> getTypes() {
+		initIfNecessary();
+		return dynamicOptions.getTypesToBrand(brand);
+	}
+
 
 	public int getYear() {
 		if (yearText==null || yearText.length()<4) return 0;
@@ -117,35 +119,62 @@ public class FilterBean implements Serializable {
 		}
 	}
 
+	public String getYearText() {
+		return yearText;
+	}
+
+	/**
+	 * This bean is created both by JSF and by the JSON deserializer (Jackson). In the latter case there's not JSF initialization, so we may have to catch up on it.
+	 */
+	private void initIfNecessary() {
+		if (null==dynamicOptions) {
+			dynamicOptions=(DynamicOptionBean) ELTools.evalAsObject("#{dynamicOptionBean}");
+		}
+		if (null==carPool) {
+			carPool=(CarPool) ELTools.evalAsObject("#{carPool}");
+		}
+	}
+
 	public void setBrand(String brand) {
 		this.brand = brand;
 		if (brand != null && type!=null && type.length()>0) {
 			initIfNecessary();
-			if (!brand.equals(options.getBrandToType(type)))
+			if (!brand.equals(dynamicOptions.getBrandToType(type)))
 				type=null;
 		}
+	}
+
+	public void setCarPool(CarPool carPool) {
+		this.carPool = carPool;
 	}
 
 	public void setColor(String color) {
 		this.color = color;
 	}
-
+	
+	public void setDynamicOptions(DynamicOptionBean dynamicOptions) {
+		this.dynamicOptions = dynamicOptions;
+	}
+	
 	public void setFuel(String fuel) {
 		this.fuel = fuel;
 	}
-
+	
 	public void setMileage(String mileage) {
 		this.mileage = mileage;
+	}
+	
+	public void setOptions(DynamicOptionBean options) {
+		this.dynamicOptions = options;
 	}
 	
 	public void setPrice(String price) {
 		this.price = price;
 	}
-	
 	public void setType(String type) {
 		this.type = type;
 		initIfNecessary();
-		String b = options.getBrandToType(type);
+		String b = dynamicOptions.getBrandToType(type);
 		if (null != b && b.length()>0) {
 			brand=b;
 		}
@@ -153,26 +182,5 @@ public class FilterBean implements Serializable {
 	
 	public void setYearText(String year) {
 		yearText=year;
-	}
-	
-	public String getYearText() {
-		return yearText;
-	}
-	
-	public void doFilter(AjaxBehaviorEvent event) {
-		LOGGER.info("doFilter called");
-	}
-	public String doFilterAction() {
-		LOGGER.info("doFilterAction called");
-		return null;
-	}
-	
-	@JsonIgnore
-	public String getCounter() {
-		initIfNecessary();
-		carPool.applyFilter(this);
-		long l=carPool.getSelectedCars().size();
-//		if (null != brand) return String.valueOf(l) + " " + brand; 
-		return String.valueOf(l);
 	}
 }

@@ -33,16 +33,31 @@ public class CarPool implements Serializable {
 
 	private final static int SIZE_OF_INITIAL_CAR_POOL = 10000;
 
-	@ManagedProperty("#{optionBean}")
-	private OptionBean options;
+	@ManagedProperty("#{staticOptionBean}")
+	private StaticOptionBean staticOptions;
+
+	public StaticOptionBean getStaticOptions() {
+		return staticOptions;
+	}
+
+	public void setStaticOptions(StaticOptionBean staticOptions) {
+		this.staticOptions = staticOptions;
+	}
+
+	public DynamicOptionBean getDynamicOptions() {
+		return dynamicOptions;
+	}
+
+	public void setDynamicOptions(DynamicOptionBean dynamicOptions) {
+		this.dynamicOptions = dynamicOptions;
+	}
+
+	@ManagedProperty("#{dynamicOptionBean}")
+	private DynamicOptionBean dynamicOptions;
 
 	private List<String> types;
 
 	private int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-
-	public void setOptions(OptionBean options) {
-		this.options = options;
-	}
 
 	private List<Car> carPool;
 
@@ -58,7 +73,7 @@ public class CarPool implements Serializable {
 
 	@PostConstruct
 	private void initRandomCarPool() {
-		types = options.getTypesToBrand(null);
+		types = dynamicOptions.getTypesToBrand(null);
 		carPool = new ArrayList<Car>();
 		for (int i = 0; i < SIZE_OF_INITIAL_CAR_POOL; i++) {
 			carPool.add(getRandomCar());
@@ -73,7 +88,7 @@ public class CarPool implements Serializable {
 	private Car getRandomCar() {
 		int typeIndex = (int) Math.floor(Math.random() * (types.size() - 1));
 		String type = types.get(typeIndex + 1);
-		String brand = options.getBrandToType(type);
+		String brand = dynamicOptions.getBrandToType(type);
 		int year = (int) (Math.floor((currentYear - 1980) * Math.random())) + 1980;
 		int age = currentYear - year;
 
@@ -81,11 +96,11 @@ public class CarPool implements Serializable {
 
 		int mileage = (int) (Math.floor((age + 1) * 20000 * Math.random()));
 
-		int colorIndex = (int) Math.floor(Math.random() * (options.getColors().size() - 1));
-		String color = options.getColors().get(colorIndex + 1);
+		int colorIndex = (int) Math.floor(Math.random() * (staticOptions.getColors().size() - 1));
+		String color = staticOptions.getColors().get(colorIndex + 1);
 
-		int fuelIndex = (int) Math.floor(Math.random() * (options.getFuels().size() - 1));
-		String fuel = options.getFuels().get(fuelIndex + 1);
+		int fuelIndex = (int) Math.floor(Math.random() * (staticOptions.getFuels().size() - 1));
+		String fuel = staticOptions.getFuels().get(fuelIndex + 1);
 
 		Car c = new Car(brand, type, year, color, mileage, fuel, price);
 		return c;

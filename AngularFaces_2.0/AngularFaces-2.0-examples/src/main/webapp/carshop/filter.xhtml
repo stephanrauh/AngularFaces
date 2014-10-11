@@ -10,15 +10,14 @@
 		<br />
 		<br />
 	
-		<ngsync value="{{optionBean.brands}}" direction="serverToClient" />
-		<ngsync value="{{optionBean.colors}}" direction="serverToClient" />
-		<ngsync value="{{optionBean.types}}" direction="serverToClient" />
-		<ngsync value="{{optionBean.prices}}" direction="serverToClient" />
-		<ngsync value="{{optionBean.mileages}}" direction="serverToClient" />
-		<ngsync value="{{optionBean.fuels}}" direction="serverToClient" />
-		<ngsync value="{{optionBean.years}}" direction="serverToClient" />
+		<ngsync value="{{dynamicOptionBean.brands}}" direction="serverToClient" />
+		<ngsync value="{{staticOptionBean.colors}}" direction="serverToClient" />
+		<ngsync value="{{dynamicOptionBean.types}}" direction="serverToClient" />
+		<ngsync value="{{staticOptionBean.prices}}" direction="serverToClient" />
+		<ngsync value="{{staticOptionBean.mileages}}" direction="serverToClient" />
+		<ngsync value="{{staticOptionBean.fuels}}" direction="serverToClient" />
+		<ngsync value="{{staticOptionBean.years}}" direction="serverToClient" />
 		<ngsync value="{{filterBean.counter}}" direction="serverToClient" />
-		<ngsync value="{{filterBean.types}}" direction="serverToClient" />
 		<ngsync value="{{filterBean}}" direction="clientToServer" id="filterSyncID" styleClass="filterSyncClass"/>
 		
 		<div class="carFilterBox"> 
@@ -33,20 +32,20 @@
 					</tr>
 					<tr>
 						<td>
-							<select id="filterbrand" ng-model="filterBean.brand" ng-options="brand for brand in optionBean.brands track by brand"
+							<select id="filterbrand" ng-model="filterBean.brand" ng-options="brand for brand in dynamicOptionBean.brands track by brand"
                                     ng-change="filterBean.type=''">
      								<option value="">-- choose brand --</option>
 							</select>
 						    <input class="filterHelper hidden" jsf:value="{{filterBean.brand}}" addLabel="false" addMessage="false" />
 						</td>
 						<td>
-						    <select ng-model="filterBean.type" ng-options="type for type in filterBean.types track by type">
+						    <select ng-model="filterBean.type" ng-options="type for type in dynamicOptionBean.types track by type">
      								<option value="">-- choose type --</option>
 							</select>
 						    <input class="filterHelper hidden" jsf:value="{{filterBean.type}}" addLabel="false" addMessage="false" />
 						</td>
 						<td>
-						    <select ng-model="filterBean.price" ng-options="price for price in optionBean.prices track by price">
+						    <select ng-model="filterBean.price" ng-options="price for price in staticOptionBean.prices track by price">
      								<option value="">-- choose price --</option>
 							</select>
 						    <input class="filterHelper hidden" jsf:value="{{filterBean.price}}" addLabel="false" addMessage="false" />
@@ -59,19 +58,19 @@
 					</tr>
 					<tr>
 						<td>
-						    <select ng-model="filterBean.mileage" ng-options="mileage for mileage in optionBean.mileages track by mileage">
+						    <select ng-model="filterBean.mileage" ng-options="mileage for mileage in staticOptionBean.mileages track by mileage">
      								<option value="">-- choose mileage --</option>
 							</select>
 						    <input class="filterHelper hidden" jsf:value="{{filterBean.mileage}}" addLabel="false" addMessage="false" />
 						</td>
 						<td>
-						    <select ng-model="filterBean.fuel" ng-options="fuel for fuel in optionBean.fuels track by fuel">
+						    <select ng-model="filterBean.fuel" ng-options="fuel for fuel in staticOptionBean.fuels track by fuel">
      								<option value="">-- choose fuel --</option>
 							</select>
 						    <input class="filterHelper hidden" jsf:value="{{filterBean.fuel}}" addLabel="false" addMessage="false" />
 						</td>
 						<td>   
-							<select ng-model="filterBean.color" ng-options="color for color in optionBean.colors track by color">
+							<select ng-model="filterBean.color" ng-options="color for color in staticOptionBean.colors track by color">
      								<option value="">-- choose color --</option>
    							</select>
 						    <input class="filterHelper hidden" jsf:value="{{filterBean.color}}" addLabel="false" addMessage="false" />
@@ -82,7 +81,7 @@
 					</tr>
 					<tr>
 						<td>
-							<select ng-model="filterBean.yearText" ng-options="year for year in optionBean.years track by year">
+							<select ng-model="filterBean.yearText" ng-options="year for year in staticOptionBean.years track by year">
      								<option value="">-- choose color --</option>
    							</select>
 						    <input type="text" class="filterHelper hidden" jsf:value="{{filterBean.yearText}}" addLabel="false" addMessage="false" />
