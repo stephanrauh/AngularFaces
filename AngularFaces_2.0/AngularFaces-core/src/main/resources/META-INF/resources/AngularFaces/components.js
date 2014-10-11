@@ -5,15 +5,30 @@ app.run(function($rootScope) {
 		return JSON.stringify(variable);
 	};
 	
-	$rootScope.afSendNGSyncToServer = function(ngsyncID) {
+	$rootScope.afSendNGSyncToServer = function() {
 		window.setTimeout(function() {
-			jsf.ajax.request(ngsyncID, null, {
-				'de.beyondjava.angularfaces.behavior.event':'ngsync', 
-				execute:ngsyncID,
-				render:'angular'
-			});
+			try {
+				var ngsyncs = document.getElementsByClassName('puisync');
+				if (null != ngsyncs) {
+					var ids = "";
+					for(var i=0; i<ngsyncs.length; i++)
+	                {
+						if (i>0) ids=ids+" ";
+	                   ids = ids + ngsyncs[i].id;
+	                }
+					
+					jsf.ajax.request(ngsyncs[0].id, null, {
+						'de.beyondjava.angularfaces.behavior.event':'ngsync', 
+						execute:ids,
+						render:'angular'
+					});
+				}
+			} catch (e) {
+				console.log("Ein Fehler ist aufgetreten: " + e);
+			}
 		}, 10);
 	};
+
 });
 
 app.directive('puimessage', function($compile) {

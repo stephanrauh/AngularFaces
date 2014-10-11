@@ -43,7 +43,7 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 	@Override
 	public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
 		String direction = AttributeUtilities.getAttributeAsString(component, "direction");
-		if ("serverToClient".equalsIgnoreCase(direction)) 
+		if ("serverToClient".equalsIgnoreCase(direction))
 			return;
 
 		ResponseWriter writer = context.getResponseWriter();
@@ -53,21 +53,26 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 		writer.writeAttribute("id", clientId, null);
 		writer.writeAttribute("name", clientId, null);
 		writer.writeAttribute("type", "hidden", null);
+		// writer.writeAttribute("type", "text", null);
+
 		String value = AttributeUtilities.getAttributeAsString(component, "value");
-		if (null==value) {
+		if (null == value) {
 			LOGGER.severe("Which value do you want to synchronize?");
 			throw new FacesException("ngSync: Which value do you want to synchronize?");
 		}
 		writer.writeAttribute("value", "{{afToJson(" + value + ")}}", null);
 		String styleClass = AttributeUtilities.getAttributeAsString(component, "styleClass");
-		writer.writeAttribute("class", styleClass, null);
+		if (null == styleClass)
+			writer.writeAttribute("class", "puisync", "class");
+		else
+			writer.writeAttribute("class", "puisync " + styleClass, "class");
 		writer.endElement("input");
 	}
 
 	@Override
 	public void decode(FacesContext context, UIComponent component) {
 		String direction = AttributeUtilities.getAttributeAsString(component, "direction");
-		if ("serverToClient".equalsIgnoreCase(direction)) 
+		if ("serverToClient".equalsIgnoreCase(direction))
 			return;
 		String rootProperty = AttributeUtilities.getAttributeAsString(component, "value");
 
@@ -80,8 +85,7 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 				LOGGER.severe("Couldn't convert the JSON object sent from the client to a JSF bean:");
 				LOGGER.severe("Class of the bean: " + bean.getClass().getName());
 				LOGGER.severe("JSON: " + json);
-			}
-			else if (rootProperty.contains(".")) {
+			} else if (rootProperty.contains(".")) {
 				String rootBean = rootProperty.substring(0, rootProperty.lastIndexOf("."));
 				injectJsonIntoBean(rootBean, rootProperty, bean, fromJson);
 			} else {
@@ -94,9 +98,19 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 							setter.invoke(bean, attr);
 						} catch (NoSuchMethodException noError) {
 							// most likely this is not an error
-//							LOGGER.log(Level.INFO, "An error occured when trying to inject the JSON object into the JSF bean", noError);
+							// LOGGER.log(Level.INFO, "An error occured when trying to inject the JSON object into the JSF bean", noError);
+						}
+					} else if (m.getName().startsWith("is") && (m.getParameterTypes() != null || m.getParameterTypes().length == 0)) {
+						try {
+							Method setter = bean.getClass().getMethod("set" + m.getName().substring(2), m.getReturnType());
+							Object attr = m.invoke(fromJson);
+							setter.invoke(bean, attr);
+						} catch (NoSuchMethodException noError) {
+							// most likely this is not an error
+							// LOGGER.log(Level.INFO, "An error occured when trying to inject the JSON object into the JSF bean", noError);
 						}
 					}
+
 				}
 			}
 		} catch (NumberFormatException error) {
@@ -114,7 +128,8 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 							"Can't parse the data sent from the client (" + rootProperty + ")"));
 
 		} catch (Exception anyError) {
-			LOGGER.log(Level.SEVERE, "A technical error occured when trying to read the data sent from the client (" + rootProperty + ")", anyError);
+			LOGGER.log(Level.SEVERE, "A technical error occured when trying to read the data sent from the client (" + rootProperty + ")",
+					anyError);
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_FATAL,
@@ -122,7 +137,6 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 							"A technical error occured when trying to read the data sent from the client (" + rootProperty + ")"));
 		}
 	}
-
 
 	private void injectJsonIntoBean(String rootBean, String rootProperty, Object bean, Object fromJson) {
 		Object root = ELTools.evalAsObject("#{" + rootBean + "}");

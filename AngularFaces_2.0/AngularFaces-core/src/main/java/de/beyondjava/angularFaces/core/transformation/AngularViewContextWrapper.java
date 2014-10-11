@@ -137,18 +137,18 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		}
 		return isAngularFacesRequest;
 	}
-	
+
 	private void applyNGSyncModelValues() {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		PartialViewContext pvc = ctx.getPartialViewContext();
 		Collection<String> executeIDs = pvc.getExecuteIds();
 		if (null != executeIDs) {
-			for (String clientID:executeIDs) {
+			for (String clientID : executeIDs) {
 				UIViewRoot viewRoot = ctx.getViewRoot();
 				UIComponent c = viewRoot.findComponent(clientID);
 				if (c instanceof PuiSync) {
 					if (c.isInView()) {
-//						PuiSync syncElement = (PuiSync) c;
+						// PuiSync syncElement = (PuiSync) c;
 						c.decode(ctx);
 					}
 				}
@@ -191,9 +191,8 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 			writer.writePreamble("<?xml version='1.0' encoding='" + encoding + "'?>");
 			writer.startDocument();
 			writer.startEval();
-			PuiModelSync body = (PuiModelSync) findPuiBody(viewRoot);
 			// PuiELTransformer.processEverything(body);
-			encodeAngularScript(writer, ctx, body);
+			encodeAngularScript(writer, ctx);
 			writer.endEval();
 			renderState(ctx);
 
@@ -205,21 +204,6 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 			// Throw the exception
 			throw ex;
 		}
-	}
-
-	private UIComponent findPuiBody(UIComponent parent) {
-		int index = 0;
-		while (index < parent.getChildCount()) {
-			UIComponent kid = parent.getChildren().get(index);
-			if (kid instanceof PuiModelSync) {
-				return kid;
-			}
-			UIComponent grandChild = findPuiBody(kid);
-			if (null != grandChild)
-				return grandChild;
-			index++;
-		}
-		return null;
 	}
 
 	/** Copied from com.sun.faces.context.PartialViewContextImpl. */
@@ -254,12 +238,10 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		}
 	}
 
-	public void encodeAngularScript(ResponseWriter writer, FacesContext context, PuiModelSync component) throws IOException {
-		if (null != component) {
-			List<String> beansAsJSon = component.getFacesModel();
-			for (String bean : beansAsJSon) {
-				writer.write("injectJSonIntoScope(" + bean + ",window.jsfScope);");
-			}
+	public void encodeAngularScript(ResponseWriter writer, FacesContext context) throws IOException {
+		List<String> beansAsJSon = PuiModelSync.getFacesModel();
+		for (String bean : beansAsJSon) {
+			writer.write("injectJSonIntoScope(" + bean + ",window.jsfScope);");
 		}
 	}
 }

@@ -30,7 +30,8 @@
 		<ngsync value="{{filterBean.yearText}}" direction="serverToClient" />
 		<!-- end of ngsync workaround -->
 		
-		<ngsync value="{{filterBean}}" direction="clientToServer" id="filterSyncID" styleClass="filterSyncClass"/>
+		<ngsync value="{{filterBean}}" direction="clientToServer" id="filterSyncID" />
+		<ngsync value="{{settingsBean}}" direction="clientToServer" id="settingsID" />
 		
 		<div class="carFilterBox"> 
 			<div style="font-weight:bold;font-size:125%">What kind of car are you looking for?
@@ -88,11 +89,16 @@
 					<tr>
 						<td>
 							<select ng-model="filterBean.yearText" ng-options="year for year in staticOptionBean.years track by year">
-     								<option value="">-- choose color --</option>
+     								<option value="">-- choose year --</option>
    							</select>
 						</td>
-						<td colspan="2" >
-							<button id="listCarsID" class="carFilterButton" jsf:outcome="table.jsf" >show me the {{filterBean.counter}} cars!</button>
+						<td>
+							<button ng-show="activateAJAXButton()" class="carFilterButton" jsf:action="index.jsf">update counter
+								<f:ajax render="angular" execute="filterSyncID settingsID"></f:ajax>
+							</button>
+						</td>
+						<td >
+							<button id="listCarsID" class="carFilterButton" jsf:outcome="table.jsf" >survey {{filterBean.counter}} cars</button>
 						</td>
 					</tr>
 				</table>

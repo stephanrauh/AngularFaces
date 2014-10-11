@@ -32,6 +32,7 @@ import javax.faces.component.EditableValueHolder;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.StateHelper;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlBody;
 import javax.faces.context.FacesContext;
@@ -85,7 +86,7 @@ public class PuiModelSync extends HtmlBody {
 	}
 
 	/** Builds basically a JSON structure from the JSF model. */
-	public void addJSFAttrbituteToAngularModel(Map<String, Object> model, String key, Object value) {
+	public static void addJSFAttrbituteToAngularModel(Map<String, Object> model, String key, Object value) {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		// if (sessionMap.containsKey(JSF_ATTRIBUTES_SESSION_CACHE + key)) {
 		// Object previousValue = sessionMap.get(JSF_ATTRIBUTES_SESSION_CACHE + key);
@@ -115,10 +116,11 @@ public class PuiModelSync extends HtmlBody {
 		// sessionMap.put(JSF_ATTRIBUTES_SESSION_CACHE + key, value);
 	}
 
-	public List<String> getFacesModel() {
+	public static List<String> getFacesModel() {
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		Map<String, String> jsfAttributes = (Map<String, String>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
+		UIViewRoot root = FacesContext.getCurrentInstance().getViewRoot();
 		// sessionMap.remove(JSF_ATTRIBUTES_SESSION_PARAMETER);
 		for (Entry<String, String> entry : jsfAttributes.entrySet()) {
 			try {
@@ -130,7 +132,7 @@ public class PuiModelSync extends HtmlBody {
 				if (onlyOnce && FacesContext.getCurrentInstance().isPostback())
 					continue;
 
-				UIComponent comp = findComponent(id);
+				UIComponent comp = root.findComponent(id);
 				if (null != comp && comp instanceof EditableValueHolder) {
 					Object value = ELTools.evalAsObject("#{" + attribute + "}");
 					Object valueToRender = getValueToRender(FacesContext.getCurrentInstance(), comp);
@@ -175,7 +177,7 @@ public class PuiModelSync extends HtmlBody {
 		return beans;
 	}
 
-	private Object convertToDatatype(String valueToRender, Class targetClass) {
+	private static Object convertToDatatype(String valueToRender, Class targetClass) {
 		if ("".equals(valueToRender))
 			return null;
 		if (null == valueToRender)

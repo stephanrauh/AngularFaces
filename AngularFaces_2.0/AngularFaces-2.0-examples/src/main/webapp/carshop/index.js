@@ -4,13 +4,21 @@ var app = angular.module('CarShop', [ "angularfaces" ]).controller(
 			// bean attributes
 			initJSFScope($scope);
 			
+			$scope.activateAJAXButton = function() {
+				if ($scope.settingsBean.immediateUpdate)
+					return false;
+				else
+					return true;
+			};
+			
 			$scope.sendFilterToServer = function(newValue, oldValue) {
-				if (newValue != oldValue) {
-					try {
-						var ngsync = document.getElementsByClassName('filterSyncClass')[0];
-						$scope.afSendNGSyncToServer(ngsync.id);
-					} catch (e) {
-						console.log("Ein Fehler ist aufgetreten: " + e);
+				if ($scope.settingsBean.immediateUpdate) {
+					if (newValue != oldValue) {
+						try {
+							$scope.afSendNGSyncToServer();
+						} catch (e) {
+							console.log("Ein Fehler ist aufgetreten: " + e);
+						}
 					}
 				}
 			};
