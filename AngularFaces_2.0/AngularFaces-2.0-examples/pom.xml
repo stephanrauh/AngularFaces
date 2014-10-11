@@ -37,7 +37,7 @@
 	<repositories>
 		<repository>
 			<id>lib</id>
-			<url>file://lib</url>
+			<url>file://${basedir}/../../dist</url>
 		</repository>
 	</repositories>
 	<dependencies>
