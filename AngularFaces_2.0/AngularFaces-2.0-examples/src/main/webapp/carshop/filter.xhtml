@@ -11,13 +11,25 @@
 		<br />
 	
 		<ngsync value="{{dynamicOptionBean.brands}}" direction="serverToClient" />
-		<ngsync value="{{staticOptionBean.colors}}" direction="serverToClient" />
+		<ngsync value="{{staticOptionBean.colors}}" direction="serverToClient" once="true" />
 		<ngsync value="{{dynamicOptionBean.types}}" direction="serverToClient" />
-		<ngsync value="{{staticOptionBean.prices}}" direction="serverToClient" />
-		<ngsync value="{{staticOptionBean.mileages}}" direction="serverToClient" />
-		<ngsync value="{{staticOptionBean.fuels}}" direction="serverToClient" />
-		<ngsync value="{{staticOptionBean.years}}" direction="serverToClient" />
+		<ngsync value="{{staticOptionBean.prices}}" direction="serverToClient" once="true" />
+		<ngsync value="{{staticOptionBean.mileages}}" direction="serverToClient" once="true" />
+		<ngsync value="{{staticOptionBean.fuels}}" direction="serverToClient" once="true" />
+		<ngsync value="{{staticOptionBean.years}}" direction="serverToClient" once="true" />
+		
+		<!-- ngsync doesn't transport the entire bean recursively, so we have to list each attributes we want to send -->
+		<!-- will be fixed in a future AngularFaces version -->
+		<ngsync value="{{filterBean.type}}" direction="serverToClient" />
+		<ngsync value="{{filterBean.brand}}" direction="serverToClient" />
 		<ngsync value="{{filterBean.counter}}" direction="serverToClient" />
+		<ngsync value="{{filterBean.price}}" direction="serverToClient" />
+		<ngsync value="{{filterBean.mileage}}" direction="serverToClient" />
+		<ngsync value="{{filterBean.fuel}}" direction="serverToClient" />
+		<ngsync value="{{filterBean.color}}" direction="serverToClient" />
+		<ngsync value="{{filterBean.yearText}}" direction="serverToClient" />
+		<!-- end of ngsync workaround -->
+		
 		<ngsync value="{{filterBean}}" direction="clientToServer" id="filterSyncID" styleClass="filterSyncClass"/>
 		
 		<div class="carFilterBox"> 
@@ -36,19 +48,16 @@
                                     ng-change="filterBean.type=''">
      								<option value="">-- choose brand --</option>
 							</select>
-						    <input class="filterHelper hidden" jsf:value="{{filterBean.brand}}" addLabel="false" addMessage="false" />
 						</td>
 						<td>
 						    <select ng-model="filterBean.type" ng-options="type for type in dynamicOptionBean.types track by type">
      								<option value="">-- choose type --</option>
 							</select>
-						    <input class="filterHelper hidden" jsf:value="{{filterBean.type}}" addLabel="false" addMessage="false" />
 						</td>
 						<td>
 						    <select ng-model="filterBean.price" ng-options="price for price in staticOptionBean.prices track by price">
      								<option value="">-- choose price --</option>
 							</select>
-						    <input class="filterHelper hidden" jsf:value="{{filterBean.price}}" addLabel="false" addMessage="false" />
 						</td>
 					</tr>
 					<tr>
@@ -61,19 +70,16 @@
 						    <select ng-model="filterBean.mileage" ng-options="mileage for mileage in staticOptionBean.mileages track by mileage">
      								<option value="">-- choose mileage --</option>
 							</select>
-						    <input class="filterHelper hidden" jsf:value="{{filterBean.mileage}}" addLabel="false" addMessage="false" />
 						</td>
 						<td>
 						    <select ng-model="filterBean.fuel" ng-options="fuel for fuel in staticOptionBean.fuels track by fuel">
      								<option value="">-- choose fuel --</option>
 							</select>
-						    <input class="filterHelper hidden" jsf:value="{{filterBean.fuel}}" addLabel="false" addMessage="false" />
 						</td>
 						<td>   
 							<select ng-model="filterBean.color" ng-options="color for color in staticOptionBean.colors track by color">
      								<option value="">-- choose color --</option>
    							</select>
-						    <input class="filterHelper hidden" jsf:value="{{filterBean.color}}" addLabel="false" addMessage="false" />
    						</td>
 					</tr>
 					<tr>
@@ -84,7 +90,6 @@
 							<select ng-model="filterBean.yearText" ng-options="year for year in staticOptionBean.years track by year">
      								<option value="">-- choose color --</option>
    							</select>
-						    <input type="text" class="filterHelper hidden" jsf:value="{{filterBean.yearText}}" addLabel="false" addMessage="false" />
 						</td>
 						<td colspan="2" >
 							<button id="listCarsID" class="carFilterButton" jsf:outcome="table.jsf" >show me the {{filterBean.counter}} cars!</button>

@@ -23,6 +23,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
+import javax.faces.context.FacesContext;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
@@ -42,12 +43,17 @@ public class ProcessAngularExpressionsCallback implements VisitCallback {
 			String html = component.toString();
 			addAngularExpressionToJSFAttributeList(html, false);
 		} else {
-			String cacheable = AttributeUtilities.getAttributeAsString(component, "cacheable");
-			boolean isCacheable= ("true".equalsIgnoreCase(cacheable));
-			for (String key : JSFAttributes.jsfAttributes) {
-				extractAttribute(component, key, isCacheable);
+			boolean onlyOnce=false;
+			String once = AttributeUtilities.getAttributeAsString(component, "once");
+			if (null != once && "true".equalsIgnoreCase(once)) {
+				onlyOnce = true;
 			}
-		}
+				String cacheable = AttributeUtilities.getAttributeAsString(component, "cacheable");
+				boolean isCacheable= ("true".equalsIgnoreCase(cacheable));
+				for (String key : JSFAttributes.jsfAttributes) {
+					extractAttribute(component, key, isCacheable);
+				}
+			}
 
 		return VisitResult.ACCEPT;
 	}
@@ -66,7 +72,7 @@ public class ProcessAngularExpressionsCallback implements VisitCallback {
 		Matcher matcher = angularExpression.matcher(html);
 		while (matcher.find()) {
 			String exp = matcher.group();
-			PuiModelSync.addJSFAttrbitute(exp.substring(2, exp.length() - 2), null, cacheable);
+			PuiModelSync.addJSFAttrbitute(exp.substring(2, exp.length() - 2), null, cacheable, false);
 		}
 		
 		matcher = ngRepeat.matcher(html);
@@ -77,7 +83,7 @@ public class ProcessAngularExpressionsCallback implements VisitCallback {
 			{
 				String var = exp.substring(index + 4).trim();
 				if (var.startsWith("$")) var=var.substring(1);
-				PuiModelSync.addJSFAttrbitute(var, null, cacheable);
+				PuiModelSync.addJSFAttrbitute(var, null, cacheable, false);
 			}
 		}
 	}

@@ -96,6 +96,10 @@ public class AngularTagDecorator implements TagDecorator {
 				newAttributes[newLength++] = attributes[i];
 			} else if ("styleClass".equals(attributes[i].getLocalName())) {
 				newAttributes[newLength++] = attributes[i];
+			} else if ("once".equals(attributes[i].getLocalName())) {
+				newAttributes[newLength++] = attributes[i];
+			} else if ("cache".equals(attributes[i].getLocalName())) {
+				newAttributes[newLength++] = attributes[i];
 			}
 		}
 

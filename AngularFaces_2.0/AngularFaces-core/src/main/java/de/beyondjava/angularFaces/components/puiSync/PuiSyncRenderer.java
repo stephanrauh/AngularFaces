@@ -45,7 +45,7 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 		String direction = AttributeUtilities.getAttributeAsString(component, "direction");
 		if ("serverToClient".equalsIgnoreCase(direction)) 
 			return;
-		
+
 		ResponseWriter writer = context.getResponseWriter();
 
 		String clientId = component.getClientId(context);

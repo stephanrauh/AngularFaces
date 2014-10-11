@@ -40,7 +40,7 @@ public class FilterBean implements Serializable {
 	@ManagedProperty("#{carPool}")
 	private transient CarPool carPool;
 
-	private String color;
+	private String color="red";
 
 	@ManagedProperty("#{dynamicOptionBean}")
 	private DynamicOptionBean dynamicOptions;

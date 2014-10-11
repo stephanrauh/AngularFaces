@@ -48,7 +48,7 @@ import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 public class PuiModelSync extends HtmlBody {
 
 	private static final String JSF_ATTRIBUTES_SESSION_PARAMETER = "de.beyondjava.angularFaces.jsfAttributes";
-//	private static final String JSF_ATTRIBUTES_SESSION_CACHE = "de.beyondjava.angularFaces.cache";
+	// private static final String JSF_ATTRIBUTES_SESSION_CACHE = "de.beyondjava.angularFaces.cache";
 
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
 
@@ -76,25 +76,27 @@ public class PuiModelSync extends HtmlBody {
 		}
 	}
 
-	public static void addJSFAttrbitute(String key, UIComponent component, boolean cacheable) {
+	public static void addJSFAttrbitute(String key, UIComponent component, boolean cacheable, boolean onlyOnce) {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		Map<String, String> jsfAttributes = (Map<String, String>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
-		jsfAttributes.put(key, component.getClientId());
+		String suffix = cacheable ? "1" : "0";
+		suffix += onlyOnce ? "1" : "0";
+		jsfAttributes.put(key, component.getClientId() + suffix);
 	}
 
 	/** Builds basically a JSON structure from the JSF model. */
 	public void addJSFAttrbituteToAngularModel(Map<String, Object> model, String key, Object value) {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-//		if (sessionMap.containsKey(JSF_ATTRIBUTES_SESSION_CACHE + key)) {
-//			Object previousValue = sessionMap.get(JSF_ATTRIBUTES_SESSION_CACHE + key);
-//			if (null == value && previousValue == null) {
-//				return;
-//			}
-//			if (null != value && value.equals(previousValue)) {
-//				return;
-//			}
-//			sessionMap.remove(JSF_ATTRIBUTES_SESSION_CACHE + key);
-//		}
+		// if (sessionMap.containsKey(JSF_ATTRIBUTES_SESSION_CACHE + key)) {
+		// Object previousValue = sessionMap.get(JSF_ATTRIBUTES_SESSION_CACHE + key);
+		// if (null == value && previousValue == null) {
+		// return;
+		// }
+		// if (null != value && value.equals(previousValue)) {
+		// return;
+		// }
+		// sessionMap.remove(JSF_ATTRIBUTES_SESSION_CACHE + key);
+		// }
 
 		String[] keys = key.split("\\.");
 		Map<String, Object> currentMap = model;
@@ -110,7 +112,7 @@ public class PuiModelSync extends HtmlBody {
 			currentMap = (Map<String, Object>) object;
 		}
 		currentMap.put(keys[keys.length - 1], value);
-//		sessionMap.put(JSF_ATTRIBUTES_SESSION_CACHE + key, value);
+		// sessionMap.put(JSF_ATTRIBUTES_SESSION_CACHE + key, value);
 	}
 
 	public List<String> getFacesModel() {
@@ -121,7 +123,13 @@ public class PuiModelSync extends HtmlBody {
 		for (Entry<String, String> entry : jsfAttributes.entrySet()) {
 			try {
 				String attribute = entry.getKey();
-				String id = entry.getValue();
+				final int length = entry.getValue().length();
+				String id = entry.getValue().substring(0, length - 2);
+				boolean cacheable = entry.getValue().charAt(length - 2) == '1';
+				boolean onlyOnce = entry.getValue().charAt(length - 1) == '1';
+				if (onlyOnce && FacesContext.getCurrentInstance().isPostback())
+					continue;
+
 				UIComponent comp = findComponent(id);
 				if (null != comp && comp instanceof EditableValueHolder) {
 					Object value = ELTools.evalAsObject("#{" + attribute + "}");
@@ -143,20 +151,20 @@ public class PuiModelSync extends HtmlBody {
 				// probably it's an AngularJS attribute that doesn't have a JSF counterpart, so we don't consider this an error
 			}
 		}
-		
+
 		List<String> beans = new ArrayList<String>();
-		String messages="";
+		String messages = "";
 		List<FacesMessage> messageList = FacesContext.getCurrentInstance().getMessageList();
-		for (FacesMessage message:messageList) {
+		for (FacesMessage message : messageList) {
 			if (!message.isRendered()) {
-				String severity= message.getSeverity().toString();
-				String summary=message.getSummary();
-				String detail=message.getDetail();
-				messages += ",{\"severity\":\"" + severity + "\", \"summary\":\"" + summary + "\", \"detail\":\"" + detail + "\"}"; 
+				String severity = message.getSeverity().toString();
+				String summary = message.getSummary();
+				String detail = message.getDetail();
+				messages += ",{\"severity\":\"" + severity + "\", \"summary\":\"" + summary + "\", \"detail\":\"" + detail + "\"}";
 			}
 		}
-		if (messages.length()>0) {
-			String assignment = "\"" + "facesmessages \", '["+messages.substring(1) + "]'";
+		if (messages.length() > 0) {
+			String assignment = "\"" + "facesmessages \", '[" + messages.substring(1) + "]'";
 			beans.add(assignment);
 		}
 
