@@ -28,8 +28,8 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 
 /** Translates a text to the user's preferred language. */
 @ManagedBean
@@ -136,7 +136,13 @@ public class I18n implements Serializable {
 		return json;
 	}
 
-	/** copied from http://stackoverflow.com/questions/309424/read-convert-an-inputstream-to-a-string */
+	/** copied from http://stackoverflow.com/questions/309424/read-convert-an-inputstream-to-a-string
+	 * 
+	 * @param is file to be read
+	 * @param bufferSize size of the buffer used to read the file
+	 * @return file content as String
+	 */
+	 
 	public static String slurp(final InputStream is, final int bufferSize) {
 		final char[] buffer = new char[bufferSize];
 		final StringBuilder out = new StringBuilder();

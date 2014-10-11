@@ -85,7 +85,12 @@ public class PuiModelSync extends HtmlBody {
 		jsfAttributes.put(key, component.getClientId() + suffix);
 	}
 
-	/** Builds basically a JSON structure from the JSF model. */
+	/** Builds basically a JSON structure from the JSF model.
+	 * 
+	 * @param model the model to be built
+	 * @param key variable name
+	 * @param value variable value
+	 */
 	public static void addJSFAttrbituteToAngularModel(Map<String, Object> model, String key, Object value) {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		// if (sessionMap.containsKey(JSF_ATTRIBUTES_SESSION_CACHE + key)) {

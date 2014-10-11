@@ -25,8 +25,8 @@ public class NGWordUtiltites {
 	/**
 	 * Converts a camelcase variable name to a human readable text.
 	 * 
-	 * @param camel
-	 * @return
+	 * @param camel the String to be converted 
+	 * @return the hopefully human readable version
 	 */
 
 	public static String labelFromCamelCase(String camel) {

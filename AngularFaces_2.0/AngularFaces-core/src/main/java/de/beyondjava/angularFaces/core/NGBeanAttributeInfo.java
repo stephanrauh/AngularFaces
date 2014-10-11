@@ -58,6 +58,7 @@ public class NGBeanAttributeInfo {
 
 	/**
 	 * Extract the server side validation and layout informations.
+	 * @param component the component
 	 */
 	public NGBeanAttributeInfo(UIComponent component) {
 		readJSR303Annotations(component);
@@ -90,18 +91,23 @@ public class NGBeanAttributeInfo {
 		return minSize;
 	}
 	
-	/** Is the attribute a boolean? */
+	/** Is the attribute a boolean? 
+	 * @return true if it's a boolean
+	 * */
 	public boolean isBoolean() {
 		return isBoolean;
 	}
 
-	/** Is the attribute a date? */
+	/** Is the attribute a date? 
+	 * @return true if its a java.util.Date 
+	*/
 	public boolean isDate() {
 		return isDate;
 	}
 
 	/**
 	 * Is the attribute a float or a double?
+	 * @return true if it's a float of a double
 	 */
 	public boolean isFloat() {
 		return this.isFloat;
@@ -125,6 +131,7 @@ public class NGBeanAttributeInfo {
 
 	/**
 	 * Is the attribute one of the integer types (int, long, short, byte)?
+	 * @return true if it is
 	 */
 	public boolean isInteger() {
 		return isInteger;

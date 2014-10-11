@@ -46,6 +46,7 @@ public class SessionUtils {
 
 	/**
 	 * @return Yields the name of the Dart controller name as defined in the dart file (@NGController's publishAs attribute).
+	 * 
 	 */
 	public static String getControllerName() {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
@@ -57,6 +58,7 @@ public class SessionUtils {
 
 	/**
 	 * Are we to support AngularDart instead of AngularJS?
+	 * @return true if AngularDart is used
 	 */
 	public static boolean isDartControllerActive() {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
@@ -68,6 +70,7 @@ public class SessionUtils {
 
 	/**
 	 * Sets the name of the Dart controller name as defined in the dart file (@NGController's publishAs attribute).
+	 * @param name the name of the Dart controller
 	 */
 	public static void setControllerName(String name) {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();

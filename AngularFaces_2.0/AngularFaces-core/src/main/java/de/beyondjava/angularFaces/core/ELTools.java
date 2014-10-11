@@ -73,10 +73,10 @@ public class ELTools {
 	/**
 	 * Evaluates an EL expression into an object.
 	 *
-	 * @param p_expression
+	 * @param p_expression the expression
 	 * @throws PropertyNotFoundException
 	 *             if the attribute doesn't exist at all (as opposed to being null)
-	 * @return
+	 * @return the object
 	 */
 	public static Object evalAsObject(String p_expression) throws PropertyNotFoundException {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -94,8 +94,8 @@ public class ELTools {
 	/**
 	 * Evaluates an EL expression into a string.
 	 *
-	 * @param p_expression
-	 * @return
+	 * @param p_expression the el expression
+	 * @return the value
 	 */
 	public static String evalAsString(String p_expression) {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -349,8 +349,8 @@ public class ELTools {
 	/**
 	 * Yields the type of the variable given by an expression.
 	 *
-	 * @param p_expression
-	 * @return
+	 * @param p_expression the expression
+	 * @return the type (as class)
 	 */
 	public static Class<?> getType(String p_expression) {
 		Method declaredField = getGetter(p_expression);
@@ -365,7 +365,7 @@ public class ELTools {
 	 *
 	 * @param p_component
 	 *            the UIComponent
-	 * @return
+	 * @return the type (as class)
 	 */
 	public static Class<?> getType(UIComponent p_component) {
 		ValueExpression valueExpression = p_component.getValueExpression("value");
@@ -384,7 +384,7 @@ public class ELTools {
 	 * Is the parameter passed a primitive type (such as int, long, etc) or a type considered primitive by most programmers (such as
 	 * String)?
 	 *
-	 * @param c
+	 * @param c the object
 	 * @return true if c is a de-facto-primitive
 	 */
 	private static boolean isPrimitive(Class<? extends Object> c) {
@@ -416,7 +416,7 @@ public class ELTools {
 	/**
 	 * Which annotations are given to an object displayed by a JSF component?
 	 *
-	 * @param p_component
+	 * @param p_component the component
 	 * @return null if there are no annotations, or if they cannot be accessed
 	 */
 	public static Annotation[] readAnnotations(UIComponent p_component) {
