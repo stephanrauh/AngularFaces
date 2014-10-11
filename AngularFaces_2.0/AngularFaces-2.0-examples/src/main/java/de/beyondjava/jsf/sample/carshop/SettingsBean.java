@@ -11,7 +11,7 @@ public class SettingsBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private boolean immediateUpdate  = true;
+	private boolean updateImmediately  = true;
 	
 	private boolean useAngularFacesAJAX = true;
 	
@@ -19,8 +19,8 @@ public class SettingsBean implements Serializable {
 	
 	private boolean usePrimeFaces = true;
 
-	public boolean isImmediateUpdate() {
-		return immediateUpdate;
+	public boolean isUpdateImmediately() {
+		return updateImmediately;
 	}
 
 	public boolean isUseAngularFacesAJAX() {
@@ -35,8 +35,8 @@ public class SettingsBean implements Serializable {
 		return usePrimeFaces;
 	}
 
-	public void setImmediateUpdate(boolean immediateUpdate) {
-		this.immediateUpdate = immediateUpdate;
+	public void setUpdateImmediately(boolean immediateUpdate) {
+		this.updateImmediately = immediateUpdate;
 	}
 
 	public void setUseAngularFacesAJAX(boolean useAngularFacesAJAX) {

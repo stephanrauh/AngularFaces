@@ -5,14 +5,14 @@ var app = angular.module('CarShop', [ "angularfaces" ]).controller(
 			initJSFScope($scope);
 			
 			$scope.activateAJAXButton = function() {
-				if ($scope.settingsBean.immediateUpdate)
+				if ($scope.settingsBean.updateImmediately)
 					return false;
 				else
 					return true;
 			};
 			
 			$scope.sendFilterToServer = function(newValue, oldValue) {
-				if ($scope.settingsBean.immediateUpdate) {
+				if ($scope.settingsBean.updateImmediately) {
 					if (newValue != oldValue) {
 						try {
 							$scope.afSendNGSyncToServer();

@@ -76,7 +76,7 @@ public class DynamicOptionBean implements Serializable {
 	}
 
 	public List<String> getTypes() {
-		return types;
+		return getTypesToBrand(brand);
 	}
 
 	public List<String> getTypesToBrand(String brand) {
@@ -119,5 +119,13 @@ public class DynamicOptionBean implements Serializable {
 		brand2Type.put("500", "Fiat");
 		brand2Type.put("Panda", "Fiat");
 		brand2Type.put("Megane", "Renault");
+	}
+
+	private String brand=null;
+	private String type=null;
+	public void setBrandAndType(String brand, String type) {
+		this.brand=brand;
+		this.type=type;
+		
 	}
 }

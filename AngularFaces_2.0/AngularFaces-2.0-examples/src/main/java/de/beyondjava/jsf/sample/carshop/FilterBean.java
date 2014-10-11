@@ -142,6 +142,7 @@ public class FilterBean implements Serializable {
 			if (!brand.equals(dynamicOptions.getBrandToType(type)))
 				type=null;
 		}
+		dynamicOptions.setBrandAndType(brand, type);
 	}
 
 	public void setCarPool(CarPool carPool) {
@@ -178,6 +179,7 @@ public class FilterBean implements Serializable {
 		if (null != b && b.length()>0) {
 			brand=b;
 		}
+		dynamicOptions.setBrandAndType(brand, type);
 	}
 	
 	public void setYearText(String year) {
