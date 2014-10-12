@@ -10,24 +10,24 @@
 		<br />
 		<br />
 	
-		<ngsync value="{{staticOptionBean.brands}}" direction="serverToClient" once="true" />
-		<ngsync value="{{staticOptionBean.colors}}" direction="serverToClient" once="true" />
-		<ngsync value="{{dynamicOptionBean.types}}" direction="serverToClient" />
-		<ngsync value="{{staticOptionBean.prices}}" direction="serverToClient" once="true" />
+		<ngsync value="{{staticOptionBean.brands}}"   direction="serverToClient" once="true" />
+		<ngsync value="{{staticOptionBean.colors}}"   direction="serverToClient" once="true" />
+		<ngsync value="{{dynamicOptionBean.types}}"   direction="serverToClient" cacheable="true" />
+		<ngsync value="{{staticOptionBean.prices}}"   direction="serverToClient" once="true" />
 		<ngsync value="{{staticOptionBean.mileages}}" direction="serverToClient" once="true" />
-		<ngsync value="{{staticOptionBean.fuels}}" direction="serverToClient" once="true" />
-		<ngsync value="{{staticOptionBean.years}}" direction="serverToClient" once="true" />
+		<ngsync value="{{staticOptionBean.fuels}}"    direction="serverToClient" once="true" />
+		<ngsync value="{{staticOptionBean.years}}"    direction="serverToClient" once="true" />
 		
 		<!-- ngsync doesn't transport the entire bean recursively, so we have to list each attributes we want to send -->
 		<!-- will be fixed in a future AngularFaces version -->
-		<ngsync value="{{filterBean.type}}" direction="serverToClient" />
-		<ngsync value="{{filterBean.brand}}" direction="serverToClient" />
-		<ngsync value="{{filterBean.counter}}" direction="serverToClient" />
-		<ngsync value="{{filterBean.price}}" direction="serverToClient" />
-		<ngsync value="{{filterBean.mileage}}" direction="serverToClient" />
-		<ngsync value="{{filterBean.fuel}}" direction="serverToClient" />
-		<ngsync value="{{filterBean.color}}" direction="serverToClient" />
-		<ngsync value="{{filterBean.yearText}}" direction="serverToClient" />
+		<ngsync value="{{filterBean.type}}"     direction="serverToClient" cacheable="true" />
+		<ngsync value="{{filterBean.brand}}"    direction="serverToClient" cacheable="true"/>
+		<ngsync value="{{filterBean.counter}}"  direction="serverToClient" cacheable="true" />
+		<ngsync value="{{filterBean.price}}"    direction="serverToClient" cacheable="true"/>
+		<ngsync value="{{filterBean.mileage}}"  direction="serverToClient" cacheable="true"/>
+		<ngsync value="{{filterBean.fuel}}"     direction="serverToClient" cacheable="true"/>
+		<ngsync value="{{filterBean.color}}"    direction="serverToClient" cacheable="true"/>
+		<ngsync value="{{filterBean.yearText}}" direction="serverToClient" cacheable="true"/>
 		<!-- end of ngsync workaround -->
 		
 		<ngsync value="{{filterBean}}" direction="clientToServer" id="filterSyncID" />

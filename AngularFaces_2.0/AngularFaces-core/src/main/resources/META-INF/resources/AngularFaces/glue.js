@@ -26,22 +26,29 @@ function puiUpdateModel(bean, json) {
 function injectJSonIntoScope(bean, json, $scope) {
 	try {
 		if ($scope.$$phase) {
-			// console.log("immediate injectIntoJson call #" + counter);
-			// console.log(json);
-			// eval("$scope." + bean + "=null;");
-			eval("$scope." + bean + "=" + json + ";");
+			createOrUpdateModelVariableWithJSON($scope, bean, JSON.parse(json));
 		} else {
 			$scope.$apply(function() {
-				// console.log("delayed injectIntoJson call #" + counter);
-				// console.log(json);
-				// eval("$scope." + bean + "=null;");
-				eval("$scope." + bean + "=" + json + ";");
+				createOrUpdateModelVariableWithJSON($scope, bean, JSON.parse(json));
 			});
 		}
 	} catch (e) {
 		console.log(e);
 		alert("injectJSonIntoScope(bean, json, $scope): Couldn't inject variable angularFaces into scope.\n" + "value ="
 				+ json + "\n" + e);
+	}
+}
+
+function createOrUpdateModelVariableWithJSON(scope, bean, json) {
+//	eval("$scope." + bean + "=" + json + ";");
+	if (typeof(scope[bean])=="undefined") {
+		scope[bean]=json;
+	} else {
+		var keys = Object.keys(json);
+		var theBean=scope[bean];
+		for (var key in keys) {
+			theBean[keys[key]] = json[keys[key]];
+		}
 	}
 }
 
