@@ -35,23 +35,11 @@ public class DynamicOptionBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Map<String, String> brand2Type = new HashMap<String, String>();
-	private List<String> brands = new ArrayList<String>();
 
 	private List<String> types = new ArrayList<String>();
 
 	public DynamicOptionBean() {
 		initBrandsAndTypes();
-
-		brands.add("");
-		brands.add("Honda");
-		brands.add("VW");
-		brands.add("BMW");
-		brands.add("Volvo");
-		brands.add("Opel");
-		brands.add("Renault");
-		brands.add("Citroen");
-		brands.add("Seat");
-		brands.add("Fiat");
 
 		types.add("");
 		types.add("Civic");
@@ -65,9 +53,6 @@ public class DynamicOptionBean implements Serializable {
 		types.add("Punto");
 	}
 
-	public List<String> getBrands() {
-		return brands;
-	}
 
 	public String getBrandToType(String type) {
 		if (type == null)

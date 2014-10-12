@@ -37,13 +37,13 @@
 				<prime:panelGrid columns="2" layout="grid">
 					<prime:inputSwitch offLabel="JSF" onLabel="AF"
 						value="{settingsBean.useAngularFacesAJAX" label="AJAX engine"
-						addMessage="false" />
+						addMessage="false" cacheable="true" />
 					<prime:inputSwitch value="#{settingsBean.useHTML5Style}"
-						label="Use HTML5-friendly markup" addMessage="false" />
+						label="Use HTML5-friendly markup" addMessage="false" cacheable="true"  />
 					<prime:inputSwitch value="#{settingsBean.usePrimeFaces}"
-						label="Use PrimeFaces" addMessage="false" />
+						label="Use PrimeFaces" addMessage="false" cacheable="true"  />
 					<input type="checkbox"
-						jsf:value="{{settingsBean.updateImmediately}}" addMessage="false" />
+						jsf:value="{{settingsBean.updateImmediately}}" addMessage="false" cacheable="true"  />
 				</prime:panelGrid>
 			</h:form>
 

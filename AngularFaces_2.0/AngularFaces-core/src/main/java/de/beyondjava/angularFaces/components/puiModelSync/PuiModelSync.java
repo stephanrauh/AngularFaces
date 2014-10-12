@@ -49,7 +49,7 @@ import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 public class PuiModelSync extends HtmlBody {
 
 	private static final String JSF_ATTRIBUTES_SESSION_PARAMETER = "de.beyondjava.angularFaces.jsfAttributes";
-	// private static final String JSF_ATTRIBUTES_SESSION_CACHE = "de.beyondjava.angularFaces.cache";
+	private static final String JSF_ATTRIBUTES_SESSION_CACHE = "de.beyondjava.angularFaces.cache";
 
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
 
@@ -71,6 +71,7 @@ public class PuiModelSync extends HtmlBody {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		if (!sessionMap.containsKey(JSF_ATTRIBUTES_SESSION_PARAMETER)) {
 			sessionMap.put(JSF_ATTRIBUTES_SESSION_PARAMETER, new HashMap<String, String>());
+			sessionMap.put(JSF_ATTRIBUTES_SESSION_CACHE, new HashMap<String, Object>());
 		} else {
 			Map<String, String> jsfAttributes = (Map<String, String>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
 			jsfAttributes.clear();
@@ -85,24 +86,35 @@ public class PuiModelSync extends HtmlBody {
 		jsfAttributes.put(key, component.getClientId() + suffix);
 	}
 
-	/** Builds basically a JSON structure from the JSF model.
+	/**
+	 * Builds basically a JSON structure from the JSF model.
 	 * 
-	 * @param model the model to be built
-	 * @param key variable name
-	 * @param value variable value
+	 * @param model
+	 *            the model to be built
+	 * @param key
+	 *            variable name
+	 * @param value
+	 *            variable value
+	 * @param cacheable
+	 *            if true, the value is only sent if it's different from the value of the same attribute in the previous response
 	 */
-	public static void addJSFAttrbituteToAngularModel(Map<String, Object> model, String key, Object value) {
+	public static void addJSFAttrbituteToAngularModel(Map<String, Object> model, String key, Object value, boolean cacheable) {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		// if (sessionMap.containsKey(JSF_ATTRIBUTES_SESSION_CACHE + key)) {
-		// Object previousValue = sessionMap.get(JSF_ATTRIBUTES_SESSION_CACHE + key);
-		// if (null == value && previousValue == null) {
-		// return;
-		// }
-		// if (null != value && value.equals(previousValue)) {
-		// return;
-		// }
-		// sessionMap.remove(JSF_ATTRIBUTES_SESSION_CACHE + key);
-		// }
+		Map<String, Object> cache = (Map<String, Object>) sessionMap.get(JSF_ATTRIBUTES_SESSION_CACHE);
+		if (cache.containsKey(key)) {
+			if (cacheable)
+				if (FacesContext.getCurrentInstance().isPostback()) {
+					Object previousValue = cache.get(key);
+					if (null == value && previousValue == null) {
+						return;
+					}
+					if (null != value && value.equals(previousValue)) {
+						return;
+					}
+				}
+			cache.remove(key);
+		}
+		cache.put(key, value);
 
 		String[] keys = key.split("\\.");
 		Map<String, Object> currentMap = model;
@@ -118,7 +130,6 @@ public class PuiModelSync extends HtmlBody {
 			currentMap = (Map<String, Object>) object;
 		}
 		currentMap.put(keys[keys.length - 1], value);
-		// sessionMap.put(JSF_ATTRIBUTES_SESSION_CACHE + key, value);
 	}
 
 	public static List<String> getFacesModel() {
@@ -145,14 +156,14 @@ public class PuiModelSync extends HtmlBody {
 						valueToRender = convertToDatatype((String) valueToRender, value.getClass());
 					}
 					if (null != valueToRender) {
-						addJSFAttrbituteToAngularModel(model, attribute, valueToRender);
+						addJSFAttrbituteToAngularModel(model, attribute, valueToRender, cacheable);
 					} else {
-						addJSFAttrbituteToAngularModel(model, attribute, value);
+						addJSFAttrbituteToAngularModel(model, attribute, value, cacheable);
 					}
 				} else {
 					Object value = ELTools.evalAsObject("#{" + attribute + "}");
 					// vex.getValue(FacesContext.getCurrentInstance().getELContext())
-					addJSFAttrbituteToAngularModel(model, attribute, value);
+					addJSFAttrbituteToAngularModel(model, attribute, value, cacheable);
 				}
 			} catch (PropertyNotFoundException pureAngularAttribute) {
 				// probably it's an AngularJS attribute that doesn't have a JSF counterpart, so we don't consider this an error
@@ -286,7 +297,7 @@ public class PuiModelSync extends HtmlBody {
 		}
 		List<String> beansAsJSon = getFacesModel();
 		for (String bean : beansAsJSon) {
-			writer.writeText("injectJSonIntoScope(" + bean + ",$scope);", null);
+			writer.writeText("puiUpdateModel(" + bean + ");", null);
 		}
 		if (debugMode) {
 			writer.append("\r\n");

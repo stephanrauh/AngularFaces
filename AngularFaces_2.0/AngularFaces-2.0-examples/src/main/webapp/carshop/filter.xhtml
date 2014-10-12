@@ -10,7 +10,7 @@
 		<br />
 		<br />
 	
-		<ngsync value="{{dynamicOptionBean.brands}}" direction="serverToClient" />
+		<ngsync value="{{staticOptionBean.brands}}" direction="serverToClient" once="true" />
 		<ngsync value="{{staticOptionBean.colors}}" direction="serverToClient" once="true" />
 		<ngsync value="{{dynamicOptionBean.types}}" direction="serverToClient" />
 		<ngsync value="{{staticOptionBean.prices}}" direction="serverToClient" once="true" />
@@ -45,7 +45,7 @@
 					</tr>
 					<tr>
 						<td>
-							<select id="filterbrand" ng-model="filterBean.brand" ng-options="brand for brand in dynamicOptionBean.brands track by brand"
+							<select id="filterbrand" ng-model="filterBean.brand" ng-options="brand for brand in staticOptionBean.brands track by brand"
                                     ng-change="filterBean.type=''">
      								<option value="">-- choose brand --</option>
 							</select>

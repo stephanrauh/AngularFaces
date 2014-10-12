@@ -34,6 +34,9 @@ import javax.faces.bean.SessionScoped;
 public class StaticOptionBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	private List<String> brands = new ArrayList<String>();
+
 	private List<String> colors = new ArrayList<String>();
 
 	private List<String> fuels = new ArrayList<String>();
@@ -43,6 +46,17 @@ public class StaticOptionBean implements Serializable {
 	private List<String> years = new ArrayList<String>();
 
 	public StaticOptionBean() {
+		brands.add("");
+		brands.add("Honda");
+		brands.add("VW");
+		brands.add("BMW");
+		brands.add("Volvo");
+		brands.add("Opel");
+		brands.add("Renault");
+		brands.add("Citroen");
+		brands.add("Seat");
+		brands.add("Fiat");
+
 		colors.add("");
 		colors.add("red");
 		colors.add("white");
@@ -95,6 +109,10 @@ public class StaticOptionBean implements Serializable {
 		for (int i = 20; i < 50; i += 5) {
 			years.add(new Integer(year - i).toString() + " or younger");
 		}
+	}
+	
+	public List<String> getBrands() {
+		return brands;
 	}
 
 	public List<String> getColors() {

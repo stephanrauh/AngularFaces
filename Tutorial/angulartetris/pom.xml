@@ -34,17 +34,24 @@
     <maven.compiler.source>1.6</maven.compiler.source>
     <maven.compiler.target>1.6</maven.compiler.target>
   </properties>
+  <repositories>
+    <repository>
+      <id>lib</id>
+      <url>file://${basedir}/../../dist</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>de.beyondjava</groupId>
       <artifactId>angularFaces-core</artifactId>
       <version>2.1.0-RC1</version>
     </dependency>
-    	<dependency>
-	    <groupId>com.fasterxml.jackson.jaxrs</groupId>
-	    <artifactId>jackson-jaxrs-json-provider</artifactId>
-	    <version>2.4.2</version>
-	</dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>2.4.2</version>
+    </dependency>
   </dependencies>
   <profiles>
     <profile>

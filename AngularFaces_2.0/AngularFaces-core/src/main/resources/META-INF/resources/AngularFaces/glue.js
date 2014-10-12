@@ -18,6 +18,11 @@ function addSyncPushFunction(f) {
 	syncPushFunctions[len] = f;
 }
 
+function puiUpdateModel(bean, json) {
+	injectJSonIntoScope(bean, json, window.jsfScope);
+}
+
+
 function injectJSonIntoScope(bean, json, $scope) {
 	try {
 		if ($scope.$$phase) {
