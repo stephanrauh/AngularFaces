@@ -163,7 +163,9 @@ public class ELTools {
 			}
 		}
 		NGBeanAttributeInfo info = new NGBeanAttributeInfo(c);
-		beanAttributeInfos.put(core, info);
+		synchronized (beanAttributeInfos) {
+			beanAttributeInfos.put(core, info);
+		}
 		return info;
 	}
 
