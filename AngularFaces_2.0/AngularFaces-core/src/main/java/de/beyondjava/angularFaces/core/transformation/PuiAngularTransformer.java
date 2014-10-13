@@ -17,6 +17,7 @@
 package de.beyondjava.angularFaces.core.transformation;
 
 import java.util.Collection;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
@@ -31,13 +32,13 @@ import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
+import de.beyondjava.angularFaces.components.puiModelSync.PuiScriptRenderer;
 import de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator;
 
 /**
  * Converts EL expressions to Angular expressions
  */
 public class PuiAngularTransformer implements SystemEventListener {
-	
 
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.transformation.PuiAngularTransformer");
 
@@ -119,6 +120,23 @@ public class PuiAngularTransformer implements SystemEventListener {
 			output.getAttributes().put("name", "angular-1.2.22.js");
 		output.getAttributes().put("library", "AngularJS");
 		root.addComponentResource(context, output, "head");
+
+		output = new UIOutput();
+		output.setRendererType("javax.faces.resource.Script");
+		if (isProduction) {
+			output.getAttributes().put("name", "angularfaces.min.js");
+		} else {
+			output.getAttributes().put("name", "angularfaces.js");
+		}
+		output.getAttributes().put("library", "AngularFaces");
+		root.addComponentResource(context, output, "head");
+		Locale locale = context.getExternalContext().getRequestLocale();
+		String language = locale.getLanguage();
+		output = new UIOutput();
+		output.setRendererType("javax.faces.resource.Script");
+		output.getAttributes().put("name", "messages_" + language + ".js");
+		output.getAttributes().put("library", "AngularFaces");
+		root.addComponentResource(context, output, "head");
 	}
 
 	@Override
@@ -140,21 +158,20 @@ public class PuiAngularTransformer implements SystemEventListener {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		PartialViewContext pvc = ctx.getPartialViewContext();
 		Collection<String> myRenderIds = pvc.getRenderIds();
-		boolean isAngularFacesRequest=false;
-		if (null != myRenderIds)  {
-		if (myRenderIds.contains("angular")) {
-			isAngularFacesRequest=true;
-		}
-		else {
-			for (Object id:myRenderIds) {
-				if (id instanceof String) {
-					if (((String)id).endsWith(":angular")) {
-						isAngularFacesRequest=true;
-						break;
+		boolean isAngularFacesRequest = false;
+		if (null != myRenderIds) {
+			if (myRenderIds.contains("angular")) {
+				isAngularFacesRequest = true;
+			} else {
+				for (Object id : myRenderIds) {
+					if (id instanceof String) {
+						if (((String) id).endsWith(":angular")) {
+							isAngularFacesRequest = true;
+							break;
+						}
 					}
 				}
 			}
-		}
 		}
 		return isAngularFacesRequest;
 	}
