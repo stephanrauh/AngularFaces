@@ -94,11 +94,4 @@ public class PuiScriptRenderer {
         writer.writeURIAttribute("src", resourceSrc, "src");
         writer.endElement("script");
     }
-
-	public void encodeMessageBundle(FacesContext context) {
-        ResponseWriter writer = context.getResponseWriter();
-        I18n i18n = (I18n) ELTools.evalAsObject("#{i18n}");
-		String message = i18n.getMessageBundleAsJSon();
-	}
-    
 }

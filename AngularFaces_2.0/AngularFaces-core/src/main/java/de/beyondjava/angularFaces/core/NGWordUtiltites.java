@@ -30,7 +30,7 @@ public class NGWordUtiltites {
 	 */
 
 	public static String labelFromCamelCase(String camel) {
-		StringBuffer label = new StringBuffer();
+		StringBuilder label = new StringBuilder();
 		for (int i = 0; i < camel.length(); i++) {
 			char c = camel.charAt(i);
 			if (Character.isDigit(c)) {

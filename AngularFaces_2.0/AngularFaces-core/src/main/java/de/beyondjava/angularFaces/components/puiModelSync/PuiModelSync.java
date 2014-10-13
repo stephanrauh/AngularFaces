@@ -321,13 +321,14 @@ public class PuiModelSync extends HtmlBody {
 		writer.append("<script src='" + main + "'></script>");
 
 		PuiScriptRenderer r = new PuiScriptRenderer();
-		// Locale locale = context.getViewRoot().getLocale();
 		Locale locale = context.getExternalContext().getRequestLocale();
 		String language = locale.getLanguage();
 		r.encodeScript(context, this, "messages_" + language + ".js", "AngularFaces");
-		r.encodeScript(context, this, "components.js", "AngularFaces");
-		r.encodeScript(context, this, "glue.js", "AngularFaces");
-		r.encodeMessageBundle(context);
+		if (FacesContext.getCurrentInstance().isProjectStage(ProjectStage.Development)) {
+			r.encodeScript(context, this, "angularfaces.js", "AngularFaces");
+		} else {
+			r.encodeScript(context, this, "angularfaces.min.js", "AngularFaces");
+		}
 	}
 
 	@Override

@@ -143,7 +143,7 @@ public final class AFTagAttributes extends TagAttributes {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < this.attrs.length; i++) {
             sb.append(this.attrs[i]);
             sb.append(' ');
