@@ -87,21 +87,21 @@
 						ng:captcha="{{customerBean.expectedCaptcha}}" />
 				</prime:panelGrid>
 			</prime:panel>
-			<prime:commandButton class="carFilterButton"
+			<prime:commandButton 
 				action="#{customerBean.buy(carBean)}"
 				value="Buy this car! (Non-AJAX)" ajax="false"
-				styleClass="{{showDetailsClass()}}" ng-disabled="isFormInvalid()"
+				styleClass="carFilterButton {{showDetailsClass()}}" ng-disabled="isFormInvalid()"
 				style="{{isFormInvalid()?'color:#888':''}}" />
-			<prime:commandButton class="carFilterButton"
+			<prime:commandButton 
 				action="#{customerBean.buy(carBean)}"
 				value="Buy this car! (JSF AJAX)" update="@form"
-				styleClass="{{showDetailsClass()}}" ng-disabled="isFormInvalid()"
+				styleClass="carFilterButton {{showDetailsClass()}}" ng-disabled="isFormInvalid()"
 				style="{{isFormInvalid()?'color:#888':''}}" />
-			<prime:commandButton class="carFilterButton"
+			<prime:commandButton 
 				action="#{customerBean.buy(carBean)}"
 				value="Buy this car! (AF AJAX)" ng-disabled="isFormInvalid()"
 				style="{{isFormInvalid()?'color:#888':''}}" update=":angular"
-				styleClass="{{showDetailsClass()}}" />
+				styleClass="carFilterButton {{showDetailsClass()}}" />
 
 			<prime:panel header="Congratulation for buying this car!" styleClass="{{showFinishedTransactionClass()}}">
 				<p>You're almost finished. We only need a final step before you own the car.</p>
