@@ -38,7 +38,7 @@ public class AngularTagDecorator implements TagDecorator {
 	private final static Pattern angularExpressionPattern = Pattern.compile("\\{\\{(\\w+\\.)+(\\w+)\\}\\}");
 	private static final String HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator");
-	private static final String MOJARRA_NAMESPACE = "http://xmlns.jcp.org/jsf/html";
+	private static final String JSF_NAMESPACE = "http://xmlns.jcp.org/jsf/html";
 	private static final String PASS_THROUGH_NAMESPACE = "http://xmlns.jcp.org/jsf/passthrough";
 	private static final String ANGULAR_FACES_CORE_NAMESPACE = "http://beyondjava.net/angularFacesCore";
 	private static final String PRIMEFACES_NAMESPACE="http://primefaces.org/ui";
@@ -53,14 +53,14 @@ public class AngularTagDecorator implements TagDecorator {
 		TagAttribute[] attributes = modifiedAttributes.getAll();
 		TagAttribute[] lessAttributes = Arrays.copyOf(attributes, attributes.length - 1);
 		TagAttributes less = new AFTagAttributes(lessAttributes);
-		Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "inputText", "h:inputText", less);
+		Tag t = new Tag(tag.getLocation(), JSF_NAMESPACE, "inputText", "h:inputText", less);
 		return t;
 	}
 
 	private Tag convertToInputText(Tag tag, TagAttributes attributeList) {
 		TagAttribute[] attributes = attributeList.getAll();
 		TagAttributes more = new AFTagAttributes(attributes);
-		Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "inputText", "inputText", more);
+		Tag t = new Tag(tag.getLocation(), JSF_NAMESPACE, "inputText", "inputText", more);
 		return t;
 	}
 
@@ -110,7 +110,7 @@ public class AngularTagDecorator implements TagDecorator {
 			newAttributes[newLength++] = value;
 			newAttributes = Arrays.copyOf(newAttributes, newLength);
 			TagAttributes more = new AFTagAttributes(newAttributes);
-			Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "outputText", "outputText", more);
+			Tag t = new Tag(tag.getLocation(), JSF_NAMESPACE, "outputText", "outputText", more);
 			return t;
 		} else if ("serverToClient".equalsIgnoreCase(direction)) {
 			TagAttribute hide = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "rendered", "rendered", "true");
@@ -133,7 +133,7 @@ public class AngularTagDecorator implements TagDecorator {
 	private Tag convertToTranslateTag(Tag tag, TagAttributes modifiedAttributes) {
 		TagAttribute[] attributes = modifiedAttributes.getAll();
 		TagAttributes more = new AFTagAttributes(attributes);
-		Tag t = new Tag(tag.getLocation(), MOJARRA_NAMESPACE, "outputText", "h:outputText", more);
+		Tag t = new Tag(tag.getLocation(), JSF_NAMESPACE, "outputText", "h:outputText", more);
 		return t;
 	}
 
