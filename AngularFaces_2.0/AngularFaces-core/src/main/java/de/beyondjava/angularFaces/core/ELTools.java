@@ -41,14 +41,14 @@ public class ELTools {
 	private static Map<String, NGBeanAttributeInfo> beanAttributeInfos = new HashMap<String, NGBeanAttributeInfo>();
 
 	/** Caching */
-	private static Map<String, Field> fields = new HashMap<String, Field>();
+//	private static Map<String, Field> fields = new HashMap<String, Field>();
 
 	/** Caching */
-	private static Map<String, Method> getters = new HashMap<String, Method>();
+//	private static Map<String, Method> getters = new HashMap<String, Method>();
 
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.common.ELTools");
 	/** Caching */
-	private static Map<String, List<String>> propertyLists = new HashMap<String, List<String>>();
+//	private static Map<String, List<String>> propertyLists = new HashMap<String, List<String>>();
 
 	public static ValueExpression createValueExpression(String p_expression) {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -191,11 +191,11 @@ public class ELTools {
 	 * @return a list of strings consisting of EL expressions without the leading "#{" and the trailing brace "}".
 	 */
 	public static List<String> getEveryProperty(String p_expression, boolean p_recursive) {
-		synchronized (propertyLists) {
-			if (propertyLists.containsKey(p_expression)) {
-				return propertyLists.get(p_expression);
-			}
-		}
+//		synchronized (propertyLists) {
+//			if (propertyLists.containsKey(p_expression)) {
+//				return propertyLists.get(p_expression);
+//			}
+//		}
 
 		Object container = evalAsObject("#{" + p_expression + "}");
 
@@ -224,9 +224,9 @@ public class ELTools {
 						}
 					}
 				}
-				synchronized (propertyLists) {
-					propertyLists.put(p_expression, propertyNames);
-				}
+//				synchronized (propertyLists) {
+//					propertyLists.put(p_expression, propertyNames);
+//				}
 			} catch (IllegalAccessException e) {
 				// todo replace by a logger
 				LOGGER.log(Level.SEVERE, "Couldn\"t read property list of " + p_expression, e);
@@ -244,11 +244,11 @@ public class ELTools {
 	}
 
 	private static Field getField(String p_expression) {
-		synchronized (fields) {
-			if (fields.containsKey(p_expression)) {
-				return fields.get(p_expression);
-			}
-		}
+//		synchronized (fields) {
+//			if (fields.containsKey(p_expression)) {
+//				return fields.get(p_expression);
+//			}
+//		}
 
 		if (p_expression.startsWith("#{") && p_expression.endsWith("}")) {
 			int delimiterPos = p_expression.lastIndexOf('.');
@@ -270,9 +270,9 @@ public class ELTools {
 				Field declaredField;
 				try {
 					declaredField = c.getDeclaredField(fieldName);
-					synchronized (fields) {
-						fields.put(p_expression, declaredField);
-					}
+//					synchronized (fields) {
+//						fields.put(p_expression, declaredField);
+//					}
 					return declaredField;
 				} catch (NoSuchFieldException e) {
 					// let\"s try with the super class
@@ -288,11 +288,11 @@ public class ELTools {
 	}
 
 	private static Method getGetter(String p_expression) {
-		synchronized (getters) {
-			if (getters.containsKey(p_expression)) {
-				return getters.get(p_expression);
-			}
-		}
+//		synchronized (getters) {
+//			if (getters.containsKey(p_expression)) {
+//				return getters.get(p_expression);
+//			}
+//		}
 
 		if (p_expression.startsWith("#{") && p_expression.endsWith("}")) {
 			int delimiterPos = p_expression.lastIndexOf('.');
@@ -313,9 +313,9 @@ public class ELTools {
 			Method declaredMethod = findMethod(container, getterName);
 			if (null == declaredMethod)
 				declaredMethod = findMethod(container, booleanGetterName);
-			synchronized (getters) {
-				getters.put(p_expression, declaredMethod);
-			}
+//			synchronized (getters) {
+//				getters.put(p_expression, declaredMethod);
+//			}
 			return declaredMethod;
 
 		}
