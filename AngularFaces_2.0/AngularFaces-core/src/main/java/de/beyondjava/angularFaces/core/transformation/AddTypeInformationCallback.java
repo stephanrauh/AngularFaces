@@ -40,7 +40,8 @@ public class AddTypeInformationCallback implements VisitCallback {
 		if (component instanceof UIInput) {
 			NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(component);
 			if (infos.isRequired()) {
-				if (false == (Boolean)AttributeUtilities.getAttribute(component, "required")) {
+				if ("".equals(AttributeUtilities.getAttribute(component, "required"))
+						|| false == (Boolean)AttributeUtilities.getAttribute(component, "required")) {
 					((UIInput) component).setRequired(true);
 					component.getPassThroughAttributes().put("required", "");
 				}
@@ -55,7 +56,8 @@ public class AddTypeInformationCallback implements VisitCallback {
 			}
 			if (infos.getMaxSize() > 0) {
 				component.getPassThroughAttributes().put("ng-maxlength", infos.getMaxSize());
-				int maxlength=(Integer) AttributeUtilities.getAttribute(component, "maxlength");
+				final Object ml = AttributeUtilities.getAttribute(component, "maxlength");
+				int maxlength=ml instanceof Long? ((Long)ml).intValue():(Integer) ml;
 				if (maxlength<0) {
 					component.getPassThroughAttributes().put("maxlength", infos.getMaxSize());
 				} else 

@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -36,8 +38,13 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.beanutils.BeanUtilsBean2;
 
+import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
+
 /** Collection of helper methods dealing with the JSF Expression language. */
 public class ELTools {
+	private final static Pattern EL_EXPRESSION = Pattern.compile("#\\{\\{([A-Z_$€]|[a-z_0-9$€]|\\.)+\\}");
+
+	
 	private static Map<String, NGBeanAttributeInfo> beanAttributeInfos = new HashMap<String, NGBeanAttributeInfo>();
 
 	/** Caching */
@@ -142,13 +149,10 @@ public class ELTools {
 					}
 				}
 			} catch (IllegalAccessException e) {
-				// todo replace by a logger
 				LOGGER.log(Level.SEVERE, "Couldn\"t read property list of " + p_expression, e);
 			} catch (InvocationTargetException e) {
-				// todo replace by a logger
 				LOGGER.log(Level.SEVERE, "Couldn\"t read property list of " + p_expression, e);
 			} catch (NoSuchMethodException e) {
-				// todo replace by a logger
 				LOGGER.log(Level.SEVERE, "Couldn\"t read property list of " + p_expression, e);
 			}
 		}
@@ -168,14 +172,18 @@ public class ELTools {
 		}
 		return info;
 	}
-
+	
 	public static String getCoreValueExpression(UIComponent component) {
 		ValueExpression valueExpression = component.getValueExpression("value");
 		if (null != valueExpression) {
 			String v = valueExpression.getExpressionString();
 			if (null != v) {
-				String model = v.replace("#{", "").replace("}", "");
-				return model;
+				Matcher matcher = EL_EXPRESSION.matcher(v);
+				if (matcher.find()) {
+					String exp = matcher.group();
+					return exp.substring(2, exp.length() - 1);
+				}
+				return v;
 			}
 		}
 		return null;

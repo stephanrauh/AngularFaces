@@ -115,10 +115,11 @@ public class PuiAngularTransformer implements SystemEventListener {
 		output = new UIOutput();
 		output.setRendererType("javax.faces.resource.Script");
 		if (isProduction)
-			output.getAttributes().put("name", "angular.min-1.2.22.js");
+			output.getAttributes().put("name", "angular.min.js");
 		else
-			output.getAttributes().put("name", "angular-1.2.22.js");
+			output.getAttributes().put("name", "angular.js");
 		output.getAttributes().put("library", "AngularJS");
+		
 		root.addComponentResource(context, output, "head");
 
 		output = new UIOutput();
