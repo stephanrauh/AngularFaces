@@ -41,7 +41,7 @@ public class AngularTagDecorator implements TagDecorator {
 	private static final String JSF_NAMESPACE = "http://xmlns.jcp.org/jsf/html";
 	private static final String PASS_THROUGH_NAMESPACE = "http://xmlns.jcp.org/jsf/passthrough";
 	private static final String ANGULAR_FACES_CORE_NAMESPACE = "http://beyondjava.net/angularFacesCore";
-	private static final String PRIMEFACES_NAMESPACE="http://primefaces.org/ui";
+	private static final String PRIMEFACES_NAMESPACE = "http://primefaces.org/ui";
 
 	public static boolean isActive() {
 		return active;
@@ -144,13 +144,11 @@ public class AngularTagDecorator implements TagDecorator {
 	}
 
 	private Tag createTags(Tag tag) {
+		active = true;
 		TagAttributes modifiedAttributes = extractAngularAttributes(tag);
 		// Apache MyFaces converts HTML tag with jsf: namespace, but missing an attribute, into jsf:element tag. We'll fix this
 		// for the special case of input fields.
 
-		if ("view".equals(tag.getLocalName())) {
-			active = true;
-		}
 
 		if ("element".equals(tag.getLocalName())) {
 			TagAttribute tagAttribute = modifiedAttributes.get(PASS_THROUGH_NAMESPACE, "elementName");
@@ -193,8 +191,7 @@ public class AngularTagDecorator implements TagDecorator {
 			modifiedAttributes.addAttribute(tag.getLocation(), PASS_THROUGH_NAMESPACE, "primefaces", "primefaces", "true");
 			Tag t = new Tag(tag.getLocation(), HTML_NAMESPACE, "puimessages", "puimessages", modifiedAttributes);
 			return t;
-		}
-		else {
+		} else {
 			Tag t = new Tag(tag.getLocation(), HTML_NAMESPACE, "puimessages", "puimessages", attributeList);
 			return t;
 		}
