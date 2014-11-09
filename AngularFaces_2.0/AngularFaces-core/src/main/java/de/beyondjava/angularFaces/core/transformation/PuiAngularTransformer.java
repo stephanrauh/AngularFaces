@@ -61,11 +61,9 @@ public class PuiAngularTransformer implements SystemEventListener {
 								null,
 								new FacesMessage(
 										FacesMessage.SEVERITY_FATAL,
-										"Configuration error: "
-												+ "Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters",
-										"Configuration error: "
-												+ "Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters"));
-				LOGGER.severe("Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters");
+										"Configuration error: ",
+										"Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters in the web.xml"));
+				LOGGER.severe("Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters in the web.xml");
 			} else {
 				final UIViewRoot root = (UIViewRoot) source;
 				boolean ajaxRequest = context.getPartialViewContext().isAjaxRequest();
