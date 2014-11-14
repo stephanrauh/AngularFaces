@@ -32,12 +32,7 @@ public class PuiMessage extends HtmlMessage {
 		super.encodeBegin(context);
 		ResponseWriter writer = context.getResponseWriter();
 		writer.startElement("puimessage", this);
-		UIComponent inputField = findComponent(getFor());
-		if (inputField.getClass().getName().contains("primefaces")) {
-			writer.writeAttribute("primefaces", "true", "primefaces");
-		}
-//		writer.writeAttribute("angularfacesmessage", getFor(), "angularfacesmessage");
-//		FacesContext.getCurrentInstance().getMessageList()
+		addPrimeFacesAttribute(writer);
 		List<FacesMessage> messageList = FacesContext.getCurrentInstance().getMessageList(getFor());
 		if (!messageList.isEmpty()) {
 			String msg = "";
@@ -51,6 +46,15 @@ public class PuiMessage extends HtmlMessage {
 			writer.writeAttribute("servermessage", msg , "servermessage");
 		}
 		writer.endElement("puimessage");
+	}
+
+	private void addPrimeFacesAttribute(ResponseWriter writer) throws IOException {
+		UIComponent inputField = findComponent(getFor());
+		if (null != inputField) {
+		if (inputField.getClass().getName().contains("primefaces")) {
+			writer.writeAttribute("primefaces", "true", "primefaces");
+		}
+		}
 	}
 	
 	@Override
