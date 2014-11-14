@@ -18,7 +18,9 @@ package de.beyondjava.angularFaces.core.tagTransformer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +44,44 @@ public class AngularTagDecorator implements TagDecorator {
 	private static final String PASS_THROUGH_NAMESPACE = "http://xmlns.jcp.org/jsf/passthrough";
 	private static final String ANGULAR_FACES_CORE_NAMESPACE = "http://beyondjava.net/angularFacesCore";
 	private static final String PRIMEFACES_NAMESPACE = "http://primefaces.org/ui";
+	private static final String BOOTSFACES_NAMESPACE = "http://bootsfaces.net/ui";
+	private static final Map<String, String> bootsfacesTags;
+
+	static {
+		bootsfacesTags = new HashMap<String, String>();
+		try {
+			Class.forName("net.bootsfaces.layout.Column");
+			bootsfacesTags.put("alert", "alert");
+			bootsfacesTags.put("badge", "badge");
+			// bootsfacesTags.put("label", "label");
+			bootsfacesTags.put("modal", "modal");
+			// bootsfacesTags.put("button", "button");
+			bootsfacesTags.put("commandButton", "commandButton");
+			bootsfacesTags.put("buttonGroup", "buttonGroup");
+			bootsfacesTags.put("buttonToolbar", "buttonToolbar");
+			bootsfacesTags.put("navBar", "navBar");
+			bootsfacesTags.put("navbarLinks", "navbarLinks");
+			bootsfacesTags.put("listLinks", "listLinks");
+			bootsfacesTags.put("navLink", "navLink");
+			bootsfacesTags.put("dropButton", "dropButton");
+			bootsfacesTags.put("dropMenu", "dropMenu");
+			bootsfacesTags.put("thumbnail", "thumbnail");
+			bootsfacesTags.put("container", "container");
+			bootsfacesTags.put("row", "row");
+			bootsfacesTags.put("column", "column");
+			bootsfacesTags.put("panel", "panel");
+			bootsfacesTags.put("jumbotron", "jumbotron");
+			bootsfacesTags.put("well", "well");
+			bootsfacesTags.put("datepicker", "datepicker");
+			bootsfacesTags.put("slider", "slider");
+			bootsfacesTags.put("inputText", "inputText");
+			bootsfacesTags.put("selectBooleanCheckbox", "selectBooleanCheckbox");
+			bootsfacesTags.put("tabView", "tabView");
+			bootsfacesTags.put("tab", "tab");
+		} catch (Exception notAnError) {
+			// Bootsfaces is not there - so we don't support it
+		}
+	}
 
 	public static boolean isActive() {
 		return active;
@@ -149,7 +189,6 @@ public class AngularTagDecorator implements TagDecorator {
 		// Apache MyFaces converts HTML tag with jsf: namespace, but missing an attribute, into jsf:element tag. We'll fix this
 		// for the special case of input fields.
 
-
 		if ("element".equals(tag.getLocalName())) {
 			TagAttribute tagAttribute = modifiedAttributes.get(PASS_THROUGH_NAMESPACE, "elementName");
 			if ("input".equals(tagAttribute.getValue())) {
@@ -182,7 +221,25 @@ public class AngularTagDecorator implements TagDecorator {
 		if ("input".equals(tag.getLocalName())) {
 			return convertToInputText(tag, modifiedAttributes);
 		}
+
+		tag = convertBootsFacesTag(tag);
 		return generateTagIfNecessary(tag, modifiedAttributes);
+	}
+
+	private Tag convertBootsFacesTag(Tag tag) {
+		if (HTML_NAMESPACE.equals(tag.getNamespace())) {
+			String tagname = tag.getLocalName();
+			if (bootsfacesTags.containsKey(tagname)) {
+				AFTagAttributes modifiedAttributes = new AFTagAttributes(tag.getAttributes().getAll());
+//				TagAttribute[] all = tag.getAttributes().getAll();
+//				for (TagAttribute attr:all) {
+//					TagAttribute a = attr;
+//				}
+				Tag t = new Tag(tag.getLocation(), BOOTSFACES_NAMESPACE, tag.getLocalName(), tag.getQName(), modifiedAttributes);
+				return t;
+			}
+		}
+		return tag;
 	}
 
 	private Tag convertToPuiMessagesTag(Tag tag, TagAttributes attributeList) {
