@@ -2,9 +2,7 @@ AngularFaces and BabbageFaces
 =============================
 
 <b>AngularFaces</b> is a JSF library making it easy to integrate AngularJS code.<br>
-<b>BabbageFaces</b> optimizes the JSF responses. In most cases JSF exchanges an unnecessary large portion of the DOM tree. BabbageFaces fixes this. 
 
-<b>Breaking news:</b>
 AngularFaces 2.0 provides AngularJS integration in Apache MyFaces, Oracle Mojarra, PrimeFaces and the new HTML5 friendly style. It doesn't need widgets of its own. Instead it 
 supports most JSF and PrimeFaces widgets out of the box.
 
