@@ -74,6 +74,7 @@ public class AngularTagDecorator implements TagDecorator {
 			bootsfacesTags.put("well", "well");
 			bootsfacesTags.put("datepicker", "datepicker");
 			bootsfacesTags.put("slider", "slider");
+			bootsfacesTags.put("inputSecret", "inputSecret");
 			bootsfacesTags.put("inputText", "inputText");
 			bootsfacesTags.put("selectBooleanCheckbox", "selectBooleanCheckbox");
 			bootsfacesTags.put("tabView", "tabView");
