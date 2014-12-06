@@ -153,7 +153,11 @@ public class PuiModelSync extends HtmlBody {
 					Object value = ELTools.evalAsObject("#{" + attribute + "}");
 					Object valueToRender = getValueToRender(FacesContext.getCurrentInstance(), comp);
 					if (value != null && valueToRender != null && valueToRender instanceof String) {
+						try {
 						valueToRender = convertToDatatype((String) valueToRender, value.getClass());
+						} catch (Exception e) {
+							
+						}
 					}
 					if (null != valueToRender) {
 						addJSFAttrbituteToAngularModel(model, attribute, valueToRender, cacheable);
