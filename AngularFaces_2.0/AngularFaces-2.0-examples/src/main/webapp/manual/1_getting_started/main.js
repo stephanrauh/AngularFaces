@@ -1,6 +1,5 @@
-angular.module("AngularFacesExamples", [ "angularfaces" ]);
-
-function MyCtrl($scope) {
+angular.module("AngularFacesExamples", [ "angularfaces" ])
+.controller('MyCtrl', ['$scope', function($scope) {
 	// This initializes the Angular Model with the values of the JSF bean attributes
 	initJSFScope($scope);
 
@@ -20,5 +19,5 @@ function MyCtrl($scope) {
 	        $scope.calculatorBean.gridStyle='';
             $scope.calculatorBean.headerText = 'calculated by AngularJS watch on number2';   
       });
-}
+}]);
 
