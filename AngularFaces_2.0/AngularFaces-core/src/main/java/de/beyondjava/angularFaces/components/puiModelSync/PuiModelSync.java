@@ -183,10 +183,11 @@ public class PuiModelSync extends HtmlBody {
 				String summary = message.getSummary();
 				String detail = message.getDetail();
 				messages += ",{\"severity\":\"" + severity + "\", \"summary\":\"" + summary + "\", \"detail\":\"" + detail + "\"}";
+				message.rendered();
 			}
 		}
 		if (messages.length() > 0) {
-			String assignment = "\"" + "facesmessages \", '[" + messages.substring(1) + "]'";
+			String assignment = "\"" + "facesmessages\", '[" + messages.substring(1) + "]'";
 			beans.add(assignment);
 		}
 

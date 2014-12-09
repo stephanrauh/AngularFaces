@@ -187,23 +187,20 @@ app.directive('puimessages', function($compile) {
 	    scope: {},
 	    controller: function($scope, $element) {
 	    				$scope.primefaces="true" == $element.attr('primefaces');
-	    				if (typeof($scope.$parent.facesmessages)!="undefined") {
-	    					$scope.messages=$scope.$parent.facesmessages;
-	    				}
-	    				$scope.message= function() { 
-	    					if (typeof($scope.messages)=="undefined" || $scope.messages==null) {
+	    				$scope.message= function() {
+	    					if (typeof($scope.$parent.facesmessages)=="undefined" || $scope.$parent.facesmessages==null) {
 	    						return "";
 	    					}
-	    					return $scope.messages.detail;
+	    					return $scope.$parent.facesmessages.detail;
 	    				};
 	    				$scope.hasMessage= function() {
-	    					if (typeof($scope.messages)=="undefined" || $scope.messages==null) {
+	    					if (typeof($scope.$parent.facesmessages)=="undefined" || $scope.$parent.facesmessages==null) {
 	    						return false;
 	    					}
 	    					return true;
 	    				};
 	    				$scope.visibilityClass= function() {
-	    					if (typeof($scope.messages)=="undefined" || $scope.messages==null) {
+	    					if (typeof($scope.$parent.facesmessages)=="undefined" || $scope.$parent.facesmessages==null) {
 	    						return "hidden";
 	    					}
 
@@ -211,12 +208,12 @@ app.directive('puimessages', function($compile) {
 	    				};
 
 	    				$scope.getTemplate = function() {
-	    					var t='<span class="af-message ui-state-error-text {{visibilityClass()}}"><ul><li ng-repeat="msg in messages"><span style="padding-right:10px">{{msg.severity}}</span><span style="padding-right:10px">{{msg.summary}}</span><span>{{msg.detail}}</span></li></ul></span>';
+	    					var t='<span class="af-message ui-state-error-text {{visibilityClass()}}"><ul><li ng-repeat="msg in $parent.facesmessages"><span style="padding-right:10px">{{msg.severity}}</span><span style="padding-right:10px">{{msg.summary}}</span><span>{{msg.detail}}</span></li></ul></span>';
 	    					
 	    					
 	    					
 	    					if ($scope.primefaces) {
-	    						t='<div ng-show="hasMessage()" class="af-message ui-messages-error ui-corner-all"><div class="ui-messages ui-widget" aria-live="polite"><div class="ui-messages-info ui-corner-all"><ul><li ng-repeat="msg in messages"><span class="ui-messages-info-icon"></span><span class="ui-messages-info-summary">{{msg.summary}}</span><span class="ui-messages-info-detail">{{msg.detail}}</span></li></ul></div></div></div>';
+	    						t='<div ng-show="hasMessage()" class="af-message ui-messages-error ui-corner-all"><div class="ui-messages ui-widget" aria-live="polite"><div class="ui-messages-info ui-corner-all"><ul><li ng-repeat="msg in $parent.facesmessages"><span class="ui-messages-info-icon"></span><span class="ui-messages-info-summary">{{msg.summary}}</span><span class="ui-messages-info-detail">{{msg.detail}}</span></li></ul></div></div></div>';
 	    					}
 	    					return t; 
 	    				};

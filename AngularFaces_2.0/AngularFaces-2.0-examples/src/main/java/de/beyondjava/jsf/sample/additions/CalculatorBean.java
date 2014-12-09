@@ -50,7 +50,7 @@ public class CalculatorBean implements Serializable {
 	public String add() {
 		sum = number1 + number2;
 		String msg = "Last calculation on the server side: " + number1 + "+" + number2 + "=" + sum;
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
 		return null;
 	}
 
