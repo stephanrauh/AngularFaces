@@ -15,36 +15,6 @@
     <ui:insert name="scripts" />
   </h:head>
   <h:body  id="angular" style="padding-left:10px" ng-app="CarShop" ng-controller="CarShopController" angularJSFile="#{controllerFile}">
-    <h:form>
-<prime:ribbon>
-  <prime:tab title="AJAX Response Statistics">
-    <prime:ribbonGroup label="Options" style="width:90px">
-      <prime:commandButton value="New" icon="ui-icon-pencil"
-        type="button" />
-      <prime:commandButton value="Save" icon="ui-icon-disk"
-        type="button" />
-    </prime:ribbonGroup>
-    <prime:ribbonGroup label="Memory" style="width:245px">
-      <h:panelGrid columns="2" styleClass="ui-widget"
-        style="text-align:right">
-        <prime:inputText value="764 Bytes" label="request size:" disabled="true"
-          addmessage="false" />
-        <prime:inputText value="384 Bytes" label="response size:"  disabled="true"
-          addmessage="false" />
-      </h:panelGrid>
-    </prime:ribbonGroup>
-    <prime:ribbonGroup label="Performance" style="width:280px">
-      <h:panelGrid columns="2" styleClass="ui-widget"
-        style="text-align:right">
-        <prime:inputText value="23 ms" label="time spent on server:"  disabled="true"
-          addmessage="false" />
-        <prime:inputText value="75 ms" label="time spent on client:"  disabled="true"
-          addmessage="false" />
-      </h:panelGrid>
-    </prime:ribbonGroup>
-  </prime:tab>
-</prime:ribbon>
-		</h:form>
     <div id="wrapper">
 	<header class="header header-fixed">
         <section class="navbar navbar-inverse docs-navbar-primary">
