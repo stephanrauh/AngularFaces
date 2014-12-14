@@ -22,6 +22,8 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.component.html.HtmlForm;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -38,6 +40,15 @@ public class PuiLabel extends HtmlOutputLabel {
 		if (inputField.getClass().getName().contains("primefaces")) {
 			writer.writeAttribute("primefaces", "true", "primefaces");
 		}
+		
+		UIComponent f = inputField.getParent();
+		
+		while (f != null && (!(f instanceof HtmlForm))) { f=f.getParent();}
+		if (null!=f) {
+			HtmlForm form = (HtmlForm) f;
+			writer.writeAttribute("formname", form.getClientId(), null);
+		}
+				
 		writer.writeAttribute("label", getValue(), "label");
 		List<FacesMessage> messageList = FacesContext.getCurrentInstance().getMessageList(getFor());
 		if (!messageList.isEmpty()) {

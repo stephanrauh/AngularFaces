@@ -137,26 +137,35 @@ app.directive('puimessage', function($compile) {
 	};
 });
 
-app.directive('puilabel', function($compile) {
+app.directive('puilabel', ['$compile', function($compile) {
 	  return {
 	    restrict: 'E',
 	    transclude: true,
 	    scope: {},
 	    controller: function($scope, $element) {
 	    				$scope.label=$element.attr('label');
-	    				var fieldId = $element.attr('af-for');
+                        var fieldId = $element.attr('af-for');
+                        var formname = $element.attr('formname');
 	    				if (fieldId) {
 	    					fieldId=fieldId.replace(":", "\\:");
 	    				}
 	    				$scope.primefaces="true" == $element.attr('primefaces');
 	    				$scope.af_for=fieldId;
 	    				$scope.jqueryField = $("[name='"+$scope.af_for+"']");
+	    				
 
 	    				$scope.errorClass= function() { 
-							if ($scope.jqueryField.hasClass("ng-invalid")) {
-								return "ui-state-error";
-							}
-	    					return "";
+	    				    var targetScope = angular.element("[id='"+$scope.af_for+"']").scope();
+	    				    var fn = targetScope[formname];
+	    				    var fieldId = $element.attr('af-for');
+	    				    if (fn[fieldId]) {
+	    				      //var pristine = fn[fieldId].$pristine;
+	    				      var invalid = fn[fieldId].$invalid;
+	    				      if (invalid) {
+	    				        return "ui-state-error";
+                              }
+	    				    }
+      					    return "";
 	    				};
 	    				$scope.visibilityClass= function() { 
 							if ($($scope.jqueryField).is(":visible")) {
@@ -178,7 +187,7 @@ app.directive('puilabel', function($compile) {
 	    },
 	    replace: true
 		};
-	});
+	}]);
 
 app.directive('puimessages', function($compile) {
 	  return {

@@ -1,0 +1,87 @@
+<ui:composition template="template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ac="http://beyondjava.net/angularFacesCore"
+	xmlns:prime="http://primefaces.org/ui">
+	<h:head />
+
+	<ui:param name="title" value="Car dealer demo" />
+	<ui:param name="controllerFile" value="index.js" />
+	<ui:define name="content">
+		<h:messages />
+		<ul class="tab" ng-init="tab = 2">
+			<li class="tab" ng-class="{active:tab===1}"><a class="tab"
+				ng-click="tab = 1">Looking for a car?</a></li>
+			<li class="tab" ng-class="{active:tab===2}"><a class="tab"
+				ng-click="tab = 2">Want to sell your car?</a></li>
+			<br />
+			<br />
+			<div ng-show="tab === 1" style="height: 500px; width: 700px">
+				<ui:include src="filter.xhtml"></ui:include>
+			</div>
+			<div ng-show="tab === 2" style="height: 500px; width: 700px">
+				<ui:include src="addCar.xhtml"></ui:include>
+			</div>
+		</ul>
+	</ui:define>
+
+	<ui:define name="explanation">
+		<h3>What do you see here?</h3>
+		<span ng-show="tab === 1">
+			<p>The first tab is a pure AngularJS view that communicates with
+				the back-end via &lt;ngsync&gt;.</p>
+			<p>If the check box "update immediately" is set, the view 
+			communicates with the server using the Javascript API of ngsync.</p>
+			<h:form>
+				<prime:panelGrid columns="2" layout="grid">
+					<input type="checkbox"
+						jsf:value="{{settingsBean.updateImmediately}}" addMessage="false" cacheable="true"  />
+				</prime:panelGrid>
+			</h:form>
+			<p>If "update immediately" is not set, an AngularFaces button is shown.
+				In this case it suffices to define (and to click) the button to synchronize the AngularJS model
+				(just the way you're used to from other JSF applications).</p>
+			<p>Brand and type aren't independent fields. Choosing a brand
+				limits the list of types. Which type matches which brand is
+				calculated on the server. However, this is one of the tasks you need
+				client support for: when the user changes the brand, AngularJS
+				clears the type. If it doesn't, the back-end logic detects the
+				mismatch and sets the brand back to the original value (because
+				setBrand is called first and setType is called second).</p>
+			<p>
+			    If we were to omit the settings above, the first tab didn't contain native JSF code.
+			    In such a case you have to load the JSF Javascript library manually:</p>
+			<p>&lt;h:outputScript library="javax.faces" name="jsf.js" /&gt;
+			</p>
+		</span>
+		<span ng-show="tab === 2">
+			<p>The second tab is a pure Mojarra or MyFaces view that doesn't
+				use &lt;ngsync&gt;. Instead, it uses several AngularJS mustaches.</p>
+			<p>This is a HTML5 JSF approach. The JSF page uses almost
+				exclusively the new HTML5 friendly markup, but it doesn't use fancy
+				stuff like ngsync. It only uses &lt;translate&gt; to support forein
+				languages and brings the JSR303 bean validation to the client.</p>
+			<p>Note that this view can't use AJAX because it's based on
+				Mojarra (or MyFaces). AJAX doesn't recover the way the basic JSF
+				libraries manipulate the DOM tree. AngularJS relies on jQuery to
+				manipulate the DOM, but the basic JSF libraries don't require (and
+				consequently don't use) jQuery. If you need AJAX, use PrimeFaces 5+.
+			</p>
+			<p>Depending on which browser you use, the birth date field may
+				be difficult on non-english computers. Google Chrome, for instance,
+				distinguishes between the preferred page language and the language
+				used to display the browser. Unfortunately, the data picker uses the
+				latter locale, whereas JSF expects the former. A - say - French
+				browser may run into difficulty when displaying an English JSF
+				application.</p>
+			<p>You also have to specify a date converter the date field (such
+				as the birthday). AngularFaces can't add it automatically yet.</p>
+		</span>
+
+	</ui:define>
+
+</ui:composition>
