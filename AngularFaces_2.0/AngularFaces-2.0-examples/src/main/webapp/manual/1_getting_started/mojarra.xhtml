@@ -6,20 +6,28 @@
 	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:ac="http://beyondjava.net/angularFacesCore">
 	<h:head>
-		<style>.ui-state-error-text { color: #cd0a0a; } 
-		       .ui-state-error { color: #cd0a0a; }
-		</style>
+		<style>
+.ui-state-error-text {
+	color: #cd0a0a;
+}
+
+.ui-state-error {
+	color: #cd0a0a;
+}
+</style>
 	</h:head>
-	<h:body  id="angular">
-		<h:form id="myForm" >
-			<h2>Welcome to AngularFaces 2.0!</h2>
+	<h:body id="angular">
+		<h2>Welcome to AngularFaces 2.0!</h2>
     		Based firmly in the future...<br />
-    		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
-				style="{{calculatorBean.gridStyle}}" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
+			style="{{calculatorBean.gridStyle}}" ng-app="AngularFacesExamples"
+			ng-controller="MyCtrl">
+			<h:form id="myForm" prependId="false">
 				<br />This demo uses the traditional JSF 2.2 components.
 				
 				<h:panelGrid columns="3">
 					<h:inputText value="{{calculatorBean.number1}}" label="number1" />
+					<pre>myForm.j_id_9.$error = {{myForm.j_id_9.$error | json}}</pre>
 					<h:inputText value="{{calculatorBean.number2}}" />
 					<h:inputText value="{{calculatorBean.result}}"
 						label="#{calculatorBean.resultCaption}" />
@@ -32,15 +40,15 @@
 					<h:commandButton value="Add on server (without AJAX)"
 						action="#{calculatorBean.add}" />
 					<h:commandButton value="Add on server (via JSF-AJAX)"
-						action="#{calculatorBean.add}" onclick="reactivateAngularJS=true; return true;">
+						action="#{calculatorBean.add}"
+						onclick="reactivateAngularJS=true; return true;">
 						<f:ajax render="@form" execute="@form" />
 					</h:commandButton>
-
 				</h:panelGrid>
 				Note that AngularJS doesn't recover after traditional AJAX requests. The PrimeFaces version of this JSF view doesn't have that problem.
 				<h:messages globalOnly="false" />
-			</h:panelGroup>
-		</h:form>
-		
+			</h:form>
+		</h:panelGroup>
+
 	</h:body>
 </f:view>

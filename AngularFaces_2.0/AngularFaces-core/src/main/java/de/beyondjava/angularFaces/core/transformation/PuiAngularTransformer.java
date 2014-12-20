@@ -101,41 +101,60 @@ public class PuiAngularTransformer implements SystemEventListener {
 	}
 
 	private void addJavascript(UIViewRoot root, FacesContext context, boolean isProduction) {
-		UIOutput output = new UIOutput();
-		output.setRendererType("javax.faces.resource.Script");
-		if (isProduction)
-			output.getAttributes().put("name", "jquery.min-1.11.1.js");
-		else
-			output.getAttributes().put("name", "jquery-1.11.1.js");
-		output.getAttributes().put("library", "jQuery");
-		root.addComponentResource(context, output, "head");
-
-		output = new UIOutput();
-		output.setRendererType("javax.faces.resource.Script");
-		if (isProduction)
-			output.getAttributes().put("name", "angular.min.js");
-		else
-			output.getAttributes().put("name", "angular.js");
-		output.getAttributes().put("library", "AngularJS");
-		
-		root.addComponentResource(context, output, "head");
-
-		output = new UIOutput();
-		output.setRendererType("javax.faces.resource.Script");
-		if (isProduction) {
-			output.getAttributes().put("name", "angularfaces.min.js");
-		} else {
-			output.getAttributes().put("name", "angularfaces.js");
+		{
+			UIOutput output = new UIOutput();
+			output.setRendererType("javax.faces.resource.Script");
+			if (isProduction)
+				output.getAttributes().put("name", "jquery.min-1.11.1.js");
+			else
+				output.getAttributes().put("name", "jquery-1.11.1.js");
+			output.getAttributes().put("library", "jQuery");
+			root.addComponentResource(context, output, "head");
 		}
-		output.getAttributes().put("library", "AngularFaces");
-		root.addComponentResource(context, output, "head");
-		Locale locale = context.getExternalContext().getRequestLocale();
-		String language = locale.getLanguage();
-		output = new UIOutput();
-		output.setRendererType("javax.faces.resource.Script");
-		output.getAttributes().put("name", "messages_" + language + ".js");
-		output.getAttributes().put("library", "AngularFaces");
-		root.addComponentResource(context, output, "head");
+		{
+			UIOutput output = new UIOutput();
+			output.setRendererType("javax.faces.resource.Script");
+			if (isProduction) {
+				output.getAttributes().put("name", "angular.min.js");
+			} else {
+				output.getAttributes().put("name", "angular.js");
+			}
+			output.getAttributes().put("library", "AngularJS");
+
+			root.addComponentResource(context, output, "head");
+		}
+		{
+			UIOutput output = new UIOutput();
+			output.setRendererType("javax.faces.resource.Script");
+			if (isProduction) {
+				output.getAttributes().put("name", "angular-messages.min.js");
+			} else {
+				output.getAttributes().put("name", "angular-messages.js");
+			}
+			output.getAttributes().put("library", "AngularJS");
+
+			root.addComponentResource(context, output, "head");
+		}
+		{
+			UIOutput output = new UIOutput();
+			output.setRendererType("javax.faces.resource.Script");
+			if (isProduction) {
+				output.getAttributes().put("name", "angularfaces.min.js");
+			} else {
+				output.getAttributes().put("name", "angularfaces.js");
+			}
+			output.getAttributes().put("library", "AngularFaces");
+			root.addComponentResource(context, output, "head");
+		}
+		{
+			Locale locale = context.getExternalContext().getRequestLocale();
+			String language = locale.getLanguage();
+			UIOutput output = new UIOutput();
+			output.setRendererType("javax.faces.resource.Script");
+			output.getAttributes().put("name", "messages_" + language + ".js");
+			output.getAttributes().put("library", "AngularFaces");
+			root.addComponentResource(context, output, "head");
+		}
 	}
 
 	@Override

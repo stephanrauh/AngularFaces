@@ -1,4 +1,4 @@
-var app = angular.module('angularfaces', []);
+var app = angular.module('angularfaces', ['ngMessages']);
 
 app.run(function($rootScope) {
     $rootScope.afToJson = function(variable) {
@@ -31,111 +31,37 @@ app.run(function($rootScope) {
 
 });
 
-app.directive('puimessage', function($compile) {
-  return {
+app.directive('puimessage', function() {
+ return {
     restrict: 'E',
-    transclude: true,
     scope: {},
-    controller: function($scope, $element) {
-    				var fieldId = $element.attr('af-for');
-    				if (fieldId) {
-    					fieldId=fieldId.replace(":", "\\:");
-    				}
-    				$scope.primefaces="true" == $element.attr('primefaces');
-    				$scope.af_for=fieldId;
-    				$scope.jqueryField = $("[name='"+$scope.af_for+"']");
-    				$scope.servermessage=$element.attr("servermessage");
-    				
-    				$scope.serverMessageVisible = function() {
-						if ($scope.jqueryField.hasClass("pristine")) {
-							return "true";
-						}
-    					return "false"; 
-    				};
-    				$scope.message= function() { 
-						if ($scope.jqueryField.hasClass("ng-invalid-min")) {
-							var min = $scope.jqueryField.attr("min");
-							var msg = angularFacesMessages["This number must be at least {}."];
-							msg=msg.replace("{}", min);
-							return msg;
-						}
-						if ($scope.jqueryField.hasClass("ng-invalid-max")) {
-							var max = $scope.jqueryField.attr("max");
-							var msg = angularFacesMessages["This number must be less or equal {}."];
-							msg=msg.replace("{}", max);
-							return msg;
-						}
-						if ($scope.jqueryField.hasClass("ng-invalid-number")) {
-							var msg = angularFacesMessages["Please enter a valid number."];
-							return msg;
-						}
-						if ($scope.jqueryField.hasClass("ng-invalid-required")) {
-							var msg = angularFacesMessages["Please fill out this field."];
-							return msg;
-						}
-						
-						if ($scope.jqueryField.hasClass("integer")) {
-							var msg = angularFacesMessages["Please enter a valid integer number."];
-							return msg;
-						}
-						if ($scope.jqueryField.hasClass("ng-invalid-minlength")) {
-							var min = $scope.jqueryField.attr("ng-minlength");
-							var msg = angularFacesMessages["At least {} characters required."];
-							msg=msg.replace("{}", min);
-							return msg;
-						}
-						if ($scope.jqueryField.hasClass("ng-invalid-maxlength")) {
-							var max = $scope.jqueryField.attr("ng-maxlength");
-							var msg = angularFacesMessages["{} characters accepted at most."];
-							msg=msg.replace("{}", max);
-							return msg;
-						}
-
-						if ($scope.jqueryField.hasClass("ng-invalid")) {
-							var f = $scope.jqueryField.attr("class");
-							if (typeof(f)!=undefined && f != null) {
-								var classes = f.split(" ");
-								for (var key in classes ) {
-									var c = classes[key];
-									if (c.indexOf("ng-invalid-") === 0) {
-										var msg = angularFacesMessages[c];
-										if (typeof(msg)!="undefined" && msg!=null) {
-											return msg;
-										}
-									}
-								}
-							}
-							var msg = angularFacesMessages["A validation rule is violated."];
-							return msg;
-						}
-						if ($scope.servermessage) return $scope.servermessage;
-    					return "";
-    				};
-    				$scope.hasMessage= function() { 
-						return ($scope.jqueryField.hasClass("ng-invalid"));
-    				};
-    				$scope.visibilityClass= function() { 
-						if ($($scope.jqueryField).is(":visible")) {
-							return "";
-						}
-    					return "hidden";
-    				};
-
-    				$scope.getTemplate = function() {
-    					var t='<span class="af-message ui-state-error-text {{visibilityClass()}}">{{message()}}</span>';
-    					if ($scope.primefaces) {
-    						t='<div ng-show="hasMessage()" class="af-message ui-messages-error ui-corner-all"><span class="ui-messages-error-icon"></span><span class="ui-messages-error-summary">{{message()}}</span></div>';
-    					}
-    					return t; 
-    				};
-    			},
-	link: function(scope, element, attrs) {
-        var el = $compile(scope.getTemplate())(scope);
-        element.replaceWith(el);
+    template: function() {
+       return "{{currentMessage}}";
     },
-    replace: true
-	};
+    controller: function($scope) {
+      $scope.currentMessage="";
+      this.renderMessages = function(errorMessages, inputField) {
+          $scope.currentMessage=getErrorMessage(errorMessages,inputField);
+      };
+    },
+    
+    link: function($scope, $element, $attrs, ctrl) {
+        var watchFieldID= $attrs['for'];
+        var watchAttr = findErrorObject(watchFieldID);
+        console.log(watchAttr);
+        var currentScope = $scope.$parent;
+        // TODO: find out which scope contains the $error object
+        while (null != currentScope) {
+            currentScope.$watchCollection(watchAttr, function(values) {
+                ctrl.renderMessages(values, document.getElementById(watchFieldID));
+            });
+            currentScope=currentScope.$parent;
+        }
+    }
+ };
 });
+
+
 
 app.directive('puilabel', ['$compile', function($compile) {
 	  return {
@@ -144,7 +70,7 @@ app.directive('puilabel', ['$compile', function($compile) {
 	    scope: {},
 	    controller: function($scope, $element) {
 	    				$scope.label=$element.attr('label');
-                        var fieldId = $element.attr('af-for');
+                        var fieldId = $element.attr('for');
                         var formname = $element.attr('formname');
 	    				if (fieldId) {
 	    					fieldId=fieldId.replace(":", "\\:");
@@ -157,7 +83,14 @@ app.directive('puilabel', ['$compile', function($compile) {
 	    				$scope.errorClass= function() { 
 	    				    var targetScope = angular.element("[id='"+$scope.af_for+"']").scope();
 	    				    var fn = targetScope[formname];
-	    				    var fieldId = $element.attr('af-for');
+	                        while (typeof(fn)=='undefined') {
+                                targetScope =targetScope.$parent;
+                                if (null==targetScope) {
+                                    return "";
+                                }
+                                fn = targetScope[formname];
+                            }
+        				    var fieldId = $element.attr('for');
 	    				    if (fn[fieldId]) {
 	    				      //var pristine = fn[fieldId].$pristine;
 	    				      var invalid = fn[fieldId].$invalid;
@@ -184,8 +117,7 @@ app.directive('puilabel', ['$compile', function($compile) {
 		link: function(scope, element, attrs) {
 	        var el = $compile(scope.getTemplate())(scope);
 	        element.replaceWith(el);
-	    },
-	    replace: true
+	    }
 		};
 	}]);
 
@@ -541,4 +473,83 @@ function interceptAJAXRequests(data) {
 
 if (typeof(jsf)!="undefined") {
   jsf.ajax.addOnEvent(interceptAJAXRequests);
+}
+
+function findErrorObject(watchFieldID) {
+var watchAttrName=null;
+var watchField = document.getElementById(watchFieldID);
+while (watchField) {
+  var name =watchField.getAttribute("name");
+    if (null != name && typeof(name) != 'undefined') {
+    if (null == watchAttrName)
+        watchAttrName = name;
+    else
+        watchAttr = name + "." + watchAttrName;
+  }
+  watchField=watchField.parentElement;
+}
+var watchAttr = watchAttr+".$error";
+return watchAttr;
+}
+
+function getErrorMessage(errors, inputField) {
+if (errors && errors['min']) {
+    var min = inputField.getAttribute("min");
+    var msg = angularFacesMessages["This number must be at least {}."];
+    msg=msg.replace("{}", min);
+    return msg;
+}
+if (errors && errors['max']) {
+    var max = inputField.getAttribute("max");
+    var msg = angularFacesMessages["This number must be less or equal {}."];
+    msg=msg.replace("{}", max);
+    return msg;
+}
+if (errors && errors['number']) {
+  var msg = angularFacesMessages["Please enter a valid number."];
+  return msg;
+}
+if (errors && errors['required']) {
+   var msg = angularFacesMessages["Please fill out this field."];
+   return msg;
+}
+
+if (errors && errors['integer']) {
+    var msg = angularFacesMessages["Please enter a valid integer number."];
+    return msg;
+}
+if (errors && errors['minlength']) {
+    var min = inputField.getAttribute("ng-minlength");
+    var msg = angularFacesMessages["At least {} characters required."];
+    msg=msg.replace("{}", min);
+    return msg;
+}
+if (errors && errors['maxlength']) {
+    var max = inputField.getAttribute("ng-maxlength");
+    var msg = angularFacesMessages["{} characters accepted at most."];
+    msg=msg.replace("{}", max);
+    return msg;
+}
+
+if (errors && errors['invalid']) {
+    var f = inputField.getAttribute("class");
+    if (typeof(f)!=undefined && f != null) {
+        var classes = f.split(" ");
+        for (var key in classes ) {
+            var c = classes[key];
+            if (c.indexOf("ng-invalid-") === 0) {
+                var msg = angularFacesMessages[c];
+                if (typeof(msg)!="undefined" && msg!=null) {
+                    return msg;
+                }
+            }
+        }
+    }
+    var msg = angularFacesMessages["A validation rule is violated."];
+    return msg;
+}
+if (inputField.getAttribute('servermessage')) {
+    return inputField.getAttribute('servermessage');
+}
+return "";
 }

@@ -99,7 +99,7 @@ public class AddLabelsAndMessagesHandler extends TagHandler {
 				}
 				if (needsLabel) {
 					HtmlOutputLabel label = new PuiLabel();
-					label.getPassThroughAttributes().put("af-for", kid.getClientId());
+					label.getPassThroughAttributes().put("for", kid.getClientId());
 					label.setFor(kid.getId());
 					if (null != caption) {
 						label.setValue(translate(caption));
@@ -140,7 +140,7 @@ public class AddLabelsAndMessagesHandler extends TagHandler {
 					PuiMessage message;
 					message = new PuiMessage(); //
 					message.setFor(kid.getClientId());
-					message.getPassThroughAttributes().put("af-for", kid.getClientId());
+					message.getPassThroughAttributes().put("for", kid.getClientId());
 					children.add(index + 1, message);
 				}
 			}
