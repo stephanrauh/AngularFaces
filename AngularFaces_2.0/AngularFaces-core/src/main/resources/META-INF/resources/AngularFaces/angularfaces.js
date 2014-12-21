@@ -31,6 +31,9 @@ app.run(function($rootScope) {
 
 });
 
+/**
+ * puimessage resembles ng-messages, but translates the errors reported by AngularJS automatically to the user-readable message.
+ */
 app.directive('puimessage', function() {
  return {
     restrict: 'E',
@@ -46,9 +49,9 @@ app.directive('puimessage', function() {
     },
     
     link: function($scope, $element, $attrs, ctrl) {
+        $scope.primefaces="true" == $element.attr('primefaces');
         var watchFieldID= $attrs['for'];
         var watchAttr = findErrorObject(watchFieldID);
-        console.log(watchAttr);
         var currentScope = $scope.$parent;
         // TODO: find out which scope contains the $error object
         while (null != currentScope) {
@@ -62,65 +65,57 @@ app.directive('puimessage', function() {
 });
 
 
-
-app.directive('puilabel', ['$compile', function($compile) {
+/**
+ * pui-label watches the $error object of the associated input field.
+ * The label is colored red if there's a violated validation rule.
+ */
+app.directive('puilabel', function() {
 	  return {
 	    restrict: 'E',
-	    transclude: true,
 	    scope: {},
-	    controller: function($scope, $element) {
-	    				$scope.label=$element.attr('label');
-                        var fieldId = $element.attr('for');
-                        var formname = $element.attr('formname');
-	    				if (fieldId) {
-	    					fieldId=fieldId.replace(":", "\\:");
-	    				}
-	    				$scope.primefaces="true" == $element.attr('primefaces');
-	    				$scope.af_for=fieldId;
-	    				$scope.jqueryField = $("[name='"+$scope.af_for+"']");
-	    				
-
-	    				$scope.errorClass= function() { 
-	    				    var targetScope = angular.element("[id='"+$scope.af_for+"']").scope();
-	    				    var fn = targetScope[formname];
-	                        while (typeof(fn)=='undefined') {
-                                targetScope =targetScope.$parent;
-                                if (null==targetScope) {
-                                    return "";
-                                }
-                                fn = targetScope[formname];
-                            }
-        				    var fieldId = $element.attr('for');
-	    				    if (fn[fieldId]) {
-	    				      //var pristine = fn[fieldId].$pristine;
-	    				      var invalid = fn[fieldId].$invalid;
-	    				      if (invalid) {
-	    				        return "ui-state-error";
-                              }
-	    				    }
-      					    return "";
-	    				};
-	    				$scope.visibilityClass= function() { 
-							if ($($scope.jqueryField).is(":visible")) {
-								return "";
-							}
-	    					return "hidden";
-	    				};
-	    				$scope.getTemplate = function() {
-	    					var t='<span class="af-label {{errorClass()}} {{visibilityClass()}}">{{label}}</span>';
-	    					if ($scope.primefaces) {
-	    						t='<span class="af-label {{errorClass()}} ui-outputlabel ui-widget">{{label}}</span>';
-	    					}
-	    					return t; 
-	    				};
-	    			},
-		link: function(scope, element, attrs) {
-	        var el = $compile(scope.getTemplate())(scope);
-	        element.replaceWith(el);
+	    template: function($scope) {
+           if ($scope.primefaces) {
+               return '<span class="af-label {{errorClass}} ui-outputlabel ui-widget">{{label}}</span>';
+           } else {
+               return '<span class="af-label {{errorClass}}">{{label}}</span>';
+           }
+	    },
+	    controller: function($scope) {
+	      $scope.currentMessage="";
+	      $scope.errorClass="";
+	      this.renderMessages = function(errors, inputField) {
+    	      if (errors) {
+    	          if (hasErrorMessage(errors) > 0)
+    	              $scope.errorClass="ui-state-error";
+    	          else
+    	              $scope.errorClass="";
+    	      }
+    	      else {
+    	          $scope.errorClass="";
+    	      }
+    	  };
+	    },
+	    
+	    link: function($scope, $element, $attrs, ctrl) {
+	        var watchFieldID= $attrs['for'];
+            $scope.label=$element.attr('label');
+            $scope.primefaces="true" == $element.attr('primefaces');
+	        var watchAttr = findErrorObject(watchFieldID);
+	        var currentScope = $scope.$parent;
+	        // TODO: find out which scope contains the $error object
+	        while (null != currentScope) {
+	            currentScope.$watchCollection(watchAttr, function(values) {
+	                ctrl.renderMessages(values, document.getElementById(watchFieldID));
+	            });
+	            currentScope=currentScope.$parent;
+	        }
 	    }
-		};
-	}]);
+	 };
+});
 
+/**
+ * puimessages displays errors that don't belong to a particular input field.
+ */
 app.directive('puimessages', function($compile) {
 	  return {
 	    restrict: 'E',
@@ -475,81 +470,105 @@ if (typeof(jsf)!="undefined") {
   jsf.ajax.addOnEvent(interceptAJAXRequests);
 }
 
+/** 
+ * This function takes an AngularJS $error object and counts the attributes. If there's an attribute,
+ * there's violation of an AngularJS validation rule.
+ */
+function hasErrorMessage(errors) {
+    var key;
+    for (key in errors) {
+        if (errors.hasOwnProperty(key)) return true;
+    }
+    return false;
+}
+
+/**
+ * Finds the AngularJS $error object of an input field given by its ID.
+ * Returns the name of the $error object. 
+ */
 function findErrorObject(watchFieldID) {
-var watchAttrName=null;
-var watchField = document.getElementById(watchFieldID);
-while (watchField) {
-  var name =watchField.getAttribute("name");
-    if (null != name && typeof(name) != 'undefined') {
-    if (null == watchAttrName)
-        watchAttrName = name;
-    else
-        watchAttr = name + "." + watchAttrName;
-  }
-  watchField=watchField.parentElement;
-}
-var watchAttr = watchAttr+".$error";
-return watchAttr;
+    var watchAttrName=null;
+    var watchField = document.getElementById(watchFieldID);
+    while (watchField) {
+        var name =watchField.getAttribute("name");
+        if (null != name && typeof(name) != 'undefined') {
+        if (null == watchAttrName)
+            watchAttrName = name;
+        else
+            watchAttr = name + "." + watchAttrName;
+        }
+        watchField=watchField.parentElement;
+    }
+    var watchAttr = watchAttr+".$error";
+    return watchAttr;
 }
 
+/**
+ * Analyzes the AngularJS $error object and returns the appropriate error message.
+ * Along the way it's translated to a foreign language (if needed).
+ * It's possible to add variables in the error message (such as the minimum or maximum
+ * value).
+ */
 function getErrorMessage(errors, inputField) {
-if (errors && errors['min']) {
-    var min = inputField.getAttribute("min");
-    var msg = angularFacesMessages["This number must be at least {}."];
-    msg=msg.replace("{}", min);
-    return msg;
-}
-if (errors && errors['max']) {
-    var max = inputField.getAttribute("max");
-    var msg = angularFacesMessages["This number must be less or equal {}."];
-    msg=msg.replace("{}", max);
-    return msg;
-}
-if (errors && errors['number']) {
-  var msg = angularFacesMessages["Please enter a valid number."];
-  return msg;
-}
-if (errors && errors['required']) {
-   var msg = angularFacesMessages["Please fill out this field."];
-   return msg;
-}
-
-if (errors && errors['integer']) {
-    var msg = angularFacesMessages["Please enter a valid integer number."];
-    return msg;
-}
-if (errors && errors['minlength']) {
-    var min = inputField.getAttribute("ng-minlength");
-    var msg = angularFacesMessages["At least {} characters required."];
-    msg=msg.replace("{}", min);
-    return msg;
-}
-if (errors && errors['maxlength']) {
-    var max = inputField.getAttribute("ng-maxlength");
-    var msg = angularFacesMessages["{} characters accepted at most."];
-    msg=msg.replace("{}", max);
-    return msg;
-}
-
-if (errors && errors['invalid']) {
-    var f = inputField.getAttribute("class");
-    if (typeof(f)!=undefined && f != null) {
-        var classes = f.split(" ");
-        for (var key in classes ) {
-            var c = classes[key];
-            if (c.indexOf("ng-invalid-") === 0) {
-                var msg = angularFacesMessages[c];
-                if (typeof(msg)!="undefined" && msg!=null) {
+    if (errors && errors['min']) {
+        var min = inputField.getAttribute("min");
+        var msg = angularFacesMessages["This number must be at least {}."];
+        msg=msg.replace("{}", min);
+        return msg;
+    }
+    if (errors && errors['max']) {
+        var max = inputField.getAttribute("max");
+        var msg = angularFacesMessages["This number must be less or equal {}."];
+        msg=msg.replace("{}", max);
+        return msg;
+    }
+    if (errors && errors['number']) {
+      var msg = angularFacesMessages["Please enter a valid number."];
+      return msg;
+    }
+    if (errors && errors['required']) {
+       var msg = angularFacesMessages["Please fill out this field."];
+       return msg;
+    }
+    
+    if (errors && errors['integer']) {
+        var msg = angularFacesMessages["Please enter a valid integer number."];
+        return msg;
+    }
+    if (errors && errors['minlength']) {
+        var min = inputField.getAttribute("ng-minlength");
+        var msg = angularFacesMessages["At least {} characters required."];
+        msg=msg.replace("{}", min);
+        return msg;
+    }
+    if (errors && errors['maxlength']) {
+        var max = inputField.getAttribute("ng-maxlength");
+        var msg = angularFacesMessages["{} characters accepted at most."];
+        msg=msg.replace("{}", max);
+        return msg;
+    }
+    
+    if (errors && hasErrorMessage()) {
+        var keys="";
+        var key;
+        for (key in errors) {
+            if (errors.hasOwnProperty(key)) {
+                var msg = angularFacesMessages[key];
+                if (msg) 
                     return msg;
-                }
+                if (keys=="")
+                    keys += "key";
+                else
+                    keys += ", " + key;
             }
         }
+
+        var msg = angularFacesMessages["A validation rule is violated: {}"];
+        msg=msg.replace("{}", keys);
+        return msg;
     }
-    var msg = angularFacesMessages["A validation rule is violated."];
-    return msg;
-}
-if (inputField.getAttribute('servermessage')) {
-    return inputField.getAttribute('servermessage');
-}
-return "";
+    if (inputField.getAttribute('servermessage')) {
+        return inputField.getAttribute('servermessage');
+    }
+    return "";
 }

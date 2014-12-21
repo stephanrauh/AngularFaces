@@ -33,10 +33,10 @@ import javax.faces.context.ResponseWriter;
 public class PuiLabel extends HtmlOutputLabel {
 	@Override
 	public void encodeBegin(FacesContext context) throws IOException {
-//		super.encodeBegin(context);
 		ResponseWriter writer = context.getResponseWriter();
 		writer.startElement("puilabel", this);
 		UIComponent inputField = findComponent(getFor());
+		writer.writeAttribute("for", inputField.getId(), "for");
 		if (inputField.getClass().getName().contains("primefaces")) {
 			writer.writeAttribute("primefaces", "true", "primefaces");
 		}
@@ -54,12 +54,13 @@ public class PuiLabel extends HtmlOutputLabel {
 		if (!messageList.isEmpty()) {
 			writer.writeAttribute("servermessage", "true" , "servermessage");
 		}
-		writer.writeText("AngularJS is not initialized",null);
+		writer.writeText("AngularJS hasn't been initialized",null);
 		writer.endElement("puilabel");
 	}
 	
 	@Override
 	public void encodeEnd(FacesContext context) throws IOException {
+		// do nothing
 	}
 
 }
