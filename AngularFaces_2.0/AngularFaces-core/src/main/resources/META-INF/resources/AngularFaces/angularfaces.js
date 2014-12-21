@@ -1,5 +1,8 @@
 var app = angular.module('angularfaces', ['ngMessages']);
 
+/**
+ * Adds a couple of general-purpose functions to the root scope.
+ */
 app.run(function($rootScope) {
     $rootScope.afToJson = function(variable) {
 		return JSON.stringify(variable);
@@ -51,15 +54,11 @@ app.directive('puimessage', function() {
     link: function($scope, $element, $attrs, ctrl) {
         $scope.primefaces="true" == $element.attr('primefaces');
         var watchFieldID= $attrs['for'];
-        var watchAttr = findErrorObject(watchFieldID);
-        var currentScope = $scope.$parent;
-        // TODO: find out which scope contains the $error object
-        while (null != currentScope) {
-            currentScope.$watchCollection(watchAttr, function(values) {
-                ctrl.renderMessages(values, document.getElementById(watchFieldID));
-            });
-            currentScope=currentScope.$parent;
-        }
+        var errorObjectToBeWatched = findErrorObject(watchFieldID);
+        var scopeOfForm = $scope.$parent;
+        scopeOfForm.$watchCollection(errorObjectToBeWatched, function(values) {
+            ctrl.renderMessages(values, document.getElementById(watchFieldID));
+        });
     }
  };
 });
@@ -100,15 +99,11 @@ app.directive('puilabel', function() {
 	        var watchFieldID= $attrs['for'];
             $scope.label=$element.attr('label');
             $scope.primefaces="true" == $element.attr('primefaces');
-	        var watchAttr = findErrorObject(watchFieldID);
-	        var currentScope = $scope.$parent;
-	        // TODO: find out which scope contains the $error object
-	        while (null != currentScope) {
-	            currentScope.$watchCollection(watchAttr, function(values) {
-	                ctrl.renderMessages(values, document.getElementById(watchFieldID));
-	            });
-	            currentScope=currentScope.$parent;
-	        }
+	        var errorObjectToBeWatched = findErrorObject(watchFieldID);
+	        var scopeOfForm = $scope.$parent;
+	        scopeOfForm.$watchCollection(errorObjectToBeWatched, function(values) {
+                ctrl.renderMessages(values, document.getElementById(watchFieldID));
+            });
 	    }
 	 };
 });
@@ -165,7 +160,9 @@ app.directive('puimessages', function($compile) {
 
 
 
-// Todo: check whether this directive works
+/**
+ * This directive makes sure an integer value is entered into an input field. This constraint is stricter than the type="number" check.
+ */
 var INTEGER_REGEXP = /^\-?\d*$/;
 app.directive('integer', function() {
 	return {
@@ -487,20 +484,20 @@ function hasErrorMessage(errors) {
  * Returns the name of the $error object. 
  */
 function findErrorObject(watchFieldID) {
-    var watchAttrName=null;
+    var errorObjectToBeWatchedName=null;
     var watchField = document.getElementById(watchFieldID);
     while (watchField) {
         var name =watchField.getAttribute("name");
         if (null != name && typeof(name) != 'undefined') {
-        if (null == watchAttrName)
-            watchAttrName = name;
+        if (null == errorObjectToBeWatchedName)
+            errorObjectToBeWatchedName = name;
         else
-            watchAttr = name + "." + watchAttrName;
+            errorObjectToBeWatched = name + "." + errorObjectToBeWatchedName;
         }
         watchField=watchField.parentElement;
     }
-    var watchAttr = watchAttr+".$error";
-    return watchAttr;
+    var errorObjectToBeWatched = errorObjectToBeWatched+".$error";
+    return errorObjectToBeWatched;
 }
 
 /**
@@ -512,38 +509,42 @@ function findErrorObject(watchFieldID) {
 function getErrorMessage(errors, inputField) {
     if (errors && errors['min']) {
         var min = inputField.getAttribute("min");
-        var msg = angularFacesMessages["This number must be at least {}."];
+        var msg = translateErrorMessage("This number must be at least {}.");
         msg=msg.replace("{}", min);
         return msg;
     }
     if (errors && errors['max']) {
         var max = inputField.getAttribute("max");
-        var msg = angularFacesMessages["This number must be less or equal {}."];
+        var msg = translateErrorMessage("This number must be less or equal {}.");
         msg=msg.replace("{}", max);
         return msg;
     }
+    if (errors && errors['integer']) {
+      var msg = translateErrorMessage("Please enter a valid integer number.");
+      return msg;
+    }
     if (errors && errors['number']) {
-      var msg = angularFacesMessages["Please enter a valid number."];
+      var msg = translateErrorMessage("Please enter a valid number.");
       return msg;
     }
     if (errors && errors['required']) {
-       var msg = angularFacesMessages["Please fill out this field."];
+       var msg = translateErrorMessage("Please fill out this field.");
        return msg;
     }
     
     if (errors && errors['integer']) {
-        var msg = angularFacesMessages["Please enter a valid integer number."];
+        var msg = translateErrorMessage("Please enter a valid integer number.");
         return msg;
     }
     if (errors && errors['minlength']) {
         var min = inputField.getAttribute("ng-minlength");
-        var msg = angularFacesMessages["At least {} characters required."];
+        var msg = translateErrorMessage("At least {} characters required.");
         msg=msg.replace("{}", min);
         return msg;
     }
     if (errors && errors['maxlength']) {
         var max = inputField.getAttribute("ng-maxlength");
-        var msg = angularFacesMessages["{} characters accepted at most."];
+        var msg = translateErrorMessage("{} characters accepted at most.");
         msg=msg.replace("{}", max);
         return msg;
     }
@@ -571,4 +572,19 @@ function getErrorMessage(errors, inputField) {
         return inputField.getAttribute('servermessage');
     }
     return "";
+}
+
+/**
+ * Reads the internationalized error messages from the messages bundle (if it's available).
+ */
+function translateErrorMessage(defaultText) {
+   if (angularFacesMessages) {
+       var msg = angularFacesMessages[defaultText];
+       if (msg)
+           return msg;
+       else
+           return defaultText;
+   }
+   else 
+       return defaultText;
 }
