@@ -9,7 +9,7 @@
 	>
 	<h:head />
 	<h:body>
-		<h:form id="formID" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+		<h:form id="formID" ng-app="AngularFacesExamples" ng-controller="MyCtrl" prependId="false">
 			<h2>Welcome to AngularFaces 2.0!</h2>
     		Based firmly in the future...
 			<prime:panel colspan="2" header="This is a JSF view enriched by an AngularJS bean">
@@ -23,7 +23,7 @@
 					<prime:commandButton value="Add on server (AF AJAX)"
 						action="#{calculatorBean.add}" update="angular" process="@form" />
 					<prime:commandButton value="Add on server (JSF AJAX)"
-						action="#{calculatorBean.add}" update="@form" process="@form" oncomplete="findNGAppAndReinitAngular(getElementById('formID'))" />
+						action="#{calculatorBean.add}" update="@form" process="@form" oncomplete="alert('AJAX is temporarily disabled.')" />
 					<prime:commandButton value="Add on server (without AJAX)"
 						action="#{calculatorBean.add}" ajax="false" />
 				</prime:panelGrid>
