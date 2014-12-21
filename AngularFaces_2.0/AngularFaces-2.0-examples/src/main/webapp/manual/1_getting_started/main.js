@@ -1,5 +1,5 @@
 angular.module("AngularFacesExamples", [ "angularfaces" ])
-.controller('MyCtrl', ['$scope', function($scope) {
+.controller('MyCtrl', ['$scope', '$injector', function($scope, $injector) {
 	// This initializes the Angular Model with the values of the JSF bean attributes
 	initJSFScope($scope);
 

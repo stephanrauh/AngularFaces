@@ -157,6 +157,18 @@ public class PuiAngularTransformer implements SystemEventListener {
 			root.addComponentResource(context, output, "head");
 		}
 		{
+			UIOutput output = new UIOutput();
+			output.setRendererType("javax.faces.resource.Script");
+			if (isProduction) {
+				output.getAttributes().put("name", "jua-0.1.0-min.js");
+			} else {
+				output.getAttributes().put("name", "jua-0.1.0.js");
+			}
+			output.getAttributes().put("library", "AngularFaces");
+			root.addComponentResource(context, output, "head");
+		}
+
+		{
 			Locale locale = context.getExternalContext().getRequestLocale();
 			String language = locale.getLanguage();
 			UIOutput output = new UIOutput();

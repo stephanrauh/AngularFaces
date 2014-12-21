@@ -39,8 +39,7 @@
 					<h:commandButton value="Add on server (without AJAX)"
 						action="#{calculatorBean.add}" />
 					<h:commandButton value="Add on server (via JSF-AJAX)"
-						action="#{calculatorBean.add}"
-						onclick="reactivateAngularJS=true; return true;">
+						action="#{calculatorBean.add}">
 						<f:ajax render="@form" execute="@form" />
 					</h:commandButton>
 				</h:panelGrid>
