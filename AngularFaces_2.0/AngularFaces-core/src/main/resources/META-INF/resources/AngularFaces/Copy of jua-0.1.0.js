@@ -1,11 +1,25 @@
-(function (window) {
+/**
+ * jua - v0.1.0 - 2014-11-03
+ * https://github.com/marcorinck/jsf-updates-angular
+ * Copyright (c) 2014 Marco Rinck; Licensed MIT
+ */
+if (typeof(jsf)=='undefined') {
+    if (typeof(PrimeFaces)=='undefined')
+        alert("JUA requires JSF.");
+    else {
+        activateJUA(window, angular, null, PrimeFaces, document, jQuery);
+    }
+}
+else {
+    activateJUA(window, angular, jsf, null, document, jQuery);
+}
+
+/* global jsf: true, angular: true, jQuery: true */
+function activateJUA(window, angular, jsf, primefaces, document, $) {
     "use strict";
 
     var onCompleteCallbacks = [],
-        requestOngoing = false,
-        document = window.document,
-        jsf = window.jsf,
-        $ = window.jQuery;
+        requestOngoing = false;
 
     function escapeJSFClientId(id) {
         return "#" + id.replace(/:/g, "\\:");
@@ -54,12 +68,14 @@
     }
 
     function destroyScopes(data) {
-        var updates = data.responseXML.getElementsByTagName('update');
+        var controllerElement=angular.element(document.querySelector('[ng-controller]'));
+        var theInjector = controllerElement.injector();
+        var updates = data.getElementsByTagName('update');
 
         $.each(updates, function(index, update) {
             var id = escapeJSFClientId(update.id);
-
-            if (id.indexOf("ViewState") !== -1) {
+            
+            if (!(id.indexOf("ViewState")>=0)) {
                 $(id).find(".ng-scope, .ng-isolate-scope").each(function(index, scopedChildElement) {
                     if (window.jua.debug) {
                         console.log("destroying child scope for element", scopedChildElement);
@@ -69,17 +85,18 @@
                 });
             }
         });
+        return theInjector;
     }
 
-    function handleAjaxUpdates(data) {
+    function handleAjaxUpdates(data, theInjector) {
         window.setTimeout(function () {
-            var $compile = angular.element(document).injector().get('$compile'),
-                updates = data.responseXML.getElementsByTagName('update');
+            var $compile = theInjector.get('$compile');
+            var updates = data.getElementsByTagName('update');
 
             $.each(updates, function(index, update) {
                 var id = escapeJSFClientId(update.id), element;
 
-                if (id.indexOf("ViewState") !== -1) {
+                if (!(id.indexOf("ViewState")>=0)) {
                     element = angular.element($(id));
 
                     if (element) {
@@ -87,7 +104,11 @@
                             console.log("compiling angular element", element);
                         }
 
-                        $compile(element)(element.scope());
+                        var myScope=element.scope();
+                        if (typeof(myScope)=='undefined')
+                            alert("AngularFaces requests must not update the ng-controller!");
+                        else 
+                            $compile(element)(myScope);
                     }
                 }
             });
@@ -101,54 +122,51 @@
         });
     }
 
-    if (jsf) {
+    if (null != jsf) {
         jsf.ajax.addOnEvent(function (data) {
             if (data.status === 'begin') {
                 requestOngoing = true;
                 onCompleteCallbacks = [];
             }
             if (data.status === 'complete') {
-                destroyScopes(data);
             }
             if (data.status === 'success') {
-                handleAjaxUpdates(data);
+                // todo: handleAjaxUpdates() should be called in the 'complete' branch - find a way to pass the injector around
+                var theInjector=destroyScopes(data.responseXML);
+                handleAjaxUpdates(data.responseXML, theInjector);
                 requestOngoing = false;
             }
         });
     }
-
-    //This should handle ajax requests of non-standard jsf libraries too when they are using jquery internally (e.g. PrimeFaces)
-    if ($) {
-        $(document).ajaxStart(function() {
+    else if (null != primefaces) {
+        var originalPrimeFacesAjaxUtilsSend = primefaces.ajax.Request.send;
+        primefaces.ajax.Request.send = function(cfg) {
             requestOngoing = true;
             onCompleteCallbacks = [];
-        });
-
-        $(document).ajaxComplete(function(event, xhr) {
-            if (xhr && xhr.responseXML) {
-                destroyScopes(xhr);
+            var theInjector=null;
+            if (!cfg.onsuccess) {
+               cfg.onsuccess = function(data, status, xhr) {
+                   theInjector=destroyScopes(data);     
+               }
             }
-        });
-
-        $(document).ajaxSuccess(function(event, xhr) {
-            if (xhr && xhr.responseXML) {
-                handleAjaxUpdates(xhr);
+            if (!cfg.oncomplete) {
+               cfg.oncomplete = function(xhr, status) {
+                   handleAjaxUpdates(xhr.responseXML, theInjector);
+                   requestOngoing = false;
+                   return true;
+               }
             }
-
-            requestOngoing = false;
-        });
-    }
-
-    if (!$ && !jsf && console) {
-        console.warn('jsf-updates-angular: no jquery and no jsf object found, so doing nothing after ajax requests. This is probably not what you want!');
-    } else {
-        window.jua = {
-            onComplete: onComplete,
-            onCompleteEvent: onCompleteEvent,
-            ensureExecutionAfterAjaxRequest: ensureExecutionAfterAjaxRequest,
-            get requestOngoing() {
-                return requestOngoing;
-            }
+            originalPrimeFacesAjaxUtilsSend.apply(this, arguments);
         };
     }
-})(window);
+
+    window.jua = {
+        onComplete: onComplete,
+        onCompleteEvent: onCompleteEvent,
+        ensureExecutionAfterAjaxRequest: ensureExecutionAfterAjaxRequest,
+        get requestOngoing() {
+            return requestOngoing;
+        }
+    };
+}
+
