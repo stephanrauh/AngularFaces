@@ -293,6 +293,7 @@ public class PuiModelSync extends HtmlBody {
 		if (debugMode) {
 			writer.append("\r\n  ");
 		}
+		writer.write("if (window.jsfScope==null) {");
 		writer.writeText("window.jsfScope=$scope;", null);
 		if (debugMode) {
 			writer.append("\r\n  ");
@@ -304,6 +305,10 @@ public class PuiModelSync extends HtmlBody {
 		for (String bean : beansAsJSon) {
 			writer.writeText("puiUpdateModel(" + bean + ");", null);
 		}
+		if (debugMode) {
+			writer.append("\r\n");
+		}
+		writer.writeText("}", null);
 		if (debugMode) {
 			writer.append("\r\n");
 		}

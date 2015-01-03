@@ -1,21 +1,5 @@
-/**
- * jua - v0.1.0 - 2014-11-03
- * https://github.com/marcorinck/jsf-updates-angular
- * Copyright (c) 2014 Marco Rinck; Licensed MIT
- */
-if (typeof(jsf)=='undefined') {
-    if (typeof(PrimeFaces)=='undefined')
-        alert("JUA requires JSF.");
-    else {
-        activateJUA(window, angular, null, PrimeFaces, document, jQuery);
-    }
-}
-else {
-    activateJUA(window, angular, jsf, null, document, jQuery);
-}
-
 /* global jsf: true, angular: true, jQuery: true */
-function activateJUA(window, angular, jsf, primefaces, document, $) {
+(function (window, angular, jsf, document, $) {
     "use strict";
 
     var onCompleteCallbacks = [],
@@ -68,14 +52,12 @@ function activateJUA(window, angular, jsf, primefaces, document, $) {
     }
 
     function destroyScopes(data) {
-        var controllerElement=angular.element(document.querySelector('[ng-controller]'));
-        var theInjector = controllerElement.injector();
-        var updates = data.getElementsByTagName('update');
+        var updates = data.responseXML.getElementsByTagName('update');
 
         $.each(updates, function(index, update) {
             var id = escapeJSFClientId(update.id);
-            
-            if (!(id.indexOf("ViewState")>=0)) {
+
+            if (id.indexOf("ViewState") == -1) {
                 $(id).find(".ng-scope, .ng-isolate-scope").each(function(index, scopedChildElement) {
                     if (window.jua.debug) {
                         console.log("destroying child scope for element", scopedChildElement);
@@ -85,18 +67,17 @@ function activateJUA(window, angular, jsf, primefaces, document, $) {
                 });
             }
         });
-        return theInjector;
     }
 
-    function handleAjaxUpdates(data, theInjector) {
+    function handleAjaxUpdates(data) {
         window.setTimeout(function () {
-            var $compile = theInjector.get('$compile');
-            var updates = data.getElementsByTagName('update');
+            var $compile = angular.element(document).injector().get('$compile'),
+                updates = data.responseXML.getElementsByTagName('update');
 
             $.each(updates, function(index, update) {
                 var id = escapeJSFClientId(update.id), element;
 
-                if (!(id.indexOf("ViewState")>=0)) {
+                if (id.indexOf("ViewState") == -1) {
                     element = angular.element($(id));
 
                     if (element) {
@@ -104,11 +85,7 @@ function activateJUA(window, angular, jsf, primefaces, document, $) {
                             console.log("compiling angular element", element);
                         }
 
-                        var myScope=element.scope();
-                        if (typeof(myScope)=='undefined')
-                            alert("AngularFaces requests must not update the ng-controller!");
-                        else 
-                            $compile(element)(myScope);
+                        $compile(element)(element.scope());
                     }
                 }
             });
@@ -122,43 +99,19 @@ function activateJUA(window, angular, jsf, primefaces, document, $) {
         });
     }
 
-    if (null != jsf) {
-        jsf.ajax.addOnEvent(function (data) {
-            if (data.status === 'begin') {
-                requestOngoing = true;
-                onCompleteCallbacks = [];
-            }
-            if (data.status === 'complete') {
-            }
-            if (data.status === 'success') {
-                // todo: handleAjaxUpdates() should be called in the 'complete' branch - find a way to pass the injector around
-                var theInjector=destroyScopes(data.responseXML);
-                handleAjaxUpdates(data.responseXML, theInjector);
-                requestOngoing = false;
-            }
-        });
-    }
-    else if (null != primefaces) {
-        var originalPrimeFacesAjaxUtilsSend = primefaces.ajax.Request.send;
-        primefaces.ajax.Request.send = function(cfg) {
+    jsf.ajax.addOnEvent(function (data) {
+        if (data.status === 'begin') {
             requestOngoing = true;
             onCompleteCallbacks = [];
-            var theInjector=null;
-            if (!cfg.onsuccess) {
-               cfg.onsuccess = function(data, status, xhr) {
-                   theInjector=destroyScopes(data);     
-               }
-            }
-            if (!cfg.oncomplete) {
-               cfg.oncomplete = function(xhr, status) {
-                   handleAjaxUpdates(xhr.responseXML, theInjector);
-                   requestOngoing = false;
-                   return true;
-               }
-            }
-            originalPrimeFacesAjaxUtilsSend.apply(this, arguments);
-        };
-    }
+        }
+        if (data.status === 'complete') {
+            destroyScopes(data);
+        }
+        if (data.status === 'success') {
+            handleAjaxUpdates(data);
+            requestOngoing = false;
+        }
+    });
 
     window.jua = {
         onComplete: onComplete,
@@ -168,5 +121,4 @@ function activateJUA(window, angular, jsf, primefaces, document, $) {
             return requestOngoing;
         }
     };
-}
-
+})(window, angular, jsf, document, jQuery);

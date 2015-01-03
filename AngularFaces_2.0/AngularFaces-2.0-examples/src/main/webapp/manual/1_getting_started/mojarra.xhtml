@@ -23,6 +23,7 @@
 			style="{{calculatorBean.gridStyle}}" ng-app="AngularFacesExamples"
 			ng-controller="MyCtrl">
 			<h:form id="myForm" prependId="false">
+    		    <ac:activateAngularFaces />
 				<br />This demo uses the traditional JSF 2.2 components.
 				
 				<h:panelGrid columns="3">
@@ -43,7 +44,6 @@
 						<f:ajax render="@form" execute="@form" />
 					</h:commandButton>
 				</h:panelGrid>
-				Note that AngularJS doesn't recover after traditional AJAX requests. The PrimeFaces version of this JSF view doesn't have that problem.
 				<h:messages globalOnly="false" />
 			</h:form>
 		</h:panelGroup>

@@ -15,6 +15,22 @@
 	
 	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/default.min.css">
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function piwik()  {
+    var u="//www.atapuerca.de/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 3]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//www.atapuerca.de/piwik/piwik.php?idsite=3" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+	
 </head>
 <body>
 	<div id="wrapper">
@@ -22,7 +38,7 @@
 			<section class="navbar navbar-inverse docs-navbar-primary">
 				<div class="container">
 					<div class="row">
-						<div class="col-lg-9 header-branding">
+						<div class="col-lg-12 header-branding">
 							<ul class="nav navbar-nav">
 								<li class="divider-vertical"></li>
 								<li class="dropdown"><a
@@ -37,6 +53,8 @@
 										class="icon-home icon-white"></i>Contribute</a></li>
 								<li><a href="http://www.beyondjava.net"><i
 										class="icon-home icon-white"></i>http://www.BeyondJava.net</a></li>
+								<li><a href="/disclaimer.html"><i
+										class="icon-home icon-white"></i>Privacy, disclaimer and legal notes</a></li>
 							</ul>
 						</div>
 					</div>
@@ -104,7 +122,7 @@
 					</ul>
 				</div>
 			</div>
-			<div ng-view class="col-lg-8" onload="highlight()"></div>
+			<div ng-view class="col-lg-8" onload="highlight();"></div>
 		</div>
 	</section>
 

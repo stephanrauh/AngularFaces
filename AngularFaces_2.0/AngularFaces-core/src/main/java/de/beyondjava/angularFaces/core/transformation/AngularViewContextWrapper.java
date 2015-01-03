@@ -191,7 +191,6 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 			writer.writePreamble("<?xml version='1.0' encoding='" + encoding + "'?>");
 			writer.startDocument();
 			writer.startEval();
-			// PuiELTransformer.processEverything(body);
 			encodeAngularScript(writer, ctx);
 			writer.endEval();
 			renderState(ctx);

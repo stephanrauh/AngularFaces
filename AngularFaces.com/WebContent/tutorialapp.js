@@ -64,4 +64,13 @@ phonecatApp.config([ '$routeProvider', function($routeProvider) {
 	}).otherwise({
 		redirectTo : '/tutorial.html'
 	});
-} ]);
+} ])
+.run( function($rootScope, $location) {
+   $rootScope.$watch(function() { 
+      return $location.path(); 
+    },
+    function(a){  
+      _paq.push(['trackEvent', window.document.title, a]);
+
+    });
+});

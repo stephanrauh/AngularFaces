@@ -46,5 +46,13 @@
 			<renderer-type>de.beyondjava.puiSpan</renderer-type>
 		</component>
 	</tag>
+	<tag>
+		<description><![CDATA[Enables manual AngularJS updates.]]></description>
+		<tag-name>activateAngularFaces</tag-name>
+		<component>
+			<component-type>de.beyondjava.puiActivateAngularFaces</component-type>
+			<renderer-type>de.beyondjava.puiActivateAngularFaces</renderer-type>
+		</component>
+	</tag>
 
 </facelet-taglib>

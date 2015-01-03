@@ -1,9 +1,9 @@
-var app = angular.module('angularfaces', ['ngMessages']);
+var app = angular.module('angularfaces', ['ngMessages', 'jua']);
 
 /**
  * Adds a couple of general-purpose functions to the root scope.
  */
-app.run(function($rootScope) {
+app.run(function($rootScope, $compile) {
     $rootScope.afToJson = function(variable) {
 		return JSON.stringify(variable);
 	};
