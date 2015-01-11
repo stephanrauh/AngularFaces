@@ -4,18 +4,18 @@
 
 	<groupId>de.beyondjava</groupId>
 	<artifactId>angularFaces-core</artifactId>
-	<version>2.1.0-RC2</version>
+	<version>2.1.0-RC3</version>
 	<packaging>jar</packaging>
 
 	<name>AngularFaces-2.1</name>
 	<description>AngularFaces make JSF programming simpler. In particular, it adds AngularJS to JSF.</description>
 	<url>http://www.beyondjava.net</url>
 	<licenses>
-		<license>
-			<name>GNU General Public License (GPL) version 3.0</name>
-			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
-		</license>
-	</licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+ 	</licenses>
 	<developers>
 		<developer>
 			<name>Stephan Rauh</name>
@@ -121,7 +121,7 @@
 						<configuration>
 							<serverId>ossrh</serverId>
 							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>false</autoReleaseAfterClose>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
 						</configuration>
 					</plugin>
 				</plugins>

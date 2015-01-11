@@ -100,6 +100,7 @@ public class AddLabelsAndMessagesHandler extends TagHandler {
 				if (needsLabel) {
 					HtmlOutputLabel label = new PuiLabel();
 					label.getPassThroughAttributes().put("for", kid.getClientId());
+					kid.getAttributes().put("renderLabel", false);
 					label.setFor(kid.getId());
 					if (null != caption) {
 						label.setValue(translate(caption));
