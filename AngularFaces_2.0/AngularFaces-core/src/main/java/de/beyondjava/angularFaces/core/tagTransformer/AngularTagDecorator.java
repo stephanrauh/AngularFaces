@@ -41,6 +41,7 @@ public class AngularTagDecorator implements TagDecorator {
 	private static final String HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator");
 	private static final String JSF_NAMESPACE = "http://xmlns.jcp.org/jsf/html";
+	private static final String JSF_CORE_NAMESPACE= "http://java.sun.com/jsf/core";
 	private static final String PASS_THROUGH_NAMESPACE = "http://xmlns.jcp.org/jsf/passthrough";
 	private static final String ANGULAR_FACES_CORE_NAMESPACE = "http://beyondjava.net/angularFacesCore";
 	private static final String PRIMEFACES_NAMESPACE = "http://primefaces.org/ui";
@@ -53,9 +54,7 @@ public class AngularTagDecorator implements TagDecorator {
 			Class.forName("net.bootsfaces.layout.Column");
 			bootsfacesTags.put("alert", "alert");
 			bootsfacesTags.put("badge", "badge");
-			// bootsfacesTags.put("label", "label");
 			bootsfacesTags.put("modal", "modal");
-			// bootsfacesTags.put("button", "button");
 			bootsfacesTags.put("commandButton", "commandButton");
 			bootsfacesTags.put("buttonGroup", "buttonGroup");
 			bootsfacesTags.put("buttonToolbar", "buttonToolbar");
@@ -102,6 +101,14 @@ public class AngularTagDecorator implements TagDecorator {
 		TagAttribute[] attributes = attributeList.getAll();
 		TagAttributes more = new AFTagAttributes(attributes);
 		Tag t = new Tag(tag.getLocation(), JSF_NAMESPACE, "inputText", "inputText", more);
+		return t;
+	}
+
+	/** Converts &lt;option&gt;firstComboboxItem&lt;/option&gt; to &lt;f:selectItem itemValue="firstComboxItem"&gt;. */
+	private Tag convertTofSelectItemText(Tag tag, TagAttributes attributeList) {
+		TagAttribute[] attributes = attributeList.getAll();
+		TagAttributes more = new AFTagAttributes(attributes);
+		Tag t = new Tag(tag.getLocation(), JSF_CORE_NAMESPACE, "selectItem", "selectItem", more);
 		return t;
 	}
 
@@ -222,6 +229,11 @@ public class AngularTagDecorator implements TagDecorator {
 		if ("input".equals(tag.getLocalName())) {
 			return convertToInputText(tag, modifiedAttributes);
 		}
+
+		if ("option".equals(tag.getLocalName())) {
+			return convertTofSelectItemText(tag, modifiedAttributes);
+		}
+
 
 		tag = convertBootsFacesTag(tag);
 		return generateTagIfNecessary(tag, modifiedAttributes);
