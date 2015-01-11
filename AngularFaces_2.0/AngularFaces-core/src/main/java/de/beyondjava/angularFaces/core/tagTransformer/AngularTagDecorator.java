@@ -69,6 +69,7 @@ public class AngularTagDecorator implements TagDecorator {
 			bootsfacesTags.put("row", "row");
 			bootsfacesTags.put("column", "column");
 			bootsfacesTags.put("panel", "panel");
+			bootsfacesTags.put("panelGrid", "panelGrid");
 			bootsfacesTags.put("jumbotron", "jumbotron");
 			bootsfacesTags.put("well", "well");
 			bootsfacesTags.put("datepicker", "datepicker");
@@ -76,6 +77,7 @@ public class AngularTagDecorator implements TagDecorator {
 			bootsfacesTags.put("inputSecret", "inputSecret");
 			bootsfacesTags.put("inputText", "inputText");
 			bootsfacesTags.put("selectBooleanCheckbox", "selectBooleanCheckbox");
+			bootsfacesTags.put("selectOneMenu", "selectOneMenu");
 			bootsfacesTags.put("tabView", "tabView");
 			bootsfacesTags.put("tab", "tab");
 		} catch (Exception notAnError) {
