@@ -40,7 +40,7 @@ public class AddTypeInformationCallback implements VisitCallback {
 			NGBeanAttributeInfo infos = ELTools.getBeanAttributeInfos(component);
 			if (infos.isRequired()) {
 				if ("".equals(AttributeUtilities.getAttribute(component, "required"))
-						|| false == (Boolean)AttributeUtilities.getAttribute(component, "required")) {
+						|| false == (Boolean) AttributeUtilities.getAttribute(component, "required")) {
 					((UIInput) component).setRequired(true);
 					component.getPassThroughAttributes().put("required", "");
 				}
@@ -56,12 +56,11 @@ public class AddTypeInformationCallback implements VisitCallback {
 			if (infos.getMaxSize() > 0) {
 				component.getPassThroughAttributes().put("ng-maxlength", infos.getMaxSize());
 				final Object ml = AttributeUtilities.getAttribute(component, "maxlength");
-				int maxlength=ml instanceof Long? ((Long)ml).intValue():(Integer) ml;
-				if (maxlength<0) {
+				int maxlength = ml instanceof Long ? ((Long) ml).intValue() : (Integer) ml;
+				if (maxlength < 0) {
 					component.getPassThroughAttributes().put("maxlength", infos.getMaxSize());
-				} else 
+				} else
 					component.getPassThroughAttributes().put("ng-maxlength", maxlength);
-				
 
 			}
 			if (infos.getMinSize() > 0) {
@@ -71,19 +70,19 @@ public class AddTypeInformationCallback implements VisitCallback {
 				setType(component, "number");
 			} else if (infos.isDate()) {
 				setType(component, "date");
-//				Iterator<UIComponent> facetsAndChildren = component.getFacetsAndChildren();
-//				while (facetsAndChildren.hasNext()) {
-//					UIComponent c = facetsAndChildren.next();
-//				}
-//				FacesContext context = FacesContext.getCurrentInstance();
-//				Application application = context.getApplication();
-//				final ViewDeclarationLanguage viewDeclarationLanguage = application.getViewHandler()
-//				        .getViewDeclarationLanguage(context, context.getViewRoot().getViewId());
-//				UIComponent converter = viewDeclarationLanguage
-//				        .createComponent(context, "http://java.sun.com/jsf/core", "convertDateTime", null);
-//				Locale locale = context.getExternalContext().getRequestLocale();
-////				converter.setLocal(locale);
-//				component.getChildren().add(converter);
+				// Iterator<UIComponent> facetsAndChildren = component.getFacetsAndChildren();
+				// while (facetsAndChildren.hasNext()) {
+				// UIComponent c = facetsAndChildren.next();
+				// }
+				// FacesContext context = FacesContext.getCurrentInstance();
+				// Application application = context.getApplication();
+				// final ViewDeclarationLanguage viewDeclarationLanguage = application.getViewHandler()
+				// .getViewDeclarationLanguage(context, context.getViewRoot().getViewId());
+				// UIComponent converter = viewDeclarationLanguage
+				// .createComponent(context, "http://java.sun.com/jsf/core", "convertDateTime", null);
+				// Locale locale = context.getExternalContext().getRequestLocale();
+				// // converter.setLocal(locale);
+				// component.getChildren().add(converter);
 			} else if (infos.isBoolean()) {
 				setType(component, "checkbox");
 			}
@@ -91,23 +90,25 @@ public class AddTypeInformationCallback implements VisitCallback {
 		return VisitResult.ACCEPT;
 	}
 
+	/**
+	 * Framework-independent approach to setting the type - if possible, by calling the setType() method.
+	 * 
+	 * @param component
+	 * @param type
+	 */
 	private void setType(UIComponent component, String type) {
-		if (component.getClass().getName().equals("org.primefaces.component.inputtext.InputText")) {
-			Method method;
-			try {
-				method = component.getClass().getMethod("getType");
-				Object previousType = method.invoke(component);
-				if (previousType == null || "text".equals(previousType)) {
-					method = component.getClass().getMethod("setType", String.class);
-					method.invoke(component, type);
-				}
-			} catch (ReflectiveOperationException e) {
-				// catch block required by compiler, can't happen in reality
+		Method method;
+		try {
+			method = component.getClass().getMethod("setType", String.class);
+			if (null != method) {
+				method.invoke(component, type);
+				return;
 			}
-		} else {
-			if (null == component.getAttributes().get("type") && null == component.getPassThroughAttributes().get("type")) {
-				component.getPassThroughAttributes().put("type", type);
-			}
+		} catch (ReflectiveOperationException e) {
+			// catch block required by compiler, can't happen in reality
+		}
+		if (null == component.getAttributes().get("type") && null == component.getPassThroughAttributes().get("type")) {
+			component.getPassThroughAttributes().put("type", type);
 		}
 	}
 
