@@ -179,8 +179,8 @@ public class PuiModelSync extends HtmlBody {
 		for (FacesMessage message : messageList) {
 			if (!message.isRendered()) {
 				String severity = message.getSeverity().toString();
-				String summary = message.getSummary();
-				String detail = message.getDetail();
+				String summary = message.getSummary().replace("'", "\\'");
+				String detail = message.getDetail().replace("'", "\\'");
 				messages += ",{\"severity\":\"" + severity + "\", \"summary\":\"" + summary + "\", \"detail\":\"" + detail + "\"}";
 				message.rendered();
 			}

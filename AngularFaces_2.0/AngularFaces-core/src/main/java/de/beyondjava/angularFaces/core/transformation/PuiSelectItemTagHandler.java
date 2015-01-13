@@ -31,7 +31,6 @@ public class PuiSelectItemTagHandler implements VisitCallback {
 			UISelectItem option = (UISelectItem) component;
 			if ("true".equals(option.getAttributes().get("isoption"))) { // don't override traditional values
 				if (option.getChildCount() > 0) {
-					System.out.println(option.getChildCount());
 					UIComponent label = option.getChildren().get(0);
 					if (label.getClass().getName().contains("UIInstructions")) {
 						String itemLabel = label.toString();
@@ -47,5 +46,4 @@ public class PuiSelectItemTagHandler implements VisitCallback {
 		}
 		return VisitResult.ACCEPT;
 	}
-
 }
