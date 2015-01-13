@@ -108,7 +108,8 @@ public class AngularTagDecorator implements TagDecorator {
 	/** Converts &lt;option&gt;firstComboboxItem&lt;/option&gt; to &lt;f:selectItem itemValue="firstComboxItem"&gt;. */
 	private Tag convertTofSelectItemText(Tag tag, TagAttributes attributeList) {
 		TagAttribute[] attributes = attributeList.getAll();
-		TagAttributes more = new AFTagAttributes(attributes);
+		AFTagAttributes more = new AFTagAttributes(attributes);
+		more.addAttribute(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE, "isoption", "ac:isoption", "true");
 		Tag t = new Tag(tag.getLocation(), JSF_CORE_NAMESPACE, "selectItem", "selectItem", more);
 		return t;
 	}

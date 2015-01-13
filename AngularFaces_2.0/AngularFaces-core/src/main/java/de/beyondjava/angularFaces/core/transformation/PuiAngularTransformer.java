@@ -85,6 +85,11 @@ public class PuiAngularTransformer implements SystemEventListener {
 							root.visitTree(new FullVisitContext(context), new AddTypeInformationCallback());
 						}
 					});
+					time("convert options to f:selectItem", new Runnable() {
+						public void run() {
+							root.visitTree(new FullVisitContext(context), new PuiSelectItemTagHandler());
+						}
+					});
 					if (!ajaxRequest) {
 						time("internationalization", new Runnable() {
 							public void run() {
