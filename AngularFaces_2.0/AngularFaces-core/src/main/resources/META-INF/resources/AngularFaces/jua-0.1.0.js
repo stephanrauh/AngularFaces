@@ -1,3 +1,11 @@
+/**
+ * This is a slightly modified version of Marco Rinck's jua module.
+ * 
+ * jua - v0.1.0 - 2014-12-22
+ * https://github.com/marcorinck/jsf-updates-angular
+ * Copyright (c) 2014 Marco Rinck; Licensed MIT
+ */
+
 var app = angular.module('jua', ['ng']);
 
 /**
@@ -134,7 +142,7 @@ app.run(function($rootScope, $compile) {
              });
          }
          // Register JUA with PrimeFaces
-         else if (PrimeFaces) {
+         else if (typeof(PrimeFaces)!='undefined') {
              $(document).on('pfAjaxStart', function() {
                  requestOngoing = true;
                  onCompleteCallbacks = [];
