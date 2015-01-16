@@ -5,8 +5,14 @@ app.directive('puimessage', function() {
  return {
     restrict: 'E',
     scope: {},
-    template: function() {
-       return "{{currentMessage}}";
+    template: function($scope, $element) {
+       if ($element['primefaces']=="true") {
+          var msg = '<div aria-live="polite" class="ui-message ui-message-error ui-widget ui-corner-all">';
+          msg += '<span class="ui-message-error-icon"></span>';
+          msg += '<span class="ui-message-error-detail">{{currentMessage}}</span>';
+          msg += '</div>';
+       }
+       return "<div class='pui-message'>{{currentMessage}}</div>";
     },
     controller: function($scope) {
       $scope.currentMessage="";
@@ -16,7 +22,6 @@ app.directive('puimessage', function() {
     },
     
     link: function($scope, $element, $attrs, ctrl) {
-        $scope.primefaces="true" == $element.attr('primefaces');
         var watchFieldID= $attrs['for'];
         var errorObjectToBeWatched = findErrorObject(watchFieldID);
         var scopeOfForm = $scope.$parent;
@@ -36,12 +41,21 @@ app.directive('puilabel', function() {
 	  return {
 	    restrict: 'E',
 	    scope: {},
-	    template: function($scope) {
-           if ($scope.primefaces) {
-               return '<span class="af-label {{errorClass}} ui-outputlabel ui-widget">{{label}}</span>';
-           } else {
-               return '<span class="af-label {{errorClass}}">{{label}}</span>';
+	    template: function($scope, $element) {
+           var forFieldFragment="";
+           if ($element['for']) {
+               forFieldFragment = ' for="' + $element['for'] + '"';
            }
+           var primeFacesFragment="";
+           if ($element['primefaces']=="true") {
+               primeFacesFragment=" ui-outputlabel ui-widget";
+           }
+           var bootsFacesFragment="";
+           if ($element['bootsfaces']=="true") {
+               bootsFacesFragment=" control-label";
+           }
+           var label=$element['label'];
+           return '<label class="pui-label' + bootsFacesFragment + primeFacesFragment + ' {{errorClass}}"' + forFieldFragment + '>' + label +'</label>';
 	    },
 	    controller: function($scope) {
 	      $scope.currentMessage="";
@@ -61,8 +75,6 @@ app.directive('puilabel', function() {
 	    
 	    link: function($scope, $element, $attrs, ctrl) {
 	        var watchFieldID= $attrs['for'];
-            $scope.label=$element.attr('label');
-            $scope.primefaces="true" == $element.attr('primefaces');
 	        var errorObjectToBeWatched = findErrorObject(watchFieldID);
 	        var scopeOfForm = $scope.$parent;
 	        scopeOfForm.$watchCollection(errorObjectToBeWatched, function(values) {
@@ -103,12 +115,12 @@ app.directive('puimessages', function($compile) {
     				};
 
     				$scope.getTemplate = function() {
-    					var t='<span class="af-message ui-state-error-text {{visibilityClass()}}"><ul><li ng-repeat="msg in $parent.facesmessages"><span style="padding-right:10px">{{msg.severity}}</span><span style="padding-right:10px">{{msg.summary}}</span><span>{{msg.detail}}</span></li></ul></span>';
+    					var t='<span class="pui-message ui-state-error-text {{visibilityClass()}}"><ul><li ng-repeat="msg in $parent.facesmessages"><span style="padding-right:10px">{{msg.severity}}</span><span style="padding-right:10px">{{msg.summary}}</span><span>{{msg.detail}}</span></li></ul></span>';
     					
     					
     					
     					if ($scope.primefaces) {
-    						t='<div ng-show="hasMessage()" class="af-message ui-messages-error ui-corner-all"><div class="ui-messages ui-widget" aria-live="polite"><div class="ui-messages-info ui-corner-all"><ul><li ng-repeat="msg in $parent.facesmessages"><span class="ui-messages-info-icon"></span><span class="ui-messages-info-summary">{{msg.summary}}</span><span class="ui-messages-info-detail">{{msg.detail}}</span></li></ul></div></div></div>';
+    						t='<div ng-show="hasMessage()" class="pui-message ui-messages-error ui-corner-all"><div class="ui-messages ui-widget" aria-live="polite"><div class="ui-messages-info ui-corner-all"><ul><li ng-repeat="msg in $parent.facesmessages"><span class="ui-messages-info-icon"></span><span class="ui-messages-info-summary">{{msg.summary}}</span><span class="ui-messages-info-detail">{{msg.detail}}</span></li></ul></div></div></div>';
     					}
     					return t; 
     				};

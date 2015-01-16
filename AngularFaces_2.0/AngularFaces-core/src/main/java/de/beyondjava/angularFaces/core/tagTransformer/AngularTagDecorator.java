@@ -29,6 +29,8 @@ import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributes;
 import javax.faces.view.facelets.TagDecorator;
 
+import de.beyondjava.angularFaces.core.Configuration;
+
 /**
  * This is one of the most important classes of AngularFaces. It converts attributes to pass-through parameters, adds them to the list of
  * JSF bean to be synchronized with the client and implements a couple of pseudo JSF tags.
@@ -49,8 +51,7 @@ public class AngularTagDecorator implements TagDecorator {
 
 	static {
 		bootsfacesTags = new HashMap<String, String>();
-		try {
-			Class.forName("net.bootsfaces.layout.Column");
+		if (Configuration.bootsFacesActive) {
 			bootsfacesTags.put("alert", "alert");
 			bootsfacesTags.put("badge", "badge");
 			bootsfacesTags.put("modal", "modal");
@@ -79,8 +80,6 @@ public class AngularTagDecorator implements TagDecorator {
 			bootsfacesTags.put("selectOneMenu", "selectOneMenu");
 			bootsfacesTags.put("tabView", "tabView");
 			bootsfacesTags.put("tab", "tab");
-		} catch (Exception notAnError) {
-			// Bootsfaces is not there - so we don't support it
 		}
 	}
 

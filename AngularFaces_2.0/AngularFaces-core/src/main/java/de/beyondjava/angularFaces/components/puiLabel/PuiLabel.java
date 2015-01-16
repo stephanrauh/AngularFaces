@@ -27,6 +27,8 @@ import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import de.beyondjava.angularFaces.core.Configuration;
+
 /** This generates a label that colors itself red if AngularJS says the input is wrong. */
 @FacesComponent("de.beyondjava.puiLabel")
 public class PuiLabel extends HtmlOutputLabel {
@@ -39,6 +41,8 @@ public class PuiLabel extends HtmlOutputLabel {
 		if (inputField.getClass().getName().contains("primefaces")) {
 			writer.writeAttribute("primefaces", "true", "primefaces");
 		}
+		if (Configuration.bootsFacesActive)
+			writer.writeAttribute("bootsfaces", "true", "bootsfaces");
 		
 		UIComponent f = inputField.getParent();
 		
