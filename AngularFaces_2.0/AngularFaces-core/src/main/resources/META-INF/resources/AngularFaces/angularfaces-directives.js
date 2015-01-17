@@ -7,15 +7,26 @@ app.directive('puimessage', function() {
     scope: {},
     template: function($scope, $element) {
        if ($element['primefaces']=="true") {
-          var msg = '<div aria-live="polite" class="ui-message ui-message-error ui-widget ui-corner-all">';
+          var msg = '<div ng-show="messageVisible()" aria-live="polite" class="ui-message ui-message-error ui-widget ui-corner-all">';
           msg += '<span class="ui-message-error-icon"></span>';
           msg += '<span class="ui-message-error-detail">{{currentMessage}}</span>';
           msg += '</div>';
+          return msg;
        }
        return "<div class='pui-message'>{{currentMessage}}</div>";
     },
     controller: function($scope) {
       $scope.currentMessage="";
+      $scope.messageVisible = function() {
+         if (typeof($scope.currentMessage)=='undefined') 
+           return false;
+         if ($scope.currentMessage == null)
+           return false;
+         if ($scope.currentMessage == "")
+           return false;
+         return true;
+      };
+   
       this.renderMessages = function(errorMessages, inputField) {
           $scope.currentMessage=getErrorMessage(errorMessages,inputField);
       };
