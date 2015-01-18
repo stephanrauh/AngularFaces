@@ -37,7 +37,11 @@ app.directive('puimessage', function() {
         var errorObjectToBeWatched = findErrorObject(watchFieldID);
         var scopeOfForm = $scope.$parent;
         scopeOfForm.$watchCollection(errorObjectToBeWatched, function(values) {
-            ctrl.renderMessages(values, document.getElementById(watchFieldID));
+            var field=document.getElementById(watchFieldID);
+            if (field==null) {
+                field = document.getElementsByName(watchFieldID)[0];
+            }
+            ctrl.renderMessages(values, field);
         });
     }
  };
@@ -89,7 +93,11 @@ app.directive('puilabel', function() {
 	        var errorObjectToBeWatched = findErrorObject(watchFieldID);
 	        var scopeOfForm = $scope.$parent;
 	        scopeOfForm.$watchCollection(errorObjectToBeWatched, function(values) {
-                ctrl.renderMessages(values, document.getElementById(watchFieldID));
+	            var field=document.getElementById(watchFieldID);
+                if (field==null) {
+                    field = document.getElementsByName(watchFieldID)[0];
+                }
+                ctrl.renderMessages(values, field);
             });
 	    }
 	 };
@@ -190,7 +198,10 @@ function hasErrorMessage(errors) {
  */
 function findErrorObject(watchFieldID) {
     var errorObjectToBeWatchedName=null;
-    var watchField = document.getElementById(watchFieldID);
+    var watchField=document.getElementById(watchFieldID);
+    if (watchField==null) {
+    watchField = document.getElementsByName(watchFieldID)[0];
+    }
     while (watchField) {
         var name =watchField.getAttribute("name");
         if (null != name && typeof(name) != 'undefined') {
