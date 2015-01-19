@@ -89,17 +89,17 @@
 			<prime:commandButton 
 				action="#{customerBean.buy(carBean)}"
 				value="Buy this car! (Non-AJAX)" ajax="false"
-				styleClass="carFilterButton {{showDetailsClass()}}" ng-disabled="isFormInvalid()"
-				style="{{isFormInvalid()?'color:#888':''}}" />
+				styleClass="carFilterButton {{showDetailsClass()}}" ng-disabled="myForm.$invalid"
+				style="{{myForm.$invalid?'color:#888':''}}" />
 			<prime:commandButton 
 				action="#{customerBean.buy(carBean)}"
 				value="Buy this car! (JSF AJAX)" update="@form"
-				styleClass="carFilterButton {{showDetailsClass()}}" ng-disabled="isFormInvalid()"
-				style="{{isFormInvalid()?'color:#888':''}}" />
-			<prime:commandButton id="angular"
+				styleClass="carFilterButton {{showDetailsClass()}}" ng-disabled="myForm.$invalid"
+				style="{{myForm.$invalid?'color:#888':''}}" />
+			<prime:commandButton
 				action="#{customerBean.buy(carBean)}"
-				value="Buy this car! (AF AJAX)" ng-disabled="isFormInvalid()"
-				style="{{isFormInvalid()?'color:#888':''}}" update="angular"
+				value="Buy this car! (AF AJAX)" ng-disabled="myForm.$invalid"
+				style="{{myForm.$invalid?'color:#888':''}}" update=":angular"
 				styleClass="carFilterButton {{showDetailsClass()}}" />
 
 			<prime:panel header="Congratulation for buying this car!" styleClass="{{showFinishedTransactionClass()}}">
