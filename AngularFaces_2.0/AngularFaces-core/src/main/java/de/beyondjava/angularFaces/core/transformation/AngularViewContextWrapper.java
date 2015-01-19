@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UINamingContainer;
 import javax.faces.component.UIViewRoot;
@@ -143,8 +144,13 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		Collection<String> executeIDs = pvc.getExecuteIds();
 		if (null != executeIDs) {
 			for (String clientID : executeIDs) {
-				UIViewRoot viewRoot = ctx.getViewRoot();
+				UIViewRoot viewRoot = ctx.getViewRoot();  
 				UIComponent c = viewRoot.findComponent(clientID);
+				if (c==null) {
+					c=findByID(viewRoot, clientID);
+					if (null==c)
+						throw new FacesException("Couldn't find the component with the id " + clientID + ". Possibly this is a configuration error.");
+				}
 				if (c instanceof PuiSync) {
 					if (c.isInView()) {
 						// PuiSync syncElement = (PuiSync) c;
@@ -153,6 +159,19 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 				}
 			}
 		}
+	}
+	
+	private UIComponent findByID(UIComponent root, String id) {
+		List<UIComponent> children = root.getChildren();
+		for (UIComponent child:children) {
+			if (id.equals(child.getId())) {
+				return child;
+			}
+			UIComponent grandchild = findByID(child, id);
+			if (null != grandchild)
+				return grandchild;
+		}
+		return null;
 	}
 
 	private boolean isNGSyncRequest() {

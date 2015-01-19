@@ -131,7 +131,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 			UIOutput output = new UIOutput();
 			output.setRendererType("javax.faces.resource.Script");
 			if (isProduction) {
-				output.getAttributes().put("name", "jua-0.1.0-min.js");
+				output.getAttributes().put("name", "jua-0.1.0.min.js");
 			} else {
 				output.getAttributes().put("name", "jua-0.1.0.js");
 			}
@@ -155,7 +155,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 			UIOutput output = new UIOutput();
 			output.setRendererType("javax.faces.resource.Script");
 			if (isProduction) {
-				output.getAttributes().put("name", "angularfaces.all.min.js");
+				output.getAttributes().put("name", "angularfaces-core.js");
 			} else {
 				output.getAttributes().put("name", "angularfaces-core.js");
 			}
@@ -166,6 +166,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 			UIOutput output = new UIOutput();
 			output.setRendererType("javax.faces.resource.Script");
 			if (isProduction) {
+				output.getAttributes().put("name", "angularfaces-directives.js");
 			} else {
 				output.getAttributes().put("name", "angularfaces-directives.js");
 			}
