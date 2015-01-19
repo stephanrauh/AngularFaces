@@ -25,12 +25,6 @@
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
 		<param-value>server</param-value>
 	</context-param>
-	<!-- jQuery doesn't cope with JSF's default separator. This setting fixes 
-		the problem. -->
-	<context-param>
-		<param-name>javax.faces.SEPARATOR_CHAR</param-name>
-		<param-value>%</param-value>
-	</context-param>
 
 	<context-param>
 		<param-name>javax.faces.FACELETS_DECORATORS</param-name>

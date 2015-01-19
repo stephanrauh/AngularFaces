@@ -36,12 +36,10 @@
 				the back-end via &lt;ngsync&gt;.</p>
 			<p>If the check box "update immediately" is set, the view 
 			communicates with the server using the Javascript API of ngsync.</p>
-			<h:form>
-				<prime:panelGrid columns="2" layout="grid">
-					<input type="checkbox"
-						jsf:value="{{settingsBean.updateImmediately}}" addMessage="false" cacheable="true"  />
-				</prime:panelGrid>
-			</h:form>
+			<prime:panelGrid columns="2" layout="grid">
+				<input type="checkbox"
+					jsf:value="{{settingsBean.updateImmediately}}" addMessage="false" cacheable="true"  />
+			</prime:panelGrid>
 			<p>If "update immediately" is not set, an AngularFaces button is shown.
 				In this case it suffices to define (and to click) the button to synchronize the AngularJS model
 				(just the way you're used to from other JSF applications).</p>

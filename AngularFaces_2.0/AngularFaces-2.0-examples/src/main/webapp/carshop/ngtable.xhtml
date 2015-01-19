@@ -32,7 +32,6 @@
       <br />
       <br />
       <div ng-show="tab === 2" style="height: 510px; width: 700px">
-        <form id="myForm">
           <ngsync value="{{filterBean}}" direction="serverToClient" />
           <ngsync value="{{carPool.selectedCars}}" direction="serverToClient" />
 
@@ -94,7 +93,6 @@
           <input jsf:value="{{selectionBean.carAsJSon}}" />
           <prime:messages globalOnly="false" />
 
-        </form>
       </div>
     </ul>
 

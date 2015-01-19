@@ -11,52 +11,47 @@
 	<div style="font-weight: bold; font-size: 125%; padding-top: 10px;">
 		<translate value="Tell us which car you want to sell:" />
 	</div>
-	<h:form >
-		<h:panelGrid columns="3" style="border: 0px">
-			<input jsf:value="{{newCarBean.brand}}" cacheable="true" />
-			<input jsf:value="{{newCarBean.type}}"  cacheable="true" />
-			<input jsf:value="{{newCarBean.price}}" cacheable="true" />
-			<input value="{{newCarBean.mileage}}" cacheable="true" />
-			<input value="{{newCarBean.color}}"   cacheable="true" />
-			<input value="{{newCarBean.year}}"    cacheable="true" />
-	 		<input value="{{newCarBean.fuel}}"    cacheable="true" />
-		</h:panelGrid>
-		<div style="font-weight: bold; font-size: 125%; padding-top: 10px;">
-			<translate value="Who are you?" />
-		</div>
-		<h:panelGrid columns="3" style="border: 0px;">
-			<input value="{{customerBean.lastName}}"    cacheable="true" />
-			<input value="{{customerBean.firstName}}"   cacheable="true"/>
-			<input value="{{customerBean.dateOfBirth}}" cacheable="true">
-				<f:convertDateTime locale="#{request.locale}" />
-			</input>
-			<h:outputLabel class="af-label" for="mailID" value="mail address" />
-			<input id="mailID" value="{{customerBean.emailAddress}}" cacheable="true" />
-			<label jsf:for="termsID" class="af-label">I've read the small
-				print</label>
-			<input id="termsID"
-				value="{{customerBean.iAgreeToTheTermsAndConditions}}" cacheable="true" />
-		</h:panelGrid>
-		<div style="font-weight: bold; font-size: 125%; padding-top: 10px;">
-			<translate
-				value="Please confirm you are a human by answering this simple question:" />
-		</div>
-		<h:panelGrid columns="3" style="border: 0px;">
-			<h:outputLabel for="captchaField"
-				value="{{customerBean.captchaQuestion}}" cacheable="true" />
-			<input id="captchaField" value="{{customerBean.captcha}}" cacheable="true"/>
-		</h:panelGrid>
-		<h:commandButton class="carFilterButton" action="#{newCarBean.sell}"
-			value="Sell this car!" />
-		<ui:remove>
-			<!-- AJAX requires PrimeFaces -->
-			<h:commandButton class="carFilterButton" action="#{newCarBean.sell}"
-				value="Sell this car!">
-				<f:ajax render="@form messageID" />
-			</h:commandButton>
-		</ui:remove>
+	<h:panelGrid columns="3" style="border: 0px">
+		<input jsf:value="{{newCarBean.brand}}" cacheable="true" />
+		<input jsf:value="{{newCarBean.type}}"  cacheable="true" />
+		<input jsf:value="{{newCarBean.price}}" cacheable="true" />
+		<input value="{{newCarBean.mileage}}" cacheable="true" />
+		<input value="{{newCarBean.color}}"   cacheable="true" />
+		<input value="{{newCarBean.year}}"    cacheable="true" />
+ 		<input value="{{newCarBean.fuel}}"    cacheable="true" />
+	</h:panelGrid>
+	<div style="font-weight: bold; font-size: 125%; padding-top: 10px;">
+		<translate value="Who are you?" />
+	</div>
+	<h:panelGrid columns="3" style="border: 0px;">
+		<input value="{{customerBean.lastName}}"    cacheable="true" />
+		<input value="{{customerBean.firstName}}"   cacheable="true"/>
+		<input value="{{customerBean.dateOfBirth}}" cacheable="true">
+			<f:convertDateTime locale="#{request.locale}" />
+		</input>
+		<h:outputLabel class="af-label" for="mailID" value="mail address" />
+		<input id="mailID" value="{{customerBean.emailAddress}}" cacheable="true" />
+		<label jsf:for="termsID" class="af-label">I've read the small
+			print</label>
+		<input id="termsID"
+			value="{{customerBean.iAgreeToTheTermsAndConditions}}" cacheable="true" />
+	</h:panelGrid>
+	<div style="font-weight: bold; font-size: 125%; padding-top: 10px;">
+		<translate
+			value="Please confirm you are a human by answering this simple question:" />
+	</div>
+	<h:panelGrid columns="3" style="border: 0px;">
+		<h:outputLabel for="captchaField"
+			value="{{customerBean.captchaQuestion}}" cacheable="true" />
+		<input id="captchaField" value="{{customerBean.captcha}}" cacheable="true"/>
+	</h:panelGrid>
+	<h:commandButton class="carFilterButton" action="#{newCarBean.sell}"
+		value="Sell this car!" />
+	<h:commandButton class="carFilterButton" action="#{newCarBean.sell}"
+		value="Sell this car!">
+		<f:ajax render="@form messageID" />
+	</h:commandButton>
 
 
 		
-	</h:form>
 </ui:composition>

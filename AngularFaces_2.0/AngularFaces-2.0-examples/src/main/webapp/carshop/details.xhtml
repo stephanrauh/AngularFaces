@@ -49,7 +49,6 @@
 </style>
 	</ui:define>
 	<ui:define name="content">
-		<form id="myForm">
 			<ngsync direction="serverToClient"
 				value="{{customerBean.showDetails}}" />
 			<prime:panel header="If you want to buy this car..."
@@ -97,10 +96,10 @@
 				value="Buy this car! (JSF AJAX)" update="@form"
 				styleClass="carFilterButton {{showDetailsClass()}}" ng-disabled="isFormInvalid()"
 				style="{{isFormInvalid()?'color:#888':''}}" />
-			<prime:commandButton 
+			<prime:commandButton id="angular"
 				action="#{customerBean.buy(carBean)}"
 				value="Buy this car! (AF AJAX)" ng-disabled="isFormInvalid()"
-				style="{{isFormInvalid()?'color:#888':''}}" update=":angular"
+				style="{{isFormInvalid()?'color:#888':''}}" update="angular"
 				styleClass="carFilterButton {{showDetailsClass()}}" />
 
 			<prime:panel header="Congratulation for buying this car!" styleClass="{{showFinishedTransactionClass()}}">
@@ -120,7 +119,6 @@
 
 			<prime:messages globalOnly="false" />
 			<prime:spacer height="200px"></prime:spacer>
-		</form>
 	</ui:define>
 	<ui:define name="explanation">
 		<h3>What do you see here?</h3>
