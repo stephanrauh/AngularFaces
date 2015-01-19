@@ -1,0 +1,72 @@
+<ui:composition template="template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:prime="http://primefaces.org/ui">
+	<h:head />
+	<ui:param name="title" value="PrimeFaces + AngularJS enhancements" />
+	<ui:param name="controllerFile" value="details.js" />
+	<ui:define name="scripts">
+		<style type="text/css">
+.header {
+	background-color: #ccc;
+}
+
+.ui-panelgrid-cell {
+	border-width: 0px !important;
+}
+
+.ui-panelgrid tr {
+	border-width: 0px !important;
+}
+
+.carFilterButton {
+	background-color: #ff7400;
+	float: right;
+	border-color: #ff7400;
+	border-radius: 5px
+}
+
+.header-branding {
+	color: #FEE;
+}
+
+.ui-messages-error {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	background-color: #ffffff;
+	border: 0px;
+}
+
+.ui-panelgrid-cell:nth-child(1) {
+	width: 170px
+}
+</style>
+	</ui:define>
+	<ui:define name="content">
+	   <p>Congratulations!</p>
+	   <p>You've successfully sold us your car.</p>
+	   <h:messages />
+	</ui:define>
+	<ui:define name="explanation">
+		<h3>What do you see here?</h3>
+		<p>This page integrates a PrimeFaces form with AngularFaces.</p>
+		<p>The car data are traditional PrimeFaces input fields with JSF
+			EL expressions.</p>
+		<p>The customer data fields are PrimeFaces input fields with
+			AngularJS mustaches.</p>
+		<p>The CAPTCHA - which is generated on the server - is used to
+			lock or unlock the button with a little AngularJS code.</p>
+		<p>The button is a PrimeFaces AJAX CommandButton.</p>
+		<p>After hidden one of the buttons the input fields are hidden by
+			means of AngularJS. For some reason ng-show does not work. By forcing
+			it to call a Javascript function the value of ng-show is updated to
+			false, but the displayed panel doesn't vanish. However, style="{
+			{showDetailsClass()} }" is more reliable.</p>
+	</ui:define>
+</ui:composition>

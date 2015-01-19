@@ -45,10 +45,12 @@
 			value="{{customerBean.captchaQuestion}}" cacheable="true" />
 		<input id="captchaField" value="{{customerBean.captcha}}" cacheable="true"/>
 	</h:panelGrid>
-	<h:commandButton class="carFilterButton" action="#{newCarBean.sell}"
-		value="Sell this car!" />
-	<h:commandButton class="carFilterButton" action="#{newCarBean.sell}"
-		value="Sell this car!">
+	<h:commandButton class="carFilterButton" action="#{newCarBean.sell}" ng-disabled="myForm.$invalid"
+				style="{{myForm.$invalid?'color:#888':''}}"
+		value="Sell this car! (non AJAX)" />
+	<h:commandButton class="carFilterButton" action="#{newCarBean.sell}" ng-disabled="myForm.$invalid"
+				style="{{myForm.$invalid?'color:#888':''}}"
+		value="Sell this car! (JSF AJAX)">
 		<f:ajax render="@form messageID" />
 	</h:commandButton>
 

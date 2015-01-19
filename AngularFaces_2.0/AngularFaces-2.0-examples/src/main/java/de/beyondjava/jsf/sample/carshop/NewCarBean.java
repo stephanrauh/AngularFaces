@@ -109,6 +109,6 @@ public class NewCarBean implements Serializable {
 			return "index.jsf?tab=2";
 		}
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "CAPTCHA","Thanks for selling this car!"));
-		return "index.jsf";
+		return "sold.jsf";
 	}
 }
