@@ -200,15 +200,15 @@ function findErrorObject(watchFieldID) {
     var errorObjectToBeWatchedName=null;
     var watchField=document.getElementById(watchFieldID);
     if (watchField==null) {
-    watchField = document.getElementsByName(watchFieldID)[0];
+        watchField = document.getElementsByName(watchFieldID)[0];
     }
     while (watchField) {
         var name =watchField.getAttribute("name");
         if (null != name && typeof(name) != 'undefined') {
-        if (null == errorObjectToBeWatchedName)
-            errorObjectToBeWatchedName = name;
-        else
-            errorObjectToBeWatched = name + "." + errorObjectToBeWatchedName;
+            if (null == errorObjectToBeWatchedName)
+                errorObjectToBeWatchedName = name;
+            else
+                errorObjectToBeWatched = name + "." + errorObjectToBeWatchedName;
         }
         watchField=watchField.parentElement;
     }
