@@ -12,7 +12,7 @@
 	<ui:param name="title" value="Car dealer demo" />
 	<ui:param name="controllerFile" value="index.js" />
 	<ui:define name="content">
-		<h:messages />
+		<h:messages id="messageID" />
 		<ul class="tab" ng-init="tab = 1">
 			<li class="tab" ng-class="{active:tab===1}"><a class="tab"
 				ng-click="tab = 1">Looking for a car?</a></li>

@@ -23,12 +23,6 @@ public class CarBean implements Serializable {
 		this.car = car;
 		return "details.jsf";
 	}
-	public String showDetails2() {
-		Map<String,String> params = 
-                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-	  String selection = params.get("selectedCar");
-		return "details.jsf";
-	}
 
 	public String getBrand() {
 		return car.getBrand();

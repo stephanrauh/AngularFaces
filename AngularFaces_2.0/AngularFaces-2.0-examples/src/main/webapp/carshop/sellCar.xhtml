@@ -51,7 +51,7 @@
 	<h:commandButton class="carFilterButton" action="#{newCarBean.sell}" ng-disabled="myForm.$invalid"
 				style="{{myForm.$invalid?'color:#888':''}}"
 		value="Sell this car! (JSF AJAX)">
-		<f:ajax render="@form messageID" />
+		<f:ajax render="@form" />
 	</h:commandButton>
 
 
