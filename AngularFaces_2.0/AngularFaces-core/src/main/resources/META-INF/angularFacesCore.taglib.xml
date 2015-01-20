@@ -48,11 +48,11 @@
 	</tag>
 
 	<tag>
-		<description><![CDATA[Enables manual AngularJS updates.]]></description>
-		<tag-name>activateAngularFaces</tag-name>
+		<description><![CDATA[Update the AngularJS model after an AJAX request.]]></description>
+		<tag-name>updateModelAfterAJAXRequest</tag-name>
 		<component>
-			<component-type>de.beyondjava.puiActivateAngularFaces</component-type>
-			<renderer-type>de.beyondjava.puiActivateAngularFaces</renderer-type>
+			<component-type>de.beyondjava.puiUpdateModelAfterAJAXRequests</component-type>
+			<renderer-type>de.beyondjava.puiUpdateModelAfterAJAXRequests</renderer-type>
 		</component>
 	</tag>
 

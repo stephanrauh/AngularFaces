@@ -65,7 +65,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 				LOGGER.severe("Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters in the web.xml");
 			} else {
 				final UIViewRoot root = (UIViewRoot) source;
-				boolean ajaxRequest = context.getPartialViewContext().isAjaxRequest();
+				final boolean ajaxRequest = context.getPartialViewContext().isAjaxRequest();
 				boolean angularFacesRequest = ajaxRequest && isAngularFacesRequest();
 				if (!angularFacesRequest || PuiModelSync.isJSFAttributesTableEmpty()) {
 					PuiModelSync.initJSFAttributesTable();
@@ -90,13 +90,11 @@ public class PuiAngularTransformer implements SystemEventListener {
 							root.visitTree(new FullVisitContext(context), new PuiSelectItemTagHandler());
 						}
 					});
-					if (!ajaxRequest) {
-						time("internationalization", new Runnable() {
-							public void run() {
-								root.visitTree(new FullVisitContext(context), new TranslationCallback());
-							}
-						});
-					}
+					time("internationalization", new Runnable() {
+						public void run() {
+							root.visitTree(new FullVisitContext(context), new TranslationCallback(ajaxRequest));
+						}
+					});
 				}
 			}
 			long time = System.nanoTime() - timer;

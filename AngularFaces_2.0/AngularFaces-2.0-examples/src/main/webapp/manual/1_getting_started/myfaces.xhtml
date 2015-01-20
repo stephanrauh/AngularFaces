@@ -13,7 +13,7 @@
 	</h:head>
 		<h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
 		  <h:form id="myForm">
-		    <ac:activateAngularFaces />
+		    <ac:updateModelAfterAJAXRequest />
 			<h2>Welcome to AngularFaces 2.0!</h2>
     		Based firmly in the future...<br />
     		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
@@ -36,7 +36,7 @@
 						<f:ajax render="@form" execute="@form" />
 					</h:commandButton>
 				</h:panelGrid>
-				The update region is only a part of the DOM tree controlled by AngularJS. Therefore, you need an &lt;ac:activateAngularFaces /&gt; tag to update the AngularJS model after an AJAX request.
+				The update region is only a part of the DOM tree controlled by AngularJS. Therefore, you need an &lt;ac:updateModelAfterAJAXRequest /&gt; tag to update the AngularJS model after an AJAX request.
 				<h:messages globalOnly="false" />
 			</h:panelGroup>
 		</h:form>

@@ -27,6 +27,13 @@ import de.beyondjava.angularFaces.core.i18n.I18n;
 
 /** Translate texts store in a component. */
 public class TranslationCallback implements VisitCallback {
+
+	boolean isAjaxRequest;
+
+	public TranslationCallback(boolean isAjaxRequest) {
+		this.isAjaxRequest = isAjaxRequest;
+	}
+
 	I18n i18n = null;
 
 	int duplicateLabels = 0;
@@ -40,7 +47,7 @@ public class TranslationCallback implements VisitCallback {
 	@Override
 	public VisitResult visit(VisitContext arg0, UIComponent component) {
 		if (component.getAttributes().containsKey("puitranslate")) {
-			if (component.getChildCount()==1) {
+			if (component.getChildCount() == 1) {
 				UIComponent kid = component.getChildren().get(0);
 				String caption = kid.toString();
 				if (null != caption) {
@@ -52,11 +59,13 @@ public class TranslationCallback implements VisitCallback {
 				}
 			}
 		}
-		for (String attributeName : attributesToBeTranslated) {
-			translateAttribute(component, attributeName);
-		}
-		if (component instanceof UICommand || component instanceof UIOutput) {
-			translateAttribute(component, "value");
+		if (!isAjaxRequest) {
+			for (String attributeName : attributesToBeTranslated) {
+				translateAttribute(component, attributeName);
+			}
+			if (component instanceof UICommand || component instanceof UIOutput) {
+				translateAttribute(component, "value");
+			}
 		}
 
 		return VisitResult.ACCEPT;

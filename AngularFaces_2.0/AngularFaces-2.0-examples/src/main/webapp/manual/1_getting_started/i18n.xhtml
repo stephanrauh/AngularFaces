@@ -12,7 +12,7 @@
 	</h:head>
 	<h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
 		<h:form id="myForm" prependId="false">
-		    <ac:activateAngularFaces />
+		    <ac:updateModelAfterAJAXRequest />
 			<h2><h:outputText value="Welcome to AngularFaces 2.0!" /></h2>
     		<translate>Based firmly in the future...</translate><br />
     		<hr />
@@ -39,8 +39,12 @@
 					<h:commandButton value="Add on server (without AJAX)" 
 						action="#{calculatorBean.add}" />
 				</h:panelGrid>
-				The update region is only a part of the DOM tree controlled by AngularJS. Therefore, you need an &lt;ac:activateAngularFaces /&gt; tag to update the AngularJS model after an AJAX request.
-				
+				<br />
+				<p><b>Note on the example:</b></p>
+				<p>The update region is only a part of the DOM tree controlled by AngularJS.<br />
+				As a consequence, the server may change bean values during an AJAX request.<br />
+				When the HTML DOM tree is updated, the AngularJS model still has the old values,<br />
+				which aren't valid any more. To fix this, add &lt;ac:updateModelAfterAJAXRequest /&gt; to the form.</p> 
 				<h:messages globalOnly="false" />
 			</h:panelGroup>
 		</h:form>

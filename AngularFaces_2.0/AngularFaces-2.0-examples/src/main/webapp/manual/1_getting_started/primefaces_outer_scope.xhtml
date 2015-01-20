@@ -11,7 +11,7 @@
 	<h:body>
 		<div ng-app="AngularFacesExamples" ng-controller="MyCtrl">
 		<h:form id="formID" ng-app="AngularFacesExamples" ng-controller="MyCtrl" prependId="false">
-		    <ac:activateAngularFaces />
+		    <ac:updateModelAfterAJAXRequest />
 			<h2>Welcome to AngularFaces 2.0!</h2>
     		Based firmly in the future...
 			<prime:panel colspan="2" header="This is a JSF view enriched by an AngularJS bean" id="myPanel">
@@ -30,7 +30,7 @@
 						action="#{calculatorBean.add}" ajax="false" />
 				</prime:panelGrid>
 				<prime:messages globalOnly="false" />
-				The update region is only a part of the DOM tree controlled by AngularJS. Therefore, you need an &lt;ac:activateAngularFaces /&gt; tag to update the AngularJS model after an AJAX request.
+				The update region is only a part of the DOM tree controlled by AngularJS. Therefore, you need an &lt;ac:updateModelAfterAJAXRequest /&gt; tag to update the AngularJS model after an AJAX request.
 			</prime:panel>
     		<prime:panel colspan="2" header="{{calculatorBean.headerText}}"
 				style="{{calculatorBean.gridStyle}}">

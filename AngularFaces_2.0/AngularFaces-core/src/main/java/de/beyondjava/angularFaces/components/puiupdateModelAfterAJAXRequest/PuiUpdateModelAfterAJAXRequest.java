@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.beyondjava.angularFaces.components.puiActivateAngularFaces;
+package de.beyondjava.angularFaces.components.puiupdateModelAfterAJAXRequest;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -25,9 +25,9 @@ import javax.faces.context.ResponseWriter;
 
 import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
-/** This generates code to reactive AngualarFaces after an AJAX request. Possibly duplicate to PuiSync. */
-@FacesComponent("de.beyondjava.puiActivateAngularFaces")
-public class PuiActivateAngularFaces extends HtmlOutputText implements Serializable {
+/** This generates code to update the AngularJS model after an AJAX request. */
+@FacesComponent("de.beyondjava.puiUpdateModelAfterAJAXRequests")
+public class PuiUpdateModelAfterAJAXRequest extends HtmlOutputText implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 

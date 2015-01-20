@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.beyondjava.angularFaces.components.puiActivateAngularFaces;
+package de.beyondjava.angularFaces.components.puiupdateModelAfterAJAXRequest;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -29,12 +29,12 @@ import javax.faces.render.Renderer;
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
-/** This generates code to reactive AngualarFaces after an AJAX request. Possibly duplicate to PuiSyncRenderer. */
-@FacesRenderer(componentFamily = "de.beyondjava", rendererType = "de.beyondjava.puiActivateAngularFaces")
-public class PuiActivateAngularFacesRenderer extends Renderer implements Serializable {
+/** This generates code to update the AngularJS model after an AJAX request. */
+@FacesRenderer(componentFamily = "de.beyondjava", rendererType = "de.beyondjava.puiUpdateModelAfterAJAXRequests")
+public class PuiUpdateModelAfterAJAXRequestRenderer extends Renderer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.components.puiActivateAngularFaces.puiActivateAngularFacesRenderer");
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.components.puiupdateModelAfterAJAXRequest.puiUpdateModelAfterAJAXRequestRenderer");
 
 	@Override
 	public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -42,9 +42,6 @@ public class PuiActivateAngularFacesRenderer extends Renderer implements Seriali
 			ResponseWriter writer = context.getResponseWriter();
 			writer.writeText("\n", null);
 			writer.startElement("script", component);
-//			writer.writeText("window.jsfScope=null;", null);
-//			writer.writeText("function initJSFScope($scope){", null);
-//			writer.writeText("window.jsfScope=$scope;", null);
 			writer.write("if (window.jsfScope) {\n");
 			List<String> beansAsJSon = PuiModelSync.getFacesModel();
 			for (String bean : beansAsJSon) {
@@ -58,5 +55,4 @@ public class PuiActivateAngularFacesRenderer extends Renderer implements Seriali
 	@Override
 	public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
 	}
-
 }

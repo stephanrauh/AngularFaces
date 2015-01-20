@@ -102,8 +102,16 @@ public class AddTypeInformationCallback implements VisitCallback {
 			method = component.getClass().getMethod("getType");
 			if (null != method) {
 				Object invoke = method.invoke(component);
-				if (invoke != null)
-					return;
+				if (invoke != null) {
+					// is it an PrimeFaces component?
+					if (component.getClass().getName().equals("org.primefaces.component.inputtext.InputText")) {
+						if (!"text".equals(invoke)) {
+							// the programmer has explicitly assigned a type
+							return;
+						}
+					}
+					else return;
+				}
 			}
 			
 			method = component.getClass().getMethod("setType", String.class);
