@@ -181,8 +181,11 @@ public class AngularTagDecorator implements TagDecorator {
 
 	private Tag convertToTranslateTag(Tag tag, TagAttributes modifiedAttributes) {
 		TagAttribute[] attributes = modifiedAttributes.getAll();
-		TagAttributes more = new AFTagAttributes(attributes);
-		Tag t = new Tag(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "puiTranslate", "ac:puiTranslate", more);
+		AFTagAttributes more = new AFTagAttributes(attributes);
+		if (null==more.get(JSF_NAMESPACE, "value")) {
+			more.addAttribute(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "puitranslate", "ac:puitranslate", "true");
+		}
+		Tag t = new Tag(tag.getLocation(), JSF_NAMESPACE, "outputText", "h:outputText", more);
 		return t;
 	}
 

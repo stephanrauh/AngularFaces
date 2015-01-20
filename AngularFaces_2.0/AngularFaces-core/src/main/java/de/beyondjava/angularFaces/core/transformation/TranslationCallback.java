@@ -39,6 +39,19 @@ public class TranslationCallback implements VisitCallback {
 
 	@Override
 	public VisitResult visit(VisitContext arg0, UIComponent component) {
+		if (component.getAttributes().containsKey("puitranslate")) {
+			if (component.getChildCount()==1) {
+				UIComponent kid = component.getChildren().get(0);
+				String caption = kid.toString();
+				if (null != caption) {
+					String translation = translate(caption);
+					if (null != translation) {
+						component.getAttributes().put("value", translation);
+						component.getChildren().clear();
+					}
+				}
+			}
+		}
 		for (String attributeName : attributesToBeTranslated) {
 			translateAttribute(component, attributeName);
 		}
