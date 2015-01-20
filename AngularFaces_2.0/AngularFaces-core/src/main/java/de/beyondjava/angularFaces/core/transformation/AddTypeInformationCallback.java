@@ -99,6 +99,13 @@ public class AddTypeInformationCallback implements VisitCallback {
 	private void setType(UIComponent component, String type) {
 		Method method;
 		try {
+			method = component.getClass().getMethod("getType");
+			if (null != method) {
+				Object invoke = method.invoke(component);
+				if (invoke != null)
+					return;
+			}
+			
 			method = component.getClass().getMethod("setType", String.class);
 			if (null != method) {
 				method.invoke(component, type);

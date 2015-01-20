@@ -41,36 +41,36 @@ public class AddLabelsAndMessagesHandler extends TagHandler {
 
 	boolean addLabels = true;
 	boolean addMessages = true;
-	boolean recursive = true;
 
 	public AddLabelsAndMessagesHandler(TagConfig config) {
 		super(config);
-		TagAttribute recursiveTag = config.getTag().getAttributes().get("recursive");
-		if (null != recursiveTag) {
-			if ("false".equalsIgnoreCase(recursiveTag.getValue()))
-				recursive = false;
-		}
-		TagAttribute labels = config.getTag().getAttributes().get("addLabels");
-		if (null != labels) {
-			if ("false".equalsIgnoreCase(labels.getValue()))
-				addLabels = false;
-		}
-		TagAttribute messages = config.getTag().getAttributes().get("addMessages");
-		if (null != messages) {
-			if ("false".equalsIgnoreCase(messages.getValue()))
-				addMessages = false;
-		}
 	}
 
 	@Override
 	public void apply(FaceletContext ctx, UIComponent parent) throws IOException {
-		if (addLabels || addMessages) {
-				populateTree(parent);
+		String l = AttributeUtilities.getAttributeAsString(parent, "addLabels");
+		if (l != null) {
+			if ("false".equalsIgnoreCase(l))
+				addLabels = false;
+			else {
+				addLabels = true;
+			}
 		}
-//		nextHandler.apply(ctx, parent); // Delegate job further to first next tag in tree hierarchy.
+		String m = AttributeUtilities.getAttributeAsString(parent, "addMessages");
+		if (m != null) {
+			if ("false".equalsIgnoreCase(m))
+				addMessages = false;
+			else {
+				addMessages = true;
+			}
+		}
+
+		if (addLabels || addMessages) {
+			populateTree(parent, addLabels, addMessages);
+		}
 	}
 
-	private void populateTree(UIComponent parent) {
+	private void populateTree(UIComponent parent, boolean addLabels, boolean addMessages) {
 		List<UIComponent> children = parent.getChildren();
 		for (int index = children.size() - 1; index >= 0; index--) {
 			UIComponent kid = children.get(index);
@@ -80,8 +80,23 @@ public class AddLabelsAndMessagesHandler extends TagHandler {
 				if (addLabels)
 					addSingleLabel(children, index, kid);
 			}
-			if (recursive)
-				populateTree(kid);
+			String l = AttributeUtilities.getAttributeAsString(kid, "addLabels");
+			if (l != null) {
+				if ("false".equalsIgnoreCase(l))
+					addLabels = false;
+				else {
+					addLabels = true;
+				}
+			}
+			String m = AttributeUtilities.getAttributeAsString(kid, "addMessages");
+			if (m != null) {
+				if ("false".equalsIgnoreCase(m))
+					addMessages = false;
+				else {
+					addMessages = true;
+				}
+			}
+			populateTree(kid, addLabels, addMessages);
 		}
 	}
 

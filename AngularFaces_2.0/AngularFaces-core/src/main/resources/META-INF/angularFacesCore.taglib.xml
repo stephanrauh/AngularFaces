@@ -47,6 +47,20 @@
 		</component>
 	</tag>
 	<tag>
+		<description><![CDATA[This component translates its value or its content to the target language.]]></description>
+		<tag-name>puiTranslate</tag-name>
+		<component>
+			<component-type>de.beyondjava.puiTranslate</component-type>
+		</component>
+		<attribute>
+			<description><![CDATA[The text to be translated.]]></description>
+			<name>value</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+
+	<tag>
 		<description><![CDATA[Enables manual AngularJS updates.]]></description>
 		<tag-name>activateAngularFaces</tag-name>
 		<component>
