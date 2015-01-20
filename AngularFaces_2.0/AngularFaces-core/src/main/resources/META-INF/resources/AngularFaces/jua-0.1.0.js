@@ -24,7 +24,9 @@ app.run(function($rootScope, $compile) {
              window.$juaRootScope=$rootScope;
      
          function escapeJSFClientId(id) {
-             return "#" + id.replace(/:/g, "\\:");
+             if (id)
+                 return "#" + id.replace(/:/g, "\\:");
+             return id;
          }
      
          /**
@@ -73,7 +75,7 @@ app.run(function($rootScope, $compile) {
              var updates = data.responseXML.getElementsByTagName('update');
      
              $.each(updates, function(index, update) {
-                 var id = escapeJSFClientId(update.id);
+                 var id = escapeJSFClientId(update.getAttribute('id'));
      
                  if (id.indexOf("ViewState") == -1) {
                  
@@ -96,7 +98,7 @@ app.run(function($rootScope, $compile) {
                  var updates = data.responseXML.getElementsByTagName('update');
      
                  $.each(updates, function(index, update) {
-                     var id = escapeJSFClientId(update.id), element;
+                     var id = escapeJSFClientId(update.getAttribute('id')), element;
      
                      if (id.indexOf("ViewState") == -1) {
                          element = angular.element($(id));
