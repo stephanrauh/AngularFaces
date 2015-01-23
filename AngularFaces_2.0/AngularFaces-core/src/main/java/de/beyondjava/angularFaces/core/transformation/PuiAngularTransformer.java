@@ -16,6 +16,7 @@
 package de.beyondjava.angularFaces.core.transformation;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -103,7 +104,23 @@ public class PuiAngularTransformer implements SystemEventListener {
 	}
 
 	private void addJavascript(UIViewRoot root, FacesContext context, boolean isProduction) {
-		{
+		boolean loadJQuery = true;
+		boolean loadAngularJS = true;
+		boolean loadAngularMessages = true;
+		List<UIComponent> availableResources = root.getComponentResources(context, "head");
+		for (UIComponent ava : availableResources) {
+			String name = (String) ava.getAttributes().get("name");
+			if (null != name)
+				if (name.contains("angular")) {
+					loadAngularJS = false;
+				} else if (name.toLowerCase().contains("angular-messages")) {
+					loadAngularMessages = false;
+				} else if (name.toLowerCase().contains("jquery")) {
+					loadJQuery = false;
+				}
+		}
+
+		if (loadJQuery) {
 			UIOutput output = new UIOutput();
 			output.setRendererType("javax.faces.resource.Script");
 			if (isProduction)
@@ -113,7 +130,8 @@ public class PuiAngularTransformer implements SystemEventListener {
 			output.getAttributes().put("library", "jQuery");
 			root.addComponentResource(context, output, "head");
 		}
-		{
+
+		if (loadAngularJS) {
 			UIOutput output = new UIOutput();
 			output.setRendererType("javax.faces.resource.Script");
 			if (isProduction) {
@@ -136,7 +154,8 @@ public class PuiAngularTransformer implements SystemEventListener {
 			output.getAttributes().put("library", "AngularFaces");
 			root.addComponentResource(context, output, "head");
 		}
-		
+
+		if (loadAngularMessages)
 		{
 			UIOutput output = new UIOutput();
 			output.setRendererType("javax.faces.resource.Script");
