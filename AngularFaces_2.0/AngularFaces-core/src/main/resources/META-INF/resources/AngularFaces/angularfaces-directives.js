@@ -223,6 +223,9 @@ function findErrorObject(watchFieldID) {
  * value).
  */
 function getErrorMessage(errors, inputField) {
+    if (inputField.getAttribute("type")=="hidden")
+        return "";
+
     if (errors && errors['min']) {
         var min = inputField.getAttribute("min");
         var msg = translateErrorMessage("This number must be at least {}.");
@@ -260,6 +263,13 @@ function getErrorMessage(errors, inputField) {
     }
     if (errors && errors['maxlength']) {
         var max = inputField.getAttribute("ng-maxlength");
+        if (typeof(max)=='undefined' || max==null) {
+            max=inputField.getAttribute("maxlength");
+        }
+        if (typeof(max)=='undefined' || max==null) {
+           max="?";
+           console.log("AngularJS reports a maxlength error, but ng-maxlength is undefined");
+        }
         var msg = translateErrorMessage("{} characters accepted at most.");
         msg=msg.replace("{}", max);
         return msg;

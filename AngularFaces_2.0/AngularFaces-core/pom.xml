@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<name>AngularFaces-2.1</name>
-	<description>AngularFaces make JSF programming simpler. In particular, it adds AngularJS to JSF.</description>
+	<description>AngularFaces makes JSF programming simpler. In particular, it adds AngularJS to JSF.</description>
 	<url>http://www.beyondjava.net</url>
 	<licenses>
         <license>
