@@ -1,0 +1,10 @@
+!/target/
+/target/*
+!/target/generated-sources
+/target/generated-sources/*
+!/target/generated-sources/maven-jsf-plugin
+.classpath
+.project
+/.settings
+/build
+rebel.xml

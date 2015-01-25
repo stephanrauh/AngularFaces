@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<facelet-taglib version="2.0"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
+	<namespace>http://beyondjava.net/angularFaces</namespace>
+
+	<tag>
+		<description><![CDATA[A simple HTML div wrapped as a JSF component.]]></description>
+		<tag-name>slider</tag-name>
+		<component>
+			<component-type>de.beyondjava.angularFaces.components.slider</component-type>
+			<renderer-type>de.beyondjava.angularFaces.components.slider</renderer-type>
+		</component>
+	</tag>
+
+</facelet-taglib>

@@ -1,0 +1,15 @@
+.ui-state-error-text {
+	color: #cd0a0a;
+}
+
+.ui-state-error {
+	border: none;
+}
+
+.ng-dirty .ng-invalid {
+	border: #cd0a0a 1px solid;
+}
+
+puimessage {
+	color: #cd0a0a;
+}

@@ -1,9 +1,18 @@
 AngularFaces and BabbageFaces
 =============================
 
+<b>AngularFaces 2.1 has been released!</b>
+Add these lines to your Maven pom.xml file:
+		<dependency>
+			<groupId>de.beyondjava</groupId>
+			<artifactId>angularFaces-core</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+
+
 <b>AngularFaces</b> is a JSF library making it easy to integrate AngularJS code.<br>
 
-AngularFaces 2.0 provides AngularJS integration in Apache MyFaces, Oracle Mojarra, PrimeFaces and the new HTML5 friendly style. It doesn't need widgets of its own. Instead it 
+AngularFaces 2.1 provides AngularJS integration in Apache MyFaces, Oracle Mojarra, PrimeFaces and the new HTML5 friendly style. It doesn't need widgets of its own. Instead it 
 supports most JSF and PrimeFaces widgets out of the box.
 
 Therefore the AngularJS and AngularDart widgets I already implemented have been moved to a widgets subproject ("AngularFaces-widgets"). Those widgets make
