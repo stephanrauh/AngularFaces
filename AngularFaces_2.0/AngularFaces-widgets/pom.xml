@@ -231,7 +231,7 @@
 			
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>yuicompressor-maven-plugin</artifactId>
-				<version>1.1</version>
+				<version>1.5.1</version>
 				<executions>
 					<execution>
 						<goals>
@@ -240,25 +240,22 @@
 					</execution>
 				</executions>
 				<configuration>
-					<nosuffix>true</nosuffix>
 					<linebreakpos>-1</linebreakpos>
-					<excludes>
-						<exclude>**/*.js</exclude>
-						<exclude>**/*.css</exclude>
-					</excludes>
 					<aggregations>
 						<aggregation>
 							<insertNewLine>true</insertNewLine>
-							<output>${project.build.directory}/classes/META-INF/resources/angularfaces-widgets/angularfaces-widgets.css</output>
+							<output>src/main/resources/META-INF/resources/angularfaces-widgets/angularfaces-widgets.css</output>
 							<includes>
 								<include>${project.build.directory}/classes/META-INF/resources/angularfaces-widgets/core/angularfaces-widgets.css</include>
+								<include>${project.build.directory}/classes/META-INF/resources/angularfaces-widgets/slider/slider.css</include>
 							</includes>
 						</aggregation>
 						<aggregation>
 							<insertNewLine>true</insertNewLine>
-							<output>${project.build.directory}/classes/META-INF/resources/angularfaces-widgets/angularfaces-widgets.css</output>
+							<output>src/main/resources/META-INF/resources/angularfaces-widgets/angularfaces-widgets.js</output>
 							<includes>
 								<include>${project.build.directory}/classes/META-INF/resources/angularfaces-widgets/core/angularfaces-widgets.js</include>
+								<include>${project.build.directory}/classes/META-INF/resources/angularfaces-widgets/slider/slider.js</include>
 							</includes>
 						</aggregation>
 					</aggregations>
