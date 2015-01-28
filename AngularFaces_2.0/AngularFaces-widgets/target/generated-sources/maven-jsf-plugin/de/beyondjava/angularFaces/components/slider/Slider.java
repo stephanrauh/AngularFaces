@@ -27,19 +27,20 @@ import javax.faces.component.UIComponent;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
+import javax.faces.component.FacesComponent;
 import java.util.List;
 import java.util.ArrayList;
 
 @ResourceDependencies({
-	@ResourceDependency(library="primefaces", name="slider/slider.css"),
-	@ResourceDependency(library="primefaces", name="slider/jquery-ui.js"),
-	@ResourceDependency(library="primefaces", name="slider/jquery-ui.js"),
-	@ResourceDependency(library="primefaces", name="slider/slider.js")
+	@ResourceDependency(library="angularfaces-widgets", name="slider/slider.css"),
+	@ResourceDependency(library="angularfaces-widgets", name="slider/jquery-ui.js"),
+	@ResourceDependency(library="angularfaces-widgets", name="slider/jquery-ui.js"),
+	@ResourceDependency(library="angularfaces-widgets", name="slider/slider.js")
 })
+@FacesComponent("de.beyondjava.angularFaces.components.slider")
 public class Slider extends HtmlOutputText implements java.io.Serializable {
 
 
-	public static final String COMPONENT_TYPE = "de.beyondjava.angularFaces.components.slider";
 	public static final String COMPONENT_FAMILY = "de.beyondjava";
 	private static final String DEFAULT_RENDERER = "de.beyondjava.angularFaces.components.slider";
 
