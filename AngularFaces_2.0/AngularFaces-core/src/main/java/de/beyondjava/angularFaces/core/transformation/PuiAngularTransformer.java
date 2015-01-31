@@ -110,6 +110,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 
 	private void addJavascript(UIViewRoot root, FacesContext context, boolean isProduction) {
 		boolean loadJQuery = true;
+		boolean loadJQueryUI = true;
 		boolean loadAngularJS = true;
 		boolean loadAngularMessages = true;
 		List<UIComponent> availableResources = root.getComponentResources(context, "head");
@@ -120,6 +121,8 @@ public class PuiAngularTransformer implements SystemEventListener {
 					loadAngularJS = false;
 				} else if (name.toLowerCase().contains("angular-messages")) {
 					loadAngularMessages = false;
+				} else if (name.toLowerCase().contains("jquery-ui")) {
+					loadJQueryUI = false;
 				} else if (name.toLowerCase().contains("jquery")) {
 					loadJQuery = false;
 				}
@@ -132,6 +135,16 @@ public class PuiAngularTransformer implements SystemEventListener {
 				output.getAttributes().put("name", "jquery.min-1.11.1.js");
 			else
 				output.getAttributes().put("name", "jquery-1.11.1.js");
+			output.getAttributes().put("library", "jQuery");
+			root.addComponentResource(context, output, "head");
+		}
+		if (loadJQueryUI) {
+			UIOutput output = new UIOutput();
+			output.setRendererType("javax.faces.resource.Script");
+			if (isProduction)
+				output.getAttributes().put("name", "jquery-ui.min-1.11.2.js");
+			else
+				output.getAttributes().put("name", "jquery-ui-1.11.2.js");
 			output.getAttributes().put("library", "jQuery");
 			root.addComponentResource(context, output, "head");
 		}
