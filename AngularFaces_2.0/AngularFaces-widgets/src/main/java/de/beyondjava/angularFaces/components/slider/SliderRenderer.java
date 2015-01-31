@@ -17,11 +17,18 @@ package de.beyondjava.angularFaces.components.slider;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Logger;
 
+import javax.faces.application.ProjectStage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.PreRenderViewEvent;
+import javax.faces.event.SystemEvent;
+import javax.faces.event.SystemEventListener;
 import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
 
@@ -34,15 +41,35 @@ public class SliderRenderer extends Renderer implements Serializable {
 
 	@Override
 	public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
+		Slider s = (Slider) component;
 		ResponseWriter writer = context.getResponseWriter();
-		writer.startElement("aslider", component);
-		Slider s = (Slider)component;
+		writer.startElement("div", component);
+		// ="{orientation: 'horizontal', range: 'min'}
+		String settings = ",";
+		if (null != s.getOrientation() && s.getOrientation().length() > 0) {
+			settings += "orientation:'" + s.getOrientation() + "',";
+		}
+//		settings += "range:true" + ",";
+		settings = settings.substring(1, settings.length() - 1);
+		writer.writeAttribute("ui-slider", "{" + settings + "}", "ui-slider");
+		String max = "0";
+		if (s.getMax() != 0)
+			max = String.valueOf(s.getMax());
+		writer.writeAttribute("max", max, "max");
+		String min = "0";
+		if (s.getMin() != 0)
+			min = String.valueOf(s.getMin());
+		writer.writeAttribute("min", min, "min");
+		String step = "1";
+		if (s.getStep() != 0)
+			step = String.valueOf(s.getStep());
+		writer.writeAttribute("step", step, "step");
 	}
-	
+
 	@Override
 	public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
 		ResponseWriter writer = context.getResponseWriter();
-		writer.endElement("aslider");
+		writer.endElement("div");
 	}
 
 }
