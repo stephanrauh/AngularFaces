@@ -16,8 +16,11 @@
 package de.beyondjava.angularFaces.core.transformation;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
@@ -41,6 +44,8 @@ import de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator;
 public class PuiAngularTransformer implements SystemEventListener {
 
 	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.transformation.PuiAngularTransformer");
+	
+	private static final String RESOURCE_KEY = "de.beyondjava.angularFaces.core.ResourceFiles";
 
 	static {
 		LOGGER.info("AngularFaces utility class PuiELTransformer ready for use.");
@@ -200,6 +205,22 @@ public class PuiAngularTransformer implements SystemEventListener {
 			output.getAttributes().put("library", "AngularFaces");
 			root.addComponentResource(context, output, "head");
 		}
+		
+		Map<String, Object> viewMap=root.getViewMap();
+		Map<String, String> resourceMap = (Map<String, String>) viewMap.get(RESOURCE_KEY);
+		if (null != resourceMap) {
+			for (Entry<String, String> entry: resourceMap.entrySet()) {
+				String file = entry.getValue();
+				String library = entry.getKey().substring(0, entry.getKey().length()-file.length()-1);
+				UIOutput output = new UIOutput();
+				output.setRendererType("javax.faces.resource.Script");
+				output.getAttributes().put("name", file);
+				output.getAttributes().put("library", library);
+				root.addComponentResource(context, output, "head");
+				
+			}
+		}
+
 	}
 
 	@Override
@@ -237,6 +258,27 @@ public class PuiAngularTransformer implements SystemEventListener {
 			}
 		}
 		return isAngularFacesRequest;
+	}
+
+	/** 
+	 * Registers a JS file that needs to be include in the header of the HTML file, but after jQuery and AngularJS.
+	 * @param library The name of the sub-folder of the resources folder.
+	 * @param resource The name of the resource file within the library folder.
+	 */
+	public static void addResourceAfterAngularJS(String library, String resource) {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		UIViewRoot v = ctx.getViewRoot();
+		Map<String, Object> viewMap=v.getViewMap();
+		@SuppressWarnings("unchecked")
+		Map<String, String> resourceMap = (Map<String, String>) viewMap.get(RESOURCE_KEY);
+		if (null==resourceMap) {
+			resourceMap = new HashMap<String, String>();
+			viewMap.put(RESOURCE_KEY, resourceMap);
+		}
+		String key = library + "#" + resource;
+		if (!resourceMap.containsKey(key)) {
+			resourceMap.put(key, resource);
+		}
 	}
 
 }
