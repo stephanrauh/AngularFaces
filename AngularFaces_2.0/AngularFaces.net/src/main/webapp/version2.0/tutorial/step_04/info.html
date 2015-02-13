@@ -1,0 +1,24 @@
+
+<div>
+  <h1>Using mustaches in JSF attributes</h1>
+  <p>Many JSF attributes can make use of AngularJS mustaches. In that case, they are evaluated on the client, giving
+    you a lot of extra flexibility.</p>
+  <p>For instance, the AngularTetris demo displays either the settings or the current score, depending on whether
+    the game is being played or not:</p>
+  <pre highlight class="xml">
+&lt;h:panelGroup style="&#123;&#123;game.settingsStyle()}}">
+  &lt;span style="font-weight:bold">Settings:&lt;/span>
+  ...
+&lt;/h:panelGroup>
+&lt;h:panelGroup style="&#123;&#123;game.scoreStyle()}}">
+  &lt;span style="font-weight:bold">Score:&lt;/span>
+  ...
+&lt;/h:panelGroup>
+</pre>
+  </p>
+  <h3>Beware of rendered="false"</h3>
+  <p>It's a bad idea to use rendered="false" to hide a component in an AngularFaces page. AngularFaces uses
+    optimized AJAX responses that update the variables of the scope, but nothing else. Hence, if you show or hide
+    something on the server side using the rendered attribute, the HTML page is never updated. Better use ng-show,
+    ng-hide or - as shown above - either style or styleClass.</p>
+  <br /> <br /> <br /> <br /> <br /> <br />

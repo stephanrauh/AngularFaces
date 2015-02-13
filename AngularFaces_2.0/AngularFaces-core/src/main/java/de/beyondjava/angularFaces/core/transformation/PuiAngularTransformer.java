@@ -117,13 +117,13 @@ public class PuiAngularTransformer implements SystemEventListener {
 		for (UIComponent ava : availableResources) {
 			String name = (String) ava.getAttributes().get("name");
 			if (null != name)
-				if (name.contains("angular")) {
+				if (name.contains("angular") && name.endsWith(".js")) {
 					loadAngularJS = false;
-				} else if (name.toLowerCase().contains("angular-messages")) {
+				} else if (name.toLowerCase().contains("angular-messages") && name.toLowerCase().endsWith(".js")) {
 					loadAngularMessages = false;
-				} else if (name.toLowerCase().contains("jquery-ui")) {
+				} else if (name.toLowerCase().contains("jquery-ui") && name.toLowerCase().endsWith(".js")) {
 					loadJQueryUI = false;
-				} else if (name.toLowerCase().contains("jquery")) {
+				} else if (name.toLowerCase().contains("jquery") && name.toLowerCase().endsWith(".js")) {
 					loadJQuery = false;
 				}
 		}

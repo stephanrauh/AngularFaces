@@ -1,3 +1,30 @@
+// mode=badge:
+// <div class="col-md-1 col-xs-1 col-sm-1 col-lg-1">
+//    <span id="j_idt54:j_idt66_badge" class="badge">34</span>
+//    <input id="j_idt54:j_idt66" name="j_idt54:j_idt66" type="hidden" size="2" min="0" max="100" maxlength="3" class="form-control input-sm" value="34">
+// </div>
+//<div class="col-md-4 col-xs-4 col-sm-4 col-lg-4">
+//  <div id="j_idt54:j_idt66_slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+//    <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 34%;"></div>
+//    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 34%;"></span>
+//  </div>
+//</div>
+
+//Mode=Edit:
+//<div class="row">
+//  <div class="col-md-1 col-xs-1 col-sm-1 col-lg-1">
+//    <input id="j_idt54:j_idt62" name="j_idt54:j_idt62" type="text" size="2" min="0" max="100" maxlength="3" class="form-control input-sm" value="87">
+//  </div>
+//  <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4">
+//    <div id="j_idt54:j_idt62_slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+//      <div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 87%;"></div>
+//      <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 87%;"></span>
+//    </div>
+//  </div>
+//</div>
+
+
+
 /*
  * copied from https://github.com/angular-ui/ui-slider/blob/master/src/slider.js
  * jQuery UI Slider plugin wrapper

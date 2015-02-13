@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+    </h:head>
+    <h:body>
+
+        <ui:composition>
+            <b:navBar brand="AngularFaces" brandHref="#{request.contextPath}#{request.servletPath}/index.xhtml" inverse="true" fixed="top">
+                <b:container>
+                <b:navbarLinks>
+                    <b:navLink />
+                    <b:navLink />
+                    <b:dropMenu value="Getting Started">
+                        <b:navLink value="Requirements" outcome="/requirements" icon="check" />
+                        <b:navLink value="Download" outcome="/download"  icon="save" />
+                        <b:navLink value="Quick Start" outcome="/quickstart"  icon="play-circle" />
+                    </b:dropMenu>
+                    
+                    <b:dropMenu value="Manual">
+                        <b:navLink value="Basic Layout" outcome="/layout/basic" />
+                        <b:navLink value="NavLinks" outcome="/layout/navLinks" icon="list" />
+                        <b:navLink value="Navbars" outcome="/layout/navbars" />
+                        <b:navLink value="Panels" outcome="/layout/panels" />
+                        <b:navLink value="Grids" outcome="/layout/panelgrids" />
+                        <b:navLink value="Icons" outcome="/layout/icons" />
+                        <b:navLink value="Jumbotron" outcome="/layout/jumbotron" />
+                        <b:navLink value="Wells" outcome="/layout/wells" />
+                    </b:dropMenu>
+                    
+                </b:navbarLinks>
+                <b:navbarLinks pull="right">
+                    <b:navLink outcome="/examples/index" value="Examples" iconAwesome="desktop" />
+                </b:navbarLinks>
+                </b:container>
+            </b:navBar>
+
+        </ui:composition>
+    </h:body>
+</html>
+

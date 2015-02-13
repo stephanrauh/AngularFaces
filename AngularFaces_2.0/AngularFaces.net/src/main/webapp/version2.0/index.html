@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="tutorialApp">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="Description"
+	content="AngularFaces brings AngularJS to the JSF world">
+<title>AngularFaces Tutorial</title>
+	<link rel="stylesheet" href="bootstrap.min.css" type="text/css">
+	
+	<script src="angular-1.2.22.js"></script>
+    <script src="angular-route-1.2.22.js"></script>
+    <script src="tutorialapp.js"></script>
+    <script src="controllers.js"></script>
+	
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/default.min.css">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function piwik()  {
+    var u="//www.atapuerca.de/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 3]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//www.atapuerca.de/piwik/piwik.php?idsite=3" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+	
+</head>
+<body>
+	<div id="wrapper">
+		<header class="header header-fixed">
+			<section class="navbar navbar-inverse docs-navbar-primary">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 header-branding">
+							<ul class="nav navbar-nav">
+								<li class="divider-vertical"></li>
+								<li class="dropdown"><a
+									href="http://angularfaces.com">What is
+										AngularFaces? </a></li>
+								<li class="dropdown"><a
+									href="http://www.angularfaces.com/tutorial">Tutorial </a></li>
+								<li class="divider-vertical"></li>
+								<li><a href="index.html#/download.html"><i
+										class="icon-home icon-white"></i>Download</a></li>
+								<li><a href="index.html#/contributions.html"><i
+										class="icon-home icon-white"></i>Contribute</a></li>
+								<li><a href="http://www.beyondjava.net"><i
+										class="icon-home icon-white"></i>http://www.BeyondJava.net</a></li>
+								<li><a href="/disclaimer.html"><i
+										class="icon-home icon-white"></i>Privacy, disclaimer and legal notes</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+		</header>
+	</div>
+
+
+	<section role="main" class="container main-body">
+		<div class="main-grid main-body-grid">
+			<div class="col-lg-4">
+				<div class="side-navigation">
+					<ul class="nav-list naked-list">
+						<li class="nav-index-group"><a
+							href="index.html#/tutorial.html"
+							class="nav-index-group-heading active">Tutorial</a>
+							<ul class="aside-nav">
+								<li class="nav-index-listing active"><a tabindex="2"
+									href="index.html#/step-00.html">0 - Bootstrapping</a></li>
+								<li class="nav-index-listing active">
+									<a href="index.html#/step-01.html" >1 - Labels and messages</a>
+								</li>
+								<li class="nav-index-listing active">
+									<a href="index.html#/step-02.html" >2 - Foreign language support</a>
+								</li>
+								<li class="nav-index-listing active">
+									<a href="index.html#/step-03.html" >3 - Angular input fields</a>
+								<li class="nav-index-listing active">
+									<a href="index.html#/step-04.html" >4 - Using mustaches in JSF attributes</a>
+								</li>
+								<li class="nav-index-listing active">
+									<a href="index.html#/step-05.html" >5 - Synchronizing arbitrary JSF attributes with the AngularJS model</a>
+								</li>
+								
+								<li class="nav-index-listing active">
+									<a href="index.html#/step-06.html" >6 - Client side bean validation (JSR 303)</a>
+								</li>
+								<li class="nav-index-listing active">
+									<a href="index.html#/step-07.html" >7 - Prime:datatable vs. ngtable</a>
+								</li>
+								<li class="nav-index-listing active">
+									<a href="index.html#/step-08.html" >8 - The AngularFaces way of AJAX</a>
+								</li>
+								<li class="nav-index-listing active">
+									<a href="index.html#/step-09.html" >9 - Mixing JSF AJAX and AngularJS AJAX</a>
+								</li>
+								<li class="nav-index-listing active">
+									<a href="index.html#/step-10.html" >10 - ng* pass-through attributes</a>
+								</li>
+								<li class="nav-index-listing active">
+									<a href="index.html#/step-11.html" >11 - Using native HTML tags</a>
+								</li>
+                                <li class="nav-index-listing active">
+                                    <a href="index.html#/step-12.html" >12 - Why do mustaches replace the familiar EL syntax?</a>
+                                </li>
+                                <li class="nav-index-listing active">
+                                    <a href="index.html#/step-13.html" >13 - ng-controller, ng-app and the JS file</a>
+                                </li>
+                                <li class="nav-index-listing active">
+                                    <a href="index.html#/step-99.html" >99 - FAQ</a>
+                                </li>
+								
+							</ul></li>
+					</ul>
+				</div>
+			</div>
+			<div ng-view class="col-lg-8" onload="highlight();"></div>
+		</div>
+	</section>
+
+	<footer class="footer"
+		style="position: fixed; bottom: 0px; width: 100%; background-color: #000; padding: 10px; color: #777">
+		<span class="col-lg-2"></span> 
+        <span class="col-lg-4"> (C) 2014
+			by Stephan Rauh <br /><a href="http://www.beyondjava.net">http://www.beyondjava.net</a>.
+		</span> <span class="col-lg-2"> Page design inspired by <a target="#"
+			href="https://angularjs.org/">https://angularjs.org/</a>.<br />
+			Syntax highlighting uses <a href="https://highlightjs.org">highlight.js</a>.
+		</span>
+	<span class="col-lg-2">Legal notes:<br /><a target="#" href="http://www.angularfaces.com/tutorial/legal/disclaimer.html">disclaimer</a> and <a target="#" href="http://www.angularfaces.com/tutorial/legal/impressum.html">impressum</a>. </span> 
+  </footer>
+</body>
+</html>

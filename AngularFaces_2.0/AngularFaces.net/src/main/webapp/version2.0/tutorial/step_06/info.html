@@ -1,0 +1,103 @@
+        <div>
+          <h1>Client Side Bean Validation</h1>
+          <p>AngularFaces reads JSR 303 Bean Validation API annotations and evaluates them on the client. You've already seen some of it in the previous examples:</p>
+          <img alt="AngularFaces 2.0 JSF Bean Validation" src="tutorial/step_05/bean_validations_english.png">
+          <p>The validation constraints are checked on the client side by AngularJS. However, they are defined on the server side, using the new JSR 303 Bean Validation API:<p>
+          
+          <pre class="java">
+@ManagedBean
+@SessionScoped
+public class Customer {
+  private Date dateOfBirth;
+  
+  @Email
+  private String emailAddress;
+  
+  @NotNull
+  @Size(min=5, max=20)
+  private String firstName;
+  
+  private boolean iAgreeToTheTermsAndConditions;
+  
+  @NotNull
+  @Size(min=5, max=20)
+  private String lastName;
+  
+  @Min(18)
+  @Max(130)
+  private int age;
+  
+  // plus getters and setters
+}
+          </pre>
+          
+          <h3>Which annotations are evaluated on the client?</h3>
+          <ul><li>@NotNull (denotes a mandatory field in AngularFaces - slightly different to the JSR 303 specification)</li>
+          <li>@Min and @Max (only for numerical values)</li>
+          <li>@Size to define minimal and/or maximal input lengths</li>
+          </ul>
+          <h3>Type information</h3>
+          <p>AngularFaces recognizes numerical values and enforces numerical input on the client. As a side effect, number fields automatically bear a spinner in many
+          modern browsers.</p>
+          <p>Dates are also recognized and rendered as an HTML5 date field. Hence modern browsers automatically add a date picker to simple input fields. Both standard
+          JSF input fields and the new HTML5-style input fields benefit from this feature. The same applies to &lt;prime:inputText&gt;. AngularFaces converts
+          simple &lt;prime:inputText&gt; automatically to date fields if the corresponding JSF bean attribute is an instance of java.util.Date. However, 
+          &lt;prime:calendar&gt; is not modified by AngularFaces, so you're free to choose an HTML5 layout or a PrimeFaces layout.</p>  
+          
+          <h3>Internationalization</h3>
+          <p>Of course, AngularFaces translates the error messages to foreign languages. Currently, English, Spanish, French and German are supported. Please drop me
+          a note if you want to provide another translation or fix an error to an existing translation.<p>
+          <p>To provide a language that's not supported out of the box, or to modify an existing error message bundle, put a file called "messages_(language shortcode).js"
+          in the folder "resources/AngularFaces". Best you copy the English version of the original files. It's a simple set of key-value-pairs of English messages and your
+          translation:</p>
+          <pre class="java">
+angularFacesMessages={
+    "This number must be at least {}.":"Dieser Wert muß größer oder gleich {} sein.",
+    "This number must be less or equal {}.":"Dieser Wert muß kleiner oder gleich {} sein.",
+    "Please enter a valid number.":"Bitte geben Sie eine gültige Zahl ein.",
+    "Please fill out this field.":"Bitte füllen Sie das Feld aus.",
+    "A validation rule is violated.":"Bitte überprüfen Sie Ihre Eingabe.",
+    "At least {} characters required.": "Bitte geben Sie mindestens {} Zeichen ein.",
+    "{} characters accepted at most.":"Maximal {} Zeichen erlaubt.",
+    "Please enter a valid integer number.":"Bitte geben Sie nur Ziffern ein."
+    };          
+    </pre>
+          <p>The original message bundles are in the folder "META-INF/resources/AngularFaces" of the jar file. As mentioned above, your
+          translation has to be in the standard JSF resource of your application. For instance, put your portuguese translation "messages_pt.js" here:</p>
+          <img src="tutorial/step_05/message_project_layout.png">
+          <br />
+          <br />
+          <p>AngularFaces automatically chooses the target language according to the browsers settings. For instance, in a European browser the JSF view I showed above
+          might look like so:</p>
+          
+          <img alt="AngularFaces 2.0 JSF Bean Validation" src="tutorial/step_05/bean_validations_german.png">
+          <img alt="AngularFaces 2.0 JSF Bean Validation" src="tutorial/step_05/bean_validations_spanish.png">
+          <br />
+          <br />
+          
+          <p>For the sake of completeness, here's the JSF file:<p>
+          
+          <pre class="xml">
+&lt;h:form id="angular">
+  &lt;prime:panel header="Contact information">
+    &lt;prime:panelGrid columns="3">
+      &lt;prime:inputText value="#{customer.lastName}" />
+      &lt;prime:inputText value="#{customer.firstName}" />
+      &lt;prime:inputText value="&#123;&#123;customer.dateOfBirth}}" />
+      &lt;prime:inputText value="&#123;&#123;customer.age}}" />
+      &lt;prime:inputText value="#{customer.emailAddress}" />
+      &lt;prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
+    &lt;/prime:panelGrid>
+    &lt;prime:commandButton value="save" update="angular" action="#{customer.save}" />
+  &lt;/prime:panel>
+&lt;/h:form>
+          </pre>
+           
+        
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+        </div>

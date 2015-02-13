@@ -1,0 +1,37 @@
+<div>
+  <h1>FAQ</h1>
+  <ul>
+    <li><p>
+        <b>I'm using &lt;div ng-controller="myController"&gt;, but AngularJS doesn't get initialized properly.</b>
+      </p>
+      <p>In JSF ordinary HTML tag such as a div isn't part of the JSF component tree. So you've found the blind spot
+        of AngularFaces 2.0: it can't perform it's magic because simply doesn't see the div. A future version of
+        AngularFaces will fix this. Until then, replace the &lt;div&gt; by an &lt;h:panel layout="block"
+        ng-controller="myController"&gt;. The HTML code is identical, but this this AngularFaces can add the code needed
+        to run AngularJS.</p>
+        <p>But since there's  a second bug, that still doesn't do the trick. You have to use both:</p>
+  <pre class="xml">
+&lt;h:body id="angular" style="padding-left:10px">
+  &lt;form id="myForm" style="width: 700px">
+    &lt;h:panelGroup ng-app="CarDealer" ng-controller="CarDealerController" angularJSFile="index.js">
+      &lt;div ng-app="CarDealer" ng-controller="CarDealerController">
+  </pre>
+  <p>Of course, that's a work-around that will break in AngularFaces 2.1, which fixes both bugs.</p></li>
+    <li><p>
+        <b>Angular shows me an error message containing the sentence "Module 'angularfaces' is not available!"
+          (among many other things).</b>
+      </p>
+      <p>
+        Most likely you're using a plain HTML element to activate the ng-controller (see previous question). Replace it by 
+        replace the &lt;div&gt; by an &lt;h:panel layout="block"
+        ng-controller="myController"&gt;, as described above. Also see the hints <a
+          target="#" href="https://github.com/stephanrauh/AngularFaces/issues/7">on a similar question on GitHub</a> -
+        it shows you several ideas to analyse the problem.
+      </p></li>
+      <li><p>"The button/link/text component needs to have a Form in its ancestry. Please add &lt;h:form&gt;."</p>
+      <p>Sometimes this messages refers to &lt;ngsync&gt;. It has to be put into the form tag, to.</p>  
+  </ul>
+
+  <br /> <br /> <br /> <br /> <br /> <br />
+
+</div>
