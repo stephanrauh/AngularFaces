@@ -16,7 +16,7 @@
 			<supported-locale>fr</supported-locale>
 		</locale-config>
 		<resource-handler>
-        	org.omnifaces.resourcehandler.CombinedResourceHandler
+        	org.omnifaces.cachingresourcehandler.CachingCombinedResourceHandler
     	</resource-handler>
 	</application>
 </faces-config>

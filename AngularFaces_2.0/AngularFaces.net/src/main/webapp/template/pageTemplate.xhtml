@@ -9,13 +9,13 @@
     <h:head>
         <title>AngularFaces 2.1: JSF on steroids</title>
         <meta name="author" content="Stephan Rauh" />
-        <meta name="description" content="AngularFaces adds AngularJS to JSF to put JSF on steroids." />
+        <meta name="description" content="AngularFaces adds AngularJS to JSF. That's JSF on steroids!" />
         <meta name="robots" content="index, follow" />
         
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="revisit-after" content="7 days" />
         <meta name="DISTRIBUTION" content="GLOBAL" />
-        <meta http-equiv="PRAGMA" content="NO-CACHE" />
+        <xmeta http-equiv="PRAGMA" content="NO-CACHE" />
         <meta name="copyright" content="Stephan Rauh" />
         <h:outputStylesheet library="sh" name="css/shCore.css"/>
         <h:outputStylesheet library="sh" name="css/shCoreEclipse.css"/>
@@ -40,6 +40,21 @@
         <ui:insert name="nbtop">
             <ui:include src="/template/navbarbottom.xhtml"/>
         </ui:insert>
+        <!-- Piwik -->
+        <script type="text/javascript">
+          var _paq = _paq || [];
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+          (function() {
+            var u="//www.atapuerca.de/piwik/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', 4]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+          })();
+        </script>
+        <noscript><p><img src="//www.atapuerca.de/piwik/piwik.php?idsite=4" style="border:0;" alt="" /></p></noscript>
+        <!-- End Piwik Code -->
         
     </h:body>
 </html>

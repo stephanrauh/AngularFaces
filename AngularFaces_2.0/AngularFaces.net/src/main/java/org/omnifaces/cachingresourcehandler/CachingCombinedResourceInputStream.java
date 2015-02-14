@@ -1,0 +1,160 @@
+/*
+ * Copyright 2012 OmniFaces.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+package org.omnifaces.cachingresourcehandler;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.faces.application.Resource;
+
+import org.omnifaces.util.Faces;
+import org.omnifaces.util.Hacks;
+import org.omnifaces.util.Utils;
+
+/**
+ * This {@link InputStream} implementation takes care that all in the constructor given resources are been read in sequence.
+ * 
+ * @author Bauke Scholtz
+ */
+final class CachingCombinedResourceInputStream extends InputStream {
+
+    // Constants ------------------------------------------------------------------------------------------------------
+
+    private static final byte[] CRLF = { '\r', '\n' };
+
+    // Properties -----------------------------------------------------------------------------------------------------
+
+    private List<InputStream> streams;
+    private Iterator<InputStream> streamIterator;
+    private InputStream currentStream;
+    private byte[] combinedResource = null;
+    private int pointer=0;
+    private int deliveredTotal = 0;
+    static Map<String, byte[]> cachedResources = new HashMap<String, byte[]>();
+
+    // Constructors ---------------------------------------------------------------------------------------------------
+
+    /**
+     * Creates an instance of {@link CachingCombinedResourceInputStream} based on the given resources. For each resource, the {@link InputStream}
+     * will be obtained and hold in an iterable collection.
+     * 
+     * @param resources
+     *            The resources to be read.
+     * @throws IOException
+     *             If something fails at I/O level.
+     */
+    public CachingCombinedResourceInputStream(Set<Resource> resources) throws IOException {
+        streams = new ArrayList<InputStream>();
+        String key = "";
+
+        for (Resource resource : resources) {
+            
+            streams.add(!Hacks.isRichFacesResourceOptimizationEnabled() ? resource.getInputStream() : new URL(Faces
+                    .getRequestDomainURL() + resource.getRequestPath()).openStream());
+            streams.add(new ByteArrayInputStream(CRLF));
+            key += resource.getLibraryName() + "/" + resource.getResourceName() +" ";
+        }
+ 
+        // No need to synchronize!
+        combinedResource = cachedResources.get(key);
+        if (null != combinedResource){
+            System.out.println("Taking resource from cache: " + key);
+            return;
+        }
+
+        streamIterator = streams.iterator();
+        streamIterator.hasNext(); // We assume it to be always true, see also CombinedResource#getInputStream().
+        currentStream = streamIterator.next();
+        // Caching added by Stephan Rauh, www.beyondjava.net, Feb 02, 2015
+        if (null == combinedResource) {
+            long time = System.nanoTime();
+            ByteArrayOutputStream collector = new ByteArrayOutputStream();
+            int read = -1;
+
+            while (true) {
+                read = currentStream.read();
+                if (read == -1) {
+                    if (streamIterator.hasNext()) {
+                        currentStream = streamIterator.next();
+                    } else {
+                        break;
+                    }
+                } else
+                    collector.write(read);
+            }
+            combinedResource = collector.toByteArray();
+            synchronized (cachedResources) {
+                if (cachedResources.size()>2) {
+                    System.out.println("Clearing cache");
+                    cachedResources.clear();
+                }
+                if (!cachedResources.containsKey(key))
+                    cachedResources.put(key, combinedResource);
+            }
+            time = System.nanoTime() - time;
+            System.out.println("Time needed to collect byte array: " + (time / 1000) / 1000.0 + " ms for resource: " + key);
+        }
+        // End of caching
+
+    }
+
+    // Actions --------------------------------------------------------------------------------------------------------
+
+    /**
+     * For each resource, read until its {@link InputStream#read()} returns <code>-1</code> and then iterate to the {@link InputStream} of
+     * the next resource, if any available, else return <code>-1</code>.
+     */
+    @Override
+    public int read() throws IOException {
+        // Caching added by Stephan Rauh, www.beyondjava.net, Feb 02, 2015
+        if (pointer < combinedResource.length) {
+            deliveredTotal++;
+            return combinedResource[pointer++];
+        } else {
+            System.out.println("Delivered " + pointer + " bytes, total: " + deliveredTotal);
+            return -1;
+        }
+    }
+
+    /**
+     * Closes the {@link InputStream} of each resource. Whenever the {@link InputStream#close()} throws an {@link IOException} for the first
+     * time, it will be caught and be thrown after all resources have been closed. Any {@link IOException} which is thrown by a subsequent
+     * close will be ignored by design.
+     */
+    @Override
+    public void close() throws IOException {
+        IOException caught = null;
+
+        for (InputStream stream : streams) {
+            IOException e = Utils.close(stream);
+
+            if (caught == null) {
+                caught = e; // Don't throw it yet. We have to continue closing all other streams.
+            }
+        }
+
+        if (caught != null) {
+            throw caught;
+        }
+    }
+
+}
