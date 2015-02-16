@@ -3,5 +3,6 @@
 .project
 /.settings
 rebel.xml
+faces-config.pageflow
 /dist
 
