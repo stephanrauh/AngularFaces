@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+<h:body>
+  <ui:composition template="/template/fullpage.xhtml">
+    <ui:define name="content">
+      <b:panel title="Caption" look="primary">
+          <h1>Download</h1>
+          <p>The stable releases of AngularFaces are available at Maven central. You can either download the jar manually
+          by opening <a target="#" href="http://search.maven.org/#search%7Cga%7C1%7Cbeyondjava">http://search.maven.org/#search%7Cga%7C1%7Cbeyondjava</a>
+          in your browser, or by adding the dependency to your pom.xml or gradle build file:
+          </p>
+          <pre class="xml">
+&lt;dependency>
+  &lt;groupId>de.beyondjava&lt;/groupId>
+  &lt;artifactId>angularFaces-core&lt;/artifactId>
+  &lt;version>2.0.0&lt;/version>
+&lt;/dependency>
+          </pre>
+          <p>If you're the adventurous type, you can also build AngularFaces from source. But be warned: Every once in a while the head revision
+          on GitHub will be broken. How to build the project from source is described in the <a href="../step_00/index.xhtml">Bootstrapping</a>
+          chapter of this tutorial.
+          </p>
+      </b:panel>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

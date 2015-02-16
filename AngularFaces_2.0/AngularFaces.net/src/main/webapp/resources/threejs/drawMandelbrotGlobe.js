@@ -48,8 +48,17 @@ function init() {
 	scene.add(group);
 
 	// load mandelbrot set as texture for the globe
+	// determine which subfolder we're in
+	var image="globe/Mandelbrot2.png";
 	var loader = new THREE.TextureLoader();
-	loader.load('globe/Mandelbrot2.png', function(texture) {
+	var url=window.location.href;
+	var pos = url.indexOf("version2.1");
+	if (pos>0) {
+	  image = "../" + image;
+	  if (url.indexOf("/", pos+12)>0)
+	    image="../"+image;
+	}
+	loader.load(image, function(texture) {
 
 		var geometry = new THREE.SphereGeometry(200, 20, 20);
 

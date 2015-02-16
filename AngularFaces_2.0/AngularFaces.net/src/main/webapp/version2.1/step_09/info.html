@@ -1,0 +1,41 @@
+        <div>
+          <h1>Using traditional JSF AJAX with AngularJS</h1>
+          <p>As a rule of thumb, don't use traditional JSF AJAX requests with AngularFaces. It's possible,
+          but you're likely to run into all kinds of problems. In particular, expect memory leaks on the 
+          client side. This is because AngularJS assumes to control the HTML page itself. It doesn't
+          expect third parties to modify the HTML page. But that's exactly what JSF AJAX requests do.</p>
+          <p>That said, here's how to do it:</p>
+          <p><ul>
+          <li>Use PrimeFaces. For some reason AngularJS doesn't recover after a Mojarra request. Please drop
+          me a note if you've figured out how to do it.</li>
+          <li><p>Make sure your AJAX requests update the entire region controller by the ng-app. Typically,
+          that's the form or the body.</p>
+          <p>I've also seen people decorate the &lt;html&gt; tag with
+          an ng-app, but you wouldn't want to do so in an AngularFaces application: JSF allows you
+          to update the entire page (update="@all" or render="@all"), but that ruins your applications
+          performance. So its better to use smaller regions as AngularJS applications.</li>
+          <li><p>Re-initialize AngularJS after completing the request. In the case of PrimeFaces, you simply add
+          an oncomplete handler to the &lt;prime:commandButton&gt;:</p>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+&lt;h:form id="myForm" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+  &lt;prime:panelGrid columns="3">
+    &lt;prime:inputText value="&#123;&#123;calculatorBean.number1}}" />
+    &lt;prime:inputText value="&#123;&#123;calculatorBean.number2}}"/>
+    &lt;prime:inputText value="&#123;&#123;calculatorBean.result}}"
+           label="#{calculatorBean.resultCaption}" />
+    &lt;prime:commandButton value="Add on server (JSF AJAX)"
+           action="#{calculatorBean.add}" update="@form" process="@form" oncomplete="findNGAppAndReinitAngular(getElementById('myForm'))" />
+  &lt;/prime:panelGrid>
+&lt;prime:messages globalOnly="false" />
+&lt;/h:form>
+]]></script>
+          </li>
+          </ul>
+          
+<br />          
+<br />          
+<br />          
+<br />          
+<br />
+<br />

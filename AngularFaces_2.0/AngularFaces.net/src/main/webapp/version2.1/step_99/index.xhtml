@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+<h:body>
+  <ui:composition template="/template/fullpage.xhtml">
+    <ui:define name="content">
+      <b:panel title="FAQ" look="primary">
+        <h1>FAQ</h1>
+        <ul>
+          <li><p>
+              <b>Angular shows me an error message containing the sentence "Module 'angularfaces' is not available!" (among many other
+                things).</b>
+            </p>
+            <p>
+              Most likely you're using a plain HTML element to activate the ng-controller (see previous question). Replace it by replace the
+              &lt;div&gt; by an &lt;h:panel layout="block" ng-controller="myController"&gt;, as described above. Also see the hints <a
+                target="#" href="https://github.com/stephanrauh/AngularFaces/issues/7">on a similar question on GitHub</a> - it shows you
+              several ideas to analyse the problem.
+            </p></li>
+          <li><p><b>"The button/link/text component needs to have a Form in its ancestry. Please add &lt;h:form&gt;."</b></p>
+            <p>Sometimes this messages refers to &lt;ngsync&gt;. It has to be put into the form tag, to.</p>
+            </li>
+        </ul>
+
+      </b:panel>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

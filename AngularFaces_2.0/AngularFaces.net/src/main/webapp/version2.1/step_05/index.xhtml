@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+<h:body>
+  <ui:composition template="/template/fullpage.xhtml">
+    <ui:define name="content">
+      <b:panel title="ngsync" look="primary">
+  <h1>Synchronizing arbitrary JSF attributes with the client</h1>
+  <p>In the previous chapters of the tutorial you've seen how to synchronize JSF bean attributes with the AngularJS
+    model. However, you aren't limited to input field and html attributes.</p>
+  <h3>Sending JSF beans to the client</h3>
+  <p>To send an arbitrary JSF bean attribute to the client add the attribute "direction" to the &lt;ngsync /&gt; tag:</p>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+&lt;ngsync value="&#123;&#123;grid.rows}} direction="serverToClient" />
+]]></script>
+  <h3>Complex beans</h3>
+  <p>AngularFaces uses Gson to convert beans into JSon objects. Sometimes this makes for clumsy data structures. For
+    instance, the playground of the AngularTetris demo is a simple two-dimensional array of integers. However, I had to
+    chose a much more complicated data structure because AngularJS had difficulties to access the cells in two nested
+    ng-repeat directives. I suspect I did something wrong, but I also suppose that what feels a natural data structure
+    in Java doesn't always result in a simple AngularJS model.</p>
+  <p>A particular nasty problem are arrays and hash maps. Because of Java's type erasure, there's no simple way to
+    send a table back to the server. Everything's fine until the table grows at the client side. Gson doesn't know the
+    type of the array, so it can't simply add rows to the table on the server side. That's the reason why I postponed
+    two-way synchronization until AngularFaces 2.1.</p>
+
+  <h3>Sending AngularJS model values to the server</h3>
+  <p>That's a feature left for AngularFaces 2.1.</p>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+&lt;ngsync value="&#123;&#123;grid.rows}} direction="clientToServer" />
+]]></script>
+  
+  <p> Currently, the only way to send values back to the server are input
+    fields. Of course you can add an &lt;h:inputText&gt; rendered invisible by CSS. The next request automatically sends
+    values stored in the hidden field back to the server. </p>
+  <h3>Two-way synchronizing</h3>
+  <p>That's a feature left for AngularFaces 2.1. In the meantime the only work-around is using a hidden input field. I'll show
+  you the sneak preview to the syntax anyways:
+  </p>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[&lt;ngsync value="&#123;&#123;grid.rows}} direction="both" />
+]]></script>
+      </b:panel>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

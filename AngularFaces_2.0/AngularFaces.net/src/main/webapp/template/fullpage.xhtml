@@ -35,6 +35,7 @@
     <div id="mandelbrot" style="width: 300px; height: 300px; position: absolute; top: 100px; left: 0px; margin: 0 30px 0 0;">
       <img src="/angularfaces-2.1-documentation/globe/MandelbrotEarth1.png" width="100%" height="100%" />
     </div>
+    
     <ui:insert name="content" />
     <br />
     <br />
@@ -44,6 +45,9 @@
     <br />
     <h:outputScript library="threejs" name="three.js" target="head" />
     <h:outputScript library="threejs" name="drawMandelbrotGlobe.js" target="head" />
+                <script type="text/javascript">
+                    SyntaxHighlighter.all();
+                </script>
     <script type="text/javascript">
           if (navigator.userAgent.match(/Chrome/i)) {
             activateGlobeDemo();
@@ -58,10 +62,6 @@
   <ui:insert name="nbtop">
     <ui:include src="/template/navbarbottom.xhtml" />
   </ui:insert>
-                  <script type="text/javascript">
-                    SyntaxHighlighter.all();
-                </script>
-  
   <!-- Piwik -->
   <script type="text/javascript">
       var _paq = _paq || [];

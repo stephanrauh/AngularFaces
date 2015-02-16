@@ -11,9 +11,9 @@
 	<application>
 		<locale-config>
 			<default-locale>en</default-locale>
-			<supported-locale>de</supported-locale>
+			<supported-locale>en</supported-locale>
+            <supported-locale>de</supported-locale>
 			<supported-locale>es</supported-locale>
-			<supported-locale>fr</supported-locale>
 		</locale-config>
 		<resource-handler>
         	org.omnifaces.resourcehandler.CombinedResourceHandler
