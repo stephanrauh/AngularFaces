@@ -19,6 +19,15 @@
     <param-value>Development</param-value>
   </context-param>
   <context-param>
+    <param-name>primefaces.THEME</param-name>
+    <param-value>bootstrap</param-value>
+</context-param> 
+<context-param>
+    <param-name>BootsFaces_USETHEME</param-name>
+    <param-value>true</param-value>
+</context-param>
+  
+  <context-param>
     <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
     <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
     <param-value>server</param-value>
@@ -41,7 +50,7 @@
     <param-name>org.omnifaces.CACHE_SETTING_APPLICATION_MAX_CAPACITY</param-name>
     <param-value>10</param-value>
   </context-param>
-  <!-- set the maximum time-to-live of cache entries to one day -->
+    <!-- set the maximum time-to-live of cache entries to one day -->
   <context-param>
     <param-name>org.omnifaces.CACHE_SETTING_APPLICATION_TTL</param-name>
     <param-value>86400</param-value>

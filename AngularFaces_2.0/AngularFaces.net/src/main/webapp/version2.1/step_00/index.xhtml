@@ -7,7 +7,11 @@
 <h:body>
   <ui:composition template="/template/fullpage.xhtml">
     <ui:define name="content">
-      <b:panel title="Caption" look="primary">
+      <b:panel title="First experiments with AngularFaces" look="primary">
+         <h1>Template project</h1>
+         <p>There's a template project at <a target="#" href="https://github.com/stephanrauh/AngularFaces/tree/master/GettingStarted">the AngularFaces GitHub repositoy</a>.
+         
+         </p>
          <h1>Getting started</h1>
           <p>The most simple way to use AngularFaces is to simply include the jar file in your project.
           Sometimes this is all you need to do: for instance, the automatic creation of labels and messages
@@ -100,7 +104,7 @@ git clone git@github.com:stephanrauh/AngularFaces.git
           <p>
           The next step is to import the projects into your IDE. Alternatively, you can compile the projects from the command line using Maven.<br />
           Eclipse users click "Import... --> Existing Maven Projects" and select these two projects:</p>
-          <img src="tutorial/step_00/eclipseMaven.png" />
+          <img src="eclipseMaven.png" />
           <br />
           <br />
           <p>The next step is to set up an Apache Tomcat server and to deploy the AngularFaces tutorial project. After starting Tomcat  
@@ -126,7 +130,7 @@ git clone git@github.com:stephanrauh/AngularFaces.git
           starts up and tries to improve your JSF files. The first tutorial is designed in a way that AngularFaces can't improve anything,
           but you should find a few messages in the console window (or the catalina.out file).</p>
           <p>The folder angularfaces-tutorial-step-00//WEB-INF/lib of the Tomcat webapps folder should contain these libraries:</p>
-          <img src="tutorial/step_00/libraries.png" />
+          <img src="libraries.png" />
           <p>
           Gson, classmate,
           commons-beanutils, commons-logging and the two validation API jars are added by AngularFaces 2.0 core.</p> 
