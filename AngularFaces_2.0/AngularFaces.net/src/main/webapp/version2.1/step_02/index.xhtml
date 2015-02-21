@@ -53,6 +53,52 @@
                     labels, except for the small "I" in "I agree...".</p>
                 <p>But when is comes to expanding to international markets, you'll have to provide translations to the texts. AngularFaces makes it very easy
                     to do so.</p>
+    <ui:composition template="/template/fullpage.xhtml">
+        <ui:define name="content">
+            <b:panel title="Internationalization" look="primary">
+                <h1>Automatic translation to foreign languages</h1>
+                <p>AngularFaces 2.1 has been designed with foreign language support in mind. JSF always included support for
+                    internationalization, but it requires a lot of boilerplate code.</p>
+                <p>Let's return to the car dealer customer form:</p>
+                <b:tabView active="1">
+                    <b:tab title="JSF source code">
+                        <b:well>
+                            <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+&lt;prime:panel header="Contact information">
+  &lt;prime:panelGrid columns="3">
+    &lt;prime:inputText value="&#35;{customer.lastName}" />
+    &lt;prime:inputText value="&#35;{customer.firstName}" />
+    &lt;prime:inputText value="&#35;{customer.dateOfBirth}" />
+    &lt;prime:inputText value="&#35;{customer.emailAddress}" />
+    &lt;prime:selectBooleanCheckbox value="&#35;{customer.IAgreeToTheTermsAndConditions}" />
+  &lt;/prime:panelGrid>
+  &lt;prime:commandButton value="save" update="angular" action="&#35;{customer.save}" />
+&lt;/prime:panel>
+]]></script>
+                        </b:well>
+                    </b:tab>
+                    <b:tab title="live preview">
+                        <prime:panel header="Contact information">
+                            <h:form prependId="false">
+                                <prime:panelGrid columns="3" id="angular">
+                                    <prime:inputText value="#{customer.lastName}" />
+                                    <prime:inputText value="#{customer.firstName}" />
+                                    <prime:inputText value="#{customer.dateOfBirth}" />
+                                    <prime:inputText value="#{customer.emailAddress}" />
+                                    <prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
+                                </prime:panelGrid>
+                                <prime:commandButton value="save" update="angular" action="#{customer.save}" />
+                            </h:form>
+                        </prime:panel>
+                    </b:tab>
+                </b:tabView>
+                <p>As you can see, this translates to a nice English version. Well, usually there are a few glitches which can be ignored while your
+                    project is in its prototype phase. By the way, you can cure the glitches by providing an English language file. Be that
+                    as it may, we chose the bean attribute name with de-camel-casing in mind, so our JSF view renders correct English
+                    labels, except for the small "I" in "I agree...".</p>
+                <p>But when is comes to expanding to international markets, you'll have to provide translations to the texts. AngularFaces makes it very easy
+                    to do so.</p>
 
                 <h3>Preparing your project</h3>
                 <p>First you have to add the list of supported languages to the <code>faces-config.xml</code>. That's just the same procedure as in

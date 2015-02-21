@@ -4,4 +4,4 @@
 /.settings
 rebel.xml
 /dist
-
+*.war
