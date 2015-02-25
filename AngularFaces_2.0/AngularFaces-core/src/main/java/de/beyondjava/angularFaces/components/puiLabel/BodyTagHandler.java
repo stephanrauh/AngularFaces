@@ -20,27 +20,13 @@ import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.component.UIMessage;
-import javax.faces.component.html.HtmlOutputLabel;
-import javax.faces.view.facelets.ComponentHandler;
 import javax.faces.view.facelets.FaceletContext;
-import javax.faces.view.facelets.TagAttribute;
-import javax.faces.view.facelets.TagConfig;
 import javax.faces.view.facelets.TagHandler;
-
-import de.beyondjava.angularFaces.components.puiMessage.PuiMessage;
-import de.beyondjava.angularFaces.components.puiSync.PuiSync;
-import de.beyondjava.angularFaces.core.ELTools;
-import de.beyondjava.angularFaces.core.NGWordUtiltites;
-import de.beyondjava.angularFaces.core.i18n.I18n;
-import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 public class BodyTagHandler extends AddLabelsAndMessagesHandler {
 	
-	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator");
+	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.components.puiLabel.BodyTagHandler");
 
 	
 	private TagHandler defaultComponentHandler;
