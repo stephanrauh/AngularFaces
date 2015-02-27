@@ -8,6 +8,11 @@
   <ui:composition template="/template/fullpage.xhtml">
     <ui:define name="content">
       <b:panel title="Validation" look="primary">
+          <b:alert severity="info">
+            <p>This section hasn't been updated to AngularFaces 2.1 yet. It may contain outdated information.</p>
+          </b:alert>
+
+
 <h1>Client Side Bean Validation</h1>
 <p>AngularFaces reads JSR 303 Bean Validation API annotations and evaluates them on the client. You've already seen some of it in the previous examples:</p>
 <img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_english.png" />
@@ -63,11 +68,11 @@ public class Customer {
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
 angularFacesMessages={
-    "This number must be at least {}.":"Dieser Wert muÃŸ grÃ¶ÃŸer oder gleich {} sein.",
-    "This number must be less or equal {}.":"Dieser Wert muÃŸ kleiner oder gleich {} sein.",
-    "Please enter a valid number.":"Bitte geben Sie eine gÃ¼ltige Zahl ein.",
-    "Please fill out this field.":"Bitte fÃ¼llen Sie das Feld aus.",
-    "A validation rule is violated.":"Bitte Ã¼berprÃ¼fen Sie Ihre Eingabe.",
+    "This number must be at least {}.":"Dieser Wert muß größer oder gleich {} sein.",
+    "This number must be less or equal {}.":"Dieser Wert muß kleiner oder gleich {} sein.",
+    "Please enter a valid number.":"Bitte geben Sie eine gültige Zahl ein.",
+    "Please fill out this field.":"Bitte füllen Sie das Feld aus.",
+    "A validation rule is violated.":"Bitte überprüfen Sie Ihre Eingabe.",
     "At least {} characters required.": "Bitte geben Sie mindestens {} Zeichen ein.",
     "{} characters accepted at most.":"Maximal {} Zeichen erlaubt.",
     "Please enter a valid integer number.":"Bitte geben Sie nur Ziffern ein."
@@ -100,7 +105,7 @@ angularFacesMessages={
       &lt;prime:inputText value="#{customer.emailAddress}" />
       &lt;prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
     &lt;/prime:panelGrid>
-    &lt;prime:commandButton value="save" update="angular" action="#{customer.save}" />
+    &lt;prime:commandButton value="save" update="angular" action="&#34;{customer.save}" />
   &lt;/prime:panel>
 &lt;/h:form>
 ]]></script>

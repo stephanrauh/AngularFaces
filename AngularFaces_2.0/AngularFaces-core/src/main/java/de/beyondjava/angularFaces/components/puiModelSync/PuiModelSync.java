@@ -191,7 +191,7 @@ public class PuiModelSync extends HtmlBody {
 		}
 
 		for (Entry<String, Object> bean : model.entrySet()) {
-			String assignment = "\"" + bean.getKey() + "\",'" + JSONUtilities.writeObjectToJSONString(bean.getValue()) + "'";
+			String assignment = "\"" + bean.getKey() + "\",'" + JSONUtilities.writeObjectToJSONString(bean.getValue()).replace("'", "\\'") + "'";
 			beans.add(assignment);
 		}
 		return beans;

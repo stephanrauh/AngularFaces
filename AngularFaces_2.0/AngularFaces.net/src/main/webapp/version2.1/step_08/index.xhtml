@@ -8,7 +8,12 @@
   <ui:composition template="/template/fullpage.xhtml">
     <ui:define name="content">
       <b:panel title="JUA" look="primary">
-           <h1>The AngularFaces way of doing AJAX</h1>
+      
+          <b:alert severity="info">
+            <p>This section hasn't been updated to AngularFaces 2.1 yet. It may contain outdated information.</p>
+          </b:alert>
+     
+          <h1>The AngularFaces way of doing AJAX</h1>
           <p>Most of the time AngularFaces replaces the original AJAX requests by its own, highly-optimized requests.</p>
           <p>Synchronizing values between AngularJS scope and JSF beans works in both ways. The values of the input fields are transmitted back to the
           server, no matter whether you do a regular HTML request, a JSF AJAX request or the optimized AngularFaces request.</p>
@@ -18,7 +23,7 @@
           <li>Add an JSF AJAX button that includes a special update region: "angular". You've already seen this above: 
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
-&lt;prime:commandButton value="save" update="angular" action="#{customer.save}" /> ]]></script>
+&lt;prime:commandButton value="save" update="angular" action="&#34;{customer.save}" /> ]]></script>
           </li>
           <li>Add the id "angular" to the &lt;h:body&gt;.
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">

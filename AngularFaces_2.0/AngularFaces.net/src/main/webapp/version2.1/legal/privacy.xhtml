@@ -1,21 +1,191 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-  xmlns:ac="http://beyondjava.net/angularFacesCore">
+    xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:ac="http://beyondjava.net/angularFacesCore">
 
 <h:body>
-  <ui:composition template="/template/fullpage.xhtml">
-    <ui:define name="content">
-      <b:panel title="Privacy" look="primary">
-			<h1>Privacy</h1>
-            <p>AngularFaces.net uses the same privacy rules as http://www.beyondjava.net. There you can opt out from being tracked. 
-            If you've opted you on www.beyondjava.net, you're also opted out on www.angularfaces.net.
-            </p>
-            <p>Read the full story and the opt-out option here:</p>
-			<iframe src="http://www.beyondjava.net/blog/privacy/" width="1024" height="2000" style="border:none"></iframe>
-      </b:panel>
-    </ui:define>
-  </ui:composition>
+    <ui:composition template="/template/fullpage.xhtml">
+        <ui:define name="content">
+            <b:panel title="Privacy" look="primary">
+                <h1>Privacy</h1>
+                <p>AngularFaces.net uses the same privacy rules as http://www.beyondjava.net. There you can opt out from being tracked.
+                    If you've opted you on www.beyondjava.net, you're also opted out on www.angularfaces.net.</p>
+                <p>Read the full story and the opt-out option here:</p>
+                <iframe style="border: 0; height: 120px; width: 100%;"
+                    src="http://www.atapuerca.de/piwik/index.php?module=CoreAdminHome&amp;action=optOut&amp;language=en"></iframe>
+
+                <br />
+                <br />
+
+                <div class="entry-content">
+                    <p>BeyondJava.net cares a lot about your privacy. You find the complete privacy policy below (in German language,
+                        because this site is subject to German law). Beforehand, I’d like to summarize the key points in English:</p>
+                    <p>The visitor counter conforms to German law (which is very strict). In particular,</p>
+                    <ul>
+                        <li>The web hoster (All-Inkl.com) of BeyondJava.net tracks your visit (including your IP address) in the access
+                            log. I’ve configured the server not to store the IP address. However, I cannot guarantee it’s not stored anyways
+                            (for instance due to legal reasons).</li>
+                        <li>BeyondJava.net uses Piwik for statistical reasons. Piwik only stores anonimized IP addresses. Only the
+                            first two bytes are stored. The remaining two byte are masked out. However, Piwik internally calculates and
+                            stores a hash code that may be used to identify individual users.</li>
+                        <li>BeyondJava respects the “do not track” setting of your browser.</li>
+                        <li>You can also opt out from tracking using the check box below.</li>
+                        <li>The data collected by Piwik are stored on the server of BeyondJava.net. There is no data stored on external
+                            servers (apart from the web hoster’s access log).</li>
+                        <li>No data are disclosed to third parties. They are used exclusively by BeyondJava.net.</li>
+                    </ul>
+                    <p>
+                        Additional information can be found at <a target="#" href="http://piwik.org/docs/privacy/">the documentation by
+                            Piwik</a> (the visitor counter BeyondJava.net uses) and <a target="#"
+                            href="http://www.website-check.de/datenschutzrecht/piwik-datenschutz-und-einbindung-der-opt-out-funktion">this
+                            German description</a> how to use Piwik legally.
+                    </p>
+
+                    <p>If you feel puzzled by reading the following lines in a foreign language: This web site is subject to German law.
+                    </p>
+                    <p>This impressum applies to www.beyondjava.de, www.angularfaces.com, www.angularfaces.net and www.11pictures.net.</p>
+
+                    <p>
+                        <strong>Datenschutzerklärung</strong>
+                    </p>
+                    <p>
+                        <strong>Geltungsbereich</strong>
+                    </p>
+                    <p>
+                        Diese Datenschutzerklärung klärt Nutzer über die Art, den Umfang und Zwecke der Erhebung und Verwendung
+                        personenbezogener Daten durch den verantwortlichen Anbieter <img class="aligncenter size-full wp-image-56"
+                            title="Impressum" src="http://www.beyondjava.de/blog/wp-content/uploads/2012/01/impressum.png" alt="Impressum"
+                            width="660" height="436" /> auf dieser Website (im folgenden “Angebot”) auf. 
+                    </p>
+                    <p>Die rechtlichen Grundlagen des Datenschutzes finden sich im Bundesdatenschutzgesetz (BDSG) und dem
+                        Telemediengesetz (TMG).</p>
+                    <p>
+                        <strong>Zugriffsdaten/ Server-Logfiles</strong>
+                    </p>
+                    <p>
+                        <span class="sd-muster-content">Der Anbieter (beziehungsweise sein Webspace-Provider) erhebt Daten über jeden
+                            Zugriff auf das Angebot (so genannte Serverlogfiles). Zu den Zugriffsdaten gehören:</span>
+                    </p>
+                    <p>Name der abgerufenen Webseite, Datei, Datum und Uhrzeit des Abrufs, übertragene Datenmenge, Meldung über
+                        erfolgreichen Abruf, Browsertyp nebst Version, das Betriebssystem des Nutzers, Referrer URL (die zuvor besuchte
+                        Seite), IP-Adresse und der anfragende Provider.</p>
+                    <p>Der Anbieter verwendet die Protokolldaten nur für statistische Auswertungen zum Zweck des Betriebs, der
+                        Sicherheit und der Optimierung des Angebotes. Der Anbieterbehält sich jedoch vor, die Protokolldaten nachträglich zu
+                        überprüfen, wenn aufgrund konkreter Anhaltspunkte der berechtigte Verdacht einer rechtswidrigen Nutzung besteht.</p>
+                    <p>
+                        <strong>Umgang mit personenbezogenen Daten</strong>
+                    </p>
+                    <p>
+                        <span class="sd-muster-content">Personenbezogene Daten sind Informationen, mit deren Hilfe eine Person
+                            bestimmbar ist, also Angaben, die zurück zu einer Person verfolgt werden können. Dazu gehören der Name, die
+                            Emailadresse oder die Telefonnummer. Aber auch Daten über Vorlieben, Hobbies, Mitgliedschaften oder welche
+                            Webseiten von jemandem angesehen wurden zählen zu personenbezogenen Daten.</span>
+                    </p>
+                    <p>Personenbezogene Daten werden von dem Anbieter nur dann erhoben, genutzt und weiter gegeben, wenn dies gesetzlich
+                        erlaubt ist oder die Nutzer in die Datenerhebung einwilligen.</p>
+                    <p>
+                        <strong>Kontaktaufnahme</strong>
+                    </p>
+                    <p>
+                        <span class="sd-muster-content">Bei der Kontaktaufnahme mit dem Anbieter (zum Beispiel per Kontaktformular
+                            oder E-Mail) werden die Angaben des Nutzers zwecks Bearbeitung der Anfrage sowie für den Fall, dass
+                            Anschlussfragen entstehen, gespeichert.</span>
+                    </p>
+                    <p>
+                        <strong>Kommentare und Beiträge</strong>
+                    </p>
+                    <p>
+                        <span class="sd-muster-content">Wenn Nutzer Kommentare im Blog oder sonstige Beiträge hinterlassen, werden
+                            ihre IP-Adressen gespeichert. Das erfolgt zur Sicherheit des Anbieters, falls jemand in Kommentaren und
+                            Beiträgen widerrechtliche Inhalte schreibt (Beleidigungen, verbotene politische Propaganda, etc.). In diesem
+                            Fall kann der Anbieter selbst für den Kommentar oder Beitrag belangt werden und ist daher an der Identität des
+                            Verfassers interessiert.</span>
+                    </p>
+                    <p>
+                        <strong>Einbindung von Diensten und Inhalten Dritter</strong>
+                    </p>
+                    <p>
+                        <span class="sd-muster-content">Es kann vorkommen, dass innerhalb dieses Onlineangebotes Inhalte Dritter, wie
+                            zum Beispiel Videos von YouTube, Kartenmaterial von Google-Maps, RSS-Feeds oder Grafiken von anderen Webseiten
+                            eingebunden werden. Dies setzt immer voraus, dass die Anbieter dieser Inhalte (nachfolgend bezeichnet als
+                            “Dritt-Anbieter”) die IP-Adresse der Nutzer wahr nehmen. Denn ohne die IP-Adresse, könnten sie die Inhalte nicht
+                            an den Browser des jeweiligen Nutzers senden. Die IP-Adresse ist damit für die Darstellung dieser Inhalte
+                            erforderlich. Wir bemühen uns nur solche Inhalte zu verwenden, deren jeweilige Anbieter die IP-Adresse lediglich
+                            zur Auslieferung der Inhalte verwenden. Jedoch haben wir keinen Einfluss darauf, falls die Dritt-Anbieter die
+                            IP-Adresse z.B. für statistische Zwecke speichern. Soweit dies uns bekannt ist, klären wir die Nutzer darüber
+                            auf.
+                        </span>
+                    </p>
+                    <p>
+                        <strong>Cookies</strong>
+                    </p>
+                    <p>
+                        <span class="sd-muster-content">Cookies sind kleine Dateien, die es ermöglichen, auf dem Zugriffsgerät der
+                            Nutzer (PC, Smartphone o.ä.) spezifische, auf das Gerät bezogene Informationen zu speichern. Sie dienen zum
+                            einem der Benutzerfreundlichkeit von Webseiten und damit den Nutzern (z.B. Speicherung von Logindaten). Zum
+                            anderen dienen sie, um die statistische Daten der Webseitennutzung zu erfassen und sie zwecks Verbesserung des
+                            Angebotes analysieren zu können. Die Nutzer können auf den Einsatz der Cookies Einfluss nehmen. Die meisten
+                            Browser verfügen eine Option mit der das Speichern von Cookies eingeschränkt oder komplett verhindert wird.
+                            Allerdings wird darauf hingewiesen, dass die Nutzung und insbesondere der Nutzungskomfort ohne Cookies
+                            eingeschränkt werden.</span>
+                    </p>
+                    <p>
+                        Sie können viele Online-Anzeigen-Cookies von Unternehmen über die US-amerikanische Seite <a
+                            href="http://www.aboutads.info/choices/"
+                            onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.aboutads.info/choices/', 'http://www.aboutads.info/choices/']);">http://www.aboutads.info/choices/</a>
+                        oder die EU-Seite <a href="http://www.youronlinechoices.com/uk/your-ad-choices/ "
+                            onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://www.youronlinechoices.com/uk/your-ad-choices/ ', 'http://www.youronlinechoices.com/uk/your-ad-choices/ ']);">http://www.youronlinechoices.com/uk/your-ad-choices/
+                        </a> verwalten.
+                    </p>
+                    <p>
+                        <strong>Piwik</strong>
+                    </p>
+                    <p>
+                        <span class="sd-muster-content">Dieses Angebot benutzt <a href="http://piwik.org/"
+                            onclick="_gaq.push(['_trackEvent', 'outbound-article', 'http://piwik.org/', 'Piwik']);">Piwik</a>, eine
+                            Open-Source-Software zur statistischen Auswertung der Nutzerzugriffe. Piwik verwendet sog. “Cookies”,
+                            Textdateien, die auf dem Computer der Nutzer gespeichert werden und die eine Analyse der Benutzung der Website
+                            durch die Nutzer ermöglichen. Die durch den Cookie erzeugten Informationen über die Benutzung dieses Agebotes
+                            werden auf dem Server des Anbieters in Deutschland gespeichert. Die IP-Adresse wird sofort nach der Verarbeitung
+                            und vor deren Speicherung anonymisiert. Nutzer können die Installation der Cookies durch eine entsprechende
+                            Einstellung Ihrer Browser-Software verhindern; Der Anbieter weisen die Nutzer jedoch darauf hin, dass sie in
+                            diesem Fall gegebenenfalls nicht sämtliche Funktionen dieser Website vollumfänglich nutzen können.</span>
+                    </p>
+                    <p>
+                        <strong>Widerruf, Änderungen, Berichtigungen und Aktualisierungen</strong>
+                    </p>
+                    <p>Der Nutzer hat das Recht, auf Antrag unentgeltlich Auskunft zu erhalten über die personenbezogenen Daten, die
+                        über ihn gespeichert wurden. Zusätzlich hat der Nutzer das Recht auf Berichtigung unrichtiger Daten, Sperrung und
+                        Löschung seiner personenbezogenen Daten, soweit dem keine gesetzliche Aufbewahrungspflicht entgegensteht.</p>
+                </div>
+
+
+                <p>If you feel puzzled by reading the following lines in a foreign language: This web site is subject to German law.</p>
+                <p>
+                    This impressum applies to www.beyondjava.de, www.angularfaces.com, www.angularfaces.net and www.11pictures.net. <img
+                        class="aligncenter size-full wp-image-56" title="Impressum"
+                        src="http://www.beyondjava.de/blog/wp-content/uploads/2012/01/impressum.png" alt="Impressum" width="660"
+                        height="436" />
+                </p>
+                <p>
+                    Quelle: <em><a href="http://www.e-recht24.de" target="_blank">Impressum-Generator</a> von e-recht24.de für
+                        Privatpersonen.</em>
+                </p>
+                <p>Diese Seiten spiegeln meine persönliche Meinung zum Zeitpunkt des Aufschreibens wieder. Daten und Fakten können sich
+                    im Laufe der Zeit verändern. Falls Sie veraltete, falsche Informationen finden, oder falls mir aller Sorgfalt zum Trotz
+                    inhaltliche Fehler unterlaufen sind, würde ich mich über eine kurze Nachricht von Ihnen sehr freuen. Sollte ich
+                    irgendwelche Copyrights oder andere Rechte verletzen, benachrichtigen Sie mich bitte ebenfalls, ich werde dann die Seite
+                    unverzüglich korrigieren. Auf den Seiten angebrachte Links dienen lediglich der Information. Für deren Inhalt kann ich
+                    keine Haftung übernehmen. Sollten Links überaltet sein oder rechtswidrige Inhalte publizieren, bitte ich ebenfalls um
+                    eine kurze Mitteilung, ich werde dann den Link unverzüglich herausnehmen.</p>
+                <iframe src="http://www.disclaimer.de/disclaimer.htm?farbe=FFFFFF/000000/000000/000000" width="800px" height="1209"></iframe>
+                <br />
+                <br />
+                <br />
+                <br />
+            </b:panel>
+        </ui:define>
+    </ui:composition>
 </h:body>
 </html>

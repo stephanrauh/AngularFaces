@@ -8,6 +8,12 @@
   <ui:composition template="/template/fullpage.xhtml">
     <ui:define name="content">
       <b:panel title="JUA" look="primary">
+
+          <b:alert severity="info">
+            <p>This section hasn't been updated to AngularFaces 2.1 yet. It may contain outdated information.</p>
+          </b:alert>
+
+
           <h1>Using traditional JSF AJAX with AngularJS</h1>
           <p>As a rule of thumb, don't use traditional JSF AJAX requests with AngularFaces. It's possible,
           but you're likely to run into all kinds of problems. In particular, expect memory leaks on the 
