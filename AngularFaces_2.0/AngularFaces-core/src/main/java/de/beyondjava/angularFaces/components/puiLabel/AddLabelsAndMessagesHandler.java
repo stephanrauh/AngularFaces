@@ -158,7 +158,6 @@ public class AddLabelsAndMessagesHandler extends TagHandler {
                         label.setValue(translate(caption));
                     }
                     children.add(index, label);
-                    System.out.println("new label");
                 }
             }
         }
@@ -213,7 +212,6 @@ public class AddLabelsAndMessagesHandler extends TagHandler {
                     message.setFor(kid.getClientId());
                     message.getPassThroughAttributes().put("for", kid.getClientId());
                     children.add(index + 1, message);
-                    System.out.println("new message");
                 }
             }
 
