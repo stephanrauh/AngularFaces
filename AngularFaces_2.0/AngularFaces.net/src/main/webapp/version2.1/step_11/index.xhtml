@@ -9,11 +9,6 @@
     <ui:define name="content">
       <b:panel title="Native HTML tags" look="primary">
 
-          <b:alert severity="info">
-            <p>This section hasn't been updated to AngularFaces 2.1 yet. It may contain outdated information.</p>
-          </b:alert>
-
-
   <h1>Using native HTML tags</h1>
   <p>The idea of the JSF 2.2 HTML5 dialect is to start with a native HTML page, and to add a few JSF attributes to
     make it an JSF view. AngularFaces take this idea to another level.</p>
@@ -30,23 +25,65 @@
       "text='number'", java.util.Date becomes "type='date", boolean turns the input field into a check box and
       everything else becomes "type='text'".</li>
   </ul>
+  
+    <h3>Why, no, I don't want this feature!</h3>
+    <p>You have to add a few lines to the <code>web.xml</code> to activate this features. AngularFaces 2.1 doesn't allow you to
+    get rid of the feature altogether: it's needed internally. But you can chose between a progressive version and a conservative version. The latter
+    only cares about a few tags:</p>
+    <ul>
+    <li><code>h:messages</code> and <code>prime:messages</code></li>
+    <li><code>ngsync</code></li>
+    <li><code>translate</code> and <code>i18n</code></li>
+    </ul>
+    
+    <b:tabView>
+    <b:tab title="full-blown tag decorator">
+    <b:well>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+  <context-param>
+    <param-name>javax.faces.FACELETS_DECORATORS</param-name>
+    <param-value>
+            de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator
+    </param-value>
+  </context-param>
+]]></script>
+</b:well>
+</b:tab>
+<b:tab title="conservative tag decorator">
+<b:well>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+  <context-param>
+    <param-name>javax.faces.FACELETS_DECORATORS</param-name>
+    <param-value>
+            de.beyondjava.angularFaces.core.tagTransformer.ConservativeAngularTagDecorator
+    </param-value>
+  </context-param>
+]]></script>
+</b:well>
+</b:tab>
+</b:tabView>
+     
+    
+  
+    <h3>BootsFaces</h3>
+    <p>The progressive tag decorator supports most tags of BootsFaces. This feature is activated only if BootsFaces is detected in the classpath.</p>
+    <p>Read the complete list of supported tag at <a target="#" href="http://www.bootsfaces.net/integration/angularFaces.jsf">the BootsFaces showcase</a>.</p>
+    
 
   <h3>What it looks like</h3>
   <p>Even if it's only a handful of changes, it's astonishing how much tidier these few changes make your JSF file looks:</p>
+  <b:well>
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
-&lt;f:view xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:h="http://xmlns.jcp.org/jsf/html"
-  xmlns:jsf="http://xmlns.jcp.org/jsf"
-  xmlns:ui="http://java.sun.com/jsf/facelets"
-  xmlns:ng="http://xmlns.jcp.org/jsf/passthrough">
+&lt;f:view xmlns   ="http://www.w3.org/1999/xhtml"       xmlns:f  ="http://java.sun.com/jsf/core"
+        xmlns:h ="http://xmlns.jcp.org/jsf/html"      xmlns:jsf="http://xmlns.jcp.org/jsf"
+        xmlns:ui="http://java.sun.com/jsf/facelets"   xmlns:ng ="http://xmlns.jcp.org/jsf/passthrough">
   &lt;head>
     &lt;title>AngularFaces 2.0 Tetris demo&lt;/title>
   &lt;/head>
-  &lt;body style="width:1000px" 
-    ng-controller="AngularTetrisController"
-    ng-app="AngularTetris">
+  &lt;body style="width:1000px" ng-controller="AngularTetrisController" ng-app="AngularTetris">
     &lt;form>
       &lt;h3>AngularTetris&lt;/h3>
       &lt;h:panelGrid columns="3">
@@ -58,6 +95,7 @@
     &lt;/form>
   &lt;/body>
 &lt;/f:view>]]></script>
+</b:well>
       </b:panel>
     </ui:define>
   </ui:composition>

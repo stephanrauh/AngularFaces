@@ -7,47 +7,82 @@
 <h:body>
   <ui:composition template="/template/fullpage.xhtml">
     <ui:define name="content">
-      <b:panel title="ngsync" look="primary">
-          <b:alert severity="info">
-            <p>This section hasn't been updated to AngularFaces 2.1 yet. It may contain outdated information.</p>
-          </b:alert>
+      <b:panel title="ngsync" look="primary" id="ngsync">
       
   <h1>Synchronizing arbitrary JSF attributes with the client</h1>
   <p>In the previous chapters of the tutorial you've seen how to synchronize JSF bean attributes with the AngularJS
-    model. However, you aren't limited to input field and html attributes.</p>
+    model. Now we go a step further. You aren't limited to visible attributes when it comes to synchronizing the AngularJS
+    model with the JSF backend.</p>
+    
+    <b:panel look="info">
+        <f:facet name="heading">
+            <b>Attributes of &lt;ngsync /&gt;</b>
+        </f:facet>
+        <p>Synchronizes arbitrary JSF beans with the AngularJS model and vice versa.</p>
+        <f:facet name="footer">
+            <table class="table table-striped table-hover"
+                style="background-color: #fff">
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Default value</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>value</td>
+                        <td>(none)</td>
+                        <td>The qualified name of the JSF bean. The corresponding Json object in the AngularJS scope has the same name.</td>
+                    </tr>
+                    <tr>
+                        <td>direction</td>
+                        <td>(none)</td>
+                        <td>Possible values: clientToServer, serverToClient and both.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </f:facet>
+    </b:panel>
+
+    
   <h3>Sending JSF beans to the client</h3>
-  <p>To send an arbitrary JSF bean attribute to the client add the attribute "direction" to the &lt;ngsync /&gt; tag:</p>
+  <p>To send an arbitrary JSF bean attribute or an entire JSF bean to the client add the attribute "direction" to the &lt;ngsync /&gt; tag. This example is part of
+  the <a target="#" href="http://angularfaces.net/tetris/">AngularJS tetris demo</a>. It sends an array of complex objects to the client:</p>
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
-&lt;ngsync value="&#123;&#123;grid.rows}} direction="serverToClient" />
+&lt;ngsync value="&#123;&#123;grid.rows}}" direction="serverToClient" />
 ]]></script>
   <h3>Complex beans</h3>
-  <p>AngularFaces uses Gson to convert beans into JSon objects. Sometimes this makes for clumsy data structures. For
+  <p>AngularFaces uses a Json serializer to convert beans into JSon objects. Currently Gson and Jackson are supported.</p>
+  <p>
+   Sometimes using a Json serializer makes for clumsy data structures. For
     instance, the playground of the AngularTetris demo is a simple two-dimensional array of integers. However, I had to
     chose a much more complicated data structure because AngularJS had difficulties to access the cells in two nested
     ng-repeat directives. I suspect I did something wrong, but I also suppose that what feels a natural data structure
     in Java doesn't always result in a simple AngularJS model.</p>
   <p>A particular nasty problem are arrays and hash maps. Because of Java's type erasure, there's no simple way to
     send a table back to the server. Everything's fine until the table grows at the client side. Gson doesn't know the
-    type of the array, so it can't simply add rows to the table on the server side. That's the reason why I postponed
-    two-way synchronization until AngularFaces 2.1.</p>
+    type of the array, so it can't simply add rows to the table on the server side. AngularFaces 2.1 supports
+    two-way synchronization, but it's not without limitations.</p>
 
   <h3>Sending AngularJS model values to the server</h3>
-  <p>That's a feature left for AngularFaces 2.1.</p>
+  <p>Starting with AngularFaces 2.1, <code>&lt;ngsync /&gt;</code> can send AngularJS models to the server. As mentioned above, Java's type erasure imposes
+  restrictions when it comes to synchronize tables and hash maps.</p>
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
-&lt;ngsync value="&#123;&#123;grid.rows}} direction="clientToServer" />
+&lt;ngsync value="&#123;&#123;grid.rows}}" direction="clientToServer" />
 ]]></script>
   
   <p> Currently, the only way to send values back to the server are input
     fields. Of course you can add an &lt;h:inputText&gt; rendered invisible by CSS. The next request automatically sends
     values stored in the hidden field back to the server. </p>
   <h3>Two-way synchronizing</h3>
-  <p>That's a feature left for AngularFaces 2.1. In the meantime the only work-around is using a hidden input field. I'll show
-  you the sneak preview to the syntax anyways:
+  <p><code>&lt;ngsync /&gt;</code> synchronizes the AngularJS model with the JSF bean on every request. After the request, the AngularJS scope is updated with the
+  values of the JSF bean (which may have been modified in the meantime).
   </p>
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
-<![CDATA[&lt;ngsync value="&#123;&#123;grid.rows}} direction="both" />
+<![CDATA[&lt;ngsync value="&#123;&#123;grid.rows}}" direction="both" />
 ]]></script>
       </b:panel>
     </ui:define>

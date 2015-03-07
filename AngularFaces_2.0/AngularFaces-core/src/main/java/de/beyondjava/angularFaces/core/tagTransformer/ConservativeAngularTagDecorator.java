@@ -52,11 +52,6 @@ public class ConservativeAngularTagDecorator implements TagDecorator {
 
 	private final RelaxedTagDecorator relaxedDecorator = new RelaxedTagDecorator();
 
-	private Tag convertToACBodyTag(Tag tag, TagAttributes attributeList) {
-		Tag t = new Tag(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE, tag.getLocalName(), tag.getQName(), attributeList);
-		return t;
-	}
-
 	private Tag convertToNGSyncTag(Tag tag, TagAttributes attributeList) {
 
 		TagAttribute[] attributes = attributeList.getAll();

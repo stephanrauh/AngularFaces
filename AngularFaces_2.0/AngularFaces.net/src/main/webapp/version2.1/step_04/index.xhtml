@@ -8,25 +8,22 @@
   <ui:composition template="/template/fullpage.xhtml">
     <ui:define name="content">
       <b:panel title="Mustaches" look="primary">
-          <b:alert severity="info">
-            <p>This section hasn't been updated to AngularFaces 2.1 yet. It may contain outdated information.</p>
-          </b:alert>
   <h1>Using mustaches in JSF attributes</h1>
   <p>Many JSF attributes can make use of AngularJS mustaches. In that case, they are evaluated on the client, giving
-    you a lot of extra flexibility.</p>
-  <p>For instance, the AngularTetris demo displays either the settings or the current score, depending on whether
+    you a lot of extra flexibility. When the controller is initialized, the initial value of the 
+    attribute is set to the corresponding value in the JSF bean. After that, it's an ordinary variable in the
+    AngularJS scope.</p>
+  <p>For instance, the AngularTetris demo displays either the settings or the current score. The , depending on whether
     the game is being played or not:</p>
-<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;gutter:false;first-line: 1">
 <![CDATA[
-&lt;h:panelGroup style="&#123;&#123;game.settingsStyle()}}">
-  &lt;span style="font-weight:bold">Settings:&lt;/span>
-  ...
-&lt;/h:panelGroup>
-&lt;h:panelGroup style="&#123;&#123;game.scoreStyle()}}">
+&lt;h:panelGroup style="&#123;&#123;game.scoreStyle}}">
   &lt;span style="font-weight:bold">Score:&lt;/span>
   ...
 &lt;/h:panelGroup>
 ]]></script>
+    <p>In this example, the value of <code>game.scoreStyle</code> is either <code>"display:none"</code> or <code>"display:block"</code>.</p>
+
   <h3>Beware of rendered="false"</h3>
   <p>It's a bad idea to use rendered="false" to hide a component in an AngularFaces page. AngularFaces uses
     optimized AJAX responses that update the variables of the scope, but nothing else. Hence, if you show or hide
