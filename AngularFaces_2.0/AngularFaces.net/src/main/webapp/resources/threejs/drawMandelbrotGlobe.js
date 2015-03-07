@@ -102,8 +102,6 @@ function init() {
 
 	renderer = new THREE.CanvasRenderer();
 	
-	renderer.setSize(300,300);
-
 	container.innerHTML = "";
 	container.appendChild(renderer.domElement);
 
@@ -125,8 +123,12 @@ function animate() {
 }
 
 function render() {
-	camera.position.x += (mouseX - camera.position.x) * 0.05;
-	camera.position.y += (-mouseY - camera.position.y) * 0.05;
+    var size=container.clientWidth;
+    if (size>300) size=300;
+    renderer.setSize(size,size);
+
+	camera.position.x += (mouseX - camera.position.x) * 0.03;
+	camera.position.y += (-mouseY - camera.position.y) * 0.03;
 	camera.lookAt(scene.position);
 	group.rotation.y -= 0.005;
 	renderer.render(scene, camera);

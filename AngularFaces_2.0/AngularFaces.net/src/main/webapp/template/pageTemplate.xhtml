@@ -15,6 +15,30 @@
   <meta name="copyright" content="Stephan Rauh" />
   <h:outputStylesheet library="sh" name="css/shCore.css" />
   <h:outputStylesheet library="sh" name="css/shCoreEclipse.css" />
+  <style>
+      @media ( min-width :768px) {
+        #mandelbrot {width:100px;height:100px;display:block;margin-top:30px}
+    }
+    
+    @media ( min-width :992px) {
+        #mandelbrot {width:200px;height:200px;display:block}
+    }
+    
+    @media ( min-width :1200px) {
+        #mandelbrot {width:250px;height:250px;}
+    }
+    
+    @media (min-width: 1400px){
+        .container {width: 1370px;}
+        #mandelbrot {width:300px;height:300px;}
+    }
+    @media (min-width: 1600px){
+        .container {width: 1470px;}
+    }
+    @media (min-width: 1800px){
+        .container {width: 1570px;}
+    }
+    </style>
 </h:head>
 <h:body style="padding-top: 75px;padding-bottom: 75px;">
 
@@ -32,10 +56,16 @@
   </ui:insert>
 
   <b:container>
-    <div id="mandelbrot" style="width: 300px; height: 300px; position: absolute; top: 100px; left: 0px; margin: 0 30px 0 0;">
+  <b:row>
+  <b:column span="3">
+    <div id="mandelbrot">
       <img src="/angularfaces-2.1-documentation/globe/MandelbrotEarth1.png" width="100%" height="100%" />
     </div>
+    </b:column>
+    <b:column span="9">
     <ui:insert name="content" />
+    </b:column>
+    </b:row>
     <br />
     <br />
     <br />
