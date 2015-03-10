@@ -2,14 +2,16 @@ AngularFaces and BabbageFaces
 =============================
 
 <b>AngularFaces 2.1 has been released!</b>
+
 Add these lines to your Maven pom.xml file:
+```XML
 		<dependency>
 			<groupId>de.beyondjava</groupId>
 			<artifactId>angularFaces-core</artifactId>
 			<version>2.1.2</version>
 			<scope>compile</scope>
 		</dependency>
-
+```
 
 <b>AngularFaces</b> is a JSF library making it easy to integrate AngularJS code.<br>
 
