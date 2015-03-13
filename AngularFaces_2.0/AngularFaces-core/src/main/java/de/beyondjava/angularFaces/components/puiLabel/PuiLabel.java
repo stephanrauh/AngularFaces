@@ -41,9 +41,6 @@ public class PuiLabel extends HtmlOutputLabel {
 		if ((inputField==null && getFor()!=null)) {
 			throw new FacesException("The PuiLabel component doesn't find its input field. Most likely that's a configuration error. The preferred solution is to add the attribute prependId=\"false\" to the form.");
 		}
-		if ((getClientId().indexOf(':')>=0)) {
-			throw new FacesException("Please add the attribute prependId=\"false\" to the form. AngularJS doesn't cope with the standard separator character JSF uses in client ids.");
-		}
 		writer.writeAttribute("for", inputField.getId(), "for");
 		if (inputField.getClass().getName().contains("primefaces")) {
 			writer.writeAttribute("primefaces", "true", "primefaces");

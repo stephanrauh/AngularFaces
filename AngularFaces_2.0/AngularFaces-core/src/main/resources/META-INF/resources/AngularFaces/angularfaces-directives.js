@@ -27,22 +27,25 @@ app.directive('puimessage', function() {
          return true;
       };
    
-      this.renderMessages = function(errorMessages, inputField) {
-          $scope.currentMessage=getErrorMessage(errorMessages,inputField);
+      this.renderMessages = function(errorMessagesClasses, message, inputField) {
+          $scope.currentMessage=getErrorMessage(errorMessagesClasses,inputField);
       };
     },
     
     link: function($scope, $element, $attrs, ctrl) {
-        var watchFieldID= $attrs['for'];
-        var errorObjectToBeWatched = findErrorObject(watchFieldID);
-        var scopeOfForm = $scope.$parent;
-        scopeOfForm.$watchCollection(errorObjectToBeWatched, function(values) {
-            var field=document.getElementById(watchFieldID);
-            if (field==null) {
-                field = document.getElementsByName(watchFieldID)[0];
-            }
-            ctrl.renderMessages(values, field);
+        var watchFieldID= $attrs['for'].replace(':', '\\:');
+        var target = document.querySelector('#'+watchFieldID);
+        var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type=='attributes')
+              if (mutation.attributeName=='class') {
+                ctrl.renderMessages(target.classList, $element, target);
+                $scope.$apply();
+              }
+                
+          });    
         });
+        observer.observe(target, { attributes: true, childList: false, characterData: false});
     }
  };
 });
@@ -75,30 +78,40 @@ app.directive('puilabel', function() {
 	    controller: function($scope) {
 	      $scope.currentMessage="";
 	      $scope.errorClass="";
-	      this.renderMessages = function(errors, inputField) {
-    	      if (errors) {
-    	          if (hasErrorMessage(errors) > 0)
-    	              $scope.errorClass="ui-state-error";
-    	          else
-    	              $scope.errorClass="";
-    	      }
-    	      else {
-    	          $scope.errorClass="";
-    	      }
+	      this.renderMessages = function(errorMessagesClasses, label, inputField) {
+	          var innerLabel=$(label).children()[0];
+	          if (typeof(innerLabel!='undefined')) {
+        	      if (errorMessagesClasses) {
+        	          if (hasErrorMessage(errorMessagesClasses) > 0) {
+                          $(innerLabel).addClass("ui-state-error");
+        	              $scope.errorClass="ui-state-error";
+        	          }
+        	          else {
+        	              $scope.errorClass="";
+        	              $(innerLabel).removeClass("ui-state-error");
+        	          }
+        	      }
+        	      else {
+        	          $scope.errorClass="";
+                      $(innerLabel).removeClass("ui-state-error");
+        	      }
+        	      console.log("Error:" + $scope.errorClass);
+	          }
     	  };
 	    },
 	    
 	    link: function($scope, $element, $attrs, ctrl) {
-	        var watchFieldID= $attrs['for'];
-	        var errorObjectToBeWatched = findErrorObject(watchFieldID);
-	        var scopeOfForm = $scope.$parent;
-	        scopeOfForm.$watchCollection(errorObjectToBeWatched, function(values) {
-	            var field=document.getElementById(watchFieldID);
-                if (field==null) {
-                    field = document.getElementsByName(watchFieldID)[0];
-                }
-                ctrl.renderMessages(values, field);
-            });
+	        var watchFieldID= $attrs['for'].replace(':', '\\:');
+	        
+	        var target = document.querySelector('#'+watchFieldID);
+	        var observer = new MutationObserver(function(mutations) {
+	          mutations.forEach(function(mutation) {
+	            if (mutation.type=='attributes')
+	              if (mutation.attributeName=='class')
+	                ctrl.renderMessages(target.classList, $element, target);
+	          });    
+	        });
+	        observer.observe(target, { attributes: true, childList: false, characterData: false});
 	    }
 	 };
 });
@@ -187,7 +200,7 @@ app.directive('integer', function() {
 function hasErrorMessage(errors) {
     var key;
     for (key in errors) {
-        if (errors.hasOwnProperty(key)) return true;
+        if ('ng-invalid'==errors[key]) return true;
     }
     return false;
 }
@@ -225,43 +238,45 @@ function findErrorObject(watchFieldID) {
 function getErrorMessage(errors, inputField) {
     if (inputField.getAttribute("type")=="hidden")
         return "";
+    if ((typeof(errors)=='undefined') || (!errors))
+        return "";
 
-    if (errors && errors['min']) {
+    if (errors.contains('ng-invalid-min')) {
         var min = inputField.getAttribute("min");
         var msg = translateErrorMessage("This number must be at least {}.");
         msg=msg.replace("{}", min);
         return msg;
     }
-    if (errors && errors['max']) {
+    if (errors.contains('ng-invalid-max')) {
         var max = inputField.getAttribute("max");
         var msg = translateErrorMessage("This number must be less or equal {}.");
         msg=msg.replace("{}", max);
         return msg;
     }
-    if (errors && errors['integer']) {
+    if (errors.contains('ng-invalid-integer')) {
       var msg = translateErrorMessage("Please enter a valid integer number.");
       return msg;
     }
-    if (errors && errors['number']) {
+    if (errors.contains('ng-invalid-number')) {
       var msg = translateErrorMessage("Please enter a valid number.");
       return msg;
     }
-    if (errors && errors['required']) {
+    if (errors.contains('ng-invalid-required')) {
        var msg = translateErrorMessage("Please fill out this field.");
        return msg;
     }
     
-    if (errors && errors['integer']) {
+    if (errors.contains('ng-invalid-integer')) {
         var msg = translateErrorMessage("Please enter a valid integer number.");
         return msg;
     }
-    if (errors && errors['minlength']) {
+    if (errors.contains('ng-invalid-minlength')) {
         var min = inputField.getAttribute("ng-minlength");
         var msg = translateErrorMessage("At least {} characters required.");
         msg=msg.replace("{}", min);
         return msg;
     }
-    if (errors && errors['maxlength']) {
+    if (errors.contains('ng-invalid-maxlength')) {
         var max = inputField.getAttribute("ng-maxlength");
         if (typeof(max)=='undefined' || max==null) {
             max=inputField.getAttribute("maxlength");
@@ -275,7 +290,7 @@ function getErrorMessage(errors, inputField) {
         return msg;
     }
     
-    if (errors && hasErrorMessage()) {
+    if (hasErrorMessage()) {
         var keys="";
         var key;
         for (key in errors) {
