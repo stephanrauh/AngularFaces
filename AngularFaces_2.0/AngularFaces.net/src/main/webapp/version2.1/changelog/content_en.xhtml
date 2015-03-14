@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:ac="http://beyondjava.net/angularFacesCore">
+ 
+ <b:panel title="Changelog" look="primary">
+    <h3>What's new in AngularFaces 2.1.3?</h3>
+    <ul>
+        <li>AF 2.1.3 fixes the bug that forced developers to use <code>prependId="false"</code>. The bugfix relies on 
+            <code>MutationObserver</code>, which is not compatible to older Internet Explorers. According to
+            <a target="#" href="http://caniuse.com/#feat=mutationobserver">"Can I use?"</a>, only IE 11+ is supported.<br />
+            Note that AngularJS itself doesn't support the separator character JSF uses in ids. Most features will work fine,
+            but some features such as setting a watch or <code>ngMessages</code> fail.
+        </li>
+        <li>
+            Added <code>&lt;ac:include /&gt;</code> which is a language-aware version of <code>&lt;ui:include /&gt;</code>.
+            It checks which languages the user prefers (according to their browser settings) and tries to add the language
+            code to the filename. If no such file is found, <code>&lt;ac:include /&gt;</code> defaults to the standard
+            behaviour of <code>&lt;ui:include /&gt;</code>.
+        </li>
+        <li>
+            AngularJS has been updated to v1.3.14.
+        </li>
+        <li>
+            jQuery has been updated to v1.11.2.
+        </li>
+        <li>
+            jQuery-UI has been updated to v1.11.3. Currently, AngularFaces doesn't use jQuery, so you will notice this only if your application imports jQuery-UI.
+        </li>
+        <li>Removed debug code</li>
+    </ul>
+    <h3>AngularFaces 2.1.2</h3>
+    <ul>
+        <li>
+            Fixed a strange bug reordering PuiLabels and PuiMessages on postbacks.
+        </li>
+    </ul>
+    <h3>AngularFaces 2.1.1</h3>
+    <ul>
+        <li>
+            Improved the compatibility to application servers by detecting more reliably whether Mojarra or MyFaces is to be used.
+        </li>
+        <li>
+            Javascript libraries are now loaded in the correct order (including jQuery-UI).
+        </li>
+    </ul>
+    <h3>AngularFaces 2.1.0</h3>
+<ul>
+<li>AngularFaces 2.1 is available under a <a target="#" href="http://www.beyondjava.net/blog/angularfaces-2-1-apache-license-v2-angularjs-1-3-and-much-more/">liberal Apache V2 licence.</a></li>
+<li><code>div</code> and <code>span</code> tags are <a target="#" href="http://www.beyondjava.net/blog/angularfaces-2-1-apache-license-v2-angularjs-1-3-and-much-more/">first class citizens of the JSF tree.</a> This allows you to program almost the way you’re used to from pure AngularJS applications.</li>
+<li>The <a href="#ngsync"><code>&lt;ngsync /&gt;</code> tag</a> allows you to synchronize arbitrary data structures between server and client.</li>
+<li>Optional caching reduces the amount of data sent to the client significantly.</li>
+<li><a href="#jackson">Both Jackson and Google Gson</a> are supported to serialize Java beans to Json objects. However, I postponed Moxy to AngularFaces 2.2.</li>
+<li>AngularFaces reads bean validation annotations not only from the attribute, but also <a href="#annotation">from the getter</a>.</li>
+<li><a href="#messages"><code>&lt;h:messages /&gt;</code> and <code>&lt;prime:messages /&gt;</code></a> are fully supported by AngularFaces.</li>
+<li>AngularFaces 2.1 supports both Mojarra and Apache MyFaces.</li>
+<li>It also <a target="#" href="http://www.beyondjava.net/blog/angularfaces-2-1-blurs-the-difference-between-jsf-and-html/">contains special support</a> for <a target="#" href="http://www.bootsfaces.net">BootsFaces 0.6</a>, which in turn is a JSF library that makes using Bootstrap in a JSF application a breeze.</li>
+<li>Marco Rinck contributes his great <a target="#" href="http://entwicklertagebuch.com/blog/2014/11/jsf-updates-angular-how-to-use-angularjs-directives-to-replace-jsf-components/">JUA library</a> to AngularFaces. JUA integrates JSF AJAX capabilities seamlessly into an AngularJS page.</li>
+<li>Did you ever wonder why JSF integrates drop down menu (aka comboboxes) in such a clumsy way? I found a way to write <code>selectOneMenu</code> almost the way it’s <a target="#" href="http://www.beyondjava.net/blog/angularfaces-2-1-blurs-the-difference-between-jsf-and-html/">written in pure HTML pages</a>.</li>
+<li>AngularFaces 2.1 updated to <a target="#" href="http://www.beyondjava.net/blog/angularfaces-2-1-apache-license-v2-angularjs-1-3-and-much-more/">AngularJS 1.3.</a> Unfortunately, this is a potential source of incompatibilities. Luckily, it’s almost the only such source. Everything else should migrate smoothly.</li>
+<li>The <code>CombinedResourceHandler</code> of OmniFaces is supported. That’s an important point because AngularFaces pages tend to deliver many Javascript files. Omnifaces boils these files down to a single file, which loads a lot faster than many small files.</li>
+<li>The “automagical” generation of labels and messages and be configured much more flexible. Originally, you only could disable this feature on a per-page basis. Now it’s possible to add the attributes <code>addLabel="false"</code> and <code>addMessages="false"</code> to every container object that’s part of the JSF tree.</li>
+<li>I <a target="#" href="http://www.beyondjava.net/blog/angularfaces-2-1-blurs-the-difference-between-jsf-and-html/">simplified the <code>&lt;translate&gt;</code> tag</a>.</li>
+</ul>
+</b:panel>
+</ui:fragment>
