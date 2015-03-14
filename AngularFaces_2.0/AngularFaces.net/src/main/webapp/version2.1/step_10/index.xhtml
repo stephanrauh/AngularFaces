@@ -7,22 +7,20 @@
 <h:body>
   <ui:composition template="/template/fullpage.xhtml">
     <ui:define name="content">
-      <b:panel title="Pass-through attributes" look="primary">
-
-  <h1>Automatic pass-through attributes</h1>
-  <p>AngularFaces allows you to use native AngularJS directives without having to define them as JSF pass-through
-    attributes. In other words, you write the XHTML code just as if it was an ordinary AngularJS page. You don't have to
-    use the new pass-through attributes of JSF 2.2. For instance, you can use ng-show or ng-hide to hide a panel group:</p>
-<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
-<![CDATA[
-&lt;h:panelGroup ng-show="false">
-   ...
-&lt;/h:panelGroup>
-&lt;h:panelGroup ng-hide="true">
-   ...
-&lt;/h:panelGroup>
-          ]]></script>
-      </b:panel>
+         <b:tabView>
+            <b:tab title="language according to browser settings" styleClass="display:none">
+                <ac:include src="content.xhtml"></ac:include>
+           </b:tab>
+            <b:tab title="English">
+                <ui:include src="content_en.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Português">
+                <ui:include src="content_pt.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Deutsch">
+                <ui:include src="content_de.xhtml"></ui:include>
+           </b:tab>
+        </b:tabView>
     </ui:define>
   </ui:composition>
 </h:body>

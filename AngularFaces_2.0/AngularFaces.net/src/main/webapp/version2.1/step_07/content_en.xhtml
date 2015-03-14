@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+     <b:panel title="On DataTables" look="primary">
+
+          <b:alert severity="info">
+            <p>This section hasn't been updated to AngularFaces 2.1 yet. It may contain outdated information.</p>
+          </b:alert>
+
+  <h1>Data tables: server side rendering or client side widgets?</h1>
+  <p>No matter how great a framework AngularFaces may be, it has to fit into existing
+  infrastructures. Of course, the best way to get familiar with AngularFaces is the green field scenario.
+  Start with a fresh and empty project, and you'll be able to get the most out of your new tool.</p>
+  <p>However, I think many developers already have a lot of code, and they just want to add
+  AngularFaces to their tool box. That why I started to write AngularFaces in the first place: I wanted
+  to solve a problem that was simple on the client and very difficult on the client side. I didn't want
+  to rewrite the entire application, I just wanted to add a few features to an existing application.</p>
+  <h3>Embedding a PrimeFaces datatable in an AngularFaces application</h3>
+  <p>
+  One of the finest pieces of art in the JSF world is the PrimeFaces datatable. The good news is it is 
+  compatible to AngularFaces. PrimeFaces uses optimized requests to update the table when it is sorted,
+  when you enter a filter criterium or when you browse to another page of the paginator.</p>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+&lt;prime:dataTable value="#{carPool.carPool}" var="car" paginator="true" rows="10"> 
+    &lt;prime:column headerText="brand">#{car.brand}&lt;/prime:column>
+    &lt;prime:column headerText="type"> #{car.type}&lt;/prime:column>
+    &lt;prime:column headerText="year"> #{car.year}&lt;/prime:column>
+    &lt;prime:column headerText="color">#{car.color}&lt;/prime:column>
+&lt;/prime:dataTable>
+]]></script>
+  <h3>ngTable - a client side alternative</h3>
+    <p>The bad news it the PrimeFaces DataTable doesn't benefit much from AngularFaces
+    (apart from the automatic translation to foreign languages, of course). I haven't figured out yet how to use AngularJS
+    in a table row or in a table cell.</p> 
+   <p>
+   On the long run it's better to use an AngularJS table. There are many table widgets. A particularly powerful 
+   table widget is <a target="#" href="http://bazalt-cms.com/ng-table/">ngTable</a> by Vitalii Savchuk.</p>
+   <p>The nice thing about AngularJS is it allows for client side widgets that are every bit as simple as server side widgets. 
+   Using ngTable, table including paginators, filters, sort buttons and even a CSV (aka Excel) export looks like so:</p>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+&lt;table ng-table="tableParams" value="{{carPool.carPool}}" export-csv="csv" show-filter="true"
+  class="table ng-table-responsive">
+  &lt;tr ng-repeat="car in $data">
+    &lt;td data-title="'Brand'" sortable="'brand'" filter="{ 'brand': 'watermark' }">
+           {{car.brand}}&lt;/td>
+    &lt;td data-title="'Type'" sortable="'type'" filter="{ 'type': 'watermark' }">
+           {{car.type}}&lt;/td>
+    &lt;td data-title="'Year'" sortable="'year'" filter="{ 'year': 'number' }">
+           {{car.year}}&lt;/td>
+    &lt;td data-title="'Color'" sortable="'color'" filter="{ 'color': 'watermark' }">
+           {{car.color}}&lt;/td>
+  &lt;/tr>
+&lt;/table>
+]]></script>   
+<p>The advantage of using ngTable is it's entirely rendered and controlled by AngularJS. Every feature of AngularJS is available to you. For instance,
+the values of the cells are taken from the AngularJS scope. You can set watches on them, use directives to
+add validation constraints and much more.</p>
+<p>Truth to tell, ngTable requires some support of the controller to do its magic. Future versions of AngularFaces will
+address this problem and reduce the amount of boiler plate code required to do common tasks. 
+   </p>
+<script type="syntaxhighlighter" class="brush: js; toolbar: false;first-line: 0">
+<![CDATA[
+var app = angular.module('CarShop', ["angularfaces", 'ngTable', 'ngTableExport']).
+controller('CarShopController', function($scope, $filter, ngTableParams) {
+    // This initializes the Angular Model with the values of the JSF bean attributes
+    initJSFScope($scope);
+
+    $scope.tableParams = new ngTableParams({
+        page: 1,                  // show first page
+        count: 10,                // count per page
+        sorting: { brand: 'asc' } // initial sorting
+    }, {
+        total: $scope.carPool.carPool.length, // length of data
+        getData: function($defer, params) {
+            params.settings().counts=[5, 10, 'all']; // todo: that's a hack!
+            var rows = $scope.carPool.carPool;
+            if (params.filter()) rows=$filter('filter')(rows, params.filter());
+            if (params.sorting()) rows = $filter('orderBy')(rows, params.orderBy());
+            var page = params.page();
+            var pageLength = params.count();
+            if (pageLength=='all') 
+                $defer.resolve(rows);
+            else
+                $defer.resolve(rows.slice((page-1) * pageLength, page * pageLength));
+        }
+    });
+})]]></script>
+<p>But still, &lt;prime:dataTable /&gt; knows a couple of tricks even ngTable doesn't :).</p>
+       </b:panel>
+</ui:fragment>

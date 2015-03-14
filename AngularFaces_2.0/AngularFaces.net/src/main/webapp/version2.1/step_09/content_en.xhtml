@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+      <b:panel title="JUA" look="primary">
+
+          <b:alert severity="info">
+            <p>This section describes a new feature of AngularFaces 2.1. However, it hasn't been finished yet.</p>
+          </b:alert>
+
+
+          <h1>Using traditional JSF AJAX with AngularJS</h1>
+          <p>Marco Rinck contributed his great JUA library allowing AngularJS applications to survive a JSF request.
+          That's not an easy achievement: AngularJS assumes to have to control over the DOM tree. So does JSF.
+          Both frameworks get in each other's way, causing all kinds of problems, such as memory leaks
+          and cutting the connection of the HTML elements to the AngularJS scope.
+          </p>  
+          
+          <p>In most cases, JUA solves these problems. When JSF updates the DOM tree, JUA takes care of 
+          releasing memory claimed by AngularJS and initializing the updated DOM elements without 
+          disturbing older DOM elements.</p> 
+     
+          <p>However, as a rule of thumb, don't use traditional JSF AJAX requests with AngularFaces. 
+          As of AngularFaces 2.1, even a great library like JUA has its limitations.</p>
+         
+      </b:panel>
+
+</ui:fragment>

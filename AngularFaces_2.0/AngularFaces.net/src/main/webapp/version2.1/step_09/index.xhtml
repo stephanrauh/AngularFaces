@@ -7,28 +7,20 @@
 <h:body>
   <ui:composition template="/template/fullpage.xhtml">
     <ui:define name="content">
-      <b:panel title="JUA" look="primary">
-
-          <b:alert severity="info">
-            <p>This section describes a new feature of AngularFaces 2.1. However, it hasn't been finished yet.</p>
-          </b:alert>
-
-
-          <h1>Using traditional JSF AJAX with AngularJS</h1>
-          <p>Marco Rinck contributed his great JUA library allowing AngularJS applications to survive a JSF request.
-          That's not an easy achievement: AngularJS assumes to have to control over the DOM tree. So does JSF.
-          Both frameworks get in each other's way, causing all kinds of problems, such as memory leaks
-          and cutting the connection of the HTML elements to the AngularJS scope.
-          </p>  
-          
-          <p>In most cases, JUA solves these problems. When JSF updates the DOM tree, JUA takes care of 
-          releasing memory claimed by AngularJS and initializing the updated DOM elements without 
-          disturbing older DOM elements.</p> 
-     
-          <p>However, as a rule of thumb, don't use traditional JSF AJAX requests with AngularFaces. 
-          As of AngularFaces 2.1, even a great library like JUA has its limitations.</p>
-         
-      </b:panel>
+         <b:tabView>
+            <b:tab title="language according to browser settings" styleClass="display:none">
+                <ac:include src="content.xhtml"></ac:include>
+           </b:tab>
+            <b:tab title="English">
+                <ui:include src="content_en.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Português">
+                <ui:include src="content_pt.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Deutsch">
+                <ui:include src="content_de.xhtml"></ui:include>
+           </b:tab>
+        </b:tabView>
     </ui:define>
   </ui:composition>
 </h:body>

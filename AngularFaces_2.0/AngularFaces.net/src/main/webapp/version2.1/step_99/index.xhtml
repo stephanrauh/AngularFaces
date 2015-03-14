@@ -7,31 +7,20 @@
 <h:body>
   <ui:composition template="/template/fullpage.xhtml">
     <ui:define name="content">
-      <b:panel title="FAQ" look="primary">
-
-          <b:alert severity="info">
-            <p>This section hasn't been updated to AngularFaces 2.1 yet. It may contain outdated information.</p>
-          </b:alert>
-
-
-        <h1>FAQ</h1>
-        <ul>
-          <li><p>
-              <b>Angular shows me an error message containing the sentence "Module 'angularfaces' is not available!" (among many other
-                things).</b>
-            </p>
-            <p>
-              Most likely you're using a plain HTML element to activate the ng-controller (see previous question). Replace it by replace the
-              &lt;div&gt; by an &lt;h:panel layout="block" ng-controller="myController"&gt;, as described above. Also see the hints <a
-                target="#" href="https://github.com/stephanrauh/AngularFaces/issues/7">on a similar question on GitHub</a> - it shows you
-              several ideas to analyse the problem.
-            </p></li>
-          <li><p><b>"The button/link/text component needs to have a Form in its ancestry. Please add &lt;h:form&gt;."</b></p>
-            <p>Sometimes this messages refers to &lt;ngsync&gt;. It has to be put into the form tag, to.</p>
-            </li>
-        </ul>
-
-      </b:panel>
+         <b:tabView>
+            <b:tab title="language according to browser settings" styleClass="display:none">
+                <ac:include src="content.xhtml"></ac:include>
+           </b:tab>
+            <b:tab title="English">
+                <ui:include src="content_en.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Português">
+                <ui:include src="content_pt.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Deutsch">
+                <ui:include src="content_de.xhtml"></ui:include>
+           </b:tab>
+        </b:tabView>
     </ui:define>
   </ui:composition>
 </h:body>

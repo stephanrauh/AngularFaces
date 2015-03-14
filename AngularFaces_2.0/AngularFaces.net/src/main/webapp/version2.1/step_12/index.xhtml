@@ -7,24 +7,20 @@
 <h:body>
   <ui:composition template="/template/fullpage.xhtml">
     <ui:define name="content">
-      <b:panel title="On mustaches" look="primary">
-
-  <h1>Why does AngularFaces use yet another EL syntax?</h1>
-  <p>AngularFaces makes a distinction between JSF attributes remaining on the server and attributes that are
-    synchronized with the AngularJS scope:</p>
-<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
-<![CDATA[
-&lt;h:inputText value="&#123;&#123;carBean.brand}}" />
-&lt;h:inputText value="&#35;&#123;carBean.color}" />]]></script>
-  <p>The brand of the car is part of the AngularJS scope, while the color is dealt with exclusively on the server.</p>
-  <p>Originally, I had the idea to simply put every JSF bean attribute into the AngularJS scope. This didn't work
-    out because I ran into technical problems, so I replaced the JSF syntax &#35; &#123;...} by an Angular-style syntax
-    &#123; &#123;...}}.</p>
-  <p>In the meantime I've learned how to overcome the technical problems, but I've become fond of the syntax.
-    First, they give you better control over which attributes are sent to the client. Second, AngularJS pages itself use
-    &#123; &#123;...}}, so the mustache syntax fits in nicely. After all, the general idea is to make JSF views look
-    like ordinary HTML/AngularJS pages.</p>
-      </b:panel>
+         <b:tabView>
+            <b:tab title="language according to browser settings" styleClass="display:none">
+                <ac:include src="content.xhtml"></ac:include>
+           </b:tab>
+            <b:tab title="English">
+                <ui:include src="content_en.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Português">
+                <ui:include src="content_pt.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Deutsch">
+                <ui:include src="content_de.xhtml"></ui:include>
+           </b:tab>
+        </b:tabView>
     </ui:define>
   </ui:composition>
 </h:body>

@@ -7,37 +7,21 @@
 <h:body>
   <ui:composition template="/template/fullpage.xhtml">
     <ui:define name="content">
-      <b:panel title="Configuration" look="primary">
-
-  <h1>How to configure AngularJS</h1>
-  <p>AngularJS 2.1 replaces <code>&lt;div&gt;</code> and <code>&lt;div&gt;</code> by JSF tags.
-  This allows you to add the attributes <code>ng-app</code> and <code>ng-controller</code>
-  to <code>&lt;div&gt;</code> and <code>&lt;span&gt;</code>. You can also add these tags
-  to every JSF widget. However, you can't use these tags to other pure HTML tags, such as <code>&lt;section&gt;</code>.</p>
-  
-  <p>The complete set of attributes to activate AngularJS is shown in this snippet:</p>
-  <b:well>
-<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
-<![CDATA[
-&lt;h:body id="angular" 
-        ng-app="CarDealer" 
-        ng-controller="CarDealerController" 
-        angularJSFile="filter.js">
-]]></script>  
-  </b:well>
-  <h2>Hints</h2>
-  <ul>
-    <li>It's a good idea to attach the id "angular" to the <code>&lt;body&gt;</code> tag. In theory, it can also be at different places,
-    but putting it at the root guarantees it can always be referenced without any prefixes.
-    </li>
-    <li><code>ng-app</code> is identical to the <code>ng-app</code> attribute of AngularJS (it's a pass-through attribute).</li>
-    <li><code>ng-controller</code> is identical to the <code>ng-controller</code> attribute of AngularJS (it's a pass-through attribute).</li>
-    <li><code>angularJSFile</code> is an optional attribute to define the file containing your AngularJS controller. 
-    By default, AngularFaces loads the file <code>main.js</code> in the folder of
-    the JSF file.</li>
-  </ul>
-      </b:panel>
-    </ui:define>
+          <b:tabView>
+            <b:tab title="language according to browser settings" styleClass="display:none">
+                <ac:include src="content.xhtml"></ac:include>
+           </b:tab>
+            <b:tab title="English">
+                <ui:include src="content_en.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Português">
+                <ui:include src="content_pt.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Deutsch">
+                <ui:include src="content_de.xhtml"></ui:include>
+           </b:tab>
+        </b:tabView>
+     </ui:define>
   </ui:composition>
 </h:body>
 </html>

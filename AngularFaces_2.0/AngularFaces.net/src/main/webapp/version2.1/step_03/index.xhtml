@@ -7,143 +7,20 @@
 <h:body>
     <ui:composition template="/template/fullpage.xhtml">
         <ui:define name="content">
-            <b:panel title="Making fields Angular" look="primary">
-                <h1>Making input fields "Angular"</h1>
-                <p>Basically, you can replace JSF EL expressions by AngularJS mustaches almost everywhere in your code. If you do, the
-                    JSF bean is read and replicated on the client. It's part of the AngularJS model. So you can use the same value in a JSF
-                    bean and as a AngularJS model attribute. Even better, you can use both variables in a very similar way.</p>
-                <p>Let's have a look at the customer contact form we've been developing in the previous steps:</p>
-
-                <b:tabView active="1">
-                    <b:tab title="JSF source code">
-                        <b:well>
-                            <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
-<![CDATA[
-                        <prime:panel header="Contact information">
-                            <h:form prependId="false">
-                                <prime:panelGrid columns="3" id="angular">
-                                    <prime:inputText value="&#35;{customer.lastName}" />
-                                    <prime:inputText value="&#35;{customer.firstName}" />
-                                    <prime:inputText value="&#35;{customer.dateOfBirth}" />
-                                    <prime:inputText value="&#35;{customer.emailAddress}" />
-                                    <prime:selectBooleanCheckbox value="&#35;{customer.IAgreeToTheTermsAndConditions}" />
-                                </prime:panelGrid>
-                                <prime:commandButton value="save" update="angular" action="&#35;{customer.save}" />
-                            </h:form>
-                        </prime:panel>
-]]></script>
-                        </b:well>
-                    </b:tab>
-                    <b:tab title="live preview">
-                        <prime:panel header="Contact information">
-                            <h:form prependId="false">
-                                <prime:panelGrid columns="3" id="angular">
-                                    <prime:inputText value="#{customer.lastName}" />
-                                    <prime:inputText value="#{customer.firstName}" />
-                                    <prime:inputText value="#{customer.dateOfBirth}" />
-                                    <prime:inputText value="#{customer.emailAddress}" />
-                                    <prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
-                                </prime:panelGrid>
-                                <prime:commandButton value="save" update="angular" action="#{customer.save}" />
-                            </h:form>
-                        </prime:panel>
-                    </b:tab>
-                </b:tabView>
-                <p>This is a traditional JSF page that doesn't make use of the AngularJS model. There's a small main.js file, but it's
-                    only needed to provide the client side widgets of AngularFaces and the client side bean validation (see step 5).</p>
-                <p>Making this form's data available to AngularJS is as simple as can be: just replace the JSF EL terms <code>&#35; &#123;}</code> by
-                    AngularJS style mustaches <code>&#123;&#123;}}</code>:</p>
-                <b:tabView active="1">
-                    <b:tab title="JSF source code">
-                        <b:well>
-                            <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
-<![CDATA[
-                        <prime:panel header="Contact information">
-                            <h:form prependId="false">
-                                <prime:panelGrid columns="3" id="angular">
-                                    <prime:inputText value="{{customer.lastName}}" />
-                                    <prime:inputText value="{{customer.firstName}}" />
-                                    <prime:inputText value="{{customer.dateOfBirth}}" />
-                                    <prime:inputText value="{{customer.emailAddress}}" />
-                                    <prime:selectBooleanCheckbox value="{{customer.IAgreeToTheTermsAndConditions}}" />
-                                </prime:panelGrid>
-                                <prime:commandButton value="save" update="angular" action="&#35;{customer.save}" />
-                            </h:form>
-                        </prime:panel>
-]]></script>
-                        </b:well>
-                    </b:tab>
-                    <b:tab title="live preview">
-                        You won't see any difference to the previous example. The only difference is that the JSF bean values can now be used in an AngularJS controller.
-                        <prime:panel header="Contact information">
-                            <h:form prependId="false">
-                                <prime:panelGrid columns="3">
-                                    <prime:inputText value="{{customer.lastName}}" />
-                                    <prime:inputText value="{{customer.firstName}}" />
-                                    <prime:inputText value="{{customer.dateOfBirth}}" />
-                                    <prime:inputText value="{{customer.emailAddress}}" />
-                                    <prime:selectBooleanCheckbox value="{{customer.IAgreeToTheTermsAndConditions}}" />
-                                </prime:panelGrid>
-                                <prime:commandButton value="save" action="#{customer.save}" />
-                            </h:form>
-                        </prime:panel>
-                    </b:tab>
-                </b:tabView>
-                <p>On the JSF side, the mustache expressions are converted to ordinary JSF expressions. It doesn't matter whether you
-                    write &#123;&#123;customer.lastName}} or &#35;{customer.lastName}, until you look at the Javascript code.</p>
-                <p>On the AngularJS side, the bean attributes are added to the AngularJS scope. Hence there's a customer object,
-                    consisting of the first and last name, the date of birth and so on. For instance, you could use two AngularJS watches to
-                    suggest an email address:</p>
-                    <b:well>
-                <script type="syntaxhighlighter" class="brush: js; toolbar: false;first-line: 0">
-<![CDATA[
-function LabelDemoController($scope) {
-  // This initializes the Angular Model with the values of the JSF bean attributes
-  initJSFScope($scope);
-
-  $scope.$watch('customer.lastName', function(newValue, oldValue) {
-    if ($scope.customer.firstName!="" && $scope.customer.lastName!="") {
-      var name = "".concat($scope.customer.firstName).concat(".")
-                   .concat($scope.customer.lastName);
-      $scope.customer.emailAddress = name + "@example.com";
-    }
-  });
-  $scope.$watch('customer.firstName', function(newValue, oldValue) {
-    if ($scope.customer.firstName!="" && $scope.customer.lastName!="") {
-      var name = "".concat($scope.customer.firstName).concat(".")
-                   .concat($scope.customer.lastName);
-      $scope.customer.emailAddress = name + "@example.com";
-    }
-  });
-]]></script>
-                <small>(IMHO the Javascript code looks a bit odd. I'm sure there a better way of concatenating string, I just didn't
-                    figure out how to do it when I wrote the demo).</small>
-</b:well>
-                <p>Synchronizing values between AngularJS scope and JSF beans works in both ways. The values of the input fields are
-                    transmitted back to the server, no matter whether you do a regular HTML request, a JSF AJAX request or the optimized
-                    AngularFaces request.</p>
-                <p>AngularFaces provides an advanced kind of AJAX requests. Typically, they use a lot less network bandwidth, and they
-                    are faster than traditional JSF AJAX request. To activate AngularFaces AJAX, you have to do three simple preparations:</p>
-                <ul>
-                    <li>Add an JSF AJAX button that includes a special update region: "angular". You've already seen this above: <script
-                            type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
-<![CDATA[
-&lt;prime:commandButton value="save" update="angular" action="&#35;{customer.save}" />]]></script>
-                    </li>
-                    <li>Add the id "angular" to the <code>&lt;h:body&gt;</code>. <script type="syntaxhighlighter"
-                            class="brush: xml; toolbar: false;first-line: 0">
-<![CDATA[
-&lt;h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">]]></script>
-                    </li>
-                    <li>Add <code>prependID="false"</code> to the <code>&lt;h:form&gt;</code> tag. That's required by an annoying incompatiblity between
-                    JSF, AngularJS and jQuery which can't be resolved easily. Two of the tree libraries play nicely together, but there's no way
-                    to make all three libraries work together.</li>
-                </ul>
-                <p>Note that the id <code>angular</code> doesn't really mark an ordinary update region. It's a virtual id. If AngularFaces sees the
-                    id, it replaces the default update response generated by JSF by a highly-optimized response that updates only the scope
-                    values. Since AngularFaces 2.1 <code>&lt;h:messages /&gt;</code> and  <code>&lt;prime:messages /&gt;</code> are also updated.</p> 
-                    <p>However, <code>&lt;prime:growl&gt;</code> probably isn't updated - but I didn't test this yet.</p>
-            </b:panel>
+         <b:tabView>
+            <b:tab title="language according to browser settings" styleClass="display:none">
+                <ac:include src="content.xhtml"></ac:include>
+           </b:tab>
+            <b:tab title="English">
+                <ui:include src="content_en.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Português">
+                <ui:include src="content_pt.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Deutsch">
+                <ui:include src="content_de.xhtml"></ui:include>
+           </b:tab>
+        </b:tabView>
         </ui:define>
     </ui:composition>
 </h:body>

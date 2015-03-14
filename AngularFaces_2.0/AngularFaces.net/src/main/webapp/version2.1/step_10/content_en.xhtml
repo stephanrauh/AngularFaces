@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+      <b:panel title="Pass-through attributes" look="primary">
+
+  <h1>Automatic pass-through attributes</h1>
+  <p>AngularFaces allows you to use native AngularJS directives without having to define them as JSF pass-through
+    attributes. In other words, you write the XHTML code just as if it was an ordinary AngularJS page. You don't have to
+    use the new pass-through attributes of JSF 2.2. For instance, you can use ng-show or ng-hide to hide a panel group:</p>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+&lt;h:panelGroup ng-show="false">
+   ...
+&lt;/h:panelGroup>
+&lt;h:panelGroup ng-hide="true">
+   ...
+&lt;/h:panelGroup>
+          ]]></script>
+      </b:panel>
+</ui:fragment>
