@@ -16,6 +16,16 @@
 			<handler-class>de.beyondjava.angularFaces.components.puiLabel.BodyTagHandler</handler-class>
 		</component>
 	</tag>
+    
+    <tag>
+        <tag-name>include</tag-name>
+        <component>
+            <component-type>javax.faces.OutputBody</component-type>
+            <handler-class>de.beyondjava.angularFaces.core.i18n.LanguageAwareIncludeHandler</handler-class>
+        </component>
+    </tag>
+    
+    
 	<tag>
 		<description><![CDATA[ngsync (aka ai:sync) synchronizes a JSF bean with an AngularJS model and vice versa.]]></description>
 		<tag-name>sync</tag-name>
