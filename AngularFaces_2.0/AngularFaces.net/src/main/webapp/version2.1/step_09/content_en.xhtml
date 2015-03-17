@@ -5,10 +5,10 @@
   xmlns:ac="http://beyondjava.net/angularFacesCore">
 
       <b:panel title="JUA" look="primary">
-
-          <b:alert severity="info">
-            <p>This section describes a new feature of AngularFaces 2.1. However, it hasn't been finished yet.</p>
-          </b:alert>
+          <h1>Don't do it!</h1>
+          <p>AngularFaces simplifies JSF by replacing AJAX by native client-side programming. It works best if you refrain
+          from using JSF AJAX. You hardly ever need AJAX. In most cases Javascript does the trick just as well, probably even better.</p>
+          <p>But if you insist: Well, yes, since AngularFaces 2.1 you can add JSF AJAX to an AngularFaces application.</p>   
 
 
           <h1>Using traditional JSF AJAX with AngularJS</h1>
@@ -18,12 +18,57 @@
           and cutting the connection of the HTML elements to the AngularJS scope.
           </p>  
           
-          <p>In most cases, JUA solves these problems. When JSF updates the DOM tree, JUA takes care of 
+          <p>In most cases, JUA solves these problems without further ado. When JSF updates the DOM tree, JUA takes care of 
           releasing memory claimed by AngularJS and initializing the updated DOM elements without 
-          disturbing older DOM elements.</p> 
+          disturbing older DOM elements. Marco's library frees the memory allocated by AngularJS and
+          registers the updated region of your JSF view with AngularJS. You don't have to care about it, just leave it
+          to JUA.</p> 
+          <b:well>
+              <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+<h:body id="angular">
+	<h:form id="myForm" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+		<h:panelGrid columns="3">
+			<input jsf:value="{{calculatorBean.number1}}" />
+			<input type="number" jsf:value="{{calculatorBean.number2}}" />
+			<input type="number" jsf:value="{{calculatorBean.result}}"  />
+			<input type="number" jsf:value="{{calculatorBean.serverSideResult}}" />
+   			<h:commandButton value="Add on server (JSF AJAX)"
+					action="#{calculatorBean.add}">
+					<f:ajax render="myForm" execute="@form" />
+			</h:commandButton>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+]]></script>
+           </b:well>
      
           <p>However, as a rule of thumb, don't use traditional JSF AJAX requests with AngularFaces. 
           As of AngularFaces 2.1, even a great library like JUA has its limitations.</p>
+          
+          <h2>Re-initializing AngularJS after an AJAX request</h2>
+          <p>In rare cases, AngularJS doesn't recover from an AJAX request. In this case you can re-initialize the AngularJS engine by adding
+          <code>&lt;ac:updateModelAfterAJAXRequest /&gt;</code>. There's a caveat: most likely this causes client-side memory leaks.</p>
+          <b:well>
+              <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+<h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
+    <h:form id="myForm">
+        <ac:updateModelAfterAJAXRequest />
+        <h:panelGrid columns="3">
+            <input type="number" jsf:value="{{calculatorBean.number1}}" />
+            <input type="number" jsf:value="{{calculatorBean.number2}}" />
+            <input type="number" jsf:value="{{calculatorBean.result}}" />
+            <input type="number" jsf:value="{{calculatorBean.serverSideResult}}" />
+            <h:commandButton value="Add on server (JSF AJAX)" action="#{calculatorBean.add}">
+                <f:ajax render="@form" execute="@form" />
+            </h:commandButton>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+]]></script>
+           </b:well>
+          
          
       </b:panel>
 

@@ -4,7 +4,74 @@
   xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
   xmlns:ac="http://beyondjava.net/angularFacesCore">
 
-    <p>Für diese Seite gibt es noch keine deutsche Übersetzung. Bitte lesen Sie solange die englische Version. Wir bitten Sie um Verständnis.
-    </p>
-    <ui:include src="content_en.xhtml" />
+      <b:panel title="JUA" look="primary">
+          <h1>Besser nicht!</h1>
+          <p>AngularFaces vereinfacht JSF, indem es AJAX durch Javascript auf dem Client ersetzt. Es funktioniert am
+          besten, wenn Sie der Versuchung widerstehen, JSF-AJAX zu verwenden. In den meisten Fällen funktioniert
+          Javascript genauso gut, wenn nicht sogar besser.</p>
+          <p>Aber wenn Sie aus irgendwelchen Gründen darauf bestehen: Ja, es ist möglich. Seit AngularFaces 2.1 können
+          Sie JSF-AJAX mit AngularFaces verwenden.</p>  
+
+
+          <h1>JSF-AJAX mit AngularJS verwenden</h1>
+          <p>Marco Rinck hat eine großartige Bibliothek geschrieben, um AJAX und AngularJS kombinieren zu können. JUA ermöglicht es einer AngularJS-Anwendung,
+          einen JSF-AJAX-Request zu "überleben". Das ist eine große Leistung: die AngularJS-Entwickler gehen davon aus,
+          die volle Kontrolle über den DOM-Baum im Browser zu haben, und die JSF-Entwickler auch. Damit kommen sich
+          beide Frameworks in die Quere. Das verursacht alle möglichen Probleme. Beispielsweise Speicherlecks, 
+          oder AngularJS-Widgets, die nach einem JSF-Request nicht mehr mit dem AngularJS-Scope verbunden sind.</p>
+          <p>In den meisten Fällen löst JUA diese Probleme ohne Ihr Zutun. JUA kümmert sich darum, Speicher,
+          der von AngularJS reserviert wurde und nach dem Request nicht mehr gebraucht wird, freizugeben und
+          die neuen Bildschirmelemente wieder mit dem AngularJS-Modell zu verknüpfen. Sie brauchen sich normalerweise
+          nicht darum zu kümmern. Überlassen Sie das einfach JUA.</p>
+           
+          <b:well>
+              <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+<h:body id="angular">
+	<h:form id="myForm" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+		<h:panelGrid columns="3">
+			<input jsf:value="{{calculatorBean.number1}}" />
+			<input type="number" jsf:value="{{calculatorBean.number2}}" />
+			<input type="number" jsf:value="{{calculatorBean.result}}"  />
+			<input type="number" jsf:value="{{calculatorBean.serverSideResult}}" />
+   			<h:commandButton value="Add on server (JSF AJAX)"
+					action="#{calculatorBean.add}">
+					<f:ajax render="myForm" execute="@form" />
+			</h:commandButton>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+]]></script>
+           </b:well>
+     
+          <p>Aber, als Faustregel gilt weiterhin: bitte verwenden Sie AJAX nur dann, wenn es gar nicht anders geht. Selbst eine
+          so großartige Bibliothek wie JUA hat ihre Grenzen.</p>
+          
+          <h2>AngularJS nach einem JSF-AJAX-Request neu initialisieren</h2>
+          <p>In seltenen Fällen erholt sich AngularJS nicht mehr von einem AJAX-Request. Sie können dann eine Neu-Initialisierung erzwingen,
+          indem Sie       
+          <code>&lt;ac:updateModelAfterAJAXRequest /&gt;</code> hinzufügen. Vorsicht: mit großer Wahrscheinlichkeit führt das zu Speicherlecks auf dem Client.</p>
+          <b:well>
+              <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+<h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
+    <h:form id="myForm">
+        <ac:updateModelAfterAJAXRequest />
+        <h:panelGrid columns="3">
+            <input type="number" jsf:value="{{calculatorBean.number1}}" />
+            <input type="number" jsf:value="{{calculatorBean.number2}}" />
+            <input type="number" jsf:value="{{calculatorBean.result}}" />
+            <input type="number" jsf:value="{{calculatorBean.serverSideResult}}" />
+            <h:commandButton value="Add on server (JSF AJAX)" action="#{calculatorBean.add}">
+                <f:ajax render="@form" execute="@form" />
+            </h:commandButton>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+]]></script>
+           </b:well>
+          
+         
+      </b:panel>
+
 </ui:fragment>
