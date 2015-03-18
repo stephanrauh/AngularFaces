@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+<h:body>
+  <ui:composition template="/template/fullpage.xhtml">
+    <ui:define name="content">
+          <b:tabView>
+            <b:tab title="language according to browser settings" style="display:none">
+                <ac:include src="content.xhtml"></ac:include>
+           </b:tab>
+            <b:tab title="English">
+                <ui:include src="content_en.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Português">
+                <ui:include src="content_pt.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Deutsch">
+                <ui:include src="content_de.xhtml"></ui:include>
+           </b:tab>
+        </b:tabView>
+     </ui:define>
+  </ui:composition>
+</h:body>
+</html>

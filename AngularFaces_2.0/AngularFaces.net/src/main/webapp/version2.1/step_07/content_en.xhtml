@@ -4,12 +4,7 @@
   xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
   xmlns:ac="http://beyondjava.net/angularFacesCore">
 
-     <b:panel title="On DataTables" look="primary">
-
-          <b:alert severity="info">
-            <p>This section hasn't been updated to AngularFaces 2.1 yet. It may contain outdated information.</p>
-          </b:alert>
-
+<b:panel title="On DataTables" look="primary">
   <h1>Data tables: server side rendering or client side widgets?</h1>
   <p>No matter how great a framework AngularFaces may be, it has to fit into existing
   infrastructures. Of course, the best way to get familiar with AngularFaces is the green field scenario.
@@ -18,11 +13,13 @@
   AngularFaces to their tool box. That why I started to write AngularFaces in the first place: I wanted
   to solve a problem that was simple on the client and very difficult on the client side. I didn't want
   to rewrite the entire application, I just wanted to add a few features to an existing application.</p>
+  
   <h3>Embedding a PrimeFaces datatable in an AngularFaces application</h3>
   <p>
   One of the finest pieces of art in the JSF world is the PrimeFaces datatable. The good news is it is 
   compatible to AngularFaces. PrimeFaces uses optimized requests to update the table when it is sorted,
   when you enter a filter criterium or when you browse to another page of the paginator.</p>
+  <b:well>
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
 &lt;prime:dataTable value="#{carPool.carPool}" var="car" paginator="true" rows="10"> 
@@ -32,15 +29,22 @@
     &lt;prime:column headerText="color">#{car.color}&lt;/prime:column>
 &lt;/prime:dataTable>
 ]]></script>
-  <h3>ngTable - a client side alternative</h3>
-    <p>The bad news it the PrimeFaces DataTable doesn't benefit much from AngularFaces
-    (apart from the automatic translation to foreign languages, of course). I haven't figured out yet how to use AngularJS
-    in a table row or in a table cell.</p> 
+</b:well>
+<p>Note that editable data tables or tables with buttons are a bit tricky in AngularFaces 2.1. Due to the limitations of AngularJS, 
+the way JSF generates HTML ids isn't compatible to AngularJS. In most cases, this isn't a big deal. First, you can
+solve the problem by adding <code>prependId="false"</code> to your <code>h:form</code>. Second, most of AngularFaces 2.1.3 
+works with the standard ids of JSF. But data tables don't work with <code>prependId="false"</code>. So you can give
+it a try - but chances are you run into problems with AngularJS.</p> 
+  <h3>ngTable and SmartTable - client side alternatives</h3>
+    <p>The other bad news it the PrimeFaces DataTable doesn't benefit much from AngularFaces
+    (apart from the automatic translation to foreign languages, of course).</p> 
    <p>
    On the long run it's better to use an AngularJS table. There are many table widgets. A particularly powerful 
-   table widget is <a target="#" href="http://bazalt-cms.com/ng-table/">ngTable</a> by Vitalii Savchuk.</p>
+   table widget is <a target="#" href="http://bazalt-cms.com/ng-table/">ngTable</a> by Vitalii Savchuk. Another interesting 
+   client-side table widget is SmartTable. It's used by the <a target="#" href="https://github.com/stephanrauh/AngularTetrisOnBootsFaces/blob/master/src/main/webapp/index.xhtml">Tetris demo</a>.</p>
    <p>The nice thing about AngularJS is it allows for client side widgets that are every bit as simple as server side widgets. 
    Using ngTable, table including paginators, filters, sort buttons and even a CSV (aka Excel) export looks like so:</p>
+   <b:well>
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
 &lt;table ng-table="tableParams" value="{{carPool.carPool}}" export-csv="csv" show-filter="true"
@@ -56,7 +60,8 @@
            {{car.color}}&lt;/td>
   &lt;/tr>
 &lt;/table>
-]]></script>   
+]]></script>
+</b:well>   
 <p>The advantage of using ngTable is it's entirely rendered and controlled by AngularJS. Every feature of AngularJS is available to you. For instance,
 the values of the cells are taken from the AngularJS scope. You can set watches on them, use directives to
 add validation constraints and much more.</p>
@@ -90,6 +95,27 @@ controller('CarShopController', function($scope, $filter, ngTableParams) {
         }
     });
 })]]></script>
-<p>But still, &lt;prime:dataTable /&gt; knows a couple of tricks even ngTable doesn't :).</p>
-       </b:panel>
+
+<h3>Buttons in a client-side table</h3>
+<p>The advantage of using a client-side widget turn into a disadvantage when you add a JSF command button to the table rows. AngularJS knows nothing about the server.
+The car dealer demo shows a way out. Define a <code>selected</code> attribute in the AngularJS model and synchronize it with the server.
+The <code>selected</code> attribute is filled with an id that's stored on <code>ngclick</code>:</p>
+<b:well>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+<table ng-table="tableParams" class="table ng-table-responsive">
+  <tr ng-repeat="car in $data">
+    <td data-title="'Brand'" sortable="'brand'">{{car.brand}}</td>
+    <td data-title="'Type'" sortable="'type'">{{car.type}}</td>
+    <td data-title="'Select'">
+    <button class="carFilterButton" jsf:action="#{selectionBean.showDetails()}"
+        ng-click="selectionBean.selectedId=car.id;">show me!</button>
+    </td>
+  </tr>
+</table>
+<ngsync value="selectionBean" direction="clientToServer" />
+]]></script>
+</b:well>
+<p>You can also use the global AngularFaces function <code>afToJson(car)</code> to serialize the object displayed by the row.</p>
+</b:panel>
 </ui:fragment>

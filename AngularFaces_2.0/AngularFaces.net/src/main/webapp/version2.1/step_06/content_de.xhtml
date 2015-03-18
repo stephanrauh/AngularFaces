@@ -4,7 +4,129 @@
   xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
   xmlns:ac="http://beyondjava.net/angularFacesCore">
 
-    <p>Für diese Seite gibt es noch keine deutsche Übersetzung. Bitte lesen Sie solange die englische Version. Wir bitten Sie um Verständnis.
-    </p>
-    <ui:include src="content_en.xhtml" />
+      <b:panel title="Validation" look="primary">
+
+
+<h1>Client Side Bean Validation</h1>
+<p>AngularFaces liest die JSR 303 Bean Validation API Annotationen aus und wertet sie auf dem Client aus. Das haben wir schon in einigen Beispielen gesehen.
+Die Plausibilisierungsregeln werden auf dem Client ausgewertet (von AngularJS). Sie werden aber auf dem Server mit Hilfe der JSR-303-Bean-Validation-API definiert:</p>
+
+<b:tabView>
+<b:tab title="preview">
+<img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_english.png" />
+</b:tab>
+<b:tab title="JSF Bean">
+<script type="syntaxhighlighter" class="brush: java; toolbar: false;first-line: 0">
+<![CDATA[
+@ManagedBean
+@SessionScoped
+public class Customer {
+  private Date dateOfBirth;
+  
+  @Email
+  private String emailAddress;
+  
+  @NotNull
+  @Size(min=5, max=20)
+  private String firstName;
+  
+  private boolean iAgreeToTheTermsAndConditions;
+  
+  @NotNull
+  @Size(min=5, max=20)
+  private String lastName;
+  
+  @Min(18)
+  @Max(130)
+  private int age;
+  
+  // plus getters and setters
+}
+]]></script>
+</b:tab>
+<b:tab title="JSF-Datei">
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+&lt;h:form id="angular">
+  &lt;prime:panel header="Contact information">
+    &lt;prime:panelGrid columns="3">
+      &lt;prime:inputText value="#{customer.lastName}" />
+      &lt;prime:inputText value="#{customer.firstName}" />
+      &lt;prime:inputText value="&#123;&#123;customer.dateOfBirth}}" />
+      &lt;prime:inputText value="&#123;&#123;customer.age}}" />
+      &lt;prime:inputText value="#{customer.emailAddress}" />
+      &lt;prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
+    &lt;/prime:panelGrid>
+    &lt;prime:commandButton value="save" update="angular" action="&#34;{customer.save}" />
+  &lt;/prime:panel>
+&lt;/h:form>
+]]></script>
+</b:tab>
+</b:tabView>
+
+
+          
+          
+          <h3>Welche Annotationen werden auf dem Client ausgewertet?</h3>
+          <ul><li>@NotNull (stellt in AngularFaces ein Pflichtfeld dar, obwohl das nicht exakt der Spezifikation von JSR 303 entspricht).</li>
+          <li>@Min und @Max (nur für numerische Eingaben)</li>
+          <li>@Size um die minimale und/oder maximale Länge eines Eingabefeldes zu definieren</li>
+          </ul>
+          <h3>Datentypen</h3>
+          <p>AngularFaces berücksichtigt den Datentyp der Beanattribute der Eingabefelder und optimiert den HTML-Code für diesen Datentyp.</p>
+          <p>Bei numerischen Attributen (<code>int</code>, <code>long</code>, <code>float</code>, <code>double</code>, <code>byte</code>, <code>short</code>)
+          erzeugt AngularFaces ein numerisches Eingabefeld auf dem Client (<code>type="number"</code>). Als Nebeneffekt bekommen numerische Eingabefelder
+          automatisch einen Spinner in einigen modernen Browsern.</p>
+          <p>Ein Datum wird als HTML5 Datumsfeld gerendert (<code>type="date"</code>). Moderne Browser ergänzen automatisch einen Date-Picker. Davon profitieren
+          sowohl normale JSF-Eingabefelder (<code>&lt;h:inputText&gt;</code>), die in JSF 2.2 eingeführten HTML5-Eingabefelder (<code>&lt;input type="date" jsf:value="..." /&gt;</code>)
+          und PrimeFaces-Eingabefelder (<code>&lt;prime:inputText&gt;</code>). Beispielsweise wird ein <code>&lt;prime:inputText /&gt;</code> automatisch in ein
+          HTML5-Datumsfeld konvertiert. Ein <code>&lt;prime:calendar /&gt;</code> wird hingegen nicht verändert. Sie haben als die freie Wahl, ob
+          Sie lieber ein HTML5-Feld oder eine PrimeFaces-Feld verwenden wollen.</p>  
+          
+          <h3>Internationalisierung</h3>
+          <p>AngularFaces übersetzt natürlich auch die Fehlermeldung. Momentan Übersetzungen für Englisch, Spanisch, Französisch und Deutsch mitgeliefert. Bitte geben Sie mir Bescheid,
+          wenn Sie eine weitere Übersetzung brauchen oder einen Verbesserungsvorschlag für eine der bestehenden Übersetzungen haben.</p>
+          <p>Wenn Sie eine Übersetzung in eine weitere Sprache brauchen, oder falls Sie eine der bestehenden Übersetzungen verändern wollen, legen Sie eine Datei
+          namens <code>messages_(Sprachcode).js</code> in den Ordner <code>resources/AngularFaces</code> Ihres Projektes. Am besten kopieren Sie einfach die englische Version
+          der Originaldatei. Es handelt sich um ein einfaches Key-Value-Paar der englischen Fehlermeldungen und Ihrer Übersetzung:</p> 
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+angularFacesMessages={
+    "This number must be at least {}.":"Dieser Wert muß größer oder gleich {} sein.",
+    "This number must be less or equal {}.":"Dieser Wert muß kleiner oder gleich {} sein.",
+    "Please enter a valid number.":"Bitte geben Sie eine gültige Zahl ein.",
+    "Please fill out this field.":"Bitte füllen Sie das Feld aus.",
+    "A validation rule is violated.":"Bitte überprüfen Sie Ihre Eingabe.",
+    "At least {} characters required.": "Bitte geben Sie mindestens {} Zeichen ein.",
+    "{} characters accepted at most.":"Maximal {} Zeichen erlaubt.",
+    "Please enter a valid integer number.":"Bitte geben Sie nur Ziffern ein."
+    };          
+]]></script>
+          <p>Sie finden die mitgelieferten Messagebundle im Ordner <code>META-INF/resources/AngularFaces</code> der AngularFaces.jar Datei.
+          Wie bereits oben erwähnt, müssen die Übersetzungen im Ressourcen-Ordner Ihrer Anwendung liegen. Beispielsweise legen Sie die portugiesesche Übersetzung der Fehlermeldungen hier ab:
+          </p>
+          <img src="message_project_layout.png" />
+          <br />
+          <br />
+          <p>AngularFaces wählt die Anzeigesprache anhand der Browser-Einstellungen aus. Beispielsweise könnte die JSF-Seite von oben in einem europäischen so aussehen:
+          </p>
+          
+         <b:tabView>
+              <b:tab title="English">
+                <img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_english.png" />
+              </b:tab>
+              <b:tab title="German">
+                <img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_german.png" />
+              </b:tab>
+              <b:tab title="Spanish">
+                <img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_spanish.png" />
+              </b:tab>
+          </b:tabView>
+          <br />
+          <br />
+          
+          <p>Der Vollständigkeit halber, hier noch die JSF-Datei:</p>
+          
+      </b:panel>
+
 </ui:fragment>
