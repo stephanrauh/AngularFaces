@@ -5,16 +5,15 @@
   xmlns:ac="http://beyondjava.net/angularFacesCore">
 
       <b:panel title="Validation" look="primary">
-         <b:alert severity="info">
-            <p>This section hasn't been updated to AngularFaces 2.1 yet. It may contain outdated information.</p>
-          </b:alert>
-
 
 <h1>Client Side Bean Validation</h1>
-<p>AngularFaces reads JSR 303 Bean Validation API annotations and evaluates them on the client. You've already seen some of it in the previous examples:</p>
+<p>AngularFaces reads JSR 303 Bean Validation API annotations and evaluates them on the client. You've already seen some of it in the previous examples.
+The validation constraints are checked on the client side by AngularJS. However, they are defined on the server side, using the new JSR 303 Bean Validation API:</p>
+<b:tabView>
+<b:tab title="preview">
 <img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_english.png" />
-<p>The validation constraints are checked on the client side by AngularJS. However, they are defined on the server side, using the new JSR 303 Bean Validation API:</p>
-          
+</b:tab>
+<b:tab title="JSF Bean">
 <script type="syntaxhighlighter" class="brush: java; toolbar: false;first-line: 0">
 <![CDATA[
 @ManagedBean
@@ -42,6 +41,26 @@ public class Customer {
   // plus getters and setters
 }
 ]]></script>
+</b:tab>
+<b:tab title="JSF-Datei">
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+&lt;h:form id="angular">
+  &lt;prime:panel header="Contact information">
+    &lt;prime:panelGrid columns="3">
+      &lt;prime:inputText value="#{customer.lastName}" />
+      &lt;prime:inputText value="#{customer.firstName}" />
+      &lt;prime:inputText value="&#123;&#123;customer.dateOfBirth}}" />
+      &lt;prime:inputText value="&#123;&#123;customer.age}}" />
+      &lt;prime:inputText value="#{customer.emailAddress}" />
+      &lt;prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
+    &lt;/prime:panelGrid>
+    &lt;prime:commandButton value="save" update="angular" action="&#34;{customer.save}" />
+  &lt;/prime:panel>
+&lt;/h:form>
+]]></script>
+</b:tab>
+</b:tabView>
           
           <h3>Which annotations are evaluated on the client?</h3>
           <ul><li>@NotNull (denotes a mandatory field in AngularFaces - slightly different to the JSR 303 specification)</li>
@@ -52,15 +71,16 @@ public class Customer {
           <p>AngularFaces recognizes numerical values and enforces numerical input on the client. As a side effect, number fields automatically bear a spinner in many
           modern browsers.</p>
           <p>Dates are also recognized and rendered as an HTML5 date field. Hence modern browsers automatically add a date picker to simple input fields. Both standard
-          JSF input fields and the new HTML5-style input fields benefit from this feature. The same applies to &lt;prime:inputText&gt;. AngularFaces converts
-          simple &lt;prime:inputText&gt; automatically to date fields if the corresponding JSF bean attribute is an instance of java.util.Date. However, 
-          &lt;prime:calendar&gt; is not modified by AngularFaces, so you're free to choose an HTML5 layout or a PrimeFaces layout.</p>  
+          JSF input fields (<code>&lt;h:inputText&gt;</code>) and the new HTML5-style input fields (<code>&lt;input type="date" jsf:value="..." /&gt;</code>) benefit from this feature. 
+          The same applies to <code>&lt;prime:inputText /&gt;</code>. AngularFaces converts
+          simple <code>&lt;prime:inputText /&gt;</code> automatically to HTML5 date fields if the corresponding JSF bean attribute is an instance of java.util.Date. However, 
+          <code>&lt;prime:calendar /&gt;</code> is not modified by AngularFaces, so you're free to choose an HTML5 layout or a PrimeFaces layout.</p>  
           
           <h3>Internationalization</h3>
-          <p>Of course, AngularFaces translates the error messages to foreign languages. Currently, English, Spanish, French and German are supported. Please drop me
+          <p>Of course, AngularFaces translates the error messages to foreign languages. Currently, English, Spanish, French and German are supported out of the box. Please drop me
           a note if you want to provide another translation or fix an error to an existing translation.</p>
-          <p>To provide a language that's not supported out of the box, or to modify an existing error message bundle, put a file called "messages_(language shortcode).js"
-          in the folder "resources/AngularFaces". Best you copy the English version of the original files. It's a simple set of key-value-pairs of English messages and your
+          <p>To provide a language that's not supported out of the box, or to modify an existing error message bundle, put a file called <code>messages_(language shortcode).js</code>
+          in the folder <code>resources/AngularFaces</code>. Best you copy the English version of the original files. It's a simple set of key-value-pairs of English messages and your
           translation:</p>
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
@@ -83,29 +103,20 @@ angularFacesMessages={
           <p>AngularFaces automatically chooses the target language according to the browsers settings. For instance, in a European browser the JSF view I showed above
           might look like so:</p>
           
-          <img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_german.png" />
-          <img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_spanish.png" />
+          <b:tabView>
+              <b:tab title="English">
+                <img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_english.png" />
+              </b:tab>
+              <b:tab title="German">
+                <img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_german.png" />
+              </b:tab>
+              <b:tab title="Spanish">
+                <img alt="AngularFaces 2.0 JSF Bean Validation" src="bean_validations_spanish.png" />
+              </b:tab>
+          </b:tabView>
+          
           <br />
           <br />
-          
-          <p>For the sake of completeness, here's the JSF file:</p>
-          
-<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
-<![CDATA[
-&lt;h:form id="angular">
-  &lt;prime:panel header="Contact information">
-    &lt;prime:panelGrid columns="3">
-      &lt;prime:inputText value="#{customer.lastName}" />
-      &lt;prime:inputText value="#{customer.firstName}" />
-      &lt;prime:inputText value="&#123;&#123;customer.dateOfBirth}}" />
-      &lt;prime:inputText value="&#123;&#123;customer.age}}" />
-      &lt;prime:inputText value="#{customer.emailAddress}" />
-      &lt;prime:selectBooleanCheckbox value="#{customer.IAgreeToTheTermsAndConditions}" />
-    &lt;/prime:panelGrid>
-    &lt;prime:commandButton value="save" update="angular" action="&#34;{customer.save}" />
-  &lt;/prime:panel>
-&lt;/h:form>
-]]></script>
       </b:panel>
 
 </ui:fragment>
