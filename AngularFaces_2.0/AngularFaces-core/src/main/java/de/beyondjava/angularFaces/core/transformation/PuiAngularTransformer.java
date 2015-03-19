@@ -142,9 +142,9 @@ public class PuiAngularTransformer implements SystemEventListener {
 			UIOutput output = new UIOutput();
 			output.setRendererType("javax.faces.resource.Script");
 			if (isProduction)
-				output.getAttributes().put("name", "jquery-ui-1.11.2.min.js");
+				output.getAttributes().put("name", "jquery-ui-1.11.3.min.js");
 			else
-				output.getAttributes().put("name", "jquery-ui-1.11.2.min.js");
+				output.getAttributes().put("name", "jquery-ui-1.11.3.min.js");
 			output.getAttributes().put("library", "jQuery");
 			root.addComponentResource(context, output, "head");
 		}
