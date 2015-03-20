@@ -5,5 +5,38 @@
   xmlns:ac="http://beyondjava.net/angularFacesCore">
      <b:panel title="afSendNGSyncToServer" look="primary">
           <h1>afSendNGSyncToServer (Javascript function)</h1>
+          <p>By default, an AngularFaces application communicates with the server via button clicks. However, if you need more flexibility,
+          you can also trigger an JSF request in Javascript by calling <code>$scope.afSendNGSyncToServer</code>. This function sends
+          the content of the input fields and the <code>ngsync</code> model values to the server and updates the client's values
+          with the server's bean values. <code>$scope.afSendNGSyncToServer</code> doesn't trigger a method on the back-end.
+          Add your logic to the bean attribute setters to react to <code>$scope.afSendNGSyncToServer</code>.</p>
+          
+<b:well>
+<script type="syntaxhighlighter" class="brush: js; toolbar: false;first-line: 0">
+<![CDATA[
+<![CDATA[
+var app = angular.module('CarShop', [ "angularfaces" ]).controller(
+		'CarShopController', function($scope) {
+			// This initializes the Angular Model with the values of the JSF bean attributes
+			initJSFScope($scope);
+
+			$scope.sendFilterToServer = function(newValue, oldValue) {
+				if ($scope.settingsBean.updateImmediately) {
+					if (newValue != oldValue) {
+						try {
+							$scope.afSendNGSyncToServer();
+						} catch (e) {
+							console.log("An error occured: " + e);
+						}
+					}
+				}
+			};
+
+			$scope.$watch('filterBean.brand', $scope.sendFilterToServer);
+			$scope.$watch('filterBean.type', $scope.sendFilterToServer);
+		})
+]]></script>
+</b:well>
+          
       </b:panel>
 </ui:fragment>

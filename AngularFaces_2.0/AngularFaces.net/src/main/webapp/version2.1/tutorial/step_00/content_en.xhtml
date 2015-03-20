@@ -66,25 +66,19 @@
                 <p>Most of the examples are based on Maven. Some of the examples are based on Spring Boot and Gradle. Actually
                     AngularFaces doesn't require any of them. Maven and Gradle are just nice tools to compile and package the jar and war
                     files.</p>
-                <h2>Brief introduction for the experts</h2>
+                <h2>Downloading or building AngularFaces</h2>
                 <p>There are two ways to use AngularFaces: download it from Maven Central or JCenter, or build it from source.</p>
+                <b:tabView>
+                <b:tab title="Using Maven or Gradle">
                 <strong>Download AngularFaces from Maven Central or JCenter</strong>
                 <p>
                     Maven users simply add the dependency to your
                     <code>pom.xml</code>
                     file (see below).
                 </p>
-                <strong>Build AngularFaces from source</strong>
-                <p>
-                    Maven and Gradle users might want to <code>git clone</code> the <a
-                        href="https://github.com/stephanrauh/AngularFaces/tree/master/AngularFaces_2.0/AngularFaces-core">AngularFaces
-                        2.0 core project</a> and run <code>mvn install</code>.
-                </p>
                 <strong>The <code>pom.xml</code></strong>
                 <p>
-                    After installing the jar (no matter wether you've built it from source or use the pre-packaged file), AngularFaces 2.0
-                    can be used in your
-                    <code>pom.xml</code>
+                    AngularFaces 2.0 can be used in your <code>pom.xml</code>
                     like this:
                 </p>
                 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
@@ -93,7 +87,7 @@
   &lt;dependency>
     &lt;groupId>de.beyondjava&lt;/groupId>
     &lt;artifactId>angularFaces-core&lt;/artifactId>
-    &lt;version>2.2-SNAPSHOT&lt;/version>
+    &lt;version>2.1.3&lt;/version>
   &lt;/dependency>
   &lt;dependency>
     &lt;groupId>com.sun.faces&lt;/groupId>
@@ -109,14 +103,11 @@
   &lt;/dependency>
 &lt;/dependencies>
 ]]></script>
-                <p>Of course you'll may have to adjust the version number of AngularFaces. Note that it's the developer preview. Hence the version number is higher than the highest version number on Maven Central.</p>
-                <h2>Verbose explanation for the rest of us</h2>
-                I've prepared a couple of tutorial projects for you. The first tutorial project doesn't do much: it's simply there to lay the ground to build on later.
-                <b:alert severity="warning">
-                Currently, the tutorial projects are outdated. I didn't update them to AngularFaces 2.1 yet.
-                </b:alert>
+                <p>Of course you'll may have to adjust the version number of AngularFaces. Please check Maven Central to get the most current version.</p>
           <br />
                 <br />
+                </b:tab>
+                <b:tab title="Building AngularFaces from source">
                 <h3>Downloading AngularFaces with Git</h3>
           GitHub is build around Git, so probably the easiest way to get started is to clone the AngularFaces repository to your local hard disk.
           In order to clone it to - say - C:\AngularFaces, proceed as follows. Open the
@@ -148,6 +139,8 @@ git clone git@github.com:stephanrauh/AngularFaces.git
                     using Maven.<br /> Eclipse users click "Import... --> Existing Maven Projects" and select these two projects:
                 </p>
                 <img src="eclipseMaven.png" />
+                </b:tab>
+                </b:tabView>
                 <br />
                 <br />
                 <p>
