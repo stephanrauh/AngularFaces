@@ -7,11 +7,13 @@
 <b:panel title="JSF separation character and prependId='false'" look="primary">
 
   <h1>JSF separation character and prependId='false'</h1>
-  <p>There's an annoying incompatibility between AngularJS and JSF. JSF gives the DOM elements ids that don't look like what AngularJS
+  <p>There's an annoying incompatibility between AngularJS and JSF. Since AngularFaces 2.1.3, the problem has been mostly, but not completely solved.</p>
+  <p>JSF gives the DOM elements ids that don't look like what AngularJS
   considers a valid id. JSF ids are composed of the parent id, plus a colon, plus the component's id. If the JSF view is more
   complex, there can be an arbitrary number of parent ids preprending the component id.</p>
   <p>This is necessary to make ids unique in the entire application's namespace. For instance, data tables consist of several
-  identical rows. To know one row from another the row index is added to the id.</p>
+  identical rows. To know one row from another the row index is added to the id, as you can see in this example taken from the <a target="#" href="http://www.primefaces.org/showcase/ui/data/datatable/edit.xhtml">PrimeFaces showcase</a>:</p>
+  <img src="jsfids.png" />
   <p>The separator character of JSF can be configured in the <code>web.xml</code>.</p>
   <b:well>
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
@@ -23,11 +25,13 @@
 ]]></script>
 </b:well>
   <p> 
-  According to <a target="#" href="http://stackoverflow.com/questions/12615434/is-there-a-common-replacement-for-javax-faces-separator-char">StackOverflow</a>, 
+  According to <a target="#" href="http://stackoverflow.com/questions/12615434/is-there-a-common-replacement-for-javax-faces-separator-char">StackOverflow</a>, <br />
+  <b:well>
 "ID and NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods (".").
-
+<br />
 "Next to the colon, the only sensible choices are the hyphen, the underscore and the period. As the period is at its own also a special character in CSS selectors, it would have the same problem as the colon. 
-So logically you don't have much other choice than the hyphen - and the underscore _."</p>
+So logically you don't have much other choice than the hyphen - and the underscore _."</b:well></p>
+<p>The underscore, in turn, is used by JSF itself in ids, so chances are you run into problems, too.</p>
   <p>Unfortunately, AngularJS doesn't accept any special character other than the underscore in ids and names of HTML fields. Until now, I've noticed two
   problems:</p>
   <ul>
