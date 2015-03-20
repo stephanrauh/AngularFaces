@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+  xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+<b:panel title="JSF separation character and prependId='false'" look="primary">
+
+  <h1>JSF separation character and prependId='false'</h1>
+  <p>There's an annoying incompatibility between AngularJS and JSF. JSF gives the DOM elements ids that don't look like what AngularJS
+  considers a valid id. JSF ids are composed of the parent id, plus a colon, plus the component's id. If the JSF view is more
+  complex, there can be an arbitrary number of parent ids preprending the component id.</p>
+  <p>This is necessary to make ids unique in the entire application's namespace. For instance, data tables consist of several
+  identical rows. To know one row from another the row index is added to the id.</p>
+  <p>The separator character of JSF can be configured in the <code>web.xml</code>.</p>
+  <b:well>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+<context-param>
+    <param-name>javax.faces.SEPARATOR_CHAR</param-name>
+    <param-value>-</param-value>
+</context-param>
+]]></script>
+</b:well>
+  <p> 
+  According to <a target="#" href="http://stackoverflow.com/questions/12615434/is-there-a-common-replacement-for-javax-faces-separator-char">StackOverflow</a>, 
+"ID and NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods (".").
+
+"Next to the colon, the only sensible choices are the hyphen, the underscore and the period. As the period is at its own also a special character in CSS selectors, it would have the same problem as the colon. 
+So logically you don't have much other choice than the hyphen - and the underscore _."</p>
+  <p>Unfortunately, AngularJS doesn't accept any special character other than the underscore in ids and names of HTML fields. Until now, I've noticed two
+  problems:</p>
+  <ul>
+  <li>AngularJS doesn't populate the form's error object for fields with invalid names. You can't use <code>ngMessages</code>.</li>
+  <li>You can't set a watch on an input field with an illegal id.</li>
+  </ul>
+  <p>AngularFaces 2.1.0-2.1.2 suffered badly from this incompatibility. At the time, I recommended to add the attribute <code>prependId="false"</code> to the form.
+  Unfortunately, this doesn't work well, too - for instance, editable input fields and buttons are broken in data tables.
+  </p> 
+  <p>Since AngularFaces 2.1.3, the most offending problems have been solved by rewriting <code>&lt;pui-label /gt;</code> and <code>&lt;pui-message /gt;</code>.
+  Now you can use regular JSF ids. But keep in mind that you can run into problems if you set a watch on an JSF input field.
+  </p> 
+
+</b:panel>
+
+</ui:fragment>
