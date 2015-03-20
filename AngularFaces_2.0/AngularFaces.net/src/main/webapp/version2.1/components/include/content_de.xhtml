@@ -3,8 +3,41 @@
 <ui:fragment xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
   xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
   xmlns:ac="http://beyondjava.net/angularFacesCore">
-
-    <p>Für diese Seite gibt es noch keine deutsche Übersetzung. Bitte lesen Sie solange die englische Version. Wir bitten Sie um Verständnis.
-    </p>
-    <ui:include src="content_en.xhtml" />
+     <b:panel title="&lt;ac:include /&gt;" look="primary">
+          <h1>&lt;ac:include /&gt; (server-seitiges Widget)</h1>
+          <p><code>&lt;ac:include /&gt;</code> ist ein experimentelles JSF-Widget. Im Grunde genommen handelt es sich um eine Version von <code>&lt;ui:include /&gt;</code>,
+          die nicht die angegebene Datei direkt lädt, sondern erst nachschaut, ob es eine Version dieser Datei in Ihrer Sprache gibt.</p>
+          <p>Dafür werden die Spracheinstellungen des Browsers ausgewertet. Für jede Sprache, die der Benutzer in der Liste
+          seiner bevorzugten Sprachen eingetragen hat, wird eine Datei gesucht, die genauso heißt wie die im Parameter <code>src</code>
+          angegebene Datei, aber am Ende noch das Sprachkürzel enthält. Sollte keine Datei gefunden werden, die den Spracheinstellungen
+          entspricht, verhält sich <code>&lt;ac:include /&gt;</code> genauso wie <code>&lt;ui:include /&gt;</code> und lädt die
+          Datei, die im Parameter <code>src</code> angegeben wurde.</p>
+          <h3>Beispiel</h3>
+          <p>Diese Handbuchseite verwendet <code>&lt;ac:include /&gt;</code>, um den Text möglichst immer in der richtigen Sprache anzuzeigen: </p>
+            <b:well>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+         <b:tabView>
+            <b:tab title="language according to browser settings" style="display:none">
+                <ac:include src="content.xhtml"></ac:include>
+           </b:tab>
+            <b:tab title="English">
+                <ui:include src="content_en.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Português">
+                <ui:include src="content_pt.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Deutsch">
+                <ui:include src="content_de.xhtml"></ui:include>
+           </b:tab>
+        </b:tabView>
+]]></script>
+</b:well>
+		<p>Der erste Reiter versucht die jeweils richtige Sprache anzuzeigen. Die Dateien <code>content_en.xhtml</code>,<code>content_de.xhtml</code> und <code>content_pt.xhtml</code> existieren.
+        Daher kann <code>&lt;ac:include /&gt;</code> den Text auf Englisch, Deutsch oder Portugiesisch anzeigen. Falls der Browser keine dieser Sprachen anfordert,
+        wird stattdessen die Default-Seite <code>content.xhtml</code> angezeigt. (Diese Seite wiederum inkludiert die Englische Version, so dass in der AngularFaces Dokumentation
+        die Default-Sprache Englisch ist).</p>
+          <p>Die restlichen Reiter enthalten traditionelle <code>&lt;ui:include /&gt;</code> Anweisungen. Damit haben Sie die Möglichkeit, jede Sprache zu sehen, auch wenn
+          sie nicht den Browsereinstellungen entspricht.</p> 
+      </b:panel>
 </ui:fragment>

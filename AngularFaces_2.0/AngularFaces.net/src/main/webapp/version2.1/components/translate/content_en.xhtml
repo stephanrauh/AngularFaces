@@ -4,6 +4,27 @@
   xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
   xmlns:ac="http://beyondjava.net/angularFacesCore">
      <b:panel title="translate" look="primary">
-          <h1>translate (server-side widget)</h1>
+          <h1>translate and i18n (server-side widget)</h1>
+          <p>AngularFaces automatically translates most texts of a JSF application to foreign languages, provided the language file exists.
+          However, there are some texts that can't be translated by AngularFaces automatically. AngularFaces can only translate
+          texts that are attributes of a JSF components. Every other text - in particular, texts that are simply written
+          in the JSF page - needs to be surrounded by a <code>&lt;translate /&gt;</code> tag. Alternatively, you can use the <code>&lt;i18n /&gt;</code> tag (which is merely
+          a synonym of <code>&lt;translate /&gt;</code> tag).</p>
+          <p><code>&lt;translate /&gt;</code> isn't a regular JSF component. The <code>AngularTagDecorator</code> converts it 
+          to a regular JSF <code>h:outputText</code> tag. Therefore only texts are allowed between <code>&lt;translate&gt;</code> and <code>&lt;/translate&gt;</code>.
+          Images, input field and other JSF elements are not allowed.</p>
+          
+          <h3>Example</h3>
+            <b:well>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+<translate>This text is translated.</translate>
+<translate value="This text is translated, too." />
+<h:outputText value="This is another text that is translated by AngularFaces." />
+]]></script>
+</b:well>
+          
+          <h3>Language files</h3>
+          <p>The language files <code>&lt;translate /&gt;</code> uses are <a href="../../tutorial/step_02/index.jsf">explained here</a>.</p>
       </b:panel>
 </ui:fragment>

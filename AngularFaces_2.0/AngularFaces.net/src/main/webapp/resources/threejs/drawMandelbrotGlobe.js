@@ -55,8 +55,12 @@ function init() {
 	var pos = url.indexOf("version2.1");
 	if (pos>0) {
 	  image = "../" + image;
-	  if (url.indexOf("/", pos+12)>0)
+	  pos = url.indexOf("/", pos+12);
+	  if (pos>0) {
 	    image="../"+image;
+	    if (url.indexOf("/", pos+1)>0)
+	      image="../"+image;
+	  }
 	}
 	loader.load(image, function(texture) {
 

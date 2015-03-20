@@ -4,7 +4,46 @@
   xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
   xmlns:ac="http://beyondjava.net/angularFacesCore">
 
-    <p>Für diese Seite gibt es noch keine deutsche Übersetzung. Bitte lesen Sie solange die englische Version. Wir bitten Sie um Verständnis.
-    </p>
-    <ui:include src="content_en.xhtml" />
+<b:panel title="JSF Separation Character und prependId='false'" look="primary">
+
+  <h1>JSF Separation Character und prependId="false"</h1>
+  <p>Es gibt eine unangenehme Inkompatibilität zwischen AngularJS und JSF, die seit Version AngularFaces 2.1.3 entschärft ist, aber nicht vollständig behoben werden konnte.</p>
+  <p>JSF verwendet in den HTML-Seiten IDs, die nicht den Vorstellungen von AngularJS von einer korrekten ID entsprechen. In JSF wird vor die Client-ID der Komponente
+  die Client-ID sämtlicher Elternelemente im JSF-Baum gesetzt. Diese Bestandteile werden durch einen Doppelpunkt getrennt.</p>
+  <p>Das ist notwendig, um sämtliche IDs der gesamten HTML-Seite eindeutig zu machen. Besonders deutlich - und wichtig - wird das in DataTables. Wenn man vom Inhalt
+  absieht, besteht jede Zeile aus identischem HTML-Code. Um die Elemente in den Zeilen unterscheiden zu können, wird die Zeilennummer in die IDs eingefügt,
+  wie in diesem Beispiel aus dem <a target="#" href="http://www.primefaces.org/showcase/ui/data/datatable/edit.xhtml">PrimeFaces Showcase</a> zu sehen ist:</p>
+  <img src="jsfids.png" />
+  <p>AngularJS hat mit dem Doppelpunkt ein Problem. Im Prinzip kann man in der <code>web.xml</code> ein anderes Zeichen konfigurieren:</p>
+  <b:well>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+<context-param>
+    <param-name>javax.faces.SEPARATOR_CHAR</param-name>
+    <param-value>-</param-value>
+</context-param>
+]]></script>
+</b:well>
+  <p> 
+  In einer Diskussion auf <a target="#" href="http://stackoverflow.com/questions/12615434/is-there-a-common-replacement-for-javax-faces-separator-char">StackOverflow</a> steht: <br />
+  <b:well>
+  "ID uns NAME Token müssen mit einem Buchstaben beginnen und dürfen von Buchstaben, Ziffern, Minuszeichen, Unterstrichen, Doppelpunkten und Punkten gefolgt werden."
+<br />
+"Als einzige vernünftige Alternativen bleiben neben dem Doppelpunkt also das Minuszeichen, der Unterstrich und der Punkt. Der Punkt wiederum ist ein häufig verwendetes Sonderzeichen in CSS-Selektoren.
+Wer ihn verwendet, riskiert Probleme mit jQuery. Demnach haben wir nur die Wahl zwischen dem Minuszeichen und dem Unterstrich."
+ </b:well></p>
+<p>Der Unterstrich wiederum wird standardmäßig in JSF-IDs verwendet. Probleme sind daher vorprogrammiert.</p>
+  <p>AngularJS wiederum akzeptiert ohnehin nur Buchstaben, Ziffern und Unterstriche. In der Praxis sind mir bisher diese Probleme aufgefallen:</p>
+  <ul>
+  <li>Das <code>error</code>-Objekt wird nicht in die <code>form</code> gefüllt, wenn die ID eines Eingabefeldes Doppelpunkte enthält. Das merkt man daran, dass <code>ngMessages</code> nicht funktioniert.</li>
+  <li>Man kann kein <code>watch</code> auf ein Fehler mit einer fehlerhaften ID setzen.</li>
+  </ul>
+  <p>AngularFaces 2.1.0 bis 2.1.2 hatten ein großes Problem mit dieser Inkompatibilität. Seinerzeit hatte ich empfohlen, das Attribute <code>prependId="false"</code> zum Formular hinzuzufügen.
+  Leider führt <code>prependId="false"</code> auch zu Problemen - man denke nur an Buttons und editierbare Felder in DataTables.</p>
+  <p>Seit AngularFaces 2.1.3 sind die meisten Probleme behoben. Die client-seitigen Komponenten <code>&lt;pui-label /gt;</code> und <code>&lt;pui-message /gt;</code> wurden neu geschrieben.
+  Seitdem funktioniert die Client-seitige Bean Validation wieder mit normalen JSF-IDs. Sie sollten allerdings im Hinterkopf behalten, dass es 
+  Inkompatibilitäten mit AngularJS geben kann - beispielsweise beim setzen eines <code>watch</code>.
+  </p> 
+</b:panel>
+
 </ui:fragment>

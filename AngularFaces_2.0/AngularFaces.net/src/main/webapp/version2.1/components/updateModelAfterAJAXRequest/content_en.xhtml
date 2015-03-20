@@ -5,5 +5,34 @@
   xmlns:ac="http://beyondjava.net/angularFacesCore">
      <b:panel title="ac:updateModelAfterAJAXRequest" look="primary">
           <h1>ac:updateModelAfterAJAXRequest (server-side widget)</h1>
+          <p>Since AngularFaces 2.1, this tag shouldn't be needed at all. First of all, I recommend not to use traditional JSF AJAX in
+          an AngularFaces application. You don't need it. Just move everything you've previously done with AJAX to Javascript.</p>
+          <p>Second, Marco Rinck has contributed his JUA library to AngularFaces. JUA transparently frees memory allocated by AngularJS and re-initializes
+          the AngularJS model after an JSF AJAX request. Unfortunately, there are limits to what this library can do.</p>
+          
+          <h2>Re-initializing AngularJS after an AJAX request</h2>
+          <p>In rare cases, AngularJS doesn't recover from an AJAX request. In this case you can re-initialize the AngularJS engine by adding
+          <code>&lt;ac:updateModelAfterAJAXRequest /&gt;</code>. There's a caveat: most likely this causes client-side memory leaks.</p>
+          <b:well>
+              <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+<h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
+    <h:form id="myForm">
+        <ac:updateModelAfterAJAXRequest />
+        <h:panelGrid columns="3">
+            <input type="number" jsf:value="{{calculatorBean.number1}}" />
+            <input type="number" jsf:value="{{calculatorBean.number2}}" />
+            <input type="number" jsf:value="{{calculatorBean.result}}" />
+            <input type="number" jsf:value="{{calculatorBean.serverSideResult}}" />
+            <h:commandButton value="Add on server (JSF AJAX)" action="#{calculatorBean.add}">
+                <f:ajax render="@form" execute="@form" />
+            </h:commandButton>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+]]></script>
+           </b:well>
+          
+         
       </b:panel>
 </ui:fragment>

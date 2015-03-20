@@ -5,5 +5,36 @@
   xmlns:ac="http://beyondjava.net/angularFacesCore">
      <b:panel title="&lt;ac:include /&gt;" look="primary">
           <h1>&lt;ac:include /&gt; (server-side widget)</h1>
+          <p><code>&lt;ac:include /&gt;</code> is an experimental JSF widget. Basically, it's a language-aware version of <code>&lt;ui:include /&gt;</code>.</p>
+          <p><code>&lt;ac:include /&gt;</code> includes an XHTML just like <code>&lt;ui:include /&gt;</code> does, but it tries to find
+          a version of the file that corresponds to the readers preferred language. It reads the locales sent by the browser and adds
+          the two-letter language shortcut of the language to the file name. If this file exists, it is included. If not, the next language
+          in the locale settings is tried. If none of the languages yields a result, <code>&lt;ac:include /&gt;</code> works exactly like
+          <code>&lt;ui:include /&gt;</code>: it includes the file defined by the <code>src</code> attribute without further ado.</p>
+          <h3>Example</h3>
+          <p>The page you're currently reading uses <code>&lt;ac:include /&gt;</code> to display the text in your language like so: </p>
+            <b:well>
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+         <b:tabView>
+            <b:tab title="language according to browser settings" style="display:none">
+                <ac:include src="content.xhtml"></ac:include>
+           </b:tab>
+            <b:tab title="English">
+                <ui:include src="content_en.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Português">
+                <ui:include src="content_pt.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Deutsch">
+                <ui:include src="content_de.xhtml"></ui:include>
+           </b:tab>
+        </b:tabView>
+]]></script>
+</b:well>
+		<p>The first tab is the language-aware tab. The files <code>content_en.xhtml</code>,<code>content_de.xhtml</code> and <code>content_pt.xhtml</code> exist,
+        so <code>&lt;ac:include /&gt;</code> displays the text in English, German or Portugese. If the browser happens to request none of these languages,
+          <code>&lt;ac:include /&gt;</code> defaults to <code>content.xhtml</code> (which in turn includes <code>content_en.xhtml</code>).</p>
+          <p>The other tabs are traditional <code>&lt;ui:include /&gt;</code> statements. So you can read any language, even if it isn't your browser's preferred language.</p> 
       </b:panel>
 </ui:fragment>
