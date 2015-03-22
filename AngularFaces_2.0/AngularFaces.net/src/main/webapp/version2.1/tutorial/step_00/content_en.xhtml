@@ -5,31 +5,51 @@
   xmlns:ac="http://beyondjava.net/angularFacesCore">
 
             <b:panel title="First steps with AngularFaces" look="primary">
-                <h1>Template project</h1>
-                <p>
-                There's a template project at <a target="#"
-                href="https://github.com/stephanrauh/BootsFaces-Examples/tree/master/PanelGrid">the AngularFaces GitHub repositoy</a>.
-                It's a simple demo combining AngularFaces, BootsFaces and PrimeFaces. If you don't need BootsFaces or
-                PrimeFaces, remove them from the <code>pom.xml</code>.
-                </p>
-                <p>
-                The source code of the <a target="#" href="http://angularfaces.net/showcase2.1/carshop/index.jsf">car dealer demo</a>
-                are also available at <a target="#" href="https://github.com/stephanrauh/AngularFaces/tree/master/AngularFaces_2.0/AngularFaces-2.0-examples">GitHub</a>.
-                It's a project I often use to experiment, so don't expect the most commendable code, but it shows how to use a PrimeFaces table or a client-side ngTable
-                with AngularFaces.                
-                </p>
-                <p>
-                You may also like the <a target="#" href="https://github.com/stephanrauh/AngularTetrisOnBootsFaces">Tetris demo project</a>. It's a more advanced
-                demonstration of AngularFaces. Enjoy the live demo at <a target="#" href="http://angularfaces.net/tetris/">http://angularfaces.net/tetris/</a>.
-                </p>
-                <h1>Getting started</h1>
-                <p>
-                    The most simple way to use AngularFaces is to simply add the Maven (or Gradle) dependency, or to include the jar file to your project (if you don't use Maven).
-                    Sometimes this is almost all you
-                    need to do: for instance, the automatic creation of labels and messages works out of the box, without further configuration. You only
-                    have to add a context parameter to the <code>web.xml</code> file:
-                </p>
-                <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+                <h2>Requirements</h2>
+                <p>You find the requirements <a href="../../version2.1/tutorial/step_99/requirements.jsf">in a dedicated chapter</a>. Cutting a long story short:
+                You need Java 6 and JSF 2.2.</p>
+
+        <h2>Template projects</h2>
+        <p>
+            Am einfachsten ist es, mit einer der Projektschablonen zu beginnnen. Auf  <a target="#" href="https://github.com/stephanrauh/BootsFaces-Examples/tree/master/PanelGrid">dem
+                AngularFaces GitHub Repositoy</a> liegt ein einfaches Demo-Projekt, das AngularFaces mit BootsFaces und PrimeFaces kombiniert.
+                In den meisten Fällen ist das eine gute Basis:</p>
+        <ul>
+            <li>AngularFaces vereinfacht die JSF-Programmierung und ermöglicht es Ihnen, AngularJS in JSF-Anwendungen zu verwenden.</li>
+            <li>BootsFaces bringt das elegante Layout von Twitter Bootstrap in die JSF-Welt. Natürlich brauchen Sie BootsFaces nicht,
+            um Bootstrap zu verwenden. BootsFaces macht aber vieles einfacher und liefert eine Handvoll Komponenten, die für 
+            Bootsfaces optimiert sind.</li>
+            <li>Für alles andere empfehle ich PrimeFaces. Sowohl AngularFaces als auch BootsFaces sind dafür gedacht, mit PrimeFaces (ab Version 5.0) verwendet zu werden.
+            Sie können also ruhig alle drei Frameworks zusammen verwenden. Die Gefahr, dass Sie in wechselseitige Inkompatiblitäten laufen, ist gering.</li>
+            <li>OmniFaces passt ebenfalls gut zu AngularFaces und BootsFaces, auch wenn es nicht in der Projektschablone gehört. Insbesondere lohnt es sich, den <code>CombinedResourceHandler</code>
+            zu verwenden. AngularFaces und BootsFaces laden viele kleine Javascript- und CSS-Dateien. Der <code>CombinedResourceHandler</code> beschleunigt das Laden der Seite
+            erheblich. Zumindest heute (22.03.2015) noch: falls Sie SPDY oder HTTP/2 einsetzen, bremst der <code>CombinedResourceHandler</code> ihre Seite möglicherweise aus.</li>
+        </ul>
+        <p>Falls Sie dennoch auf BootsFaces oder PrimeFaces verzichten wollen, entfernen Sie einfach die entsprechenden Einträge in der <code>pom.xml</code>.
+        </p>
+        <p>
+            Ein weiteres interessantes Demo ist das <a target="#" href="http://angularfaces.net/showcase2.1/carshop/index.jsf">Autohändler-Demo</a>, dessen Quelltexte 
+            auf <a target="#"
+                href="https://github.com/stephanrauh/AngularFaces/tree/master/AngularFaces_2.0/AngularFaces-2.0-examples">GitHub</a> liegen.
+            Ich verwende dieses Projekt oft zum Experimentieren. Erwarten Sie als bitte keinen vorbildlichen Quelltext. Dafür finden Sie dort
+            aber Beispiele, wie Sie eine PrimeFaces-Datatable oder die AngularJS-Komponente ngTable in AngularFaces verwenden können,
+            oder wie Sie Daten aus <a href="../../javascript/afSendNGSyncToServer/index.xhtml">Javascript heraus zum Server</a> schicken können.  
+        </p>
+        <p>
+            Für etwas verspieltere Naturen gibt es noch das <a target="#" href="https://github.com/stephanrauh/AngularTetrisOnBootsFaces">Tetris Demoprojekt</a>.
+            Es handelt sich dabei um eine etwas weitergehende Demostration der Möglichkeiten von AngularFaces. Es enthält eine Menge Javascript-Code,
+            aber auch einen Datenbankzugriff auf der Serverseite. 
+            Viel Spaß mit der Live-Demo auf<a target="#" href="http://angularfaces.net/tetris/">http://angularfaces.net/tetris/</a>!
+        </p>
+        <h2>Los geht's!</h2>
+        <p>Sie haben die Wahl, eine fertige AngularFaces-Version von MavenCentral oder jCenter zu beziehen, oder sich die aktuelle Entwicklerversion
+        aus den GitHub-Quelltexten selber zu bauen. Mittlerweile ist AngularFaces so ausgereift, dass ich immer die erste Variante empfehle.</p>
+        <p>In jedem Fall müssen Sie in der <code>web.xml</code> noch einen Kontextparameter hinzufügen, damit AngularFaces läuft. 
+        Wenn Sie den Kontextparameter vergessen, erinnert AngularFaces Sie beim Hochfahren des Servers daran.</p>
+        <b:tabView>
+        <b:tab title="web.xml">
+        <b:well>
+        <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
 &lt;context-param>
     &lt;param-name>javax.faces.FACELETS_DECORATORS&lt;/param-name>
@@ -38,49 +58,10 @@
     &lt;/param-value>
 &lt;/context-param>
 ]]></script>
-                <p>If you forget the context parameter, AngularFaces reminds you. An error message is printed to the error log, and in
-                    developer mode a global error message is shown on every JSF page.</p>
-                <p>
-                    AngularFaces 2.1.3 uses AngularJS 1.3.14 and jQuery 1.11.2. In production mode (i. e. <code>web.xml</code> context parameter
-                    <code>javax.faces.PROJECT_STAGE</code> set to <code>Production</code>), the minified versions are loaded. Otherwise, the debugger-friendly version is used.
-                </p>
-                <p>
-                    Alternatively you can provide your own version of AngularJS and jQuery. AngularFaces checks the resources bearing the
-                    <code>head</code>
-                    target. If AngularFaces detects a resource called
-                    <code>angular*.js</code>, <code>angular-messages*.js</code>, <code>jquery-ui*.js</code> or <code>jquery*.js</code>, it doesn't add the built-in version of the corresponding library.
-                </p>
-
-                <h2>Prerequisites</h2>
-                <ul>
-                    <li>AngularFaces 2.1 currently requires Java 6 or above. As for the client side it supports Javascript and
-                        AngularJS.</li>
-                    <li>AngularFaces 2.1 requires JSF 2.2 or above. It supports both Oracle Mojarra and Apache MyFaces.</li>
-                    <li>PrimeFaces 5.0 and above are supported (and probably earlier versions, too). That doesn't mean
-                        PrimeFaces is required: PrimeFaces is an optional (but highly welcome) library.</li>
-                    <li>AngularFaces 2.1 is compatible to OmniFaces 1.7 and 2.0.</li>
-                    <li>BootsFaces 0.6.5 or above is supported.</li>
-                </ul>
-                <p>A future version of AngularFaces will support Dart and AngularDart, but I've postponed Dart support because I'm
-                    waiting for a couple of announced breaking changes in AngularDart.</p>
-                <p>Most of the examples are based on Maven. Some of the examples are based on Spring Boot and Gradle. Actually
-                    AngularFaces doesn't require any of them. Maven and Gradle are just nice tools to compile and package the jar and war
-                    files.</p>
-                <h2>Downloading or building AngularFaces</h2>
-                <p>There are two ways to use AngularFaces: download it from Maven Central or JCenter, or build it from source.</p>
-                <b:tabView>
-                <b:tab title="Using Maven or Gradle">
-                <strong>Download AngularFaces from Maven Central or JCenter</strong>
-                <p>
-                    Maven users simply add the dependency to your
-                    <code>pom.xml</code>
-                    file (see below).
-                </p>
-                <strong>The <code>pom.xml</code></strong>
-                <p>
-                    AngularFaces 2.0 can be used in your <code>pom.xml</code>
-                    like this:
-                </p>
+        </b:well>
+        </b:tab>
+        <b:tab title="pom.xml">
+        <b:well>
                 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
 &lt;dependencies>
@@ -103,76 +84,231 @@
   &lt;/dependency>
 &lt;/dependencies>
 ]]></script>
-                <p>Of course you'll may have to adjust the version number of AngularFaces. Please check Maven Central to get the most current version.</p>
-          <br />
-                <br />
-                </b:tab>
-                <b:tab title="Building AngularFaces from source">
-                <h3>Downloading AngularFaces with Git</h3>
-          GitHub is build around Git, so probably the easiest way to get started is to clone the AngularFaces repository to your local hard disk.
-          In order to clone it to - say - C:\AngularFaces, proceed as follows. Open the
-          command shell. In the case of Windows, you do it by hitting the keys "Windows" and "R" simulaniously, typing "CMD" and hitting the "return" key.
-          Now a black window (the "command shell") opens. As for Unix users - well, I suppose you're more familiar with the shell than I am, so I'll
-          omit the description. Now that the shell is open, enter these commands:
-          <br />
-                <pre class="bat">
-C:\
-md \AngularFaces
-cd \AngularFaces
-git clone git@github.com:stephanrauh/AngularFaces.git
-          </pre>
-                <p>Again, the commands are slightly different in the UNIX world, but I'd rather stick with the Windows version for the
-                    rest of the tutorial.</p>
-                <h3>Downloading AngularFaces using Subversion</h3>
-                <p>You can also download AngularFaces using Subversion. The corresponding URL is
-                    https://github.com/stephanrauh/AngularFaces.</p>
-                <h3>Downloading AngularFaces as a ZIP file</h3>
-                <p>
-                    Of course, you can also download the ZIP file from GitHub. The disadvantage is it's more difficult to update your
-                    project. If you don't mind, download <a href="https://github.com/stephanrauh/AngularFaces/archive/master.zip">the
-                        master zip file</a> from GitHub. There's also a "Download Zip" button at <a
-                        href="https://github.com/stephanrauh/AngularFaces">https://github.com/stephanrauh/AngularFaces</a>.
-                </p>
-                <h2>Compile the projects using Maven</h2>
-                <p>
-                    The next step is to import the projects into your IDE. Alternatively, you can compile the projects from the command line
-                    using Maven.<br /> Eclipse users click "Import... --> Existing Maven Projects" and select these two projects:
-                </p>
-                <img src="eclipseMaven.png" />
-                </b:tab>
-                </b:tabView>
-                <br />
-                <br />
-                <p>
-                    The next step is to set up an Apache Tomcat server and to deploy the AngularFaces tutorial project. After starting
-                    Tomcat open the URL <a target="#" href="http://127.0.0.1:8080/angularfaces-tutorial-step-00/index.jsf">http://127.0.0.1:8080/angularfaces-tutorial-step-00/index.jsf</a>.
-                    As mentioned above, the first tutorial page isn't really exciting: just a few texts and an image. I reduced the first
-                    example as much as possible because its only purpose is to check the installation. The only AngularFaces feature it uses
-                    is the relaxed declaration of the head and body tags:
-                </p>
-                <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+        </b:well>
+        </b:tab>
+        <b:tab title=".gradle">
+        <b:well>
+                <script type="syntaxhighlighter" class="brush: groovy; toolbar: false;first-line: 0">
 <![CDATA[
-&lt;f:view xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:h="http://java.sun.com/jsf/html">
-  &lt;head>
-    &lt;title>AngularFaces 2.0 tutorial step 00 - Introducing AngularTetris&gt;/title>
-  &lt;/head>
-  &lt;body style="width:1000px">
-    &lt;h:graphicImage library="images" name="AngularTetris.png" />
-  &lt;/body>
-&lt;/f:view>
+        compile 'de.beyondjava:angularFaces-core:2.1.+'
+        compile 'com.sun.faces:jsf-api:2.2.+'
+        runtime 'com.sun.faces:jsf-impl:2.2.+'
 ]]></script>
-                <p>Beginning with JSF 2.2 you can simply write <code>&lt;body&gt;</code> instead of <code>&lt;h:body&gt;</code> - under certain circumstances.
-                    AngularFaces allows you to always use the short-hand version.</p>
-                <h3>Project setup</h3>
-                <p>This isn't as trivial as it sounds. The default project setup includes AngularFaces to your libraries - and that
-                    means AngularFaces starts up and tries to improve your JSF files. The first tutorial is designed in a way that
-                    AngularFaces can't improve anything, but you should find a few messages in the console window (or the catalina.out
-                    file).</p>
-                <p>The folder <code>angularfaces-tutorial-step-00//WEB-INF/lib</code> of the Tomcat <code>webapps</code> folder should contain these libraries:</p>
-                <img src="libraries.png" />
-                <p>Gson, classmate, commons-beanutils, commons-logging and the two validation API jars are added by AngularFaces 2.1
-                    core.</p>
+        </b:well>
+        </b:tab>
+        </b:tabView>
+
+                
+       <h2>Your first AngularFaces program</h2>
+        <b:row>
+        <b:column span="8">      
+        <p>Users of Maven and Gradle are already familiar with Maven's default project layout.</p>
+
+        <p>Please create these folders:</p>
+        <ul>
+        <li><code>src/main/java</code> Put your Java source code files here.</li>
+        <li><code>src/main/resources</code> Files in this folder aren't compiled, but they are included in the class path nonetheless. For instance, the
+        language files for the automatic translation feature of AngularFaces belong here.</li>  
+        <li><code>src/main/webapps</code>This folder contains the XHTML files and the AngularJS controllers.</li>
+        </ul>
+        </b:column>
+        <b:column span="4">
+                       <img src="folderLayout.png" />
+        </b:column>
+        </b:row>
+        
+        <p>Our example uses these files:</p>
+                
+      <b:tabView contentStyle="min-height:420px">
+        <b:tab title="index.jsf">
+            <b:well>
+                <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+                    <![CDATA[
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui" 
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:prime="http://primefaces.org/ui">
+<body>
+   <container> 
+      <panel title="Contact information" look="info"> 
+        <h:form>
+          <panelGrid colSpans="2,3,7" size="xs"> 
+             <prime:inputText value="#{person.firstName}" /> 
+             <prime:inputText value="#{person.lastName}" /> 
+             <prime:calendar value="#{person.birthdate}" />
+          </panelGrid>
+        </h:form>
+      </panel>
+    </container>
+  </body>
+</html>
+                ]]></script>
+            </b:well>
+        </b:tab>
+        <b:tab title="JSF-Bean">
+          <b:well>
+                <script type="syntaxhighlighter" class="brush: java; toolbar: false;first-line: 0">
+                    <![CDATA[
+package de.beyondjava.bootsfaces.examples;
+
+import java.util.Date;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+@ViewScoped
+@ManagedBean
+public class Person {
+    
+    private String firstName;
+    private String lastName;
+    private Date birthdate;
+
+    // Getters and setter omitted
+    // for the sake of brevity
+}
+                ]]></script>     
+                <p>If you use CDI, please replace @ManagedBean by @Named and make sure you import the new Viewscope <code>javax.faces.view</code>.</p>    
+          </b:well>
+        </b:tab>
+        <b:tab title="main.js (AngularJS controller)">
+          <b:well>
+            <p>This simple example doesn't need an AngularJS-Controller. But if it had one, it'd look like this:</p>
+                <script type="syntaxhighlighter" class="brush: js; toolbar: false;first-line: 0">
+                    <![CDATA[
+angular.module("AngularTetris", [ "angularfaces", "smart-table" ])
+.controller('AngularTetrisController', ['$scope', function($scope) {
+   initJSFScope($scope);
+   // put your application logic here
+}]);   
+                ]]></script>            
+          </b:well>
+        </b:tab>
+        <b:tab title="web.xml">
+            <b:well>
+                <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+                    <![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+    id="WebApp_ID" 
+    version="3.0">
+
+    <context-param>
+        <param-name>javax.faces.FACELETS_DECORATORS</param-name>
+        <param-value>
+            de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator
+        </param-value>
+    </context-param>
+   <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>bootstrap</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>BootsFaces_USETHEME</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <welcome-file-list>
+        <welcome-file>index.jsf</welcome-file>
+    </welcome-file-list>
+</web-app>
+                ]]></script>
+            </b:well>
+        </b:tab>
+        <b:tab title="faces-config.xml">
+            <b:well>
+                <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+                    <![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+</faces-config>
+                ]]></script>
+            </b:well>
+        </b:tab>
+        <b:tab title="preview">
+        <img src="preview.png" />
+        </b:tab>
+        <b:tab title="live demo">
+        <iframe style="width:500px;height:400px;" src="http://angularfaces.net/BootsFacesPanelGrid/"></iframe>
+        </b:tab>
+        <b:tab title="pom.xml" contentStyle="height:700px">
+                <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+                    <![CDATA[
+<repositories>
+    <repository>
+        <id>prime-repo</id>
+        <name>PrimeFaces Maven Repository</name>
+        <url>http://repository.primefaces.org</url>
+        <layout>default</layout>
+    </repository>
+</repositories>
+<dependencies>
+    <dependency>
+        <groupId>net.bootsfaces</groupId>
+        <artifactId>bootsfaces</artifactId>
+        <version>0.6.5</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.primefaces</groupId>
+        <artifactId>primefaces</artifactId>
+        <version>5.1</version>
+        <scope>compile</scope>
+    </dependency>
+   <dependency>
+        <groupId>org.primefaces.themes</groupId>
+        <artifactId>bootstrap</artifactId>
+        <version>1.0.10</version>
+        <scope>runtime</scope>
+    </dependency>
+   <dependency>
+        <groupId>de.beyondjava</groupId>
+        <artifactId>angularFaces-core</artifactId>
+        <version>2.1.2</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.sun.faces</groupId>
+        <artifactId>jsf-api</artifactId>
+        <version>2.2.10</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.sun.faces</groupId>
+        <artifactId>jsf-impl</artifactId>
+        <version>2.2.10</version>
+        <scope>runtime</scope>
+    </dependency>
+</dependencies>
+               ]]></script>
+        </b:tab>
+        </b:tabView>
+        <h2>Wrapping it up</h2>
+        <p>That's it! Your first AngularFaces application is up and running. Granted, it doesn't use AngularJS yet, but it demonstrates several other interesting features of AngularFaces:</p>
+        
+        <ul>
+            <li>The program uses both BootsFaces and PrimeFaces along with AngularFaces. That's the reason why the <code>pom.xml</code> is more verbose than the minimal <code>pom.xml</code> given above.</li>
+            
+            <li>Labels and error messages are - if you wish so - generated automatically. So the form concentrates on the really interesting information: the three input fields.</li>
+            <li>In most cases you can omit the prefixes <code>h:</code> und <code>b:</code>. (Too bad your IDE doesn't know about this...)</li>
+        </ul>
+        <p>Now it's up to you. Experiment with the program, browse through the other chapters of the tutorial, and most of all:</p>
+        <h2>Enjoy!</h2>
+        
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+                
+          <br />
+                <br />
             </b:panel>
 </ui:fragment>
