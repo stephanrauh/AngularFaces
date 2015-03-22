@@ -17,6 +17,9 @@
             Bootsfaces optimiert sind.</li>
             <li>Für alles andere empfehle ich PrimeFaces. Sowohl AngularFaces als auch BootsFaces sind dafür gedacht, mit PrimeFaces (ab Version 5.0) verwendet zu werden.
             Sie können also ruhig alle drei Frameworks zusammen verwenden. Die Gefahr, dass Sie in wechselseitige Inkompatiblitäten laufen, ist gering.</li>
+            <li>OmniFaces passt ebenfalls gut zu AngularFaces und BootsFaces, auch wenn es nicht in der Projektschablone gehört. Insbesondere lohnt es sich, den <code>CombinedResourceHandler</code>
+            zu verwenden. AngularFaces und BootsFaces laden viele kleine Javascript- und CSS-Dateien. Der <code>CombinedResourceHandler</code> beschleunigt das Laden der Seite
+            erheblich. Zumindest heute (22.03.2015) noch: falls Sie SPDY oder HTTP/2 einsetzen, bremst der <code>CombinedResourceHandler</code> ihre Seite möglicherweise aus.</li>
         </ul>
         <p>Falls Sie dennoch auf BootsFaces oder PrimeFaces verzichten wollen, entfernen Sie einfach die entsprechenden Einträge in der <code>pom.xml</code>.
         </p>
