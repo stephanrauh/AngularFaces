@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui" xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+  <head>
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css" />
+  </head>
+  <body>
+    <table cellpadding="0" cellspacing="0" border="0"
+           class="display" id="gebrauchtwagenTabellenID">
+           <thead>
+            <tr>
+                <th>Hersteller</th>
+                <th>Typ</th>
+                <th>Baujahr</th>
+            </tr>
+        </thead>
+        
+        <tfoot>
+            <tr>
+                <th>Hersteller</th>
+                <th>Typ</th>
+                <th>Baujahr</th>
+            </tr>
+        </tfoot>
+ 
+    </table>
+    <script type="text/javascript">
+      var dataSet = [
+                     ['VW',    'Golf',  '2008'],
+                     ['Honda', 'Civic', '2012'],
+                     ['BMW',   '320i',  '2014']];
+      $(document).ready(function() {
+    	  
+    	  var table = $('#gebrauchtwagenTabellenID').DataTable();
+    	  
+    	  dataSet.forEach(function(row) {
+    		  var col1='<td data-order="'+row[0]+'"><input type="text" id="row-1-0" name="row-1-0" value="' + row[0]+'"/></td>';
+    		  var col2='<td data-order="'+row[0]+'"><input type="text" id="row-1-1" name="row-1-1" value="' + row[1]+'"/></td>';
+    		  var col3='<td data-order="'+row[0]+'"><input type="text" id="row-1-2" name="row-1-2" value="' + row[2]+'"/></td>';
+    		  table.row.add( [col1,col2,col3]);
+    	  });
+    	  table.draw();
+    	  table.rows()[0];
+      } );
+    </script>
+  </body>
+</html>
