@@ -95,7 +95,6 @@ app.directive('puilabel', function() {
         	          $scope.errorClass="";
                       $(innerLabel).removeClass("ui-state-error");
         	      }
-        	      console.log("Error:" + $scope.errorClass);
 	          }
     	  };
 	    },

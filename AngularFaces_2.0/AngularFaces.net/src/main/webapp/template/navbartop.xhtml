@@ -18,16 +18,12 @@
                         <b:navLink value="Requirements"                                     outcome="/version2.1/tutorial/step_99/requirements.jsf"  />
                         <b:navLink value="Download"                                         outcome="/version2.1/tutorial/step_99/download.jsf"      />
                         <b:navLink value="Quick Start"                                      outcome="/version2.1/tutorial/step_00/index.jsf"         />
+                        <b:navLink value="Version 2.1.0-2.1.4"                              outcome="/version2.1/changelog/index.jsf" />
                     </b:dropMenu>
 
                     <b:dropMenu value="How to contribute">
                         <b:navLink value="How to contribute"                                outcome="/version2.1/tutorial/step_99/contributions.jsf" />
                     </b:dropMenu>
-                    
-                    <b:dropMenu value="Changelog">
-                        <b:navLink value="Version 2.1.0-2.1.4"                              outcome="/version2.1/changelog/index.jsf" />
-                    </b:dropMenu>
-                    
                     
                     <b:dropMenu value="Manual">
                         <b:navLink value="Labels and messages"                              outcome="/version2.1/tutorial/step_01/index.jsf"  />
@@ -54,22 +50,22 @@
                         <b:navLink value="&lt;ac:updateModelAfterAJAXRequest &gt;"          outcome="/version2.1/components/updateModelAfterAJAXRequest/index.jsf"   />
                         <b:navLink value="&lt;ac:include &gt;"                              outcome="/version2.1/components/include/index.jsf"   />
                     </b:dropMenu>
-                    <b:dropMenu value="Javascript functions">
+                    <b:dropMenu value="Javascript API">
                         <b:navLink value="initJSFScope"                                     outcome="/version2.1/javascript/initJSFScope/index.jsf"    />
                         <b:navLink value="afSendNGSyncToServer"                             outcome="/version2.1/javascript/afSendNGSyncToServer/index.jsf"  />
                     </b:dropMenu>
-                    <b:dropMenu value="Privacy">
-                        <b:navLink value="Privacy"                                          outcome="/version2.1/legal/privacy.jsf" />
-                    </b:dropMenu>
                     <b:dropMenu value="Legal notes">
+                        <b:navLink value="Privacy"                                          outcome="/version2.1/legal/privacy.jsf" />
                         <b:navLink value="Impressum"                                        outcome="/version2.1/legal/impressum"   />
                         <b:navLink value="Disclaimer"                                       outcome="/version2.1/legal/disclaimer"  />
                     </b:dropMenu>
                     
                 </b:navbarLinks>
-                <b:navbarLinks pull="right">
-                    <b:navLink outcome="/examples/index" value="Examples" iconAwesome="desktop" />
-                </b:navbarLinks>
+                <ui:remove>
+                    <b:navbarLinks pull="right">
+                        <b:navLink outcome="/examples/index" value="Examples" iconAwesome="desktop" />
+                    </b:navbarLinks>
+                </ui:remove>
                 </b:container>
             </b:navBar>
 
