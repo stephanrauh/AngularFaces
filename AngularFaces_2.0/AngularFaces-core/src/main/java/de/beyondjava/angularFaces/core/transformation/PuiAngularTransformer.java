@@ -17,14 +17,18 @@ package de.beyondjava.angularFaces.core.transformation;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ProjectStage;
+import javax.faces.application.Resource;
+import javax.faces.application.ResourceHandler;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.component.UIViewRoot;
@@ -35,7 +39,6 @@ import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
-import de.beyondjava.angularFaces.components.puiModelSync.PuiScriptRenderer;
 import de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator;
 
 /**
@@ -43,8 +46,9 @@ import de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator;
  */
 public class PuiAngularTransformer implements SystemEventListener {
 
-	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.transformation.PuiAngularTransformer");
-	
+	private static final Logger LOGGER = Logger
+			.getLogger("de.beyondjava.angularFaces.core.transformation.PuiAngularTransformer");
+
 	private static final String RESOURCE_KEY = "de.beyondjava.angularFaces.core.ResourceFiles";
 
 	static {
@@ -60,15 +64,11 @@ public class PuiAngularTransformer implements SystemEventListener {
 			final FacesContext context = FacesContext.getCurrentInstance();
 			boolean isProduction = context.isProjectStage(ProjectStage.Production);
 			if ((!isProduction) && (!AngularTagDecorator.isActive())) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_FATAL,
-										"Configuration error: ",
-										"Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters in the web.xml"));
-				LOGGER.severe("Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters in the web.xml");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
+						"Configuration error: ",
+						"Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters in the web.xml"));
+				LOGGER.severe(
+						"Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters in the web.xml");
 			} else {
 				final UIViewRoot root = (UIViewRoot) source;
 				final boolean ajaxRequest = context.getPartialViewContext().isAjaxRequest();
@@ -173,8 +173,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 			root.addComponentResource(context, output, "head");
 		}
 
-		if (loadAngularMessages)
-		{
+		if (loadAngularMessages) {
 			UIOutput output = new UIOutput();
 			output.setRendererType("javax.faces.resource.Script");
 			if (isProduction) {
@@ -210,27 +209,47 @@ public class PuiAngularTransformer implements SystemEventListener {
 		}
 
 		{
-			Locale locale = context.getExternalContext().getRequestLocale();
-			String language = locale.getLanguage();
-			UIOutput output = new UIOutput();
-			output.setRendererType("javax.faces.resource.Script");
-			output.getAttributes().put("name", "messages_" + language + ".js");
-			output.getAttributes().put("library", "AngularFaces");
-			root.addComponentResource(context, output, "head");
+			boolean hasLocalizedBundle = false;
+			Application app = context.getApplication();
+			ResourceHandler rh = app.getResourceHandler();
+			Resource rdp;
+			Iterator<Locale> preferredLanguages = context.getExternalContext().getRequestLocales();
+			while (preferredLanguages.hasNext()) {
+				final String messageBundleFile = "messages_" + preferredLanguages.next().getLanguage() + ".js";
+				rdp = rh.createResource(messageBundleFile, "AngularFaces");
+				if (rdp != null) { // rdp is null if the language .js is not
+									// present in jar
+					UIOutput output = new UIOutput();
+					output.setRendererType("javax.faces.resource.Script");
+					output.getAttributes().put("name", messageBundleFile);
+					output.getAttributes().put("library", "AngularFaces");
+					root.addComponentResource(context, output, "head");
+					hasLocalizedBundle = true;
+					break;
+				}
+
+			}
+			if (!hasLocalizedBundle) {
+				UIOutput output = new UIOutput();
+				output.setRendererType("javax.faces.resource.Script");
+				output.getAttributes().put("name", "messages_en.js");
+				output.getAttributes().put("library", "AngularFaces");
+				root.addComponentResource(context, output, "head");
+			}
 		}
-		
-		Map<String, Object> viewMap=root.getViewMap();
+
+		Map<String, Object> viewMap = root.getViewMap();
 		Map<String, String> resourceMap = (Map<String, String>) viewMap.get(RESOURCE_KEY);
 		if (null != resourceMap) {
-			for (Entry<String, String> entry: resourceMap.entrySet()) {
+			for (Entry<String, String> entry : resourceMap.entrySet()) {
 				String file = entry.getValue();
-				String library = entry.getKey().substring(0, entry.getKey().length()-file.length()-1);
+				String library = entry.getKey().substring(0, entry.getKey().length() - file.length() - 1);
 				UIOutput output = new UIOutput();
 				output.setRendererType("javax.faces.resource.Script");
 				output.getAttributes().put("name", file);
 				output.getAttributes().put("library", library);
 				root.addComponentResource(context, output, "head");
-				
+
 			}
 		}
 
@@ -273,18 +292,22 @@ public class PuiAngularTransformer implements SystemEventListener {
 		return isAngularFacesRequest;
 	}
 
-	/** 
-	 * Registers a JS file that needs to be include in the header of the HTML file, but after jQuery and AngularJS.
-	 * @param library The name of the sub-folder of the resources folder.
-	 * @param resource The name of the resource file within the library folder.
+	/**
+	 * Registers a JS file that needs to be include in the header of the HTML
+	 * file, but after jQuery and AngularJS.
+	 * 
+	 * @param library
+	 *            The name of the sub-folder of the resources folder.
+	 * @param resource
+	 *            The name of the resource file within the library folder.
 	 */
 	public static void addResourceAfterAngularJS(String library, String resource) {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		UIViewRoot v = ctx.getViewRoot();
-		Map<String, Object> viewMap=v.getViewMap();
+		Map<String, Object> viewMap = v.getViewMap();
 		@SuppressWarnings("unchecked")
 		Map<String, String> resourceMap = (Map<String, String>) viewMap.get(RESOURCE_KEY);
-		if (null==resourceMap) {
+		if (null == resourceMap) {
 			resourceMap = new HashMap<String, String>();
 			viewMap.put(RESOURCE_KEY, resourceMap);
 		}
