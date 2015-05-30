@@ -33,5 +33,18 @@
                     </table>
                 </f:facet>
             </b:panel>
+            
+            <h3>How to deactivate the automatic replacement of server-side messages by client-side messages</h3>
+            Setting the context parameter <code>clientSideMessages</code>
+            to false suppresses the automatic replacement of <code>&lt;h:messages /&gt;</code> and <code>&lt;prime:messages /&gt;</code> by
+            a client-side messages component.
+            <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+    <context-param>
+    	<param-name>clientSideMessages</param-name>
+    	<param-value>false</param-value>
+    </context-param>
+]]></script>          
+            
       </b:panel>
 </ui:fragment>
