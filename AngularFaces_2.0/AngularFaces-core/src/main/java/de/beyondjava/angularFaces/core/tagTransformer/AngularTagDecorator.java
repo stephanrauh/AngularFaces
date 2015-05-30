@@ -24,25 +24,30 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.faces.context.FacesContext;
 import javax.faces.view.facelets.Tag;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributes;
 import javax.faces.view.facelets.TagDecorator;
 
+import org.w3c.dom.css.CSSMediaRule;
+
 import de.beyondjava.angularFaces.core.Configuration;
 
 /**
- * This is one of the most important classes of AngularFaces. It converts attributes to pass-through parameters, adds them to the list of
- * JSF bean to be synchronized with the client and implements a couple of pseudo JSF tags.
+ * This is one of the most important classes of AngularFaces. It converts
+ * attributes to pass-through parameters, adds them to the list of JSF bean to
+ * be synchronized with the client and implements a couple of pseudo JSF tags.
  */
 public class AngularTagDecorator implements TagDecorator {
 	private static boolean active = false;
 
 	private final static Pattern angularExpressionPattern = Pattern.compile("\\{\\{(\\w+\\.)+(\\w+)\\}\\}");
 	private static final String HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
-	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator");
+	private static final Logger LOGGER = Logger
+			.getLogger("de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator");
 	private static final String JSF_NAMESPACE = "http://xmlns.jcp.org/jsf/html";
-	private static final String JSF_CORE_NAMESPACE= "http://java.sun.com/jsf/core";
+	private static final String JSF_CORE_NAMESPACE = "http://java.sun.com/jsf/core";
 	private static final String PASS_THROUGH_NAMESPACE = "http://xmlns.jcp.org/jsf/passthrough";
 	private static final String ANGULAR_FACES_CORE_NAMESPACE = "http://beyondjava.net/angularFacesCore";
 	private static final String PRIMEFACES_NAMESPACE = "http://primefaces.org/ui";
@@ -104,7 +109,10 @@ public class AngularTagDecorator implements TagDecorator {
 		return t;
 	}
 
-	/** Converts &lt;option&gt;firstComboboxItem&lt;/option&gt; to &lt;f:selectItem itemValue="firstComboxItem"&gt;. */
+	/**
+	 * Converts &lt;option&gt;firstComboboxItem&lt;/option&gt; to
+	 * &lt;f:selectItem itemValue="firstComboxItem"&gt;.
+	 */
 	private Tag convertTofSelectItemText(Tag tag, TagAttributes attributeList) {
 		TagAttribute[] attributes = attributeList.getAll();
 		AFTagAttributes more = new AFTagAttributes(attributes);
@@ -114,7 +122,8 @@ public class AngularTagDecorator implements TagDecorator {
 	}
 
 	private Tag convertToACBodyTag(Tag tag, TagAttributes attributeList) {
-		Tag t = new Tag(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE, tag.getLocalName(), tag.getQName(), attributeList);
+		Tag t = new Tag(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE, tag.getLocalName(), tag.getQName(),
+				attributeList);
 		return t;
 	}
 
@@ -134,8 +143,8 @@ public class AngularTagDecorator implements TagDecorator {
 				if (angularExpression.startsWith("#{")) {
 					angularExpression = "{{" + angularExpression.substring(2, angularExpression.length() - 1) + "}}";
 				}
-				TagAttribute af = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "angularfacesattributes",
-						"angularfacesattributes", angularExpression);
+				TagAttribute af = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "",
+						"angularfacesattributes", "angularfacesattributes", angularExpression);
 				newAttributes[newLength++] = af;
 
 			} else if ("direction".equals(attributes[i].getLocalName())) {
@@ -162,7 +171,8 @@ public class AngularTagDecorator implements TagDecorator {
 			Tag t = new Tag(tag.getLocation(), JSF_NAMESPACE, "outputText", "outputText", more);
 			return t;
 		} else if ("serverToClient".equalsIgnoreCase(direction)) {
-			TagAttribute hide = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "rendered", "rendered", "true");
+			TagAttribute hide = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "rendered", "rendered",
+					"true");
 			newAttributes[newLength++] = hide;
 			newAttributes = Arrays.copyOf(newAttributes, newLength);
 			TagAttributes more = new AFTagAttributes(newAttributes);
@@ -170,7 +180,8 @@ public class AngularTagDecorator implements TagDecorator {
 			return t;
 		} else {
 			String coreExpression = angularExpression.substring(2, angularExpression.length() - 2);
-			TagAttribute value = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "value", "value", coreExpression);
+			TagAttribute value = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "value", "value",
+					coreExpression);
 			newAttributes[indexOfValueAttribute] = value;
 			newAttributes = Arrays.copyOf(newAttributes, newLength);
 			TagAttributes more = new AFTagAttributes(newAttributes);
@@ -182,8 +193,9 @@ public class AngularTagDecorator implements TagDecorator {
 	private Tag convertToTranslateTag(Tag tag, TagAttributes modifiedAttributes) {
 		TagAttribute[] attributes = modifiedAttributes.getAll();
 		AFTagAttributes more = new AFTagAttributes(attributes);
-		if (null==more.get(JSF_NAMESPACE, "value")) {
-			more.addAttribute(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "puitranslate", "ac:puitranslate", "true");
+		if (null == more.get(JSF_NAMESPACE, "value")) {
+			more.addAttribute(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "puitranslate",
+					"ac:puitranslate", "true");
 		}
 		Tag t = new Tag(tag.getLocation(), JSF_NAMESPACE, "outputText", "h:outputText", more);
 		return t;
@@ -198,7 +210,8 @@ public class AngularTagDecorator implements TagDecorator {
 	private Tag createTags(Tag tag) {
 		active = true;
 		TagAttributes modifiedAttributes = extractAngularAttributes(tag);
-		// Apache MyFaces converts HTML tag with jsf: namespace, but missing an attribute, into jsf:element tag. We'll fix this
+		// Apache MyFaces converts HTML tag with jsf: namespace, but missing an
+		// attribute, into jsf:element tag. We'll fix this
 		// for the special case of input fields.
 
 		if ("element".equals(tag.getLocalName())) {
@@ -238,7 +251,6 @@ public class AngularTagDecorator implements TagDecorator {
 			return convertTofSelectItemText(tag, modifiedAttributes);
 		}
 
-
 		tag = convertBootsFacesTag(tag);
 		return generateTagIfNecessary(tag, modifiedAttributes);
 	}
@@ -248,11 +260,12 @@ public class AngularTagDecorator implements TagDecorator {
 			String tagname = tag.getLocalName();
 			if (bootsfacesTags.containsKey(tagname)) {
 				AFTagAttributes modifiedAttributes = new AFTagAttributes(tag.getAttributes().getAll());
-//				TagAttribute[] all = tag.getAttributes().getAll();
-//				for (TagAttribute attr:all) {
-//					TagAttribute a = attr;
-//				}
-				Tag t = new Tag(tag.getLocation(), BOOTSFACES_NAMESPACE, tag.getLocalName(), tag.getQName(), modifiedAttributes);
+				// TagAttribute[] all = tag.getAttributes().getAll();
+				// for (TagAttribute attr:all) {
+				// TagAttribute a = attr;
+				// }
+				Tag t = new Tag(tag.getLocation(), BOOTSFACES_NAMESPACE, tag.getLocalName(), tag.getQName(),
+						modifiedAttributes);
 				return t;
 			}
 		}
@@ -260,15 +273,21 @@ public class AngularTagDecorator implements TagDecorator {
 	}
 
 	private Tag convertToPuiMessagesTag(Tag tag, TagAttributes attributeList) {
-		if (tag.getNamespace().equals(PRIMEFACES_NAMESPACE)) {
-			AFTagAttributes modifiedAttributes = new AFTagAttributes(attributeList.getAll());
-			modifiedAttributes.addAttribute(tag.getLocation(), PASS_THROUGH_NAMESPACE, "primefaces", "primefaces", "true");
-			Tag t = new Tag(tag.getLocation(), HTML_NAMESPACE, "puimessages", "puimessages", modifiedAttributes);
-			return t;
-		} else {
-			Tag t = new Tag(tag.getLocation(), HTML_NAMESPACE, "puimessages", "puimessages", attributeList);
-			return t;
-		}
+		String clientSideMessages = FacesContext.getCurrentInstance().getExternalContext()
+				.getInitParameter("clientSideMessages");
+		if (clientSideMessages == null || ("true".equalsIgnoreCase(clientSideMessages))) {
+			if (tag.getNamespace().equals(PRIMEFACES_NAMESPACE)) {
+				AFTagAttributes modifiedAttributes = new AFTagAttributes(attributeList.getAll());
+				modifiedAttributes.addAttribute(tag.getLocation(), PASS_THROUGH_NAMESPACE, "primefaces", "primefaces",
+						"true");
+				Tag t = new Tag(tag.getLocation(), HTML_NAMESPACE, "puimessages", "puimessages", modifiedAttributes);
+				return t;
+			} else {
+				Tag t = new Tag(tag.getLocation(), HTML_NAMESPACE, "puimessages", "puimessages", attributeList);
+				return t;
+			}
+		} else
+			return tag;
 	}
 
 	private TagAttributes extractAngularAttributes(Tag tag) {
@@ -285,11 +304,12 @@ public class AngularTagDecorator implements TagDecorator {
 				angularExpressions += "," + exp;
 				modifiedValue = modifiedValue.replace(exp, "#" + exp.substring(1, exp.length() - 1));
 				if ("value".equals(a.getLocalName())) {
-					TagAttribute modifiedAttribute = TagAttributeUtilities.createTagAttribute(a.getLocation(), PASS_THROUGH_NAMESPACE,
-							"ng-model", "ng-model", exp.substring(2, exp.length() - 2));
+					TagAttribute modifiedAttribute = TagAttributeUtilities.createTagAttribute(a.getLocation(),
+							PASS_THROUGH_NAMESPACE, "ng-model", "ng-model", exp.substring(2, exp.length() - 2));
 					modified.add(modifiedAttribute);
 					if (!firstMatch) {
-						LOGGER.severe("Tag " + tag.getQName() + " can't have multiple ng-models." + tag.getLocation().toString());
+						LOGGER.severe("Tag " + tag.getQName() + " can't have multiple ng-models."
+								+ tag.getLocation().toString());
 					}
 					firstMatch = false;
 				}
@@ -298,19 +318,19 @@ public class AngularTagDecorator implements TagDecorator {
 			TagAttribute modifiedAttribute;
 			if (a.getLocalName().startsWith("ng-")) {
 				// make AngularJS attributes pass-through attributes
-				modifiedAttribute = TagAttributeUtilities.createTagAttribute(a.getLocation(), PASS_THROUGH_NAMESPACE, a.getLocalName(),
-						a.getLocalName(), modifiedValue);
+				modifiedAttribute = TagAttributeUtilities.createTagAttribute(a.getLocation(), PASS_THROUGH_NAMESPACE,
+						a.getLocalName(), a.getLocalName(), modifiedValue);
 				hasChanges = true;
 			} else {
-				modifiedAttribute = TagAttributeUtilities.createTagAttribute(a.getLocation(), a.getNamespace(), a.getLocalName(),
-						a.getQName(), modifiedValue);
+				modifiedAttribute = TagAttributeUtilities.createTagAttribute(a.getLocation(), a.getNamespace(),
+						a.getLocalName(), a.getQName(), modifiedValue);
 			}
 			modified.add(modifiedAttribute);
 		}
 		if (hasChanges) {
 			if (angularExpressions.length() > 0) {
-				TagAttribute af = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "", "angularfacesattributes",
-						"angularfacesattributes", angularExpressions.substring(1));
+				TagAttribute af = TagAttributeUtilities.createTagAttribute(tag.getLocation(), "",
+						"angularfacesattributes", "angularfacesattributes", angularExpressions.substring(1));
 				modified.add(0, af);
 			}
 			TagAttribute[] modifiedAttributeList = new TagAttribute[modified.size()];
@@ -329,7 +349,8 @@ public class AngularTagDecorator implements TagDecorator {
 			} else if (tag.getLocalName().equals("span") && modifiedAttributes instanceof AFTagAttributes) {
 				return generatePuiHtmlTag(tag, modifiedAttributes, "puiSpan");
 			} else
-				return new Tag(tag.getLocation(), tag.getNamespace(), tag.getLocalName(), tag.getQName(), modifiedAttributes);
+				return new Tag(tag.getLocation(), tag.getNamespace(), tag.getLocalName(), tag.getQName(),
+						modifiedAttributes);
 		}
 		return null;
 	}
@@ -340,13 +361,13 @@ public class AngularTagDecorator implements TagDecorator {
 		for (int i = 0; i < all.length; i++) {
 			TagAttribute attr = all[i];
 			keys += attr.getLocalName() + ",";
-			all[i] = TagAttributeUtilities.createTagAttribute(attr.getLocation(), PASS_THROUGH_NAMESPACE, attr.getLocalName(),
-					attr.getQName(), attr.getValue());
+			all[i] = TagAttributeUtilities.createTagAttribute(attr.getLocation(), PASS_THROUGH_NAMESPACE,
+					attr.getLocalName(), attr.getQName(), attr.getValue());
 		}
 		if (keys.endsWith(","))
 			keys = keys.substring(0, keys.length() - 1);
-		((AFTagAttributes) modifiedAttributes).addAttribute(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE, "attributeNames",
-				"attributeNames", keys);
+		((AFTagAttributes) modifiedAttributes).addAttribute(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE,
+				"attributeNames", "attributeNames", keys);
 		return new Tag(tag.getLocation(), ANGULAR_FACES_CORE_NAMESPACE, htmlTag, htmlTag, modifiedAttributes);
 	}
 
@@ -358,13 +379,18 @@ public class AngularTagDecorator implements TagDecorator {
 	// private Tag addLabelsTag(Tag tag) {
 	// if (null==tag) return null;
 	// if ("inputText".equals(tag.getLocalName())) {
-	// TagAttribute originalTagAttribute = TagAttributeUtilities.createTagAttribute(tag.getLocation(), tag.getNamespace(),
+	// TagAttribute originalTagAttribute =
+	// TagAttributeUtilities.createTagAttribute(tag.getLocation(),
+	// tag.getNamespace(),
 	// "originalTagName", tag.getQName(), tag.getLocalName());
 	// final TagAttribute[] origininalAttributes = tag.getAttributes().getAll();
-	// TagAttribute[] attrs = Arrays.copyOf(origininalAttributes, origininalAttributes.length+1);
+	// TagAttribute[] attrs = Arrays.copyOf(origininalAttributes,
+	// origininalAttributes.length+1);
 	// attrs[origininalAttributes.length]=originalTagAttribute;
 	// AFTagAttributes afta = new AFTagAttributes(attrs);
-	// return new Tag(tag.getLocation(), "http://beyondjava.net/angularFacesCore", "addLabelAndMessage", "addLabelAndMessage", afta);
+	// return new Tag(tag.getLocation(),
+	// "http://beyondjava.net/angularFacesCore", "addLabelAndMessage",
+	// "addLabelAndMessage", afta);
 	// }
 	// return tag;
 	// }
