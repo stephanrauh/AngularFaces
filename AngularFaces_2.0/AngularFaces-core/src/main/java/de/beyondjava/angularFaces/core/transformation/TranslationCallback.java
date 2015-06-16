@@ -72,6 +72,7 @@ public class TranslationCallback implements VisitCallback {
 	}
 
 	private void translateAttribute(UIComponent component, String attributeName) {
+		try {
 		Object value = AttributeUtilities.getAttribute(component, attributeName);
 		if (null != value && value instanceof String) {
 			String caption = (String) value;
@@ -81,6 +82,9 @@ public class TranslationCallback implements VisitCallback {
 					component.getAttributes().put(attributeName, translation);
 				}
 			}
+		}
+		} catch (IllegalArgumentException doesNotExist) {
+			// Glassfish throws an IllegalArgumentException if the attribute doesn't exist.
 		}
 	}
 
