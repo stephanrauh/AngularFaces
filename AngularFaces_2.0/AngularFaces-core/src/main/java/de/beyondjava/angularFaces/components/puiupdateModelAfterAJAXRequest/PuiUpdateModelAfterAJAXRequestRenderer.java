@@ -18,7 +18,6 @@ package de.beyondjava.angularFaces.components.puiupdateModelAfterAJAXRequest;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -33,7 +32,7 @@ import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 public class PuiUpdateModelAfterAJAXRequestRenderer extends Renderer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.components.puiupdateModelAfterAJAXRequest.puiUpdateModelAfterAJAXRequestRenderer");
+//	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.components.puiupdateModelAfterAJAXRequest.puiUpdateModelAfterAJAXRequestRenderer");
 
 	@Override
 	public void encodeBegin(FacesContext context, UIComponent component) throws IOException {

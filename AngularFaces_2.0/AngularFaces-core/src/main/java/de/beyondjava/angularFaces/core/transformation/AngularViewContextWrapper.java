@@ -82,7 +82,8 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		}
 
 		char sep = UINamingContainer.getSeparatorChar(context);
-		result = context.getViewRoot().getContainerClientId(context) + sep + ResponseStateManager.CLIENT_WINDOW_PARAM + sep + counter;
+		result = context.getViewRoot().getContainerClientId(context) + sep + ResponseStateManager.CLIENT_WINDOW_PARAM
+				+ sep + counter;
 		contextAttrs.put(clientWindowIdCounterKey, ++counter);
 
 		return result;
@@ -144,12 +145,13 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		Collection<String> executeIDs = pvc.getExecuteIds();
 		if (null != executeIDs) {
 			for (String clientID : executeIDs) {
-				UIViewRoot viewRoot = ctx.getViewRoot();  
+				UIViewRoot viewRoot = ctx.getViewRoot();
 				UIComponent c = viewRoot.findComponent(clientID);
-				if (c==null) {
-					c=findByID(viewRoot, clientID);
-					if (null==c)
-						throw new FacesException("Couldn't find the component with the id " + clientID + ". Possibly this is a configuration error.");
+				if (c == null) {
+					c = findByID(viewRoot, clientID);
+					if (null == c)
+						throw new FacesException("Couldn't find the component with the id " + clientID
+								+ ". Possibly this is a configuration error.");
 				}
 				if (c instanceof PuiSync) {
 					if (c.isInView()) {
@@ -160,10 +162,10 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 			}
 		}
 	}
-	
+
 	private UIComponent findByID(UIComponent root, String id) {
 		List<UIComponent> children = root.getChildren();
-		for (UIComponent child:children) {
+		for (UIComponent child : children) {
 			if (id.equals(child.getId())) {
 				return child;
 			}
@@ -177,7 +179,8 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 	private boolean isNGSyncRequest() {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		boolean isAngularFacesRequest = false;
-		String action = ctx.getExternalContext().getRequestParameterMap().get("de.beyondjava.angularfaces.behavior.event");
+		String action = ctx.getExternalContext().getRequestParameterMap()
+				.get("de.beyondjava.angularfaces.behavior.event");
 		if ("ngsync".equals(action)) {
 			isAngularFacesRequest = true;
 		}
@@ -188,7 +191,7 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 		try {
 			FacesContext ctx = FacesContext.getCurrentInstance();
 			PartialViewContext pvc = ctx.getPartialViewContext();
-			UIViewRoot viewRoot = ctx.getViewRoot();
+			// UIViewRoot viewRoot = ctx.getViewRoot();
 			//
 			// We re-enable response writing.
 			//
@@ -227,13 +230,14 @@ public class AngularViewContextWrapper extends PartialViewContextWrapper {
 	private void cleanupAfterView() {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		ResponseWriter orig = (ResponseWriter) ctx.getAttributes().get(ORIGINAL_WRITER);
-		assert (null != orig);
+		assert(null != orig);
 		// move aside the PartialResponseWriter
 		ctx.setResponseWriter(orig);
 	}
 
 	/**
-	 * Copied from com.sun.faces.context.PartialViewContextImpl. May have to be adapted to future Mojarra or JSF versions.
+	 * Copied from com.sun.faces.context.PartialViewContextImpl. May have to be
+	 * adapted to future Mojarra or JSF versions.
 	 */
 	private void renderState(FacesContext context) throws IOException {
 		// Get the view state and write it to the response..

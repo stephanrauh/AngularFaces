@@ -16,7 +16,6 @@
 package de.beyondjava.angularFaces.core;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 
@@ -27,7 +26,7 @@ public class SessionUtils {
 	private final static String DART_CONTROLLER = "de.beyondjava.angularFaces.generateDartController";
 	private final static String DART_CONTROLLER_NAME = "de.beyondjava.angularFaces.dartControllerName";
 
-	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsfComponents.core.SessionUtils");
+//	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.jsfComponents.core.SessionUtils");
 
 	/**
 	 * Called when the Dart attribute is active in &lt;a:body&gt;. After activating Dart AngularDart is supported instead of AngularJS.

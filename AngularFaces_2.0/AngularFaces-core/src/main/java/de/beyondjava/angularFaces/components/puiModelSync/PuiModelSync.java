@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
 
 import javax.el.PropertyNotFoundException;
 import javax.faces.application.FacesMessage;
@@ -49,7 +48,7 @@ public class PuiModelSync extends HtmlBody {
 	private static final String JSF_ATTRIBUTES_SESSION_PARAMETER = "de.beyondjava.angularFaces.jsfAttributes";
 	private static final String JSF_ATTRIBUTES_SESSION_CACHE = "de.beyondjava.angularFaces.cache";
 
-	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
+//	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
 
 	/**
 	 * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender methods.

@@ -30,10 +30,11 @@ import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 public class ProcessAngularExpressionsCallback implements VisitCallback {
 
 	private final static Pattern angularExpression = Pattern.compile("\\{\\{([A-Z]|[a-z]|\\.)+\\}\\}");
-	
-	final static String identifier="([A-Z]|[a-z]|[0-9]|_|\\.)+";
 
-	private final static Pattern ngRepeat = Pattern.compile("ng-repeat=\"" + identifier + "\\sin\\s(\\$)?" + identifier);
+	final static String identifier = "([A-Z]|[a-z]|[0-9]|_|\\.)+";
+
+	private final static Pattern ngRepeat = Pattern
+			.compile("ng-repeat=\"" + identifier + "\\sin\\s(\\$)?" + identifier);
 
 	@Override
 	public VisitResult visit(VisitContext arg0, UIComponent component) {
@@ -41,23 +42,23 @@ public class ProcessAngularExpressionsCallback implements VisitCallback {
 			String html = component.toString();
 			addAngularExpressionToJSFAttributeList(html, false);
 		} else {
-			boolean onlyOnce=false;
-			String once = AttributeUtilities.getAttributeAsString(component, "once");
-			if (null != once && "true".equalsIgnoreCase(once)) {
-				onlyOnce = true;
+//			boolean onlyOnce = false;
+//			String once = AttributeUtilities.getAttributeAsString(component, "once");
+//			if (null != once && "true".equalsIgnoreCase(once)) {
+//				onlyOnce = true;
+//			}
+			String cacheable = AttributeUtilities.getAttributeAsString(component, "cacheable");
+			boolean isCacheable = ("true".equalsIgnoreCase(cacheable));
+			for (String key : JSFAttributes.jsfAttributes) {
+				extractAttribute(component, key, isCacheable);
 			}
-				String cacheable = AttributeUtilities.getAttributeAsString(component, "cacheable");
-				boolean isCacheable= ("true".equalsIgnoreCase(cacheable));
-				for (String key : JSFAttributes.jsfAttributes) {
-					extractAttribute(component, key, isCacheable);
-				}
-			}
+		}
 
 		return VisitResult.ACCEPT;
 	}
 
 	private void extractAttribute(UIComponent component, String key, boolean isCacheable) {
-		Object value = AttributeUtilities.getAttribute(component,key);
+		Object value = AttributeUtilities.getAttribute(component, key);
 		if (value != null) {
 			if (value instanceof String) {
 				String vs = (String) value;
@@ -72,15 +73,15 @@ public class ProcessAngularExpressionsCallback implements VisitCallback {
 			String exp = matcher.group();
 			PuiModelSync.addJSFAttrbitute(exp.substring(2, exp.length() - 2), null, cacheable, false);
 		}
-		
+
 		matcher = ngRepeat.matcher(html);
 		while (matcher.find()) {
 			String exp = matcher.group();
 			int index = exp.indexOf(" in ");
-			if (index>=0)
-			{
+			if (index >= 0) {
 				String var = exp.substring(index + 4).trim();
-				if (var.startsWith("$")) var=var.substring(1);
+				if (var.startsWith("$"))
+					var = var.substring(1);
 				PuiModelSync.addJSFAttrbitute(var, null, cacheable, false);
 			}
 		}
