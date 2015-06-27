@@ -53,6 +53,12 @@
 			<version>5.2</version>
 			<scope>compile</scope>
 		</dependency>
+        <dependency>
+            <groupId>net.bootsfaces</groupId>
+            <artifactId>bootsfaces</artifactId>
+            <version>0.7.0</version>
+            <scope>compile</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>javax.el</groupId>

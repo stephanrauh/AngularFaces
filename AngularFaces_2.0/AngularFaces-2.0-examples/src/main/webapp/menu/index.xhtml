@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+  <title>AngularFaces 2.1: JSF on steroids</title>
+  <meta name="author" content="Stephan Rauh" />
+  <meta name="description" content="AngularFaces adds AngularJS to JSF. That's JSF on steroids!" />
+  <meta name="robots" content="index, follow" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="revisit-after" content="7 days" />
+  <meta name="DISTRIBUTION" content="GLOBAL" />
+  <xmeta http-equiv="PRAGMA" content="NO-CACHE" />
+  <meta name="copyright" content="Stephan Rauh" />
+  <h:outputStylesheet library="sh" name="css/shCore.css" />
+  <h:outputStylesheet library="sh" name="css/shCoreEclipse.css" />
+  <style>
+      @media ( min-width :768px) {
+        #mandelbrot {width:100px;height:100px;display:block;margin-top:30px}
+    }
+    
+    @media ( min-width :992px) {
+        #mandelbrot {width:200px;height:200px;display:block}
+    }
+    
+    @media ( min-width :1200px) {
+        #mandelbrot {width:250px;height:250px;}
+    }
+    
+    @media (min-width: 1400px){
+        .container {width: 1370px;}
+        #mandelbrot {width:300px;height:300px;}
+    }
+    @media (min-width: 1600px){
+        .container {width: 1470px;}
+    }
+    @media (min-width: 1800px){
+        .container {width: 1570px;}
+    }
+    </style>
+</h:head>
+<h:body style="padding-top: 75px;padding-bottom: 75px;">
+
+  <h:outputScript library="sh" name="js/shCore.js" target="head" />
+  <h:outputScript library="sh" name="js/shBrushXml.js" target="head" />
+  <h:outputScript library="sh" name="js/shBrushJScript.js" target="head" />
+  <h:outputScript library="sh" name="js/shBrushJava.js" target="head" />
+  <h:outputScript library="sh" name="js/shBrushGroovy.js" target="head" />
+  <h:outputScript library="sh" name="js/shBrushCss.js" target="head" />
+  <script>
+      SyntaxHighlighter.defaults['gutter'] = false;
+    </script>
+  <ui:insert name="nbtop">
+    <ui:include src="/menu/menu.xhtml" />
+  </ui:insert>
+
+  <b:container>
+  <b:row>
+  <b:column span="3">
+    <div id="mandelbrot">
+      <img src="../../globe/MandelbrotEarth1.png" width="100%" height="100%" />
+    </div>
+    </b:column>
+    <b:column span="9">
+    <ui:insert name="content" />
+    </b:column>
+    </b:row>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <h:outputScript library="threejs" name="three.js" target="head" />
+    <h:outputScript library="threejs" name="drawMandelbrotGlobe.js" target="head" />
+    <script type="text/javascript">
+          if (navigator.userAgent.match(/Chrome/i)) {
+            activateGlobeDemo();
+          }
+          if (navigator.userAgent.match(/Firefox/i)) {
+            activateGlobeDemo();
+          }
+        </script>
+
+  </b:container>
+
+  <ui:insert name="nbtop">
+    <ui:include src="/menu/bottom.xhtml" />
+  </ui:insert>
+                  <script type="text/javascript">
+                    SyntaxHighlighter.all();
+                </script>
+  
+  <!-- Piwik -->
+  <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push([ 'trackPageView' ]);
+      _paq.push([ 'enableLinkTracking' ]);
+      (function() {
+        var u = "//www.atapuerca.de/piwik/";
+        _paq.push([ 'setTrackerUrl', u + 'piwik.php' ]);
+        _paq.push([ 'setSiteId', 4 ]);
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.type = 'text/javascript';
+        g.async = true;
+        g.defer = true;
+        g.src = u + 'piwik.js';
+        s.parentNode.insertBefore(g, s);
+      })();
+    </script>
+  <noscript>
+    <p>
+      <img src="//www.atapuerca.de/piwik/piwik.php?idsite=4" style="border: 0;" alt="" />
+    </p>
+  </noscript>
+  <!-- End Piwik Code -->
+
+</h:body>
+</html>
