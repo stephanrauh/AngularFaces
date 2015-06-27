@@ -45,7 +45,37 @@
 					</h:panelGroup>
 	           </b:tab>
 	            <b:tab title="JSF markup">
-	                markup
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+					<h2>Welcome to AngularFaces 2.1!</h2>
+		    		Based firmly in the future...<br />
+		    		<hr />
+		    		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}">
+						<br />
+						This demo uses the new JSF 2.2 HTML5 style to define the components.
+						<h:panelGrid columns="3">
+							<input jsf:value="{{calculatorBean.number1}}" />
+							<input type="number" jsf:value="{{calculatorBean.number2}}" />
+							<input type="number" jsf:value="{{calculatorBean.result}}"
+								label="&num;{calculatorBean.resultCaption}" />
+							<input type="number"
+								jsf:value="{{calculatorBean.serverSideResult}}" />
+							<input type="number"
+								jsf:value="{{calculatorBean.randomNumberFromServer}}" />
+							<button jsf:action="&num;{calculatorBean.add}">Add on server (AF AJAX)
+								<f:ajax render="angular" execute="@form" />
+							</button>
+							<button jsf:action="&num;{calculatorBean.add}">Add on server (JSF AJAX)
+								<f:ajax render="myForm" execute="@form" />
+							</button>
+							<button jsf:action="&num;{calculatorBean.add}">Add on server (without AJAX)
+							</button>
+  						  </h:panelGrid>
+						<h:messages globalOnly="false" />
+					</h:panelGroup>
+]]>
+</script>
+
 	           </b:tab>
 	        </b:tabView>
 	        </section>

@@ -1,45 +1,96 @@
-<f:view
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:jsf="http://xmlns.jcp.org/jsf"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:ac="http://beyondjava.net/angularFacesCore">
-	<h:head>
-		<style>.ui-state-error-text { color: #cd0a0a; } 
-		       .ui-state-error { color: #cd0a0a; }
-		</style>
-	</h:head>
-		<h:body ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
-		  <h:form id="myForm">
-		    <ac:updateModelAfterAJAXRequest />
-			<h2>Welcome to AngularFaces 2.0!</h2>
-    		Based firmly in the future...<br />
-    		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
-				style="{{calculatorBean.gridStyle}}">
-				<br />This demo uses the traditional JSF 2.2 components.
-				<h:panelGrid columns="3">
-						<h:inputText value="{{calculatorBean.number1}}" label="number1"/>
-						<h:inputText value="{{calculatorBean.number2}}" />
-						<h:inputText value="{{calculatorBean.result}}" />
-						<h:inputText value="{{calculatorBean.serverSideResult}}"  />
-						<h:inputText value="{{calculatorBean.randomNumberFromServer}}" id="random"  />
-					<h:commandButton value="Add on server (via AF-AJAX)"
-						action="#{calculatorBean.add}">
-						<f:ajax render="angular" execute="@form" />
-					</h:commandButton>
-					<h:commandButton value="Add on server (without AJAX)"
-						action="#{calculatorBean.add}" />
-					<h:commandButton value="Add on server (via JSF-AJAX)"
-						action="#{calculatorBean.add}">
-						<f:ajax render="@form" execute="@form" />
-					</h:commandButton>
-				</h:panelGrid>
-				The update region is only a part of the DOM tree controlled by AngularJS. Therefore, you need an &lt;ac:updateModelAfterAJAXRequest /&gt; tag to update the AngularJS model after an AJAX request.
-				<h:messages globalOnly="false" />
-			</h:panelGroup>
-		</h:form>
-		
-	</h:body>
-</f:view>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+<h:head> </h:head>
+<h:body >
+  <ui:composition template="../../menu/index.xhtml">
+    <ui:define name="content">
+       <div id="angular">
+	      <h:form>
+	        <section>
+	            <b:tabView>
+		            <b:tab title="live demo">
+						<div ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
+						  <div id="myForm">
+						    <ac:updateModelAfterAJAXRequest />
+							<h2>Welcome to AngularFaces 2.0!</h2>
+				    		Based firmly in the future...<br />
+				    		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
+								style="{{calculatorBean.gridStyle}}">
+								<br />This demo uses the traditional JSF 2.0 and 2.1 components.
+								<h:panelGrid columns="3">
+										<h:inputText value="{{calculatorBean.number1}}" label="number1"/>
+										<h:inputText value="{{calculatorBean.number2}}" />
+										<h:inputText value="{{calculatorBean.result}}" />
+										<h:inputText value="{{calculatorBean.serverSideResult}}"  />
+										<h:inputText value="{{calculatorBean.randomNumberFromServer}}" id="random"  />
+									<h:commandButton value="Add on server (via AF-AJAX)"
+										action="#{calculatorBean.add}">
+										<f:ajax render="angular" execute="@form" />
+									</h:commandButton>
+									<h:commandButton value="Add on server (without AJAX)"
+										action="#{calculatorBean.add}" />
+									<h:commandButton value="Add on server (via JSF-AJAX)"
+										action="#{calculatorBean.add}">
+										<f:ajax render="@form" execute="@form" />
+									</h:commandButton>
+								</h:panelGrid>
+								The update region is only a part of the DOM tree controlled by AngularJS. Therefore, you need an &lt;ac:updateModelAfterAJAXRequest /&gt; tag to update the AngularJS model after an AJAX request.
+								<h:messages globalOnly="false" />
+							</h:panelGroup>
+						</div>
+					</div>
+		           </b:tab>
+	            <b:tab title="JSF markup">
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+						<div ng-app="AngularFacesExamples" ng-controller="MyCtrl" id="angular">
+						  <div id="myForm">
+						    <ac:updateModelAfterAJAXRequest />
+							<h2>Welcome to AngularFaces 2.0!</h2>
+				    		Based firmly in the future...<br />
+				    		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
+								style="{{calculatorBean.gridStyle}}">
+								<br />This demo uses the traditional JSF 2.0 and 2.1 components.
+								<h:panelGrid columns="3">
+										<h:inputText value="{{calculatorBean.number1}}" label="number1"/>
+										<h:inputText value="{{calculatorBean.number2}}" />
+										<h:inputText value="{{calculatorBean.result}}" />
+										<h:inputText value="{{calculatorBean.serverSideResult}}"  />
+										<h:inputText value="{{calculatorBean.randomNumberFromServer}}" id="random"  />
+									<h:commandButton value="Add on server (via AF-AJAX)"
+										action="&num;{calculatorBean.add}">
+										<f:ajax render="angular" execute="@form" />
+									</h:commandButton>
+									<h:commandButton value="Add on server (without AJAX)"
+										action="&num;{calculatorBean.add}" />
+									<h:commandButton value="Add on server (via JSF-AJAX)"
+										action="&num;{calculatorBean.add}">
+										<f:ajax render="@form" execute="@form" />
+									</h:commandButton>
+								</h:panelGrid>
+								The update region is only a part of the DOM tree controlled by AngularJS. Therefore, you need an &lt;ac:updateModelAfterAJAXRequest /&gt; tag to update the AngularJS model after an AJAX request.
+								<h:messages globalOnly="false" />
+							</h:panelGroup>
+						</div>
+					</div>
+]]>
+</script>
+	           </b:tab>
+	        </b:tabView>
+	        </section>
+	        <br />
+	        <h:messages />
+	      </h:form>
+	    </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

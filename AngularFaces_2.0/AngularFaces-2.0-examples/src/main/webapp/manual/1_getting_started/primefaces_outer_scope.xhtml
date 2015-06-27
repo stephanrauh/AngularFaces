@@ -1,14 +1,23 @@
-<f:view xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:jsf="http://xmlns.jcp.org/jsf"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:prime="http://primefaces.org/ui"
-	xmlns:ac="http://beyondjava.net/angularFacesCore"
-	>
-	<h:head />
-	<h:body>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:prime="http://primefaces.org/ui"
+      xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+<h:head> </h:head>
+<h:body >
+  <ui:composition template="../../menu/index.xhtml">
+    <ui:define name="content">
+       <div id="angular">
+	      <h:form id="myForm" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+	        <section>
+	          <b:tabView>
+	            <b:tab title="live demo">
 		<div ng-app="AngularFacesExamples" ng-controller="MyCtrl">
 		<h:form id="formID">
 		    <ac:updateModelAfterAJAXRequest />
@@ -40,7 +49,21 @@
 				<h:outputText style="{{angularModelStyle}}"
 					value="This text has a css style that stems from the Angular model, but not from any JSF bean." />
 			</prime:panel>
-		</h:form>
-		</div>
-	</h:body>
-</f:view>
+			
+	           </b:tab>
+	            <b:tab title="JSF markup">
+<script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
+<![CDATA[
+]]>
+</script>
+	           </b:tab>
+	        </b:tabView>
+	        </section>
+	        <br />
+	        <h:messages />
+	      </h:form>
+	    </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
