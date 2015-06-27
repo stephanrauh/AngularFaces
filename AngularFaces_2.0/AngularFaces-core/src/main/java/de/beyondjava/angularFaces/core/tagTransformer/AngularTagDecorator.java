@@ -320,6 +320,9 @@ public class AngularTagDecorator implements TagDecorator {
 						a.getLocalName(), a.getLocalName(), modifiedValue);
 				hasChanges = true;
 			} else {
+				if ("id".equals(a.getLocalName())) {
+					hasChanges=true;
+				}
 				modifiedAttribute = TagAttributeUtilities.createTagAttribute(a.getLocation(), a.getNamespace(),
 						a.getLocalName(), a.getQName(), modifiedValue);
 			}
@@ -341,7 +344,8 @@ public class AngularTagDecorator implements TagDecorator {
 	}
 
 	private Tag generateTagIfNecessary(Tag tag, TagAttributes modifiedAttributes) {
-		if (modifiedAttributes != tag.getAttributes()) {
+		TagAttribute id = tag.getAttributes().get("", "id");
+		if (null != id || modifiedAttributes != tag.getAttributes()) {
 			if (tag.getLocalName().equals("div") && modifiedAttributes instanceof AFTagAttributes) {
 				return generatePuiHtmlTag(tag, modifiedAttributes, "puiDiv");
 			} else if (tag.getLocalName().equals("span") && modifiedAttributes instanceof AFTagAttributes) {
