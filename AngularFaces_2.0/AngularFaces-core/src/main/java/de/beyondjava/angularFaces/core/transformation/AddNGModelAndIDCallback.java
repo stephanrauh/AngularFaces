@@ -20,6 +20,7 @@ import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
 
+import de.beyondjava.angularFaces.components.puiDiv.PuiDiv;
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 
 /** Collects the attributes that have to be synchronized with the client. */

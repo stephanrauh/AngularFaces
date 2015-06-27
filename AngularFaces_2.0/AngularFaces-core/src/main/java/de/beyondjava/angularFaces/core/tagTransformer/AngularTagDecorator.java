@@ -363,8 +363,18 @@ public class AngularTagDecorator implements TagDecorator {
 		for (int i = 0; i < all.length; i++) {
 			TagAttribute attr = all[i];
 			keys += attr.getLocalName() + ",";
-			all[i] = TagAttributeUtilities.createTagAttribute(attr.getLocation(), PASS_THROUGH_NAMESPACE,
-					attr.getLocalName(), attr.getQName(), attr.getValue());
+			if (attr.getNamespace()==null || attr.getNamespace().equals("")) {
+				if ("id".equals(attr.getLocalName())) {
+					all[i] = TagAttributeUtilities.createTagAttribute(attr.getLocation(), "",
+							attr.getLocalName(), attr.getQName(), attr.getValue());
+				} else {
+					all[i] = TagAttributeUtilities.createTagAttribute(attr.getLocation(), PASS_THROUGH_NAMESPACE,
+							attr.getLocalName(), attr.getQName(), attr.getValue());
+				}
+			} else {
+				all[i] = TagAttributeUtilities.createTagAttribute(attr.getLocation(), attr.getNamespace(),
+						attr.getLocalName(), attr.getQName(), attr.getValue());
+			}
 		}
 		if (keys.endsWith(","))
 			keys = keys.substring(0, keys.length() - 1);
