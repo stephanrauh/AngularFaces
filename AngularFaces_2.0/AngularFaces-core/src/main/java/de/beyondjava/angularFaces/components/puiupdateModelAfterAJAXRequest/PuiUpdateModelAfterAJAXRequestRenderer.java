@@ -27,7 +27,6 @@ import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
-import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 /** This generates code to update the AngularJS model after an AJAX request. */
 @FacesRenderer(componentFamily = "de.beyondjava", rendererType = "de.beyondjava.puiUpdateModelAfterAJAXRequests")

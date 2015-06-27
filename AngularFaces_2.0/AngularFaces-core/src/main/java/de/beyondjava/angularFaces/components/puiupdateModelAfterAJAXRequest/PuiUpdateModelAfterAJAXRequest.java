@@ -15,15 +15,10 @@
  */
 package de.beyondjava.angularFaces.components.puiupdateModelAfterAJAXRequest;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.component.FacesComponent;
 import javax.faces.component.html.HtmlOutputText;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-
-import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 /** This generates code to update the AngularJS model after an AJAX request. */
 @FacesComponent("de.beyondjava.puiUpdateModelAfterAJAXRequests")

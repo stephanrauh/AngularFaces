@@ -16,7 +16,6 @@
 package de.beyondjava.angularFaces.core.transformation;
 
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;

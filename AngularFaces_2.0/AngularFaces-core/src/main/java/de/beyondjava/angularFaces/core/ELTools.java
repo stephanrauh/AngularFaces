@@ -37,8 +37,6 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.beanutils.BeanUtilsBean2;
 
-import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
-
 /** Collection of helper methods dealing with the JSF Expression language. */
 public class ELTools {
 	private final static Pattern EL_EXPRESSION = Pattern.compile("#\\{\\{([A-Z_$€]|[a-z_0-9$€]|\\.)+\\}");

@@ -16,17 +16,12 @@
 package de.beyondjava.angularFaces.core.transformation;
 
 import java.lang.reflect.Method;
-import java.util.Iterator;
-import java.util.Locale;
 
-import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewDeclarationLanguage;
 
 import de.beyondjava.angularFaces.core.ELTools;
 import de.beyondjava.angularFaces.core.NGBeanAttributeInfo;

@@ -24,9 +24,7 @@ import javax.faces.component.UIInput;
 import javax.faces.component.UIMessage;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.context.FacesContext;
-import javax.faces.view.facelets.ComponentHandler;
 import javax.faces.view.facelets.FaceletContext;
-import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagConfig;
 import javax.faces.view.facelets.TagHandler;
 

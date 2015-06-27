@@ -17,9 +17,7 @@ package de.beyondjava.angularFaces.core.tagTransformer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,8 +26,6 @@ import javax.faces.view.facelets.Tag;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributes;
 import javax.faces.view.facelets.TagDecorator;
-
-import de.beyondjava.angularFaces.core.Configuration;
 
 /**
  * This is one of the most important classes of AngularFaces. It converts attributes to pass-through parameters, adds them to the list of

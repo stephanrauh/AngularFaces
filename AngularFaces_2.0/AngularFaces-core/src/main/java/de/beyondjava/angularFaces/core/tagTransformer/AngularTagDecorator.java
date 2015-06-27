@@ -30,8 +30,6 @@ import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributes;
 import javax.faces.view.facelets.TagDecorator;
 
-import org.w3c.dom.css.CSSMediaRule;
-
 import de.beyondjava.angularFaces.core.Configuration;
 
 /**
