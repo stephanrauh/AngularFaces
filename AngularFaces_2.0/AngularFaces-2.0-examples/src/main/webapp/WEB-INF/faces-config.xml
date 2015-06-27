@@ -15,8 +15,10 @@
 			<supported-locale>es</supported-locale>
 			<supported-locale>fr</supported-locale>
 		</locale-config>
+		<!-- 
 		<resource-handler>
         	org.omnifaces.resourcehandler.CombinedResourceHandler
     	</resource-handler>
+    	 -->
 	</application>
 </faces-config>
