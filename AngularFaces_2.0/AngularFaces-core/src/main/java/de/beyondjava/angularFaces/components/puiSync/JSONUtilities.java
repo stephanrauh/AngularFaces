@@ -56,8 +56,7 @@ public class JSONUtilities {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	public static Object readObjectFromJSONString(String json, Class beanType) {
+	public static Object readObjectFromJSONString(String json, Class<?> beanType) {
 		if (null != jackson) {
 			try {
 				Method method = jackson.getClass().getMethod("readValue", String.class, Class.class);

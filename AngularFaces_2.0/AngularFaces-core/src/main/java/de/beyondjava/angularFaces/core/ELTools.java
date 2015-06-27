@@ -62,7 +62,7 @@ public class ELTools {
 		return vex;
 	}
 
-	public static ValueExpression createValueExpression(String p_expression, Class expectedType) {
+	public static ValueExpression createValueExpression(String p_expression, Class<?> expectedType) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExpressionFactory expressionFactory = context.getApplication().getExpressionFactory();
 		ELContext elContext = context.getELContext();

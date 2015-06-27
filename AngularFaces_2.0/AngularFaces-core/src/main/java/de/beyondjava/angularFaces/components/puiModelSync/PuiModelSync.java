@@ -58,12 +58,14 @@ public class PuiModelSync extends HtmlBody {
 		return super.getStateHelper();
 	}
 
+	@SuppressWarnings("unchecked")
 	public static boolean isJSFAttributesTableEmpty() {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		Map<String, String> jsfAttributes = (Map<String, String>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
 		return (null == jsfAttributes || jsfAttributes.isEmpty());
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void initJSFAttributesTable() {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		if (!sessionMap.containsKey(JSF_ATTRIBUTES_SESSION_PARAMETER)) {
@@ -75,6 +77,7 @@ public class PuiModelSync extends HtmlBody {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void addJSFAttrbitute(String key, UIComponent component, boolean cacheable, boolean onlyOnce) {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		Map<String, String> jsfAttributes = (Map<String, String>) sessionMap.get(JSF_ATTRIBUTES_SESSION_PARAMETER);
@@ -95,6 +98,7 @@ public class PuiModelSync extends HtmlBody {
 	 * @param cacheable
 	 *            if true, the value is only sent if it's different from the value of the same attribute in the previous response
 	 */
+	@SuppressWarnings("unchecked")
 	public static void addJSFAttrbituteToAngularModel(Map<String, Object> model, String key, Object value, boolean cacheable) {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		Map<String, Object> cache = (Map<String, Object>) sessionMap.get(JSF_ATTRIBUTES_SESSION_CACHE);
@@ -129,6 +133,7 @@ public class PuiModelSync extends HtmlBody {
 		currentMap.put(keys[keys.length - 1], value);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static List<String> getFacesModel() {
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
@@ -195,7 +200,7 @@ public class PuiModelSync extends HtmlBody {
 		return beans;
 	}
 
-	private static Object convertToDatatype(String valueToRender, Class targetClass) {
+	private static Object convertToDatatype(String valueToRender, Class<?> targetClass) {
 		if ("".equals(valueToRender))
 			return null;
 		if (null == valueToRender)

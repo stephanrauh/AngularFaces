@@ -108,6 +108,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void addJavascript(UIViewRoot root, FacesContext context, boolean isProduction) {
 		boolean loadJQuery = true;
 		boolean loadJQueryUI = true;
