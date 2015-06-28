@@ -57,13 +57,47 @@
 	            <b:tab title="JSF markup">
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
+				    <ac:updateModelAfterAJAXRequest />
+					<h2><h:outputText value="Welcome to AngularFaces 2.1!" /></h2>
+		    		<translate>Based firmly in the future...</translate><br />
+		    		<hr />
+		    		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}" >
+						<br />
+						<h:outputText value="This demo uses the new JSF 2.2 HTML5 style to define the components." />
+						<h:panelGrid columns="3">
+							<input type="number" jsf:value="{{calculatorBean.number1}}" />
+							<input type="number" jsf:value="{{calculatorBean.number2}}" />
+							<input type="number" jsf:value="{{calculatorBean.result}}"
+								label="&num;{calculatorBean.resultCaption}" />
+							<input type="number"
+								jsf:value="{{calculatorBean.serverSideResult}}" />
+							<input type="number"
+								jsf:value="{{calculatorBean.randomNumberFromServer}}" />
+							<h:commandButton value="Add on server (AF AJAX)" 
+								action="&num;{calculatorBean.add}">
+								<f:ajax render="angular" execute="@form" />
+							</h:commandButton>
+							<h:commandButton value="Add on server (JSF AJAX)"
+								action="&num;{calculatorBean.add}">
+								<f:ajax render="@form" execute="@form" />
+							</h:commandButton>
+							<h:commandButton value="Add on server (without AJAX)" 
+								action="&num;{calculatorBean.add}" />
+						</h:panelGrid>
+						<br />
+						<p><b>Note on the example:</b></p>
+						<p>The update region is only a part of the DOM tree controlled by AngularJS.<br />
+						As a consequence, the server may change bean values during an AJAX request.<br />
+						When the HTML DOM tree is updated, the AngularJS model still has the old values,<br />
+						which aren't valid any more. To fix this, add &lt;ac:updateModelAfterAJAXRequest /&gt; to the form.</p> 
+						<h:messages globalOnly="false" />
+					</h:panelGroup>
 ]]>
 </script>
 	           </b:tab>
 	        </b:tabView>
 	        </section>
 	        <br />
-	        <h:messages />
 	      </h:form>
 	    </div>
     </ui:define>

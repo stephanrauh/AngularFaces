@@ -110,7 +110,7 @@
         </dependency>
     </dependencies>
     <profiles>
-    		<profile>
+    	<profile>
 			<id>release</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
