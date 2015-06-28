@@ -12,8 +12,6 @@
 <h:body >
   <ui:composition template="../../menu/index.xhtml">
     <ui:define name="content">
-       <div id="angular">
-	      <h:form id="myForm" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
 	        <section>
 	          <b:tabView>
 	            <b:tab title="live demo">
@@ -21,7 +19,7 @@
 						<h2>Welcome to AngularFaces 2.0!</h2>
 				    		Based firmly in the future...<br />
 						<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
-							style="{{calculatorBean.gridStyle}}" ng-app="AngularFacesExamples"
+							style="{{calculatorBean.gridStyle}}" ng-app="AngularFacesExamples" ng-cloak="ng-cloak"
 							ng-controller="MyCtrl">
 							<h:form id="myForm" style="font-weight:normal">
 				    		    <ac:updateModelAfterAJAXRequest />
@@ -53,6 +51,38 @@
 	            <b:tab title="JSF markup">
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
+					<div id="angular">
+						<h2>Welcome to AngularFaces 2.0!</h2>
+				    		Based firmly in the future...<br />
+						<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
+							style="{{calculatorBean.gridStyle}}" ng-app="AngularFacesExamples" ng-cloak="ng-cloak"
+							ng-controller="MyCtrl">
+							<h:form id="myForm" style="font-weight:normal">
+				    		    <ac:updateModelAfterAJAXRequest />
+								<p>This demo uses traditional JSF 2.2 components.</p>
+								
+								<h:panelGrid columns="3"  style="font-weight:normal">
+									<h:inputText value="{{calculatorBean.number1}}" label="number1" ng:integer="" />
+									<h:inputText value="{{calculatorBean.number2}}" ng:integer="" />
+									<h:inputText value="{{calculatorBean.result}}"
+										label="&num;{calculatorBean.resultCaption}" />
+									<h:inputText value="{{calculatorBean.serverSideResult}}" />
+									<h:inputText value="{{calculatorBean.randomNumberFromServer}}" />
+									<h:commandButton value="Add on server (via AJAX)" 
+										action="&num;{calculatorBean.add}">
+										<f:ajax render="angular" execute="@form" />
+									</h:commandButton>
+									<h:commandButton value="Add on server (without AJAX)"
+										action="&num;{calculatorBean.add}" />
+									<h:commandButton value="Add on server (via JSF-AJAX)"
+										action="&num;{calculatorBean.add}">
+										<f:ajax render="@form" execute="@form" />
+									</h:commandButton>
+								</h:panelGrid>
+								<h:messages globalOnly="false" />
+							</h:form>
+						</h:panelGroup>
+				    </div>
 ]]>
 </script>
 	           </b:tab>
@@ -60,8 +90,6 @@
 	        </section>
 	        <br />
 	        <h:messages />
-	      </h:form>
-	    </div>
     </ui:define>
   </ui:composition>
 </h:body>

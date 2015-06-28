@@ -14,11 +14,11 @@
   <ui:composition template="../../menu/index.xhtml">
     <ui:define name="content">
        <div id="angular">
-	      <h:form id="myForm" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+	      <h:form id="myForm">
 	        <section>
 	          <b:tabView>
 	            <b:tab title="live demo">
-					<div id="formID" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+					<div id="formID" ng-app="AngularFacesExamples" ng-controller="MyCtrl" ng-cloak="ng-cloak">
 						<h2>Welcome to AngularFaces 2.0!</h2>
 			    		Based firmly in the future...
 						<prime:panel colspan="2" header="This is a JSF view enriched by an AngularJS bean" id="myPanel">
@@ -52,7 +52,7 @@
 	            <b:tab title="JSF markup">
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
-					<div id="formID" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+					<div id="formID" ng-app="AngularFacesExamples" ng-controller="MyCtrl" ng-cloak="ng-cloak">
 						<h2>Welcome to AngularFaces 2.0!</h2>
 			    		Based firmly in the future...
 						<prime:panel colspan="2" header="This is a JSF view enriched by an AngularJS bean" id="myPanel">

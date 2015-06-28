@@ -14,11 +14,11 @@
   <ui:composition template="../../menu/index.xhtml">
     <ui:define name="content">
        <div id="angular">
-	      <h:form id="myForm" ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+	      <h:form id="myForm">
 	        <section>
 	          <b:tabView>
 	            <b:tab title="live demo">
-					<div ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+					<div ng-app="AngularFacesExamples" ng-controller="MyCtrl" ng-cloak="ng-cloak">
 						<div id="formID">
 						    <ac:updateModelAfterAJAXRequest />
 							<h2>Welcome to AngularFaces 2.0!</h2>
@@ -55,7 +55,7 @@
 	            <b:tab title="JSF markup">
 <script type="syntaxhighlighter" class="brush: xml; toolbar: false;first-line: 0">
 <![CDATA[
-					<div ng-app="AngularFacesExamples" ng-controller="MyCtrl">
+					<div ng-app="AngularFacesExamples" ng-controller="MyCtrl" ng-cloak="ng-cloak">
 						<div id="formID">
 						    <ac:updateModelAfterAJAXRequest />
 							<h2>Welcome to AngularFaces 2.0!</h2>

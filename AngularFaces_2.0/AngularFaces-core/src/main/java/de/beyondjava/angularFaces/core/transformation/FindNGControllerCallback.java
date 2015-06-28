@@ -55,13 +55,13 @@ public class FindNGControllerCallback implements VisitCallback {
 		}
 
 		String ngApp = (String) AttributeUtilities.getAttribute(component,"ng-app");
-		if (null != ngApp) {
-			component.getPassThroughAttributes().put("ng-app", ngApp);
-		}
+//		if (null != ngApp) {
+//			component.getPassThroughAttributes().put("ng-app", ngApp);
+//		}
 		
 		String ngController = (String) AttributeUtilities.getAttribute(component,"ng-controller");
 		if (null != ngController) {
-			component.getPassThroughAttributes().put("ng-controller", ngController);
+//			component.getPassThroughAttributes().put("ng-controller", ngController);
 			List<UIComponent> children = component.getChildren();
 			boolean needsToBeAdded = true;
 //			int index = 0;

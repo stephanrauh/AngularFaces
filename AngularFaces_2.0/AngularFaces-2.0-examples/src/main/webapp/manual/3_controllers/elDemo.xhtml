@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+<h:body>
+  <ui:fragment>
+  <div id="tzu">
+  	<div ng-app="DiceApp" ng-cloak="ng-cloak" >
+  	    <div id="angular">
+	    	<div ng-controller="#{selector.activeController}" angularJSFile="dice.js">
+	    		<b:panelGrid colSpans="12">
+	    			<p>This demo uses an EL expression to switch between two AngularJS controllers. The next line shows which controller is currently selected.</p>
+		    		<p>{{welcomeMessage}}</p>
+		    		<b:commandButton look="primary" action="#{selector.toggleControllers}" value="Switch to the other controller" />
+	    		</b:panelGrid>
+  			</div>
+  		</div>
+  	</div>
+  </div>
+  </ui:fragment>
+</h:body>
+</html>
+
+

@@ -11,14 +11,14 @@
 <h:body>
   <ui:composition template="../../menu/index.xhtml">
     <ui:define name="content">
-      <h:form ng:name="myform">
+      <h:form id="myform">
         <section>
           <b:tabView>
             <b:tab title="live demo">
-                <ac:include src="multipleControllersDemo.xhtml"></ac:include>
+                <ac:include src="elDemo.xhtml"></ac:include>
            </b:tab>
             <b:tab title="JSF markup">
-                <ui:include src="multipleControllersMarkup.xhtml"></ui:include>
+                <ui:include src="elMarkup.xhtml"></ui:include>
            </b:tab>
         </b:tabView>
         </section>

@@ -21,53 +21,65 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
-/** Finds attributes, no matter whether they are regular or pass-through attributes. */
+/**
+ * Finds attributes, no matter whether they are regular or pass-through
+ * attributes.
+ */
 public class AttributeUtilities {
-	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.angularFaces.core.transformation.AttributeUtilities");
+	private static final Logger LOGGER = Logger
+			.getLogger("de.beyondjava.angularFaces.core.transformation.AttributeUtilities");
 
 	/**
-	 * Apache MyFaces make HMTL attributes of HTML elements pass-through-attributes. This method finds the attribute, no matter whether it
-	 * is stored as an ordinary or as an pass-through-attribute.
+	 * Apache MyFaces make HMTL attributes of HTML elements
+	 * pass-through-attributes. This method finds the attribute, no matter
+	 * whether it is stored as an ordinary or as an pass-through-attribute.
 	 */
 	public static Object getAttribute(UIComponent component, String attributeName) {
 		Object value = component.getPassThroughAttributes().get(attributeName);
 		if (null == value) {
 			value = component.getAttributes().get(attributeName);
 		}
-		if (null==value) {
+		if (null == value) {
 			if (!attributeName.equals(attributeName.toLowerCase())) {
 				return getAttribute(component, attributeName.toLowerCase());
 			}
+		}
+		if (value instanceof ValueExpression) {
+			value = ((ValueExpression) value).getValue(FacesContext.getCurrentInstance().getELContext());
 		}
 		return value;
 	}
 
 	/**
-	 * Apache MyFaces sometimes returns a ValueExpression when you read an attribute. Mojarra does not, but requires a second call. The
-	 * method treats both frameworks in a uniform way and evaluates the expression, if needed, returning a String value.
+	 * Apache MyFaces sometimes returns a ValueExpression when you read an
+	 * attribute. Mojarra does not, but requires a second call. The method
+	 * treats both frameworks in a uniform way and evaluates the expression, if
+	 * needed, returning a String value.
 	 * 
 	 */
 	public static String getAttributeAsString(UIComponent component, String attributeName) {
 		try {
-		Object attribute = getAttribute(component, attributeName);
-		if (null != attribute) {
-			if (attribute instanceof ValueExpression) {
-				return (String) ((ValueExpression) attribute).getValue(FacesContext.getCurrentInstance().getELContext());
-			} else if (attribute instanceof String) {
-				return (String) attribute;
-			} else {
-				LOGGER.severe("unexpected data type of label: " + attributeName + " type:" + attribute.getClass().getName());
-				return "unexpected data type of label: " + attributeName + " type:" + attribute.getClass().getName();
+			Object attribute = getAttribute(component, attributeName);
+			if (null != attribute) {
+				if (attribute instanceof ValueExpression) {
+					return (String) ((ValueExpression) attribute)
+							.getValue(FacesContext.getCurrentInstance().getELContext());
+				} else if (attribute instanceof String) {
+					return (String) attribute;
+				} else {
+					LOGGER.severe("unexpected data type of label: " + attributeName + " type:"
+							+ attribute.getClass().getName());
+					return "unexpected data type of label: " + attributeName + " type:"
+							+ attribute.getClass().getName();
+				}
 			}
-		}
-		if (null == attribute) {
-			ValueExpression vex = component.getValueExpression(attributeName);
-			if (null != vex) {
-				return (String) vex.getValue(FacesContext.getCurrentInstance().getELContext());
+			if (null == attribute) {
+				ValueExpression vex = component.getValueExpression(attributeName);
+				if (null != vex) {
+					return (String) vex.getValue(FacesContext.getCurrentInstance().getELContext());
+				}
 			}
-		}
-		}
-		catch (ClassCastException error) {
+		} catch (ClassCastException error) {
 			LOGGER.fine("Attribute is not a String: " + attributeName);
 		}
 		return null;
