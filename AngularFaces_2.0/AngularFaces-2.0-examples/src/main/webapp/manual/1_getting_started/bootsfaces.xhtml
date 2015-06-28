@@ -22,29 +22,26 @@
 						    <ac:updateModelAfterAJAXRequest />
 							<h2>Welcome to AngularFaces 2.0!</h2>
 				    		Based firmly in the future...<br />
-				    		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
-								style="{{calculatorBean.gridStyle}}">
-								<br />This demo uses the traditional JSF 2.0 and 2.1 components.
+				    		<b:panel title="{{calculatorBean.headerText}}" look="info"
+								titleStyle="{{calculatorBean.gridStyle}}">
+								<p>This demo uses BootsFaces.</p>
 								<h:panelGrid columns="3">
 										<h:inputText value="{{calculatorBean.number1}}" label="number1"/>
 										<h:inputText value="{{calculatorBean.number2}}" />
 										<h:inputText value="{{calculatorBean.result}}" />
 										<h:inputText value="{{calculatorBean.serverSideResult}}"  />
 										<h:inputText value="{{calculatorBean.randomNumberFromServer}}" id="random"  />
-									<h:commandButton value="Add on server (via AF-AJAX)"
+									<b:commandButton value="Add on server (via AF-AJAX)" ajax="true" update="angular" 
 										action="#{calculatorBean.add}">
-										<f:ajax render="angular" execute="@form" />
-									</h:commandButton>
-									<h:commandButton value="Add on server (without AJAX)"
-										action="#{calculatorBean.add}" />
-									<h:commandButton value="Add on server (via JSF-AJAX)"
+									</b:commandButton>
+									<b:commandButton value="Add on server (without AJAX)" action="#{calculatorBean.add}" />
+									<b:commandButton value="Add on server (via JSF-AJAX)" ajax="true" update="@form"
 										action="#{calculatorBean.add}">
-										<f:ajax render="@form" execute="@form" />
-									</h:commandButton>
+									</b:commandButton>
 								</h:panelGrid>
 								The update region is only a part of the DOM tree controlled by AngularJS. Therefore, you need an &lt;ac:updateModelAfterAJAXRequest /&gt; tag to update the AngularJS model after an AJAX request.
-								<h:messages globalOnly="false" />
-							</h:panelGroup>
+								<b:messages globalOnly="false" />
+							</b:panel>
 						</div>
 					</div>
 		           </b:tab>
@@ -56,29 +53,26 @@
 						    <ac:updateModelAfterAJAXRequest />
 							<h2>Welcome to AngularFaces 2.0!</h2>
 				    		Based firmly in the future...<br />
-				    		<h:panelGroup colspan="2" header="{{calculatorBean.headerText}}"
-								style="{{calculatorBean.gridStyle}}">
-								<br />This demo uses the traditional JSF 2.0 and 2.1 components.
+				    		<b:panel title="{{calculatorBean.headerText}}" look="info"
+								titleStyle="{{calculatorBean.gridStyle}}">
+								<p>This demo uses BootsFaces.</p>
 								<h:panelGrid columns="3">
 										<h:inputText value="{{calculatorBean.number1}}" label="number1"/>
 										<h:inputText value="{{calculatorBean.number2}}" />
 										<h:inputText value="{{calculatorBean.result}}" />
 										<h:inputText value="{{calculatorBean.serverSideResult}}"  />
 										<h:inputText value="{{calculatorBean.randomNumberFromServer}}" id="random"  />
-									<h:commandButton value="Add on server (via AF-AJAX)"
+									<b:commandButton value="Add on server (via AF-AJAX)" ajax="true" update="angular" 
 										action="&num;{calculatorBean.add}">
-										<f:ajax render="angular" execute="@form" />
-									</h:commandButton>
-									<h:commandButton value="Add on server (without AJAX)"
-										action="&num;{calculatorBean.add}" />
-									<h:commandButton value="Add on server (via JSF-AJAX)"
+									</b:commandButton>
+									<b:commandButton value="Add on server (without AJAX)" action="&num;{calculatorBean.add}" />
+									<b:commandButton value="Add on server (via JSF-AJAX)" ajax="true" update="@form"
 										action="&num;{calculatorBean.add}">
-										<f:ajax render="@form" execute="@form" />
-									</h:commandButton>
+									</b:commandButton>
 								</h:panelGrid>
 								The update region is only a part of the DOM tree controlled by AngularJS. Therefore, you need an &lt;ac:updateModelAfterAJAXRequest /&gt; tag to update the AngularJS model after an AJAX request.
-								<h:messages globalOnly="false" />
-							</h:panelGroup>
+								<b:messages globalOnly="false" />
+							</b:panel>
 						</div>
 					</div>
 ]]>

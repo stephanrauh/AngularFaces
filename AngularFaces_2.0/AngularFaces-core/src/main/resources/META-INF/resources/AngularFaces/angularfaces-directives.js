@@ -151,7 +151,16 @@ app.directive('puimessages', function($compile) {
     					
     					
     					if ($scope.primefaces) {
-    						t='<div ng-show="hasMessage()" class="pui-message ui-messages-error ui-corner-all"><div class="ui-messages ui-widget" aria-live="polite"><div class="ui-messages-info ui-corner-all"><ul><li ng-repeat="msg in $parent.facesmessages"><span class="ui-messages-info-icon"></span><span class="ui-messages-info-summary">{{msg.summary}}</span><span class="ui-messages-info-detail">{{msg.detail}}</span></li></ul></div></div></div>';
+    					  $scope.severity="info";
+    					  if (typeof($scope.$parent.facesmessages)!="undefined" || $scope.$parent.facesmessages!=null) {
+    					    for (key in $scope.$parent.facesmessages) {
+    					      var currentMsg = $scope.$parent.facesmessages[key];
+    					      if (currentMsg.severity == "FATAL") $scope.severity="fatal"; break;
+                              if (currentMsg.severity == "ERROR") $scope.severity="error";
+                              if (currentMsg.severity == "WARNING" && $scope.severity=="info") $scope.severity="warning";
+    					    }
+    					  }
+    					  t='<div ng-show="hasMessage()" class="pui-message ui-messages-{{severity}} ui-corner-all"><div class="ui-messages ui-widget" aria-live="polite"><ul><li ng-repeat="msg in $parent.facesmessages"><span class="ui-messages-{{severity}}-icon"></span><span class="ui-messages-{{severity}}-summary">{{msg.summary}}</span><span class="ui-messages-{{severity}}-detail">{{msg.detail}}</span></li></ul></div></div>';
     					}
     					return t; 
     				};
