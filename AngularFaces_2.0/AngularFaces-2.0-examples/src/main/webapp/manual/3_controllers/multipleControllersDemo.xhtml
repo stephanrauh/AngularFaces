@@ -11,25 +11,28 @@
   <ui:fragment>
   <div>
   	<div ng-app="DiceApp" ng-cloak="ng-cloak" >
-  	    <div id="angular">
+  	    <div>
   	    	<p>This demo contains two different AngularJS controllers. That's a common situation - just think of modal dialogs.</p>
-  	    	<p>The beans don't do much. They simply return random numbers.</p>
-  	    
-	    	<div ng-controller="Dice1Controller" angularJSFile="dice.js">
-	    		<h:inputText value="{{dice1.value}}"></h:inputText>
-	    		<b:panelGrid colSpans="12">
-		    		<p>The first dice shows {{dice1.value}}.</p>
-		    		<b:commandButton look="primary" action="#{dice1.throwDice}" value="Throw dice" update="angular" ajax="true"/>
-	    		</b:panelGrid>
-  			</div>
-	    	<div ng-controller="Dice2Controller" angularJSFile="none">
-	    		<ngsync value="#{dice2}" direction="serverToClient" /> 
-	    		<b:panelGrid colSpans="12">
-	    		<h:inputText value="{{dice2.value}}"></h:inputText>
-		    		<p>The seconds dice shows {{dice2.value}}.</p>
-		    		<b:commandButton look="primary" action="#{dice2.throwDice}" value="Throw dice" update="angular" ajax="true"/>
-	    		</b:panelGrid>
-  			</div>
+  	    	<p>The beans don't do much. They simply return random numbers. What makes them interesting is that the random numbers
+  	    	belong to two different AngularJS controllers. Note that as of AngularFaces 2.1.7, both AngularJS controllers contain
+  	    	all the values of both JSF beans. Each AngularJS controller also contains the JSF bean variable of the other AngularJS
+  	    	controller. That's a bug that needs to be fixed, but in most cases it shouldn't be a problem to you.</p>
+			<b:panelGrid colSpans="6,6" id="angular">  	    
+		    	<div ng-controller="Dice1Controller" angularJSFile="dice.js">
+		    		<ngsync value="#{dice1}" direction="serverToClient" />
+		    		<b:panelGrid colSpans="12">
+			    		<p>The first dice shows {{dice1.value}}.</p>
+			    		<b:commandButton look="primary" action="#{dice1.throwDice}" value="Throw dice" update="angular" ajax="true"/>
+		    		</b:panelGrid>
+	  			</div>
+		    	<div ng-controller="Dice2Controller" angularJSFile="none" >
+		    		<ngsync value="#{dice2}" direction="serverToClient" /> 
+		    		<b:panelGrid colSpans="12">
+			    		<p>The second dice shows {{dice2.value}}.</p>
+			    		<b:commandButton look="primary" action="#{dice2.throwDice}" value="Throw dice" update="angular" ajax="true"/>
+		    		</b:panelGrid>
+	  			</div>
+  			</b:panelGrid>
   		</div>
 	 </div>
   </div>
