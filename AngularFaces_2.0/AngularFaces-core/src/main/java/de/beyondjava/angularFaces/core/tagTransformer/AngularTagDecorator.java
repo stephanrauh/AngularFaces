@@ -273,6 +273,11 @@ public class AngularTagDecorator implements TagDecorator {
 	private Tag convertToPuiMessagesTag(Tag tag, TagAttributes attributeList) {
 		String clientSideMessages = FacesContext.getCurrentInstance().getExternalContext()
 				.getInitParameter("clientSideMessages");
+		if (null == clientSideMessages) {
+			clientSideMessages = FacesContext.getCurrentInstance().getExternalContext()
+					.getInitParameter("AngularFaces.clientSideMessages");
+		}
+			
 		if (clientSideMessages == null || ("true".equalsIgnoreCase(clientSideMessages))) {
 			if (tag.getNamespace().equals(PRIMEFACES_NAMESPACE)) {
 				AFTagAttributes modifiedAttributes = new AFTagAttributes(attributeList.getAll());

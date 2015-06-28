@@ -48,10 +48,12 @@ public class PuiModelSync extends HtmlBody {
 	private static final String JSF_ATTRIBUTES_SESSION_PARAMETER = "de.beyondjava.angularFaces.jsfAttributes";
 	private static final String JSF_ATTRIBUTES_SESSION_CACHE = "de.beyondjava.angularFaces.cache";
 
-//	private static final Logger LOGGER = Logger.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
+	// private static final Logger LOGGER =
+	// Logger.getLogger("de.beyondjava.kendoFaces.puiBody.PuiBody");
 
 	/**
-	 * This method is not as superfluous as it seems. We need it to be able to call getStateHelper() in defender methods.
+	 * This method is not as superfluous as it seems. We need it to be able to
+	 * call getStateHelper() in defender methods.
 	 */
 	@Override
 	public StateHelper getStateHelper() {
@@ -96,10 +98,12 @@ public class PuiModelSync extends HtmlBody {
 	 * @param value
 	 *            variable value
 	 * @param cacheable
-	 *            if true, the value is only sent if it's different from the value of the same attribute in the previous response
+	 *            if true, the value is only sent if it's different from the
+	 *            value of the same attribute in the previous response
 	 */
 	@SuppressWarnings("unchecked")
-	public static void addJSFAttrbituteToAngularModel(Map<String, Object> model, String key, Object value, boolean cacheable) {
+	public static void addJSFAttrbituteToAngularModel(Map<String, Object> model, String key, Object value,
+			boolean cacheable) {
 		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		Map<String, Object> cache = (Map<String, Object>) sessionMap.get(JSF_ATTRIBUTES_SESSION_CACHE);
 		if (cache.containsKey(key)) {
@@ -156,9 +160,9 @@ public class PuiModelSync extends HtmlBody {
 					Object valueToRender = getValueToRender(FacesContext.getCurrentInstance(), comp);
 					if (value != null && valueToRender != null && valueToRender instanceof String) {
 						try {
-						valueToRender = convertToDatatype((String) valueToRender, value.getClass());
+							valueToRender = convertToDatatype((String) valueToRender, value.getClass());
 						} catch (Exception e) {
-							
+
 						}
 					}
 					if (null != valueToRender) {
@@ -172,7 +176,8 @@ public class PuiModelSync extends HtmlBody {
 					addJSFAttrbituteToAngularModel(model, attribute, value, cacheable);
 				}
 			} catch (PropertyNotFoundException pureAngularAttribute) {
-				// probably it's an AngularJS attribute that doesn't have a JSF counterpart, so we don't consider this an error
+				// probably it's an AngularJS attribute that doesn't have a JSF
+				// counterpart, so we don't consider this an error
 			}
 		}
 
@@ -184,7 +189,8 @@ public class PuiModelSync extends HtmlBody {
 				String severity = message.getSeverity().toString();
 				String summary = message.getSummary().replace("'", "\\'");
 				String detail = message.getDetail().replace("'", "\\'");
-				messages += ",{\"severity\":\"" + severity + "\", \"summary\":\"" + summary + "\", \"detail\":\"" + detail + "\"}";
+				messages += ",{\"severity\":\"" + severity + "\", \"summary\":\"" + summary + "\", \"detail\":\""
+						+ detail + "\"}";
 				message.rendered();
 			}
 		}
@@ -194,7 +200,8 @@ public class PuiModelSync extends HtmlBody {
 		}
 
 		for (Entry<String, Object> bean : model.entrySet()) {
-			String assignment = "\"" + bean.getKey() + "\",'" + JSONUtilities.writeObjectToJSONString(bean.getValue()).replace("'", "\\'") + "'";
+			String assignment = "\"" + bean.getKey() + "\",'"
+					+ JSONUtilities.writeObjectToJSONString(bean.getValue()).replace("'", "\\'") + "'";
 			beans.add(assignment);
 		}
 		return beans;
@@ -236,11 +243,14 @@ public class PuiModelSync extends HtmlBody {
 	}
 
 	/**
-	 * This method has been copied from the PrimeFaces 5 project (and been adapted after).
+	 * This method has been copied from the PrimeFaces 5 project (and been
+	 * adapted after).
 	 * 
-	 * Algorithm works as follows; - If it's an input component, submitted value is checked first since it'd be the value to be used in case
-	 * validation errors terminates jsf lifecycle - Finally the value of the component is retrieved from backing bean and if there's a
-	 * converter, converted value is returned
+	 * Algorithm works as follows; - If it's an input component, submitted value
+	 * is checked first since it'd be the value to be used in case validation
+	 * errors terminates jsf lifecycle - Finally the value of the component is
+	 * retrieved from backing bean and if there's a converter, converted value
+	 * is returned
 	 *
 	 * @param context
 	 *            FacesContext instance
@@ -322,15 +332,20 @@ public class PuiModelSync extends HtmlBody {
 		if (debugMode) {
 			writer.append("\r\n");
 		}
-
-		String main = AttributeUtilities.getAttributeAsString(this, "angularJSFile");
-		if (main == null) {
-			main = "main.js";
+		String includeMainJS = FacesContext.getCurrentInstance().getExternalContext()
+				.getInitParameter("AngularFaces.includeMainJS");
+		if (null == includeMainJS || "true".equals(includeMainJS)) {
+			String main = AttributeUtilities.getAttributeAsString(this, "angularJSFile");
+			if (main == null) {
+				main = "main.js";
+			}
+			if (main != null && main.length() > 0 && (!main.equals("none"))) {
+				if (!main.endsWith(".js")) {
+					main = main + ".js";
+				}
+				writer.append("<script src='" + main + "'></script>");
+			}
 		}
-		if (!main.endsWith(".js")) {
-			main = main + ".js";
-		}
-		writer.append("<script src='" + main + "'></script>");
 
 	}
 

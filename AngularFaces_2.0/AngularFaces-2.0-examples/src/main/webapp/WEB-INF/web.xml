@@ -3,7 +3,8 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
-	<display-name>AngularFaces showcase 2.1.7 (www.angularfaces.net/showcase2.1)</display-name>
+	<display-name>AngularFaces showcase 2.1.7
+		(www.angularfaces.net/showcase2.1)</display-name>
 	<welcome-file-list>
 		<welcome-file>index.jsf</welcome-file>
 	</welcome-file-list>
@@ -25,7 +26,16 @@
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
 		<param-value>server</param-value>
 	</context-param>
-
+<!-- 
+	<context-param>
+		<param-name>AngularFaces.clientSideMessages</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	<context-param>
+		<param-name>AngularFaces.includeMainJS</param-name>
+		<param-value>false</param-value>
+	</context-param>
+ -->
 	<context-param>
 		<param-name>javax.faces.FACELETS_DECORATORS</param-name>
 		<param-value>
