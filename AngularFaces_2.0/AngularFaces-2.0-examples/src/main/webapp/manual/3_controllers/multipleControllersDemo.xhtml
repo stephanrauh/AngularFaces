@@ -9,11 +9,29 @@
 
 <h:body>
   <ui:fragment>
-  <div id="tzu">
-  	<div ng-app="MultipleControllerApp" ng-cloak="ng-cloak">
-  	</div>
-  	 
-  	show the demo
+  <div>
+  	<div ng-app="DiceApp" ng-cloak="ng-cloak" >
+  	    <div id="angular">
+  	    	<p>This demo contains two different AngularJS controllers. That's a common situation - just think of modal dialogs.</p>
+  	    	<p>The beans don't do much. They simply return random numbers.</p>
+  	    
+	    	<div ng-controller="Dice1Controller" angularJSFile="dice.js">
+	    		<h:inputText value="{{dice1.value}}"></h:inputText>
+	    		<b:panelGrid colSpans="12">
+		    		<p>The first dice shows {{dice1.value}}.</p>
+		    		<b:commandButton look="primary" action="#{dice1.throwDice}" value="Throw dice" update="angular" ajax="true"/>
+	    		</b:panelGrid>
+  			</div>
+	    	<div ng-controller="Dice2Controller" angularJSFile="none">
+	    		<ngsync value="#{dice2}" direction="serverToClient" /> 
+	    		<b:panelGrid colSpans="12">
+	    		<h:inputText value="{{dice2.value}}"></h:inputText>
+		    		<p>The seconds dice shows {{dice2.value}}.</p>
+		    		<b:commandButton look="primary" action="#{dice2.throwDice}" value="Throw dice" update="angular" ajax="true"/>
+	    		</b:panelGrid>
+  			</div>
+  		</div>
+	 </div>
   </div>
   </ui:fragment>
 </h:body>

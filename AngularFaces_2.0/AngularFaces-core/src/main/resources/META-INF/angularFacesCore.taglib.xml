@@ -34,8 +34,20 @@
 			<renderer-type>de.beyondjava.sync</renderer-type>
 		</component>
 		<attribute>
-			<description><![CDATA["ClientToServer", "ServerToClient" or "both"]]></description>
+			<description><![CDATA["clientToServer", "serverToClient" or "both"]]></description>
 			<name>direction</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[the bean or bean attribute to synchronize, given as an AngularJS expression]]></description>
+			<name>value</name>
+			<required>true</required>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description><![CDATA[The list of attributes of this tag.]]></description>
+			<name>angularfacesattributes</name>
 			<required>false</required>
 			<type>java.lang.String</type>
 		</attribute>

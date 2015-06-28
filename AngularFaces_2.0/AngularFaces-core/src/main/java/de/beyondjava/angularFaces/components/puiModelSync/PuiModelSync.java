@@ -305,22 +305,14 @@ public class PuiModelSync extends HtmlBody {
 		if (debugMode) {
 			writer.append("\r\n  ");
 		}
-		writer.write("if (window.jsfScope==null) {");
-		writer.writeText("window.jsfScope=$scope;", null);
-		if (debugMode) {
-			writer.append("\r\n  ");
-		}
+		writer.writeText("  if (window.jsfScope==null) { window.jsfScope=[$scope]; } else { window.jsfScope.push($scope);}", null);
 		if (debugMode) {
 			writer.append("\r\n  ");
 		}
 		List<String> beansAsJSon = getFacesModel();
 		for (String bean : beansAsJSon) {
-			writer.writeText("puiUpdateModel(" + bean + ");", null);
+			writer.writeText("  puiUpdateModel(" + bean + ");", null);
 		}
-		if (debugMode) {
-			writer.append("\r\n");
-		}
-		writer.writeText("}", null);
 		if (debugMode) {
 			writer.append("\r\n");
 		}
