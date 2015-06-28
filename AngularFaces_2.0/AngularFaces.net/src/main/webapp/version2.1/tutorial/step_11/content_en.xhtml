@@ -17,7 +17,7 @@
     <li>&lt;label /&gt; becomes &lt;h:outputLabel /&gt;</li>
     <li>&lt;button /&gt; becomes &lt;h:commandButton (unless it has a "jsf:outcome" attribute, which converts
       &lt;button /&gt; into an &lt;h:button&gt;). /&gt;</li>
-    <li>&lt;input /&gt; can become many things, depending on the "type" attribute. AngularFaces 2.0 allows you to
+    <li>&lt;input /&gt; can become many things, depending on the "type" attribute. AngularFaces 2.1 allows you to
       drop the "type" attribute. In this case, the type is derived from the JSF beans type. Numeric datatypes become
       "text='number'", java.util.Date becomes "type='date", boolean turns the input field into a check box and
       everything else becomes "type='text'".</li>
@@ -78,7 +78,7 @@
         xmlns:h ="http://xmlns.jcp.org/jsf/html"      xmlns:jsf="http://xmlns.jcp.org/jsf"
         xmlns:ui="http://java.sun.com/jsf/facelets"   xmlns:ng ="http://xmlns.jcp.org/jsf/passthrough">
   &lt;head>
-    &lt;title>AngularFaces 2.0 Tetris demo&lt;/title>
+    &lt;title>AngularFaces 2.1 Tetris demo&lt;/title>
   &lt;/head>
   &lt;body style="width:1000px" ng-controller="AngularTetrisController" ng-app="AngularTetris">
     &lt;form>
