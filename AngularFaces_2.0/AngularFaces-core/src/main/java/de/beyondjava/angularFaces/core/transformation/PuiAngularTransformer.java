@@ -114,6 +114,24 @@ public class PuiAngularTransformer implements SystemEventListener {
 		boolean loadJQueryUI = true;
 		boolean loadAngularJS = true;
 		boolean loadAngularMessages = true;
+		
+		if ("false".equalsIgnoreCase(FacesContext.getCurrentInstance().getExternalContext()
+				.getInitParameter("AngularFaces.includeAngularJS"))) {
+			loadAngularJS=false;
+		}
+		if ("false".equalsIgnoreCase(FacesContext.getCurrentInstance().getExternalContext()
+				.getInitParameter("AngularFaces.includeJQuery"))) {
+			loadJQuery=false;
+		}
+		if ("false".equalsIgnoreCase(FacesContext.getCurrentInstance().getExternalContext()
+				.getInitParameter("AngularFaces.includeJQueryUI"))) {
+			loadJQueryUI=false;
+		}
+		if ("false".equalsIgnoreCase(FacesContext.getCurrentInstance().getExternalContext()
+				.getInitParameter("AngularFaces.includeAngularMessages"))) {
+			loadAngularMessages=false;
+		}
+		
 		List<UIComponent> availableResources = root.getComponentResources(context, "head");
 		for (UIComponent ava : availableResources) {
 			String name = (String) ava.getAttributes().get("name");
