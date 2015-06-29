@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+<h:body>
+  <ui:fragment>
+  	<div ng-app="userControllerApp" ng-cloak="ng-cloak" >
+  		<ngsync value="{{usersBean.usersAsJson}}" direction="serverToClient" />
+  		<!-- 
+  		<ngsync value="{{usersBean.users}}" direction="clientToServer" />
+  		 -->
+  	    <div id="angular">
+	    	<div ng-controller="userController" angularJSFile="user-controller.js">
+	    		<b:panel title="Users" look="primary">
+		            <table ng-table="ng-table" class="table">
+		                <tr ng-repeat="user in users">
+		                    <td data-title="'Name'">{{user.name}}</td>
+		                    <td data-title="'Age'">{{user.age}}</td>
+		                </tr>
+		            </table>
+	            </b:panel>
+	        </div>
+	    		
+    		<b:commandButton look="primary" action="#{selector.toggleControllers}" value="Add user" />
+  		</div>
+	 </div>
+  </ui:fragment>
+</h:body>
+</html>
+
+

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+<h:head>
+</h:head>
+<h:body>
+  <ui:composition template="../../menu/index.xhtml">
+    <ui:define name="content">
+	<h:outputStylesheet library="cardealer" name="ng-table.css" target="head" />
+    <h:outputScript  library="cardealer" name="ng-table.js" />
+    <h:outputScript  library="cardealer" name="ng-table-export.js" />
+
+      <h:form id="myform">
+        <section>
+          <b:tabView>
+            <b:tab title="live demo">
+                <ac:include src="ng-table-demo.xhtml"></ac:include>
+           </b:tab>
+            <b:tab title="JSF markup">
+                <ui:include src="ng-table-markup.xhtml"></ui:include>
+           </b:tab>
+        </b:tabView>
+        </section>
+        <br />
+        <h:messages />
+      </h:form>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
+
