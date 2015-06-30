@@ -51,7 +51,7 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 		writer.startElement("input", component);
 		writer.writeAttribute("id", clientId, null);
 		writer.writeAttribute("name", clientId, null);
-		writer.writeAttribute("type", "text", null);
+		writer.writeAttribute("type", "hidden", null);
 
 		String value = AttributeUtilities.getAttributeAsString(component, "value");
 		if (null == value) {

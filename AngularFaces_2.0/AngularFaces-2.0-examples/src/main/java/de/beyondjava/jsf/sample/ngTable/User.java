@@ -1,8 +1,13 @@
-package de.beyondjava.jsf.sample;
+package de.beyondjava.jsf.sample.ngTable;
 
 public class User {
 	private String name;
 	private int age;
+	
+	public User(String name, int age) {
+		this.name=name;
+		this.age=age;
+	}
 
 	public int getAge() {
 		return age;
@@ -19,5 +24,4 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 }

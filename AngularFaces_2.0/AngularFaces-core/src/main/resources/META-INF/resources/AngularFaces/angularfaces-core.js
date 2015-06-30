@@ -5,9 +5,7 @@ var app = angular.module('angularfaces', ['ngMessages', 'jua']);
  */
 app.run(function($rootScope, $compile,  $interpolate) {
     $rootScope.afToJson = function(variable) {
-        var interpolator = $interpolate("{{v}}");
-        var temp = interpolator({'v':variable});
-		var result= JSON.stringify(value);
+		var result= JSON.stringify(variable);
 		return result;
 	};
 	

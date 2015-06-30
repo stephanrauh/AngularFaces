@@ -14,13 +14,21 @@ function userController($scope, ngTableParams) {
   console.log(jason);
   $scope.users = JSON.parse(jason);
   
+  $scope.$watch('usersBean.usersAsJson', function(newVal, oldVal){
+	    console.log('changed');
+	    var jason = $scope.usersBean.usersAsJson.replace(/'/g, '"');
+	    console.log(jason);
+	    $scope.users = JSON.parse(jason);
+	  }, true);
+
+  
   $scope.$watch('users', function(newVal, oldVal){
     console.log('changed');
     $scope.usersBean.users=$scope.users;
   }, true);
   
   $scope.addUser = function() {
-    $scope.users.push({age:45, name:'Kath'});
+    $scope.users.push({age:45, name:'Kath # ' + $scope.users.length + '.'});
   };
 }
 

@@ -1,37 +1,56 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-      xmlns:h="http://java.sun.com/jsf/html" 
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:b="http://bootsfaces.net/ui" 
-      xmlns:ui="http://java.sun.com/jsf/facelets" 
-      xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:ac="http://beyondjava.net/angularFacesCore">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ac="http://beyondjava.net/angularFacesCore">
 
 <h:body>
-  <ui:fragment>
-  	<div ng-app="userControllerApp" ng-cloak="ng-cloak" >
-  	    <div id="angular">
-	    	<div ng-controller="userController" angularJSFile="user-controller.js">
-    	      <h:form id="myform">
-		  		<ngsync value="{{usersBean.usersAsJson}}" direction="serverToClient" />
-		  		<ngsync value="#{usersBean.users}" direction="clientToServer" />
-	    	
-	    		<b:panel title="Users" look="primary">
-		            <table ng-table="ng-table" class="table">
-		                <tr ng-repeat="user in users">
-		                    <td data-title="'Name'">{{user.name}}</td>
-		                    <td data-title="'Age'">{{user.age}}</td>
-		                </tr>
-		            </table>
-	            </b:panel>
-		   		<b:button look="primary" ng-click="addUser()" type="button" value="add" outcome="@none" onclick="return false;" />
-    			<b:commandButton look="primary" actionListener="#{usersBean.countUsers}" value="Send table to server" />
-    			<b:messages />
-	            </h:form>
-	        </div>
-  		</div>
-	 </div>
-  </ui:fragment>
+	<ui:fragment>
+		<div ng-app="userControllerApp" ng-cloak="ng-cloak">
+			<div id="angular">
+				<div ng-controller="userController"
+					angularJSFile="user-controller.js">
+					<h:form id="myform">
+						<ngsync value="{{usersBean.usersAsJson}}"
+							direction="serverToClient" />
+						<ngsync value="#{usersBean.users}" direction="clientToServer" />
+
+						<b:panel title="Users" look="primary">
+							<table ng-table="ng-table" class="table">
+								<tr ng-repeat="user in users">
+									<td data-title="'Name'">{{user.name}}</td>
+									<td data-title="'Age'">{{user.age}}</td>
+								</tr>
+							</table>
+						</b:panel>
+						<b:panelGrid colSpans="2,2,2,2,2,2">
+							<b:button look="primary" ng-click="addUser()" type="button"
+								value="add" outcome="@none" onclick="return false;" />
+							<b:commandButton look="primary"
+								actionListener="#{usersBean.countUsers}"
+								value="Send table to server" ajax="true" update="angular" />
+							<b:commandButton look="primary"
+								actionListener="#{usersBean.sortAscendingName}"
+								value="Sort by name ascending" ajax="true" update="angular" />
+							<b:commandButton look="primary"
+								actionListener="#{usersBean.sortDescendingName}"
+								value="Sort by name descending" ajax="true" update="angular" />
+							<b:commandButton look="primary"
+								actionListener="#{usersBean.sortAscendingAge}"
+								value="Sort by age ascending" ajax="true" update="angular" />
+							<b:commandButton look="primary"
+								actionListener="#{usersBean.sortDescendingAge}"
+								value="Sort by age descending" ajax="true" update="angular" />
+						</b:panelGrid>
+						<b:messages />
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:fragment>
 </h:body>
 </html>
 
