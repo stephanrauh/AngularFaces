@@ -3,9 +3,12 @@ var app = angular.module('angularfaces', ['ngMessages', 'jua']);
 /**
  * Adds a couple of general-purpose functions to the root scope.
  */
-app.run(function($rootScope, $compile) {
+app.run(function($rootScope, $compile,  $interpolate) {
     $rootScope.afToJson = function(variable) {
-		return JSON.stringify(variable);
+        var interpolator = $interpolate("{{v}}");
+        var temp = interpolator({'v':variable});
+		var result= JSON.stringify(value);
+		return result;
 	};
 	
 	$rootScope.afSendNGSyncToServer = function() {

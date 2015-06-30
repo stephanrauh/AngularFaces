@@ -10,12 +10,12 @@
 <h:body>
   <ui:fragment>
   	<div ng-app="userControllerApp" ng-cloak="ng-cloak" >
-  		<ngsync value="{{usersBean.usersAsJson}}" direction="serverToClient" />
-  		<!-- 
-  		<ngsync value="{{usersBean.users}}" direction="clientToServer" />
-  		 -->
   	    <div id="angular">
 	    	<div ng-controller="userController" angularJSFile="user-controller.js">
+    	      <h:form id="myform">
+		  		<ngsync value="{{usersBean.usersAsJson}}" direction="serverToClient" />
+		  		<ngsync value="#{usersBean.users}" direction="clientToServer" />
+	    	
 	    		<b:panel title="Users" look="primary">
 		            <table ng-table="ng-table" class="table">
 		                <tr ng-repeat="user in users">
@@ -24,9 +24,11 @@
 		                </tr>
 		            </table>
 	            </b:panel>
+		   		<b:button look="primary" ng-click="addUser()" type="button" value="add" outcome="@none" onclick="return false;" />
+    			<b:commandButton look="primary" actionListener="#{usersBean.countUsers}" value="Send table to server" />
+    			<b:messages />
+	            </h:form>
 	        </div>
-	    		
-    		<b:commandButton look="primary" action="#{selector.toggleControllers}" value="Add user" />
   		</div>
 	 </div>
   </ui:fragment>

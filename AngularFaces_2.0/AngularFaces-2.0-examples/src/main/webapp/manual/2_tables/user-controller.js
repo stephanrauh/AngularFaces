@@ -13,5 +13,14 @@ function userController($scope, ngTableParams) {
   var jason = $scope.usersBean.usersAsJson.replace(/'/g, '"');
   console.log(jason);
   $scope.users = JSON.parse(jason);
+  
+  $scope.$watch('users', function(newVal, oldVal){
+    console.log('changed');
+    $scope.usersBean.users=$scope.users;
+  }, true);
+  
+  $scope.addUser = function() {
+    $scope.users.push({age:45, name:'Kath'});
+  };
 }
 

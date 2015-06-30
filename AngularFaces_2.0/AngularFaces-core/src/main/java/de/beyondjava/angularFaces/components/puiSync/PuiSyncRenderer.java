@@ -51,15 +51,14 @@ public class PuiSyncRenderer extends Renderer implements Serializable {
 		writer.startElement("input", component);
 		writer.writeAttribute("id", clientId, null);
 		writer.writeAttribute("name", clientId, null);
-		writer.writeAttribute("type", "hidden", null);
-		// writer.writeAttribute("type", "text", null);
+		writer.writeAttribute("type", "text", null);
 
 		String value = AttributeUtilities.getAttributeAsString(component, "value");
 		if (null == value) {
 			LOGGER.severe("Which value do you want to synchronize?");
 			throw new FacesException("ngSync: Which value do you want to synchronize?");
 		}
-		writer.writeAttribute("value", "{{afToJson(" + value + ")}}", null);
+		writer.writeAttribute("value", "{{"+value+"|json}}", null);
 		String styleClass = AttributeUtilities.getAttributeAsString(component, "styleClass");
 		if (null == styleClass)
 			writer.writeAttribute("class", "puisync", "class");
