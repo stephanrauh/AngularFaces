@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -19,19 +18,28 @@
 						<ngsync value="#{usersBean.users}" direction="clientToServer" />
 
 						<b:panel title="Users" look="primary">
-							<table ng-table="ng-table" class="table">
+							<table nong-table="ng-table" class="table">
 								<tr ng-repeat="user in users">
-									<td data-title="'Name'">{{user.name}}</td>
-									<td data-title="'Age'">{{user.age}}</td>
+									<td data-title="'Name'" ng-if="!user.editable">{{user.name}}</td>
+									<td data-title="'Name'" ng-if="user.editable"><input type="text" ng-model="user.name" /></td>
+									<td data-title="'Age'" ng-if="!user.editable">{{user.age}}</td>
+									<td data-title="'Age'" ng-if="user.editable"><input type="number" ng-model="user.age" /></td>
+								    <td data-title="''" ng-if="!user.editable"><b:button look="primary" ng-click="editUser(user)"   type="button" outcome="@none" value="edit"   /></td>
+								    <td data-title="''" ng-if="user.editable"> <b:commandButton look="primary"
+																								actionListener="#{usersBean.save}"
+																								ng-click="setReadOnly(user)"
+																								value="Save" ajax="true" update="angular" /></td>
+								    <td data-title="''"><b:button look="danger"    ng-click="deleteUser(user)" type="button" outcome="@none" value="delete" /></td>
 								</tr>
 							</table>
-						</b:panel>
-						<b:panelGrid colSpans="2,2,2,2,2,2">
 							<b:button look="primary" ng-click="addUser()" type="button"
-								value="add" outcome="@none" onclick="return false;" />
-							<b:commandButton look="primary"
-								actionListener="#{usersBean.countUsers}"
-								value="Send table to server" ajax="true" update="angular" />
+								value="add" outcome="@none" />
+						</b:panel>
+						<b:row>
+						<b:column>
+						</b:column>
+						</b:row>
+						<b:panelGrid colSpans="3,3,3,3">
 							<b:commandButton look="primary"
 								actionListener="#{usersBean.sortAscendingName}"
 								value="Sort by name ascending" ajax="true" update="angular" />

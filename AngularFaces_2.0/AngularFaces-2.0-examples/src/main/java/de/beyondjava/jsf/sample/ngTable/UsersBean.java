@@ -41,7 +41,11 @@ public class UsersBean {
 				if (o instanceof User) result.add((User) o);
 				else if (o instanceof Map) {
 					String name = (String) ((Map) o).get("name");
-					int age =  (Integer) ((Map) o).get("age");
+					int age;
+					Object ageAsObject= ((Map) o).get("age");
+					if (ageAsObject instanceof String) {
+						age=Integer.valueOf((String)ageAsObject);
+					} else age = (Integer) ageAsObject;
 					User user = new User(name, age);
 					result.add(user);
 				}
@@ -53,8 +57,13 @@ public class UsersBean {
 		return users;
 	}
 	
-	public void countUsers(ActionEvent event) {
-		FacesMessage message = new FacesMessage("Currently, the server side list contains " + users.size() + " users.");
+	public void save(ActionEvent event) {
+		String u = "";
+		for (User user:users) {
+			u += " ," + user.getName() + "(" + user.getAge() + ")";
+		}
+		if (u.length()>0) u = u.substring(2);
+		FacesMessage message = new FacesMessage("Currently, the server side list contains " + users.size() + " users:" + u);
 		FacesContext.getCurrentInstance().addMessage(null, message );
 	}
 	
