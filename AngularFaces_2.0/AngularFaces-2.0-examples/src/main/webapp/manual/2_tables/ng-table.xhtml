@@ -17,12 +17,23 @@
     <h:outputScript  library="cardealer" name="ng-table-export.js" />
 
         <section>
+          <h1>Editable tables with JSF beans</h1>
+          <p>Starting with AngularFaces 2.1.8, it's possible to use editable tables with an JSF bean. You can add, edit and remove rows.</p>
+          <p>Unfortunately, the code is a bit cumbersome. That's due to type erasure. It's not possible to convert a Json object
+          containing an array to a Java object unless you know the type. AngularFaces doesn't know your objects, so it needs a little help
+          in the Java bean.</p>
           <b:tabView>
             <b:tab title="live demo">
                 <ac:include src="ng-table-demo.xhtml"></ac:include>
            </b:tab>
             <b:tab title="JSF markup">
                 <ui:include src="ng-table-markup.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Javascript controller">
+                <ui:include src="ng-table-js.xhtml"></ui:include>
+           </b:tab>
+            <b:tab title="Java bean">
+                <ui:include src="ng-table-java.xhtml"></ui:include>
            </b:tab>
         </b:tabView>
         </section>

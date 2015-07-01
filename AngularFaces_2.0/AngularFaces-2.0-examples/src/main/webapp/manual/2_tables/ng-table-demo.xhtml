@@ -18,14 +18,16 @@
 						<ngsync value="#{usersBean.users}" direction="clientToServer" />
 
 						<b:panel title="Users" look="primary">
-							<table nong-table="ng-table" class="table">
+							<h3>Client-side data table</h3>
+							<p>You can edit the table on the client side. It is sent to the server when you click on the "save" button, or if you click one of the "sort" buttons below.</p>
+							<table class="table">
 								<tr ng-repeat="user in users">
-									<td data-title="'Name'" ng-if="!user.editable">{{user.name}}</td>
-									<td data-title="'Name'" ng-if="user.editable"><input type="text" ng-model="user.name" /></td>
-									<td data-title="'Age'" ng-if="!user.editable">{{user.age}}</td>
-									<td data-title="'Age'" ng-if="user.editable"><input type="number" ng-model="user.age" /></td>
-								    <td data-title="''" ng-if="!user.editable"><b:button look="primary" ng-click="editUser(user)"   type="button" outcome="@none" value="edit"   /></td>
-								    <td data-title="''" ng-if="user.editable"> <b:commandButton look="primary"
+									<td class="col-lg-3" data-title="'Name'" ng-if="!user.editable">{{user.name}}</td>
+									<td class="col-lg-3" data-title="'Name'" ng-if="user.editable"><input type="text" ng-model="user.name" size="20" /></td>
+									<td class="col-lg-2" data-title="'Age'" ng-if="!user.editable">{{user.age}}</td>
+									<td class="col-lg-2" data-title="'Age'" ng-if="user.editable"><input type="number" ng-model="user.age" size="2"/></td>
+								    <td class="col-lg-1" data-title="''" ng-if="!user.editable"><b:button look="primary" ng-click="editUser(user)"   type="button" outcome="@none" value="edit"   /></td>
+								    <td class="col-lg-1" data-title="''" ng-if="user.editable"> <b:commandButton look="primary"
 																								actionListener="#{usersBean.save}"
 																								ng-click="setReadOnly(user)"
 																								value="Save" ajax="true" update="angular" /></td>
@@ -35,10 +37,8 @@
 							<b:button look="primary" ng-click="addUser()" type="button"
 								value="add" outcome="@none" />
 						</b:panel>
-						<b:row>
-						<b:column>
-						</b:column>
-						</b:row>
+						<h3>Actions performed on the server:</h3>
+						<p>The buttons below send the table content to the server before sorting the table on the server:</p>
 						<b:panelGrid colSpans="3,3,3,3">
 							<b:commandButton look="primary"
 								actionListener="#{usersBean.sortAscendingName}"
@@ -53,7 +53,10 @@
 								actionListener="#{usersBean.sortDescendingAge}"
 								value="Sort by age descending" ajax="true" update="angular" />
 						</b:panelGrid>
-						<b:messages />
+						<h3>Message generated on the server:</h3>
+						<div class="alert fadein alert-info" style="padding:15px;margin-top:10px">
+							<b:messages />
+						</div>
 					</h:form>
 				</div>
 			</div>
