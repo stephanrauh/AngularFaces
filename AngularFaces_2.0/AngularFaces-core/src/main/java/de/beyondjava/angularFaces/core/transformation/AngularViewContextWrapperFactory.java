@@ -28,7 +28,7 @@ public class AngularViewContextWrapperFactory extends PartialViewContextFactory 
 
 	public AngularViewContextWrapperFactory(PartialViewContextFactory partialViewContextFactory) {
 		this.wrappedPartialViewContextFactory = partialViewContextFactory;
-		LOGGER.info("Running on AngularFaces 2.1.7");
+		LOGGER.info("Running on AngularFaces 2.1.9");
 	}
 
 	@Override
