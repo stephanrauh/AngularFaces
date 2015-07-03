@@ -162,7 +162,14 @@ public class AddLabelsAndMessagesHandler extends TagHandler {
 					kid.getAttributes().put("renderLabel", false);
 					label.setFor(kid.getId());
 					if (null != caption) {
-						label.setValue(translate(caption));
+						String translationParam = FacesContext.getCurrentInstance().getExternalContext()
+								.getInitParameter("AngularFaces.translation");
+						if (null == translationParam || "true".equalsIgnoreCase(translationParam)) {
+
+							label.setValue(translate(caption));
+						} else {
+							label.setValue(caption);
+						}
 					}
 					children.add(index, label);
 				}

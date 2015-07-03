@@ -96,11 +96,15 @@ public class PuiAngularTransformer implements SystemEventListener {
 							root.visitTree(new FullVisitContext(context), new PuiSelectItemTagHandler());
 						}
 					});
-					time("internationalization", new Runnable() {
-						public void run() {
-							root.visitTree(new FullVisitContext(context), new TranslationCallback(ajaxRequest));
-						}
-					});
+					String translationParam = FacesContext.getCurrentInstance().getExternalContext()
+							.getInitParameter("AngularFaces.translation");
+					if (null == translationParam || "true".equalsIgnoreCase(translationParam)) {
+						time("internationalization", new Runnable() {
+							public void run() {
+								root.visitTree(new FullVisitContext(context), new TranslationCallback(ajaxRequest));
+							}
+						});
+					}
 				}
 			}
 			long time = System.nanoTime() - timer;
@@ -114,24 +118,24 @@ public class PuiAngularTransformer implements SystemEventListener {
 		boolean loadJQueryUI = true;
 		boolean loadAngularJS = true;
 		boolean loadAngularMessages = true;
-		
+
 		if ("false".equalsIgnoreCase(FacesContext.getCurrentInstance().getExternalContext()
 				.getInitParameter("AngularFaces.includeAngularJS"))) {
-			loadAngularJS=false;
+			loadAngularJS = false;
 		}
 		if ("false".equalsIgnoreCase(FacesContext.getCurrentInstance().getExternalContext()
 				.getInitParameter("AngularFaces.includeJQuery"))) {
-			loadJQuery=false;
+			loadJQuery = false;
 		}
 		if ("false".equalsIgnoreCase(FacesContext.getCurrentInstance().getExternalContext()
 				.getInitParameter("AngularFaces.includeJQueryUI"))) {
-			loadJQueryUI=false;
+			loadJQueryUI = false;
 		}
 		if ("false".equalsIgnoreCase(FacesContext.getCurrentInstance().getExternalContext()
 				.getInitParameter("AngularFaces.includeAngularMessages"))) {
-			loadAngularMessages=false;
+			loadAngularMessages = false;
 		}
-		
+
 		List<UIComponent> availableResources = root.getComponentResources(context, "head");
 		for (UIComponent ava : availableResources) {
 			String name = (String) ava.getAttributes().get("name");
