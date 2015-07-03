@@ -28,6 +28,14 @@
 		<param-value>server</param-value>
 	</context-param>
 	<!-- 
+	 <context-param>
+        <param-name>AngularFaces.addMessages</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    <context-param>
+        <param-name>AngularFaces.addLabels</param-name>
+        <param-value>false</param-value>
+    </context-param>
 	<context-param>
 		<param-name>AngularFaces.includeAngularJS</param-name>
 		<param-value>false</param-value>
