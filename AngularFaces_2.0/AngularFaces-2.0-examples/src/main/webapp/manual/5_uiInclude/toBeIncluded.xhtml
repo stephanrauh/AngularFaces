@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ac="http://beyondjava.net/angularFacesCore">
+
+<body>
+	<ui:fragment>
+		<div>
+			<ngsync value="#{controller}" direction="serverToClient" />
+
+			<p>This is a fragment. It is delivered by page1.xhtml.</p>
+			<p>Value of the controller: #{controller.helloWorld}.</p>
+			<p>The same as AngularJS expression: {{controller.helloWorld}}.</p>
+			<p>AngularJS accessing controller 1 (hard coded):
+				{{controller1.helloWorld}}.</p>
+			<p>AngularJS accessing controller 2 (hard coded):
+				{{controller2.helloWorld}}.</p>
+
+		</div>
+	</ui:fragment	>
+</body>
+</html>
+

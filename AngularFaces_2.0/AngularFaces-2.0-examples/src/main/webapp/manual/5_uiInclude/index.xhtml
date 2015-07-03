@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ac="http://beyondjava.net/angularFacesCore">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="../../menu/index.xhtml">
+		<ui:define name="content">
+			<h:outputScript library="AngularJS" name="angular-route.js"></h:outputScript>
+			<script src="controllers.js"></script>
+			<script src="tutorialapp.js"></script>
+
+			<b:alert severity="info" rendered="false">
+  				This alert is never rendered, but it makes sure that the css files are loaded.
+  			</b:alert>
+
+
+				<b:row ng-app="tutorialApp" ng-controller="EmptyController" angularJSFile="none">
+					<b:column span="7">
+						<b:panel title="AngularFaces and ui:include">
+					This demo shows how to use ui:include with AngularFaces.
+				</b:panel>
+						<b:panel
+							title="Panel containing HTML fragments from other JSF pages">
+							<ui:include src="toBeIncluded.xhtml">
+							   <ui:param name="controller" value="#{controller1}" />
+							</ui:include>
+						</b:panel>
+					</b:column>
+					<b:column span="4">
+						<b:listLinks>
+							<b:navLink href="index.jsf" value="Page 1" icon="globe"
+								iconAlign="right" />
+							<b:navLink href="page2.jsf" value="Page 2" icon="globe"
+								iconAlign="right" />
+							<b:navLink></b:navLink>
+						</b:listLinks>
+					</b:column>
+					<b:column span="2">
+					<!--  empty column -->
+					</b:column>
+				</b:row>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
+
+
