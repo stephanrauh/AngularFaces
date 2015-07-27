@@ -40,6 +40,7 @@ import javax.faces.event.SystemEventListener;
 
 import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 import de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator;
+import de.beyondjava.angularFaces.core.tagTransformer.ConservativeAngularTagDecorator;
 
 /**
  * Converts EL expressions to Angular expressions
@@ -63,7 +64,7 @@ public class PuiAngularTransformer implements SystemEventListener {
 
 			final FacesContext context = FacesContext.getCurrentInstance();
 			boolean isProduction = context.isProjectStage(ProjectStage.Production);
-			if ((!isProduction) && (!AngularTagDecorator.isActive())) {
+			if ((!isProduction) && (!AngularTagDecorator.isActive()) && (!ConservativeAngularTagDecorator.isActive())) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
 						"Configuration error: ",
 						"Add javax.faces.FACELETS_DECORATORS=de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator to the context init parameters in the web.xml"));
