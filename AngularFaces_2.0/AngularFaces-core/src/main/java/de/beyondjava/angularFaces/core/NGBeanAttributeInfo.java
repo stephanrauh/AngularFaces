@@ -169,6 +169,8 @@ public class NGBeanAttributeInfo {
 					hasMinSize = minSize > 0;
 				} else if (a instanceof NotNull) {
 					isRequired = true;
+				} else if (a.annotationType().getSimpleName().equals("NotEmpty")) {
+					isRequired = true;
 				}
 			}
 		}

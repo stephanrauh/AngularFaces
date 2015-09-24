@@ -31,84 +31,84 @@ import javax.faces.context.FacesContext;
 /** Tells JSF to visit every node of the JSF component tree. */
 public class FullVisitContext extends VisitContext {
 
-    /**
-     * Creates a FullVisitorContext instance.
-     * @param facesContext the FacesContext for the current request
-     * @throws NullPointerException  if {@code facesContext}
-     *                               is {@code null}
-     */    
-    public FullVisitContext(FacesContext facesContext) {
-        if (facesContext == null) {
-            throw new NullPointerException();
-        }
+	// The FacesContext for this request
+	private FacesContext facesContext;
 
-        this.facesContext = facesContext;
+	// Our visit hints
+	private Set<VisitHint> hints;
 
-        // Copy and store hints - ensure unmodifiable and non-empty
-        EnumSet<VisitHint> hintsEnumSet = 
-                                          EnumSet.noneOf(VisitHint.class);
-                                          
+	/**
+	 * Creates a FullVisitorContext instance.
+	 * 
+	 * @param facesContext
+	 *            the FacesContext for the current request
+	 * @throws NullPointerException
+	 *             if {@code facesContext} is {@code null}
+	 */
+	public FullVisitContext(FacesContext facesContext) {
+		if (facesContext == null) {
+			throw new NullPointerException();
+		}
 
-        this.hints = Collections.unmodifiableSet(hintsEnumSet);
-    }
+		this.facesContext = facesContext;
 
-    /**
-     * @see VisitContext#getFacesContext VisitContext.getFacesContext()
-     */
-    @Override
-    public FacesContext getFacesContext() {
-        return facesContext;
-    }
+		// Copy and store hints - ensure unmodifiable and non-empty
+		EnumSet<VisitHint> hintsEnumSet = EnumSet.of(VisitHint.SKIP_UNRENDERED);
 
-    /**
-     * @see VisitContext#getIdsToVisit VisitContext.getIdsToVisit()
-     */
-    @Override
-    public Collection<String> getIdsToVisit() {
+		this.hints = Collections.unmodifiableSet(hintsEnumSet);
+	}
 
-        // We always visits all ids
-        return ALL_IDS;
-    }
+	/**
+	 * @see VisitContext#getFacesContext VisitContext.getFacesContext()
+	 */
+	@Override
+	public FacesContext getFacesContext() {
+		return facesContext;
+	}
 
-    /**
-     * @see VisitContext#getSubtreeIdsToVisit VisitContext.getSubtreeIdsToVisit()
-     */
-    @Override
-    public Collection<String> getSubtreeIdsToVisit(UIComponent component) {
+	/**
+	 * @see VisitContext#getIdsToVisit VisitContext.getIdsToVisit()
+	 */
+	@Override
+	public Collection<String> getIdsToVisit() {
 
-        // Make sure component is a NamingContainer
-        if (!(component instanceof NamingContainer)) {
-            throw new IllegalArgumentException("Component is not a NamingContainer: " + component);
-        }
+		// We always visits all ids
+		return ALL_IDS;
+	}
 
-        // We always visits all ids
-        return ALL_IDS;
-    }
+	/**
+	 * @see VisitContext#getSubtreeIdsToVisit
+	 *      VisitContext.getSubtreeIdsToVisit()
+	 */
+	@Override
+	public Collection<String> getSubtreeIdsToVisit(UIComponent component) {
 
-    /**
-     * @see VisitContext#getHints VisitContext.getHints
-     */
-    @Override
-    public Set<VisitHint> getHints() {
-        return hints;
-    }
+		// Make sure component is a NamingContainer
+		if (!(component instanceof NamingContainer)) {
+			throw new IllegalArgumentException("Component is not a NamingContainer: " + component);
+		}
 
-    /**
-     * @see VisitContext#invokeVisitCallback VisitContext.invokeVisitCallback()
-     */
-    @Override
-    public VisitResult invokeVisitCallback(UIComponent component, 
-                                           VisitCallback callback) {
+		// We always visits all ids
+		return ALL_IDS;
+	}
 
-        // Nothing interesting here - just invoke the callback.
-        // (PartialVisitContext.invokeVisitCallback() does all of the 
-        // interesting work.)
-        return callback.visit(this, component);
-    }
+	/**
+	 * @see VisitContext#getHints VisitContext.getHints
+	 */
+	@Override
+	public Set<VisitHint> getHints() {
+		return hints;
+	}
 
-    // The FacesContext for this request
-    private FacesContext facesContext;
+	/**
+	 * @see VisitContext#invokeVisitCallback VisitContext.invokeVisitCallback()
+	 */
+	@Override
+	public VisitResult invokeVisitCallback(UIComponent component, VisitCallback callback) {
 
-    // Our visit hints
-    private Set<VisitHint> hints;
+		// Nothing interesting here - just invoke the callback.
+		// (PartialVisitContext.invokeVisitCallback() does all of the
+		// interesting work.)
+		return callback.visit(this, component);
+	}
 }
