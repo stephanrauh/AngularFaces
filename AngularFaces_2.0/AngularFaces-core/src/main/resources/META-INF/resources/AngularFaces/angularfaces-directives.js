@@ -33,8 +33,11 @@ app.directive('puimessage', function() {
     },
     
     link: function($scope, $element, $attrs, ctrl) {
-        var watchFieldID= $attrs['for'].replace(':', '\\:');
+        var watchFieldID= $attrs['field'].replace(/:/g, '\\:');
         var target = document.querySelector('#'+watchFieldID);
+        if (target==null) {
+        	target = document.getElementsByName($attrs['field'])[0];
+        }
         var observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation) {
             if (mutation.type=='attributes')
@@ -61,8 +64,8 @@ app.directive('puilabel', function() {
 	    scope: {},
 	    template: function($scope, $element) {
            var forFieldFragment="";
-           if ($element['for']) {
-               forFieldFragment = ' for="' + $element['for'] + '"';
+           if ($element['field']) {
+               forFieldFragment = ' for="' + $element['field'] + '"';
            }
            var primeFacesFragment="";
            if ($element['primefaces']=="true") {
@@ -100,9 +103,13 @@ app.directive('puilabel', function() {
 	    },
 	    
 	    link: function($scope, $element, $attrs, ctrl) {
-	        var watchFieldID= $attrs['for'].replace(':', '\\:');
+	        var watchFieldID= $attrs['field'].replace(/:/g, '\\:');
 	        
 	        var target = document.querySelector('#'+watchFieldID);
+	        if (target==null) {
+	        	target = document.getElementsByName($attrs['field'])[0];
+	        }
+	        
 	        var observer = new MutationObserver(function(mutations) {
 	          mutations.forEach(function(mutation) {
 	            if (mutation.type=='attributes')

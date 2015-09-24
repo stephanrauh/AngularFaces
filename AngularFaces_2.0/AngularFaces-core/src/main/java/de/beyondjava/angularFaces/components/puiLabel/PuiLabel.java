@@ -40,7 +40,7 @@ public class PuiLabel extends HtmlOutputLabel {
 		if ((inputField==null && getFor()!=null)) {
 			throw new FacesException("The PuiLabel component doesn't find its input field. Most likely that's a configuration error. The preferred solution is to add the attribute prependId=\"false\" to the form.");
 		}
-		writer.writeAttribute("for", inputField.getId(), "for");
+		writer.writeAttribute("field", inputField.getClientId(), "field");
 		if (inputField.getClass().getName().contains("primefaces")) {
 			writer.writeAttribute("primefaces", "true", "primefaces");
 		}

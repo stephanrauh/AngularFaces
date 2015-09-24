@@ -224,8 +224,8 @@ public class AddLabelsAndMessagesHandler extends TagHandler {
 				if (needsMessage) {
 					PuiMessage message;
 					message = new PuiMessage(); //
-					message.setFor(kid.getClientId());
-					message.getPassThroughAttributes().put("for", kid.getClientId());
+					message.setFor(kid.getId());
+					message.getPassThroughAttributes().put("for", kid.getId());
 					children.add(index + 1, message);
 				}
 			}

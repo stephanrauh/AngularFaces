@@ -18,6 +18,7 @@ package de.beyondjava.angularFaces.components.puiMessage;
 import java.io.IOException;
 import java.util.List;
 
+import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlMessage;
@@ -26,23 +27,34 @@ import javax.faces.context.ResponseWriter;
 
 /** This error message is generated mostly on the client. */
 public class PuiMessage extends HtmlMessage {
+	
+	@Override
+	public void setFor(String forParam) {
+		// TODO Auto-generated method stub
+		super.setFor(forParam);
+	}
 	@Override
 	public void encodeBegin(FacesContext context) throws IOException {
 		super.encodeBegin(context);
 		ResponseWriter writer = context.getResponseWriter();
 		writer.startElement("puimessage", this);
+		UIComponent inputField = findComponent(getFor());
+		if ((inputField==null && getFor()!=null)) {
+			throw new FacesException("The PuiMessage component doesn't find its input field. Most likely that's a configuration error. The preferred solution is to add the attribute prependId=\"false\" to the form.");
+		}		
+		writer.writeAttribute("field", inputField.getClientId(), "field");
 		addPrimeFacesAttribute(writer);
 		List<FacesMessage> messageList = FacesContext.getCurrentInstance().getMessageList(getFor());
 		if (!messageList.isEmpty()) {
 			String msg = "";
-			for (FacesMessage m:messageList) {
+			for (FacesMessage m : messageList) {
 				String t = m.getDetail();
 				if (t.startsWith(getFor())) {
-					t=t.substring(getFor().length()+1).trim();
+					t = t.substring(getFor().length() + 1).trim();
 				}
 				msg += t;
 			}
-			writer.writeAttribute("servermessage", msg , "servermessage");
+			writer.writeAttribute("servermessage", msg, "servermessage");
 		}
 		writer.endElement("puimessage");
 	}
@@ -50,12 +62,12 @@ public class PuiMessage extends HtmlMessage {
 	private void addPrimeFacesAttribute(ResponseWriter writer) throws IOException {
 		UIComponent inputField = findComponent(getFor());
 		if (null != inputField) {
-		if (inputField.getClass().getName().contains("primefaces")) {
-			writer.writeAttribute("primefaces", "true", "primefaces");
-		}
+			if (inputField.getClass().getName().contains("primefaces")) {
+				writer.writeAttribute("primefaces", "true", "primefaces");
+			}
 		}
 	}
-	
+
 	@Override
 	public void encodeEnd(FacesContext context) throws IOException {
 	}
