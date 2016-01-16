@@ -6,7 +6,7 @@ public class Configuration {
 
     static {
         try {
-            Class.forName("net.bootsfaces.layout.Column");
+            Class.forName("net.bootsfaces.component.column.Column");
             bootsFacesActive = true;
         } catch (Exception doWithoutBootsFaces) {
             // Bootsfaces is not active
