@@ -27,18 +27,18 @@ public class JSONUtilities {
 
 	static {
 		try {
-			Class<?> jacksonClass = Class.forName("com.fasterxml.jackson.databind.ObjectMapper");
+			Class<?> jacksonClass = Thread.currentThread().getContextClassLoader().loadClass("com.fasterxml.jackson.databind.ObjectMapper");
 			jackson = jacksonClass.newInstance();
 		} catch (Exception e) {
 			try {
-				Class<?> jacksonClass = Class.forName("org.codehaus.jackson.map.ObjectMapper");
+				Class<?> jacksonClass = Thread.currentThread().getContextClassLoader().loadClass("org.codehaus.jackson.map.ObjectMapper");
 				jackson = jacksonClass.newInstance();
 			} catch (Exception e2) {
 				jackson = null;
 			}
 		}
 		try {
-			Class<?> gsonClass = Class.forName("com.google.gson.Gson");
+			Class<?> gsonClass = Thread.currentThread().getContextClassLoader().loadClass("com.google.gson.Gson");
 			gson = gsonClass.newInstance();
 		} catch (Exception e) {
 			gson = null;

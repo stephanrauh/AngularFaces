@@ -90,9 +90,9 @@ public class LanguageAwareIncludeHandler extends TagHandler implements FaceletHa
 
         Class<?> includeClass;
         if (Configuration.myFaces)
-            includeClass = Class.forName("org.apache.myfaces.view.facelets.tag.ui.IncludeHandler");
+            includeClass = Thread.currentThread().getContextClassLoader().loadClass("org.apache.myfaces.view.facelets.tag.ui.IncludeHandler");
         else
-            includeClass = Class.forName("com.sun.faces.facelets.tag.ui.IncludeHandler");
+            includeClass = Thread.currentThread().getContextClassLoader().loadClass("com.sun.faces.facelets.tag.ui.IncludeHandler");
         Constructor<?> constructor = includeClass.getConstructor(TagConfig.class);
         TagHandler worker = (TagHandler) constructor.newInstance(cfg);
         worker.apply(ctx, parent);

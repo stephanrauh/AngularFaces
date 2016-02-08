@@ -34,12 +34,12 @@ public class BodyTagHandler extends AddLabelsAndMessagesHandler {
 	public BodyTagHandler(javax.faces.view.facelets.ComponentConfig config) {
 		super(config);
 		try {
-			Class<?> myFacesComponentHandler = Class.forName("org.apache.myfaces.view.facelets.tag.jsf.html.HtmlComponentHandler");
+			Class<?> myFacesComponentHandler = Thread.currentThread().getContextClassLoader().loadClass("org.apache.myfaces.view.facelets.tag.jsf.html.HtmlComponentHandler");
 			Constructor<?> constructor = myFacesComponentHandler.getConstructor(javax.faces.view.facelets.ComponentConfig.class);
 			defaultComponentHandler = (TagHandler)constructor.newInstance(config); 
 		} catch (ReflectiveOperationException e) {
 			try {
-				Class<?> mojarraComponentHandler = Class.forName("com.sun.faces.facelets.tag.jsf.html.HtmlComponentHandler");
+				Class<?> mojarraComponentHandler = Thread.currentThread().getContextClassLoader().loadClass("com.sun.faces.facelets.tag.jsf.html.HtmlComponentHandler");
 				Constructor<?> constructor = mojarraComponentHandler.getConstructor(javax.faces.view.facelets.ComponentConfig.class);
 				defaultComponentHandler = (TagHandler)constructor.newInstance(config); 
 			} catch (ReflectiveOperationException e2) {

@@ -29,9 +29,9 @@ public class TagAttributeUtilities {
         try {
             Class<?> implClass;
             if (Configuration.myFaces)
-                implClass = Class.forName("org.apache.myfaces.view.facelets.tag.TagAttributeImpl");
+                implClass = Thread.currentThread().getContextClassLoader().loadClass("org.apache.myfaces.view.facelets.tag.TagAttributeImpl");
             else
-                implClass = Class.forName("com.sun.faces.facelets.tag.TagAttributeImpl");
+                implClass = Thread.currentThread().getContextClassLoader().loadClass("com.sun.faces.facelets.tag.TagAttributeImpl");
             Constructor<?> constructor = implClass.getConstructor(Location.class, String.class, String.class,
                     String.class, String.class);
             Object newTagAttribute = constructor.newInstance(location, ns, myLocalName, qName, value);
