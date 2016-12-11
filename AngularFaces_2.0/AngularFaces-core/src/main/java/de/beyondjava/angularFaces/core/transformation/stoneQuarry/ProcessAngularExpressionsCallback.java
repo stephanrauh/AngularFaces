@@ -15,6 +15,9 @@
  */
 package de.beyondjava.angularFaces.core.transformation.stoneQuarry;
 
+import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
+import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,9 +25,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
-
-import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
-import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 /** Special treatment of ng-repeat statements containing JSF attributes. */
 public class ProcessAngularExpressionsCallback implements VisitCallback {

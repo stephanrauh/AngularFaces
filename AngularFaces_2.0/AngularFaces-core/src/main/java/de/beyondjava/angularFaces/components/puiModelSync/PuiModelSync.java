@@ -15,6 +15,10 @@
  */
 package de.beyondjava.angularFaces.components.puiModelSync;
 
+import de.beyondjava.angularFaces.components.puiSync.JSONUtilities;
+import de.beyondjava.angularFaces.core.ELTools;
+import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,10 +38,6 @@ import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlBody;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
-import de.beyondjava.angularFaces.components.puiSync.JSONUtilities;
-import de.beyondjava.angularFaces.core.ELTools;
-import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 /**
  * PuiBody is an HtmlBody that activates the AngularJS/AngularDart framework.

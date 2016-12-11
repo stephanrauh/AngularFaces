@@ -15,6 +15,8 @@
  */
 package de.beyondjava.angularFaces.components.puiLabel;
 
+import de.beyondjava.angularFaces.core.Configuration;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -26,8 +28,6 @@ import javax.faces.component.html.HtmlForm;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
-import de.beyondjava.angularFaces.core.Configuration;
 
 /** This generates a label that colors itself red if AngularJS says the input is wrong. */
 @FacesComponent("de.beyondjava.puiLabel")

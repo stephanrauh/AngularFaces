@@ -15,6 +15,8 @@
  */
 package de.beyondjava.angularFaces.core.tagTransformer;
 
+import de.beyondjava.angularFaces.core.Configuration;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,8 +31,6 @@ import javax.faces.view.facelets.Tag;
 import javax.faces.view.facelets.TagAttribute;
 import javax.faces.view.facelets.TagAttributes;
 import javax.faces.view.facelets.TagDecorator;
-
-import de.beyondjava.angularFaces.core.Configuration;
 
 /**
  * This is one of the most important classes of AngularFaces. It converts

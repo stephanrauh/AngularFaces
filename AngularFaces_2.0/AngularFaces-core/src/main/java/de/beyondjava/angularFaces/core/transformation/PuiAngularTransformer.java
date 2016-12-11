@@ -15,6 +15,10 @@
  */
 package de.beyondjava.angularFaces.core.transformation;
 
+import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
+import de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator;
+import de.beyondjava.angularFaces.core.tagTransformer.ConservativeAngularTagDecorator;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,10 +41,6 @@ import javax.faces.context.PartialViewContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
-
-import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
-import de.beyondjava.angularFaces.core.tagTransformer.AngularTagDecorator;
-import de.beyondjava.angularFaces.core.tagTransformer.ConservativeAngularTagDecorator;
 
 /**
  * Converts EL expressions to Angular expressions

@@ -15,6 +15,8 @@
  */
 package de.beyondjava.angularFaces.components.puiupdateModelAfterAJAXRequest;
 
+import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -24,8 +26,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
-
-import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 
 /** This generates code to update the AngularJS model after an AJAX request. */
 @FacesRenderer(componentFamily = "de.beyondjava", rendererType = "de.beyondjava.puiUpdateModelAfterAJAXRequests")

@@ -15,6 +15,13 @@
  */
 package de.beyondjava.angularFaces.components.puiLabel;
 
+import de.beyondjava.angularFaces.components.puiMessage.PuiMessage;
+import de.beyondjava.angularFaces.components.puiSync.PuiSync;
+import de.beyondjava.angularFaces.core.ELTools;
+import de.beyondjava.angularFaces.core.NGWordUtiltites;
+import de.beyondjava.angularFaces.core.i18n.I18n;
+import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -27,13 +34,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.facelets.FaceletContext;
 import javax.faces.view.facelets.TagConfig;
 import javax.faces.view.facelets.TagHandler;
-
-import de.beyondjava.angularFaces.components.puiMessage.PuiMessage;
-import de.beyondjava.angularFaces.components.puiSync.PuiSync;
-import de.beyondjava.angularFaces.core.ELTools;
-import de.beyondjava.angularFaces.core.NGWordUtiltites;
-import de.beyondjava.angularFaces.core.i18n.I18n;
-import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 public class AddLabelsAndMessagesHandler extends TagHandler {
 	private I18n i18n = null;

@@ -1,5 +1,9 @@
 package de.beyondjava.angularFaces.core.i18n;
 
+import de.beyondjava.angularFaces.core.Configuration;
+import de.beyondjava.angularFaces.core.tagTransformer.AFTagAttributes;
+import de.beyondjava.angularFaces.core.tagTransformer.TagAttributeUtilities;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -19,10 +23,6 @@ import javax.faces.view.facelets.TagAttributes;
 import javax.faces.view.facelets.TagConfig;
 import javax.faces.view.facelets.TagException;
 import javax.faces.view.facelets.TagHandler;
-
-import de.beyondjava.angularFaces.core.Configuration;
-import de.beyondjava.angularFaces.core.tagTransformer.AFTagAttributes;
-import de.beyondjava.angularFaces.core.tagTransformer.TagAttributeUtilities;
 
 public class LanguageAwareIncludeHandler extends TagHandler implements FaceletHandler {
 

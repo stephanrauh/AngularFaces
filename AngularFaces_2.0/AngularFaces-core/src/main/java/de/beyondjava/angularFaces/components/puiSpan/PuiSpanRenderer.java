@@ -15,6 +15,8 @@
  */
 package de.beyondjava.angularFaces.components.puiSpan;
 
+import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
+
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -23,8 +25,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
-
-import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 @FacesRenderer(componentFamily = "de.beyondjava", rendererType = "de.beyondjava.puiSpan")
 public class PuiSpanRenderer extends Renderer implements Serializable {

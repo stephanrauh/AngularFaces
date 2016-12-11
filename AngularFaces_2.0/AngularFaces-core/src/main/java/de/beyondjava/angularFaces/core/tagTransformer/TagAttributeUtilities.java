@@ -15,12 +15,12 @@
  */
 package de.beyondjava.angularFaces.core.tagTransformer;
 
+import de.beyondjava.angularFaces.core.Configuration;
+
 import java.lang.reflect.Constructor;
 
 import javax.faces.view.Location;
 import javax.faces.view.facelets.TagAttribute;
-
-import de.beyondjava.angularFaces.core.Configuration;
 
 /** Create a tag attribute by means of reflection (so that they work with both Mojarra and MyFaces). */
 public class TagAttributeUtilities {

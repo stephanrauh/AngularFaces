@@ -15,15 +15,15 @@
  */
 package de.beyondjava.angularFaces.core.transformation;
 
+import de.beyondjava.angularFaces.core.ELTools;
+import de.beyondjava.angularFaces.core.i18n.I18n;
+
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
-
-import de.beyondjava.angularFaces.core.ELTools;
-import de.beyondjava.angularFaces.core.i18n.I18n;
 
 /** Translate texts store in a component. */
 public class TranslationCallback implements VisitCallback {

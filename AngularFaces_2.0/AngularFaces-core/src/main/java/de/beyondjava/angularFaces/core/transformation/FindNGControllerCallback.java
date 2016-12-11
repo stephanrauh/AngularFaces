@@ -15,14 +15,14 @@
  */
 package de.beyondjava.angularFaces.core.transformation;
 
+import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
+
 import java.util.List;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
-
-import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 
 /** Looks for the AngularJS application and controller tags. */
 public class FindNGControllerCallback implements VisitCallback {

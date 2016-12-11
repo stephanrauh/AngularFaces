@@ -15,13 +15,12 @@
  */
 package de.beyondjava.angularFaces.core.transformation;
 
+import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
+
 import javax.faces.component.UIComponent;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
-
-import de.beyondjava.angularFaces.components.puiDiv.PuiDiv;
-import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
 
 /** Collects the attributes that have to be synchronized with the client. */
 public class AddNGModelAndIDCallback implements VisitCallback {

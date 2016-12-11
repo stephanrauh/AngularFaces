@@ -15,6 +15,9 @@
  */
 package de.beyondjava.angularFaces.core.transformation;
 
+import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
+import de.beyondjava.angularFaces.components.puiSync.PuiSync;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -33,9 +36,6 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.event.PhaseId;
 import javax.faces.lifecycle.ClientWindow;
 import javax.faces.render.ResponseStateManager;
-
-import de.beyondjava.angularFaces.components.puiModelSync.PuiModelSync;
-import de.beyondjava.angularFaces.components.puiSync.PuiSync;
 
 /** This class generate the optimized AngularFaces AJAX response. */
 public class AngularViewContextWrapper extends PartialViewContextWrapper {

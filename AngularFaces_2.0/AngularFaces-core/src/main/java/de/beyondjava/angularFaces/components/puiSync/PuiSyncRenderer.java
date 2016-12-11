@@ -15,6 +15,9 @@
  */
 package de.beyondjava.angularFaces.components.puiSync;
 
+import de.beyondjava.angularFaces.core.ELTools;
+import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -29,9 +32,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.FacesRenderer;
 import javax.faces.render.Renderer;
-
-import de.beyondjava.angularFaces.core.ELTools;
-import de.beyondjava.angularFaces.core.transformation.AttributeUtilities;
 
 @FacesRenderer(componentFamily = "de.beyondjava", rendererType = "de.beyondjava.sync")
 public class PuiSyncRenderer extends Renderer implements Serializable {

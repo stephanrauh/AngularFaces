@@ -15,6 +15,9 @@
  */
 package de.beyondjava.angularFaces.core.transformation;
 
+import de.beyondjava.angularFaces.core.ELTools;
+import de.beyondjava.angularFaces.core.NGBeanAttributeInfo;
+
 import java.lang.reflect.Method;
 
 import javax.faces.component.UIComponent;
@@ -22,9 +25,6 @@ import javax.faces.component.UIInput;
 import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
-
-import de.beyondjava.angularFaces.core.ELTools;
-import de.beyondjava.angularFaces.core.NGBeanAttributeInfo;
 
 /** Brings JSR 303 annotations to the client. */
 public class AddTypeInformationCallback implements VisitCallback {
