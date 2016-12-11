@@ -6,3 +6,4 @@ rebel.xml
 faces-config.pageflow
 /dist
 
+*.factorypath

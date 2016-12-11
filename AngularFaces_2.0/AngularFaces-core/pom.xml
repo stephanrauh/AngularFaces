@@ -4,10 +4,10 @@
 
 	<groupId>de.beyondjava</groupId>
 	<artifactId>angularFaces-core</artifactId>
-	<version>2.1.12-SNAPSHOT</version>
+	<version>2.1.12</version>
 	<packaging>jar</packaging>
 
-	<name>AngularFaces-2.1.12-SNAPSHOT</name>
+	<name>AngularFaces-2.1.12</name>
 	<description>AngularFaces makes JSF programming simpler. In particular, it adds AngularJS to JSF.</description>
 	<url>http://www.beyondjava.net</url>
 	<licenses>
@@ -85,7 +85,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>release</id>
+			<id>MavenCentral</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>

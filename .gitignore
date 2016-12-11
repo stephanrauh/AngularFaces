@@ -3,3 +3,4 @@
 .project
 /.settings
 rebel.xml
+*.DS_Store

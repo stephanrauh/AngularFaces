@@ -2,9 +2,9 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 	<groupId>de.beyondjava</groupId>
-    <artifactId>angularfaces-2.1.8-documentation</artifactId>
+    <artifactId>angularfaces-2.1.12-documentation</artifactId>
     <packaging>war</packaging>
-    <version>2.1.8</version>
+    <version>2.1.12</version>
     <name>ROOT</name>
     <description>AngularFaces makes JSF programming simpler. In particular, it adds AngularJS to JSF.</description>
     <url>http://www.beyondjava.net</url>
@@ -48,12 +48,12 @@
         <dependency>
             <groupId>de.beyondjava</groupId>
             <artifactId>angularFaces-core</artifactId>
-            <version>2.1.8</version>
+            <version>2.1.12</version>
         </dependency>
         <dependency>
             <groupId>net.bootsfaces</groupId>
             <artifactId>bootsfaces</artifactId>
-            <version>0.8.0-SNAPSHOT</version>
+            <version>1.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -111,7 +111,7 @@
     </dependencies>
     <profiles>
     	<profile>
-			<id>release</id>
+			<id>MavenCentral</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -212,7 +212,7 @@
             </dependencies>
         </profile>
         <profile>
-            <id>MyFaces 2.2.8</id>
+            <id>MyFaces 2.2.12</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -220,7 +220,7 @@
                 <dependency>
                     <groupId>org.apache.myfaces.core</groupId>
                     <artifactId>myfaces-api</artifactId>
-                    <version>2.2.8</version>
+                    <version>2.2.11</version>
                     <exclusions>
                         <exclusion>
                             <groupId>org.apache.geronimo.specs</groupId>
@@ -231,7 +231,7 @@
                 <dependency>
                     <groupId>org.apache.myfaces.core</groupId>
                     <artifactId>myfaces-impl</artifactId>
-                    <version>2.2.8</version>
+                    <version>2.2.11</version>
                     <exclusions>
                         <exclusion>
                             <groupId>org.apache.geronimo.specs</groupId>
@@ -266,7 +266,7 @@
                 <dependency>
                     <groupId>org.apache.myfaces.core</groupId>
                     <artifactId>myfaces-api</artifactId>
-                    <version>2.2.8</version>
+                    <version>2.2.12</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
